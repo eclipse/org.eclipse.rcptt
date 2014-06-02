@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <feature id="org.eclipse.rcptt.runtime">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla.runtime">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla.ecl">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla.ecl.runtime">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.core">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.server">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.watson">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.sherlock.model">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.sherlock">
+    <category name="rcptt.runtime"/>
+  </feature>
+  <category-def label="RCPTT Runtime" name="rcptt.runtime"/>
+</site>

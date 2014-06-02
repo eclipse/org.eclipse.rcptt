@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2010/08/18 12:55:54 andrey Exp $
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/core/ecl"
+            class="org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage"
+            genModel="model/q7core.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.EnterContextService"
+            name="EnterContext"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+     
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ResetVerificationsService"
+            name="ResetVerifications"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ExecVerificationService"
+            name="ExecVerification"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.CreateContextService"
+            name="CreateContext"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.CreateVerificationService"
+            name="CreateVerification"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.SetCommandsDelayService"
+            name="SetCommandsDelay"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ReportService"
+            name="CreateReport"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ReportService"
+            name="GetReport"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+       <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ReportService"
+            name="BeginReportNode"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+	  <scriptlet
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.ReportService"
+            name="EndReportNode"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+   <scriptlet
+         class="org.eclipse.rcptt.core.internal.ecl.core.commands.ReportService"
+         name="ReportAppend"
+         namespace="http://eclipse.org/rcptt/core/ecl">
+   </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.watson.core.eventProvider">
+      <provider
+            class="org.eclipse.rcptt.core.internal.ecl.core.commands.EclCommandEventProvider"
+            id="org.eclipse.rcptt.core.ecl.core.ecl.provider">
+      </provider>
+   </extension>
+
+</plugin>

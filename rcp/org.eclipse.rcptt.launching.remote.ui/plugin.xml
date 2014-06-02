@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+        point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+     <launchConfigurationTypeImage
+           configTypeID="org.eclipse.rcptt.launching.remote"
+           icon="images/externalEclipse.gif"
+           id="org.eclipse.rcptt.launching.launchConfigurationTypeImage.remote">
+     </launchConfigurationTypeImage>
+  </extension>
+
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+     <launchConfigurationTabGroup
+           class="org.eclipse.rcptt.internal.launching.remote.ui.RemoteTabGroup"
+           id="org.eclipse.rcptt.launching.launchConfigurationTabGroup.remote"
+           type="org.eclipse.rcptt.launching.remote">
+     </launchConfigurationTabGroup>
+  </extension>
+  <extension
+        point="org.eclipse.debug.core.statusHandlers">
+     <statusHandler
+           class="org.eclipse.rcptt.internal.launching.remote.ui.Q7LicenseStatusHandler"
+           code="4750"
+           id="org.eclipse.rcptt.launching.remote.ui.statusHandler.communityEdition"
+           plugin="org.eclipse.rcptt.launching.remote">
+     </statusHandler>
+  </extension>
+
+</plugin>

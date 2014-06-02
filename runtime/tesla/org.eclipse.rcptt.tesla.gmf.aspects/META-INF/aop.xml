@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<!--aspect name="org.eclipse.rcptt.tesla.gmf.aspects.GMFAspect" /-->
+	</aspects>
+	<weaver options="-verbose -Xset:typeDemotion=true" />
+</aspectj>

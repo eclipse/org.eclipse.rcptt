@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.verificationViewers">
+      <viewer
+            class="org.eclipse.rcptt.verifications.log.ui.ErrorLogVerificationViewer"
+            icon="icons/error_log.gif"
+            type="org.eclipse.rcptt.verifications.log">
+      </viewer>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.builder.q7Validator">
+      <validator
+            class="org.eclipse.rcptt.verifications.log.ui.ErrorLogVerificationValidator">
+      </validator>
+   </extension>
+
+</plugin>

@@ -1,0 +1,79 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g,_Ns1HMM1SEeCKjp0mPLHiEg
+Element-Name: CopyGroupContextWithAddingReference_NEW
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _HasGEH8PEeGpb_bcG7OADQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, CopyPaste
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open project with group context
+2. Copy this context and paste in another project
+3. Open group context in the second project
+4. Press Ok button in "Missing References" dialog
+5. Make sure that reference to p1 project is added
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "p1/group1" | double-click
+get-editor group1 | get-section Contexts | get-button "Add..." | click
+get-window "Select context" | get-table | select "context1 \\(p1\\)" | click -default
+with [get-editor group1] {
+    get-section Description | click
+    get-editbox -after [get-label "Name:"] | key-type "M1+s"
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    select "p1/group1" | get-menu Copy | click
+    select p3 | get-menu Paste | click
+}
+get-editor group1 | close
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "p3/group1" | double-click
+}
+get-window "Missing references" | get-label "Would you like to add missing references to the project?    p1" 
+    | get-property caption | equals "Would you like to add missing references to the project?\n\n"
+    + "    p1\n" | verify-true
+get-window "Missing references" | get-button Yes | click
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals group1 | verify-true
+    get-property tabCount | equals 1 | verify-true
+}
+with [get-editor group1 | get-section Contexts | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "context1 \\(p1\\)" | get-property caption | equals "context1 (p1)" | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select p3 | get-menu Properties | click
+get-window "Properties for p3" | get-tree | select "Project References"
+with [get-window "Properties for p3" | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item p1 | get-property caption | equals p1 | verify-true
+    get-item p1 | get-property checked | equals true | verify-true
+    get-item p2 | get-property caption | equals p2 | verify-true
+    get-item p2 | get-property checked | equals false | verify-true
+}
+get-window "Properties for p3" | get-button Cancel | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

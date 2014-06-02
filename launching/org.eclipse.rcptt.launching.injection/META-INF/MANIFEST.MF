@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Launcing Injection
+Bundle-SymbolicName: org.eclipse.rcptt.launching.injection;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.launching.injection,
+ org.eclipse.rcptt.launching.injection.impl,
+ org.eclipse.rcptt.launching.injection.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy

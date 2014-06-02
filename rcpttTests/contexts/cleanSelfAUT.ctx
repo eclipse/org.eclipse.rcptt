@@ -1,0 +1,106 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: cleanSelfAUT
+Element-Type: context
+Element-Version: 2.0
+Id: _OnOp4Sw-EeOVlMjKDrmh1g
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/cleanSELFAUT/q7.properties-49907fcf-83bd-3ac0-a997-e86c2c22f6af
+Content-Type: q7/binary
+Entry-Name: contents/cleanSELFAUT/q7.properties
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRNzstuwjAQheG9n2JeYBw7XoR6V7UB
+IcQlJWqXyE1GKAjb4Ayk7dM3qFLU1Vl8i/MjIlQFMPXcuJ4AEcU8Ju8Y3yn1XQwWtFSiKvBOoY3JwjAM
+8ismamUTfXYtRHkmT4Fx4zxZ2KV4ooZhT8xdOPYT19+XkS9/vCZ2rWM36fSWj2/L1sKhWi1D+TJgSdvj
+T6oWn68fdXh+lLzdAnee/hcaOZO50kYrZdSTMmLv7oR19yjSKjOZNuNancNuLcQvUEsHCArqYl2+AAAA
+9gAAAFBLAQIUABQACAgIAAAAIQAK6mJdvgAAAPYAAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBL
+BQYAAAAAAQABADYAAAD0AAAAAAA=
+------=_contents/cleanSELFAUT/q7.properties-49907fcf-83bd-3ac0-a997-e86c2c22f6af--
+------=_contents/cleanSELFAUT/.project-458620ca-7c8b-3410-b7e9-7101c2ed00cc
+Content-Type: q7/binary
+Entry-Name: contents/cleanSELFAUT/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkM0OgjAQhM/yFIS7rZ7wUCD+cfIG
+PACWDcHQFgoYHt8tBSLG28zsbL+2LBpF7b5Bd5WSgXckB88FyVVRyTLwsjTen7wodFij1Qt4f4OO66rp
+sRw6OyZzASGvIZfJ/RGfs5TRKcIRV0KA7ENGF4XhfEpnNP02z6Gqi6QBjmZ2V1zLZWGCBaQEGZWGgrQ+
+4SjIVASN/mLVysedXJeDAXfW0o1n9AcyB/MdENgPGmzV6j/41rcjQ50q5ph1c33h5tM+UEsHCPAyM/LB
+AAAAcQEAAFBLAQIUABQACAgIAAAAIQDwMjPywQAAAHEBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
+dFBLBQYAAAAAAQABADYAAAD3AAAAAAA=
+------=_contents/cleanSELFAUT/.project-458620ca-7c8b-3410-b7e9-7101c2ed00cc--
+------=_contents/cleanSELFAUT/cleanWorkbench.ctx-438785bb-ad38-3ffc-8d73-1e2e0116f42f
+Content-Type: q7/binary
+Entry-Name: contents/cleanSELFAUT/cleanWorkbench.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdU8mSokAQvfMV3g1kKRUwog+FLCpI
+AwoKlwmWQlAWRRbh6wftJXpmbpOHqqx8WRkv62XhOD4ymFGF7lXg3dEIx3FMKsrMq3AblfekyBcjakJi
+BoM3KA+LcjFq23byKEoUToIiI24MtizyCj0qfN9d0WI0BD/hGzOpkyHphU7aorz4KA9iTExRhvIK17zs
+mZ8iLz/8A34Ve13+jn5zogdO63Ax+mV7VHlftriI3k99aci+cNjn8MnXrPMqydDPPsCEndAkBSiSBCRH
+AmznNQjfJ08eFEkAggLDvhhWfYth+Mvefj0beREZCICQRuScI/EATVkczEkOZwEajgw5DadcRCEv+niQ
+7x5uDOEnuVd2mJhXZffZ9o+iGGaJd4HnDbiEcA0HWxvwb3vF1Uxr/NxM/XynXWxObXtoPUKCUSwVpX0c
+bW7H6iKkF6yQ+2WgzjZpOmfm3M1XLzkxVQJgpy4v6e68r8fBSp7vkD22S3gsSUlQrmNF2XZ8FdyMZOZQ
+RMb1LTKdlE53CaY93C5wi811KlumqTdnAdQQzBxZVw3EuUd5zaUUxaWFOwtW+s5aMV3jdBlTxu+ZUuwe
+8fExO25oU6dYx2BlGzt1lb4FKc2j0ymwvNvpui/FeKcl/VnQ3w9NT19vwFN8VZbCSEvyMQFC/1KDXLNj
+FwLPaeuyXVtV4fUiXUgFZklxey1FTzuzVt+p8iX24oC7NFm6U+NIlZOCpJhWirjccuMqFaNGJzan0BS2
+wbmhZ2xiGMe49JWVSRhjU9KxmWwTqXiIBnFWyw17Us7sFg7CcFCEUOJVaKwt+Idoy2i9LAjhiesG/yXa
+l2E//NqhuTqU7TocCvGG8xE1IA+Fp88v4ccEvP33EA7/+DdQSwcI7HGDH5ECAADcAwAAUEsBAhQAFAAI
+CAgAAAAhAOxxgx+RAgAA3AMAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAA
+AMcCAAAAAA==
+------=_contents/cleanSELFAUT/cleanWorkbench.ctx-438785bb-ad38-3ffc-8d73-1e2e0116f42f--
+------=_contents/cleanSELFAUT/cleanWorkspace.ctx-6be87af0-1793-3aff-bda3-05053f5eeac4
+Content-Type: q7/binary
+Entry-Name: contents/cleanSELFAUT/cleanWorkspace.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdU8uSojAU3ecr2HdFE1ABq3oRbFR8
+oKDT6my6eERFJYGAIH79gG13zWM3Z5Pk3pNb55xKIISSo0o5zfLAy6gEIQRDLmIvh+9UZBFnfQm3EHBU
+WFAWctGXyrJs3bigYSvgcTtVwYCznN5yuK4S2pfq4rOdqq2Si3OWeAGtuQ8SMC80piyHthc35Av12OaL
+9N38mvTnlW9Bci3ICvvSh/uBz8GghCZdHO7CGflvmzUjjVj3yvIopr+bUFpaS0ZYwQgpSEcKWHkFheuo
+0YFRW2ljpV77WJaWcwDgA68fjYuHkFqAEsoU9XQEA9rRoNJDOtQUWh9V1Ak7+h5Tb/+ZxreHVG37EfNE
+BUyWi+pp+7ehAPwwszfDcMiAEIvUsBzyNx71WWwXPnMvPlvZ6zualSfiKPtMlFclxtP3lcxTHlkLC1jX
+Q2zvZOwNuvnorNzwLRsu7nFnTNtC4cVY+OnteHftdBUbhGpv58pF28vULW2Z0mq+S5CZ5Ytpbp9mLAyi
+ENg5jSu+muu5LtKMTbGYbC7vo63NKvayvaUW11gwG8nRcRAGuBKHOF93RiPcNpOX4uUY9MZM04bRWF4O
+gwHXDMDRrSv80+Q0S1blnGsHupQXs2ia0sLu+kknzpTItovCI5OknJz23e117a41t61XOyPSnVUZWCTp
+qTsVNclgQOrM6hwNcnTI8JHXoWkcCZnSq7zQm4PtmORZ/xeD7smXu+jnpovqOUNgfPIMQkxiN/vl/Ml8
+ff3vt1H/rV9QSwcIZsgOtjoCAABwAwAAUEsBAhQAFAAICAgAAAAhAGbIDrY6AgAAcAMAAAgAAAAAAAAA
+AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAHACAAAAAA==
+------=_contents/cleanSELFAUT/cleanWorkspace.ctx-6be87af0-1793-3aff-bda3-05053f5eeac4--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkl9PwyAUxd/3KQjvA2dMNE27xehM
+jC592HS+mcpuWyYFhKvtxxeqrTExW3wh/Pndc+4B0kXXKPIBzkujMzpjJ5SAFmYndZXRdyynF3Qxn6TG
+VQyEktYDc8IiMoEda4179bYQkGyH2ZXRCB2SrpHJKHsaZYOR9knYz2iNaBPO27ZlpqlYEOdPq9sBOeI1
+lg9MLO85Hjg+cpToogm0UFDoNajy8mFDidxl9DnXuT1bt9Ml5I9qtb+7dk09qyiJqNv+GJWF8kDnE0JS
+EXNpjPOwss7sQaD/ZbG8v4kWX0iASqlgINh3BeV/HvcCG/DIMAyHoNjdS3ihOl7KMbCPcQB8O499WXAo
+wQ9Myod0fXA+Jk/5f3/BfPIJUEsHCIJ2YjIYAQAAYAIAAFBLAQIUABQACAgIAAAAIQCCdmIyGAEAAGAC
+AAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABOAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/cleanSELFAUT/cleanTest.test-6b6b1468-b07e-33f3-8013-d9db6890754f
+Content-Type: q7/binary
+Entry-Name: contents/cleanSELFAUT/cleanTest.test
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRlz81KxDAQwPF7niIP4KTJBqnmtqxV
+PPjRWtZjiemslM2HpnFb9+mNsBZhTwN/GOY3AEDrkiYck9EjUgAgtyE6nWCLcRyCV1QwTuoSDuj7EBWd
+ponNIWLPTHDFZ0k2wSec06hot9UijpsJKnx6P8b67u3mtfXri67pxN6cdVJZdOgTPGqHihqL2rdZsvT2
++yP3P9ySF5nMsmpOGL220OAOI3qTN8h9nzHWHffr86P5lebLp8Hh/xclu2IrLqTgXPJrLsmLPiC0wy9M
+8EIWQuapxCV9fiDtSXQCorGE/ABQSwcIUHLEGd4AAABKAQAAUEsBAhQAFAAICAgAAAAhAFByxBneAAAA
+SgEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAABQBAAAAAA==
+------=_contents/cleanSELFAUT/cleanTest.test-6b6b1468-b07e-33f3-8013-d9db6890754f--

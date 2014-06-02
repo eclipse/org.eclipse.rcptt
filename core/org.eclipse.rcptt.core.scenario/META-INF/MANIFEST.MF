@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Core Models
+Bundle-SymbolicName: org.eclipse.rcptt.core.scenario;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.core.scenario.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.0,1.6.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.rcptt.core.scenario,
+ org.eclipse.rcptt.core.scenario.impl,
+ org.eclipse.rcptt.core.scenario.util

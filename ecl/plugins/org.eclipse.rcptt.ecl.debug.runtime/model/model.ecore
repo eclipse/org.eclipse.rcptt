@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http://www.eclipse.org/debug/runtime/model.ecore" nsPrefix="org.eclipse.rcptt.ecl.debug.model">
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//EventType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakpointEvent" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StackEvent" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stackFrame" upperBound="-1"
+        eType="#//StackFrame"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StackFrame">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectRef" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="complex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//VariableKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VariableKind">
+    <eLiterals name="Variable"/>
+    <eLiterals name="Command" value="1"/>
+    <eLiterals name="Local" value="2"/>
+    <eLiterals name="Argument" value="4"/>
+    <eLiterals name="Object" value="5"/>
+    <eLiterals name="Field" value="6"/>
+    <eLiterals name="Reference" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResolveVariableEvent" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EventType">
+    <eLiterals name="Started"/>
+    <eLiterals name="Suspended" value="1"/>
+    <eLiterals name="StepEnded" value="2"/>
+    <eLiterals name="BreakpointHit" value="3"/>
+    <eLiterals name="Resumed" value="4"/>
+    <eLiterals name="ResolveVariable" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DebugCmd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DebugType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SkipAllCmd" eSuperTypes="#//DebugCmd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="skip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakpointCmd" eSuperTypes="#//DebugCmd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DebugType">
+    <eLiterals name="Suspend"/>
+    <eLiterals name="Resume" value="1"/>
+    <eLiterals name="Step" value="2"/>
+    <eLiterals name="StepOver" value="3"/>
+    <eLiterals name="BreakpointAdd" value="4"/>
+    <eLiterals name="BreakpointRemove" value="5"/>
+    <eLiterals name="SkipAll" value="6"/>
+    <eLiterals name="ResolveVariable" value="7"/>
+    <eLiterals name="StepReturn" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResolveVariableCmd" eSuperTypes="#//DebugCmd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

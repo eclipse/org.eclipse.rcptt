@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.viewers">
+      <viewer
+            class="org.eclipse.rcptt.core.ecl.context.internal.viewer.EclContextViewer"
+            icon="/icons/script.gif"
+            type="org.eclipse.rcptt.ctx.ecl">
+      </viewer>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.core.builder.q7Validator">
+      <validator
+            class="org.eclipse.rcptt.ctx.script.ui.internal.EclContextValidator">
+      </validator>
+   </extension>
+   
+   <!--extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.rcptt.core.ecl.context.editor.EclContextEditor"
+            default="false"
+            extensions="ctx"
+            icon="icons/script.gif"
+            id="org.eclipse.rcptt.ctx.script.ui.editor"
+            name="Ecl Context Editor">
+      </editor>
+   </extension-->
+
+</plugin>

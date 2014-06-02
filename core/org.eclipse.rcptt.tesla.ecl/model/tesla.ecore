@@ -1,0 +1,1909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http://eclipse.org/rcptt/tesla/ecl" nsPrefix="org.eclipse.rcptt.tesla.ecl">
+  <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Suspend execution for a given number of milliseconds."/>
+      <details key="returns" value="nothing"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="wait 100"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ms" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Number of milliseconds. Must be integer value greater than zero."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetupPlayer" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ShoutdownPlayer" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TeslaProcessStatus" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="info" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/info.ecore#//AdvancedInformation"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Wrapper">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="object" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetProperty" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets property of UI control. Assertion mode and assertion window can be used for discovering of actual property names"/>
+      <details key="returns" value="Property handler for further verification (like during recording), or actual property value as string, when &lt;code>-raw&lt;/code> option is specified"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view Tasks | get-tree | get-property itemCount | equals 1 | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="UI control to get property from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Property name"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Property index for list values"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="raw" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="When true, command returns property value&#xA;When false, command returns internal property verification handle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifyTrue" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks &lt;code>input&lt;/code> condition's verity. If verity is not confirmed, then error is returned"/>
+      <details key="input" value="EObject condition"/>
+      <details key="example" value="get-editor &quot;Test scenario&quot; | get-section Script | get-editbox | get-property value | equals test | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="&lt;code>input&lt;/code> condition that has to be true"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifyFalse" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks &lt;code>input&lt;/code> condition's falsity. If falsity is not confirmed, then error is returned"/>
+      <details key="input" value="EObject condition"/>
+      <details key="example" value="get-editor &quot;Test scenario&quot; | get-section Script | get-editbox | get-property value | equals test | verify-false"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="&lt;code>input&lt;/code> condition that has to be false"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifyHandler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.ecore#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum ../../org.eclipse.rcptt.tesla.core/models/protocol.ecore#//AssertKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifyError" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks &lt;code>input&lt;/code> conditions. &#xD;&#xA;If the specified condition is not met (for example, the object is not returned), the verification is passed. &#xD;&#xA;If the condition is met (for example, the object is selected), the verification is failed."/>
+      <details key="input" value="EObject condition"/>
+      <details key="example" value="get-view &quot;Project Explorer&quot; | get-tree | verify-error {get-item &quot;TestProject&quot;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equals" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Compares &lt;code>input&lt;/code> with &lt;code>value&lt;/code>"/>
+      <details key="input" value="EObject input"/>
+      <details key="returns" value="true if values are equal or false otherwise"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | get-item Project | get-property childCount | equals 3 | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Property value extracted with &lt;code>get-property&lt;/code>"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Expected property value"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contains" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks if &lt;code>input&lt;/code> has &lt;code>value&lt;/code> within  "/>
+      <details key="input" value="EObject input"/>
+      <details key="returns" value="true if the content of control contains the specified value or false otherwise"/>
+      <details key="example" value="get-editor TestCase1 | get-editbox | get-property value | contains a22 | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Property value extracted with &lt;code>get-property&lt;/code>"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value, which is expected to be included"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Matches" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks if &lt;code>input&lt;/code> matches to a regular expression &lt;code>value&lt;/code>"/>
+      <details key="input" value="Result of &lt;code>get-property&lt;/code> command"/>
+      <details key="example" value="get-editor TestCase1 | get-editbox | get-property value | matches &quot;\\d+&quot; | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsEmpty" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks if content of control is empty"/>
+      <details key="returns" value="true if the content of control is empty or false otherwise"/>
+      <details key="example" value="get-editor WorkbenchContext |  get-section Workbench | get-editbox -after [get-label &quot;Perspective id:&quot;] | get-property text | is-empty  | verify-false"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Path to control which emptyness has to be checked"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unsupported" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="desc" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlNotFound" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlHandler">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ElementKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customKindId" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the type of a control, if there are any types."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="indexes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="after" eType="#//ControlHandler"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ControlHandler"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolved" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.ecore#//Element">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;p>&#xA;Some {@link ControlHandler} can be resolved into an Element identifier by calling TeslaBridge.find method, which does it by indirectly running a {@link SelectCommand} on the player.&#xA;&lt;p>&#xA;See {@link Element} class documentation for the information on how to get an UIElement wrap (like SWTUIElement) from an Element identifier."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawImage" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetEclipseWindow" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets Eclipse window."/>
+      <details key="returns" value="Eclipse window"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-eclipse-window | key-type F8"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Selector" abstract="true" interface="true"
+      eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="after" eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the element after which the necessary element is present. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the type of a control, if there are any types."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the number of control in list. If element is first in list, then this parameter is not present and default is equal 0."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathSelector" abstract="true" interface="true"
+      eSuperTypes="#//Selector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the path to the item. This parameter is used by default, so &lt;code>-path&lt;/code> word is not written at the recording of the test."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextSelector" abstract="true" interface="true"
+      eSuperTypes="#//Selector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the text\name of this element. This parameter is used by default, so &lt;code>-text&lt;/code> word is not written at the recording of the test."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ElementKind" instanceClassName="org.eclipse.rcptt.tesla.core.protocol.ElementKind"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetControl" eSuperTypes="#//TextSelector #//PathSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets control with defined caption or index. If this control doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the control"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetButton" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets button with defined caption. If this button doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the button"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-button Replay | click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetCanvas" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value=""/>
+      <details key="returns" value=""/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="with [get-editor CreateQ7Project | get-section Script | get-canvas] {&lt;br>&#xD;&#xA;        mouse-press 24 53 button1&lt;br>&#xD;&#xA;        mouse-release 24 53 button1 524288&lt;br>&#xD;&#xA;    }"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetCheckbox" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets checkbox with defined parameter. If this checkbox doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the checkbox"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetCombo" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets combobox with defined parameter. If this combobox doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the combobox"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window &quot;Q7 Control Panel - Test&quot; | get-window &quot;Find/Replace&quot; | get-combo -after [get-label &quot;Replace with:&quot;] | get-property enablement | equals false"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetEditbox" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets editbox with defined parameter. If this editbox doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the editbox"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Execution View&quot; | get-editbox -after [get-label &quot;Message:&quot;] | get-property text | equals &quot;&quot; | verify-true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetGroup" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets group with defined parameter. If this group doesn't exist, then error is returned."/>
+      <details key="returns" value="group "/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window Search | get-group &quot;Search in&quot; | get-button Tags | click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItem" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets item at the specified path. If this item doesn't exist, then error is returned."/>
+      <details key="returns" value="item"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view Breakpoints | get-tree  |  get-item CreateJavaProject  | get-property checked | equals false | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the path to the item. This parameter is used by default, so &lt;code>-path&lt;/code> word is not written at the recording of the test."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetLabel" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets label with defined text. If this label doesn't exist, then error is returned."/>
+      <details key="returns" value="link to the label"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Execution View&quot; | get-label -after [get-label &quot;Runs:&quot;] | get-property caption | equals &quot;3/3&quot; | verify-true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetLink" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets link with defined text. If this link doesn't exist, then error is returned."/>
+      <details key="returns" value="link"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window &quot;Delete Resources&quot; | get-link &quot;See 3 reference(s) found.&quot; | click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetList" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets list with specified parameter. If this list doesn't exist, then error is returned."/>
+      <details key="returns" value="list"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetMenu" eSuperTypes="#//PathSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the path to the section menu. If this section menu doesn't exist, then error is returned."/>
+      <details key="returns" value="path to the section menu"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window &quot;Q7 Control Panel - Test&quot; |  get-toolbar | get-menu &quot;Save As...&quot; | click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTabFolder" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets all tabs of editor. If this editor doesn't contain tabs, then error is returned."/>
+      <details key="returns" value="all tabs of editor"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTabItem" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets tab of editor with defined name. If this tab doesn't exist, then error is returned."/>
+      <details key="returns" value="tab"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTable" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the table with specified parameter. If this table doesn't exist, then error is returned."/>
+      <details key="returns" value="table"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor test |  get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetToolbar" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets toolbar with specified parameter. If toolbar doesn't exist, then error is returned."/>
+      <details key="returns" value="toolbar"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window &quot;Q7 Control Panel - Test&quot; |   get-toolbar | get-menu Save | click &lt;br> get-toolbar -index 11 | key-type &quot;M1+s&quot; "/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTree" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the tree with specified parameter. If this tree doesn't exist, then error is returned."/>
+      <details key="returns" value="tree"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | select &quot;Q7Project/ECL Context&quot; | double-click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetWindow" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Get window with defined name. If this window doesn't exist, then error is returned."/>
+      <details key="returns" value="window"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-window &quot;Select context&quot; | get-table | select &quot;ECL Context \\(Q7Project\\)&quot; | click -default"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the name of this window. This parameter is used by default, so &lt;code>-text&lt;/code> word is not written at the recording of the test."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="from" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates the method (in the form of &lt;code>&quot;ClassName.methodName()&quot;&lt;/code>) where this window is created."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="class" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Indicates name of the JFace Window subclass defining this window."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetView" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets view with defined name. If this view doesn't exist, then error is returned."/>
+      <details key="returns" value="view"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | select &quot;Q7Project/CheckSetCommand&quot; | double-click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetEditor" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets editor with defined parameter. If editor doesn't exist, then error is returned."/>
+      <details key="returns" value="editor"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor EclContext | get-section Script | get-editbox | get-property text | equals &quot;wait 1000&quot; | verify-true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetSection" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets section with defined parameter. If this section doesn't exist, then error is returned."/>
+      <details key="returns" value="section"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor CheckSetCommand |  get-section Contexts | key-type &quot;M1+s&quot;"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetBanner" eSuperTypes="#//Selector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetCoolbar" eSuperTypes="#//Selector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetColorSelector" eSuperTypes="#//Selector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetCell" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets cell with defined parameter. If this cell doesn't exist, then error is returned."/>
+      <details key="returns" value="cell"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value=""/>
+      <contents xsi:type="ecore:EClass" name="GetCell" eSuperTypes="#//Selector">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Gets cell with defined parameter. If this cell doesn't exist, then error is returned."/>
+          <details key="returns" value="cell"/>
+          <details key="recorded" value="true"/>
+          <details key="example" value=""/>
+        </eAnnotations>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" lowerBound="1"
+            eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </contents>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Click" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Clicks on a control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor TestSuite | get-section &quot;Test Cases&quot; | get-button &quot;Add Test Case&quot; | click"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nowait" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/ecl/depricated">
+        <details key="description" value="Specifies if execution must wait for all UI jobs to complete after clicking."/>
+        <details key="default" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Specifies if clicking causes default selection."/>
+        <details key="default" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrow" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Specifies arrow button behavior."/>
+        <details key="default" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleClick" eSuperTypes="#//Click">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Double clicks on a control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | select &quot;TestProject/Test&quot; | double-click"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetText" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets text content of a control. If this text doesn't exist, then error is returned."/>
+      <details key="returns" value="text content of a control"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsDisabled" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Cheks if the control is disabled or not"/>
+      <details key="returns" value="true if the control is disabled or false otherwise"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsDisposed" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Cheks if the control is disposed or not"/>
+      <details key="returns" value="true if the control is disposed or false otherwise"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeText" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Types text to the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor &quot;Test scenario&quot; | get-section Script | get-editbox |  type-text &quot;wait 200&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text to type."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="display" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeyType" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Type key to the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor &quot;Test scenario&quot; | get-section Script | get-editbox |  key-type &quot;M1+s&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Key to type."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="char" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Character that corresponds to the *key*.  In most cases this parameter is not necessary."/>
+        <details key="default" value="calculated from the *key*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="display" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="times" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeCommandKey" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Type key to the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commandId" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetText" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets text content of the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-window Properties |  get-combo -after [get-label &quot;Priority:&quot;] | set-text High"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text to set."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTextSelection" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor Q7Project | get-section Script | get-editbox |  set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Zero-based selection starting position. Must be in &lt;code>0..length-1&lt;/code> range"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Length of selection. Must not be less that zero."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLine" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="For multiline text boxes the starting line of a selection. If set, then the &lt;code>offset&lt;/code> value will be relative to given line."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endLine" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="For multiline textboxes the ending line of a selection."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endOffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Selection end offset relative to &lt;code>endLine&lt;/code>. Don't use this argument along with &lt;code>length&lt;/code> argument."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTextOffset" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the text offset.&#xA;For specified line."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-window &quot;Q7 Control Panel - Test&quot; | get-editbox |  set-text-offset 8 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Item of table, list or tree."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Uncheck" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Unchecks the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Item of table, list or tree."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Select" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Selects items."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | select &quot;TestQ7Prj/Test scenario&quot; | double-click"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table, list or tree."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="items" lowerBound="1" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Path of item to select."/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/ecl/meta">
+        <details key="type" value="string | org.eclipse.rcptt.tesla.ecl.model.ControlHandler"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="If true, command selects all items matched by provided regular expression. For Example, &lt;code>get-tree | select &quot;Foo.*/Bar.*&quot; -all&lt;/code> will select all items starting with &quot;Bar&quot;, if their parents starts with &quot;Foo&quot;."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CellEdit" abstract="true" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Item of table, list or tree."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivateCellEdit" eSuperTypes="#//CellEdit">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Activates cell editing."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor Test | get-section Preferences | get-tree |  select &quot;EXECUTION_TIMEOUT&quot; | activate-cell-edit -column 1"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplyCellEdit" eSuperTypes="#//CellEdit">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Applies cell editing."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deactivate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CancelCellEdit" eSuperTypes="#//CellEdit">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Cancels cell editing."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeactivateCellEdit" eSuperTypes="#//CellEdit">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Applies cell editing."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value=""/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Close" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Closes the control."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-window &quot;Q7 Control Panel - Test&quot; | close"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Window, view or editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnFromOsDialog" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates result returning from native dialog."/>
+      <details key="returns" value="nothing"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Must be one of followings: FILE_SELECTOR, FOLDER_SELECTOR, MESSAGE_BOX, FONT_DIALOG, COLOR"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="String presentation of returned value (platform specific)."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitUntilEclipseIsReady" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Suspend execution until Eclipse is ready."/>
+      <details key="returns" value="nothing"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowContentAssist" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Shows content assist."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Must be editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Button">
+    <eLiterals name="none"/>
+    <eLiterals name="button1" value="1"/>
+    <eLiterals name="button2" value="2"/>
+    <eLiterals name="button3" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragAction" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag action event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="X coordinate relative to left top corner of the control."/>
+        <details key="default" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Y coordinate relative to left top corner of the control."/>
+        <details key="default" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="#//Button"
+        defaultValueLiteral="none">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Mouse button pressed. Must be one of followings: none, button1, button2, button3."/>
+        <details key="default" value="none"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="default" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="none">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Kind of DND operation to perform: &lt;code>copy&lt;/code>, &lt;code>move&lt;/code>, &lt;code>link&lt;/code>, &lt;code>target-move&lt;/code> (move to non-SWT application) or &lt;code>none&lt;/code> (if not applicable)."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
+        defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragStart" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag start event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragEnd" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag end event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragEnter" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag enter event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragExit" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag exit event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragSetData" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag set event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragAccept" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag accept event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragDetect" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag detect event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragOver" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drag over event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Drop" eSuperTypes="#//DragAction">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates drop event."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Recognize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecognizeResponse">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContainsImage" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageURI" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawImage" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRegionText" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Any control is appropriate."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="X coordinate relative to left top corner of the control."/>
+        <details key="default" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Y coordinate relative to left top corner of the control."/>
+        <details key="default" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sy" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRegion" eSuperTypes="#//Selector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageURI" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawImage" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetAdvancedInfo" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetAboutMenu" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns the &quot;About&quot; menu."/>
+      <details key="returns" value="About menu&#xD;&#xA;"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetPreferencesMenu" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns the &quot;Preferences&quot; menu."/>
+      <details key="returns" value="Preferences menu"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetDateTime" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets pop-up window of calendar. If this pop-up window doesn't exist, then error is returned."/>
+      <details key="returns" value="calendar pop-up window "/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetSlider" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value=""/>
+      <details key="returns" value=""/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetValue" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Set value of the control."/>
+      <details key="returns" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text to set."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Minimize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Minimize the tab folder."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Window, view or editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Maximize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Maximize the tab folder."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Window, view or editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Restore" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Restore the tab folder."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Window, view or editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowTabList" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Show the list of tabs from tab folder."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Window, view or editor."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Options" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowStatusDialog" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Command to execute."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecWithOptions" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Command to execute."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowStatusDialog" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disableJobWaiting" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShutdownAut" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetDialogResult" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Emulates result returning from native dialog."/>
+      <details key="returns" value="nothing"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Must be one of followings: File, Folder, MessageBox, Font, Color"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="String presentation of returned value (platform specific)."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetPropertyNodes" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.ecore#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodePath" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetByOs" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="&lt;p>Returns value depending on current operating system. This allows to create cross-platform tests in cases when assertion values slightly differ on various operating system &amp;ndash; this command can be used as an argument for commands like &lt;code>equals&lt;/code>:&lt;/p>&#xD;&#xA;&lt;pre>&#xD;&#xA;... | get-property &quot;text&quot; | equals [&#xD;&#xA;      get-by-os -macosx &quot;Mac value&quot; -win &quot;Windows value&quot; -linux &quot;Linux value&quot;&#xD;&#xA;    ] | verify-true&#xD;&#xA;&lt;/pre>&#xD;&#xA;&lt;p>When two platforms have the same value, it is convenient to use &lt;code>-default&lt;/code> argument. For example, if some value is the same on Linux and Mac OS X, but differs on Windows, &lt;code>get-by-os&lt;/code> can be used like this:&lt;/p>&#xD;&#xA;&lt;pre>&#xD;&#xA;  get-by-os -win &quot;Windows value&quot; -default &quot;Mac OS X and Linux value&quot;&#xD;&#xA;&lt;/pre>&#xD;&#xA;"/>
+      <details key="returns" value="Value of an argument corresponding to current platform, or value of &lt;code>default&lt;/code> argument."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value to use when no platform-specific argument specified"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="win" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value to use on Windows"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="linux" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value to use on Linux"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="macosx" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value to use on Mac OS X"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FromRawKey" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meta" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HoverAtTextOffset" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Perform mouse hover at specific text position."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextViewer" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the text viewer. If text viewer doesn't exist, then error is returned."/>
+      <details key="returns" value="text viewer"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectRange" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line."/>
+      <details key="returns" value="value of *control* parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endLine" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endColumn" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetCaretPos" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the text offset.&#xA;For specified line."/>
+      <details key="returns" value="value of *control* parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HoverText" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Perform mouse hover at specific text position."/>
+      <details key="returns" value="value of *control* parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="with" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Modfier keys joined by '+', for example 'M1+M2', or 'M3'. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpenDeclaration" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Perform open declaration command in the current text position (CTRL+Left click)"/>
+      <details key="returns" value="value of *control* parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetVerticalRuler" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the vertical ruler of editor."/>
+      <details key="returns" value="vertical ruler"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetLeftRuler" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the left ruler of editor."/>
+      <details key="returns" value="left ruler"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor CreateProject | get-section Script | get-left-ruler | get-ruler-column -index 1 | click-ruler -line 4"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRulerColumn" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the ruler column of the editor."/>
+      <details key="returns" value="ruler column"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-editor CreateProject | get-section Script | get-left-ruler | get-ruler-column -index 1 | click-ruler -line 4"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRightRuler" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the right ruler of editor."/>
+      <details key="returns" value="right ruler"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickRuler" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Clicks a ruler at given position with specified button and modifiers"/>
+      <details key="returns" value="value of control parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Editor ruler"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="Left">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Mouse button: Left, Right or Middle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="with" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Modfier keys joined by '+', for example 'M1+M2', or 'M3'. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleClickRuler" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Double clicks ruler on given line with specified modifiers and mouse button"/>
+      <details key="returns" value="value of control parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Editor ruler"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="Left">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Mouse button: Left, Right or Middle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="with" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Modfier keys joined by '+', for example 'M1+M2', or 'M3'. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HoverRuler" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Perform mouse hover at specific text position."/>
+      <details key="returns" value="value of *control* parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+        eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text control: editbox, editor or combo."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="with" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Modfier keys joined by '+', for example 'M1+M2', or 'M3'. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlCommand" abstract="true" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" eType="#//ControlHandler">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickLink" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Clicks on a link."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expand" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Expands a tree item. Item must be acquired by using &lt;code>get-item&lt;/code> command. "/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | get-item Project | expand"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collapse" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Collapses a tree item. Item must be acquired by using &lt;code>get-item&lt;/code> command. "/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | get-item &quot;Project/folder&quot; | collapse"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetFocus" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the focus in specified editbox."/>
+      <details key="returns" value="Nothing"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Q7 Testing&quot; | get-section &quot;CellEdit Tree Test&quot; | get-tree | get-editbox | set-focus"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTableData" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Takes a data from table or tree and returns &lt;code>Table&lt;/code> EMF object. When table or tree does not have columns, then it is assumed that there's one column named 'text'."/>
+      <details key="returns" value="&lt;code>Table&lt;/code> object"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-table | get-table-data | write-csv-file &quot;workspace:/project/file.csv&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeChecked" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="When true, adds a column named 'checked' which contains &lt;code>true&lt;/code> or &lt;code>false&lt;/code> depending on checked state of row"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="excludeHidden" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="When true, output table does not include columns with width=0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickColumn" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Clicks on a header of table or tree column. The column is identified by &lt;code>name&lt;/code> and &lt;code>index&lt;/code>. If name is empty, then column is identified by zero-based index. If there is more than one column with a given name, then &lt;code>index&lt;/code> can be used. In this case &lt;code>index&lt;/code> is used to identify the column within all other columns with the same name. If there are no columns with given name, then command tries to interpret &lt;code>name&lt;/code> as Java regular expression pattern and search for a column. "/>
+      <details key="returns" value="&lt;code>Table&lt;/code> object or &lt;code>Tree&lt;/code> control"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-table | click-column Description //clicks on a header of column Description&#xA;get-table | click-column -index 5 //clicks on 6th column header (since index is 0-based)&#xA;get-table | click-column -name &quot;D.*&quot; -index 1 //clicks on a second column starting with &quot;D&quot; "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Column name or regular expression pattern. When empty, column is identified by &lt;code>index&lt;/code>."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="desciption" value="Index of a column within all columns matching a given name. When &lt;code>name&lt;/code> is empty, this is a column index in table or tree"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Appends a tracing message to Q7 report collected during execution, so that it can be used later in report renderer."/>
+      <details key="example" value="trace &quot;Project created&quot;&#xA;trace [get-view &quot;Package Explorer&quot; | get-tree | get-item &quot;Other Projects/sample&quot; | get-property &quot;getData().isOpen()&quot; -raw]"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mouse" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sends a mouse event to control. Returns the same control, so that mouse commands can be chained: &lt;pre>... | get-text &quot;Foo&quot; | mouse down -button Right | mouse up -buton Right&lt;/pre>"/>
+      <details key="returns" value="value of control parameter"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="event" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Mouse event: &lt;ul>&lt;li>up&lt;/li>&lt;li>down&lt;/li>&lt;li>move&lt;/li>&lt;li>enter&lt;/li>&lt;li>exit&lt;/li>&lt;li>hover&lt;/li>&lt;li>double-click&lt;/li>&lt;/ul>"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="Left">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Mouse button: Left, Right or Middle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="with" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Modfier keys and holded mouse buttons joined by '+', for example 'M1+M2', or 'M3'. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="The 'count' to be set in mouse event. When omitted, reasonable default is used"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-2147483648">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="The 'x' coordinate of mouse event. Can be omitted"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-2147483648">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="The 'y' coordinate of mouse event. Can be omitted"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetObject" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets interop object from UI control."/>
+      <details key="returns" value="Interop object."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="UI control to get object for."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItems" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets item list of a table, or visible items of a tree, or visible children of a tree item."/>
+      <details key="returns" value="List of items."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpandAll" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Expands a tree item and all its children, or a whole tree."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollapseAll" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Collapses a tree item and all its children, or a whole tree."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TakeScreenshot" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Takes a screenshot and attaches it to test report."/>
+      <details key="returns" value="Nothing."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Optional message to be attached to the screenshot."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectItem" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Takes a table or tree item and sets it as a selection of tree or table. Usage: &lt;pre>get-tree | get-item &quot;foo&quot; | select-item&lt;/pre>"/>
+      <details key="returns" value="input item"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetWidgetDetails" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.ecore#//Element"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickText" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="&lt;p>Clicks on editbox to set cursor position (when only &lt;code>start&lt;/code> argument specified) or text selection (when both &lt;code>start&lt;/code> and &lt;code>end&lt;/code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:&lt;/p>&#xD;&#xA;&lt;ol>&#xD;&#xA;  &lt;li>Sets focus to editbox if not yet focused&lt;/li>&#xD;&#xA;  &lt;li>Sends mouse down and up events&lt;/li>&#xD;&#xA;  &lt;li>Sets caret position or text selection based on arguments&lt;/li>&#xD;&#xA;&lt;/ol>&#xD;&#xA;&lt;p>&#xD;&#xA;  &lt;code>start&lt;/code> and &lt;code>end&lt;/code> arguments have different forms depending on editbox kind:&#xD;&#xA;  &lt;ul>&#xD;&#xA;    &lt;li>For single line editboxes &amp;ndash; 1-based indices in text (e.g. &lt;code>1&lt;/code>, &lt;code>5&lt;/code>)&lt;/li>&#xD;&#xA;    &lt;li>For multi line editboxes &amp;ndash; 1-based line and colum indices separated by colon (e.g &lt;code>1:32&lt;/code>, &lt;code>30:1&lt;/code>).&lt;/li>&#xD;&#xA;  &lt;/ul>&#xD;&#xA;&lt;/p>"/>
+      <details key="returns" value="input item"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Cursor location when &lt;code>end&lt;/code> is not set or selection start otherwise"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Selection end"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="left">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Mouse button: left, right or middle."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetQuickAccess" eSuperTypes="#//Selector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets Eclipse 4 quick access text box."/>
+      <details key="returns" value="quick access text box"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-quick-access | set-text &quot;Open Resource&quot;"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetColumnHeader" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets column of a table or tree control."/>
+      <details key="returns" value="column"/>
+      <details key="example" value="get-table | get-column-header Name | click // sorts by Name column"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetPosition" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets position of a table column."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-nebula-grid | get-column-header Name | set-position 4"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetWidth" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets width of a table column."/>
+      <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-nebula-grid | get-column-header Name | set-width 256"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetPropertyTab" eSuperTypes="#//TextSelector">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets the tab of the Properties View."/>
+      <details key="returns" value="The tab of the Properties View."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowAlert" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Displays a message."/>
+      <details key="returns" value="Nothing."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Message to display."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleClickText" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="&lt;p>Double-clicks on editbox to set cursor position and/or selection. More verbosely, it does the following:&lt;/p>&#xD;&#xA;&lt;ol>&#xD;&#xA;  &lt;li>Sets focus to editbox if not yet focused&lt;/li>&#xD;&#xA;  &lt;li>Sends double-click event&lt;/li>&#xD;&#xA;&lt;/ol>&#xD;&#xA;&lt;p>&#xD;&#xA;  &lt;code>position&lt;/code> argument have different form depending on editbox kind:&#xD;&#xA;  &lt;ul>&#xD;&#xA;    &lt;li>For single line editboxes &amp;ndash; 1-based indices in text (e.g. &lt;code>1&lt;/code>, &lt;code>5&lt;/code>)&lt;/li>&#xD;&#xA;    &lt;li>For multi line editboxes &amp;ndash; 1-based line and colum indices separated by colon (e.g &lt;code>1:32&lt;/code>, &lt;code>30:1&lt;/code>).&lt;/li>&#xD;&#xA;  &lt;/ul>&#xD;&#xA;&lt;/p>"/>
+      <details key="returns" value="input item"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Cursor location where the double-click will occur."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="left">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Mouse button: left, right or middle."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ToControlHandle" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets UI control handle from widget."/>
+      <details key="returns" value="UI control handle."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="widget" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Widget to get UI control for."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundControlHandle" eSuperTypes="#//ControlHandler">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="widgetId" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unfocus" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets the focus in specified editbox."/>
+      <details key="returns" value="Nothing"/>
+      <details key="recorded" value="true"/>
+      <details key="example" value="get-view &quot;Q7 Testing&quot; | get-section &quot;CellEdit Tree Test&quot; | get-tree | get-editbox | set-focus"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
+      nsPrefix="org.eclipse.ecl.tesla.diagram">
+    <eClassifiers xsi:type="ecore:EClass" name="GetDiagram" eSuperTypes="#//Selector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets diagram with specified parameter. If diagram doesn't exist, then error is returned."/>
+        <details key="returns" value="diagram"/>
+        <details key="recorded" value="true"/>
+        <details key="example" value="get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetPalette" eSuperTypes="#//Selector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets palette with specified parameter. If palette doesn't exist, then error is returned."/>
+        <details key="returns" value="palette"/>
+        <details key="recorded" value="true"/>
+        <details key="example" value="get-editor Diagram | get-palette | get-palette-entry CompositeLink | get-property text"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetEditPart" eSuperTypes="#//Selector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets EObject part that should be edited"/>
+        <details key="returns" value="Part of EObject"/>
+        <details key="recorded" value="true"/>
+        <details key="example" value="get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Path to EObject"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Name of EObject"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="feature" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetFigure" eSuperTypes="#//PathSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets figure with specified coordinates. If figure doesn't exist, then error is returned."/>
+        <details key="returns" value="figure"/>
+        <details key="recorded" value="true"/>
+        <details key="example" value="get-editor Diagram | get-palette | get-figure &quot;0/3/1/0/0/0/0/1/1/0&quot;"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetEntry" eSuperTypes="#//TextSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets entry from palette"/>
+        <details key="returns" value="Palette entry"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectEdit" abstract="true" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+          eType="#//ControlHandler">
+        <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Edit part or figure."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivateDirectEdit" eSuperTypes="#//diagram/DirectEdit">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Activates direct editing."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke &#xD;&#xA;    | activate-direct-edit"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CommitDirectEdit" eSuperTypes="#//diagram/DirectEdit">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Commits direct editing."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CancelDirectEdit" eSuperTypes="#//diagram/DirectEdit">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Cancels direct editing."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {&lt;br> &#xD;&#xA;&amp;nbsp activate-direct-edit&lt;br>&#xD;&#xA;&amp;nbsp cancel-direct-edit&lt;br>}"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseAction" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse actions"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
+          eType="#//ControlHandler">
+        <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Canvas, edit part or figure."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="X coordinate relative to left top corner of the control."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Y coordinate relative to left top corner of the control."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="#//Button">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Mouse button pressed. Must be one of followings: none, button1, button2, button3."/>
+          <details key="default" value="none"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="default" value="0"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Height of the control."/>
+          <details key="default" value="0"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/ecl/docs">
+          <details key="description" value="Width of the control."/>
+          <details key="default" value="0"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseMove" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse move over the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="get-editor Test | get-diagram | get-figure &quot;0/1/0/0/0/1&quot; | mouse-move 62 167 -height 235 -width 525"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseDrag" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse drag on the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="with [get-editor Test | get-diagram] { &lt;br> &amp;nbsp mouse-press 77 311 button1 -height 689 -width 413 &lt;br> &amp;nbsp mouse-drag 77 311 -height 689 -width 413 &lt;br> }"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MousePress" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse press on the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseRelease" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse release on the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="with [get-editor Test | get-diagram] { &lt;br> &amp;nbsp mouse-press 77 311 button1 -height 689 -width 413 &lt;br> &amp;nbsp mouse-release 77 311 button1 -height 689 -width 413 &lt;br> }"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseDoubleClick" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse double click on the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="with [get-palette-entry &quot;Try/Catch/Finally&quot;] {&lt;br> &amp;nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 &lt;br> &amp;nbsp mouse-press 32 18 button1 -height 23 -width 125 &lt;br> &amp;nbsp mouse-double-click 32 18 button1 -height 23 -width 125 &lt;br> &amp;nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 &lt;br> }"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseEnter" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse entering to the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseExit" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse leaving from the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MouseHover" eSuperTypes="#//diagram/MouseAction">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Emulates mouse hovering over the control."/>
+        <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+        <details key="example" value="with [get-edit-part &quot;0/0/1/0/1/0/1/0&quot;] {&lt;br> &amp;nbsp mouse-release 13 17 button1 524288 -height 22 -width 88&lt;br> &amp;nbsp  mouse-move 14 16 -height 22 -width 88&lt;br> &amp;nbsp mouse-hover 14 16 -height 22 -width 88&lt;br>}"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetSourceConnection" eSuperTypes="#//PathSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets source connection on diagram. "/>
+        <details key="returns" value="source connection"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetTargetConnection" eSuperTypes="#//PathSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets target connection on diagram. "/>
+        <details key="returns" value="target connection"/>
+        <details key="example" value="get-editor Diagram | get-diagram | get-edit-part -name SO | get-edit-part -name SA | get-target-connection 0 | get-property foregroundColor | equals &quot;#F49316&quot; | verify-true"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetPopupBarItem" eSuperTypes="#//PathSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets pop-up bar of GMF element. If it doesn't exist, then error is returned."/>
+        <details key="returns" value="pop-up bar "/>
+        <details key="example" value="get-editor Diagram | get-diagram  | get-edit-part -className DiagramEditPart | get-popup-bar-item | mouse-hover 16 9 -height 20 -width 30"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetConnectionHandle" eSuperTypes="#//PathSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets connection handle on diagram. If the connection handle is not found, the error is returned."/>
+        <details key="returns" value="connection handle"/>
+        <details key="example" value="get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-connection-handle 0 | mouse-move 1 6 button1 -height 16 -width 20"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetPaletteEntry" eSuperTypes="#//TextSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets entry from palette"/>
+        <details key="returns" value="Palette entry"/>
+        <details key="example" value="get-editor SO | get-palette | get-palette-entry Tools | get-figure &quot;0/0&quot; | drag-set-data"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GetHandle" eSuperTypes="#//TextSelector">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Gets specified handle of GMF element. If this handle is not found, the error is returned."/>
+        <details key="returns" value="handle"/>
+        <details key="example" value="get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-handle ResizeHandle | mouse-hover 5 5 -height 7 -width 7"/>
+        <details key="recorded" value="true"/>
+      </eAnnotations>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

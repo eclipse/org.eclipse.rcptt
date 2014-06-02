@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 ECL Scenario Context UI
+Bundle-SymbolicName: org.eclipse.rcptt.ctx.script.ui;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.core.ecl.context.viewer.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.core,
+ org.eclipse.rcptt.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.jface.text,
+ org.eclipse.rcptt.ctx.script,
+ org.eclipse.ui.editors,
+ org.eclipse.core.databinding,
+ org.eclipse.core.resources,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.ide,
+ org.eclipse.debug.ui,
+ org.eclipse.rcptt.core.builder,
+ org.eclipse.rcptt.launching;bundle-version="1.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/ctx/ecl"
+            class="org.eclipse.rcptt.core.ecl.context.ContextPackage"
+            genModel="model/context.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.core.contextTypes">
+      <contextType
+            description="Ecl Script Context"
+            eclass="EclContext"
+            epackage-uri="http://eclipse.org/rcptt/ctx/ecl"
+            id="org.eclipse.rcptt.ctx.ecl"
+            name="Ecl Script"
+            canCreate="false"
+            priority="30">
+      </contextType>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.persistence">
+      <plainExtension
+            class="org.eclipse.rcptt.ctx.script.EclContextPlainExtension"
+            id="ecl context">
+      </plainExtension>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.contextMaker">
+      <maker
+            class="org.eclipse.rcptt.core.ecl.context.impl.EclContextMaker"
+            type="org.eclipse.rcptt.ctx.ecl">
+      </maker>
+   </extension>
+   
+
+</plugin>

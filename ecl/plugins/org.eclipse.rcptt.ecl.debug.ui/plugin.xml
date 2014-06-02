@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.eclipse.rcptt.ecl.debug.ui.EclModelPresentation"
+            id="org.eclipse.rcptt.ecl.debug.core">
+      </debugModelPresentation>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            name="org.eclipse.rcptt.ecl.debug.ui.activeCommand">
+      </type>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+       <specification
+            annotationImageProvider="org.eclipse.rcptt.ecl.debug.ui.EclActiveCommandAnnotationImageProvider"
+            annotationType="org.eclipse.rcptt.ecl.debug.ui.activeCommand"
+            colorPreferenceKey="eclCmdColor"
+            colorPreferenceValue="148,179,124"
+            highlightPreferenceKey="eclCmdColorHighlight"
+            highlightPreferenceValue="true"
+            label="Active ECL Command"
+            overviewRulerPreferenceKey="eclCmdColorOverviewRuler"
+            overviewRulerPreferenceValue="false"
+            presentationLayer="7"
+            textPreferenceKey="eclCmdColorIndication"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="eclCmdColorVerticalRuler"
+            verticalRulerPreferenceValue="false"
+            textStylePreferenceKey="eclCmdColorTextStyle"
+			textStylePreferenceValue="NONE">
+      </specification>
+   </extension>
+</plugin>

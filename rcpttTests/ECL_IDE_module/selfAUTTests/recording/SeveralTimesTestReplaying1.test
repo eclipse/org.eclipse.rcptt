@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _EyiWsMomEeCVO9X7TqWdlg,_ZQYygK2sEeCqBbDEJWufvQ,_WA9RwLYLEeG9HOSVZDTntg
+Element-Name: SeveralTimesTestReplaying (QS-1585)
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1585
+Id: _TZHXsbYJEeG9HOSVZDTntg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, selfAUT, Recording, skipExecution
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open the test case editor, hold the Shift key and click on Replay button; 
+2. Set 3 in appeared window.
+
+EXPECTED RESULT
+
+Test is replaying three times
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
+clear-log-view
+get-editor CreateJavaProject | get-button Replay | click
+with [get-window "Set execution count"] {
+    get-editbox -after [get-label Times] | set-text 3
+    get-button Ok | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

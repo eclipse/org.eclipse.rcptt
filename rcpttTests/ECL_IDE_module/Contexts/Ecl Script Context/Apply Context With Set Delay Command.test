@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_gTOq0Er3EeGa1LZu9UJdCw,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Apply Context With Set Delay Command
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _6VrK8Er1EeGa1LZu9UJdCw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, skipExecution, ECLContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Open ECL Context
+2. Enter "set commands-delay 555" in ecl context
+3. Make sure that this command is applied
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/ECL Context" | double-click
+with [get-editor "ECL Context" | get-section Script | get-text-viewer] {
+    type-text "set-commands-delay 555"
+    key-type "M1+s"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/CheckSetCommand" | double-click
+with [get-editor CheckSetCommand | get-section Contexts] {
+    click
+    get-button "Add..." | click
+}
+get-window "Select context" | get-table | select "ECL Context \\(Q7Project\\)" | click -default
+with [get-editor CheckSetCommand] {
+    get-section Contexts | key-type "M1+s"
+    get-button Replay | click
+}
+wait 5000
+with [get-view "Execution View"] {
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+}
+get-view "Execution View" | get-tree | select "CheckSetCommand.*"
+get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text | equals "" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,6 @@
+keyDown(Key.CTRL)
+type(Key.SPACE)
+keyUp()
+type(Key.DOWN)
+type(Key.DOWN)
+type(Key.ENTER)

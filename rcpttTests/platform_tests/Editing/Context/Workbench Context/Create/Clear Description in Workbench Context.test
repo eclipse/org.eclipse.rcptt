@@ -1,0 +1,47 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_X2jMkCVfEeG9Gq93I6x6JA
+Element-Name: Clear Description in Workbench Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _w-8-8CVgEeG9Gq93I6x6JA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkbenchContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open workbench context editor;
+2. Set some test into description field;
+3. Press Clear Description button and make sure the description has been cleaned. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CloseModalDialogs" | double-click
+with [get-editor CloseModalDialogs | get-section Description] {
+    click
+    get-editbox | set-text qqq
+}
+get-editor CloseModalDialogs | get-section Description | get-editbox | get-property text | equals qqq | verify-true
+get-editor CloseModalDialogs | get-section Description | get-button "Clear Description" | click
+get-editor CloseModalDialogs | get-section Description | get-editbox | get-property text | equals "" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

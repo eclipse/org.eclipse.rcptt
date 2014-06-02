@@ -1,0 +1,6 @@
+keyDown(Key.CTRL)
+type("n")
+keyUp()
+doubleClick("Selectawizar.png")
+type("Pr")
+type(Key.ENTER)

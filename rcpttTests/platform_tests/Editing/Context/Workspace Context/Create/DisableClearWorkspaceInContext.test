@@ -1,0 +1,66 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_2Ya0MNCAEeCyMsM9po39hw
+Element-Name: DisableClearWorkspaceInContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _quzw8NB5EeCyMsM9po39hw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open "test" Workspace Context, uncheck "Clear Workspace"
+2. Apply "DefaultWS" context, apply "test" context 
+3. Open "checking" context
+4. Press "Capture" button
+5. Make sure that two projects ("TestProject" and "q7project) are saved in "checking" context
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "q7project/defaultWS" | double-click -nowait
+get-editor defaultWS | get-button Apply | click
+wait 200
+get-view "Execution View" | get-label "1/1" | get-property caption | equals "1/1" | verify-true
+get-view "Q7 Explorer" | get-tree | select "q7project/test" | double-click -nowait
+with [get-editor test] {
+    with [get-section "Workspace Options" | get-button "Clear workspace"] {
+        click
+        key-type "M1+s"
+    }
+    get-button Apply | click
+}
+get-view "Execution View" | get-label "1/1" | get-property caption | equals "1/1" | verify-true
+get-view "Q7 Explorer" | get-tree | select "q7project/checking" | double-click -nowait
+get-editor checking | get-button Capture | click
+get-editor checking | get-section Workspace | get-tree | get-property itemCount | equals 2 | verify-true
+get-editor checking | get-section Workspace | get-tree | select TestProject
+with [get-editor checking | get-section Workspace | get-tree] {
+    get-item TestProject | get-property caption | equals TestProject | verify-true
+    get-item TestProject | get-property childCount | equals 2 | verify-true
+    get-item "TestProject/TestFolder" | get-property caption | equals TestFolder | verify-true
+    get-item "TestProject/.project" | get-property caption | equals ".project" | verify-true
+    get-item q7project | get-property caption | equals q7project | verify-true
+    get-item q7project | get-property childCount | equals 3 | verify-true
+    get-item "q7project/.project" | get-property caption | equals ".project" | verify-true
+    get-item "q7project/test.test" | get-property caption | equals "test.test" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

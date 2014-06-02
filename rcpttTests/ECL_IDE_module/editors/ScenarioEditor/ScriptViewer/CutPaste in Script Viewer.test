@@ -1,0 +1,92 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: CutPaste in Script Viewer
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _wzvuwCnlEeG5j4IHaNDqCg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Pre-conditions:
+Project with two test-cases
+
+Actions:
+1. Select text in test-case
+2. Choose "Cut" from context menu
+3. Open another test-case and choose "Paste" from context menu
+4. Make sure that text is deleted from one file and is copied in second test-case
+5. Repeat 1-4 steps for main menu and short keys
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateQ7Project" | double-click -nowait
+with [get-editor CreateQ7Project | get-section Script | get-editbox] {
+    set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1
+    get-menu Cut | click
+    set-text-offset 50 2
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
+with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
+    set-text-offset 83 0
+    key-type CR
+    get-menu Paste | click
+    key-type "M1+M2+s"
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "    get-button Finish | click\n"
+    + "}" | verify-true
+get-editor CreateQ7Project | click
+get-editor CreateQ7Project | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+get-view "Q7 Explorer" | get-tree | select "MyProject/P1 is left" | double-click -nowait
+with [get-editor "P1 is left" | get-section Script | get-editbox] {
+    set-text-selection -offset 0 -startLine 4 -endLine 4 -endOffset 83
+    key-type "M1+x"
+    set-text-offset 0 4
+}
+with [get-editor WorkspaceIsEmpty] {
+    click
+    with [get-section Script | get-editbox] {
+        set-text-offset 1 4
+        key-type CR
+        key-type "M1+v"
+    }
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "    get-button Finish | click\n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+get-editor "P1 is left" | click
+get-editor "P1 is left" | get-section Script | get-editbox | get-property text 
+    | equals "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    get-item \"P1\"\n"
+    + "    \n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

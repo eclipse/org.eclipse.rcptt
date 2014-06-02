@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.core.tests/src"
+    modelPluginID="org.eclipse.rcptt.ecl.core.tests" modelName="Test" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.4" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="org.eclipse.rcptt.ecl.core.tests" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genClasses ecoreClass="model.ecore#//SampleCommand">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SampleCommand/hello"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SlowCommand"/>
+    <genClasses ecoreClass="model.ecore#//IncrementCommand">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//IncrementCommand/val"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Data">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Data/value"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//EmitData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//EmitData/paramInt"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Random">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Random/count"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//IsPipeEmpty"/>
+    <genClasses ecoreClass="model.ecore#//EmitEMFData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//EmitEMFData/paramInt"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Fail"/>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,59 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_IeEQkPSUEeCE1L2j6bYoFw
+Element-Name: Import Files In Workspace Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _rBincCFREeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkspaceContext, ImportExport
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open workspace context, press "Add Project" button;
+2. Press "Import Files" button, browse to file location;
+3. Press OK;
+4. Make sure that the file has been added.  
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/WorkspaceContext" | double-click
+get-editor WorkspaceContext | get-section Workspace | get-button "Import Projects..." | click
+get-window -from "Window.createShell()" | close
+with [get-editor WorkspaceContext | get-section Workspace] {
+    get-button "Create Empty Project" | click
+    with [get-tree] {
+        select project1 | activate-cell-edit
+        apply-cell-edit
+    }
+    get-button "Import Files..." | click
+}
+set-dialog-result Folder "platform:/resource/Q7Project"
+with [get-window -from "Window.createShell()"] {
+    get-button "Browse..." | click
+    get-table | get-item "TestCase1.test" | check
+    get-button Finish | click
+}
+get-editor WorkspaceContext | get-section Workspace | get-tree | get-item "project1/TestCase1.test" 
+    | get-property caption | equals "TestCase1.test" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

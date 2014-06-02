@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_BIzmMMyzEeCKjp0mPLHiEg
+Element-Name: OpenContextEditorFromTestEditor
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _C-wb4NB8EeCyMsM9po39hw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open test case editor
+2. Open Context list
+3. Select Context and double click on this context
+4. Make sure that this context is opened and and context editor actives
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test with contexts" | double-click
+with [get-editor "test with contexts" | get-section Contexts] {
+    click
+    get-table | select "group \\(Q7Project\\)" | double-click
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "test with contexts" | verify-true
+    get-property pages -index 1 | equals group | verify-true
+    get-property activePage | equals group | verify-true
+    get-property tabCount | equals 2 | verify-true
+}
+with [get-editor "test with contexts"] {
+    click
+    get-section Contexts | get-table | select "contextWB \\(Q7Project\\)" | double-click
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "test with contexts" | verify-true
+    get-property pages -index 1 | equals group | verify-true
+    get-property pages -index 2 | equals contextWB | verify-true
+    get-property activePage | equals contextWB | verify-true
+    get-property tabCount | equals 3 | verify-true
+}
+with [get-editor "test with contexts"] {
+    click
+    get-section Contexts | get-table | select "ecl-script \\(Q7Project\\)" | double-click
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "test with contexts" | verify-true
+    get-property pages -index 1 | equals group | verify-true
+    get-property pages -index 2 | equals contextWB | verify-true
+    get-property pages -index 3 | equals "ecl-script" | verify-true
+    get-property activePage | equals "ecl-script" | verify-true
+    get-property tabCount | equals 4 | verify-true
+}
+with [get-editor "test with contexts"] {
+    click
+    get-section Contexts | get-table | select "contextWS \\(Q7Project\\)" | double-click
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "test with contexts" | verify-true
+    get-property pages -index 1 | equals group | verify-true
+    get-property pages -index 2 | equals contextWB | verify-true
+    get-property pages -index 3 | equals "ecl-script" | verify-true
+    get-property pages -index 4 | equals contextWS | verify-true
+    get-property activePage | equals contextWS | verify-true
+    get-property tabCount | equals 5 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

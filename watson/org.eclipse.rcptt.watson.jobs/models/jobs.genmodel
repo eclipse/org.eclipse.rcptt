@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.watson.jobs/gen-src"
+    modelPluginID="org.eclipse.rcptt.watson.jobs" modelName="Jobs" importerID="org.eclipse.emf.importer.java"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5">
+  <foreignModel>@model</foreignModel>
+  <genPackages prefix="Jobs" basePackage="org.eclipse.rcptt.sherlock.jobs" disposableProviderFactory="true"
+      ecorePackage="jobs.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="jobs.ecore#//AsyncEventKind">
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//AsyncEventKind/Starting"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//AsyncEventKind/Done"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//AsyncEventKind/Running"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//AsyncEventKind/TimerExec"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="jobs.ecore#//JobEventKind">
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Sheduled"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Running"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/AsyncFinish"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/AsyncDone"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Finished"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Slepping"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Waiting"/>
+      <genEnumLiterals ecoreEnumLiteral="jobs.ecore#//JobEventKind/Canceled"/>
+    </genEnums>
+    <genClasses ecoreClass="jobs.ecore#//AsyncInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/sync"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/runnableClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/sourceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/sourceMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/sourceFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/thisClassName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/threadName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncInfo/timer"/>
+    </genClasses>
+    <genClasses ecoreClass="jobs.ecore#//AsyncEventInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncEventInfo/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncEventInfo/delay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//AsyncEventInfo/id"/>
+    </genClasses>
+    <genClasses ecoreClass="jobs.ecore#//JobInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/jobClassName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/sourceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/sourceMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/system"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/user"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/sourceFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/thisClassName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobInfo/threadName"/>
+    </genClasses>
+    <genClasses ecoreClass="jobs.ecore#//JobEventInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobEventInfo/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute jobs.ecore#//JobEventInfo/id"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

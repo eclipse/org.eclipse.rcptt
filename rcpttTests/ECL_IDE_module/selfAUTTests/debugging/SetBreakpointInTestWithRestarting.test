@@ -1,0 +1,68 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
+Element-Name: SetBreakpointInTestWithRestarting
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1712
+Id: _wFfUMDwFEeGWcueqnS9xrA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, Debug
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click -nowait
+with [get-editor CreateJavaProject | get-section Script] {
+    with [get-text-viewer] {
+        set-caret-pos 7 2
+        key-type Enter
+        type-text "get-menu \"File/Restart"
+        type-text "\" | click"
+        key-type Enter
+        type-text "wait-until-eclipse-is-ready"
+        key-type "M1+s"
+    }
+    get-left-ruler | get-ruler-column | double-click-ruler 1
+    get-left-ruler | get-ruler-column | double-click-ruler 10
+}
+exec-with-options -disableJobWaiting -command {
+	get-menu "Run/Debug As/.* Test Cases" | click
+	try -times 30 -delay 500 -command {
+		get-view Debug | get-tree 
+    | get-item "CreateJavaProject \\[Q7 Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
+    | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true
+    get-view Debug | get-button "Resume (F8)" | click
+	}
+	try -times 120 -delay 1000 -command {
+		get-view Debug | get-button "Resume (F8)" | click	
+	}
+}
+get-view Debug | get-tree 
+    | get-item "<terminated>CreateJavaProject \\[Q7 Test Suite\\]/<terminated, exit value: 0>Q7Connection" 
+    | get-property caption | equals "<terminated, exit value: 0>Q7Connection" | verify-true
+    get-button "Q7 perspective" | click
+with [get-view "Execution View"] {
+    get-editbox -after [get-label "Message:"] | get-property text | equals "" | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

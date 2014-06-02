@@ -1,0 +1,76 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_1DeDkPVYEeCsI4NSS6tu2Q
+Element-Name: CompareTwoTestsCasesFromDiffenetProjectsWithEachOther
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Mrzm0PVZEeCsI4NSS6tu2Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Compare, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Have two different test cases in two different Q7 projects;
+2. Select both test cases in Q7 explorer, right click them and click "Compare With -> Each other" command;
+3. Make sure that Test Case Structure Compare tree is represented;
+4. Double-click compared elements and make sure that all differences are shown.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project1/TestCase2" "Q7Project2/TestCase3"
+    get-menu "Compare With/Each Other" | click
+}
+with [get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')" | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "Test Case" | get-property caption | equals "Test Case" | verify-true
+    get-item "Test Case/Description" | get-property caption | equals Description | verify-true
+    get-item "Test Case/Name" | get-property caption | equals Name | verify-true
+    get-item "Test Case/Script" | get-property caption | equals Script | verify-true
+    get-item "Test Case/Tags" | get-property caption | equals Tags | verify-true
+}
+get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')" | get-tree 
+    | select "Test Case/Description" | double-click
+with [get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')"] {
+    get-editbox -after [get-label "Q7Project2/TestCase3.test"] | get-property value | equals description2 | verify-true
+    get-editbox -index 1 | get-property value | equals description3 | verify-true
+}
+get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')" | get-tree 
+    | select "Test Case/Name" | double-click
+with [get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')"] {
+    get-editbox -after [get-label "Q7Project2/TestCase3.test"] | get-property value | equals TestCase2 | verify-true
+    get-editbox -index 1 | get-property value | equals TestCase3 | verify-true
+}
+get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')" | get-tree 
+    | select "Test Case/Script" | double-click
+with [get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')"] {
+    get-editbox -after [get-label "Q7Project2/TestCase3.test"] | get-property value | equals script2 | verify-true
+    get-editbox -index 1 | get-property value | equals script3 | verify-true
+}
+get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')" | get-tree 
+    | select "Test Case/Tags" | double-click
+with [get-editor "Compare (\'Q7Project1/TestCase2.test\' - \'Q7Project2/TestCase3.test\')"] {
+    get-editbox -after [get-label "Q7Project2/TestCase3.test"] | get-property value | equals tag2 | verify-true
+    get-editbox -index 1 | get-property value | equals tag3 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

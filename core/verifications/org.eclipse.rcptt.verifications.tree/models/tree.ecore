@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tree"
+    nsURI="http://eclipse.org/rcptt/verifications/tree" nsPrefix="org.eclipse.rcptt.verifications.tree">
+  <eClassifiers xsi:type="ecore:EClass" name="TreeVerification" eSuperTypes="#//CaptureTreeVerificationData #//VerifyTreeData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tree">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="columns" upperBound="-1"
+        eType="#//Column" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rows" upperBound="-1" eType="#//Row"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="headerVisible" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="linesVisible" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sortColumnInd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sortDirection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Column">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//Image"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tooltip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Row">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//Cell" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Row" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checked" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grayed" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" eType="#//ItemData"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cell">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="style" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//StyleRangeEntry"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" eType="#//ItemData"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImagesMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VerifyStyleType">
+    <eLiterals name="ALL" literal="All"/>
+    <eLiterals name="IGNORE_STYLES" value="1" literal="Ignore Styles"/>
+    <eLiterals name="IGNORE_STYLED_TEXT" value="2" literal="Ignore Styled Text"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ItemData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//Image"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="foregroundColor" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//Color"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backgroundColor" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//Color"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommonTreeVerificationData" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//WidgetVerification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tree" lowerBound="1" eType="#//Tree"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CaptureTreeVerificationData" eSuperTypes="#//CommonTreeVerificationData">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="images" upperBound="-1"
+        eType="#//ImagesMap" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifyTreeData" eSuperTypes="#//CommonTreeVerificationData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowExtraColumns" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowMissingColumns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verifyStyle" eType="#//VerifyStyleType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verifyIcons" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowUncapturedChildren"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+</ecore:EPackage>

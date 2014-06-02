@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.core.recorder">
+      <recorder
+            class="org.eclipse.rcptt.tesla.recording.core.gef.GefEventRecorder">
+      </recorder>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.swt.describerExtensions">
+      <describerExtension
+            class="org.eclipse.rcptt.tesla.recording.gef.GEFDescriberRecorderExtension"
+            priority="100">
+      </describerExtension>
+   </extension>
+
+</plugin>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl_1.1.0.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl" version="1.1.0.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl.runtime_1.1.0.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl.runtime" version="1.1.0.qualifier"/>
+</site>

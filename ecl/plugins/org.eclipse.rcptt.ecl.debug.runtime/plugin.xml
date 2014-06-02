@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+   <extension-point id="eclDebugExtension" name="eclDebugExtension" schema="schema/eclDebugExtension.exsd"/>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/debug/runtime/commands.ecore"
+            class="org.eclipse.rcptt.ecl.debug.commands.CommandsPackage"
+            genModel="model/commands.genmodel"/>
+      <package
+            class="org.eclipse.rcptt.ecl.debug.model.ModelPackage"
+            genModel="model/model.genmodel"
+            uri="http://www.eclipse.org/debug/runtime/model.ecore">
+      </package>
+   </extension>
+
+   <extension point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+         class="org.eclipse.rcptt.ecl.internal.debug.runtime.StartServerService"
+         name="StartServer"
+         namespace="http://www.eclipse.org/debug/runtime/commands.ecore"/>
+   </extension>
+
+   <extension point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+         class="org.eclipse.rcptt.ecl.internal.debug.runtime.StopServerService"
+         name="StopServer"
+         namespace="http://www.eclipse.org/debug/runtime/commands.ecore"/>
+   </extension>
+
+   <extension point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+         class="org.eclipse.rcptt.ecl.internal.debug.runtime.DebugScriptService"
+         name="DebugScript"
+         namespace="http://www.eclipse.org/debug/runtime/commands.ecore"/>
+   </extension>
+
+   <extension point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+         class="org.eclipse.rcptt.ecl.internal.debug.runtime.DebugCommandService"
+         name="DebugCommand"
+         namespace="http://www.eclipse.org/debug/runtime/commands.ecore"/>
+   </extension>
+
+</plugin>

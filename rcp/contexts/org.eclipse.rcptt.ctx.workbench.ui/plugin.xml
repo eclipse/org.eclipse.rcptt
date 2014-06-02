@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+        point="org.eclipse.rcptt.ui.viewers">
+     <viewer
+           class="org.eclipse.rcptt.ctx.workbench.ui.views.WorkbenchViewer"
+           icon="IMG_ETOOL_DEF_PERSPECTIVE"
+           type="org.eclipse.rcptt.ctx.workbench">
+     </viewer>
+  </extension>
+</plugin>

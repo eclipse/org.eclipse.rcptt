@@ -1,0 +1,50 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_SgWeYNybEeK6r-vZOHOktA
+Element-Name: QS-2699_Error removing a reference from supercontext to a context during context removal
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-2699
+Id: _a8Z6INyaEeK6r-vZOHOktA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Steps to reproduce:
+
+1. Create workspace context c1
+2. Create workspace super context s1
+3. Add c1 to s1
+4. Delete c1 from Q7 Explorer, make sure that "Delete references" checkbox is set.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "MyProject/s1" | double-click
+    select "MyProject/c1" | get-menu Delete | click
+}
+with [get-window "Delete Resources" | get-button "Delete references?"] {
+    get-property caption | equals "&Delete references?" | verify-true
+    get-property selected | equals true | verify-true
+}
+get-window "Delete Resources" | get-button OK | click
+get-editor s1 | get-section Contexts | get-table | get-property itemCount | equals 0 | verify-true
+get-view "Q7 Explorer" | get-tree | verify-error{select "MyProject/c1"}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

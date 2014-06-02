@@ -1,0 +1,7 @@
+click("Left.png")
+wait(1)
+type("Text")
+wait(1)
+click("ZIIIIIIIZ.png")
+wait(1)
+type("qqqqqqq")

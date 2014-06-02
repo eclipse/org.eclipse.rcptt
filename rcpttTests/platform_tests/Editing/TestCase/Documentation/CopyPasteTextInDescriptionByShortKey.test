@@ -1,0 +1,84 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: CopyPasteTextInDescriptionByShortKey
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Izln8E4VEeGrd_uXGtcVjg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestCase, Description
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Open test case, enter text in Description
+2. Open the second test case
+3. Copy text (by Ctrl+C for windows) from first test case and paste (by Ctrl+V for windows) it to the second test
+4. Make sure that text is copied
+5. Repeat these actions for tag in the test
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "p2/scenario2" | double-click
+with [get-editor scenario2 | get-section Description] {
+    click
+    with [get-editbox] {
+        set-text "new text description"
+        key-type "M1+s"
+    }
+}
+get-view "Q7 Explorer" | get-tree | select "p1/scenario1" | double-click
+get-editor scenario1 | get-section Description | click
+with [get-editor scenario2] {
+    click
+    with [get-section Description | get-editbox] {
+        key-type "M1+a"
+        key-type "M1+c"
+    }
+}
+with [get-editor scenario1] {
+    click
+    get-section Description | get-editbox | key-type "M1+v"
+}
+get-editor scenario1 | get-section Description | get-editbox | get-property text | equals "new text description" | verify-true
+with [get-editor scenario2] {
+    click
+    with [get-editbox -after [get-label "Tags:"]] {
+        set-text "test_tag"
+        key-type "M1+s"
+        key-type "M1+a"
+        key-type "M1+c"
+    }
+}
+with [get-editor scenario1] {
+    click
+    with [get-editbox -after [get-label "Tags:"]] {
+        key-type "M1+v"
+        key-type "M1+s"
+    }
+}
+get-editor scenario1 | get-editbox -after [get-label "Tags:"] | get-property text | equals "test_tag" | verify-true
+get-editor scenario2 | click
+with [get-editor scenario2] {
+    get-editbox -after [get-label "Tags:"] | get-property text | equals "test_tag" | verify-true
+    get-section Description | get-editbox | get-property text | equals "new text description" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

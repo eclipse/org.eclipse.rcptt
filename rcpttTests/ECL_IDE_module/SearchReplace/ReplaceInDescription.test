@@ -1,0 +1,76 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_bD7OYe5zEeCWFp5-_cxtIw
+Element-Name: ReplaceInDescription
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ZH6jgO8JEeCWFp5-_cxtIw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: SearchReplace, Description
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open Q7Search dialog;
+2. Select "Description";
+3. Enter containing text, press "Replace" button;
+4. Enter replacing text, press "OK";
+4. Make sure that replacement was performed in description;
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-button Search | click -arrow
+get-menu "1 Q7 Search" | click
+with [get-window Search] {
+    get-group "Search in" | get-button Description | click
+    get-combo -after [get-label "Containing text:"] | set-text key
+    get-button "Replace..." | click
+    with [get-window "Replace Text Matches"] {
+        get-editbox -after [get-label "With:"] | set-text KEY
+        get-button OK | click
+        //close
+    }
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project1/TestCase1" | double-click -nowait
+get-editor TestCase1 | get-section Description | click -nowait
+get-editor TestCase1 | get-section Description | get-editbox | get-property value | equals "description_KEY" 
+    | verify-true
+    get-editor TestCase1 | close    
+get-view "Q7 Explorer" | get-tree | select "Q7Project1/TestCase2" | double-click -nowait
+get-editor TestCase2 | get-section Description | click -nowait
+get-editor TestCase2 | get-section Description | get-editbox | get-property value | equals "description_KEY" 
+    | verify-true
+get-editor TestCase2 | close    
+get-view "Q7 Explorer" | get-tree | select "Q7Project2/Folder/TestCase1" | double-click -nowait
+with [get-editor TestCase1 | get-section Description] {
+   
+    click -nowait
+}
+
+get-editor TestCase1 | get-section Description | get-editbox | get-property value | equals "description_KEY" 
+    | verify-true
+    get-editor TestCase1 | close    
+get-view "Q7 Explorer" | get-tree | select "Q7Project2/Folder/TestCase2" | double-click -nowait
+get-editor TestCase2 | get-section Description | click -nowait
+get-editor TestCase2 | get-section Description | get-editbox | get-property value | equals "description_KEY" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

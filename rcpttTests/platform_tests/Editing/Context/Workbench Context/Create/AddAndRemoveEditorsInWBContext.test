@@ -1,0 +1,82 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_94O7wOfZEeCButSfkA0tsQ
+Element-Name: AddAndRemoveEditorsInWBContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _i8TOUM8CEeCw4ppgsBRMGg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkbenchContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open Workbench context with editor
+2. Apply this context
+3. Make sure that context is applyed and editor is opened
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_template" | double-click -nowait
+get-editor "WB_template" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
+get-editor "WB_test" | get-section Editors | get-button "Add..." | click
+with [get-window "Select file path" | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "WS_template" | get-property caption | equals "WS_template" | verify-true
+}
+with [get-window "Select file path"] {
+    get-tree | select "WS_template/project1/text.txt"
+    get-button OK | click
+}
+get-editor "WB_test" | get-section Editors | get-table | get-property itemCount | equals 1 | verify-true
+get-editor "WB_test" | get-section Editors | get-button "Add..." | click
+with [get-window "Select file path"] {
+    get-tree | select "WS_template/project1/folder1/childtext.txt"
+    get-button OK | click
+}
+get-editor "WB_test" | get-section Editors | get-table | get-property itemCount | equals 2 | verify-true
+with [get-editor "WB_test"] {
+    get-editbox -after [get-label "Name:"] | key-type "M1+s"
+    with [get-section Editors] {
+        get-table | select "project1\\/text.txt"
+        get-button Remove | click
+    }
+}
+with [get-editor "WB_test" | get-section Editors | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "project1\\/folder1\\/childtext.txt" | get-property caption | equals "project1/folder1/childtext.txt" 
+        | verify-true
+}
+get-editor "WB_test" | get-editbox -after [get-label "Name:"] | key-type "M1+s"
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WS_template" | double-click -nowait
+get-editor "WS_template" | get-button Apply | click
+with [get-editor "WB_test"] {
+    click -nowait
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_check" | double-click -nowait
+get-editor "WB_check" | get-button Capture | click
+with [get-editor "WB_check" | get-section Editors | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "project1\\/folder1\\/childtext.txt" | get-property caption | equals "project1/folder1/childtext.txt" 
+        | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

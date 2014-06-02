@@ -1,0 +1,79 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Element-Name: QS-2815
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _wu2jEQQIEeOYptJRWjVjGw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// eq
+str 42 | eq 42 | assert-true
+eq [float 1] [long 1] | assert-true
+
+// basic arithmetics
+try {
+	div 1 0 
+	bool false | assert-true "division by zero went successful"
+} -catch {}
+
+plus 2 2 | eq 4 | assert-true "2 + 2 != 4"
+long 2 | plus [long 2] | eq [long 4] | assert-true "2 + 2 != 4"
+float 2 | plus [float 2] | eq [float 4] | assert-true "2 + 2 != 4"
+
+minus 2 2 | eq 0 | assert-true "2 - 2 != 0"
+mult 2 2 | eq 4 | assert-true "2 * 2 != 4"
+div 2 2 | eq 1 | assert-true "2 / 2 != 1"
+
+minus 0 4 | abs | eq 4 | assert-true "abs(-4) != 4"
+float "-1.0" | abs | eq [float 1] | assert-true "abs(-1f) != 1f"
+
+float "0.0001" | lt 1 | assert-true " 0.0001 >= 1"
+
+int 5 | between 1 10 | assert-true "5 is not between 1 and 10"
+int 5 | between 6 10 | not | assert-true "5 is between 6 and 10"
+
+float inf | gt [long 100500] | assert-true "infinity < 100500"
+// type checking
+int 1 | plus 2 | invoke getClass | invoke getSimpleName | eq Integer | assert-true "int + int != int"
+long 1 | plus 2 | invoke getClass | invoke getSimpleName | eq Long | assert-true "long + int != long"
+int 1 | plus [long 2] | invoke getClass | invoke getSimpleName | eq Long | assert-true "int + long != long"
+long 1 | plus [long 2] | invoke getClass | invoke getSimpleName | eq Long | assert-true "long + long != long"
+float 1 | plus 2 | invoke getClass | invoke getSimpleName | eq Float | assert-true "float + int != float"
+float 1 | plus [long 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "float + long != float"
+int 1 | plus [float 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "int + float != float"
+long 1 | plus [float 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "long + float != float"
+float 1 | plus [float 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "float + float != float"
+
+str 1 | plus 2 | invoke getClass | invoke getSimpleName | eq Long | assert-true "str + int != long"
+str 1 | plus [long 2] | invoke getClass | invoke getSimpleName | eq Long | assert-true "str + long != long"
+str 1 | plus [float 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "str + float != float"
+
+int 1 | plus [str 2] | invoke getClass | invoke getSimpleName | eq Long | assert-true "int + str != long"
+long 1 | plus [str 2] | invoke getClass | invoke getSimpleName | eq Long | assert-true "long + str != long"
+float 1 | plus [str 2] | invoke getClass | invoke getSimpleName | eq Float | assert-true "float + str != float"
+
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

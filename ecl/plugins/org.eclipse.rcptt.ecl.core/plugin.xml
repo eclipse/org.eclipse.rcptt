@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.3 2011/02/16 06:55:52 alena Exp $
+-->
+
+<plugin>
+   <extension-point id="scriptlet" name="%scriptlet" schema="schema/scriptlet.exsd"/>
+   <extension-point id="param_converter" name="Param Converter" schema="schema/param_converter.exsd"/>
+   <extension-point id="emfConverters" name="EMF Converters" schema="schema/emfConverters.exsd"/>
+   <extension-point id="listenSource" name="Listen Source" schema="schema/listenSource.exsd"/>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/ecl/core.ecore"
+            class="org.eclipse.rcptt.ecl.core.CorePackage"
+            genModel="model/ecl.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.SequenceService"
+            name="Sequence"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.ParallelService"
+            name="Parallel"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>         
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.PipelineService"
+            name="Pipeline"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.ExecService"
+            name="Exec"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.ForeachService"
+            namespace="http://www.eclipse.org/ecl/core.ecore"
+            name="Foreach">
+      </scriptlet>     
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.WithService"
+            name="With"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.IfService"
+            name="If"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.ListenService"
+            name="Listen"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.LetService"
+            name="Let"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.GetValService"
+            name="GetVal"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.ValService"
+            name="Val"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.ProcService"
+            name="Proc"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.ProcInstanceService"
+            name="ProcInstance"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.GlobalService"
+            name="Global"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.SaveStateService"
+            name="SaveState"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.core.RestoreStateService"
+            name="RestoreState"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+   </extension>   
+   <extension
+         point="org.eclipse.rcptt.ecl.core.param_converter">
+      <converter
+            class="org.eclipse.rcptt.ecl.internal.core.ObjectParamConverter">
+      </converter>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.emfConverters">
+      <serializer
+            class="org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter">
+      </serializer>
+   </extension>
+</plugin>

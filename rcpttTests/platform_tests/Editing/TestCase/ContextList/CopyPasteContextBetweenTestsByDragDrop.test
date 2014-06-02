@@ -1,0 +1,76 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_BIzmMMyzEeCKjp0mPLHiEg
+Element-Name: CopyPasteContextBetweenTestsByDragDrop
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1722
+Id: _F-MesEshEeGa1LZu9UJdCw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestCase, Context, CopyPaste
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Open test case
+2. Open second test case
+3. Copy/Paste contexts by Drag and Drop between test cases
+4. Make sure that contexts are copied 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project/test1" | double-click
+    select "Q7Project/test with contexts" | double-click
+}
+get-editor test1 | click
+get-editor "test with contexts" | get-section Contexts | click
+get-editor test1 | get-section Contexts | click
+with [get-editor "test with contexts" | get-section Contexts | get-table] {
+    select "ecl-script \\(Q7Project\\)"
+    get-item "ecl-script \\(Q7Project\\)" | drag-start 11 11
+    drag-enter 14 91 -detail 2 -operation 2
+    drag-over 14 91 -detail 2 -operation 2
+    drag-exit
+}
+with [get-editor test1 | get-section Contexts | get-table] {
+    drag-enter 538 100 -detail 2 -operation 2
+    drag-over 408 101 -detail 2 -operation 2
+    drag-exit
+    drag-accept 408 101 -detail 2 -operation 2
+}
+get-editor "test with contexts" | get-section Contexts | get-table | drag-set-data
+get-editor test1 | get-section Contexts | get-table | drop 408 101 -detail 2 -operation 2
+get-editor "test with contexts" | get-section Contexts | get-table | drag-end -detail 2
+get-editor test1 | get-editbox -after [get-label "Name:"] | key-type "M1+s"
+with [get-editor test1 | get-section Contexts | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "context1 \\(Q7Project\\)" | get-property caption | equals "context1 (Q7Project)" | verify-true
+    get-item "ecl-script \\(Q7Project\\)" | get-property caption | equals "ecl-script (Q7Project)" | verify-true
+}
+with [get-editor "test with contexts" | get-section Contexts | get-table] {
+    get-property itemCount | equals 5 | verify-true
+    get-item "context2 \\(Q7Project\\)" | get-property caption | equals "context2 (Q7Project)" | verify-true
+    get-item "group \\(Q7Project\\)" | get-property caption | equals "group (Q7Project)" | verify-true
+    get-item "contextWS \\(Q7Project\\)" | get-property caption | equals "contextWS (Q7Project)" | verify-true
+    get-item "contextWB \\(Q7Project\\)" | get-property caption | equals "contextWB (Q7Project)" | verify-true
+    get-item "ecl-script \\(Q7Project\\)" | get-property caption | equals "ecl-script (Q7Project)" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

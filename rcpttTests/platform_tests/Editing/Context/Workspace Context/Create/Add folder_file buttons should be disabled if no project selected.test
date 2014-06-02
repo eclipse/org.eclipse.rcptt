@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: Add folder/file buttons should be disabled if no project selected
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: __VfqACFrEeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open empty workspace context;
+2. Make sure that Add Folder, Import Files, Open File, Remove buttons are disabled and Add Project, Import Project buttons are enabled;
+3. Add project to a context;
+4. Make sure that Add folder, Import Files, Remove buttons became enabled. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+with [get-editor ClearWorkspace | get-section Workspace] {
+    with [get-button "Create Empty Project"] {
+        get-property enablement | equals true | verify-true
+        
+    }
+    with [get-button "Create Empty Folder"] {
+        get-property enablement | equals false | verify-true
+        
+    }
+    with [get-button "Import Projects..."] {
+        get-property enablement | equals true | verify-true
+        
+    }
+    with [get-button "Import Files..."] {
+        get-property enablement | equals false | verify-true
+       
+    }
+    with [get-button "Open File"] {
+        get-property enablement | equals false | verify-true
+        
+    }
+    with [get-button Remove] {
+        get-property enablement | equals false | verify-true
+       
+    }
+}
+with [get-editor ClearWorkspace | get-section Workspace] {
+    get-button "Create Empty Project" | click
+    with [get-tree] {
+        select project1 | activate-cell-edit
+        apply-cell-edit
+    }
+}
+with [get-editor ClearWorkspace | get-section Workspace] {
+    with [get-button "Create Empty Project"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Create Empty Project" | verify-true
+    }
+    get-button "Create Empty Folder" | get-property enablement | equals true | verify-true
+    get-button "Import Projects..." | get-property enablement | equals true | verify-true
+    get-button "Import Files..." | get-property enablement | equals true | verify-true
+    get-button "Open File" | get-property enablement | equals false | verify-true
+    get-button Remove | get-property enablement | equals true | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

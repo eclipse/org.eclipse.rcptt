@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.eclipse.rcptt.preferences.PreferencesPackage"
+            genModel="models/preferences.genmodel"
+            uri="http://eclipse.org/rcptt/ctx/preferences">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.contextTypes">
+      <contextType
+            description="Preferences Context"
+            eclass="PreferencesContext"
+            epackage-uri="http://eclipse.org/rcptt/ctx/preferences"
+            id="org.eclipse.rcptt.ctx.preferences"
+            name="Preferences"
+            canCreate="true"
+            priority="50">
+      </contextType>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.contextMaker">
+      <maker
+            class="org.eclipse.rcptt.internal.preferences.PreferencesContextMaker"
+            type="org.eclipse.rcptt.ctx.preferences">
+      </maker>
+   </extension>
+ </plugin>

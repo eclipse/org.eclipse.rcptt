@@ -1,0 +1,36 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: SetupAUTContext
+Element-Type: context
+Element-Version: 2.0
+Id: _ZQYygK2sEeCqBbDEJWufvQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+invoke-AUT selfQ7 "-licenseUrl http://192.168.2.64:9999"
+		"-Xmx512m -XX:MaxPermSize=256m"
+get-aut selfQ7 | eval {
+	clean-self-AUT
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

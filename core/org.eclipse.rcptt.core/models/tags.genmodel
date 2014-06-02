@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.core/gen-src"
+    modelPluginID="org.eclipse.rcptt.core" modelName="Tags" modelPluginClass="" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario">
+  <foreignModel>tags.ecore</foreignModel>
+  <genPackages prefix="Tags" basePackage="org.eclipse.rcptt.core" disposableProviderFactory="true"
+      interfacePackageSuffix="" ecorePackage="tags.ecore#/">
+    <genClasses ecoreClass="tags.ecore#//Tag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tags.ecore#//Tag/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference tags.ecore#//Tag/refs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tags.ecore#//Tag/tags"/>
+      <genOperations ecoreOperation="tags.ecore#//Tag/getPath"/>
+    </genClasses>
+    <genClasses ecoreClass="tags.ecore#//TagsRegistry">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tags.ecore#//TagsRegistry/tags"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

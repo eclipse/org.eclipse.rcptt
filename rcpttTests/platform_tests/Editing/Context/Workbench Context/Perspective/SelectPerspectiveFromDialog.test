@@ -1,0 +1,99 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_94O7wOfZEeCButSfkA0tsQ
+Element-Name: SelectPerspectiveFromDialog
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _48D0QOirEeCButSfkA0tsQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT,Context, WorkbenchContext, Perspective
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open WB context
+2. Press "Browse..." button
+3. Select perspective from dialog window
+4. Make sure that "Reset perspective" check-box is set
+5. Apply this context
+6. Make sure that correct perspective is applyed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
+get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
+get-window "Select a perspective" | get-table | select "CVS Repository Exploring"
+with [get-window "Select a perspective"] {
+    get-table | select Q7
+    get-button Cancel | click
+}
+with [get-editor "WB_test" | get-section Workbench] {
+    get-editbox -after [get-label "Perspective id:"] | get-property value | equals "" | verify-true
+    with [get-button "Reset perspective"] {
+        get-property enablement | equals false | verify-true
+        get-property caption | equals "Reset perspective" | verify-true
+        get-property selected | equals false | verify-true
+    }
+}
+get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
+with [get-window "Select a perspective"] {
+    get-table | select Q7
+    get-button OK | click
+}
+with [get-editor "WB_test" | get-section Workbench] {
+    get-editbox -after [get-label "Perspective id:"] | get-property value | equals "com.xored.q7.ui.perspective" 
+        | verify-true
+    with [get-button "Reset perspective"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Reset perspective" | verify-true
+        get-property selected | equals false | verify-true
+    }
+}
+get-editor "WB_test" | get-section Workbench | get-button "Reset perspective" | click
+get-editor "WB_test" | get-section Views | get-table | get-property itemCount | equals 0 | verify-true
+with [get-editor "WB_test"] {
+    get-section Workbench | get-editbox -after [get-label "Perspective id:"] | key-type "M1+s"
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_check" | double-click -nowait
+get-editor "WB_check" | get-button Capture | click
+with [get-editor "WB_check"] {
+    with [get-section Workbench] {
+        get-editbox -after [get-label "Perspective id:"] | get-property value | equals "com.xored.q7.ui.perspective" 
+            | verify-true
+        with [get-button "Reset perspective"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Reset perspective" | verify-true
+            get-property selected | equals true | verify-true
+        }
+    }
+    with [get-section Views | get-table] {
+        get-property itemCount | equals 5 | verify-true
+         get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
+        | verify-true
+    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+        | verify-true
+    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

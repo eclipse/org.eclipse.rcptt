@@ -1,0 +1,90 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: Undo/Redo in ScriptViewer
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _O6vCYSnkEeG5j4IHaNDqCg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase, UndoRedo
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Pre-conditions:
+Project with test-case
+Test was recorded on Window
+
+Test steps:
+1. Enter text in Script Viewer
+2. Press "Ctrl+z" 
+3. Make sure that change is canceled
+4. Press "Ctrl+y"
+5. Make sure that change is redo
+6. Save all changes
+7. Repeat steps 1-5 for context menu and main menu
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
+with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
+    set-text-offset 83 0
+    key-type Enter
+    type-text "get-item"
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "get-item" | verify-true
+with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
+    set-text-offset 8 1
+    key-type "M1+z"
+    set-text-offset 83 0
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true" | verify-true
+with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
+    set-text-offset 16 0
+    key-type [get-by-os -default "M1+y" -macosx "M1+M2+z"]
+    set-text-offset 2 0
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "get-item" | verify-true
+with [get-editor WorkspaceIsEmpty] {
+	// TODO: Save will trigger replace of all delimiters in document into '\n' format.
+	// So undo stack is became one command more.
+    //get-editbox -after [get-label "Name:"] | key-type "M1+s"
+    with [get-section Script | get-editbox] {
+        set-text-offset 8 1
+        key-type Enter
+        type-text "get-tree"
+    }
+}
+get-menu "Edit/Undo" | click
+get-menu "Edit/Undo" | click
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n" | verify-true
+get-menu "Edit/Redo" | click
+get-menu "Edit/Redo" | click
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "get-item\n"
+    + "get-tree" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

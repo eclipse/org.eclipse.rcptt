@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Preferences Context UI
+Bundle-SymbolicName: org.eclipse.rcptt.ctx.preferences.ui;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.ctx.preferences.ui.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.ctx.preferences;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.core;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.core.scenario;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.ui;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.ui.forms,
+ org.eclipse.emf.common.ui,
+ org.eclipse.core.resources,
+ org.eclipse.rcptt.ctx.resources;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.ui.views,
+ org.eclipse.emf.databinding,
+ org.eclipse.jface.databinding,
+ org.eclipse.rcptt.launching;bundle-version="1.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

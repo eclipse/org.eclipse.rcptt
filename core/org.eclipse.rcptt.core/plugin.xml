@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+ <extension-point id="contextTypes" name="Context Types" schema="schema/contextTypes.exsd"/>
+ <extension-point id="verificationTypes" name="Verification Types" schema="schema/verificationTypes.exsd"/>
+ <extension-point id="contextProcessors" name="contextProcessors" schema="schema/contextProcessors.exsd"/>
+ <extension-point id="verificationProcessors" name="verificationProcessors" schema="schema/verificationProcessors.exsd"/>
+ <extension-point id="versionManager" name="versionManager" schema="schema/versionManager.exsd"/>
+ <extension-point id="contextMaker" name="contextMaker" schema="schema/contextMaker.exsd"/>
+ <extension-point id="verificationMaker" name="verificationMaker" schema="schema/verificationMaker.exsd"/>
+ <extension-point id="q7Extension" name="q7Extension" schema="schema/q7Extension.exsd"/>
+ <extension-point id="persistence" name="persistence" schema="schema/persistence.exsd"/>
+ <extension-point id="modules" name="Q7 Modules" schema="schema/modules.exsd"/>
+ <extension-point id="indexer" name="indexer" schema="schema/indexer.exsd"/>
+	<extension id="rcpttnature" name="RCP Testing Tool Nature" point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run class="org.eclipse.rcptt.core.nature.RcpttNature"/>
+		</runtime>
+	</extension>
+ <extension
+       point="org.eclipse.rcptt.core.versionManager">
+    <manager
+          class="org.eclipse.rcptt.core.versioning.updaters.TeslaElementUpdater"
+          id="org.eclipse.rcptt.tesla.element.updater"></manager>
+ </extension>
+ <extension
+       point="org.eclipse.core.runtime.adapters">
+    <factory
+          adaptableType="org.eclipse.rcptt.core.scenario.NamedElement"
+          class="org.eclipse.rcptt.internal.core.NamedElementAdapterFactory">
+       <adapter
+             type="org.eclipse.core.resources.IResource">
+       </adapter>
+       <adapter
+             type="org.eclipse.core.resources.mapping.ResourceMapping">
+       </adapter>
+    </factory>
+ </extension>
+ <extension
+       point="org.eclipse.rcptt.core.persistence">
+    <persistence
+          class="org.eclipse.rcptt.core.persistence.emf.PersistenceEMFModelFactory"
+          id="emf model"
+          priority="0">
+    </persistence>
+    <persistence
+          class="org.eclipse.rcptt.core.persistence.zip.PersistenceZipModelFactory"
+          id="zip model"
+          priority="10">
+    </persistence>
+    <persistence
+          class="org.eclipse.rcptt.core.persistence.plain.PlainTextPersistenceModelFactory"
+          id="plain model"
+          priority="100">
+    </persistence>
+ </extension>
+</plugin>

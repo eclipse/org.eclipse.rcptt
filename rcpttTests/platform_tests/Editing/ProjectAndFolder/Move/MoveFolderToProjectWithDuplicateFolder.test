@@ -1,0 +1,80 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_2sU5gOTKEeCcjPHJdTVGPA
+Element-Name: MoveFolderToProjectWithDuplicateFolder
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1104
+Id: ____6sNH6EeCvZZdPZOPlnw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Project, Move
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "TestQ7Prj2/context1" "TestQ7Prj2/context2" "TestQ7Prj2/test1"
+    get-menu "Move..." | click
+}
+with [get-window "Move Resources"] {
+    get-tree | select "TestQ7Prj2/Folder"
+    get-button OK | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    select "TestQ7Prj/context1" "TestQ7Prj/test1" "TestQ7Prj/test2"
+    get-menu "Move..." | click
+}
+with [get-window "Move Resources"] {
+    get-tree | select "TestQ7Prj/Folder"
+    get-button OK | click
+}
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj2/Folder" | get-menu "Move..." | click
+with [get-window "Move Resources"] {
+    get-tree | select TestQ7Prj
+    get-button OK | click
+}
+get-window "Move Resources" | get-window "Move Resources" | get-table 
+    | get-item "\'TestQ7Prj\\/Folder\' already exist. It will be replaced." | get-property caption 
+    | equals "\'TestQ7Prj/Folder\' already exist. It will be replaced." | verify-true
+get-window "Move Resources" | get-window "Move Resources" | get-button Continue | click
+with [get-view "Q7 Explorer" | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    verify-error { get-item "TestQ7Prj2/Folder" }
+	get-item "TestQ7Prj/Folder" | get-property caption | equals Folder | verify-true
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "TestQ7Prj/Folder" | get-property caption | equals Folder | verify-true
+    get-item "TestQ7Prj/Folder" | get-property childCount | equals 3 | verify-true
+    get-item "TestQ7Prj/Folder/context1" | get-property caption | equals context1 | verify-true
+    get-item "TestQ7Prj/Folder/context2" | get-property caption | equals context2 | verify-true
+    get-item "TestQ7Prj/Folder/test1" | get-property caption | equals test1 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/Folder/context1" | double-click
+get-editor context1 | get-section Description | click
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/Folder/test1" | double-click
+get-editor test1 | get-section Description | click
+get-editor context1 | click
+get-editor context1 | get-section Description | get-editbox | get-property value | equals "context from TestQ7Prj2" 
+    | verify-true
+get-editor test1 | click
+get-editor test1 | get-section Description | get-editbox | get-property value | equals "test from TestQ7Prj2" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

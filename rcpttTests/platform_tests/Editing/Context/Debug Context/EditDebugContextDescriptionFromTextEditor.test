@@ -1,0 +1,66 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_IeEQkPSUEeCE1L2j6bYoFw
+Element-Name: EditDebugContextDescriptionFromTextEditor
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _jnMlgPVOEeCsI4NSS6tu2Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, DebugContext, Description
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open debug context in a text editor;
+2. Open the same context in a context editor;
+3. Change description in a text editor and save it;
+4. Verify that description was changed in context editor;
+5. Repeat vice-versa: change description in a context editor, verify it has been changed in a text editor.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/DebugContext" | double-click -nowait
+with [get-editor DebugContext | get-section Description] {
+    click -nowait
+    with [get-editbox] {
+        set-text qqq
+        key-type "M1+s"
+    }
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/DebugContext" | get-menu "Open With/Text Editor" | click
+with [get-editor "DebugContext.ctx" | get-editbox] {
+    set-text-offset 4 17
+    key-type "NUMPAD_2" 2
+    key-type "M1+s"
+}
+with [get-editor DebugContext] {
+    click -nowait
+    get-section Description | click -nowait
+}
+get-editor DebugContext | get-section Description | get-editbox | get-property value | equals qqq2 | verify-true
+with [get-editor DebugContext | get-section Description | get-editbox] {
+    set-text qqq23
+    key-type "M1+s"
+}
+get-editor "DebugContext.ctx" | click -nowait
+get-editor "DebugContext.ctx" | get-editbox | get-property value | contains qqq23 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

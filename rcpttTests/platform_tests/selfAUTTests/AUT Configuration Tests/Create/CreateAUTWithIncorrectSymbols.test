@@ -1,0 +1,78 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA
+Element-Name: CreateAUTWithIncorrectSymbols
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-2387
+Id: _-HBsgH8eEeKrzrvSGduM2A
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: AUTConfiguration, selfAUT, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Create new AUT with incorrect symbols (\, /, :, *, ?, ", <, >, |)
+2. Make sure that AUT is not created and informative message is displayed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view Applications | get-button "New..." | click
+get-window "New Application Under Test" | get-editbox -after [get-label "Location:"] | 
+	set-text [substitute-variables "${eclipse_home}"]
+
+//\\/:*?\"<>|
+emit {
+   set-param symbol "\\"
+   set-param message "Symbol \"\\\" is not acceptable in AUT name."
+} {
+   set-param symbol "/"
+   set-param message "Symbol \"/\" is not acceptable in AUT name."
+} {
+   set-param symbol ":"
+   set-param message "Symbol \":\" is not acceptable in AUT name."
+} {
+   set-param symbol "*"
+   set-param message "Symbol \"*\" is not acceptable in AUT name."
+} {
+   set-param symbol "?"
+   set-param message "Symbol \"?\" is not acceptable in AUT name."
+} {
+   set-param symbol "\""
+   set-param message "Symbol \"\"\" is not acceptable in AUT name."
+} {
+   set-param symbol "<"
+   set-param message "Symbol \"<\" is not acceptable in AUT name."
+} {
+   set-param symbol ">"
+   set-param message "Symbol \">\" is not acceptable in AUT name."
+} {
+   set-param symbol "|"
+   set-param message "Symbol \"|\" is not acceptable in AUT name."
+} | repeat-with {
+	with [get-window "New Application Under Test"] {
+    	get-editbox -after [get-label "Name:"] | set-text [get-param symbol]
+    	get-editbox -after [get-label "New Application Under Test"] | get-property text | equals [get-param message] | verify-true
+    	get-button Finish | get-property enablement | equals false | verify-true
+	}
+}
+get-window "New Application Under Test" | get-button Cancel | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

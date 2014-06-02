@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.launching.injection/gen-src"
+    modelPluginID="org.eclipse.rcptt.launching.injection" modelName="Q7Injection" importerID="org.eclipse.emf.importer.java"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.4">
+  <foreignModel>@model</foreignModel>
+  <genPackages prefix="Injection" basePackage="org.eclipse.rcptt.launching" disposableProviderFactory="true"
+      ecorePackage="injection.ecore#/">
+    <genClasses ecoreClass="injection.ecore#//InjectionConfiguration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference injection.ecore#//InjectionConfiguration/entries"/>
+    </genClasses>
+    <genClasses ecoreClass="injection.ecore#//UpdateSite">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute injection.ecore#//UpdateSite/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute injection.ecore#//UpdateSite/units"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute injection.ecore#//UpdateSite/allUnits"/>
+    </genClasses>
+    <genClasses ecoreClass="injection.ecore#//Entry"/>
+    <genClasses ecoreClass="injection.ecore#//Directory">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute injection.ecore#//Directory/path"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

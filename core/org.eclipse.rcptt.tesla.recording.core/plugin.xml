@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="recorder" name="recorder" schema="schema/recorder.exsd"/>
+   <extension
+         point="org.eclipse.rcptt.tesla.core.networkProcessor">
+      <provider
+            class="org.eclipse.rcptt.tesla.recording.core.internal.TeslaRecordingNetworkClientProcessor">
+      </provider>
+   </extension>
+
+</plugin>

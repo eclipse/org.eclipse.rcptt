@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ctx.debug/gen-src"
+    modelPluginID="org.eclipse.rcptt.ctx.debug" modelName="Debug" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario">
+  <foreignModel>debug.ecore</foreignModel>
+  <genPackages prefix="Debug" basePackage="org.eclipse.rcptt" disposableProviderFactory="true"
+      ecorePackage="debug.ecore#/">
+    <genClasses ecoreClass="debug.ecore#//DebugContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//DebugContext/noLaunches"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//DebugContext/noBreakpoints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//DebugContext/noLaunchShortcuts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//DebugContext/launchShortcutExceptions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//DebugContext/launchExceptions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//DebugContext/breakpointResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference debug.ecore#//DebugContext/launches"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//DebugContext/launchTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//LaunchConfiguration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//LaunchConfiguration/attributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//LaunchConfiguration/typeId"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//MapValue"/>
+    <genClasses ecoreClass="debug.ecore#//ListValue"/>
+    <genClasses ecoreClass="debug.ecore#//SetValue"/>
+    <genClasses ecoreClass="debug.ecore#//LaunchType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//LaunchType/image"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//LaunchType/configurations"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//Breakpoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Breakpoint/enabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Breakpoint/registered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Breakpoint/persisted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Breakpoint/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//Breakpoint/attributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Breakpoint/workingSets"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//Launch">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//Launch/configurationDelta"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Launch/mode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference debug.ecore#//Launch/configuration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//Launch/configurationName"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//BreakpointResource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute debug.ecore#//BreakpointResource/path"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//BreakpointResource/breakpoints"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//Collection">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//Collection/entries"/>
+    </genClasses>
+    <genClasses ecoreClass="debug.ecore#//PrimitiveValue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference debug.ecore#//PrimitiveValue/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

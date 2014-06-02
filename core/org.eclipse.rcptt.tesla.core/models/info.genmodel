@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src"
+    modelPluginID="org.eclipse.rcptt.tesla.core" modelName="Info" importerID="org.eclipse.emf.importer.java"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5">
+  <foreignModel>@model</foreignModel>
+  <genPackages prefix="Info" basePackage="org.eclipse.rcptt.tesla.core" disposableProviderFactory="true"
+      ecorePackage="info.ecore#/">
+    <genClasses ecoreClass="info.ecore#//AdvancedInformation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//AdvancedInformation/threads"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//AdvancedInformation/jobs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//AdvancedInformation/message"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//AdvancedInformation/nodes"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//StackTraceEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//StackTraceEntry/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//StackTraceEntry/stackTrace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//StackTraceEntry/threadName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//StackTraceEntry/threadClass"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//JobEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/jobClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/state"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/rule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//JobEntry/ruleClass"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//InfoNode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//InfoNode/children"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//InfoNode/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//InfoNode/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//NodeProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//NodeProperty/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//NodeProperty/value"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//Q7WaitInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/startTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/endTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/lastTick"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/classId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/typeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfo/ticks"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//Q7WaitInfoRoot">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference info.ecore#//Q7WaitInfoRoot/infos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoRoot/startTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoRoot/tick"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoRoot/classNames"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoRoot/typesNames"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference info.ecore#//Q7WaitInfoRoot/innerClassMap"/>
+    </genClasses>
+    <genClasses ecoreClass="info.ecore#//Q7WaitInfoInnerClassMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoInnerClassMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute info.ecore#//Q7WaitInfoInnerClassMap/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

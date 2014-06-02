@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.eclipse.rcptt.ecl.perf.PerfPackage"
+            uri="http://www.eclipse.org/ecl/perf.ecore"
+            genModel="model/perf.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.perf.internal.commands.StartTimeMeasureService"
+            name="StartTimeMeasure"
+            namespace="http://www.eclipse.org/ecl/perf.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.perf.internal.commands.StopTimeMeasureService"
+            name="StopTimeMeasure"
+            namespace="http://www.eclipse.org/ecl/perf.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.perf.internal.commands.MeasureTimeService"
+            name="MeasureTime"
+            namespace="http://www.eclipse.org/ecl/perf.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.perf.internal.commands.ConstrainMaxService"
+            name="ConstrainMax"
+            namespace="http://www.eclipse.org/ecl/perf.ecore">
+      </scriptlet>
+      
+   </extension>
+
+</plugin>

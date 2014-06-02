@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ECL Platform
+Bundle-SymbolicName: org.eclipse.rcptt.ecl.platform;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.ecl.platform.util,
+ org.eclipse.rcptt.ecl.platform.commands,
+ org.eclipse.rcptt.ecl.platform.commands.impl,
+ org.eclipse.rcptt.ecl.platform.commands.util,
+ org.eclipse.rcptt.ecl.platform.objects,
+ org.eclipse.rcptt.ecl.platform.objects.impl,
+ org.eclipse.rcptt.ecl.platform.objects.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;bundle-version="1.1.0",
+ org.eclipse.equinox.p2.core;resolution:=optional,
+ org.eclipse.equinox.p2.repository;resolution:=optional,
+ org.eclipse.equinox.p2.metadata;resolution:=optional,
+ org.eclipse.equinox.p2.operations;resolution:=optional,
+ org.eclipse.equinox.p2.artifact.repository;resolution:=optional,
+ org.eclipse.equinox.p2.engine;resolution:=optional,
+ org.eclipse.equinox.p2.metadata.repository;resolution:=optional,
+ org.eclipse.equinox.p2.repository;resolution:=optional,
+ org.eclipse.equinox.frameworkadmin;resolution:=optional,
+ org.eclipse.debug.core;resolution:=optional,
+ org.eclipse.core.variables;resolution:=optional
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.ecl.platform.internal.PlatformPlugin
+Import-Package: org.eclipse.rcptt.ecl.platform.objects

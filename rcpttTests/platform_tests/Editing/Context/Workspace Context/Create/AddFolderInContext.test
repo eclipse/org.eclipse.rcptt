@@ -1,0 +1,111 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: AddFolderInContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _54CAQdHhEeCvZZdPZOPlnw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open empty workspace context
+2. Make sure that "Add project" button is enabled, "Add folder" button is disabled
+3. Add project
+4. Make sure that "Add project" and "Add folder" buttons are enabled
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "p2/context2" | double-click -nowait
+with [get-editor context2 | get-section Workspace] {
+    get-tree | get-property itemCount | equals 0 | verify-true
+    get-button "Create Empty Project" | get-property enablement | equals true | verify-true
+    get-button "Create Empty Folder" | get-property enablement | equals false | verify-true
+    get-button "Import Projects..." | get-property enablement | equals true | verify-true
+    get-button "Import Files..." | get-property enablement | equals false | verify-true
+    get-button "Open File" | get-property enablement | equals false | verify-true
+    get-button Remove | get-property enablement | equals false | verify-true
+}
+with [get-editor context2 | get-section Workspace] {
+    get-button "Create Empty Project" | click
+    with [get-tree] {
+        select project1 | activate-cell-edit
+        get-editbox | key-type CR
+        apply-cell-edit
+    }
+}
+with [get-editor context2 | get-section Workspace] {
+    get-tree | get-property itemCount | equals 1 | verify-true
+    get-button "Create Empty Project" | get-property enablement | equals true | verify-true
+    get-button "Create Empty Folder" | get-property enablement | equals true | verify-true
+    get-button "Import Projects..." | get-property enablement | equals true | verify-true
+    get-button "Import Files..." | get-property enablement | equals true | verify-true
+    get-button "Open File" | get-property enablement | equals false | verify-true
+    get-button Remove | get-property enablement | equals true | verify-true
+}
+with [get-editor context2 | get-section Workspace] {
+    get-button "Create Empty Folder" | click
+    with [get-tree] {
+        select "project1/folder1" | activate-cell-edit
+        apply-cell-edit
+    }
+    get-button "Create Empty Folder" | click
+    with [get-tree] {
+        select "project1/folder1/folder1" | activate-cell-edit
+        with [get-editbox] {
+            set-text test
+            key-type CR
+        }
+        apply-cell-edit
+    }
+}
+with [get-editor context2 | get-section Workspace | get-tree] {
+    get-item project1 | get-property childCount | equals 1 | verify-true
+    get-item "project1/folder1" | get-property caption | equals folder1 | verify-true
+    get-item "project1/folder1" | get-property childCount | equals 1 | verify-true
+    get-item "project1/folder1/test" | get-property caption | equals test | verify-true
+}
+
+with [get-editor context2 | get-section Workspace] {
+    get-tree | select project1
+    get-button "Create Empty Folder" | click
+    with [get-tree] {
+        select "project1/folder2" | activate-cell-edit
+        apply-cell-edit
+    }
+    get-button "Create Empty Folder" | click
+    with [get-tree] {
+        select "project1/folder2/folder1" | activate-cell-edit
+        apply-cell-edit
+    }
+}
+with [get-editor context2 | get-section Workspace | get-tree] {
+    get-item project1 | get-property caption | equals project1 | verify-true
+    get-item project1 | get-property childCount | equals 2 | verify-true
+    get-item "project1/folder1" | get-property caption | equals folder1 | verify-true
+    get-item "project1/folder1" | get-property childCount | equals 1 | verify-true
+    get-item "project1/folder2" | get-property caption | equals folder2 | verify-true
+    get-item "project1/folder2" | get-property childCount | equals 1 | verify-true
+    get-item "project1/folder2/folder1" | get-property caption | equals folder1 | verify-true
+    get-item "project1/folder2/folder1" | get-property childCount | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/ctx/filesystem"
+            class="org.eclipse.rcptt.filesystem.FilesystemPackage"
+            genModel="models/filesystem.genmodel"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.core.contextTypes">
+      <contextType
+            canCreate="false"
+            description="Folder Context"
+            eclass="FilesystemContext"
+            epackage-uri="http://eclipse.org/rcptt/ctx/filesystem"
+            id="org.eclipse.rcptt.ctx.filesystem"
+            name="Folder"
+            priority="50">
+      </contextType>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.core.contextMaker">
+      <maker
+            class="org.eclipse.rcptt.ctx.filesystem.FilesystemContextMaker"
+            type="org.eclipse.rcptt.ctx.filesystem">
+      </maker>
+   </extension>
+
+</plugin>

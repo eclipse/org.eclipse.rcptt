@@ -1,0 +1,96 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_hVKj4F0JEeGDGrudSYLu8w,_NXS_4F0MEeGDGrudSYLu8w
+Element-Name: MarkTaskAsCompleted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _cw0EYF0IEeGDGrudSYLu8w
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase, Task
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open test case
+2. Add two Tasks in test cases
+3. Set completed to task in "Tasks" view
+4. Set completed to task via context menu in "Tasks" view
+5. Choose "Delete Completed Tasks" in context menu of "Tasks" view
+6. Press "Cancel" button in "Delete Completed Tasks" window 
+7. Make sure that task is not deleted
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
+with [get-editor CreateJavaProject | get-section Script | get-left-ruler] {
+    with [get-ruler-column] {
+        click-ruler -line 6
+        click-ruler -line 6 -button Right
+    }
+    get-menu "Add Task..." | click
+}
+get-window Properties | get-button OK | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/TestFolder/WorkspaceIsEmpty" | double-click
+with [get-editor WorkspaceIsEmpty | get-section Script | get-left-ruler] {
+    get-ruler-column | click-ruler -line 1 -button Right
+    get-menu "Add Task..." | click
+}
+get-window Properties | get-button OK | click
+get-view Tasks | get-tree | get-property itemCount | equals 2 | verify-true
+get-view Tasks | get-tree | select [get-item "" -index 1] | get-menu "Mark Completed" | click
+with [get-view Tasks | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "" | get-property columns -index 0 | equals true | verify-true
+    get-item "" | get-property columns -index 1 | equals 1 | verify-true
+    get-item "" | get-property columns -index 2 | equals "// New verification should be added" | verify-true
+    get-item "" | get-property columns -index 3 | equals "WorkspaceIsEmpty.test" | verify-true
+    get-item "" | get-property columns -index 4 | equals "/MyProject/TestFolder" | verify-true
+    get-item "" | get-property columns -index 5 | equals "line 1" | verify-true
+    get-item "" | get-property columns -index 6 | equals Task | verify-true
+    get-item "" -index 1 | get-property columns -index 0 | equals false | verify-true
+    get-item "" -index 1 | get-property columns -index 1 | equals 1 | verify-true
+    get-item "" -index 1 | get-property columns -index 2 | equals "// FIXME : rewrite part of test case" | verify-true
+    get-item "" -index 1 | get-property columns -index 3 | equals "CreateJavaProject.test" | verify-true
+    get-item "" -index 1 | get-property columns -index 4 | equals "/MyProject" | verify-true
+    get-item "" -index 1 | get-property columns -index 5 | equals "line 6" | verify-true
+    get-item "" -index 1 | get-property columns -index 6 | equals Task | verify-true
+}
+get-view Tasks | get-tree | get-menu "Delete Completed Tasks" | click
+get-window "Delete Completed Tasks" | get-label "Do you want to permanently delete the completed task?" 
+    | get-property caption | equals "Do you want to permanently delete the completed task?" | verify-true
+get-window "Delete Completed Tasks" | get-button Cancel | click
+with [get-view Tasks | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "" | get-property columns -index 0 | equals true | verify-true
+    get-item "" | get-property columns -index 1 | equals 1 | verify-true
+    get-item "" | get-property columns -index 2 | equals "// New verification should be added" | verify-true
+    get-item "" | get-property columns -index 3 | equals "WorkspaceIsEmpty.test" | verify-true
+    get-item "" | get-property columns -index 4 | equals "/MyProject/TestFolder" | verify-true
+    get-item "" | get-property columns -index 5 | equals "line 1" | verify-true
+    get-item "" | get-property columns -index 6 | equals Task | verify-true
+    get-item "" -index 1 | get-property columns -index 0 | equals false | verify-true
+    get-item "" -index 1 | get-property columns -index 1 | equals 1 | verify-true
+    get-item "" -index 1 | get-property columns -index 2 | equals "// FIXME : rewrite part of test case" | verify-true
+    get-item "" -index 1 | get-property columns -index 3 | equals "CreateJavaProject.test" | verify-true
+    get-item "" -index 1 | get-property columns -index 4 | equals "/MyProject" | verify-true
+    get-item "" -index 1 | get-property columns -index 5 | equals "line 6" | verify-true
+    get-item "" -index 1 | get-property columns -index 6 | equals Task | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

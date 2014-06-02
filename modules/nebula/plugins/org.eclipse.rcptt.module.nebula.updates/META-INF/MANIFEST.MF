@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Nebula Widgets Module
+Bundle-SymbolicName: org.eclipse.rcptt.module.nebula.updates;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project

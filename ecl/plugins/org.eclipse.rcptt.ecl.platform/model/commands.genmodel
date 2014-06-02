@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.platform/gen-src"
+    modelPluginID="org.eclipse.rcptt.ecl.platform" modelName="Commands" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore objects.genmodel#//objects">
+  <foreignModel>commands.ecore</foreignModel>
+  <genPackages prefix="Commands" basePackage="org.eclipse.rcptt.ecl.platform" disposableProviderFactory="true"
+      ecorePackage="commands.ecore#/">
+    <genClasses ecoreClass="commands.ecore#//ListPlugins">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//ListPlugins/includeDependencies"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ListFeatures"/>
+    <genClasses ecoreClass="commands.ecore#//ListRepositories"/>
+    <genClasses ecoreClass="commands.ecore#//AddRepository">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//AddRepository/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//AddRepository/name"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//RemoveRepository">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//RemoveRepository/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//UpdateFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//UpdateFeature/id"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//UpdateAll"/>
+    <genClasses ecoreClass="commands.ecore#//SortBy">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SortBy/field"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ListInstallUnits"/>
+    <genClasses ecoreClass="commands.ecore#//GetLog">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetLog/levels"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetLog/limit"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//Log">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Log/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Log/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Log/plugin"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//Echo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Echo/str"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ClearLog"/>
+    <genClasses ecoreClass="commands.ecore#//ListLaunchConfigurations"/>
+    <genClasses ecoreClass="commands.ecore#//Launch">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Launch/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Launch/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

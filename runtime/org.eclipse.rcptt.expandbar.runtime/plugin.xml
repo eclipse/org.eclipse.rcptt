@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.core.recorder">
+      <recorder
+            class="org.eclipse.rcptt.expandbar.runtime.internal.ExpandBarRecordingProcessor">
+      </recorder>
+   </extension>
+   
+  <extension
+         point="org.eclipse.rcptt.tesla.core.processor">
+      <provider
+            class="org.eclipse.rcptt.expandbar.runtime.internal.ExpandBarUIProcessor">
+      </provider>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.swt.describerExtensions">
+      <describerExtension
+            class="org.eclipse.rcptt.expandbar.runtime.internal.ExpandBarDescriberExtension"
+            priority="50">
+      </describerExtension>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.expandbar.runtime.internal.GetExpandBarService"
+            name="GetExpandBar"
+            namespace="http://eclipse.org/rcptt/widgets/expandbar/ecl">
+      </scriptlet>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">
+      <scriptletExtension
+            class="org.eclipse.rcptt.expandbar.runtime.internal.GetItemsExtension"
+            name="GetItems"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.expandbar.runtime.internal.ExpandCollapseAllExtension"
+            name="ExpandAll"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.expandbar.runtime.internal.ExpandCollapseAllExtension"
+            name="CollapseAll"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.expandbar.runtime.internal.GetItemExtension"
+            name="GetItem"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+	</extension>
+   
+
+</plugin>

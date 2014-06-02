@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.core;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: 
+ org.eclipse.rcptt.core.ecl.core.model,
+ org.eclipse.rcptt.core.internal.ecl.core
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.0,1.6.0)";visibility:=reexport,
+ org.eclipse.rcptt.core;bundle-version="[1.5.0,1.6.0)";visibility:=reexport,
+ org.eclipse.rcptt.watson.core;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.reporting;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.swt,
+ org.eclipse.rcptt.tesla.ecl;bundle-version="1.1.0",
+ org.eclipse.rcptt.verifications
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.core.internal.ecl.core.Activator

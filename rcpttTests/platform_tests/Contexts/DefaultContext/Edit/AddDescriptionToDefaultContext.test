@@ -1,0 +1,78 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_OKTjMYxiEeK4jYsIiM8Vnw
+Element-Name: AddDescriptionToDefaultContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _-qWqMIreEeKe4NooVEYS9Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, DefaultContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open Project Settings
+2. Enter description, save all changes
+3. Make sure that description is saved
+4. Press "Clear description" 
+5. Make sure that description is cleared
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Project Settings" | double-click
+with [get-editor "Q7Project - Project Settings"] {
+    with [get-section Description | get-text-viewer] {
+        type-text "Test description"
+        key-type Enter
+        type-text "new line"
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "Q7Project/Project Settings" | double-click
+}
+get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text 
+    | equals "Test description\n"
+    + "new line" | verify-true
+get-editor "Q7Project - Project Settings" | get-section Description | get-button "Clear Description" | click
+get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text | equals "" | verify-true
+get-editor "Q7Project - Project Settings" | close
+get-window "Save Resource" | get-button No | click
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "Q7Project/Project Settings" | double-click
+}
+get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text 
+    | equals "Test description\n"
+    + "new line" | verify-true
+get-editor "Q7Project - Project Settings" | get-section Description | get-button "Clear Description" | click
+get-editor "Q7Project - Project Settings" | close
+get-window "Save Resource" | get-button Yes | click
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "Q7Project/Project Settings" | double-click
+}
+get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text | equals "" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

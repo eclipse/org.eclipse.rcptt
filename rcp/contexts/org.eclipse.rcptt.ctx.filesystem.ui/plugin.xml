@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.viewers">
+      <viewer
+            class="org.eclipse.rcptt.ctx.filesystem.ui.FilesystemViewer"
+            icon="/icons/filesystem.png"
+            type="org.eclipse.rcptt.ctx.filesystem">
+      </viewer>
+   </extension>
+
+</plugin>

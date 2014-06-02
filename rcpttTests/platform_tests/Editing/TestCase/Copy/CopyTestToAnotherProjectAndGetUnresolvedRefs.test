@@ -1,0 +1,74 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _gXkg0K7OEeC6D_0RWH5SeQ,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: CopyTestToAnotherProjectAndGetUnresolvedRefs
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _LmjyMa7dEeCzaeonQalAmw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestCase, Project, Reference
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Copy test from q7project1, this test have references to context from q7project1
+2. Paste test in q7project2
+3. Make sure that two errors are displayed in Problems view
+4. Copy context from q7project1 to q7project2
+5. Make sure that the problems are displayed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "q7project1/test" | get-menu Copy | click
+    select q7project2 | get-menu Paste | click
+}
+get-menu "Project/Clean..." | click
+with [get-window Clean] {
+    get-button "Clean all projects" | click
+    get-button OK | click
+}
+get-view Problems | click -nowait
+with [get-view Problems | get-tree] {
+    get-item "Errors \\(2 items\\)/Unresolved context:_DJjugK7OEeCgK71z2WbzmQ" | get-property columns -index 1 
+        | equals "test.test" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_DJjugK7OEeCgK71z2WbzmQ" | get-property columns -index 2 
+        | equals "/q7project2" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_FgoTkK7OEeCgK71z2WbzmQ" | get-property columns -index 1 
+        | equals "test.test" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_FgoTkK7OEeCgK71z2WbzmQ" | get-property columns -index 2 
+        | equals "/q7project2" | verify-true
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    select "q7project1/context" "q7project1/group"
+    get-menu Copy | click
+    select q7project2 | get-menu Paste | click
+}
+with [get-view Problems | get-tree] {
+    get-item "Errors \\(2 items\\)/Unresolved context:_DJjugK7OEeCgK71z2WbzmQ" | get-property columns -index 1 
+        | equals "test.test" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_DJjugK7OEeCgK71z2WbzmQ" | get-property columns -index 2 
+        | equals "/q7project2" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_FgoTkK7OEeCgK71z2WbzmQ" | get-property columns -index 1 
+        | equals "test.test" | verify-true
+    get-item "Errors \\(2 items\\)/Unresolved context:_FgoTkK7OEeCgK71z2WbzmQ" | get-property columns -index 2 
+        | equals "/q7project2" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

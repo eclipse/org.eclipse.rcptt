@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.core.contextProcessors">
+      <processor
+            class="org.eclipse.rcptt.ctx.parameters.impl.ParametersContextProcessor"
+            type="org.eclipse.rcptt.ctx.parameters">
+      </processor>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.ResetParamsService"
+            name="ResetParams"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.SetParamService"
+            name="SetParam"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.GetParamService"
+            name="GetParam"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+
+</plugin>

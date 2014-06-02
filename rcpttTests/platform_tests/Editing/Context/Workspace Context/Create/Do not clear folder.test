@@ -1,0 +1,62 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Do not clear folder or file
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _c3G9wCC8EeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Clear workspace;
+2. Create P1 and P2 on the workspace;
+3. Create new Workspace context and set it not clear P1;
+4. Apply the context;
+5. Make sure that P1 was not deleted from the workspace. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
+get-editor "Two Projects" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Do Not Clear P1" | double-click -nowait
+get-editor "Do Not Clear P1" | get-button Apply | click
+with [get-view "Execution View"] {
+    get-tree | get-item "Do Not Clear P1 \\(.*\\)" | get-property caption | equals "Do Not Clear P1 (.*)" 
+        | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/P1 is left" | double-click -nowait
+get-editor "P1 is left" | get-button Replay | click
+with [get-view "Execution View"] {
+    get-tree | get-item "P1 is left \\(.*\\)" | get-property caption | equals "P1 is left (.*)" | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

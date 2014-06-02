@@ -1,0 +1,75 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _wFTf0KDsEeKGc-nsvHJqGA,_0_PAAKDoEeKGc-nsvHJqGA
+Element-Name: ChangeSaveLoad
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ymePcKHFEeK_-IO-g05tUA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, LaunchContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-editor LaunchContextTest] {
+    with [get-section Options] {
+        get-button "Terminate existing launches" | click
+        get-button "Clear launch configurations" | click
+        get-button "Clear breakpoints" | click
+    }
+    with [get-section "Launch configurations" | get-tree] {
+        select "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_PATHS/" 
+            | activate-cell-edit -column 1
+        with [get-editbox] {
+            set-text "/SimpleJavaProgram/src/Main6.java"
+            key-type Enter
+        }
+        apply-cell-edit
+        select "Breakpoints/\\/SimpleJavaProgram\\/src\\/Main.java/Line breakpoint:Main \\[line: 8\\] - main\\(String\\[\\]\\)/org.eclipse.jdt.debug.core.suspendPolicy" 
+            | activate-cell-edit -column 1
+        with [get-editbox] {
+            set-text 8
+            key-type Enter
+        }
+        apply-cell-edit
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "TestQ7Prj/LaunchContextTest" | double-click
+}
+with [get-editor LaunchContextTest | get-section Options] {
+    get-button "Terminate existing launches" | get-property selected | equals false | verify-true
+    get-button "Clear launch configurations" | get-property selected | equals false | verify-true
+    get-button "Clear breakpoints" | get-property selected | equals false | verify-true
+}
+get-editor LaunchContextTest | get-section "Launch configurations" | get-tree 
+    | select "Launch configurations/Java Application"
+get-editor LaunchContextTest | get-section "Launch configurations" | get-tree 
+    | get-item "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_PATHS/" 
+    | get-property columns -index 1 | equals "/SimpleJavaProgram/src/Main6.java" | verify-true
+get-editor LaunchContextTest | get-section "Launch configurations" | get-tree 
+    | get-item "Breakpoints/\\/SimpleJavaProgram\\/src\\/Main.java/Line breakpoint:Main \\[line: 8\\] - main\\(String\\[\\]\\)/org.eclipse.jdt.debug.core.suspendPolicy" 
+    | get-property columns -index 1 | equals 8 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

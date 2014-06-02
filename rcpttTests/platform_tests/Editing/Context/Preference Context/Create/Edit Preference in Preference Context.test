@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_UwP9ICbXEeGxL-dGhy8NkQ
+Element-Name: Edit Preference in Preference Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _DWY44CbYEeGxL-dGhy8NkQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, PreferenceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open Preference context editor with some preferences inside;
+2. Click to any preference and type another value.
+3. Make sure your changes has been performed. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Timeout 1000" | double-click
+with [get-editor "Timeout 1000" | get-section Preferences | get-tree] {
+    select "general/com.xored.q7.launching/EXECUTION_TIMEOUT" | activate-cell-edit -column 1
+    get-editbox | set-text 500
+    apply-cell-edit
+    key-type "M1+s"
+}
+get-editor "Timeout 1000" | get-section Preferences | get-tree 
+    | get-item "general/com.xored.q7.launching/EXECUTION_TIMEOUT" | get-property columns -index 1 | equals 500 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

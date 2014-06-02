@@ -1,0 +1,96 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: SaveAllButtonOnToolbar
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _U1jLUM7cEeCw4ppgsBRMGg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Toolbar, Save, skipMacOS, skipLinux
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open test case editor
+2. Make change in test case and make sure that "Save All" button on toolbar is enabled
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "p3/scenario3" | double-click -nowait
+get-editor scenario3 | get-section Description | click
+with [get-button "Save All (M1+M2+S)"] {
+    get-property enablement | equals false | verify-true
+    get-property tooltip | equals "Save All (M1+M2+S)" | verify-true
+}
+get-editor scenario3 | get-section Description | get-editbox | set-text test
+with [get-button "Save All (M1+M2+S)"] {
+    get-property enablement | equals true | verify-true
+    get-property tooltip | equals "Save All (M1+M2+S)" | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "p2/scenario2" | double-click -nowait
+with [get-editor scenario2 | get-section Description] {
+    click
+    get-editbox | set-text test
+}
+get-view "Q7 Explorer" | get-tree | select "p1/context1" | double-click -nowait
+with [get-editor context1 | get-section Description] {
+    click
+    get-editbox | set-text test
+}
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "*scenario3" | verify-true
+    get-property pages -index 1 | equals "*scenario2" | verify-true
+    get-property pages -index 2 | equals "*context1" | verify-true
+    get-property activePage | equals "*context1" | verify-true
+    get-property tabCount | equals 3 | verify-true
+}
+with [get-button "Save All (M1+M2+S)"] {
+    get-property enablement | equals true | verify-true
+    get-property tooltip | equals "Save All (M1+M2+S)" | verify-true
+}
+get-editor context1 | get-section Description | get-editbox | key-type "M1+s"
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals "*scenario3" | verify-true
+    get-property pages -index 1 | equals "*scenario2" | verify-true
+    get-property pages -index 2 | equals context1 | verify-true
+    get-property activePage | equals context1 | verify-true
+    get-property tabCount | equals 3 | verify-true
+}
+with [get-button "Save All (M1+M2+S)"] {
+    get-property enablement | equals true | verify-true
+    get-property tooltip | equals "Save All (M1+M2+S)" | verify-true
+}
+get-button "Save All (M1+M2+S)" | click
+with [get-tab-folder -index 1] {
+    get-property pages -index 0 | equals scenario3 | verify-true
+    get-property pages -index 1 | equals scenario2 | verify-true
+    get-property pages -index 2 | equals context1 | verify-true
+    get-property activePage | equals context1 | verify-true
+    get-property tabCount | equals 3 | verify-true
+}
+with [get-button "Save All (M1+M2+S)"] {
+    get-property enablement | equals false | verify-true
+    get-property tooltip | equals "Save All (M1+M2+S)" | verify-true
+}
+get-editor scenario2 | click
+get-editor scenario2 | get-section Description | get-editbox | get-property value | equals test | verify-true
+get-editor scenario3 | click
+get-editor scenario3 | get-section Description | get-editbox | get-property value | equals test | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

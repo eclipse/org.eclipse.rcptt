@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.core.scenario/gen-src"
+    modelPluginID="org.eclipse.rcptt.core.scenario" modelName="Scenario" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.tesla.core/models/rawProtocol.genmodel#//raw ../../org.eclipse.rcptt.tesla.core/models/info.genmodel#//info ../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui">
+  <foreignModel>scenario.ecore</foreignModel>
+  <genPackages prefix="Scenario" basePackage="org.eclipse.rcptt.core" disposableProviderFactory="true"
+      ecorePackage="scenario.ecore#/">
+    <genClasses ecoreClass="scenario.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//NamedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//NamedElement/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//NamedElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//NamedElement/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//NamedElement/tags"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//Scenario">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Scenario/contexts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//Scenario/content"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//Scenario/teslaContent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Scenario/scenarioReferences"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Scenario/rawSupported"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Scenario/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Scenario/externalReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//Scenario/attachments"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//Context"/>
+    <genClasses ecoreClass="scenario.ecore#//WorkbenchContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//WorkbenchContext/perspectiveId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//WorkbenchContext/noModalDialogs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//WorkbenchContext/closeEditors"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//WorkbenchContext/editors"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//WorkbenchContext/views"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//WorkbenchContext/resetPerspective"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//Editor"/>
+    <genClasses ecoreClass="scenario.ecore#//FileEditor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//FileEditor/path"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//GroupContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//GroupContext/contextReferences"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//GroupContext/contexts"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scenario.ecore#//Test"/>
+    <genClasses ecoreClass="scenario.ecore#//TestCase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//TestCase/contexts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//TestCase/scenario"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//TestSuite">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scenario.ecore#//TestSuite/tests"/>
+    </genClasses>
+    <genClasses ecoreClass="scenario.ecore#//UnresolvedContext"/>
+    <genClasses ecoreClass="scenario.ecore#//Attachment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Attachment/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Attachment/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scenario.ecore#//Attachment/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

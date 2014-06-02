@@ -1,0 +1,45 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: ErrLogVerification_Create New Error Log Verification
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _CPCScH0BEeO5CYdzFmGe7Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: verification, verification/Error Log, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select MyProject | get-menu "New/Verification" | click
+with [get-window "New Verification Wizard"] {
+    get-editbox -after [get-label "Name:"] | set-text v1
+    get-table | select "Error Log"
+    get-button Finish | click
+}
+get-tab-folder -index 1 | get-property activePage | equals v1 | verify-true
+with [get-editor v1] {
+    get-section Require | get-property "getText()" | equals Require | verify-true
+    get-section Allow | get-property "getText()" | equals Allow | verify-true
+    get-section Deny | get-property "getText()" | equals Deny | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

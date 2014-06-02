@@ -1,0 +1,38 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.preferences
+Element-Name: AutoActivationDisabled
+Element-Type: context
+Element-Version: 2.0
+Id: _JH5akP2zEeKZNomN8DrgVg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkl1vgjAUhu/9FU3vbdVlmSGiIUgy
+NocmELPsxnRQsREoaw+C+/UrDtl2ZbKrNj3Ped/z0dmiyTN04koLWdh4TEYY8SKWiShSG1ewH07xYj6Y
+SZUSHmei1JyouAQgMTSkVHzPleG5tjY/d1cWwBtATS6sXnrSShuzQlvm3cYHgNKitK5rIvOUGAP6+uL3
+iP6L1HcXYjIajQ22CuMDz9lQFBqYcbxm3ayy17xSreiFpIakv0iMCpZzGzsVSCcGcWJg2lgKzd4znmAk
+Ehvvnh7v2XEz+fT481sg82C6VOk2xfMBQrO4HUIBnUxfaRtroweRJboLxjInjVQ8IR8PpBKEJwKk0m0r
+HW8yEgYMmbFYcC5Nzu2FhKDMEtu1LE0qRkd+trHnrnbuOoi8INo5YeiH5nAjf+tE/joIIyfyMDqxrDIO
+I0y7Yul3tZe2aNeX+RP0P59iPvgCUEsHCO0AyGdXAQAAcwIAAFBLAQIUABQACAgIAAAAIQDtAMhnVwEA
+AHMCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACNAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Activities to remove non-Q7-related UI contributions
+Bundle-SymbolicName: org.eclipse.rcptt.ui.activities;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.ui

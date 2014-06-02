@@ -1,0 +1,86 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_BIzmMMyzEeCKjp0mPLHiEg
+Element-Name: CopyContextListToTestByShortKey
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _crml4M1NEeCKjp0mPLHiEg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: skipMacOS, TestCase, Context, CopyPaste
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open tests with contexts
+2. Select several contexts, but not all
+3. Copy this contexts by pressing "Ctrl+C" keyboard button
+4. Open another test
+5. Paste this contexts in the second tests by pressing "Ctrl+V" keyboard button
+6. Make sure that all contexts are pasted in the secong test 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test with contexts" | double-click
+with [get-editor "test with contexts" | get-section Contexts] {
+    click
+    get-table | select "group \\(Q7Project\\)" | key-type "M1+c"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test without contexts" | double-click
+with [get-editor "test without contexts" | get-section Contexts] {
+    click
+    with [get-table] {
+        key-type "M1+v"
+        key-type "M1+s"
+    }
+}
+with [get-editor "test without contexts" | get-section Contexts | get-table] {
+    get-property itemCount | equals 3 | verify-true
+    get-item "group \\(Q7Project\\)" | get-property caption | equals "group (Q7Project)" | verify-true
+}
+with [get-editor "test with contexts"] {
+    click
+    with [get-section Contexts | get-table] {
+        select "context2 \\(Q7Project\\)" "contextWB \\(Q7Project\\)" "ecl-script \\(Q7Project\\)"
+        key-type "M1+c"
+    }
+}
+with [get-editor "test without contexts"] {
+    click
+    get-section Contexts | get-table | key-type "M1+v"
+}
+with [get-editor "test without contexts" | get-section Contexts | get-table] {
+    get-property itemCount | equals 5 | verify-true
+    get-item "context1 \\(Q7Project\\)" | get-property caption | equals "context1 (Q7Project)" | verify-true
+    get-item "context2 \\(Q7Project\\)" | get-property caption | equals "context2 (Q7Project)" | verify-true
+    get-item "group \\(Q7Project\\)" | get-property caption | equals "group (Q7Project)" | verify-true
+    get-item "contextWB \\(Q7Project\\)" | get-property caption | equals "contextWB (Q7Project)" | verify-true
+    get-item "ecl-script \\(Q7Project\\)" | get-property caption | equals "ecl-script (Q7Project)" | verify-true
+}
+get-editor "test without contexts" | get-section Contexts | get-table | key-type "M1+s"
+get-editor "test with contexts" | click
+with [get-editor "test with contexts" | get-section Contexts | get-table] {
+    get-property itemCount | equals 5 | verify-true
+    get-item "context2 \\(Q7Project\\)" | get-property caption | equals "context2 (Q7Project)" | verify-true
+    get-item "group \\(Q7Project\\)" | get-property caption | equals "group (Q7Project)" | verify-true
+    get-item "contextWS \\(Q7Project\\)" | get-property caption | equals "contextWS (Q7Project)" | verify-true
+    get-item "contextWB \\(Q7Project\\)" | get-property caption | equals "contextWB (Q7Project)" | verify-true
+    get-item "ecl-script \\(Q7Project\\)" | get-property caption | equals "ecl-script (Q7Project)" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

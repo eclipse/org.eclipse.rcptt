@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin> <extension
+       point="org.eclipse.rcptt.core.contextProcessors">
+    <processor
+          class="org.eclipse.rcptt.ctx.group.impl.GroupContextProcessor"
+          type="org.eclipse.rcptt.ui.context.group">
+    </processor>
+ </extension>
+</plugin>

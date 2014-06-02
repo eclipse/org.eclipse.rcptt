@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.rcptt.launching.remote.Q7RemoteLaunchDelegate"
+            delegateDescription="Application Under Test (RCPTT) Launcher"
+            delegateName="Application Under Test (RCPTT) Launcher"
+            id="org.eclipse.rcptt.launching.remote"
+            modes="run"
+            name="Remote Application Under Test (RCPTT)">
+      </launchConfigurationType>
+   </extension>
+
+   <extension point="org.eclipse.rcptt.launching.executors">
+      <executor
+            class="org.eclipse.rcptt.launching.remote.Q7RemoteLaunchExecutor"
+            type="org.eclipse.rcptt.launching.remote"/>
+   </extension>
+
+</plugin>

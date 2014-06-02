@@ -1,0 +1,66 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: SetUnsetCommentsInScriptViewer
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _wG9S4FFFEeG1qoPbj5xXbg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Select several lines in Script Viewer
+2. Press "Ctrl+7" (for windows) 
+3. Make sure that these lines are commented
+4. Select sevaral commented lines and press "Ctrl+7" 
+5. Make sure that these lines are uncommented
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateQ7Project" | double-click
+with [get-editor CreateQ7Project | get-section Script | get-text-viewer] {
+    set-caret-pos 4 2
+    select-range 5 2 1 1
+    key-type "M1+7"
+    key-type "M1+s"
+}
+get-editor CreateQ7Project | get-section Script | get-editbox | get-property text 
+    | equals "//get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n"
+    + "//with [get-window \"New Project\"] {\n"
+    + "//    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "//    get-button Finish | click\n"
+    + "//}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+with [get-editor CreateQ7Project | get-section Script | get-text-viewer] {
+    set-caret-pos 5 3
+    select-range 5 4 2 1
+    key-type "M1+7"
+    key-type "M1+s"
+}
+get-editor CreateQ7Project | get-section Script | get-editbox | get-property text 
+    | equals "//get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "    get-button Finish | click\n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

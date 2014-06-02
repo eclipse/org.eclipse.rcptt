@@ -1,0 +1,74 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zOzvECeMEeGm5NjoKhWsPQ
+Element-Name: ClearScriptViewerInECLContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _GLehkGsyEeGhKJWOtX9noQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, ECLContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Open ecl context with script content
+2. Delete script by toolbar button
+3. Make sure that script viewer is empty
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click
+with [get-editor "Create New Project" | get-section Script | get-text-viewer] {
+    set-caret-pos 13 2
+    key-type "M1+a"
+    key-type Del
+}
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text | equals "" | verify-true
+get-editor "Create New Project" | get-section Script | get-text-viewer | key-type "M1+z"
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
+    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
+    + "    get-button Finish | click\n}\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    select qqq | double-click -nowait\n"
+    + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
+    + "with [get-window \"New Test Case\"] {\n"
+    + "    get-editbox -after [get-label \"Name:\"] | set-text qw\n"
+    + "    get-button Finish | click\n"
+    + "}" | verify-true
+with [get-editor "Create New Project" | get-section Script] {
+    get-button "Clear Script" | click
+    get-text-viewer | set-caret-pos 1 1
+}
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text | equals "" | verify-true
+with [get-editor "Create New Project"] {
+    with [get-section Script | get-text-viewer] {
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "Q7Project/Create New Project" | double-click
+}
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text | equals "" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

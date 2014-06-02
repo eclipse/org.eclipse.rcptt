@@ -1,0 +1,72 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: Use * as any string 
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _QkNv4CFYEeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Apply workspace context with two projects: P1 and P2;
+2. Make sure the projects were placed to AUT workspace;
+3. Open "Clear workspace" context and type '*1' in "Do not clear..." field;
+4. Apply this context;
+5. Make sure only P1 has been left on AUT workspace. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
+get-editor "Two Projects" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Capture | click
+get-editor ClearWorkspace | get-section Workspace | get-tree | get-property itemCount | equals 2 | verify-true
+get-editor "Two Projects" | click
+with [get-editor ClearWorkspace] {
+    click
+    with [get-section Workspace] {
+        get-tree | select P1
+        get-button Remove | click
+        get-tree | select P2
+        get-button Remove | click
+    }
+}
+get-editor ClearWorkspace | get-section Workspace | get-tree | get-property itemCount | equals 0 | verify-true
+with [get-editor ClearWorkspace] {
+    with [get-section "Workspace Options" | get-editbox 
+        -after [get-label "Do not clear following folders or files (use comma as separator, * = any string):"]] {
+        set-text "*1"
+        key-type "M1+s"
+    }
+    get-button Apply | click
+    get-button Capture | click
+}
+with [get-editor ClearWorkspace | get-section Workspace | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item P1 | get-property caption | equals P1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

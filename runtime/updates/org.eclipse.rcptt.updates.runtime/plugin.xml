@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.launching.ext.q7runtime">
+      <q7runtime
+            id="q7 runtime"
+            kind="runtime"
+            path="platform:///plugin/org.eclipse.rcptt.updates.runtime/q7/"
+            version="[3.4,3.9)">
+      </q7runtime>
+   </extension>
+</plugin>

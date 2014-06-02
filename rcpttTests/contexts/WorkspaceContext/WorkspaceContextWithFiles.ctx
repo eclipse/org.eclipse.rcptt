@@ -1,0 +1,92 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: WorkspaceContextWithFiles
+Element-Type: context
+Element-Version: 2.0
+Id: _roqd8KekEeC8_YI4qVLWTA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/ContextsProject/ws.ctx-cbc58447-7738-3b75-928e-e9050c588355
+Content-Type: q7/binary
+Entry-Name: contents/ContextsProject/ws.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnQL8GZmEWHgAMKwumd2DEhAHoiT8/NK
+UvNKivULivKzUpNLDPWTMzJzUkpSK0r0SipKuM+d0T3hGarhuVYj0OP0GU9WhgBvdg7+q5FvhYCaBYA4
+AKfxaliNT8vPSUktop4tUlhtoYbJ3ECsV2iuBzW9N3Cj32EDgbufRa+9/aHhHXBliVMge4tAUtPaVTLm
+hp1vr5jdePS6MEo9eMKuvbu/v7trW72bu0jB/k7EwlBO6Sr+Fu1l0gtvCe27+/KdYFnottSoSwt4819Y
+Lo+bfa/P/Vh3v+TVKEs5Gc4gke7bh5+I/Z2qm7S/5dzOjQ5f7gXrRq/y7Z6//vzmlNqjRq0Tj3P3P5cR
+n1ckVu1wJdBt7XYHl+BDC+33vP3L/f77nrzXe36L+jttex+Q2nJE52PYUzWZ1Rdf6J+b48u38s6BqX1N
+kyV+nNnkx3NWZMquBwzhpiaRf5zX+75e2Jk/jeV61s36x6wzfIK05iTHCj0Wqmwy/5sy9S8jKMjaPcyr
+fgEDRJqJ9MjQg7JC+w7yHVIQcDn/TVvqXdTeygVfFnxifsUeckOC543QjVl1+yK2btxubm08e+JdiZq/
+LVNkE7XLZq9dwcgb2f49LEa/aq/43FUpPl8YDrufUNt5QnXNqqlH7BounXO+NoWvhUd5/ppkr00z90wy
+FGFS0L75Z4XM/vefZs+uL5Ses/05R1qRGFe1nFCNlvH5t0c3iYN8dNJ7YkQX0L3XwImAkUmEAeEn5AQi
+z4AOCOQZfIapoRgUT3QOwWemFIqZR/HmB3RzkKOVG8UceUaU1I+uETn0UB0QxIQvDQR4s7KBVLECYRbQ
+ChVmEA8AUEsHCGMGK+10AgAApAQAAFBLAQIUABQACAgIAAAAIQBjBivtdAIAAKQEAAAIAAAAAAAAAAAA
+AAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAACqAgAAAAA=
+------=_contents/ContextsProject/ws.ctx-cbc58447-7738-3b75-928e-e9050c588355--
+------=_contents/FilesForContextEditor/text.txt-1c844541-a51a-3dff-b422-c21601d22187
+Content-Type: q7/binary
+Entry-Name: contents/FilesForContextEditor/text.txt
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnQLzswtyElVKEmtKFFIy8xJBQBQSwcI
+D9VZ7RIAAAAQAAAAUEsBAhQAFAAICAgAAAAhAA/VWe0SAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAC5j
+b250ZW50UEsFBgAAAAABAAEANgAAAEgAAAAAAA==
+------=_contents/FilesForContextEditor/text.txt-1c844541-a51a-3dff-b422-c21601d22187--
+------=_contents/FilesForContextEditor/.project-aa9fd6f4-d790-33e1-ba5e-3e199a0170b2
+Content-Type: q7/binary
+Entry-Name: contents/FilesForContextEditor/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRVjsEOwiAQRM/2KxruWr15oPSg8gPq
+B1TYGAzsEtiafr5YtbG3Nzszm5HdGHz9hJQdYSt2m62oAQ1Zh/dWXC96vRedqmRM9ADDR8gmucglrKqV
+xD6A0s5D1pQOhAwjn6xjSrKZvJIxFAIgK9n8qBy/7/Kbm39xG5y35whmchYKex4SfCozz+3FshdQSwcI
+yUuRWIoAAADWAAAAUEsBAhQAFAAICAgAAAAhAMlLkViKAAAA1gAAAAgAAAAAAAAAAAAAAAAAAAAAAC5j
+b250ZW50UEsFBgAAAAABAAEANgAAAMAAAAAAAA==
+------=_contents/FilesForContextEditor/.project-aa9fd6f4-d790-33e1-ba5e-3e199a0170b2--
+------=_contents/FilesForContextEditor/folder/childtext.txt-d44bd3d3-1741-3319-bdf0-776b354f24c3
+Content-Type: q7/binary
+Entry-Name: contents/FilesForContextEditor/folder/childtext.txt
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnQLzswtyElVKEmtKFFIy8xJBQBQSwcI
+D9VZ7RIAAAAQAAAAUEsBAhQAFAAICAgAAAAhAA/VWe0SAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAC5j
+b250ZW50UEsFBgAAAAABAAEANgAAAEgAAAAAAA==
+------=_contents/FilesForContextEditor/folder/childtext.txt-d44bd3d3-1741-3319-bdf0-776b354f24c3--
+------=_contents/ContextsProject/.project-ee064a9d-8885-30de-bc33-a3f0f09c5cce
+Content-Type: q7/binary
+Entry-Name: contents/ContextsProject/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkMEOgjAQRM/yFYS7rZ7wUCAR49lE
+/QAsG4KhLbTF8PluaSVivM1MZ/e1ZcUkuvgF2rRKZsme7JIYJFd1K5ssud/O20NS5BHrtXoCtycwXLe9
+xXIebZisBOSlkhYmay6+wuic4ilXQoC0OaMfhWFYZJym3+Yxtl197YGjCa7EsUrWLggsXEQmpaEmQ0o4
+CjIXQaM/erXwcabSzejAxlu68oz+QEIQ7oBAO2rwVa//4IfUHznqXHFrlsnlhat/ewNQSwcI+0Ico8AA
+AAB0AQAAUEsBAhQAFAAICAgAAAAhAPtCHKPAAAAAdAEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50
+UEsFBgAAAAABAAEANgAAAPYAAAAAAA==
+------=_contents/ContextsProject/.project-ee064a9d-8885-30de-bc33-a3f0f09c5cce--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdklFPwyAUhd/3KwjvghofmoZ2McuW
+LGrig7H6tCzAWlwLHVxtf76w0iYuTYy+Afc759wLsGXf1OhLWqeMzvANucZIam6E0mWGP+FwleBlvmDG
+lkTyWrVOEstbAMKhJ52xR9fuuUyLcbUyGmQPqG9UOtneBlsfpF3qzzNcAbQppV3XEdOUxJvTt6ftiPyS
+NclHJsjPHPUcnTiM9L7x9GVrhYJqo2rpMFIiwztrTiJ5kMe1XCW79+3d6fWxeLnH+QIhxoNEQ1j7XWvN
+h+TgonH0c8/DMR4ozx2Ce4RIFGE6W+5cGG4sMjpGzCee294YG5PXQoGx/8oNcgL9j7KphX+wCAy7yftC
+zitVixkPGk3mxmF0uk1G//qf8sU3UEsHCJcSj00bAQAAqgIAAFBLAQIUABQACAgIAAAAIQCXEo9NGwEA
+AKoCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABRAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

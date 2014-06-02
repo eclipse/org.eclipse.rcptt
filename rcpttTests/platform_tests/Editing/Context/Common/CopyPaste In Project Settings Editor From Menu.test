@@ -1,0 +1,53 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zyoccGk6EeOVJ9Fi6d7JYQ
+Element-Name: CopyPaste In Project Settings Editor From Menu
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-3128
+Id: _moD7wWk-EeOsFbrwusmovw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+Verify that Edit/Copy, Edit/Paste works for Project Settings editor. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Project Settings" | double-click
+get-editor "Q7Project - Project Settings" | get-section "Default Contexts" | get-table 
+    | select "EclContext \\(Q7Project\\)"
+get-menu "Edit/Copy" | click
+get-menu "Edit/Paste" | click
+get-editor "Q7Project - Project Settings" | get-section "Default Contexts" | get-button Remove | click
+get-menu "Edit/Paste" | click
+get-editor "Q7Project - Project Settings" | get-section "Default Verifications" | get-table 
+    | select "Verification \\(Q7Project\\)"
+get-menu "Edit/Copy" | click
+get-editor "Q7Project - Project Settings" | get-section "Default Verifications" | get-button Remove | click
+get-menu "Edit/Paste" | click
+get-editor "Q7Project - Project Settings" | get-section Description | get-text-viewer | set-caret-pos 1 13
+with [get-editor "Q7Project - Project Settings"] {
+    get-section "Default Contexts" | get-table | get-property itemCount | equals 1 | verify-true
+    get-section "Default Verifications" | get-table | get-property itemCount | equals 1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

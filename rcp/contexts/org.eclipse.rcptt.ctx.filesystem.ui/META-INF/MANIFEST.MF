@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: File System Context UI
+Bundle-SymbolicName: org.eclipse.rcptt.ctx.filesystem.ui;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.ctx.filesystem.ui.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.ui,
+ org.eclipse.rcptt.core,
+ org.eclipse.ui.forms,
+ org.eclipse.jface.databinding,
+ org.eclipse.emf.databinding,
+ org.eclipse.rcptt.ctx.filesystem,
+ org.eclipse.core.variables,
+ org.eclipse.rcptt.launching,
+ org.eclipse.debug.core,
+ org.eclipse.pde.launching
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

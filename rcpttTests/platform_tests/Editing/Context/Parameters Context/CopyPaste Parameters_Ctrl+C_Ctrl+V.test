@@ -1,0 +1,76 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_QpuEsG3qEeOpKr7OsF8P0g
+Element-Name: CopyPaste Parameters_Ctrl+C_Ctrl+V
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-3110
+Id: _tnx9IXEkEeOzJKwri6rwgQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/P1" | double-click
+with [get-editor P1 | get-section Parameters | get-table] {
+    select p3 | activate-cell-edit
+    apply-cell-edit -deactivate
+    select p3 p2 p1
+    key-type "M1+c"
+    select p1 | activate-cell-edit -column 1
+    get-editbox | set-text v1111
+    apply-cell-edit -deactivate
+    select p2 | activate-cell-edit -column 1
+    with [get-editbox] {
+        set-text v2222
+        click-text 5
+    }
+    apply-cell-edit -deactivate
+    select p3 | activate-cell-edit -column 1
+    get-editbox | click-text 3 1
+    //cancel-cell-edit
+    //deactivate-cell-edit
+    get-editbox | click-text 3 1
+    select p3 | activate-cell-edit -column 1
+    get-editbox | set-text 333
+    apply-cell-edit -deactivate
+    select p3 | activate-cell-edit
+    apply-cell-edit -deactivate
+    select p3 p2 p1
+    key-type "M1+c"
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/P2" | double-click
+get-editor P2 | get-section Parameters | get-table | key-type "M1+v"
+with [get-window "Parameters name conflict"] {
+    get-tree | get-item p1 | check
+    get-button OK | click
+}
+get-editor P2 | get-section Parameters | get-table | key-type "M1+s"
+with [get-editor P2 | get-section Parameters | get-table] {
+    get-property itemCount | equals 4 | verify-true
+    get-item p1 | get-property "columns[0]" | equals p1 | verify-true
+    get-item p1 | get-property "columns[1]" | equals v1111 | verify-true
+    get-item p3 | get-property "columns[0]" | equals p3 | verify-true
+    get-item p3 | get-property "columns[1]" | equals 333 | verify-true
+    get-item p2 | get-property "columns[0]" | equals p2 | verify-true
+    get-item p2 | get-property "columns[1]" | equals v2222 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

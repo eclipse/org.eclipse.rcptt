@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Error Log Verification Runtime
+Bundle-SymbolicName: org.eclipse.rcptt.verifications.log.impl;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.rcptt.core,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.verifications.log,
+ org.eclipse.rcptt.verifications,
+ org.eclipse.rcptt.reporting

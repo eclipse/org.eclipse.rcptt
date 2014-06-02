@@ -1,0 +1,40 @@
+--- RCPTT verification ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Element-Name: CaptureContextWhileAddingToGroupContext
+Element-Type: verification
+Element-Version: 2.0
+Id: _2XTFsCw-EeOVlMjKDrmh1g
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Verification-Type: org.eclipse.rcptt.verifications.tree
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTVlN9P2zAQx9/7V1h+r03LukGVFE0F
+JrQh9lB1vE1Ock0Njh3Zl6aT9sdzLqWkEmJTJ03wEp3v5+e+sZycrSvDVuCDdjblA3HEGdjcFdqWKW9w
+0T/hZ5Ne4nwpIDe6DiB8XiMKqtELnSukwiDQA4xn9Jl33Gxd6fGu9zD2pmk2jMmf8iViPZaybVvhqlLQ
+BHl7ffWU8jcDdz2eEmOPTbLcS5YxmTOrKiqZqhobD1NnEdb4Y6kNfC7iujP3xbum3gY400XKfw5vZ5dh
+2vYv4GZuru++nvtqOSg5C2AgR+dTXgL2odBkszbL2G8WHYGCUYC5hjZsfagyA3zSYyyJPCzgL0M8o09H
+H06PP56eROFjCo1F3xBvcB6nzjSVvbLk7A82xVTuXRseTTqslGlgdyRHoVCxuELKuyI2Wli10qUiUvHd
+uztCvFjXxnnw/LmcGizIVZIUtqDpzsu9YKby+06Q+cg7HI04K2kpu7UzYno0O9WJjGg7cLlP/o/cr1Af
+ztwlTuSz7Af/gVW8D2JzxSzeNGi0hTcu/h+Q35PuMxXuv+mA70LxF2D/o9bJ5s2kh18e9PJPeg9QSwcI
+yQCKlbYBAABZBgAAUEsBAhQAFAAICAgAAAAhAMkAipW2AQAAWQYAAAgAAAAAAAAAAAAAAAAAAAAAAC5j
+b250ZW50UEsFBgAAAAABAAEANgAAAOwBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

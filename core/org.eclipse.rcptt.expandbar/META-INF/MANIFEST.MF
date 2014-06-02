@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.rcptt.expandbar;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.expandbar,
+ org.eclipse.rcptt.expandbar.commands,
+ org.eclipse.rcptt.expandbar.commands.impl,
+ org.eclipse.rcptt.expandbar.commands.util,
+ org.eclipse.rcptt.expandbar.widgets
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.tesla.core;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
+ org.eclipse.rcptt.tesla.ecl;visibility:=reexport
+Bundle-ActivationPolicy: lazy

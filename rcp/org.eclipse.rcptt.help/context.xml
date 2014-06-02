@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="q7_licensing" title="Q7 Licensing">
+      <description>This dialog appears when Q7 application can not access license for some license-protected feature</description>
+      <topic href="html/concepts/q7licensing.html" label="Q7 Licensing"/>
+   </context>
+   <context id="q7_tags" title="Tags">
+      <description>Tags are short text labels used for searching, any test can have any number of tags</description>
+      <topic href="html/concepts/tags.html" label="Tags"/>
+   </context>
+</contexts>

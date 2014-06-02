@@ -1,0 +1,68 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_nXcPwCx_EeGFqJlA4K7Ayg
+Element-Name: findReferencesToContextInGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _RGxY8CxREeGFqJlA4K7Ayg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Reference, GroupContext, Q7Explorer
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Pre-conditions:
+Q7 Project with context and test-cases
+
+Test Steps:
+1. Select context which is used in GroupContext
+2. Choose "Find References" from context menu
+3. Make sure that GroupContext is displayed in "Search" view, but test which is used GroupContext is not displayed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | get-menu "Q7/Find References" | click
+with [get-view Search] {
+    get-tree | get-property itemCount | equals 1 | verify-true
+    get-link "\'EclContext\' - 3 matches in workspace (Context references)" | get-property caption 
+        | equals "\'EclContext\' - 3 matches in workspace (Context references)" | verify-true
+    with [get-tree] {
+        get-item Q7Project | get-property childCount | equals 3 | verify-true
+        get-item "Q7Project/GroupContext.ctx" | get-property caption | equals "GroupContext.ctx" | verify-true
+    }
+}
+get-view Search | get-tree | select "Q7Project/GroupContext.ctx" | double-click -nowait
+with [get-editor GroupContext | get-section Contexts] {
+    get-table | select "EclContext \\(Q7Project\\)"
+    get-button Remove | click
+    get-table | key-type "M1+s"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | get-menu "Q7/Find References" | click
+with [get-view Search] {
+    get-tree | get-property itemCount | equals 1 | verify-true
+    get-link "\'EclContext\' - 2 matches in workspace (Context references)" | get-property caption 
+        | equals "\'EclContext\' - 2 matches in workspace (Context references)" | verify-true
+    with [get-tree] {
+        get-item Q7Project | get-property childCount | equals 2 | verify-true
+        get-item "Q7Project/folderWithTestCase" | get-property childCount | equals 1 | verify-true
+        get-item "Q7Project/TestCase2.test" | get-property caption | equals "TestCase2.test" | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

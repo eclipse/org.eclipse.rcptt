@@ -1,0 +1,45 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Element-Name: SplitTest
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _MT8fYWcoEeOMWNkDfJ1Ydw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+proc "test-split" [val str -input] [val sep] [val result] [val omitEmptyStrings [bool false]] [val trim [bool false]] {
+	$str | split $sep -omitEmptyStrings $omitEmptyStrings -trimResults $trim
+		 | to-list | eq $result | assert-true
+}
+
+test-split foo bar [list "foo"]
+test-split foo o [list "f" "" ""]
+test-split foo o [list "f"] -omitEmptyStrings 
+
+test-split "a,b,c" "," [list "a" "b" "c"]
+test-split "a, b, c" "," [list "a" " b" " c"]
+test-split "a, b, c" "," [list "a" "b" "c"] -trim
+
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.rcptt.ecl</groupId>
+  <artifactId>ecl-plugins</artifactId>
+  <version>1.5.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <parent>
+    <artifactId>ecl</artifactId>
+    <groupId>org.eclipse.rcptt.ecl</groupId>
+    <version>1.5.0-SNAPSHOT</version>
+  </parent>
+  <modules>
+    <module>org.eclipse.rcptt.ecl.client.tcp</module>
+    <module>org.eclipse.rcptt.ecl.core</module>
+    <module>org.eclipse.rcptt.ecl.data</module>
+    <module>org.eclipse.rcptt.ecl.debug.core</module>
+    <module>org.eclipse.rcptt.ecl.debug.runtime</module>
+    <module>org.eclipse.rcptt.ecl.debug.ui</module>
+    <module>org.eclipse.rcptt.ecl.dispatch</module>
+    <module>org.eclipse.rcptt.ecl.doc</module>
+    <module>org.eclipse.rcptt.ecl.parser</module>
+    <module>org.eclipse.rcptt.ecl.perf</module>
+    <module>org.eclipse.rcptt.ecl.platform</module>
+    <module>org.eclipse.rcptt.ecl.platform.ui</module>
+    <module>org.eclipse.rcptt.ecl.server.tcp</module>
+    <module>org.eclipse.rcptt.ecl.server.tcp.ui</module>
+    <module>org.eclipse.rcptt.ecl.shell</module>
+    <module>org.eclipse.rcptt.ecl.telnet.server</module>
+    <module>org.eclipse.rcptt.ecl.telnet.server.ui</module>
+    <module>org.eclipse.rcptt.ecl.operations</module>
+    <module>org.eclipse.rcptt.ecl.interop</module>
+    <module>org.eclipse.rcptt.ecl.filesystem</module>
+  </modules>
+</project>

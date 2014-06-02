@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ECL TCP Client
+Bundle-SymbolicName: org.eclipse.rcptt.ecl.client.tcp
+Bundle-Version: 1.5.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.rcptt.ecl.core,
+ org.eclipse.core.runtime
+Export-Package: org.eclipse.rcptt.ecl.client.tcp
+Bundle-Activator: org.eclipse.rcptt.ecl.client.tcp.EclTcpClientPlugin
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-ActivationPolicy: lazy

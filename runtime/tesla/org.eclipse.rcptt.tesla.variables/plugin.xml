@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.variables.dynamicVariables">
+      <variable
+            description="Name of the current test case executed by RCPTT"
+            name="q7.current_test"
+            resolver="org.eclipse.rcptt.tesla.variables.TeslaVariablesResolver"
+            supportsArgument="false">
+      </variable>
+   </extension>
+
+</plugin>

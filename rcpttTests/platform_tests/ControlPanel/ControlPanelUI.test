@@ -1,0 +1,67 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_XltvoIKaEeC_2txVMvPWLQ
+Element-Name: ControlPanelUI
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _0--4gO_vEeCZz89QM6kozg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, ControlPanel
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Sart recording to open Control Panel;
+2. Check Control Panel contains 4 tabs: Script, Contexts, Description, Options;
+3. Check Control Panel contains the following buttons: Return to Q7, Save As, Stop, Replay, Switch to recording mode, Switch to assertion mode;
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/Test scenario" | double-click -nowait
+get-editor "Test scenario" | get-button Record | click
+wait 1000
+with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]"] {
+    with [get-tab-folder] {
+        get-property pages -index 0 | equals Script | verify-true
+        get-property pages -index 1 | equals Contexts | verify-true
+        get-property pages -index 2 | equals Verifications | verify-true
+        get-property pages -index 3 | equals Description | verify-true
+        get-property pages -index 4 | equals Options | verify-true
+    }
+    with [get-button "Return to Q7"] {
+        get-property tooltip | equals "Return to Q7" | verify-true
+        get-property kind | equals Tool | verify-true
+    }
+    with [get-button Save] {
+        get-property tooltip | equals Save | verify-true
+        get-property kind | equals Tool | verify-true
+    }
+    with [get-button Stop] {
+        get-property tooltip | equals Stop | verify-true
+        get-property kind | equals Tool | verify-true
+    }
+    get-button Replay | get-property tooltip | equals Replay | verify-true
+    get-button "Switch to Recording Mode" | get-property tooltip | equals "Switch to Recording Mode" | verify-true
+    get-button "Switch to Assertion and Verification Mode"
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

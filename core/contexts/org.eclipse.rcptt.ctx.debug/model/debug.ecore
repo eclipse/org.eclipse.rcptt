@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="debug"
+    nsURI="http://eclipse.org/rcptt/ctx/debug" nsPrefix="org.eclipse.rcptt.ctx.debug">
+  <eClassifiers xsi:type="ecore:EClass" name="DebugContext" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//Context">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noLaunches" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noBreakpoints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noLaunchShortcuts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="launchShortcutExceptions"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="launchExceptions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="breakpointResources" upperBound="-1"
+        eType="#//BreakpointResource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="launches" upperBound="-1"
+        eType="#//Launch" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="launchTypes" upperBound="-1"
+        eType="#//LaunchType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LaunchConfiguration" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MapValue" eSuperTypes="#//Collection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ListValue" eSuperTypes="#//Collection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetValue" eSuperTypes="#//Collection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LaunchType" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" upperBound="-1"
+        eType="#//LaunchConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Breakpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="registered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="persisted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingSets" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Launch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurationDelta" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//LaunchConfiguration"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="configurationName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakpointResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="breakpoints" upperBound="-1"
+        eType="#//Breakpoint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collection" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveValue" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

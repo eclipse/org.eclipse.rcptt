@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+   <extension-point id="eventProvider" name="eventProvider" schema="schema/eventProvider.exsd"/>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/sherlock/core"
+            class="org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage"
+            genModel="model/sherlock.genmodel"/>
+      <package
+            class="org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage"
+            genModel="model/report.genmodel"
+            uri="http://eclipse.org/rcptt/sherlock/report">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.watson.core.eventProvider">
+      <provider
+            class="org.eclipse.rcptt.sherlock.core.reporting.internal.EventLogEventProvider"
+            id="org.eclipse.rcptt.sherlock.core.log.provider">
+      </provider>
+      <provider
+            class="org.eclipse.rcptt.sherlock.core.reporting.internal.CoreSnaphotsProvider"
+            id="org.eclipse.rcptt.sherlock.core.core.snaphots">
+      </provider>
+   </extension>
+
+</plugin>

@@ -1,0 +1,6 @@
+bin/
+target/
+!./launching/org.eclipse.rcptt.launching.ext/src/org/eclipse/rcptt/launching/internal/target
+!./launching/org.eclipse.rcptt.launching.ext/src/org/eclipse/rcptt/launching/targetmaster.diff~
+*~
+/workspace/

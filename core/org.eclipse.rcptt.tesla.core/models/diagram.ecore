@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="diagram"
+    nsURI="http://eclipse.org/rcptt/tesla/diagram" nsPrefix="org.eclipse.rcptt.tesla.diagram">
+  <eClassifiers xsi:type="ecore:EClass" name="CreateFigure" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guesPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateFigureResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="figure" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MoveFigure" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetFigureSelection" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="figures" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetFigures" eSuperTypes="protocol.ecore#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetFiguresResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="figures" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivateDirectEdit" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="partPath" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CancelDirectEdit" eSuperTypes="protocol.ecore#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommitDirectEdit" eSuperTypes="protocol.ecore#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateConnection" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="ecore:EClass rawProtocol.ecore#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="ecore:EClass rawProtocol.ecore#//Element"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateConnectionResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="figure" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResizeFigure" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MouseCommand" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//MouseCommandKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundsWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundsHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MouseCommandKind">
+    <eLiterals name="Down" literal="Down"/>
+    <eLiterals name="Up" value="1" literal="Up"/>
+    <eLiterals name="Move" value="2"/>
+    <eLiterals name="Drag" value="3"/>
+    <eLiterals name="DoubleClick" value="4"/>
+    <eLiterals name="NativeDragStarted" value="5"/>
+    <eLiterals name="NativeDragFinished" value="6"/>
+    <eLiterals name="Enter" value="7"/>
+    <eLiterals name="Exit" value="8"/>
+    <eLiterals name="Hover" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FigureMouseCommand" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//MouseCommandKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="figurePath" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="partPath" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundsWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundsHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="figureWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="figureHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssertFigureExists" eSuperTypes="protocol.ecore#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="partPath" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="figureID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

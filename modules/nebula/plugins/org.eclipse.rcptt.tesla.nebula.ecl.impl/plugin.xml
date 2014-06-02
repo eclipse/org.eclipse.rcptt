@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectorService"
+            name="GetNebulaGrid"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectorService"
+            name="GetRowHeader"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectorService"
+            name="GetItemCell"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectorService"
+            name="GetEmptyArea"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectGridRangeService"
+            name="SelectGridRange"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/ecl">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectServiceExtension"
+            name="Select"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.ecl.internal.impl.commands.SelectorServiceExtension"
+            name="GetItem"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+   </extension>
+
+</plugin>

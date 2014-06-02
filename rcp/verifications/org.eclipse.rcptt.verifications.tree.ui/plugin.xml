@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.verificationViewers">
+      <viewer
+            class="org.eclipse.rcptt.verifications.tree.ui.TreeVerificationViewer"
+            icon="/icons/tree.gif"
+            type="org.eclipse.rcptt.verifications.tree">
+      </viewer>
+   </extension>
+
+</plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.viewers">
+      <viewer
+            class="org.eclipse.rcptt.ctx.parameters.ui.ParametersContextViewer"
+            icon="/icons/parameters.gif"
+            type="org.eclipse.rcptt.ctx.parameters">
+      </viewer>
+   </extension>
+
+</plugin>

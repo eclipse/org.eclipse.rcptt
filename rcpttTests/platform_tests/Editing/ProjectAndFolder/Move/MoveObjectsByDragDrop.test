@@ -1,0 +1,102 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: MoveObjectsByDragDrop
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _449xcMlFEeCVO9X7TqWdlg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Project, Move
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Select several objects in one project
+2. Move these objects by Drag&Drop
+3. Make sure that these objects are moved to another project
+4. Move these objects to folder
+5. Make sure that the objects are moved to folder
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "p3/context3" "p3/scenario3"
+    get-item "p3/scenario3" | drag-start 10 5
+    get-item "p3/context3" | drag-enter 13 4 -detail 2 -operation 7
+    get-item "p3/context3" | drag-over 13 2 -operation 7
+    get-item p3 | drag-over 32 -operation 7
+    get-item "p2/scenario2" | drag-over 7 2 -detail 2 -operation 7
+    get-item "p2/context2" | drag-over "-1" -detail 2 -operation 7
+    get-item "p3/context3" | drag-exit
+    get-item "p2/context2" | drag-accept "-1" -detail 2 -operation 7
+    get-item p1 | drag-set-data "-41"
+    get-item "p2/context2" | drop "-1" -detail 2 -operation 7
+    get-item p1 | drag-end "-41" -detail 2
+}
+with [get-view "Q7 Explorer" | get-tree] {
+	verify-error { get-item "p3/context3" }
+	verify-error { get-item "p3/scenario3" }
+    get-item "p2/context2" | get-property caption | equals context2 | verify-true
+    get-item "p2/context3" | get-property caption | equals context3 | verify-true
+    get-item "p2/scenario2" | get-property caption | equals scenario2 | verify-true
+    get-item "p2/scenario3" | get-property caption | equals scenario3 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select p1 | get-menu "New/Folder" | click
+with [get-window "New Folder"] {
+    get-editbox -after [get-label "Folder name:"] | set-text allfolder
+    get-button Finish | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    select "p1/context1" "p1/group1" "p1/scenario1"
+    get-item "p1/group1" | drag-start 11 14
+    get-item "p1/context1" | drag-enter 11 14 -detail 2 -operation 7
+    get-item "p1/context1" | drag-over 13 -operation 7
+    get-item "p1/allfolder" | drag-over 15 14 -detail 2 -operation 7
+    get-item "p1/context1" | drag-exit
+    get-item "p1/allfolder" | drag-accept 15 14 -detail 2 -operation 7
+    get-item p1 | drag-set-data "-41"
+    get-item "p1/allfolder" | drop 15 14 -detail 2 -operation 7
+    get-item p1 | drag-end "-41" -detail 2
+    select "p2/context2" "p2/scenario2"
+    get-item "p2/context2" | drag-start 26 8
+    get-item "p1/allfolder/scenario1" | drag-enter 21 14 -detail 2 -operation 7
+    get-item "p1/allfolder/scenario1" | drag-over 28 2 -detail 2 -operation 7
+    get-item "p1/allfolder/group1" | drag-over 34 -detail 2 -operation 7
+    get-item "p1/allfolder" | drag-over 49 12 -detail 2 -operation 7
+    get-item "p1/allfolder/scenario1" | drag-exit
+    get-item "p1/allfolder" | drag-accept 49 12 -detail 2 -operation 7
+    get-item p1 | drag-set-data "-41"
+    get-item "p1/allfolder" | drop 49 12 -detail 2 -operation 7
+    get-item p1 | drag-end "-41" -detail 2
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "p1/allfolder" | get-property caption | equals allfolder | verify-true
+    get-item "p1/allfolder" | get-property childCount | equals 5 | verify-true
+    get-item "p1/allfolder/context1" | get-property caption | equals context1 | verify-true
+    get-item "p1/allfolder/context2" | get-property caption | equals context2 | verify-true
+    get-item "p1/allfolder/group1" | get-property caption | equals group1 | verify-true
+    get-item "p1/allfolder/scenario1" | get-property caption | equals scenario1 | verify-true
+    get-item "p1/allfolder/scenario2" | get-property caption | equals scenario2 | verify-true
+	verify-error { get-item "p2/context2" }
+	verify-error { get-item "p2/scenario2" }
+    get-item "p2/context3" | get-property caption | equals context3 | verify-true
+    get-item "p2/scenario3" | get-property caption | equals scenario3 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

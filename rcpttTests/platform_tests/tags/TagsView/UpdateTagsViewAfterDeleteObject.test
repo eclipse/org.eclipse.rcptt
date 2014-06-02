@@ -1,0 +1,68 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_UQDtMKPdEeCEMaDRGDaqpQ
+Element-Name: UpdateTagsViewAfterDeleteObject
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-964
+Id: _BQ_DMcjAEeCEDfEKYQz1ow
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TagsView, Delete
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Set tag to test case and context 
+2. Delete test case 
+3. Verify that this test case is not displayed in Tags view
+4. Delete context 
+5. Verify that this context is not displayed in the Tags view
+6. Make sure that tag without references objects is removed from Tags view
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view Tags | click -nowait
+with [get-view Tags | get-tree] {
+    get-item "t2 \\(2\\)" | get-property caption | equals "t2 (2)" | verify-true
+    get-item "t2 \\(2\\)/test2" | get-property caption | equals test2 | verify-true
+    get-item "t2 \\(2\\)/context" | get-property caption | equals context | verify-true
+}
+with [get-view Tags | get-tree] {
+    get-item "t1 \\(2\\)" | get-property caption | equals "t1 (2)" | verify-true
+    get-item "t1 \\(2\\)" | get-property childCount | equals 2 | verify-true
+    get-item "t1 \\(2\\)/context" | get-property caption | equals context | verify-true
+    get-item "t1 \\(2\\)/group" | get-property caption | equals group | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test2" | get-menu Delete | click
+get-window "Delete Resources" | get-button OK | click
+with [get-view Tags | get-tree] {
+    get-item "t2 \\(1\\)" | get-property caption | equals "t2 (1)" | verify-true
+    get-item "t2 \\(1\\)" | get-property childCount | equals 1 | verify-true
+    get-item "t2 \\(1\\)/context" | get-property caption | equals context | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/context" | get-menu Delete | click
+get-window "Delete Resources" | get-button OK | click
+with [get-view Tags | get-tree] {
+    get-item "t1 \\(1\\)" | get-property caption | equals "t1 (1)" | verify-true
+    get-item "t1 \\(1\\)" | get-property childCount | equals 1 | verify-true
+    get-item "t1 \\(1\\)/group" | get-property caption | equals group | verify-true
+    get-property itemCount | equals 2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

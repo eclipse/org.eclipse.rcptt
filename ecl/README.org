@@ -1,0 +1,10 @@
+ECL (stands for Eclipse Command Language) is an extensible command-line oriented general-purpose scripting language developed by Xored and [[http://www.eclipsecon.org/2008/?page=sub/&id=272][initially introduced]] at EclipseCon '08 in California. Also, now it is the primary scripting language for [[http://www.xored.com/products/q7][Xored Q7]] – UI testing tool for Eclipse.
+
+This repository contains following major components:
+- *core*, allows to contribute and execute commands and scripts
+- *parser*, which allows to perfrom conversions between ECL source and ECL object model
+- *server*, which provides ability to execute ECL commands remotely 
+- *shell*, allows to connect to ECL server via telnet and execute commands entered from keyboard
+  
+More information about ECL can be found in project wiki:
+- [[https://github.com/xored/ecl/wiki/Syntax][Syntax]]

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.data/gen-src"
+    modelPluginID="org.eclipse.rcptt.ecl.data" modelName="Commands" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore objects.genmodel#//objects">
+  <foreignModel>commands.ecore</foreignModel>
+  <genPackages prefix="Commands" basePackage="org.eclipse.rcptt.ecl.data" disposableProviderFactory="true"
+      ecorePackage="commands.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="commands.ecore#//IgnoreColumnsMode">
+      <genEnumLiterals ecoreEnumLiteral="commands.ecore#//IgnoreColumnsMode/NONE"/>
+      <genEnumLiterals ecoreEnumLiteral="commands.ecore#//IgnoreColumnsMode/LEFT"/>
+      <genEnumLiterals ecoreEnumLiteral="commands.ecore#//IgnoreColumnsMode/RIGHT"/>
+      <genEnumLiterals ecoreEnumLiteral="commands.ecore#//IgnoreColumnsMode/BOTH"/>
+    </genEnums>
+    <genClasses ecoreClass="commands.ecore#//ReadCsvFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//ReadCsvFile/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//Print">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//Print/input"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//WriteCsvFile">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//WriteCsvFile/table"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//WriteCsvFile/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ExcludeColumns">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//ExcludeColumns/table"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//ExcludeColumns/columns"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//SelectColumns">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//SelectColumns/table"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SelectColumns/columns"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//AssertTablesMatch">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//AssertTablesMatch/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//AssertTablesMatch/right"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//AssertTablesMatch/ignoreColumnOrder"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//AssertTablesMatch/ignoreMissingColumns"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//WriteLines">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//WriteLines/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//WriteLines/append"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ReadLines">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//ReadLines/uri"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

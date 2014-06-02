@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.rcptt.launching.ext.q7runtime">
+      <q7runtime
+            kind="extra"
+            path="platform:///plugin/org.eclipse.rcptt.module.nebula.updates/runtime/"
+            version="[3.4,3.7]">
+      </q7runtime>
+   </extension>
+</plugin>

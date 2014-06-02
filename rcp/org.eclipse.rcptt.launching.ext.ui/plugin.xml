@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+        point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+     <launchConfigurationTypeImage
+           configTypeID="org.eclipse.rcptt.launching.ext"
+           icon="images/externalEclipse.gif"
+           id="org.eclipse.rcptt.launching.launchConfigurationTypeImage.ext">
+     </launchConfigurationTypeImage>
+  </extension>
+
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+     <launchConfigurationTabGroup
+           class="org.eclipse.rcptt.internal.launching.ext.ui.ExternalTabGroup"
+           id="org.eclipse.rcptt.launching.launchConfigurationTabGroup.ext"
+           type="org.eclipse.rcptt.launching.ext">
+     </launchConfigurationTabGroup>
+  </extension>
+  
+  <extension
+        point="org.eclipse.rcptt.ui.autWizard">
+     <wizard
+           class="org.eclipse.rcptt.internal.launching.ext.ui.wizards.NewAUTWizard"
+           kind="new">
+     </wizard>
+     <wizard
+           class="org.eclipse.rcptt.internal.launching.ext.ui.wizards.EditAUTWizard"
+           kind="edit">
+     </wizard>
+  </extension>
+  
+  <extension
+        point="org.eclipse.ui.startup">
+     <startup
+           class="org.eclipse.rcptt.internal.launching.ext.ui.CleanBundlePoolStartup">
+     </startup>
+  </extension>
+  <extension
+        point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="popup:AUT_context_menu_id?after=additions">
+        <command
+              commandId="command_id"
+              icon="images/save_details_icon.gif"
+              label="Save AUT details..."
+              style="push">
+           <visibleWhen
+                 checkEnabled="true">
+              <count
+                    value="1">
+              </count>
+           </visibleWhen>
+        </command>
+    </menuContribution>
+  </extension>
+    
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="org.eclipse.rcptt.internal.launching.ext.ui.handlers.SaveAutDetails"
+           commandId="command_id">
+     </handler>
+  </extension>
+  <extension
+        point="org.eclipse.ui.commands">
+     <command
+           id="command_id"
+           name="name">
+     </command>
+  </extension>
+</plugin>

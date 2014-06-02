@@ -1,0 +1,58 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: METUS_context
+Element-Type: context
+Element-Version: 2.0
+Id: _yYzQ8P4HEeClTY6SZHewkg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkEFPgzAUgO/8iubdbdUYXQiww7Jk
+HkhmNjPnhZDugXWlRfom6K+3MEFvxttr873vaxrNu0qzd2ycsiaGK34JDI20B2XKGE5UXMxgngSRbUqO
+UqvaIW9kTcQldby1zdHVucRwN04Lawg7Yl2lwkl73Wt9yLjQ38fwQlSHQrRty21Vci8XT+n9iPzRmtZH
+pl8fOOE5MXHATF55Ol1uHzeZPL8LmDrEkH3sPx9m65vVEhd6u7/dPK+wPZbApMa82f2Uilw7hCRgLBoE
+hvrZn+rGvqIk97uxPt/BGfFQoTSOxNtdliKdHK+QQHxbxKgZCmJKROK//50EX1BLBwh7eF0P+AAAAMoB
+AABQSwECFAAUAAgICAAAACEAe3hdD/gAAADKAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUG
+AAAAAAEAAQA2AAAALgEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/METUSProject/q7_Metus.met-bfc9ff6d-ac36-308b-bf4f-1a30e9f55b12
+Content-Type: q7/binary
+Entry-Name: contents/METUSProject/q7_Metus.met
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTlV99P2zAQfp+0/8EKvFI3RRWlomNQ
+gtSppQwKQ3up3OSaeiR2Zzst8NfPdtP8aEtBG2KT9pTkcvf5vu/OOefo+CGO0AyEpJy1HLdSdRAwnweU
+hS2HSr7XaNQP91zn+NPHD0cPMW3e9TrIXLOYmonRKEw2tb3lTJSaNjGez+cVHocVLkKsYzIXWXaZ71uP
+WrXqarfutT+BmOxRJhVhPiyjeqASmcUFUImNoQI+F5lPZo15AFHmrL2xtWNrL8fYh1I+4Ed0KsEmBfHY
+JFbDXhojaVPaBLvcJ8qy35gS2sFVRwuG0JF9bnqXxL8nISBGYr2epeMgJm+uOs+yYvJSwJg+LN0tnkFs
+R0RKOqa6ADYl9TjVmOlC9qWTrjMgowiWgSb0OpmCGGh/iSYafLtIOxifjKQSxFdeBDEw5eBlEriYxe9m
+Vnun1LSpVIWFsdwvzTZnYxomwtYV2Tepe8vR1cz3yGFWCUNvwM+5iInqkWlO5h4eX0filsqERKsUNMKM
+RAkgEtGQmVctp+udDxwUUQbX6jHSOV33u52zXEAdM9LphoInLGjziAskINA7utZwUCgAzE6t1x000sAL
+My4GG2QbVrKOOVNnIH1Bp1YW85yuf9G/6p10nYWJPmlLo5iNDvbX4PAKXs4XW8JZCTcr+9aCm27bKnrb
+uxh4VyXZL/oX3lbVl/oe/KG+p/3uWVFd190k76LItrDrRTa3/6T+J0oJOkrUdvXXWn5N+/+qaTPRXmzb
+l4V7r6Y9/Ps9C/lel6WxiKZEWLmwiz8LztU5jwIQ+vxj54f56uO1AboAK043O5ybKeQCH1zNDBjoWQJB
+R3Mdxv4+3MDpNw/ahz+/d+qz5PZHOywW8ZXItTXkp96A998AeX8VmX2hd97zyHqoFpR9Se3a6+Wu5Uvk
+binWcJibhkMH+RMaBcK0kEEtLl6pojWTmyPP7JYqzfyiQCtng9t176VuXw/aEyJUoUdmqyPmReDiOEIP
+l1yL4da1YnMaqIm5N4fy3GcD2QIzvIla9i0yAq+wXvDY3d1N+yGAMUki1SWPPNHlUiLZsAPMsld8Lot5
+yU1VKCS2YfH0eLbtKGb+O3D646HvfwFQSwcIUuYf5TkDAACxDAAAUEsBAhQAFAAICAgAAAAhAFLmH+U5
+AwAAsQwAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAG8DAAAAAA==
+------=_contents/METUSProject/q7_Metus.met-bfc9ff6d-ac36-308b-bf4f-1a30e9f55b12--

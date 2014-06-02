@@ -1,0 +1,99 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zOzvECeMEeGm5NjoKhWsPQ
+Element-Name: Undo/RedoInECLContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _JsBsoGsxEeGhKJWOtX9noQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, ECLContext, UndoRedo
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test steps:
+1. Open ECL Context
+2. Enter text in Script Viewer of ECL Context
+3. Press "Ctrl+z" 
+3. Make sure that change is canceled
+4. Press "Ctrl+y"
+5. Make sure that change is redo
+6. Save all changes
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click
+with [get-editor "Create New Project" | get-section Script | get-text-viewer] {
+    set-caret-pos 5 2
+    key-type Enter
+    type-text "// comment"
+    key-type "M1+s"
+    key-type Enter
+    type-text test
+    key-type "M1+s"
+    set-caret-pos 13 2
+    select-range 12 1 15 2
+    key-type Del
+    key-type BackSpace
+    key-type "M1+z"
+    key-type "M1+z"
+}
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
+    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
+    + "    get-button Finish | click\n}\n"
+    + "// comment\n"
+    + "test\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    select qqq | double-click -nowait\n"
+    + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
+    + "with [get-window \"New Test Case\"] {\n"
+    + "    get-editbox -after [get-label \"Name:\"] | set-text qw\n"
+    + "    get-button Finish | click\n"
+    + "}" | verify-true
+get-editor "Create New Project" | get-section Script | get-text-viewer | set-caret-pos 7 5
+get-menu "Edit/Undo" | click
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
+    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
+    + "    get-button Finish | click\n}\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    select qqq | double-click -nowait\n"
+    + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
+    + "with [get-window \"New Test Case\"] {\n"
+    + "    get-editbox -after [get-label \"Name:\"] | set-text qw\n"
+    + "    get-button Finish | click\n"
+    + "}" | verify-true
+get-menu "Edit/Redo" | click
+get-eclipse-window | key-type "M1+y"
+get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
+    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
+    + "    get-button Finish | click\n}\n"
+    + "// comment\n"
+    + "test\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    select qqq | double-click -nowait\n"
+    + "    select qqq | get-menu \"New/Test Case\" | click\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

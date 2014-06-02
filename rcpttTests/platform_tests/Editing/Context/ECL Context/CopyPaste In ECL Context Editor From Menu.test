@@ -1,0 +1,70 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zyoccGk6EeOVJ9Fi6d7JYQ
+Element-Name: CopyPaste In ECL Context Editor From Menu
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-3128
+Id: _bluk0GlAEeOsFbrwusmovw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+Verify that Edit/Copy, Edit/Paste works for ECL Context editor. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | double-click
+get-editor EclContext | get-editbox -after [get-label "Name:"] | set-text-selection -offset 10 -startLine 0 -endLine 0 
+    -endOffset 0
+get-menu "Edit/Copy" | click
+get-editor EclContext | get-editbox -after [get-label "Tags:"] | set-text-offset 4 0
+get-menu "Edit/Paste" | click
+with [get-editor EclContext] {
+    get-section Description | click
+    get-editbox -after [get-label "Tags:"] | set-text-selection -offset 14 -startLine 0 -endLine 0 -endOffset 0
+}
+get-menu "Edit/Copy" | click
+get-editor EclContext | get-section Description | get-text-viewer | set-caret-pos 1 12
+get-menu "Edit/Paste" | click
+with [get-editor EclContext | get-section Description | get-text-viewer] {
+    set-caret-pos 1 25
+    select-range 1 26 1 1
+}
+get-menu "Edit/Copy" | click
+get-editor EclContext | get-section Script | get-text-viewer | set-caret-pos 1 7
+get-menu "Edit/Paste" | click
+with [get-editor EclContext | get-section Script | get-text-viewer] {
+    set-caret-pos 1 29
+    select-range 1 32 1 1
+}
+get-menu "Edit/Copy" | click
+get-editor EclContext | get-editbox -after [get-label "Name:"] | set-text-offset 10 0
+get-menu "Edit/Paste" | click
+with [get-editor EclContextScriptDescriptionTagsEclContext] {
+    get-editbox -after [get-label "Name:"] | get-property text | equals EclContextScriptDescriptionTagsEclContext 
+        | verify-true
+    get-editbox -after [get-label "Tags:"] | get-property text | equals TagsEclContext | verify-true
+    get-section Description | get-text-viewer | get-property text | equals DescriptionTagsEclContext | verify-true
+    get-section Script | get-text-viewer | get-property text | equals ScriptDescriptionTagsEclContext | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

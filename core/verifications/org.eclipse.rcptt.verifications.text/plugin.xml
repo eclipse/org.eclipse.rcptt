@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/verifications/text"
+            class="org.eclipse.rcptt.verifications.text.TextPackage"
+            genModel="models/text.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.core.verificationTypes">
+      <type
+            canCreate="true"
+            description="Widget Text Verification"
+            eclass="TextVerification"
+            epackage-uri="http://eclipse.org/rcptt/verifications/text"
+            id="org.eclipse.rcptt.verifications.text"
+            name="Widget Text"
+            priority="50"
+            phases="finish"
+            prompt="Please pick a text or styled text widget, or a source code editor for verification.">
+         <widget
+               class="org.eclipse.swt.widgets.Text">
+         </widget>
+         <widget
+               class="org.eclipse.swt.custom.StyledText">
+         </widget>
+      </type>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.core.verificationMaker">
+      <maker
+            class="org.eclipse.rcptt.verifications.text.TextVerificationMaker"
+            type="org.eclipse.rcptt.verifications.text">
+      </maker>
+   </extension>
+
+</plugin>

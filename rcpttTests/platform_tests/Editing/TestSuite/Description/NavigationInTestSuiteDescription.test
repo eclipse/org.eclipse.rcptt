@@ -1,0 +1,79 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_Z-6cEEVwEeGf87sdqO61AA
+Element-Name: NavigationInTestSuiteDescription
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1785
+Id: _xqIiMFheEeGO45sjqA_WKg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestSuite, Description
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open test suite
+2. Enter text in description
+3. Press "Home" keyboard button and make sure that caret is set in start of line
+4. Press "End" keyboard button and make sure that caret is set in end of line
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | double-click
+with [get-editor TestSuite | get-section Description] {
+    click
+    with [get-text-viewer] {
+        type-text "test desciption"
+        key-type "M1+s"
+        set-caret-pos 1 6
+        key-type "M2+HOME"
+    }
+}
+with [get-editor TestSuite | get-section Description | get-editbox] {
+    get-property text | equals "test desciption" | verify-true
+    get-property "getSelectionText()" | equals test | verify-true
+}
+with [get-editor TestSuite | get-section Description | get-text-viewer] {
+    set-caret-pos 1 6
+    key-type "M2+END"
+}
+get-editor TestSuite | get-section Description | get-editbox | get-property "getSelectionText()" | equals desciption 
+    | verify-true
+with [get-editor TestSuite | get-section Description | get-text-viewer] {
+    set-caret-pos 1 16
+    key-type Right
+    key-type Enter
+    type-text "new line with text"
+    key-type "M1+s"
+}
+with [get-editor TestSuite | get-section Description | get-text-viewer] {
+    set-caret-pos 2 5
+    key-type Home
+    key-type "M2+END"
+}
+get-editor TestSuite | get-section Description | get-editbox | get-property "getSelectionText()" 
+    | equals "new line with text" | verify-true
+with [get-editor TestSuite | get-section Description | get-text-viewer] {
+    set-caret-pos 1 9
+    key-type End
+    key-type "M2+HOME"
+}
+get-editor TestSuite | get-section Description | get-editbox | get-property "getSelectionText()" 
+    | equals "test desciption" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

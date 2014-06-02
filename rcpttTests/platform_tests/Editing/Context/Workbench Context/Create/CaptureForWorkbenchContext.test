@@ -1,0 +1,140 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_94O7wOfZEeCButSfkA0tsQ
+Element-Name: CaptureForWorkbenchContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _4_DbMM7_EeCw4ppgsBRMGg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkbenchContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Launch AUT
+2. Create workbench context
+3. Press "Capture" button
+4. Make sure that context is correct
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WS_empty" | double-click -nowait
+get-editor "WS_empty" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_template" | double-click -nowait
+get-editor "WB_template" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
+with [get-editor "WB_test" | get-button Capture] {
+    click
+    key-type "M1+s"
+}
+with [get-editor "WB_test"] {
+    with [get-section Workbench] {
+        get-editbox -after [get-label "Perspective id:"] | get-property value 
+            | equals "org.eclipse.ui.resourcePerspective" | verify-true
+        with [get-button "Reset perspective"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Reset perspective" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        with [get-button "Close all modal dialogs"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Close all modal dialogs" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        with [get-button "Clear clipboard"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Clear clipboard" | verify-true
+            get-property selected | equals true | verify-true
+        }
+    }
+    with [get-section Views | get-table] {
+        get-property itemCount | equals 4 | verify-true
+        get-item "org.eclipse.ui.navigator.ProjectExplorer" | get-property caption 
+            | equals "org.eclipse.ui.navigator.ProjectExplorer" | verify-true
+        get-item "org.eclipse.ui.views.ContentOutline" | get-property caption 
+            | equals "org.eclipse.ui.views.ContentOutline" | verify-true
+        get-item "org.eclipse.ui.views.TaskList" | get-property caption | equals "org.eclipse.ui.views.TaskList" 
+            | verify-true
+        get-item "org.eclipse.pde.runtime.LogView" | get-property caption | equals "org.eclipse.pde.runtime.LogView" 
+            | verify-true
+    }
+    with [get-section Editors] {
+        with [get-button "Close opened editors"] {
+            get-property enablement | equals false | verify-true
+            get-property caption | equals "Close opened editors" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        get-table | get-property itemCount | equals 0 | verify-true
+    }
+}
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WS_template" | double-click -nowait
+get-editor "WS_template" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_common" | double-click -nowait
+get-editor "WB_common" | get-button Apply | click
+with [get-editor "WB_test"] {
+    click -nowait
+    with [get-button Capture] {
+        click
+        key-type "M1+s"
+    }
+}
+with [get-editor "WB_test"] {
+    with [get-section Workbench] {
+        get-editbox -after [get-label "Perspective id:"] | get-property value | equals "com.xored.q7.ui.perspective" 
+            | verify-true
+        with [get-button "Reset perspective"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Reset perspective" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        with [get-button "Close all modal dialogs"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Close all modal dialogs" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        with [get-button "Clear clipboard"] {
+            get-property enablement | equals true | verify-true
+            get-property caption | equals "Clear clipboard" | verify-true
+            get-property selected | equals true | verify-true
+        }
+    }
+ with [get-editor "WB_test" | get-section Views | get-table] {
+    get-property itemCount | equals 5 | verify-true
+    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
+        | verify-true
+    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+        | verify-true
+    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+}
+    with [get-section Editors] {
+        with [get-button "Close opened editors"] {
+            get-property enablement | equals false | verify-true
+            get-property caption | equals "Close opened editors" | verify-true
+            get-property selected | equals true | verify-true
+        }
+        with [get-table] {
+            get-property itemCount | equals 1 | verify-true
+            get-item "project1\\/text.txt" | get-property caption | equals "project1/text.txt" | verify-true
+        }
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

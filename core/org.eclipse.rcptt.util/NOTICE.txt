@@ -1,0 +1,10 @@
+The following classes used were sourced from the Apache
+Software Foundation and is distributed under the apache 2.0
+license.
+
+WeakIdentityHashMap.java
+Base64.java
+
+The following class contain fragment from The Guava Authors
+
+StringUtils.java

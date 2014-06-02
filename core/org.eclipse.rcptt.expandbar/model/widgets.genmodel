@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.expandbar/gen-src"
+    modelPluginID="org.eclipse.rcptt.expandbar" modelName="Widgets" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui">
+  <foreignModel>widgets.ecore</foreignModel>
+  <genPackages prefix="Widgets" basePackage="org.eclipse.rcptt.expandbar" disposableProviderFactory="true"
+      ecorePackage="widgets.ecore#/">
+    <genClasses ecoreClass="widgets.ecore#//ExpandBar">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference widgets.ecore#//ExpandBar/items"/>
+    </genClasses>
+    <genClasses ecoreClass="widgets.ecore#//ExpandItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute widgets.ecore#//ExpandItem/caption"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute widgets.ecore#//ExpandItem/expanded"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute widgets.ecore#//ExpandItem/index"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

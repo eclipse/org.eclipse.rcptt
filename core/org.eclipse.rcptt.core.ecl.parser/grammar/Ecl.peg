@@ -1,0 +1,28 @@
+Commands <- Spacing Sequence? EOF
+Sequence <- Spacing Pipeline CommandSpacing ((EndOfLine|Colon) Spacing Pipeline CommandSpacing)* CommandSpacing (EndOfLine|Colon)? Spacing
+Pipeline <- Command (Spacing Pipe Spacing Command?)*
+Command <-  CommandName (ParameterDelim Parameter | &(CommandSpacing? EndOfLine CommandSpacing? (String | Number | DollarIdentifier | ParameterName | CurlyExpression | Substitution)) CommandSpacing? EndOfLine CommandSpacing? Parameter)*
+CommandName <- DollarIdentifier | Identifier
+Parameter <- ParameterName (ParameterDelim ParameterValue)? | ParameterValue
+ParameterName <- "-" "-"? Identifier? 
+ParameterValue <- DollarIdentifier | Identifier | Number | String | CurlyExpression | Substitution
+Substitution <- LBrack Spacing Pipeline? Spacing RBrack
+CurlyExpression <- LCurly (CurlyExpression | !RCurly .)* Spacing RCurly
+Identifier <- "[a-zA-Z_]([a-zA-Z_0-9]|-)*"
+DollarIdentifier <- "\$" Identifier?
+Number <- "[0-9]+"
+String <- StringRun (Spacing "\+" Spacing StringRun)* 
+Colon <- ";"
+Pipe <- "\|"
+LCurly <- "\{"
+RCurly <- "\}" 
+LBrack <- "\["
+RBrack <- "\]"
+Spacing <- ("[ \t\n\r]+" | SlComment | MlComment)*
+ParameterDelim <- "[ \t]+"
+CommandSpacing <- ("[ \t]+" | SlComment | MlComment)*
+EndOfLine <- "[\n\r]+"
+SlComment <- '//[^\n\r]*'
+MlComment <- '(?m)(?s)/\*.*\*/'
+StringRun <- "'" (Escape | !"['\\]" .)* "'" | '"' (Escape | !'["\\]' .)* '"'
+Escape <- "\\" "[btnfr\"'\\]"

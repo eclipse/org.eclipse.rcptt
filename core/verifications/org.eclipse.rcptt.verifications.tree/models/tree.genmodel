@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.verifications.tree/gen-src"
+    modelPluginID="org.eclipse.rcptt.verifications.tree" modelName="Tree" editPluginClass="org.eclipse.rcptt.verifications.tree.provider.TreeEditPlugin"
+    editorPluginClass="org.eclipse.rcptt.verifications.tree.presentation.TreeEditorPlugin"
+    testSuiteClass="org.eclipse.rcptt.verifications.tree.tests.TreeAllTests" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario ../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui">
+  <foreignModel>tree.ecore</foreignModel>
+  <genPackages prefix="Tree" basePackage="org.eclipse.rcptt.verifications" disposableProviderFactory="true"
+      ecorePackage="tree.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tree.ecore#//VerifyStyleType">
+      <genEnumLiterals ecoreEnumLiteral="tree.ecore#//VerifyStyleType/ALL"/>
+      <genEnumLiterals ecoreEnumLiteral="tree.ecore#//VerifyStyleType/IGNORE_STYLES"/>
+      <genEnumLiterals ecoreEnumLiteral="tree.ecore#//VerifyStyleType/IGNORE_STYLED_TEXT"/>
+    </genEnums>
+    <genClasses ecoreClass="tree.ecore#//TreeVerification"/>
+    <genClasses ecoreClass="tree.ecore#//Tree">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tree.ecore#//Tree/columns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/style"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//Tree/rows"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/enabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/headerVisible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/linesVisible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/sortColumnInd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Tree/sortDirection"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//Column">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Column/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Column/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Column/style"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tree.ecore#//Column/image"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Column/tooltip"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//Row">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tree.ecore#//Row/values"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tree.ecore#//Row/children"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Row/checked"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Row/grayed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//Row/data"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//Cell">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//Cell/style"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//Cell/data"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//ImagesMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//ImagesMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//ImagesMap/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//ItemData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//ItemData/text"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//ItemData/image"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//ItemData/foregroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//ItemData/backgroundColor"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//CommonTreeVerificationData">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//CommonTreeVerificationData/tree"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//CaptureTreeVerificationData">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tree.ecore#//CaptureTreeVerificationData/images"/>
+    </genClasses>
+    <genClasses ecoreClass="tree.ecore#//VerifyTreeData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//VerifyTreeData/allowExtraColumns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//VerifyTreeData/allowMissingColumns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//VerifyTreeData/verifyStyle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//VerifyTreeData/verifyIcons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//VerifyTreeData/allowUncapturedChildren"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

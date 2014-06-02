@@ -1,0 +1,57 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_e5RHAOo7EeCjiJ-04yesNg
+Element-Name: SelectLocationForGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _6mP8sO8jEeCWFp5-_cxtIw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. RightClick Q7 project and select New -> Context;
+2. Set context name and select "Group" type;
+3. Press "Browse" button to select context location;
+4. Select any other Q7 project;
+5. Press OK button and Finish button;
+6. Make sure that the context was created and opened in selected Q7 project. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select Q7Project | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-table | select Group
+    get-editbox -after [get-label "Name:"] | set-text grgr
+    get-button "Browse..." | click
+    with [get-window "Select Location"] {
+        get-tree | select Q7Project2
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | get-item "Q7Project2/grgr" | get-property caption | equals grgr | verify-true
+get-tab-folder -index 1 | get-property activePage | equals grgr | verify-true
+get-editor grgr | get-section Contexts | get-property className | equals "org.eclipse.ui.forms.widgets.Section" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

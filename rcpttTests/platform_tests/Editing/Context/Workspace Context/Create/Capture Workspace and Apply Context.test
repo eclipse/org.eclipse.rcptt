@@ -1,0 +1,54 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Capture Workspace and Apply Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _oBhWkCFSEeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open workspace context with two projects inside and press "Apply";
+2. Open an empty workspace context and press "Capture" button;
+3. Make sure that both projects were captured. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
+get-editor "Two Projects" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+with [get-editor ClearWorkspace] {
+    get-button Capture | click
+    wait 200
+    get-section Workspace | get-tree | select P1
+}
+with [get-editor ClearWorkspace | get-section Workspace | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    get-item P1 | get-property caption | equals P1 | verify-true
+    get-item P2 | get-property caption | equals P2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

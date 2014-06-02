@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.core.networkProcessor">
+      <provider
+            class="org.eclipse.rcptt.internal.runtime.ui.Q7NetworkClientProcessor">
+      </provider>
+   </extension>
+   
+   
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.PrepareEnvironmentService"
+            name="PrepareEnvironment"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.GetQ7InformationService"
+            name="GetQ7Information"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.SetQ7FeaturesService"
+            name="SetQ7Features"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.GetPerspectivesService"
+            name="GetPerspectives"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.GetViewsService"
+            name="GetViews"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.SetQ7OptionService"
+            name="SetQ7Option"
+            namespace="http://eclipse.org/rcptt/core/ecl">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.runtime.ui.AutReconnectService"
+            name="AutReconnect"
+            namespace="http://eclipse.org/rcptt/core/launching.ecore">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.rcptt.internal.runtime.ui.Q7RuntimePreferencePage"
+            id="org.eclipse.rcptt.ui.preferences.runtime"
+            name="RCPTT Runtime">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.eclipse.rcptt.internal.runtime.ui.Q7RuntimeStartup">
+      </startup>
+   </extension>
+
+</plugin>

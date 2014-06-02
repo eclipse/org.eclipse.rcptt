@@ -1,0 +1,47 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: emptyProject
+Element-Type: context
+Element-Version: 2.0
+Id: _tlWZcGphEeCzId1Gnkds9A
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkM1OwzAQhO95Cst3bMIFiJJUqEJV
+DkgFgYq4oMrZpm7jH9kLCTw9dhtH3BC39e63M7MuF6PqySc4L42uaM4uKQEtTCt1V9EP3F3c0EWdlcZ1
+DEQvrQfmhEVkAkc2GHf0diug2KRqaTTCiGRUsphlr6JsMNK+CP2K7hFtwfkwDMyojgVx/vrQJOQPr3k9
+MXH9xPHA8ZmjRG9VoEFZ/Fo7cwCBlMi2ou/Yb97Eyu7vYfndtPlKH1t/e0frjJBSxAM0xjq87HnPT1rP
+4PHxeu0O9DwPxE72kMbMJptJ5eWpCd3fCWLEaZjPOJ/ceLI7JeFzlJL/9//r7AdQSwcIG8ZmOfkAAADa
+AQAAUEsBAhQAFAAICAgAAAAhABvGZjn5AAAA2gEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsF
+BgAAAAABAAEANgAAAC8BAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/TestQ7Prj/.project-b5eed4c6-7eee-33d3-84e7-5a3c4333f851
+Content-Type: q7/binary
+Entry-Name: contents/TestQ7Prj/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRVTksOwiAQXdtTNOwFXdUFpZvGtcZ6
+gAoTQ1M+AjU9voC2sat5v3kztJnVWL7BeWl0jY74gErQ3AipnzW6d+f9CTWsoNaZAXhowXMnbYhhVuyo
+7hWwDny4Vhc3UJJ51LlRCnRglCwoir8KnzD5J49JjuJmgWdnw3QfJgcptWAWG/FsHAj8qjCPIM6vle7n
+SKpZN9dbm98/UEsHCMP53wCXAAAA+AAAAFBLAQIUABQACAgIAAAAIQDD+d8AlwAAAPgAAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAADNAAAAAAA=
+------=_contents/TestQ7Prj/.project-b5eed4c6-7eee-33d3-84e7-5a3c4333f851--

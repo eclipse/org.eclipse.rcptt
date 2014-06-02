@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="listeners" name="listeners" schema="schema/listeners.exsd"/>
+   <extension-point id="launchValidator" name="launchValidator" schema="schema/launchValidator.exsd"/>
+   <extension-point id="executors" name="executors" schema="schema/executors.exsd"/>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.rcptt.internal.launching.Q7LaunchConfigurationDelegate"
+            delegateDescription="Built-in RCPTT Test Case Launcher"
+            delegateName="Default RPTT Test Case Launcher"
+            id="org.eclipse.rcptt.launching.scenarios"
+            modes="run,debug"
+            name="RCPTT Test Suite"
+            sourceLocatorId="org.eclipse.rcptt.ecl.debug.core.sourceLocator"
+            sourcePathComputerId="org.eclipse.rcptt.ecl.debug.core.sourcePathComputer">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.launching.listeners">
+      <listener
+            class="org.eclipse.rcptt.internal.launching.LaunchTimer"
+            ui="false">
+      </listener>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.rcptt.internal.launching.LaunchingPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.internal.launching.events.AutSendEventService"
+            name="AutSendEvent"
+            namespace="http://eclipse.org/rcptt/core/launching.ecore">
+      </scriptlet>
+   </extension>
+
+</plugin>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.ecl.ide"
+      label="ECL IDE support"
+      version="1.5.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      ECL IDE
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.0.qualifier"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.rcptt.ecl.debug.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.ecl.debug.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

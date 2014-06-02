@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="q7Validator" name="q7Validator" schema="schema/q7Validator.exsd"/>
+
+   <extension
+         id="q7Builder"
+         name="RCPTT Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="org.eclipse.rcptt.core.internal.builder.Q7Builder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="q7Problem"
+         name="RCPTT Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.q7Extension">
+      <q7Extension
+            class="org.eclipse.rcptt.core.internal.builder.Q7BuilderExtension"
+            id="builder">
+      </q7Extension>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.builder.q7Validator">
+      <!--validator
+            class="org.eclipse.rcptt.core.internal.validators.Q7LoadErrorValidator">
+      </validator-->
+      <validator
+            class="org.eclipse.rcptt.core.internal.validators.ContextReferenceValidator">
+      </validator>
+      <validator
+            class="org.eclipse.rcptt.core.internal.validators.VerificationReferenceValidator">
+      </validator>
+      <validator
+            class="org.eclipse.rcptt.core.internal.validators.TestCaseECLValidator">
+      </validator>
+      <validator
+            class="org.eclipse.rcptt.core.builder.SameIDValidator">
+      </validator>
+      <validator
+            class="org.eclipse.rcptt.core.internal.validators.TestSuiteItemsValidator">
+      </validator>
+   </extension>
+
+</plugin>

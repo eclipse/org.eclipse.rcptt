@@ -1,0 +1,75 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_CvfmAGniEeK1ouDBqHdAhQ,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: AddFilesToFolderContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _NAHzMGngEeK1ouDBqHdAhQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, FolderContext, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open existing Folder Context and press "Add Files..." button
+2. Add Files and apply folder context
+3. Make sure that Files are added to folder context and applyed 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "project/EmptyFolderContext" | double-click
+//with [get-editor EmptyFolderContext | get-section Folder] {
+//    get-editbox -after [get-label "Root path:"] | set-text [substitute-variables "${workspace_loc}/resource/external"]
+//}
+set-dialog-result Folder "platform:/resource/external"
+get-editor EmptyFolderContext | get-section Folder | get-button "Browse..." | click
+set-dialog-result File "platform:/resource/external/toFolderContext/test.png"
+get-editor EmptyFolderContext | get-section Folder | get-button "Add Files..." | click
+get-editor EmptyFolderContext | get-section Folder | get-button "Clear root folder before context application" | uncheck
+get-button "Save (M1+S)" | click
+get-editor EmptyFolderContext | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select external | get-menu Refresh | click
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "external/test.png" | get-property caption | equals "test.png" | verify-true
+}
+set-dialog-result File "platform:/resource/external/toFolderContext/TestFolder/error.png" "platform:/resource/external/toFolderContext/TestFolder/new_test.txt"
+get-editor EmptyFolderContext | get-section Folder | get-button "Add Files..." | click
+set-dialog-result File "platform:/resource/external/toFolderContext/test.png"
+
+get-editor EmptyFolderContext | get-section Folder | get-button "Add Files..." | click
+
+with [get-window "Error adding files"] {
+	get-label "Context already contains file 'test.png'"
+	get-button OK | click
+}
+
+set-dialog-result File "platform:/resource/external/toCapture/file.txt"
+get-editor EmptyFolderContext | get-section Folder | get-button "Add Files..." | click
+get-editor EmptyFolderContext | get-section Folder | get-button "Add Files..." | key-type "M1+s"
+with [get-editor EmptyFolderContext | get-section Folder | get-tree] {
+    get-property itemCount | equals 4 | verify-true
+    get-item "test.png" | get-property caption | equals "test.png" | verify-true
+    get-item "error.png" | get-property caption | equals "error.png" | verify-true
+    get-item "new_test.txt" | get-property caption | equals "new_test.txt" | verify-true
+    get-item "file.txt" | get-property caption | equals "file.txt" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

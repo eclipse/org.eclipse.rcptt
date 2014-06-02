@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+          id="product"
+          point="org.eclipse.core.runtime.products">
+       <product
+             application="org.eclipse.ui.ide.workbench"
+             name="RCP Testing Tool">
+          <property
+                name="appName"
+                value="RCP Testing Tool">
+          </property>
+          <property
+                name="preferenceCustomization"
+                value="plugin_customization.ini">
+          </property>
+          <property
+                name="startupProgressRect"
+                value="51,201,176,2">
+          </property>
+          <property
+                name="startupForegroundColor"
+                value="90889f">
+          </property>
+          <property
+                name="startupMessageRect"
+                value="50,210,174,21">
+          </property>
+          <property
+                name="aboutImage"
+                value="icons/about.png">
+          </property>
+          <property
+                name="aboutText"
+                value="RCP Testing Tool IDE&#x0D;&#x0A;&#x0D;&#x0A;Version: 1.5.0&#x0D;&#x0A;&#x0D;&#x0A;Visit http://eclipse.org/rcptt">
+          </property>
+          <property
+                name="windowImages"
+                value="icons/logo-16.png,icons/logo-32.png,icons/logo-48.png,icons/logo-64.png,icons/logo-128.png">
+          </property>
+       </product>
+    </extension>
+</plugin>

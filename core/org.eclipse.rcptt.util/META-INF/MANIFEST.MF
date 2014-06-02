@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Utilities Plugin which depends on JaveSE only
+Bundle-SymbolicName: org.eclipse.rcptt.util
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.jsoup;resolution:=optional
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.util.UtilPlugin

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.core.processor">
+      <provider
+            class="org.eclipse.rcptt.tesla.properties.view.PropertiesViewProcessor">
+      </provider>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.core.recorder">
+      <recorder
+            class="org.eclipse.rcptt.tesla.properties.view.PropertiesViewRecorder">
+      </recorder>
+   </extension>
+</plugin>

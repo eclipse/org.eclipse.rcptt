@@ -1,0 +1,65 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
+Element-Name: SkipAllBreakpointsInDebug
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1698
+Id: _rILNoDHpEeGmnqpjyhCbeA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, Debug
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+
+1. Open test case and set several breakpoints
+2. Set disable for one breakpoint
+3. Open Breakpoints view and press "Skip All Breakpoints" button
+4. Run this test case in debug 
+5. Make sure that test is run, but breakpoints are not applied
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "MyProject/CreateJavaProject" | double-click -nowait
+}
+with [get-editor CreateJavaProject | get-section Script | get-text-viewer] {
+    set-caret-pos 1 4
+    key-type "M1+M2+b"
+    set-caret-pos 6 8
+    key-type "M1+M2+b"
+}
+get-menu "Run/Skip All Breakpoints" | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Debug As/.* Test Cases" | click
+try -times 30 -delay 500 -command {
+	with [get-view "Execution View"] {
+	//    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+	//    get-label 0 -after [get-label "Failures:"] | get-property caption | equals 0 | verify-true
+	//    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+	    with [get-tree] {
+	        get-property itemCount | equals 1 | verify-true
+	        get-item "CreateJavaProject.*" | get-property caption | equals "CreateJavaProject.*" 
+	            | verify-true
+	    }
+	}
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

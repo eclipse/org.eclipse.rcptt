@@ -1,0 +1,73 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_n1a-kfriEeCQa9Xqo-1T3A
+Element-Name: ImportFromClipboardToTheProjectWithSameContexts
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _kQdOwPr9EeCQa9Xqo-1T3A
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: ImportExport, Clipboard
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Have a test case in P1 with contexts in P2;
+2. Export a test case to a clipboard and import it in P2;
+3. Make sure that no duplicate contexts were added;
+4. Delete imported test case and some contexts from P2;
+5. Import Test Case in P2 again;
+6. Make sure that missed contexts were imported as well as a test case.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
+get-window "Export" | get-button Finish | click
+get-view "Q7 Explorer" | get-tree | select Q7Project2 | get-menu "Import/Q7 Portable Format" | click
+get-window -from "Window.createShell()" | get-button Finish | click
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "Q7Project2/TC1" | get-property caption | equals TC1 | verify-true
+    get-item "Q7Project2/TC2" | get-property caption | equals TC2 | verify-true
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "Q7Project2/Contexts" | get-property caption | equals Contexts | verify-true
+    get-item "Q7Project2/Contexts" | get-property childCount | equals 6 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project2/TC1" | key-type DEL
+get-window "Delete Resources" | get-button OK | click
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project2/Contexts/GroupContext" "Q7Project2/Contexts/PrefContext" "Q7Project2/Contexts/WbContext" "Q7Project2/Contexts/WsContext"
+    key-type DEL
+}
+get-window "Delete Resources" | get-button OK | click
+get-view "Q7 Explorer" | get-tree | select Q7Project2 | get-menu "Import/Q7 Portable Format" | click
+get-window -from "Window.createShell()" | get-button Finish | click
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "Q7Project2/Contexts/DebugContext" | get-property caption | equals DebugContext | verify-true
+    get-item "Q7Project2/Contexts/EclContext" | get-property caption | equals EclContext | verify-true
+    get-item "Q7Project2/WbContext" | get-property caption | equals WbContext | verify-true
+    get-item "Q7Project2/GroupContext" | get-property caption | equals GroupContext | verify-true
+    get-item "Q7Project2/WsContext" | get-property caption | equals WsContext | verify-true
+    get-item "Q7Project2/PrefContext" | get-property caption | equals PrefContext | verify-true
+    get-item "Q7Project2/TC1" | get-property caption | equals TC1 | verify-true
+    get-item "Q7Project2/TC2" | get-property caption | equals TC2 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

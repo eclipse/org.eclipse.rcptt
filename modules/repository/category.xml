@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <feature id="org.eclipse.rcptt.platform">
+    <category name="rcptt.modules"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.updates">
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.server">
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla.ecl">
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.core">
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.ide">
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.platform">
+  </feature>
+  <feature id="org.eclipse.rcptt.ecl.platform.ui">
+  </feature>
+  <feature id="org.eclipse.rcptt.tesla">
+  </feature>
+  <feature id="org.eclipse.rcptt.watson">
+  </feature>
+  <feature id="org.eclipse.rcptt.module.nebula"/>
+  <category-def label="RCP Testing Tool Modules" name="rcptt.modules"/>
+  <feature id="org.eclipse.jdt.lite"/>
+  <feature id="org.eclipse.pde.lite"/>
+  <feature id="org.eclipse.platform.lite"/>
+  <feature id="org.eclipse.rcp.lite"/>
+</site>

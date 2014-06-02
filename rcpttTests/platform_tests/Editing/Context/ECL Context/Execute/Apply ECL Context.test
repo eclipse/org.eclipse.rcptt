@@ -1,0 +1,47 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zOzvECeMEeGm5NjoKhWsPQ,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Apply ECL Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _4WpBACeLEeGm5NjoKhWsPQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, ECLContext, Runtime
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Create ECL script context which creates new Project and some file in it;
+2. Use this context into a test case which deleted this file;
+3. Run the test and make sure it passes. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
+get-editor "Delete Test" | get-button Replay | click
+with [get-view "Execution View"] {
+    get-tree | get-item "Delete Test.*" | get-property caption | equals "Delete Test.*" 
+        | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2010/12/20 09:48:00 haiodo Exp $
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/ctx/workspace"
+            class="org.eclipse.rcptt.workspace.WorkspacePackage"
+            genModel="models/workspace.genmodel"/>
+   </extension>
+<extension
+      point="org.eclipse.rcptt.core.contextTypes">
+   <contextType
+         description="Workspace Context"
+         eclass="WorkspaceContext"
+         epackage-uri="http://eclipse.org/rcptt/ctx/workspace"
+         id="org.eclipse.rcptt.ctx.workspace"
+         name="Workspace"
+         canCreate="true"
+         priority="70">
+   </contextType>
+</extension>
+<extension
+      point="org.eclipse.rcptt.core.contextMaker">
+   <maker
+         class="org.eclipse.rcptt.ctx.resources.WorkspaceContextMaker"
+         type="org.eclipse.rcptt.ctx.workspace">
+   </maker>
+</extension>
+<extension
+      point="org.eclipse.rcptt.core.indexer">
+   <indexer
+         class="org.eclipse.rcptt.ctx.internal.resources.WorkspaceContextIndexer">
+   </indexer>
+</extension>
+	
+
+</plugin>

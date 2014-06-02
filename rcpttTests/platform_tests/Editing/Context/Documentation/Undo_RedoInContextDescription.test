@@ -1,0 +1,88 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_Z-6cEEVwEeGf87sdqO61AA
+Element-Name: Undo\RedoInContextDescription
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _UXYZ0VheEeGO45sjqA_WKg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Description, Context, UndoRedo
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open context
+2. Enter text in context description
+3. Press "Ctrl+z" and make sure that change is cancelled
+4. Press "Ctrl+y" and make sure that change is revert
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click
+with [get-editor ClearWorkspace | get-section Description] {
+    click
+    with [get-text-viewer] {
+        type-text "new test on description"
+        key-type "M1+s"
+    }
+}
+get-editor ClearWorkspace | close
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "MyProject/ClearWorkspace" | double-click
+}
+with [get-editor ClearWorkspace | get-section Description] {
+    click
+    with [get-text-viewer] {
+        set-caret-pos 1 24
+        key-type Enter
+        type-text "new text"
+        key-type "M1+z"
+        set-caret-pos 2 5
+    }
+}
+get-editor ClearWorkspace | get-section Description | get-editbox | get-property text 
+    | equals "new test on description" | verify-true
+with [get-editor ClearWorkspace | get-section Description | get-text-viewer] {
+    set-caret-pos 2 5
+    key-type [get-by-os -default "M1+y" -macosx "M1+M2+z"]
+}
+get-editor ClearWorkspace | get-section Description | get-editbox | get-property text 
+    | equals "new test on description\n"
+    + "new text" | verify-true
+get-view "Q7 Explorer" | get-tree | select "MyProject/Open Modal Dialog" | double-click
+with [get-editor "Open Modal Dialog" | get-section Description] {
+    click
+    with [get-text-viewer] {
+        type-text "new text on"
+        key-type BackSpace -times 2
+        type-text "in description"
+    }
+}
+get-editor "Open Modal Dialog" | get-section Description | get-text-viewer | set-caret-pos 1 24
+get-menu "Edit/Undo" | click
+get-editor "Open Modal Dialog" | get-section Description | get-text-viewer | set-caret-pos 1 10
+get-editor "Open Modal Dialog" | get-section Description | get-editbox | get-property text | equals "new text" 
+    | verify-true
+get-editor "Open Modal Dialog" | get-section Description | get-text-viewer | set-caret-pos 1 10
+get-menu "Edit/Redo" | click
+get-editor "Open Modal Dialog" | get-section Description | get-editbox | get-property text 
+    | equals "new text in description" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,65 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_M-KKMO5KEeCU6db9MgIBkA,_W62xEO9AEeCZz89QM6kozg
+Element-Name: CopyContextFromOneGroupContextToAnother_NEW
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _hU6o4H8OEeGpb_bcG7OADQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: skipMacOS, Context, GroupContext, CopyPaste
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Create A group context, add B context into it;
+2. Copy B context from A editor and try to paste it into C group context;
+3. Make sure it has appeared in C;
+4. Add D context into C;
+5. Copy B and D from C editor and paste it into A;
+6. Make sure D has appeared into A and there's no duplicate B. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
+get-editor GroupContext | get-section Contexts | get-table | select "1 \\(Q7Project\\)" | key-type "M1+c"
+get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext1" | double-click
+get-editor GroupContext1 | get-section Contexts | get-table | key-type "M1+v"
+with [get-editor GroupContext1 | get-section Contexts | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "1 \\(Q7Project\\)" | get-property caption | equals "1 (Q7Project)" | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    select "1 \\(Q7Project\\)" "2 \\(Q7Project\\)" "A \\(Q7Project\\)"
+    key-type "M1+c"
+}
+with [get-editor GroupContext1] {
+    click
+    get-section Contexts | get-table | get-menu Paste | click
+}
+with [get-editor GroupContext1 | get-section Contexts | get-table] {
+    get-property itemCount | equals 3 | verify-true
+    get-item "1 \\(Q7Project\\)" | get-property caption | equals "1 (Q7Project)" | verify-true
+    get-item "2 \\(Q7Project\\)" | get-property caption | equals "2 (Q7Project)" | verify-true
+    get-item "A \\(Q7Project\\)" | get-property caption | equals "A (Q7Project)" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

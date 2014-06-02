@@ -1,0 +1,48 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_X2jMkCVfEeG9Gq93I6x6JA
+Element-Name: Close opened editors should be disabled if Resest perspective is set
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _fS8v4CVjEeG9Gq93I6x6JA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkbenchContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open workbench context editor;
+2. Uncheck "Reset perspective" option;
+3. Make sure that "Close opened editors" checkbox became  enabled;
+4. Check "Resest perspective" option;
+5. Make sure that "Close opened editors" checkbox became disabled. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/WBContext" | double-click
+get-editor WBContext | get-section Workbench | get-button "Reset perspective" | click
+get-editor WBContext | get-section Editors | get-button "Close opened editors" | get-property enablement | equals true 
+    | verify-true
+get-editor WBContext | get-section Workbench | get-button "Reset perspective" | click
+get-editor WBContext | get-section Editors | get-button "Close opened editors" | get-property enablement | equals false 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.core.ecl;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.rcptt.tesla.recording.core;bundle-version="1.1.0",
+ org.eclipse.rcptt.tesla.core;bundle-version="1.1.0",
+ org.eclipse.rcptt.ecl.core;bundle-version="1.0.0",
+ org.eclipse.rcptt.tesla.ecl;bundle-version="1.1.0",
+ org.eclipse.core.runtime,
+ org.eclipse.jface,
+ org.eclipse.rcptt.util;bundle-version="1.0.0",
+ org.eclipse.rcptt.util.swt;bundle-version="1.0.0"
+Export-Package: org.eclipse.rcptt.tesla.recording.core.ecl;
+  uses:="org.eclipse.core.runtime,
+   org.eclipse.rcptt.tesla.ecl.model,
+   org.osgi.framework,
+   org.eclipse.rcptt.tesla.recording.core,
+   org.eclipse.rcptt.tesla.core.protocol.raw",
+ org.eclipse.rcptt.tesla.recording.core.ecl.parser,
+ org.eclipse.rcptt.tesla.recording.core.internal.ecl;x-friends:="org.eclipse.rcptt.tesla.recording.core.ecl.tests"
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.tesla.recording.core.ecl.TeslaRecordingPlugin

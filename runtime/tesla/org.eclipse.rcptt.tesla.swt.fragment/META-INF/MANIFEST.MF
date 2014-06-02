@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Runtime SWT Support Fragment
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.swt.fragment;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Fragment-Host: org.eclipse.swt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.swt.dnd

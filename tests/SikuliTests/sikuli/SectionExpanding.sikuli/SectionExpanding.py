@@ -1,0 +1,1 @@
+click("PProperties.png")

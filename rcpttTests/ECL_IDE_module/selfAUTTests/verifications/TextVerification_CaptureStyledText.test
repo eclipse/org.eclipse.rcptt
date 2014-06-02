@@ -1,0 +1,116 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _byweYBOEEeO4t6fOTB-8xg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: TextVerification_CaptureStyledText
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _qlNUIBOGEeOQfY3M4mNcSA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, verification
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/TC" | double-click
+get-editor TC | get-button Replay | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/StyledTextVerification" | double-click
+get-editor StyledTextVerification | get-section "Widget Text" | get-editbox -after [get-label "Widget:"] 
+    | get-property text | equals "get-editor TC | get-section Script | get-text-viewer" | verify-true
+get-editor StyledTextVerification | get-button Capture | click
+get-editor StyledTextVerification | get-section "Widget Text" | get-editbox -after [get-label "Text should be:"] 
+    | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
+    + "with [get-window \"New Context Wizard\"] {\n"
+    + "    get-table | select \"Execution Time\"\n"
+    + "    get-editbox -after [get-label \"Name:\"] | set-text TV\n"
+    + "    get-button Finish | click\n}\n"
+    + "with [get-tab-folder -index 1] {\n"
+    + "    get-property activePage | equals TV | verify-true\n"
+    + "    get-property tabCount | equals 1 | verify-true\n}\n"
+    + "with [get-editor TV | get-section \"Execution Time\"] {\n"
+    + "    get-label \"Execution Time\" | get-property caption | equals \"Execution Time\" | verify-true\n"
+    + "    get-label \"Test case execution time should be less than:\" | get-property caption \n"
+    + "        | equals \"Test case execution time should be less than:\" | verify-true\n"
+    + "    get-label \"minute(s) and\" | get-property caption | equals \"minute(s) and\" | verify-true\n"
+    + "    get-label \"second(s)\" | get-property caption | equals \"second(s)\" | verify-true\n"
+    + "    get-editbox -after [get-label \"Test case execution time should be less than:\"] | get-property text | equals 1 \n"
+    + "        | verify-true\n"
+    + "    get-editbox -after [get-label \"minute(s) and\"] | get-property text | equals 0 | verify-true\n"
+    + "    with [get-button \"Take into account the time spent executing contexts\"] {\n"
+    + "        get-property enablement | equals true | verify-true\n"
+    + "        get-property caption | equals \"Take into account the time spent executing contexts\" | verify-true\n"
+    + "        get-property selected | equals false | verify-true\n"
+    + "    }\n"
+    + "}" | verify-true
+get-view "Q7 Explorer" | get-tree | select MyProject | get-menu "New/Verification" | click
+with [get-window "New Verification Wizard"] {
+    get-table | select "Widget Text"
+    get-editbox -after [get-label "Name:"] | set-text qqq
+    get-button Finish | click
+}
+
+with [get-editor StyledTextVerification] {
+    click
+    with [get-section "Widget Text"] {
+        get-editbox -after [get-label "Widget:"] | set-text-offset 52 0
+        get-editbox -after [get-label "Widget:"] | key-type "M1+a"
+        with [get-editbox -after [get-label "Widget:"]] {
+            set-text-selection -offset 0 -startLine 0 -endLine 0 -endOffset 52
+            key-type "M1+c"
+        }
+    }
+}
+with [get-editor qqq] {
+    click
+    get-section "Widget Text" | get-editbox -after [get-label "Widget:"] | key-type "M1+v"
+}
+with [get-editor qqq | get-section "Widget Text"] {
+    get-editbox -after [get-label "Widget:"] | get-property text 
+        | equals "get-editor TC | get-section Script | get-text-viewer" | verify-true
+    get-editbox -after [get-label "Text should be:"] | get-property text | equals "" | verify-true
+}
+get-editor qqq | get-button Capture | click
+get-editor qqq | get-section "Widget Text" | get-editbox -after [get-label "Text should be:"] | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
+    + "with [get-window \"New Context Wizard\"] {\n"
+    + "    get-table | select \"Execution Time\"\n"
+    + "    get-editbox -after [get-label \"Name:\"] | set-text TV\n"
+    + "    get-button Finish | click\n}\n"
+    + "with [get-tab-folder -index 1] {\n"
+    + "    get-property activePage | equals TV | verify-true\n"
+    + "    get-property tabCount | equals 1 | verify-true\n}\n"
+    + "with [get-editor TV | get-section \"Execution Time\"] {\n"
+    + "    get-label \"Execution Time\" | get-property caption | equals \"Execution Time\" | verify-true\n"
+    + "    get-label \"Test case execution time should be less than:\" | get-property caption \n"
+    + "        | equals \"Test case execution time should be less than:\" | verify-true\n"
+    + "    get-label \"minute(s) and\" | get-property caption | equals \"minute(s) and\" | verify-true\n"
+    + "    get-label \"second(s)\" | get-property caption | equals \"second(s)\" | verify-true\n"
+    + "    get-editbox -after [get-label \"Test case execution time should be less than:\"] | get-property text | equals 1 \n"
+    + "        | verify-true\n"
+    + "    get-editbox -after [get-label \"minute(s) and\"] | get-property text | equals 0 | verify-true\n"
+    + "    with [get-button \"Take into account the time spent executing contexts\"] {\n"
+    + "        get-property enablement | equals true | verify-true\n"
+    + "        get-property caption | equals \"Take into account the time spent executing contexts\" | verify-true\n"
+    + "        get-property selected | equals false | verify-true\n"
+    + "    }\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

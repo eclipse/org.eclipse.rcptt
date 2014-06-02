@@ -1,0 +1,127 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_M-KKMO5KEeCU6db9MgIBkA
+Element-Name: CreateNewContextWhileAddingIntoGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _FCfboO8wEeCWFp5-_cxtIw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Double click group context;
+2. Click "Add" button;
+3. Click "New" button in "Select context" window;
+4. Set context name and type and click "OK";
+5. Verify that newly created context was added into a group context. 
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext6" | double-click
+get-editor GroupContext6 | get-section Contexts | get-button "Add..." | click
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-editbox -after [get-label "Name:"] | set-text wsContext
+        get-button Finish | click
+    }
+}
+with [get-editor GroupContext6] {
+    click
+    get-section Contexts | get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-table | select Workbench
+        get-editbox -after [get-label "Name:"] | set-text WbContext
+        get-button Finish | click
+    }
+}
+with [get-editor GroupContext6] {
+    click
+    get-section Contexts | get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-table | select Preferences
+        get-editbox -after [get-label "Name:"] | set-text PrefContext
+        get-button Finish | click
+    }
+}
+with [get-editor GroupContext6] {
+    click
+    get-section Contexts | get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-table | select Group
+        get-editbox -after [get-label "Name:"] | set-text GrContext
+        get-button Finish | click
+    }
+}
+with [get-editor GroupContext6] {
+    click
+    get-section Contexts | get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-table | select "Ecl Script"
+        get-editbox -after [get-label "Name:"] | set-text EclContext
+        get-button Finish | click
+    }
+}
+with [get-editor GroupContext6] {
+    click
+    get-section Contexts | get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "GroupContext4 \\(Q7Project3\\)"
+    get-button "New..." | click
+    with [get-window "New Context Wizard"] {
+        get-table | select Launch
+        get-editbox -after [get-label "Name:"] | set-text DebugContext
+        get-button Finish | click
+    }
+}
+get-editor GroupContext6 | click
+with [get-editor GroupContext6 | get-section Contexts | get-table] {
+    get-property itemCount | equals 6 | verify-true
+    get-item "wsContext \\(Q7Project3\\)" | get-property caption | equals "wsContext (Q7Project3)" | verify-true
+    get-item "WbContext \\(Q7Project3\\)" | get-property caption | equals "WbContext (Q7Project3)" | verify-true
+    get-item "PrefContext \\(Q7Project3\\)" | get-property caption | equals "PrefContext (Q7Project3)" | verify-true
+    get-item "GrContext \\(Q7Project3\\)" | get-property caption | equals "GrContext (Q7Project3)" | verify-true
+    get-item "EclContext \\(Q7Project3\\)" | get-property caption | equals "EclContext (Q7Project3)" | verify-true
+    get-item "DebugContext \\(Q7Project3\\)" | get-property caption | equals "DebugContext (Q7Project3)" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+        point="org.eclipse.rcptt.ui.viewers">
+     <viewer
+           class="org.eclipse.rcptt.ctx.preferences.ui.PreferencesViewer"
+           icon="/icons/preferences.gif"
+           type="org.eclipse.rcptt.ctx.preferences">
+     </viewer>
+  </extension>
+</plugin>

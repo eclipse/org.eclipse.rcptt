@@ -1,0 +1,70 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.rcptt.ui.editors;
+
+import org.eclipse.swt.custom.StyledText;
+
+public class StyledTextNamedElementActions extends NamedElementActionsAdapter {
+
+	private StyledText text;
+
+	/**
+	 * @param widgetVerificationEditor
+	 */
+	public StyledTextNamedElementActions(StyledText text) {
+		this.text = text;
+	}
+
+	@Override
+	public boolean canCopy() {
+		if (text.isFocusControl()) {
+			return TextUtils.canCopy(text);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canPaste() {
+		if (text.isFocusControl()) {
+			return TextUtils.canPaste(text);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canCut() {
+		if (text.isFocusControl()) {
+			return TextUtils.canCut(text);
+		}
+		return false;
+	}
+
+	@Override
+	public void copy() {
+		if (text.isFocusControl()) {
+			TextUtils.copy(text);
+		}
+	}
+
+	@Override
+	public void paste() {
+		if (text.isFocusControl()) {
+			TextUtils.paste(text);
+		}
+	}
+
+	@Override
+	public void cut() {
+		if (text.isFocusControl()) {
+			TextUtils.cut(text);
+		}
+	}
+}

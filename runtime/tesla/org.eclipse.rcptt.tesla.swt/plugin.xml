@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="jobCollector" name="jobCollertor" schema="schema/jobCollector.exsd"/>
+   <extension-point id="describerExtensions" name="describerExtensions" schema="schema/describerExtensions.exsd"/>
+   <extension-point id="workbenchProvider" name="workbenchProvider" schema="schema/workbenchProvider.exsd"/>
+   <extension
+         point="org.eclipse.rcptt.tesla.core.processor">
+      <provider
+            class="org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor">
+      </provider>
+   </extension>
+   <extension
+   		point="org.eclipse.rcptt.tesla.swt.describerExtensions">
+        <describerExtension
+               class="org.eclipse.rcptt.tesla.ui.describers.SWTDescriberExtension" priority="100">
+        </describerExtension>
+   </extension>
+    <extension
+          point="org.eclipse.rcptt.tesla.core.networkProcessor">
+       <provider
+             class="org.eclipse.rcptt.tesla.internal.ui.TeslaReplayNetworkClientProcessor">
+       </provider>
+    </extension>
+    <extension
+          point="org.eclipse.ui.startup">
+       <startup
+             class="org.eclipse.rcptt.tesla.ui.SWTTeslaStartup"></startup>
+    </extension>
+     <extension
+         point="org.eclipse.rcptt.watson.core.eventProvider">
+      <provider
+            class="org.eclipse.rcptt.tesla.swt.logging.JobsInfoProvider"
+            id="org.eclipse.rcptt.sherlock.jobs.info.provider">
+      </provider>
+   </extension>
+</plugin>

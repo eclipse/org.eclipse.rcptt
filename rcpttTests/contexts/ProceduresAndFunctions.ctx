@@ -1,0 +1,105 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: ProceduresAndFunctions
+Element-Type: context
+Element-Version: 2.0
+Id: __ZTV8Au2EeOLiPM97zhEfw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/MyProject/JavaLabels.ctx-c3d6b271-edb4-3a92-aedb-fc92bba437ef
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/JavaLabels.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlUsFO4zAUvFvqPzxpL+zBiWO3TYnU
+Q0FF2i4tsFTdw+4KmeQRWSR2cJym/P06aSisxG19sTzz/N7M2JRSuIvBYe1SWSNQSsmVsaV0dIe2VkYn
+EAWM3MV0jzozNoG2bYODsZgFqSnDl5hcGu3w4Oj2tcIEPDjQL3FQSStLdL6TL+6ryLLAErWjG08ksJJ7
+eS0fsahPxFubf8tParhX8y1L4GGSX69mi0Ys8Yaa7/lPWyzZatEp/dFop0r86EAE04CzSLAZF2wczci9
+3CPdqk7DLOQijAREPJkwuF0TQvs1f/hEP+XIuMhwQgU/H1MxledUplFGpzGLnthEjhniMZKTl+5eWFlT
+oXUKvVPt7OsQwGcRkS9XVsGiyYEPqhIeweZmt4XOw4hUMn2WOfbBzW+Ph9/JiOChKnz0dqewfcNhOYAj
+kqNGKx2updIX5jCvmsdCpVA76fy2NyqD0lNn984qnf/6A9Lm9dcR0V7gcVanuRuksb0sZF1vlStwvsG2
+f0josXd2jbrpyHDA/ztX/zn/AlBLBwijipJdkQEAALECAABQSwECFAAUAAgICAAAACEAo4qSXZEBAACx
+AgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAxwEAAAAA
+------=_contents/MyProject/JavaLabels.ctx-c3d6b271-edb4-3a92-aedb-fc92bba437ef--
+------=_contents/MyProject/q7.properties-fc70353c-8220-3796-8833-f57df5bcb387
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/q7.properties
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRlz8tOwzAQheG9n2JeYJykaZXiXYSC
+RC9AaVWWyGqGyFVst/akKW9PkKIIifVZ/N9BRNgVcAn+TCeGSMzGNREQUTz5YDXjkUI03inIZCp2Bd7I
+1T4o6Pte3n2gWp68Ta6FePSO6c5Rweei2ayWZZdX9Ip+3XyEtkpXpahasuQYX7QlBW9jdD9Gp/nwfRnm
+0bQl1rVmPa2TZzZ4nuuhVtn0HP/XBut759hY+vshl0t57XRrvgwFsdc3woP55TwkeZpkOWSZms2h3Arx
+A1BLBwjCL/J/ywAAAB0BAABQSwECFAAUAAgICAAAACEAwi/yf8sAAAAdAQAACAAAAAAAAAAAAAAAAAAA
+AAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAAQEAAAAA
+------=_contents/MyProject/q7.properties-fc70353c-8220-3796-8833-f57df5bcb387--
+------=_contents/MyProject/Dummy.test-f345017e-e048-38b9-8bc8-cd4f2272a31b
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/Dummy.test
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkc1OwzAQhO9+Civ3zU/dKCQShwiC
+BKiglogeK5NsQlBst7aTpm+PC23VAyf2tiPvzjdrAKDLhFo0tuIGKQCQB6UFt/CO2nRKZjTyQ7JMYERZ
+K53R/X7vT0pj7VdKBLuE3ClpcbImo5u4bco8H1iBr6Ce27Xui/ApJ0WPAqWFFy4wo/eDEIeLVh62TjsD
+XOSLO3PuxWRRS97DChvUKCs3QR7rH8Nt8Yehw10N0nYCr2Mw/8bfDbzvmg41eeMjQtkdidKAhUHEaBRl
+sznNF6Q84ZzosOoJgZ+63bjYLq9DDHkymzMeQhLXDFgdN5AmaQQxS2sMMf5IePV7nKuYkw2O2wpp9eF0
+j/NCQiqN3CJ88ZFD1XNjqGe42PboUU/p1sfp3K0/3cMR9cyj0KJE7doF7+Q/Md2vfwNQSwcI61fOFTgB
+AAAKAgAAUEsBAhQAFAAICAgAAAAhAOtXzhU4AQAACgIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50
+UEsFBgAAAAABAAEANgAAAG4BAAAAAA==
+------=_contents/MyProject/Dummy.test-f345017e-e048-38b9-8bc8-cd4f2272a31b--
+------=_contents/MyProject/New Java Class Procs.ctx-309cf02a-731e-3c1f-ba88-2d49c36643f3
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/New Java Class Procs.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlVO9v2jAQ/Uz+ihNKP5ofDS0FaR9Y
+RaV1bbduqPuAUGXCBdwamzoOoRr933d2AjRbO01apEixfXd+7927MMbgtgsWUxvzFIExFlxos+SW3aFJ
+hVZ9aDdawW2XrVHNtOlDnueNjTY4a8R62XzqBudaWdxYNnpeYR9oszx+6jYwlhTlj4OhxCUqy274ksJu
+MIdLvuZwLnmawlej43QfsqtUTdwDOiZAn2Z9uD+ZJ6PBIIuG+IXpz/MfRg5blwMH9lumrFjiaxJR46zx
+lHEpEoEm+M7XyEbCQek1o1azHUG73T/uwOA6CJh/Pty/xs+67bOk1Zl2GM6iHosijBhPTo9Zq9c7wc7J
+abvXOyu02DNweU2qEQyVNc8l84oowYqIQz1Fy/wlPLFomORTlHUYr7mEFTdUEJhQq8xOij1/Xn67NKjX
+J/AzqIVl8BbmVBBnwk71BoqiMHZ7PhPCssAWdhdD6OG87AAlQkqmMGexa08JJRfkgLwKRRGnyQ5p/Mjn
+6MH4jTkqNNziNRcKxlOtJSRcpjjxYHNhFxCWNWlde0sECN0FV4fPd+PK268qK4oWCYQVIO6qmtNimlmr
+VfX0I+m1hXiB8SOFvQBDwvsvKZnaJ9EbVMIvhBLpwtWVwoW8OJ1LofUK1UFoNhNc6vmu9UY/YGyr8nrt
+JNrdJok4TvzEQv0obaYmbh5Rw8IyeS/FZEKgCscYxMINa0FTGOJmJWlgzZ1bFdZxIdSloOaYhz7BeUWW
+Be2ijKO5zKgvmPspvnarA8vawU6xQVKLPdDAVxz1DsPfnfV3I70p4Z8CEBsHuTTcHvRIWOnYVR1fmO2Q
+W+l44Jn9x2+CfrK/AFBLBwiZuanjewIAAHkFAABQSwECFAAUAAgICAAAACEAmbmp43sCAAB5BQAACAAA
+AAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAsQIAAAAA
+------=_contents/MyProject/New Java Class Procs.ctx-309cf02a-731e-3c1f-ba88-2d49c36643f3--
+------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEEOgjAQRdeaeAfC3lZXuCiQqHFn
+YqIeAMuE1NAW2mLw9ralSDDu5v35M39akve8jl6gNJMijbdoE0cgqCyZqNL4fjutd3GerZakUfIJ1BxB
+U8UaY91WXRBRcMjO78vQJdiza1DJOQiTETxWTg1btAc8o0fH6vLaAHUU8GBHC1F6JWTZbaiXCkrUJoja
+AnknKMv7oZqusEOFqjoXrwPjuUDwb1BQxktsqukUBPcAf45ok6Hlsr3Fb5pmv4+df+AHUEsHCCn7TjjB
+AAAAfwEAAFBLAQIUABQACAgIAAAAIQAp+044wQAAAH8BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
+dFBLBQYAAAAAAQABADYAAAD3AAAAAAA=
+------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkkFPAjEQhe/8iqZ3W+UCbnYhBDHR
+gHIwYryQpTtAdbdd2ym7+Ottgd2TRri1M99703lpPKyLnOzAWKlVQm/YNSWghM6k2iTU4fqqT4eDTqzN
+hoHIZWmBGVEiMoE1q7T5tGUqIFo0p7FWCDWSupBRa9sNtn6QspGvJ3SLWEacV1XFdLFh3py/zR4a5J9Z
+rbxhgvzAcc/xlqNEpYWn50YLyJwBO1LZvVMC/ZssJTJL6HL5/vLaH7nuBJ6ncj677X1vJ+uKDjqExCKs
+ojCc/a00+gME2pPrbD8/Fuix74m1zKFpsxPu06xBOExXua+icUD5r4I7VxR7hmDPlzymu3SariC3IaCz
+ZU9QkSAl4zy1loR4LjP46oXtSjAowf6tinkT2SFN3sYZ80t/06DzA1BLBwgDDn6wLgEAAKgCAABQSwEC
+FAAUAAgICAAAACEAAw5+sC4BAACoAgAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEA
+AQA2AAAAZAEAAAAA
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--

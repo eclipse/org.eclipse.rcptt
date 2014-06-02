@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.perf/gen-src"
+    modelPluginID="org.eclipse.rcptt.ecl.perf" modelName="Perf" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>perf.ecore</foreignModel>
+  <genPackages prefix="Perf" basePackage="org.eclipse.rcptt.ecl" disposableProviderFactory="true"
+      ecorePackage="perf.ecore#/">
+    <genClasses ecoreClass="perf.ecore#//PerfCounter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute perf.ecore#//PerfCounter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute perf.ecore#//PerfCounter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="perf.ecore#//StartTimeMeasure">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute perf.ecore#//StartTimeMeasure/label"/>
+    </genClasses>
+    <genClasses ecoreClass="perf.ecore#//EndTimeMeasure"/>
+    <genClasses ecoreClass="perf.ecore#//MeasureTime">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute perf.ecore#//MeasureTime/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference perf.ecore#//MeasureTime/do"/>
+    </genClasses>
+    <genClasses ecoreClass="perf.ecore#//ConstrainMax">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference perf.ecore#//ConstrainMax/counter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute perf.ecore#//ConstrainMax/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

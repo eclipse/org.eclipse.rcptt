@@ -1,0 +1,55 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_Z-6cEEVwEeGf87sdqO61AA
+Element-Name: AddDuplicateTestsToTestSuite
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1732
+Id: _ZttksX_DEeG8n6UWqM25Yw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestSuite, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open test suite with test cases
+2. Press "Add Test Case" button
+3. Make sure that tests from test suite are not displayed in "Select Test Case" dialog
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | double-click
+get-editor TestSuite | get-section "Test Cases" | get-button "Add Test Case" | click
+get-window "Select Test Case" | get-table 
+    | select "Check New Project Window \\(MyProject\\/Check New Project Window.test\\)"
+with [get-window "Select Test Case" | get-table] {
+    get-item "Check New Project Window \\(MyProject\\/Check New Project Window.test\\)" | get-property caption 
+        | equals "Check New Project Window (MyProject/Check New Project Window.test)" | verify-true
+    get-item "P1 is left \\(MyProject\\/TestFolder\\/P1 is left.test\\)" | get-property caption 
+        | equals "P1 is left (MyProject/TestFolder/P1 is left.test)" | verify-true
+    verify-error {
+    	get-item "CreateJavaProject \\(MyProject\\/CreateJavaProject.test\\))"
+    	get-item "TestWithContexts \\(MyProject\\/TestWithContexts.test\\)"
+    	get-item "WorkspaceIsEmpty \\(MyProject\\/WorkspaceIsEmpty.test\\)"
+    }
+}
+get-window "Select Test Case" | get-button OK | click 
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

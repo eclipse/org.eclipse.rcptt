@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="core"
+    nsURI="http://www.eclipse.org/ecl/core.ecore" nsPrefix="org.eclipse.rcptt.ecl.core">
+  <eClassifiers xsi:type="ecore:EClass" name="Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="host" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
+        eType="#//Binding" containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Binding">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="#//Command"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Block" abstract="true" eSuperTypes="#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" lowerBound="1"
+        upperBound="-1" eType="#//Command" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pipeline" eSuperTypes="#//Block"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//Block"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parallel" eSuperTypes="#//Block"/>
+  <eClassifiers xsi:type="ecore:EClass" name="With" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Executes a &lt;code>do&lt;/code> script by passing given &lt;code>object&lt;/code> to each command inside &lt;code>do&lt;/code>. The primary use case for this command is to extract a common prefix for a sequence of commands."/>
+      <details key="returns" value="Output of a &lt;code>do&lt;/code> command"/>
+      <details key="example" value="get-view &quot;Package Explorer&quot; | get-button &quot;Collapse All (M1+M2+Numpad_Divide)&quot; | click&#xA;get-view &quot;Package Explorer&quot; | get-button &quot;Link with Editor&quot; | click&#xA;// can be shorten to:&#xA;with [get-view &quot;Package Explorer&quot;] {&#xA;    get-button &quot;Collapse All (M1+M2+Numpad_Divide)&quot; | click&#xA;    get-button &quot;Link with Editor&quot; | click&#xA;}&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="do" lowerBound="1" eType="#//Command"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Exec" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecutableParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" lowerBound="1"
+        eType="#//Command" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Foreach" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Reads objects from input pipe and for each object executes a given &lt;code>do&lt;/code> command for each item. An optional variable declaration to hold a current value can be passed, if it is not passed, then current value is sent into an input pipe of a &lt;code>do&lt;/code> command.  "/>
+      <details key="returns" value="An aggregated output of &lt;code>do&lt;/code> command"/>
+      <details key="example" value="// Implicit item: sent to an input pipe of inner script&#xA;list-launch-configurations | foreach { get name | log }&#xA;&#xA;// Explicit item:&#xA;list-launch-configuration | foreach [val item] {&#xA;   $item | get-name | log&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" eType="#//Val" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="do" eType="#//Command"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" unique="false" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Script" eSuperTypes="#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessStatus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="severity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//EclException"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConvertedToEMFPipe">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Serialized">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bytes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Throwable" instanceClassName="java.lang.Throwable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nullable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Based on a condition corresponds either command either from &lt;code>then&lt;/code> or &lt;code>else&lt;/code> branch. "/>
+      <details key="returns" value="Output of executed branch"/>
+      <details key="example" value="if [get-property caption -raw | not-eq &quot;Test&quot; ] {&#xD;&#xA;&#x9;select-item&#xD;&#xA;&#x9;get-menu Delete | click&#xD;&#xA;&#x9;get-window &quot;Delete Resources&quot; | get-button OK | click&#xD;&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Accepted values are boolean, string (&lt;code>true&lt;/code> when case-insensitive equals to &lt;code>true&lt;/code>, &lt;code>false&lt;/code> otherwise) and number (&lt;code>0&lt;/code> for &lt;code>false&lt;/code>, &lt;code>true&lt;/code> otherwise). "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="#//Command"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Branch being executed on &lt;code>true&lt;/code> input. Can be omitted."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//Command"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Branch being executed on &lt;code>false&lt;/code> input. Can be omitted."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoxedValue" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EclByte" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByte"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclShort" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EShort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclInteger" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclLong" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclDouble" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclFloat" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclBoolean" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclChar" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EChar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclString" eSuperTypes="#//BoxedValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclException">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stackTrace" upperBound="-1"
+        eType="#//EclStackTraceEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="throwable" eType="#//Throwable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cause" eType="#//EclException"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclStackTraceEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="declaringClass" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeMethod" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Listen" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Listens for state changes while executing commands."/>
+      <details key="returns" value="State difference before and after execution."/>
+      <details key="example" value="// assert no new errors while clicking on the button&#xD;&#xA;listen errorLog {&#xD;&#xA;&#x9;get-button OK | click&#xD;&#xA;} | assert-empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Source to listen for, for example, &lt;code>errorLog&lt;/code>."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="while" lowerBound="1" eType="#//Command">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Commands to execute while listening for the source."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Declaration" eSuperTypes="#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Val" eSuperTypes="#//Declaration">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Creates a new variable declaration. This command can be used only with &lt;a href=&quot;#let&quot;>let&lt;/a> and &lt;a href=&quot;#proc&quot;>proc&lt;/a>."/>
+      <details key="returns" value="An internal object, describing a variable"/>
+      <details key="example" value="let [val button [get-button OK]] {&#xA;    $button | click&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Variable name. Later this name can be used to refer to a variable value by prepending a dollar sign, i.e. $varName. If variable with the same name already defined in outer scope, then it will be hidden by inner variable with the same name."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Variable value. When variable is defined in &lt;a href=&quot;#proc&quot;>proc&lt;/a> block, this value denotes the default parameter value."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="An option to indicate that variable value should be taken from input pipe. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetVal" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns variable value by its name. Syntax sugar form &lt;code>$name&lt;/code> can be used instead."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Let" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Defines variables and evaluates &lt;code>body&lt;/code> script. Variable declarations are only visible from withing a body script and cannot be accessed after 'let' command. If some variable has &lt;code>-input&lt;/code> flag, then &lt;code>let&lt;/code> command must be used in a pipeline (see example 2). "/>
+      <details key="returns" value="An output of a &lt;code>body&lt;/code> script"/>
+      <details key="example" value="// example #1, simple usage of two variables&#xA;let [val foo &quot;hello&quot;]&#xA;     [val bar &quot;world!&quot;] {&#xA;&#x9;format &quot;%s, %s&quot; $foo $bar | show-alert&#xA;}&#xA;&#xA;// example #2, using input argument&#xA;get-window &quot;New Project&quot; | let [val window -input] [val button OK] {&#xA;    $window | get-button $button | click&#xA;}&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vals" upperBound="-1" eType="#//Declaration"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="List of variables"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Command"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Script to be executed"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proc" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command."/>
+      <details key="returns" value="An output of a &lt;code>body&lt;/code> script"/>
+      <details key="example" value="// example 1&#xA;// declaration:&#xA;proc click-button [val window] [val button] {&#xA;   get-window $window | get-button $button | click&#xA;}&#xA;&#xA;// usage&#xA;click-button &quot;New Project&quot; &quot;Cancel&quot;&#xA;&#xA;// example #2, using input argument and default value&#xA;// declaration:&#xA;proc set-text-after-label [val parent -input] [val label] [val text &quot;&quot;] {&#xA;&#x9;$parent | get-editbox -after [get-label $label] | set-text $text&#xA;}&#xA;&#xA;// usage:&#xA;with [get-window &quot;New Project&quot;] {&#xA;   set-text-after-label &quot;Name:&quot; &quot;Sample Project&quot;&#xA;}&#xA;get-editor | set-text-after-label &quot;Text&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Procedure name. Must be unique in a context of current ECL session"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vals" upperBound="-1" eType="#//Declaration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Command"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcInstance" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Marker superclass for user-defined procs"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//Proc">
+      <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Global" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vals" upperBound="-1" eType="#//Declaration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SessionState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="procs" upperBound="-1"
+        eType="#//Proc" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decls" upperBound="-1"
+        eType="#//Declaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SaveState" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RestoreState" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//SessionState"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Get" eSuperTypes="#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Depending on input object, either returns a value by key from &lt;a href=&quot;#map&quot;>map&lt;/a>, or element by index from &lt;a href=&quot;#list&quot;>list&lt;/a>, or member of EMF object by name."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to get a value from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Depending on an input object either a key in a map, or index in a list, or name of a feature/attribute of EMF object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Value to return if input object does not contain value by requested key"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclMap">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//EclMapEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EclMapEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

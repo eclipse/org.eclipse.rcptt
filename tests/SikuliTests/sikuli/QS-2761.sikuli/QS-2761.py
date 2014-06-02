@@ -1,0 +1,5 @@
+click("vDescription.png")
+keyDown(Key.ALT)
+keyDown(Key.SHIFT)
+type("7")
+keyUp()

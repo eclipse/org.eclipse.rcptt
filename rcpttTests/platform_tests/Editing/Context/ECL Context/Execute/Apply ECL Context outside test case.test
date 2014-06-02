@@ -1,0 +1,63 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_zOzvECeMEeGm5NjoKhWsPQ,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Apply ECL Context outside test case
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _l9xhYCeNEeGm5NjoKhWsPQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, ECLContext, Runtime
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Clear you AUT workspace and apply ECL context which creates some file;
+2. Check that the file has been created by running the test with no context which deletes this file. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
+with [get-editor "Delete Test" | get-section Contexts] {
+    click
+    get-table | select "Clear ws \\(Q7Project\\)"
+    get-button Remove | click
+    get-table | select "Create New Project \\(Q7Project\\)"
+    get-button Remove | click
+    get-table | select "Default \\(Q7Project\\)"
+    get-button Remove | click
+    get-table | key-type "M1+s"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Clear ws" | double-click -nowait
+get-editor "Clear ws" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Default" | double-click -nowait
+get-editor Default | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click -nowait
+get-editor "Create New Project" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
+get-editor "Delete Test" | get-button Replay | click
+with [get-view "Execution View"] {
+    get-tree | get-item "Delete Test.*" | get-property caption | equals "Delete Test.*" 
+        | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

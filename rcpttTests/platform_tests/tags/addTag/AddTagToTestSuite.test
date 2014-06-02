@@ -1,0 +1,55 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _26DoAYUyEeG5as36MMnjSw,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: AddTagToTestSuite
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: __EqR8IUyEeG5as36MMnjSw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Tags, TestSuite
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Select test suite in Q7 explorer and in the context menu select "Add Tag..." 
+2. In the "Select Tag(s) to Add" select existent tag
+3. Make sure that this tag is displayed in the "Tags" field in the test editor
+4. Make sure that in the "Tags" view reference between tag and test-case is displayed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
+get-window "Select Tag(s) to Add" | get-tree | get-property itemCount | equals 3 | verify-true
+with [get-window "Select Tag(s) to Add"] {
+    get-tree | select "Tag1 \\(2 occurrences\\)"
+    get-button OK | click
+}
+get-view "Q7 Explorer" | get-tree | select "q7project/TestSuite" | double-click
+get-editor TestSuite | get-editbox -after [get-label "Tags:"] | get-property text | equals Tag1 | verify-true
+get-editor TestSuite | close
+get-view "Q7 Explorer" | click
+get-view Tags | click
+with [get-view Tags | get-tree] {
+    get-item "Tag1 \\(3\\)" | get-property childCount | equals 3 | verify-true
+    get-item "Tag1 \\(3\\)/TestSuite" | get-property caption | equals TestSuite | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

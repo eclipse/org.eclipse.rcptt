@@ -1,0 +1,95 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: recordingWS
+Element-Type: context
+Element-Version: 2.0
+Id: _A_3xUabPEeC-ao6z8yqgvQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/q7project/.defaultWSctx/content1.test-fad4dd51-e91c-3fc7-80f7-c5de32215b57
+Content-Type: q7/binary
+Entry-Name: contents/q7project/.defaultWSctx/content1.test
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtj8sKwjAQRfeC/xBmb6IWqZTGIuJC
+ULoQwZ3UdKyBJukj2vbvTcXqxt1wH2e4YdSqnDyxqqXRHGZ0CgS1MKnUGYeHvU2WEK3Go1AYRVtTYUpL
+n9YCdVJJExw/B2mVDL6UeU9xXF0HTudwt7YIGGuahhqVUVNl7HzYDZG/5G/JueztstJng0tROAmIThRy
+sFhb+G3w+u8y5XDxTnEnkmu8xY1n/Nhb7Jt4nQGxXeFqKHJgbtoLUEsHCDd6xiu1AAAAAwEAAFBLAQIU
+ABQACAgIAAAAIQA3esYrtQAAAAMBAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQAB
+ADYAAADrAAAAAAA=
+------=_contents/q7project/.defaultWSctx/content1.test-fad4dd51-e91c-3fc7-80f7-c5de32215b57--
+------=_contents/q7project/defaultWB.ctx-5870615a-f089-338e-916f-277f01fea96d
+Content-Type: q7/binary
+Entry-Name: contents/q7project/defaultWB.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkc1qAyEUhfeFvoO4rzahkGaYSUhC
+KbPoerorVm+MZNSJOj/k6XubkpCWUGbpOd8596r5crA16SBE411BJ+yREnDSK+N0Qdu0fXimy8X9XS69
+ZYMPoNhhxqIEJ4LxWeXD/hP53ca7BEMigzXZpW363Yb9LmaoF3SXUpNx3vc981YzHzR/fyvPyM0JlxC6
+/OTyw4yfXQYSJUqcsFBQBVvR1qlaU2JUQT+ejuV8VTX6BTbHUk1e3V7F+YqSBvdrQCbTQYncr7mtYVc2
+xZsTkncG+rj4y8HQ1HgMOf/x/0FPKgZAtglfZkQiCR1HYKJNzAon9PUaOR/3WYh+AVBLBwgvneT/+wAA
+AP8BAABQSwECFAAUAAgICAAAACEAL53k//sAAAD/AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQ
+SwUGAAAAAAEAAQA2AAAAMQEAAAAA
+------=_contents/q7project/defaultWB.ctx-5870615a-f089-338e-916f-277f01fea96d--
+------=_contents/q7project/.defaultWSctx/content1.project-815ee12c-3ff3-364a-b7f0-ed0764506944
+Content-Type: q7/binary
+Entry-Name: contents/q7project/.defaultWSctx/content1.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEEOwiAQRdeaeIeGvaCrusA2UeMF
+1ANUmDSYAi1Q0+MLlNrUuJv358/8AVoOssneYKzQ6oj2eIcyUExzoeojetyv2wMqi82atka/gLkLWGZE
+67zbqyuqKglFl6cuJZFDg2kpQbmCkqkKavLZCGRBz140/NYCC5Tw7EcrxaOSsvw2PGgDHHc5Zr7A0QnG
+82ms5iv8UGXqPsTbxGQpUPIblJTpEp/qegPJPcKfI7p8bIXsaImb5tnvY5cf+AFQSwcIz2bKQ70AAAB/
+AQAAUEsBAhQAFAAICAgAAAAhAM9mykO9AAAAfwEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsF
+BgAAAAABAAEANgAAAPMAAAAAAA==
+------=_contents/q7project/.defaultWSctx/content1.project-815ee12c-3ff3-364a-b7f0-ed0764506944--
+------=_contents/q7project/defaultWS.ctx-f62894c1-f639-3a4d-8b93-315b441db9df
+Content-Type: q7/binary
+Entry-Name: contents/q7project/defaultWS.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNUctugzAQvFfqP1i+xxuqqEQImkPU
+Q9RWfSlKc6qIWSgN2ICdwud3oZhecsjF2p0Zz+5ow1VXFuwHG5NrFXFPzDlDJXWSqyziJ5vOlnx1d30V
+Sl2KTjeYiNoXrW6OpoolBjtXrbWy2FnWlXkw2d30djRAmYDwiH9ZWwUAbdsKXWZCNxl8PG2c5PyI6RcQ
+DwMPtQ8TL1ASxpmKS9ImmManwu7eOcuTiH8ui9l+8XB4vsf1y3Gx35pH5d2+ckrEGGWinZUdGmqrRn+j
+tGa0qv0R4KOAJGleoOOFo9nos33bEDptIG0HI+NNWjjvZdFY0T8XmQ1C5xSC2/svFPyn6uuLrkbaX1BL
+Bwg+I16zBAEAAAkCAABQSwECFAAUAAgICAAAACEAPiNeswQBAAAJAgAACAAAAAAAAAAAAAAAAAAAAAAA
+LmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAAOgEAAAAA
+------=_contents/q7project/defaultWS.ctx-f62894c1-f639-3a4d-8b93-315b441db9df--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkk1TgzAQhu/8ikzuTWw7WoYBOtrx
+0IMzaqdDbx0MAVFIaEgL+utNaIJO/aK3ZPfNs/tm15+3ZQEOVNQ5ZwEcowsIKCM8yVkWwL1MRy6ch47P
+RYYoKfKqpkiQSkpEZIsaLl7rKibUi+xpwZmkrQRtmXs9dqKxqhCrPRUP4LOUlYdx0zSIlxlScLy5W1rJ
+P7X651ajn3c6rHS410HA4lKpBSVcaD/RCoI8CeD2ejtt1/HT/S1djGJ+9e6+7bLDAwwdAHyi+2dSn9Wt
+EvyFElkb1G5mAvCYV4o0L6hNI5sFhrJ+XKrolwZ0gyY3nvZy/CMtoWm8L2R0o+0PQs465d+01WCae0rj
+RaIGar32QK2yopOi1up5HzP5/jG/cSWth0Evj9JPN9jYMYPGdtLdEuB+C3x87uaHzgdQSwcI16jbnTgB
+AABUAwAAUEsBAhQAFAAICAgAAAAhANeo2504AQAAVAMAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50
+UEsFBgAAAAABAAEANgAAAG4BAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/q7project/.project-c016ecf2-017a-3eb3-b9aa-3e2860a66691
+Content-Type: q7/binary
+Entry-Name: contents/q7project/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEEOwiAQRdeaeIeGvaCrusA2UeMF
+1ANUmDSYAi1Q0+MLlNrUuJv358/8AVoOssneYKzQ6oj2eIcyUExzoeojetyv2wMqi82atka/gLkLWGZE
+67zbqyuqKglFl6cuJZFDg2kpQbmCkqkKavLZCGRBz140/NYCC5Tw7EcrxaOSsvw2PGgDHHc5Zr7A0QnG
+82ms5iv8UGXqPsTbxGQpUPIblJTpEp/qegPJPcKfI7p8bIXsaImb5tnvY5cf+AFQSwcIz2bKQ70AAAB/
+AQAAUEsBAhQAFAAICAgAAAAhAM9mykO9AAAAfwEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsF
+BgAAAAABAAEANgAAAPMAAAAAAA==
+------=_contents/q7project/.project-c016ecf2-017a-3eb3-b9aa-3e2860a66691--

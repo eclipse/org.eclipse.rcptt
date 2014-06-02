@@ -1,0 +1,74 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_tlWZcGphEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: Save AUT Details For Non-running AUT
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _na4jYGukEeKVmpudXT1Avg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: AUTConfiguration, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Select AUT in Applications view
+2. Select "Save AUT Details" from context menu
+3. Make sure that details are saved
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view Applications] {
+    get-tree | select selfQ7
+    get-button Stop | click
+    get-tree | select selfQ7
+}
+set-dialog-result File "platform:/resource/TestQ7Prj/selfq7_aut_details.zip"
+get-view Applications | get-tree | get-menu "Save AUT details..." | click
+get-view "Q7 Explorer" | get-tree | select TestQ7Prj | get-menu Refresh | click
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item TestQ7Prj | get-property childCount | equals 2 | verify-true
+    get-item "TestQ7Prj/selfq7_aut_details.zip" | get-property caption | equals "selfq7_aut_details.zip" | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select TestQ7Prj | get-menu "Import/Import..." | click
+with [get-window Import] {
+    get-tree | select "General/Archive File"
+    get-button "Next >" | click
+}
+set-dialog-result File "platform:/resource/TestQ7Prj/selfq7_aut_details.zip"
+with [get-window Import] {
+    get-button "Browse..." | click
+    get-button Finish | click
+}
+//get-view "Q7 Explorer" | get-tree | get-item TestQ7Prj | get-property childCount | equals 7 | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/bundles_info_runtime.info" | get-property caption 
+    | equals "bundles_info_runtime.info" | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/bundles.info" | get-property caption | equals "bundles.info" 
+    | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/config_ini_runtime.ini" | get-property caption 
+    | equals "config_ini_runtime.ini" | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/configuration.properties" | get-property caption 
+    | equals "configuration.properties" | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/platform.properties" | get-property caption 
+    | equals "platform.properties" | verify-true
+get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/Q7 version.properties" | get-property caption 
+    | equals "Q7 version.properties" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

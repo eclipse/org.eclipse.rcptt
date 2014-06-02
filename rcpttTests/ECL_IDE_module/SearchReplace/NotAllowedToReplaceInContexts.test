@@ -1,0 +1,56 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_bD7OYe5zEeCWFp5-_cxtIw
+Element-Name: NotAllowedToReplaceInContexts
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _sfPaAO8IEeCWFp5-_cxtIw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: SearchReplace, Context
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open Q7Search dialog;
+2. Select "Contexts";
+3. Enter containing text, press "Replace" button;
+4. Make sure that it's impossible to rename contexts ;
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-button Search | click -arrow
+get-menu "1 Q7 Search" | click
+with [get-window Search] {
+    get-combo -after [get-label "Containing text:"] | set-text key
+    get-group "Search in" | get-button Contexts | click
+    get-button "Replace..." | click
+}
+get-window Search | get-window Replace 
+    | get-label "Could not perform replace.Reason:Replace for tags, contexts and verifications is not supported." 
+    | get-property caption | equals "Could not perform replace.\n\n"
+    + "Reason:\n"
+    + "Replace for tags, contexts and verifications is not supported." | verify-true
+with [get-window Search] {
+    get-window Replace | get-button OK | click
+    get-button Cancel | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

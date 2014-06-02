@@ -1,0 +1,53 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_roqd8KekEeC8_YI4qVLWTA
+Element-Name: SelectRows
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _6f2O0JBTEeKb2YsCtQq5YA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: q7commands
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Run test with "select-rows" command
+2. Make sure that command is executed correct
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-preferences-menu | click
+get-window Preferences | get-tree | select "General/Network Connections"
+get-window Preferences | get-table | get-table-data | select-rows -column "Schema" -value "HTTP" | write-csv-file "workspace:///FilesForContextEditor//test.csv"
+get-window Preferences | get-button OK | click
+get-view "Q7 Explorer" | get-tree | select FilesForContextEditor | get-menu Refresh | click
+get-view "Q7 Explorer" | get-tree | select "FilesForContextEditor/test.csv" | get-menu "Open With/Text Editor" | click
+get-editor "test.csv" | get-editbox | get-property text | equals ",Schema,Host,Port,Provider,Auth,User,Password\n"
+    + ",HTTP,,,Manual,false,," | verify-true
+    get-preferences-menu | click
+get-window Preferences | get-tree | select "Team/File Content"    
+get-window Preferences | get-table | get-table-data | select-rows -column "Name/Extension" -value "*ja*" -match "glob" | write-csv-file "workspace:///FilesForContextEditor//test.csv"
+get-window Preferences | get-button OK | click
+
+get-editor "test.csv" | get-editbox | get-property text | contains "*.jar,Binary\n" | verify-true
+get-editor "test.csv" | get-editbox | get-property text | contains "*.java,ASCII Text\n" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

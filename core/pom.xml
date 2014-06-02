@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>rcptt</artifactId>
+		<groupId>org.eclipse.rcptt</groupId>
+		<version>1.5.0-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<!-- Tesla plugins -->
+		<module>org.eclipse.rcptt.tesla-feature</module>
+		<module>org.eclipse.rcptt.tesla.core</module>
+		<module>org.eclipse.rcptt.tesla.core.context</module>
+		<module>org.eclipse.rcptt.tesla.recording.core</module>
+		<!-- Tesla ECL plugins -->
+		<module>org.eclipse.rcptt.tesla.ecl</module>
+		<module>org.eclipse.rcptt.tesla.ecl-feature</module>
+		<module>org.eclipse.rcptt.tesla.recording.core.ecl</module>
+		<!-- Q7 core modules -->
+		<module>org.eclipse.rcptt.core</module>
+		<module>org.eclipse.rcptt.core.builder</module>
+		<module>org.eclipse.rcptt.core.scenario</module>
+		<module>org.eclipse.rcptt.core.launching</module>
+		<module>org.eclipse.rcptt.logging</module>
+		<module>contexts</module>
+		<module>verifications</module>
+		<module>org.eclipse.rcptt.reporting</module>
+		<module>org.eclipse.rcptt.util</module>
+		<module>org.eclipse.rcptt.util.resources</module>
+		<module>org.eclipse.rcptt.util.swt</module>
+		<module>org.eclipse.rcptt.core-feature</module>
+		<!-- ECL modules -->
+		<module>org.eclipse.rcptt.core.ecl.core</module>
+		<module>org.eclipse.rcptt.core.ecl.parser</module>
+		<module>org.eclipse.rcptt.core.ecl.formatter</module>
+		<module>org.eclipse.rcptt.core.ecl.scanner</module>
+		<module>org.eclipse.rcptt.core.ecl.highlighter</module>
+		<module>org.eclipse.rcptt.expandbar</module>
+	</modules>
+	<groupId>org.eclipse.rcptt</groupId>
+	<version>1.5.0-SNAPSHOT</version>
+	<artifactId>rcptt.core</artifactId>
+	<packaging>pom</packaging>
+</project>

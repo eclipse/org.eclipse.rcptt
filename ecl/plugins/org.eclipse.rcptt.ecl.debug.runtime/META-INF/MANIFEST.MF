@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.rcptt.ecl.debug.runtime;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.ecl.debug.commands,
+ org.eclipse.rcptt.ecl.debug.commands.impl,
+ org.eclipse.rcptt.ecl.debug.commands.util,
+ org.eclipse.rcptt.ecl.debug.model,
+ org.eclipse.rcptt.ecl.debug.model.impl,
+ org.eclipse.rcptt.ecl.debug.model.util,
+ org.eclipse.rcptt.ecl.debug.runtime,
+ org.eclipse.rcptt.ecl.internal.debug.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
+ org.eclipse.rcptt.ecl.parser
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.ecl.internal.debug.runtime.EclDebugRuntimePlugin

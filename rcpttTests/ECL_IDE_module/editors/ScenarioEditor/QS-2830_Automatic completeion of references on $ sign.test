@@ -1,0 +1,79 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__ZTV8Au2EeOLiPM97zhEfw
+Element-Name: QS-2830_Automatic completeion of references on $ sign
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _meZzEAvAEeOLiPM97zhEfw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/Dummy" | double-click
+with [get-editor Dummy | get-section Script | get-text-viewer] {
+    set-caret-pos 2 1
+    type-text "$"
+    show-content-assist
+}
+get-window -from "CompletionProposalPopup.createProposalSelector()" | get-table | select "$newClassTitle" | click 
+    -default
+get-editor Dummy | get-section Script | get-text-viewer | hover-text 1 9
+get-view "Q7 Explorer" | get-tree | select "MyProject/New Java Class Procs" | double-click
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 34 1
+    type-text "$"
+    show-content-assist
+}
+get-window -from "CompletionProposalPopup.createProposalSelector()" | get-table | select "$newClassTitle" | click 
+    -default
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | get-property text 
+    | equals "proc \"set-text-after-label\" [val parent -input] [val label] [val text \"\"] {\n"
+    + "\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n"
+    + "proc \"fill-new-class\" [val window -input] [val name] [val package \"\"] [val generateMain [bool false]] {\n"
+    + "\twith $window {\n"
+    + "\t\tset-text-after-label $nameLabel $name\n"
+    + "\t\tset-text-after-label $packageLabel $package\n"
+    + "\t\tif $generateMain {\n"
+    + "\t\t\tget-button $generateMainBox | check\n"
+    + "\t\t} -else {\n"
+    + "\t\t\tget-button $generateMainBox | uncheck\n"
+    + "\t\t}\n"
+    + "\t\t\n"
+    + "\t\tget-button Finish | click\n"
+    + "\t}\n}\n\n\n"
+    + "proc \"open-new-class-dialog\" [val project] [val package] {\n"
+    + "\tlet [val path [format \"%s/src/%s\" $project $package]]\n"
+    + "\t\t[val tree [get-view $explorerView | get-tree]] \n"
+    + "\t{\n"
+    + "\t\t$tree | select $path | get-menu $newClassMenu | click\n"
+    + "\t}\t\n}\n\n"
+    + "proc \"create-java-class\" [val project] [val package] [val name] [val generateMain [bool false]] {\n"
+    + "\topen-new-class-dialog $project $package \n"
+    + "\tget-window $newClassTitle | fill-new-class $name $package $generateMain\n"
+    + "\t\n}\n\n"
+    + "$newClassTitle" | verify-true
+get-editor Dummy | click
+get-editor Dummy | get-section Script | get-text-viewer | get-property text 
+    | equals "create-java-class \"sample\" \"org.example\" \"Whatever2\" -generateMain\n"
+    + "$newClassTitle" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

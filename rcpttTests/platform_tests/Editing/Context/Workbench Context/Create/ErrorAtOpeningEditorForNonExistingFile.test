@@ -1,0 +1,51 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_94O7wOfZEeCButSfkA0tsQ
+Element-Name: ErrorAtOpeningEditorForNonExistingFile
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _bj7csOfnEeCButSfkA0tsQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkbenchContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Apply empty workspace context on AUT
+2. Open Workbench context with editor 
+3. Apply context
+4. Make sure that correct error is displayed in Execution View
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WS_empty" | double-click
+get-editor "WS_empty" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_common" | double-click
+get-editor "WB_common" | get-button Apply | click
+with [get-view "Execution View"] {
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 1 | get-property caption | equals 1 | verify-true
+    with [get-editbox -after [get-label "Message:"]] {
+        get-property text | contains "Failed to execute context: WB_common Cause: File \'project1/text.txt\' to open in editor wasn\'t found in workspace." 
+            | verify-true
+        get-property readOnly | equals true | verify-true
+    }
+}    
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,78 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: EmptyLaunchContext
+Element-Type: context
+Element-Version: 2.0
+Id: _ca-nEKDoEeKGc-nsvHJqGA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/TestQ7Prj/LaunchContextTest.ctx-5bb4da96-1db5-3b66-880b-532ff009cab5
+Content-Type: q7/binary
+Entry-Name: contents/TestQ7Prj/LaunchContextTest.ctx
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTFU1tzmkAUfmem/4HxNbMiIHKZ2AyK
+JtZLJYpJ+pLZhQWpsKuwePv1Xbw1NelDJw89MwzsufF939kDABBdXWQ4Zz7MsQgAELo0SyEDM5zlMSWW
+KFdrgquDNSYBzSxxs9lUtzTDQdWnqbTShTYlDG8ZmO6W2BK58xRe6dUAoyLieYcEwSlPYERbGYaLJY0J
+yy2RZQW+RAawIP58MqcZ84syGsIkvw7jc1UnwSkmDIxgyn98DJ7ATDmhS/wM7Iji7L3wUzi/XmCJrz/q
+oT/sO7SD+8Ax8/lzGuWGXXJ/LAiLU/xWE7Vaq64KmMRhjDNhAtcYTOMSR10yJVkVFUs1xPFQEMDBmq9H
+LZIDSsYR5UCXNRMGQR3I9UAHaiPUAES+AqDaCLAvh75s4KO6FxIrXUIxgdlO6BCW7U7U37UWBK+TO62W
+a7ftqGdz67n2tR38g3S0RuQxQWSyz6HU2886dLKrrfb5fpzL3k52Rq63+DkSJoY23vnbAZO9vvP8MGWz
+9o7djJN8RXp7NOkb45lnj7obzXuJNM92DLpi0fe+Mpkvkm/u7OlmnSUanjVuEFniddIVGuHSHntZw7WH
+Nkf70B60i0jdohIVLNF2WwPb7Xn2Hyzam4yOjKcNP9wvLixKE67oFS+KWQT3syLgjVruy9Hr2i3bKb/b
+j6e85icnxDfmowa8GmED8gxe4+sKUMN6DUBs6MCs65qMsckfeDXf8oZKxwZ/nXA53tu7bZqI6+N1bFb4
+ilZETHwaxCRqVrxpFxiVu69fhNttGlvPw55Yvi/pSpnOG5Dc4v5mZc7Y0pKkcrNpGlVpFkm8piLxBp/h
+9k4Z9HvxgYbroa4gBIyaioCKYADMsGECPVSVEOm+GsLry38Q502PDxR6G/1vIv0rTa7TL1BLBwhM3GJa
+ogIAAIgFAABQSwECFAAUAAgICAAAACEATNxiWqICAACIBQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRl
+bnRQSwUGAAAAAAEAAQA2AAAA2AIAAAAA
+------=_contents/TestQ7Prj/LaunchContextTest.ctx-5bb4da96-1db5-3b66-880b-532ff009cab5--
+------=_contents/TestQ7Prj/q7.properties-0cb27838-6282-346e-8581-675182012269
+Content-Type: q7/binary
+Entry-Name: contents/TestQ7Prj/q7.properties
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRNzsEOATEQgOF7n2JeYLrsSpbeCBIR
+YhERF2l2BxVtaYfl7RHJxvk7/D8iQpEDU+RSRwJEFGMfrGbcUIjGOwVt2RJFjg9ylQ8K6rqWTx+okqW3
+yS0XowtZcoxzbUnBIvgzlQwrYjbuGBtev64fvv54RqwrzbrRppZ+apNKwX73HJhiOvQjmuKwF09be4zd
+/vdkeXdsLP0fZrIlb3d9MQdDQaz0g3BtvjudpJe0M0hVlsNiJsQbUEsHCIoYXB61AAAA8QAAAFBLAQIU
+ABQACAgIAAAAIQCKGFwetQAAAPEAAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQAB
+ADYAAADrAAAAAAA=
+------=_contents/TestQ7Prj/q7.properties-0cb27838-6282-346e-8581-675182012269--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVkVFLwzAUhd/7K0Lem6gvk9J2iJap
+U1AQ3JvU7K7LbJMsuV3rvzeZbUFQ1Lfk3u+ce0+SzvumJgewTmqV0VN2QgkooddSVRltcROf03kepdpW
+DEQtjQNmhUFkAnvWafvmTCkgeR5Pl1oh9Ej6RiaT7Vmw9YOUS3w9o1tEk3DedR3TTcW8OV/d34zIL7Mm
++cgE+ZHjnuMTR4kqG08XjcH3u7JVYjssR4lcZ/RFlLEqlle6gOVCxModrm/3iwuaR4SkIpAKw9nfjNU7
+EOgGxydw+Dh7sDv62ffERtYwttmA+5fsQbRYvta+irYFyr8VfFkumIfAf1bvZ2GgAYsS3M+qlI8pjgH5
+lDDl//3cPPoAUEsHCFRKLYYPAQAANwIAAFBLAQIUABQACAgIAAAAIQBUSi2GDwEAADcCAAAIAAAAAAAA
+AAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABFAQAAAAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/TestQ7Prj/.project-b5eed4c6-7eee-33d3-84e7-5a3c4333f851
+Content-Type: q7/binary
+Entry-Name: contents/TestQ7Prj/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEEOgjAQRdeaeAfSva2ucFEgUeNa
+Ix4A24mBQAttMRzfthQJxt28P3/mT0uzoamjNyhdSpGgPd6hCASTvBSvBD3yy/aAsnSzpq2SFTBzBs1U
+2RrrtuqKiqKBNAdtbvFVVZR4dg0mmwaESSmZKqeGLdoDWdCzL2t+b4E5Cniyo4XgXglZdhsepAKOuxgz
+W2DvBGX5OFbzFXaoUK/exevAZClQ8hsUlOkSm2p6BcE9wp8junhsuWxv8Zvm2e9jlx/4AVBLBwiHWW2E
+wgAAAH8BAABQSwECFAAUAAgICAAAACEAh1lthMIAAAB/AQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRl
+bnRQSwUGAAAAAAEAAQA2AAAA+AAAAAAA
+------=_contents/TestQ7Prj/.project-b5eed4c6-7eee-33d3-84e7-5a3c4333f851--

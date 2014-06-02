@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.watson"
+      label="Watson eclipse explore engine"
+      version="1.5.0.qualifier"
+      provider-name="Eclipse RCP Testing Tool Project">
+
+   <description>
+      Set of plugins for gathering information about Eclipse installation
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="org.eclipse.rcptt.watson.core"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.watson.jface"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.watson.jobs"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+</feature>

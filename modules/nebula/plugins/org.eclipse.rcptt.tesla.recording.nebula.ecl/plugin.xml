@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.core.ecl.parserExtension">
+      <parserExtension
+            class="org.eclipse.rcptt.tesla.nebula.recording.ecl.NebulaParserExtension">
+      </parserExtension>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.tesla.recording.core.ecl.selectorExtension">
+      <selectorExtension
+            class="org.eclipse.rcptt.tesla.nebula.recording.ecl.NebulaSelectorParserExtension">
+      </selectorExtension>
+   </extension>
+
+</plugin>

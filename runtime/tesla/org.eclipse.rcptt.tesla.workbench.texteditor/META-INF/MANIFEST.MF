@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Runtime GMF Support
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.workbench.texteditor;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.tesla.workbench.texteditor.WorkbenchTexteditorActivator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.emf.ecore,
+ org.eclipse.swt,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface,
+ org.eclipse.jface.text,
+ org.eclipse.rcptt.tesla.jface.text;bundle-version="1.1.0",
+ org.eclipse.rcptt.tesla.jface.text.aspects;bundle-version="1.1.0",
+ org.eclipse.rcptt.tesla.ecl;bundle-version="1.1.0",
+ org.eclipse.rcptt.util.swt;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.rcptt.tesla.workbench.texteditor

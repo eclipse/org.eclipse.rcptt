@@ -1,0 +1,64 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
+Element-Name: SetBreakpointViaContextMenu
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1695
+Id: _dhdcMTEsEeGmnqpjyhCbeA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, Debug
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+
+1. Open test case
+2. Set breakpoint via context menu in editor
+3. Run this test in debug
+4. Verify that breakpoint is set and is applied
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click -nowait
+with [get-editor CreateJavaProject | get-section Script | get-left-ruler] {
+    get-ruler-column | click-ruler -line 1 -button Right
+    get-menu "Toggle Breakpoint" | click
+}
+exec-with-options -disableJobWaiting -command {
+	get-menu "Run/Debug As/\\d+ Test Cases" | click
+	
+	try -times 30 -delay 500 -command {
+		get-view Debug | get-tree | get-item "CreateJavaProject \\[Q7 Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
+    | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true
+    }
+	get-view Debug | get-button "Step Into (F5)" | click
+	try -times 30 -delay 500 -command {
+		get-view Debug | get-tree 
+    | get-item "CreateJavaProject \\[Q7 Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 1\\)" 
+    | get-property caption | equals "get-tree (CreateJavaProject: 1)" | verify-true
+    }
+	get-view Debug | get-button "Resume (F8)" | click
+}
+get-button "Q7 perspective" | click
+with [get-view "Execution View"] {
+    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

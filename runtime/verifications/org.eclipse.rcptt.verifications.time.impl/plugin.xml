@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.rcptt.core.verificationProcessors">
+      <processor
+            class="org.eclipse.rcptt.verifications.time.impl.TimeVerificationProcessor"
+            type="org.eclipse.rcptt.verifications.time">
+      </processor>
+   </extension>
+
+</plugin>

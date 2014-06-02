@@ -1,0 +1,130 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.rcptt.internal.core;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.osgi.framework.BundleContext;
+
+import org.eclipse.rcptt.internal.core.model.ModelManager;
+import org.eclipse.rcptt.util.NetworkUtils;
+
+/**
+ * The activator class controls the plug-in life cycle
+ */
+public class RcpttPlugin extends Plugin {
+
+	// The plug-in ID
+	public static final String PLUGIN_ID = "org.eclipse.rcptt.core";
+
+	public static final String COMMANDS_EXECUTION_DELAY = "COMMANDS_EXECUTION_DELAY";
+
+	// The shared instance
+	private static RcpttPlugin plugin;
+
+	/**
+	 * The constructor
+	 */
+	public RcpttPlugin() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
+	 */
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		plugin = this;
+
+		NetworkUtils.initTimeouts();
+		try {
+			ModelManager.getModelManager().startup();
+		} catch (Throwable e) {
+			// yeah, we're going to ignore even ClassNoDefFound exceptions
+			log("Couldn't start model manager", e);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+	 */
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		try {
+			WorkspaceMonitor.getInstance().stop();
+			ModelManager.getModelManager().shutdown();
+		} catch (Throwable e) {
+			// yeah, we're going to ignore even ClassNoDefFound exceptions
+			log("Couldn't shutdown model manager", e);
+		}
+		plugin = null;
+		super.stop(context);
+	}
+
+	/**
+	 * Returns the shared instance
+	 * 
+	 * @return the shared instance
+	 */
+	public static RcpttPlugin getDefault() {
+		return plugin;
+	}
+
+	public static IStatus createStatus(String message) {
+		return createStatus(message, null);
+	}
+
+	public static IStatus createStatus(Throwable t) {
+		return createStatus(t.getMessage(), t);
+	}
+
+	public static IStatus createStatus(String message, Throwable t) {
+		return new Status(Status.ERROR, PLUGIN_ID, message, t);
+	}
+
+	public static void log(Throwable t) {
+		getDefault().getLog().log(createStatus(t));
+	}
+
+	@SuppressWarnings("deprecation")
+	public static IEclipsePreferences getPreferences() {
+		return new InstanceScope().getNode(PLUGIN_ID);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static IEclipsePreferences getDefaultPreferences() {
+		return new DefaultScope().getNode(PLUGIN_ID);
+	}
+
+	public static void log(String msg, Throwable e) {
+		RcpttPlugin def = getDefault();
+		if (def != null) {
+			def.getLog().log(createStatus(msg, e));
+		}
+	}
+
+	public static void infoLog(String msg) {
+		RcpttPlugin def = getDefault();
+		if (def != null) {
+			def.getLog().log(new Status(Status.INFO, PLUGIN_ID, msg));
+		}
+	}
+}

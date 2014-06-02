@@ -1,0 +1,60 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: FinishButtonShouldBeDisabledIfLocationIsEmpty
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _YD35YAROEeG4X_LNUBYwqg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: AUTConfiguration, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Go to Applications view and press New AUT button;
+2. Make sure "Finish" button is disabled;
+3. Set AUT name;
+4. Make sure Finish button is still disabled;
+5. Set AUT location. 
+6. Make sure Finish button became enabled. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view Applications | get-tree | select selfQ7 | get-menu "Configure..." | click
+with [get-window "Edit Application Under Test"] {
+    with [get-editbox -after [get-label "Location:"]] {
+        key-type "M1+a"
+        key-type "M1+c"
+    }
+    get-button Cancel | click
+}
+get-view Applications | get-button "New..." | click
+get-window "New Application Under Test" | get-button Finish | get-property enablement | equals false | verify-true
+get-window "New Application Under Test" | get-editbox -after [get-label "Name:"] | set-text qqq
+get-window "New Application Under Test" | get-button Finish | get-property enablement | equals false | verify-true
+get-window "New Application Under Test" | get-editbox -after [get-label "Location:"] | key-type "M1+v"
+get-window "New Application Under Test" | get-button Finish | get-property enablement | equals true | verify-true
+with [get-window "New Application Under Test"] {
+    get-editbox -after [get-label "Name:"] | set-text ""
+    get-button Cancel | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

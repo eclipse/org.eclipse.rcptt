@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.scenarioEditorPages">
+      <pageFactory
+            class="org.eclipse.rcptt.dev.ui.editors.RawContentPageFactory">
+      </pageFactory>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ui.scenarioPropertySource">
+      <factory
+            class="org.eclipse.rcptt.dev.ui.editors.PropertySourceFactory">
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.rcptt.dev.ui.handlers.RecoverEclHandler"
+            commandId="org.eclipse.rcptt.ui.command.ecl.recover">
+         <activeWhen>         
+           <with variable="selection">
+             <count value="+"/>
+              <iterate>
+               <adapt type="org.eclipse.core.resources.IResource"/>
+              </iterate>
+             </with>
+         </activeWhen>
+      </handler>      
+      <handler
+            class="org.eclipse.rcptt.dev.ui.handlers.StatisticsHandler"
+            commandId="org.eclipse.rcptt.ui.command.statistics">
+         <activeWhen>         
+           <with variable="selection">
+             <count value="+"/>
+              <iterate>
+               <adapt type="org.eclipse.core.resources.IResource"/>
+              </iterate>
+             </with>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <separator
+               name="org.eclipse.rcptt.ui.eclGroup"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.rcptt.ui.command.ecl.recover"
+               label="Recover ECL from captured data"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.rcptt.ui.command.statistics"
+               label="Statistics"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.eclipse.rcptt.ui.command.ecl.recover"
+            name="Recover ECL from captured data">
+      </command>
+      <command
+            id="org.eclipse.rcptt.ui.command.statistics"
+            name="Statistics">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.launching.listeners">
+      <listener
+            class="org.eclipse.rcptt.dev.ui.execution.log.LaunchingListener"
+            ui="true">
+      </listener>
+   </extension>
+</plugin>

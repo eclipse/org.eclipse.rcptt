@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.rcptt.ctx.filesystem;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.ctx.filesystem,
+ org.eclipse.rcptt.filesystem,
+ org.eclipse.rcptt.filesystem.impl,
+ org.eclipse.rcptt.filesystem.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
+ org.eclipse.rcptt.core.scenario;visibility:=reexport,
+ org.eclipse.rcptt.core,
+ org.eclipse.rcptt.util
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.ctx.filesystem.FilesystemContextPlugin

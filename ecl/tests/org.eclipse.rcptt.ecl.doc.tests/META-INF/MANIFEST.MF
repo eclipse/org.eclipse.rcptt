@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Localization: plugin
+Bundle-Name: ECL Documentation Tests
+Bundle-SymbolicName: org.eclipse.rcptt.ecl.doc.tests;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.ecl.doc.tests.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit,
+ org.eclipse.rcptt.ecl.doc,
+ org.eclipse.emf.ecore,
+ org.eclipse.rcptt.ecl.platform
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Export-Package: org.eclipse.rcptt.ecl.doc.tests

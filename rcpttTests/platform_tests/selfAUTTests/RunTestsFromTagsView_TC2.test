@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_2LwxoOmBEeC7a6yzjqCVag,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: RunTestsFromTagsView_TC2
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _JpxmUOl-EeC7a6yzjqCVag
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Runtime, selfAUT, Tags, TagsView
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Select tag in the Tags view
+2. Select "Replay" in the context menu
+3. Make sure that test with this tag are run
+4. Press on "Apply" button in Tags view
+5. Make sure that tests are replayed
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view Tags] {
+    click -nowait
+    with [get-tree] {
+        select "t2 \\(5\\)/test2" "t2 \\(5\\)/test4" "t2 \\(5\\)/test6"
+        get-menu Replay | click
+    }
+}
+wait 100
+with [get-view "Execution View"] {
+    get-label "3/3" | get-property caption | equals "3/3" | verify-true
+    with [get-tree] {
+        get-property itemCount | equals 3 | verify-true
+        get-item "test2.*" | get-property caption | equals "test2.*" | verify-true
+        get-item "test4.*" | get-property caption | equals "test4.*" | verify-true
+        get-item "test6.*" | get-property caption | equals "test6.*" | verify-true
+    }
+}
+with [get-view Tags] {
+    get-tree | select "t1 \\(3\\)/test6" "t2 \\(5\\)/test2" "t2 \\(5\\)/test4" "t2 \\(5\\)/test6"
+    get-button Replay | click
+}
+wait 100
+with [get-view "Execution View"] {
+    get-label "3/3" | get-property caption | equals "3/3" | verify-true
+    with [get-tree] {
+        get-property itemCount | equals 3 | verify-true
+        get-item "test2.*" | get-property caption | equals "test2.*" | verify-true
+        get-item "test4.*" | get-property caption | equals "test4.*" | verify-true
+        get-item "test6.*" | get-property caption | equals "test6.*" | verify-true
+    }
+}
+with [get-view Tags | get-tree] {
+    select "t2 \\(5\\)/test2" "t2 \\(5\\)/test4" "t3 \\(5\\)/test1" [get-item "t3 \\(5\\)" | get-item test1 -index 1]
+    get-menu Replay | click
+}
+wait 100
+with [get-view "Execution View"] {
+    with [get-tree] {
+        get-property itemCount | equals 4 | verify-true
+        get-item "test1.*" | get-property caption | equals "test1.*" | verify-true
+        get-item "test1.*" | get-property caption | equals "test1.*" | verify-true
+        get-item "test2.*" | get-property caption | equals "test2.*" | verify-true
+        get-item "test4.*" | get-property caption | equals "test4.*" | verify-true
+    }
+    get-label "4/4" | get-property caption | equals "4/4" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

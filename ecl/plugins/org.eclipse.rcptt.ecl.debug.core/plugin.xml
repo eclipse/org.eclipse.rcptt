@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            class="org.eclipse.rcptt.ecl.internal.debug.core.EclSourceLookupDirector"
+            id="org.eclipse.rcptt.ecl.debug.core.sourceLocator"
+            name="ECL Source Lookup Director"/>
+   </extension>
+
+   <extension point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.eclipse.rcptt.ecl.internal.debug.core.EclSourcePathComputerDelegate"
+            id="org.eclipse.rcptt.ecl.debug.core.sourcePathComputer"/>
+   </extension>
+
+   <extension point="org.eclipse.debug.core.sourceContainerTypes">
+      <sourceContainerType
+            class="org.eclipse.rcptt.ecl.internal.debug.core.EclSourceContainerType"
+            description="ECL Sources"
+            id="org.eclipse.rcptt.ecl.debug.core.containerType"
+            name="ECL"/>
+   </extension>
+
+   <extension id="org.eclipse.rcptt.ecl.debug.core.breakpoint.marker" point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.debug.core.lineBreakpointMarker"/>
+      <persistent value="true"/>
+   </extension>
+
+   <extension point="org.eclipse.debug.core.breakpoints">
+      <breakpoint
+            class="org.eclipse.rcptt.ecl.internal.debug.core.EclBreakpoint"
+            id="org.eclipse.rcptt.ecl.debug.core.breakpoint"
+            markerType="org.eclipse.rcptt.ecl.debug.core.breakpoint.marker"
+            name="ECL Breakpoint"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/widgets/expandbar/ecl"
+            class="org.eclipse.rcptt.expandbar.commands.CommandsPackage"
+            genModel="model/ecl.genmodel"/>
+      <package
+            uri="http://eclipse.org/rcptt/widgets/expandbar/model"
+            class="org.eclipse.rcptt.expandbar.widgets.WidgetsPackage"
+            genModel="model/widgets.genmodel"/>
+   </extension>
+</plugin>

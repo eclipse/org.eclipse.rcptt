@@ -1,0 +1,59 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _7Zm-4IKcEeClFr1ZnxrkSA,_4zI9AWpgEeCzId1Gnkds9A,_NBWagUKJEeKFe_1s8hcGwg
+Element-Name: SecondControlPanel_RecordSnippet
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-775
+Id: _Ps9SEIZoEeCMBvrDwr65gw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, ControlPanel, NoLaunches
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Click "Record a Snipped"
+2. Stop recording, modify script
+3. Click "Record a Snipped" again
+4. Make sure dialog "Would you like to save changes" appeared
+5. Click Cancel
+6. Make sure Control Panel contains the same scenario
+7. Click "Record a Snipped" again
+8. Click No
+9. Make sure Control Panel is empty
+10. The same from the Scenario Editor
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-button "Record a Snippet" | click
+get-window "Q7 Control Panel [Connecting]" | get-window "Select an Application Under Test" | get-button Cancel | click
+get-window "Q7 Control Panel" | get-editbox | type-text "some-command"
+get-button "Record a Snippet" | click
+with [get-window "Q7 Control Panel"] {
+	get-window "Save Test Case" | get-button Cancel | click
+	get-editbox | get-property value | equals "some-command" | verify-true
+}
+get-button "Record a Snippet" | click
+get-window "Q7 Control Panel" | get-window "Save Test Case" | get-button No | click
+get-window "Q7 Control Panel [Connecting]" | get-window "Select an Application Under Test" | get-button Cancel | click
+with [get-window "Q7 Control Panel"] {
+	get-editbox | get-property value | equals "" | verify-true
+	get-editbox | type-text "some-command"
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

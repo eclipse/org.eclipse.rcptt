@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/ctx/parameters"
+            class="org.eclipse.rcptt.parameters.ParametersPackage"
+            genModel="models/parameters.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.contextTypes">
+      <contextType
+            canCreate="false"
+            description="Parameters Context"
+            eclass="ParametersContext"
+            epackage-uri="http://eclipse.org/rcptt/ctx/parameters"
+            id="org.eclipse.rcptt.ctx.parameters"
+            name="Parameters"
+            priority="50">
+      </contextType>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.contextMaker">
+      <maker
+            class="org.eclipse.rcptt.ctx.parameters.internal.ParametersContextMaker"
+            type="org.eclipse.rcptt.ctx.parameters">
+      </maker>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.persistence">
+      <plainExtension
+            class="org.eclipse.rcptt.ctx.parameters.ParametersContextPlainExtension"
+            id="parameters context">
+      </plainExtension>
+   </extension>
+
+
+</plugin>

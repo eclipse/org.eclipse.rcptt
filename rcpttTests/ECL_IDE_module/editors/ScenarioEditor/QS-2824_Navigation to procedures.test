@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__ZTV8Au2EeOLiPM97zhEfw
+Element-Name: QS-2824_Navigation to procedures
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _gHuaUAu_EeOLiPM97zhEfw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/Dummy" | double-click
+with [get-editor Dummy | get-section Script | get-text-viewer] {
+    hover-text 1 9
+    set-caret-pos 1 6
+    open-declaration
+}
+get-tab-folder -index 1 | get-property activePage | equals "New Java Class Procs" | verify-true
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | get-property "getSelectionText()" 
+    | equals "create-java-class" | verify-true
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 32 2
+    hover-text 29 15 -with M1
+    set-caret-pos 29 21
+    open-declaration
+}
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | get-property "getSelectionText()" 
+    | equals "open-new-class-dialog" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

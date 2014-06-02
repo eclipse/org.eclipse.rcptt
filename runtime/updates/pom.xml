@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>rcptt.runtime</artifactId>
+		<groupId>org.eclipse.rcptt</groupId>
+		<version>1.5.0-SNAPSHOT</version>
+	</parent>
+	<profiles>
+		<profile>
+			<id>runtime_e3x</id>
+			<modules>
+				<module>org.eclipse.rcptt.updates.runtime</module>
+				<module>org.eclipse.rcptt.updates.e3x-feature</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>runtime_e4x</id>
+			<modules>
+				<module>org.eclipse.rcptt.updates.runtime.e4x</module>
+				<module>org.eclipse.rcptt.updates.e4x-feature</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>rcp</id>
+			<modules>
+				<module>org.eclipse.rcptt.updates.ganymede</module>
+				<module>org.eclipse.rcptt.updates.galileo</module>
+				<module>org.eclipse.rcptt.updates.helios</module>
+				<module>org.eclipse.rcptt.updates.indigo</module>
+				<module>org.eclipse.rcptt.updates.kepler</module>
+				<module>org.eclipse.rcptt.updates-feature</module>
+				
+				<module>org.eclipse.rcptt.updates.aspectj.e3x</module>
+				<module>org.eclipse.rcptt.updates.aspectj.e38x</module>
+				<module>org.eclipse.rcptt.updates.aspectj.e44x</module>
+			</modules>
+		</profile>
+	</profiles>
+	<groupId>org.eclipse.rcptt</groupId>
+	<version>1.5.0-SNAPSHOT</version>
+	<artifactId>rcptt.runtime.updates</artifactId>
+	<packaging>pom</packaging>
+</project>

@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sherlock Model
+Bundle-SymbolicName: org.eclipse.rcptt.watson.core;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.sherlock.core,
+ org.eclipse.rcptt.sherlock.core.info,
+ org.eclipse.rcptt.sherlock.core.internal,
+ org.eclipse.rcptt.sherlock.core.model.sherlock,
+ org.eclipse.rcptt.sherlock.core.model.sherlock.impl,
+ org.eclipse.rcptt.sherlock.core.model.sherlock.report,
+ org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl,
+ org.eclipse.rcptt.sherlock.core.model.sherlock.report.util,
+ org.eclipse.rcptt.sherlock.core.model.sherlock.util,
+ org.eclipse.rcptt.sherlock.core.reporting,
+ org.eclipse.rcptt.sherlock.core.reporting.internal,
+ org.eclipse.rcptt.sherlock.core.streams
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.resources;resolution:=optional;x-installation:=greedy,
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.0,1.6.0)"
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.sherlock.core.SherlockCore

@@ -1,0 +1,85 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_5eGgkaegEeCBv-onBLuocQ
+Element-Name: WorkspaceContextImportTest
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Jj_woKeiEeCBv-onBLuocQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkspaceContext, ImportExport
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open context
+2. Import files to the context
+3. Verify that all changes are implemented
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select ContextsProject | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-editbox -after [get-label "Name:"] | set-text ws
+    get-button Finish | click
+}
+with [get-editor ws | get-section Workspace] {
+    get-button "Create Empty Project" | click
+    with [get-tree] {
+        select project1 | get-item -index 0 | activate-cell-edit
+        get-item -index 0 | apply-cell-edit
+    }
+    get-button "Import Files..." | click
+}
+return-from-os-dialog "FOLDER_SELECTOR" "platform:/resource/FilesForContextEditor"
+with [get-window -from "Window.createShell()"] {
+    get-button "Browse..." | click
+    with [get-tree] {
+        select FilesForContextEditor | get-item "FilesForContextEditor/folder" | check
+        select "FilesForContextEditor/folder"
+    }
+    get-button Finish | click
+}
+with [get-editor ws | get-section Workspace] {
+    get-tree | select "project1/childtext.txt"
+    get-button "Open File" | click
+}
+get-editor "childtext.txt" | get-editbox | get-property value | equals "Simple text file" | verify-true
+with [get-editor ws] {
+    click -nowait
+    get-editbox -after [get-label "Name:"] | key-type "M1+s"
+    get-section Workspace | get-button "Import Projects..." | click
+}
+get-window -from "Window.createShell()" | get-button Cancel | click
+with [get-editor ws | get-section Workspace] {
+    get-tree | select project1
+    get-button "Import Files..." | click
+}
+with [get-window -from "Window.createShell()"] {
+	return-from-os-dialog "FOLDER_SELECTOR" "platform:/resource/FilesForContextEditor"
+    get-button "Browse..." | click
+    with [get-tree] {
+        get-item FilesForContextEditor | check
+        select FilesForContextEditor
+    }
+    get-button Finish | click
+}
+get-editor ws | get-section Workspace | get-tree | get-item "project1/folder/childtext.txt" | get-property caption 
+    | equals "childtext.txt" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,126 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.rcptt.ctx.script.impl;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.ecl.core.Script;
+import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.ecl.runtime.EclRuntime;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.ecl.runtime.ISession;
+
+import org.eclipse.rcptt.core.IContextProcessor;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.core.ecl.context.EclContext;
+import org.eclipse.rcptt.core.ecl.internal.context.EclContextPlugin;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
+
+public class EclContextProcessor implements IContextProcessor {
+
+	private boolean applied = false;
+
+	public Context create(EObject param) throws CoreException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void apply(Context context) throws CoreException {
+		final EclContext eclContext = (EclContext) context;
+		final Exception[] resultE = new Exception[] { null };
+		final Boolean[] finished = new Boolean[] { false };
+		Runnable r = new Runnable() {
+			public void run() {
+				ISession session = EclRuntime.createSession();
+				try {
+					IProcess process = session.execute(TeslaFactory.eINSTANCE
+							.createSetupPlayer());
+					process.waitFor();
+					// eclipse 3.4 compatibility:
+					// EcoreUtil.copy raise exception if argument is null
+					Script eclScript = (eclContext.getScript() != null) ? (Script) EcoreUtil
+							.copy(eclContext.getScript()) : null;
+					process = session.execute(eclScript);
+					IStatus status = process.waitFor();
+					if (!status.isOK() && status instanceof ScriptErrorStatus) {
+						ScriptErrorStatus st = (ScriptErrorStatus) status;
+						String msg = st.getCause().getMessage()
+								+ "\nWhile executing context "
+								+ eclContext.getName() + " at line:"
+								+ st.getLine();
+
+						ScriptErrorStatus sse = new ScriptErrorStatus(
+								st.getSeverity(), st.getPlugin(), msg,
+								st.getResource(), st.getLine(), st.getColumn(), st.getLength(),
+								st.getCause());
+						resultE[0] = new CoreException(sse);
+					} else if (!status.isOK()) {
+						resultE[0] = new CoreException(status);
+					}
+				} catch (Exception e) {
+					resultE[0] = new CoreException(new Status(IStatus.ERROR,
+							EclContextPlugin.PLUGIN_ID,
+							"Failed to launch ECL context", e));
+				} finally {
+					finished[0] = true;
+					try {
+						IProcess process = session
+								.execute(TeslaFactory.eINSTANCE
+										.createShoutdownPlayer());
+						process.waitFor();
+					} catch (Exception e) {
+						resultE[0] = new CoreException(new Status(
+								IStatus.ERROR, EclContextPlugin.PLUGIN_ID,
+								"Failed to launch ECL context", e));
+					}
+					if (session != null) {
+						try {
+							session.close();
+						} catch (Exception e) {
+							resultE[0] = e;
+						}
+					}
+				}
+			}
+		};
+		Thread t = new Thread(r, "ECL Context apply");
+		t.start();
+		try {
+			t.join(TeslaLimits.getContextRunnableTimeout());
+		} catch (InterruptedException e) {
+			RcpttPlugin.log(e);
+		}
+		if (!finished[0]) {
+			throw new CoreException(new Status(IStatus.ERROR,
+					EclContextPlugin.PLUGIN_ID,
+					"Timeout exceeded during Ecl context execution..."));
+		}
+		if (resultE[0] != null) {
+			if (!(resultE[0] instanceof CoreException)) {
+				throw new CoreException(new Status(Status.ERROR,
+						Activator.PLUGIN_ID, resultE[0].getMessage(),
+						resultE[0]));
+			} else {
+				throw (CoreException) resultE[0];
+			}
+		}
+		applied = true;
+	}
+
+	public boolean isApplied(Context context) {
+		return applied;
+	}
+
+}

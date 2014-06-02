@@ -1,0 +1,73 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_LhMUsNH1EeCvZZdPZOPlnw
+Element-Name: DeleteEmptyFolder
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Bc-kUNIiEeCSSY3GE2xBfQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Folder, Delete
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Select empty folder
+2. Select "Delete" from context menu
+3. Press "Ok" button in "Delete Resources" dialog
+4. Make sure that folder is deleted
+5. Select folder and press "Del" keyboard button
+6. Make sure that folder is deleted
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select p1 | get-menu "New/Folder" | click
+with [get-window "New Folder"] {
+    get-editbox -after [get-label "Folder name:"] | set-text test
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "p1/folder" | get-menu Delete | click
+get-window "Delete Resources" | get-label "Are you sure you want to delete \'folder\' from the file system?" 
+    | get-property caption | equals "Are you sure you want to delete \'folder\' from the file system?" | verify-true
+get-window "Delete Resources" | get-button "Preview >" | click
+with [get-window "Delete Resources" | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "Delete \'p1\\/folder\'" | get-property caption | equals "Delete \'p1/folder\'" | verify-true
+    get-item "Delete \'p1\\/folder\'" | get-property checked | equals true | verify-true
+}
+get-window "Delete Resources" | get-button OK | click
+with [get-view "Q7 Explorer" | get-tree] {
+    verify-error { get-item "p1/folder" }
+    get-item "p1/test" | get-property caption | equals test | verify-true
+    get-item "p1/context1" | get-property caption | equals context1 | verify-true
+    get-item "p1/group1" | get-property caption | equals group1 | verify-true
+    get-item "p1/scenario1" | get-property caption | equals scenario1 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "p1/test" | key-type Del
+get-window "Delete Resources" | get-label "Are you sure you want to delete \'test\' from the file system?" 
+    | get-property caption | equals "Are you sure you want to delete \'test\' from the file system?" | verify-true
+get-window "Delete Resources" | get-button OK | click
+get-view "Q7 Explorer" | get-tree | select p1
+with [get-view "Q7 Explorer" | get-tree] {
+    verify-error { get-item "p1/test" }
+    get-item "p1/context1" | get-property caption | equals context1 | verify-true
+    get-item "p1/group1" | get-property caption | equals group1 | verify-true
+    get-item "p1/scenario1" | get-property caption | equals scenario1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

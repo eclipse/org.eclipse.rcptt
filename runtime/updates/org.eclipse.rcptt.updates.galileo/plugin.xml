@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.launching.ext.q7runtime">
+      <q7runtime
+            id="deps for 3.5"
+            kind="dependency"
+            path="platform:///plugin/org.eclipse.rcptt.updates.galileo/dependencies/"
+            version="[3.5,4.3)">
+      </q7runtime>
+   </extension>
+</plugin>

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Q7 Runtime JDT Support Aspects
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.jdt.aspects;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.aspectj.runtime;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.tesla.core.context;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.jdt.core
+Import-Package: org.osgi.framework
+Eclipse-SupplementBundle: org.eclipse.jdt.core
+Export-Package: org.eclipse.rcptt.tesla.jdt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.tesla.jdt.JDTAspectsActivator

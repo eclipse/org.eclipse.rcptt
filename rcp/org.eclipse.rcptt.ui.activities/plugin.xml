@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.eclipse.core.expressions.definitions">
+	  	<definition id="q7product.expression.definition">
+			<with variable="org.eclipse.core.runtime.Platform">
+    <not>
+       <test
+             property="org.eclipse.core.runtime.product"
+             value="org.eclipse.rcptt.platform.product">
+       </test>
+    </not>
+			</with>
+		</definition>
+	</extension>
+	<extension
+         point="org.eclipse.ui.activities">
+      <category
+            id="org.eclipse.rcptt.ui.hide.category"
+            name="Hide Category">
+      </category>
+      <activity
+            id="org.eclipse.rcptt.ui.hide.items"
+            name="Hide unused items">
+         	<enabledWhen>
+				<reference definitionId="q7product.expression.definition"/>
+			</enabledWhen>               
+      </activity>
+      <categoryActivityBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            categoryId="org.eclipse.rcptt.ui.hide.category">
+      </categoryActivityBinding>
+      
+      <category
+            id="org.eclipse.rcptt.ui.show.category"
+            name="Show Category">
+      </category>
+      <activity
+            id="org.eclipse.rcptt.ui.show.items"
+            name="Show items">
+      </activity>
+      <categoryActivityBinding
+            activityId="org.eclipse.rcptt.ui.show.items"
+            categoryId="org.eclipse.rcptt.ui.show.category">
+      </categoryActivityBinding>
+      
+      <defaultEnablement
+            id="org.eclipse.rcptt.ui.show.items">
+      </defaultEnablement>
+	  <!-- Enable Installed JRE preference page -->
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.show.items"
+            pattern="org\.eclipse\.jdt\.ui/org\.eclipse\.jdt\.ui\.preferences\.JavaBasePreferencePage">
+      </activityPatternBinding>                    
+       <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.show.items"
+            pattern="org\.eclipse\.jdt\.debug\.ui/org\.eclipse\.jdt\.debug\.ui\.preferences\.VMPreferencePage">
+      </activityPatternBinding>                 
+      <!-- Debug Perspectivies -->
+      <!--activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.DebugPerspective">
+      </activityPatternBinding-->      
+      <!-- Debug Views -->       
+      <!--activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\..*View">
+      </activityPatternBinding-->
+	  <!-- All JDT Items -->      
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.jdt\.ui/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.jdt\.debug\.ui/.*">
+      </activityPatternBinding> 
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.jdt\.junit/.*">
+      </activityPatternBinding>           
+	  <!-- All PDE Items -->      
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.ui/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.runtime/.*">            
+      </activityPatternBinding>     
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.ds\.ui/.*">            
+      </activityPatternBinding>             
+	  <!-- All Ant Items -->          
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.ant\.ui/.*">
+      </activityPatternBinding>
+	  <!-- All API Tooling -->          
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.api\.tools\.ui/.*">
+      </activityPatternBinding>                                                                                                                                      
+      <!-- Debug Actions -->     
+      <!--activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.Resume">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.Suspend">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.Terminate">
+      </activityPatternBinding> 
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.StepInto">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.StepOver">
+      </activityPatternBinding>            
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.StepReturn">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.RunToLine">
+      </activityPatternBinding>                               
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.ToggleStepFilters">
+      </activityPatternBinding>            
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.DebugLast">
+      </activityPatternBinding>           
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.actions\.OpenDebugConfigurations">
+      </activityPatternBinding>           
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.internal\.ui\.actions\.DebugWithConfigurationAction">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.internal\.ui\.actions\.DebugHistoryMenuAction">
+      </activityPatternBinding> 
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.internal\.ui\.actions\.DebugDropDownAction">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.debug\.ui\.contextualLaunch\.debug\.submenu">
+      </activityPatternBinding-->   
+	  <!-- Launch configuration -->	  
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.ant\.AntLaunchConfigurationType">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.ant\.AntBuilderLaunchConfigurationType">
+      </activityPatternBinding>  
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern=".*/org\.eclipse\.jdt\.junit\.launchconfig">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.jdt\.launching/org\.eclipse\.jdt\.launching\..*">
+      </activityPatternBinding>   
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.api\.tools\.ui/org\.eclipse\.pde\.api\.tools\.usescan">
+      </activityPatternBinding>                           	           	  
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.launching/org\.eclipse\.pde\.ui\.RuntimeWorkbench">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.launching/org\.eclipse\.pde\.ui\.JunitLaunchConfig">
+      </activityPatternBinding>                                       	
+      <activityPatternBinding
+            activityId="org.eclipse.rcptt.ui.hide.items"
+            pattern="org\.eclipse\.pde\.launching/org\.eclipse\.pde\.ui\.EquinoxLauncher">
+      </activityPatternBinding>      
+   </extension>
+</plugin>

@@ -1,0 +1,57 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_M-KKMO5KEeCU6db9MgIBkA
+Element-Name: MoveEntireContextsToAnotherProject
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _DfCjgO8-EeCZz89QM6kozg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, Move
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Have 2 projects with a group context in one of them containing entire contexts from the same project;
+2. Move entire contexts to another Project;
+3. Make sure Project references were created and no Unresolved contexts appeared;
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project3/GroupContext5" "Q7Project3/GroupContext6"
+    get-menu "Move..." | click
+}
+with [get-window "Move Resources"] {
+    get-tree | select Q7Project2
+    get-button OK | click
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext4" | double-click
+get-window "Missing references" | get-button Yes | click
+get-view "Q7 Explorer" | get-tree | select Q7Project3 | get-menu Properties | click
+get-window "Properties for Q7Project3" | get-tree | select "Project References"
+with [get-window "Properties for Q7Project3" | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item Q7Project2 | get-property caption | equals Q7Project2 | verify-true
+    get-item Q7Project2 | get-property checked | equals true | verify-true
+}
+get-window "Properties for Q7Project3" | get-button OK | click
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,64 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: SaveBeforeLaunch
+Element-Type: context
+Element-Version: 2.0
+Id: _4QQJ8GJ5EeOG77tsPvjNlQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Utilities for testing save before launch
+http://jira4.xored.com/browse/QS-3090
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+
+proc "set-save-before-launch" [val mode] {
+	get-preferences-menu | click
+	with [get-window Preferences] {
+	    get-tree | select "Run\\/Debug/Launching"
+	    get-group "Save required dirty editors before launching" | get-button $mode | click
+	    get-button OK | click
+	}
+}
+
+proc "open-modified-testcase" {
+	get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
+	
+	with [get-editor "Delete Test"] {
+	    with [get-section Script | get-text-viewer] {
+	        set-caret-pos 2 44
+	        type-text " "
+	        show-content-assist
+	    }
+	}
+}
+
+proc "open-modified-context" {
+	get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click
+	with [get-editor "Create New Project" | get-section Script | get-text-viewer] {
+	    set-caret-pos 13 2
+	    type-text " "
+	    show-content-assist
+	}	
+}
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

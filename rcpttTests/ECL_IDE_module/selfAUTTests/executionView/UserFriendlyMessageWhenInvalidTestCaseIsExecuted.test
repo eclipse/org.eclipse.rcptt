@@ -1,0 +1,81 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_bbpo0a2vEeCqpoE1MJ1fFQ,_18rr8K25EeCZfrGRg7GXDg
+Element-Name: UserFriendlyMessageWhenInvalidTestCaseIsExecuted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1386
+Id: _rRWfgIejEeGVLeG5HnBFVg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, selfAUT, Runtime, ExecutionView, skipExecution
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Replace test file content in text editor with text "qqq". 
+2. Right-click it in Q7 explorer and select "Run As" - "Test Cases". 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest1" | get-menu "Open With/Text Editor" | click
+with [get-editor "simpleTest1.test" | get-text-viewer] {
+    set-caret-pos 12 24
+    key-type "M1+a"
+    key-type Del
+    type-text SomeTxt
+}
+get-button "Save (M1+S)" | click
+get-editor "simpleTest1.test" | close
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "q7project/simpleTest1" | get-menu "Run As/1 Test Cases" | click
+}
+with [get-view "Execution View"] {
+    try -times 100 -delay 100 -command {
+    	get-editbox -after [get-label "Message:"] | get-property text 
+        	| equals "Element: /q7project/simpleTest1.test doesn\'t exist" | verify-true
+    }
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 1 | get-property caption | equals 1 | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "q7project/defaultWS" | get-menu "Open With/Text Editor" | click
+with [get-editor "defaultWS.ctx" | get-text-viewer] {
+    key-type "M1+a"
+    key-type Del
+    type-text SomeTxt
+}
+get-button "Save (M1+S)" | click
+get-editor "defaultWS.ctx" | close
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "q7project/simpleTest2" | get-menu "Run As/1 Test Cases" | click
+}
+with [get-view "Execution View"] {
+    try -times 100 -delay 100 -command {
+    	get-editbox -after [get-label "Message:"] | get-property text 
+        	| equals "Element: /q7project/defaultWS.ctx doesn\'t exist" | verify-true
+    }
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 1 | get-property caption | equals 1 | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

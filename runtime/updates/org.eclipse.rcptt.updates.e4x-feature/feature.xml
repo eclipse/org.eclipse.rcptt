@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.updates.e4x"
+      label="RCPTT Runtime Sites for Eclipse 4.x"
+      version="1.5.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      Prepared update sites with RCPTT Runtime and RCPTT Runtime prerequsites for juno..luna
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="org.eclipse.rcptt.updates.runtime.e4x"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+</feature>

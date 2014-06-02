@@ -1,0 +1,117 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: MoveFolderWithTestAndContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _-yWAUNHwEeCvZZdPZOPlnw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Project, Move, TestCase, Context
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select p3 | get-menu "New/Folder" | click
+with [get-window "New Folder"] {
+    get-editbox -after [get-label "Folder name:"] | set-text folder
+    get-button Finish | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    select "p3/context3" "p3/scenario3"
+    get-menu "Move..." | click
+}
+with [get-window "Move Resources"] {
+    get-tree | select "p3/folder"
+    get-button OK | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "p3/folder" | get-property caption | equals folder | verify-true
+    get-item "p3/folder" | get-property childCount | equals 2 | verify-true
+    get-item "p3/folder/context3" | get-property caption | equals context3 | verify-true
+    get-item "p3/folder/scenario3" | get-property caption | equals scenario3 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "p3/folder/scenario3" | double-click
+with [get-editor scenario3 | get-section Contexts] {
+    click
+    get-button "Add..." | click
+}
+with [get-window "Select context"] {
+    get-table | select "context3 \\(p3\\)"
+    get-button OK | click
+}
+with [get-editor scenario3] {
+    get-section Contexts | key-type "M1+s"
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "p3/folder" | get-menu "Move..." | click
+}
+with [get-window "Move Resources"] {
+    get-tree | select p1
+    get-button OK | click
+}
+get-view "Q7 Explorer" | get-tree | verify-error { get-item "p3/folder" }
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "p1/folder" | get-property caption | equals folder | verify-true
+    get-item "p1/folder" | get-property childCount | equals 2 | verify-true
+    get-item "p1/folder/context3" | get-property caption | equals context3 | verify-true
+    get-item "p1/folder/scenario3" | get-property caption | equals scenario3 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "p1/folder/scenario3" | double-click
+get-editor scenario3 | get-section Contexts | click
+with [get-editor scenario3 | get-section Contexts | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "context3 \\(p1\\)" | get-property caption | equals "context3 (p1)" | verify-true
+}
+get-editor scenario3 | close
+with [get-view "Q7 Explorer"] {
+    click
+    with [get-tree] {
+        select "p1/folder"
+        get-item "p1/folder" | drag-start "-10" 7
+        get-item "p1/folder/scenario3" | drag-enter "-30" 5 -detail 2 -operation 7
+        get-item "p1/folder/scenario3" | drag-over "-31" 16 -operation 7
+        get-item "p1/context1" | drag-over "-16" 16 -operation 7
+        get-item "p1/group1" | drag-over "-27" 17 -operation 7
+        get-item "p1/scenario1" | drag-over "-31" 17 -operation 7
+        get-item p2 | drag-over "-4" 14 -detail 2 -operation 7
+        get-item "p1/folder/scenario3" | drag-exit
+        get-item p2 | drag-accept "-4" 14 -detail 2 -operation 7
+        get-item p1 | drag-set-data "-41"
+        get-item p2 | drop "-4" 14 -detail 2 -operation 7
+        get-item p1 | drag-end "-41" -detail 2
+    }
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "p2/folder" | get-property caption | equals folder | verify-true
+    get-item "p2/folder" | get-property childCount | equals 2 | verify-true
+    get-item "p2/folder/context3" | get-property caption | equals context3 | verify-true
+    get-item "p2/folder/scenario3" | get-property caption | equals scenario3 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "p2/folder/scenario3" | double-click
+get-editor scenario3 | get-section Contexts | click
+with [get-editor scenario3 | get-section Contexts | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "context3 \\(p2\\)" | get-property caption | equals "context3 (p2)" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

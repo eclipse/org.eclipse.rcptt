@@ -1,0 +1,123 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
+Element-Name: SortingInQ7Explorer
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _4zgJAMlNEeCVO9X7TqWdlg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Q7Explorer
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Create projects 
+2. Verify that projects are sorted in Q7 Explorer
+3. Create objects in project
+4. Verify that objects are sorted in Q7 Explorer
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select p1 | get-menu "New/Q7 Project" | click
+with [get-window "New Project"] {
+    get-editbox -after [get-label "Project name:"] | set-text 13
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select 13 | get-menu "New/Q7 Project" | click
+with [get-window "New Project"] {
+    get-editbox -after [get-label "Project name:"] | set-text "53test"
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Q7 Project" | click
+with [get-window "New Project"] {
+    get-editbox -after [get-label "Project name:"] | set-text abc
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select abc | get-menu "New/Q7 Project" | click
+with [get-window "New Project"] {
+    get-editbox -after [get-label "Project name:"] | set-text sdf
+    get-button Finish | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-property itemCount | equals 7 | verify-true
+    get-item 13 | get-property index | equals 0 | verify-true
+    get-item "53test" | get-property index | equals 1 | verify-true
+    get-item abc | get-property index | equals 2 | verify-true
+    get-item p1 | get-property index | equals 3 | verify-true
+    get-item p2 | get-property index | equals 4 | verify-true
+    get-item p3 | get-property index | equals 5 | verify-true
+    get-item sdf | get-property index | equals 6 | verify-true
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Test Case" | click
+with [get-window "New Test Case"] {
+    get-editbox -after [get-label "Name:"] | set-text 23
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Test Case" | click
+with [get-window "New Test Case"] {
+    get-editbox -after [get-label "Name:"] | set-text 12
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Test Case" | click
+with [get-window "New Test Case"] {
+    get-editbox -after [get-label "Name:"] | set-text sdf
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Test Case" | click
+with [get-window "New Test Case"] {
+    get-editbox -after [get-label "Name:"] | set-text bc
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-table | select Workspace
+    get-editbox -after [get-label "Name:"] | set-text ewr
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-editbox -after [get-label "Name:"] | set-text 23
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-table | select Workbench
+    get-editbox -after [get-label "Name:"] | set-text 45
+    get-button Finish | click
+}
+get-view "Q7 Explorer" | get-tree | select "53test" | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-table | select Group
+    get-editbox -after [get-label "Name:"] | set-text ty
+    get-button Finish | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+//    get-item "53test" | get-property childCount | equals 8 | verify-true
+	get-item "53test/Project Settings" | get-property index | equals 0 | verify-true
+    get-item "53test/23" | get-property index | equals 1 | verify-true
+    get-item "53test/45" | get-property index | equals 2 | verify-true
+    get-item "53test/ewr" | get-property index | equals 3 | verify-true
+    get-item "53test/ty" | get-property index | equals 4 | verify-true
+    get-item "53test/12" | get-property index | equals 5 | verify-true
+    get-item "53test" | get-item 23 -index 1 | get-property index | equals 6 | verify-true
+    get-item "53test/bc" | get-property index | equals 7 | verify-true
+    get-item "53test/sdf" | get-property index | equals 8 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

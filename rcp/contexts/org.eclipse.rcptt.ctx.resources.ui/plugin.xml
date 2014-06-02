@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ui.viewers">
+      <viewer
+            class="org.eclipse.rcptt.ui.resources.viewers.WorkspaceViewer"
+            icon="/icons/workspace.gif"
+            type="org.eclipse.rcptt.ctx.workspace">
+      </viewer>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ui.searchMatchers">
+      <matcher
+            class="org.eclipse.rcptt.ui.internal.resources.WorkspaceContextMatcher">
+      </matcher>
+   </extension>
+   <extension
+         point="org.eclipse.ui.elementFactories">
+      <factory
+            class="org.eclipse.rcptt.ui.editors.ecl.EclEditorInputFactory"
+            id="org.eclipse.rcptt.ui.editors.ecl.EclEditorInputFactory">
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="org.eclipse.rcptt.ui.resources.viewers.WSResourceDecorator"
+            id="org.eclipse.rcptt.ui.resources.viewers.WSResourceDecorator"
+            label="Q7 Workspace Context Resources Decorator"
+            lightweight="true"
+            objectClass="org.eclipse.rcptt.workspace.WSResource"
+            state="true">
+      </decorator>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.builder.q7Validator">
+      <validator
+            class="org.eclipse.rcptt.ui.resources.viewers.WorkspaceLinksValidator">
+      </validator>
+      <validator
+            class="org.eclipse.rcptt.ui.internal.resources.WorkspaceContextContentValidator">
+      </validator>
+   </extension>
+</plugin>

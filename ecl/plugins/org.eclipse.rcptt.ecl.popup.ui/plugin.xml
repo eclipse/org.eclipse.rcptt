@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            defaultHandler="org.eclipse.rcptt.ecl.popup.ui.internal.EclPopupHandler"
+            id="org.eclipse.rcptt.ecl.popup.ui.EclPopup"
+            name="ECL Pop-up">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.rcptt.ecl.popup.ui.EclPopup"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+4">
+      </key>
+   </extension>
+
+</plugin>

@@ -1,0 +1,75 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_CvfmAGniEeK1ouDBqHdAhQ
+Element-Name: RemoveFolderAndFileFromFolderContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _vPdKUGngEeK1ouDBqHdAhQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, FolderContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open existing filled Folder Context
+2. Select folder in Folder Context and remove it
+3. Select file in Folder Context and remove it
+4. Make sure that file and folder are removed 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "project/FilledFolderContext" | double-click
+with [get-editor FilledFolderContext] {
+    with [get-section Folder] {
+        with [get-tree] {
+            select toCapture | get-item toFolderContext | click
+            get-item toFolderContext | expand
+            get-item "toFolderContext/TestFolder" | click
+            get-item "toFolderContext/TestFolder" | expand
+            select "toFolderContext/TestFolder/error.png"
+            get-item "toFolderContext/TestFolder/error.png" | click
+        }
+        get-button Remove | click
+        with [get-tree] {
+            select "toFolderContext/TestFolder/new_test.txt" | get-item toFolderContext | expand
+            select "toFolderContext/test.png"
+            get-item "toFolderContext/test.png" | click
+        }
+        get-button Remove | click
+        with [get-tree] {
+            select "toFolderContext/TestFolder" | get-item toCapture | click
+            select toCapture
+            get-item toCapture | click
+        }
+        get-button Remove | click
+        get-tree | select toFolderContext | key-type "M1+s"
+    }
+}
+with [get-editor FilledFolderContext | get-section Folder | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item toFolderContext | get-property caption | equals toFolderContext | verify-true
+    get-item toFolderContext | get-property childCount | equals 1 | verify-true
+    get-item "toFolderContext/TestFolder" | get-property caption | equals TestFolder | verify-true
+    get-item "toFolderContext/TestFolder" | get-property childCount | equals 1 | verify-true
+    get-item "toFolderContext/TestFolder/new_test.txt" | get-property caption | equals "new_test.txt" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

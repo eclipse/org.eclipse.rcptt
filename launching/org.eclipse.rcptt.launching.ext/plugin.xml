@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="q7runtime" name="q7runtime" schema="schema/q7runtime.exsd"/>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate"
+            delegateDescription="Application Under Test (RCPTT) Launcher"
+            delegateName="Application Under Test (RCPTT) Launcher"
+            id="org.eclipse.rcptt.launching.ext"
+            modes="run"
+            name="Application Under Test (RCPTT)">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.launching.launchValidator">
+      <validator
+            class="org.eclipse.rcptt.internal.launching.ext.Q7ExternalLaunchValidator">
+      </validator>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.launching.executors">
+      <executor
+            class="org.eclipse.rcptt.internal.launching.ext.ExternalLaunchExecutor"
+            type="org.eclipse.rcptt.launching.ext">
+      </executor>
+   </extension>
+
+</plugin>

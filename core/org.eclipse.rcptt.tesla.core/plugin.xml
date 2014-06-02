@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension-point id="processor" name="processor" schema="schema/processor.exsd"/>
+ <extension-point id="networkProcessor" name="networkProcessor" schema="schema/networkProcessor.exsd"/>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package
+			class="org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage"
+			genModel="/models/protocol.genmodel"
+			uri="http://eclipse.org/rcptt/tesla/protocol"/>
+  <package
+        class="org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage"
+        genModel="/models/rawProtocol.genmodel"
+        uri="http://eclipse.org/rcptt/tesla/rawprotocol">
+  </package>
+  <package
+        class="org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramPackage"
+        genModel="/models/diagram.genmodel"
+        uri="http://eclipse.org/rcptt/tesla/diagram">
+  </package>
+  <package
+        class="org.eclipse.rcptt.tesla.core.info.InfoPackage"
+        genModel="/models/info.genmodel"
+        uri="http://eclipse.org/rcptt/tesla/info">
+  </package>
+	</extension>
+</plugin>

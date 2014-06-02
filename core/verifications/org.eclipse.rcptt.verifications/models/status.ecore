@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="status"
+    nsURI="http://eclipse.org/rcptt/verifications/status" nsPrefix="org.eclipse.rcptt.verifications.status">
+  <eClassifiers xsi:type="ecore:EClass" name="EVerificationStatus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//VerificationStatusData"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="severity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerificationStatusData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeItemVerificationError" eSuperTypes="#//VerificationStatusData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemIndexPath" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemPath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeItemStyleVerificationError" eSuperTypes="#//TreeItemVerificationError">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expectedStyle" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//StyleRangeEntry"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualStyle" eType="ecore:EClass ../../org.eclipse.rcptt.tesla.core/models/ui.ecore#//StyleRangeEntry"/>
+  </eClassifiers>
+</ecore:EPackage>

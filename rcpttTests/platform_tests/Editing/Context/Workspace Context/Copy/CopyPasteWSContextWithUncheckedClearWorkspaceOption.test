@@ -1,0 +1,57 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: CopyPasteWSContextWithUncheckedClearWorkspaceOption
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1583
+Id: _LMQ78YU-EeG5GLBbsEZ0Ig
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkspaceContext, CopyPaste
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Uncheck "Clear workspace" option, save it; 
+2. Copy/paste the context, open it - "Do not clear folders or files" field should be disabled 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click
+get-editor ClearWorkspace | get-section "Workspace Options" | get-button "Clear workspace" | click
+get-button "Save (M1+S)" | click
+get-editor ClearWorkspace | close
+with [get-view "Q7 Explorer"] {
+    click
+    with [get-tree] {
+        select "MyProject/ClearWorkspace" | get-menu Copy | click
+        select MyProject | get-menu Paste | click
+    }
+}
+get-window "New Element" | get-button OK | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Copy of ClearWorkspace" | double-click
+get-editor "Copy of ClearWorkspace" | get-section "Workspace Options" | get-button "Clear workspace" 
+    | get-property selected | equals false | verify-true
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click
+get-editor ClearWorkspace | get-section "Workspace Options" | get-button "Clear workspace" | get-property selected 
+    | equals false | verify-true
+get-editor ClearWorkspace | get-editbox -after [get-label "Name:"] | key-type "M1+M2+w"
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

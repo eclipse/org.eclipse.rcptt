@@ -1,0 +1,82 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: WSContextWithTestSuiteAndTestCase
+Element-Type: context
+Element-Version: 2.0
+Id: _0IOskNyeEeK6r-vZOHOktA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_contents/MyProject/q7.properties-fc70353c-8220-3796-8833-f57df5bcb387
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/q7.properties
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRNzs2KwjAUQOF9nuK+wE2btLWYfQdE
+LP4xW4nNRSqTRNOr1bdXEcqsv8U5iAibGpgG7uxAgIjiJyZvGX8pDX0MBpTMxabGOwUXk4FxHOUjJnKy
+iz671qL5I0+BsbWeDKxTPFPHsCPmPpyGiffPy5svX14RW2fZTjrV9Lu2cAYODXNbts9jQ8v5cenO88NY
+LU6fk+0tcO/p/2EhS6lzVeQzXeaV0mJn74T7/nM0y3SZqQKUqSpYr4R4AVBLBwgaESmYuQAAAPUAAABQ
+SwECFAAUAAgICAAAACEAGhEpmLkAAAD1AAAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAA
+AAEAAQA2AAAA7wAAAAAA
+------=_contents/MyProject/q7.properties-fc70353c-8220-3796-8833-f57df5bcb387--
+------=_contents/MyProject/tc1.test-08b51561-80a1-3b4d-8d18-8ff9e78f2134
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/tc1.test
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRNztFqwjAUxvH7PMV5gZM2aW0xd7uo
+IDJRV3YrWXomHU2ypdHo22uhlN3+4fv4ISIca4g0RqNHAkRkGx+sjvhJYey9UyB4zo413sh1PihIKfG7
+D9Rx4232V7NmIEsu4l5bUhCNWEr7+J3KfL7k5bl4PTf3SMHpAU/0TYGceS3YtlNwjtXbIe0f1NBu/bXr
+ftbntNpeJsrp6mJv6T+x4CWXuSjySpb5Skj2oW+EbT+RqkyWmShAKing8M7aGTT7yAyMPQFQSwcIFEq5
+3cMAAAAJAQAAUEsBAhQAFAAICAgAAAAhABRKud3DAAAACQEAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250
+ZW50UEsFBgAAAAABAAEANgAAAPkAAAAAAA==
+------=_contents/MyProject/tc1.test-08b51561-80a1-3b4d-8d18-8ff9e78f2134--
+------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnRtkEEOgjAQRdeaeAfC3lZXuCiQqHFn
+YqIeAMuE1NAW2mLw9ralSDDu5v35M39akve8jl6gNJMijbdoE0cgqCyZqNL4fjutd3GerZakUfIJ1BxB
+U8UaY91WXRBRcMjO78vQJdiza1DJOQiTETxWTg1btAc8o0fH6vLaAHUU8GBHC1F6JWTZbaiXCkrUJoja
+AnknKMv7oZqusEOFqjoXrwPjuUDwb1BQxktsqukUBPcAf45ok6Hlsr3Fb5pmv4+df+AHUEsHCCn7TjjB
+AAAAfwEAAFBLAQIUABQACAgIAAAAIQAp+044wQAAAH8BAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVu
+dFBLBQYAAAAAAQABADYAAAD3AAAAAAA=
+------=_contents/MyProject/.project-db7607a0-e356-3aa3-a20e-b3efc9871b2e--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVklFPgzAUhd/3K0jf1w4f1BBgWRYT
+FzMxmcnMXgyWO1aBFtvLYP/edgOeNM6323u/c2570nDeVaV3BG2EkhHx6Yx4ILnKhMwj0uB+ek/m8SRU
+OqfAS1EboJrXiJRjR1ulC1OnHILtUC2VROjQ6yoRjLY3ztYukiaw/YgcEOuAsbZtqapyas3Z23o1IH/s
+GuUD4+RnjlmOjRzxZFpZervp77QVeHgFg5tGICxk5uplaiwosoi8z1aJKZ5P8ABPt3p63CWPSYELEk88
+L+TOQaKr7anW6hM4mn7B+vRyaZDL3BJ7UcIwpj1ug+2AN5h+lLaLugHCfhR83TlJDRoFmKtVyH2K9kXX
+C4xPjYvid0XIhqeeU2BjDCH774eIJ99QSwcIZeO/Wh0BAABrAgAAUEsBAhQAFAAICAgAAAAhAGXjv1od
+AQAAawIAAAgAAAAAAAAAAAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAFMBAAAAAA==
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/MyProject/ts1.suite-956abac9-07f9-33a9-8382-1251662c3381
+Content-Type: q7/binary
+Entry-Name: contents/MyProject/ts1.suite
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSlkUFvgjAUx8/rp+iN0wNaCijJDsvi
+EmNmdDNeSYXnxjZaR58i336g0bjsuJ6af/N+7/9LAYAvU07oqNAOOQCwJ9vUmmCNjausybjwQ7ZM4YCm
+tE3G27b1j7bB0i9sHXynbPKFNRqCua4x4+TENVl1uyHp4W5fEV7zK1r26GmZ8dyN1mTnHU5wNt7Myo9x
+3sbTt2Hty95QVeNtnchXvgxFFCZShbGQ7FUfEFbVsD4JpApExGUmBV88Mwanc59fFKEvUjtIZKHGaalB
+SSUgElsFIyE0JBsVRzrCYrsdsUdr6NbjSMEFwyaGmu7i/IvNWE7Jw6L9o3MXBPyzMr2vN0x43JymPSqE
+x3ea3s93//T4r+b9L/4AUEsHCBnX6joVAQAA2gEAAFBLAQIUABQACAgIAAAAIQAZ1+o6FQEAANoBAAAI
+AAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYAAABLAQAAAAA=
+------=_contents/MyProject/ts1.suite-956abac9-07f9-33a9-8382-1251662c3381--

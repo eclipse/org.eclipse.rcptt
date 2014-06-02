@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.DisplayAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.DebugDisplayAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.DNDAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.MenuAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.EventFilterAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.BrowserAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.ClipboardAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.ImagesAspect" />
+		<!--aspect name="org.eclipse.rcptt.tesla.swt.aspects.Handles"/-->
+	</aspects>
+	<weaver options="-verbose -Xset:weaveJavaPackages=true,typeDemotion=true"/>
+</aspectj>

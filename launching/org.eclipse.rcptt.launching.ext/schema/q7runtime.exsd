@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.rcptt.launching.ext" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.rcptt.launching.ext" id="q7runtime" name="q7runtime"/>
+      </appinfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="q7runtime"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="q7runtime">
+      <annotation>
+         <documentation>
+            This extension point is used to collect all required plugins to execute target platform with q7 enabled.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="path" type="string">
+            <annotation>
+               <documentation>
+                  Path to update site. Allow to provide path inside bundle in format
+platform://bundle/path
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="version" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Eclipse target version string.
+Could contain * willcard for any sumsequence matches.
+Eg: 3.* for all 3.x releases.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="kind" use="required">
+            <annotation>
+               <documentation>
+                  q7 - provides q7 runtime.
+dependency - provides q7 dependencies.
+extra - any other update site to be instralled.
+aspectj - provides aspectj components update.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="extra">
+                  </enumeration>
+                  <enumeration value="dependency">
+                  </enumeration>
+                  <enumeration value="runtime">
+                  </enumeration>
+                  <enumeration value="aspectj">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+
+
+
+
+
+</schema>

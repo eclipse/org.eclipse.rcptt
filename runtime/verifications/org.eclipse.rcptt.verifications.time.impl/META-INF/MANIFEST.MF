@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Execution Time Verification Implementation
+Bundle-SymbolicName: org.eclipse.rcptt.verifications.time.impl;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.verifications.time.impl.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.rcptt.core,
+ org.eclipse.rcptt.verifications.time,
+ org.eclipse.rcptt.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,69 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_bbpo0a2vEeCqpoE1MJ1fFQ,_18rr8K25EeCZfrGRg7GXDg
+Element-Name: RemoveAllFromExecutionsWindow
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _lWNjQDBuEeGucNTOi0GihQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Runtime, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Run tests
+2. Press "Execution History..." button in toolbar of Execution View
+3. Make sure that Execution View is not empty
+4. Press on "Remove All" button
+5. Make sure that this window is empty
+6. Press "Ok" button
+7. Make sure that Execution View is empty
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest1" | get-menu "Run As/\\d+ Test Cases" | click
+wait 5000
+get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest3" | get-menu "Run As/\\d+ Test Cases" | click
+wait 5000
+get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest2" | get-menu "Run As/\\d+ Test Cases" | click
+wait 5000
+get-view "Execution View" | get-button "Execution History..." | click
+with [get-window Executions] {
+    get-table | get-property itemCount | equals 0 | verify-false
+    with [get-button Remove] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals Remove | verify-true
+    }
+    with [get-button "Remove All"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Remove All" | verify-true
+    }
+}
+get-window Executions | get-button "Remove All" | click
+get-window Executions | get-table | get-property itemCount | equals 0 | verify-true
+get-window Executions | get-button OK | click
+with [get-view "Execution View"] {
+    get-tree | get-property itemCount | equals 0 | verify-true
+    get-label "0/0" | get-property caption | equals "0/0" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

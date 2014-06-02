@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZTaa8FDgEeK92N_pD8vqpA,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: FolderContextCreation
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _N_hr4FDgEeK92N_pD8vqpA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, FolderContext, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open "New Context Wizard" and select folder context
+2. Set name and press "Finish"button
+3. Press "Capture" button - make sure that folder context is created and applied
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select project | get-menu "New/Test Case" | click
+get-window "New Test Case" | get-button Cancel | click
+get-view "Q7 Explorer" | get-tree | select project | get-menu "New/Context" | click
+with [get-window "New Context Wizard"] {
+    get-editbox -after [get-label "Name:"] | set-text files
+    get-table | select Folder
+    get-button Finish | click
+}
+set-dialog-result Folder "platform:/resource/external/toCapture"
+with [get-editor files] {
+    get-section Folder | get-button "Browse..." | click
+    get-button Capture | click
+}
+get-editor files | get-section Folder | get-tree | get-property itemCount | equals 1 | verify-true
+get-view "Q7 Explorer" | get-tree | select "external/toCapture" | get-menu Delete | click
+get-window "Delete Resources" | get-button OK | click
+get-editor files | get-button Apply | click
+get-window "Save Resource" | get-button Yes | click
+with [get-view "Q7 Explorer" | get-tree] {
+    select external | get-menu Refresh | click
+    select "external/toCapture/file.txt" | double-click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,1 @@
+click("Item.png")

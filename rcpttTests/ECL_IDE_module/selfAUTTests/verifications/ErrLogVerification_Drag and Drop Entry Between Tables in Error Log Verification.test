@@ -1,0 +1,106 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: ErrLogVerification_Drag and Drop Entry Between Tables in Error Log Verification
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Xi2QgH0QEeO5CYdzFmGe7Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: verification, verification/Error Log, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ErrorLogVerification" | double-click
+with [get-editor ErrorLogVerification] {
+    with [get-section Allow | get-table] {
+        select "org.eclipse.ui" -column "Plugin Pattern" | activate-cell-edit -column 3
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | drag-start 126 3
+        drag-enter 145 15 -detail move
+        drag-over 145 3 -detail move
+        drag-exit
+    }
+    with [get-section Require | get-table] {
+        drag-enter 144 138 -detail move
+        drag-over 142 94 -detail move
+        drag-exit
+        drag-accept 142 94 -detail move
+    }
+    get-section Allow | get-table | drag-set-data
+    get-section Require | get-table | drop 142 94 -detail move
+    with [get-section Allow | get-table] {
+        drag-end -detail move
+        cancel-cell-edit
+        deactivate-cell-edit
+    }
+}
+with [get-editor ErrorLogVerification] {
+    with [get-section Require | get-table] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[0]" | equals false | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[1]" | equals false | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[2]" | equals true | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[3]" | equals "org.eclipse.ui" 
+            | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[4]" | equals "Info Entry" 
+            | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[5]" | equals "" | verify-true
+    }
+    get-section Allow | get-table | get-property itemCount | equals 4 | verify-true
+}
+with [get-editor ErrorLogVerification] {
+    with [get-section Allow | get-table] {
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2] | activate-cell-edit -column 3
+        drag-start 158 107
+        drag-enter 162 131 -detail move
+        drag-over 162 210 -detail move
+        drag-exit
+    }
+    with [get-section Deny | get-table] {
+        drag-enter 160 14 -detail move
+        drag-over 161 106 -detail move
+        drag-exit
+        drag-accept 161 106 -detail move
+    }
+    get-section Allow | get-table | drag-set-data
+    get-section Deny | get-table | drop 161 106 -detail move
+    with [get-section Allow | get-table] {
+        drag-end -detail move
+        cancel-cell-edit
+        deactivate-cell-edit
+    }
+}
+with [get-editor ErrorLogVerification] {
+    with [get-section Deny | get-table] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[0]" | equals true | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[1]" | equals false | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[2]" | equals false | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[3]" | equals "org.eclipse.pde" 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[4]" | equals "Cancel Entry" 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[5]" | equals "" | verify-true
+    }
+    get-section Allow | get-table | get-property itemCount | equals 3 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

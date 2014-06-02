@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>q7-module-ide-tests</artifactId>
+	<version>1.5.0-SNAPSHOT</version>
+	<packaging>q7test</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.xored.q7</groupId>
+			<artifactId>q7contexts.shared</artifactId>
+			<version>1.5.0-SNAPSHOT</version>
+			<type>q7test</type>
+		</dependency>
+	</dependencies>
+
+	<parent>
+		<groupId>com.xored.q7</groupId>
+		<artifactId>q7tests-base</artifactId>
+		<version>1.5.0-SNAPSHOT</version>
+		<relativePath>../pom-base.xml</relativePath>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.xored.q7</groupId>
+				<artifactId>q7-maven-plugin</artifactId>
+				<version>${q7-maven-version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<aut>
+						<artifactId>sdk</artifactId>
+						<groupId>eclipse</groupId>
+						<version>3.7.0</version>
+						<injections>
+
+							<injection>
+								<site>http://download.xored.com/mirrors/q7mirror/</site>
+								<features>
+									<feature>org.eclipse.emf.transaction.feature.group</feature>
+									<feature>org.eclipse.emf.validation.feature.group</feature>
+									<feature>org.eclipse.emf.ecore.feature.group</feature>
+									<feature>org.eclipse.emf.common.feature.group</feature>
+									<feature>org.eclipse.emf.workspace.feature.group</feature>
+									<feature>org.eclipse.emf.edit.ui.feature.group</feature>
+									<feature>org.eclipse.emf.edit.feature.group</feature>
+									<feature>org.eclipse.emf.databinding.feature.group</feature>
+									<feature>org.eclipse.emf.common.ui.feature.group</feature>
+								</features>
+							</injection>
+
+							<injection>
+								<site>${q7URL}/artifact/shared/repository</site>
+								<features>
+									<feature>com.google.libs.feature.group</feature>
+
+									<feature>com.xored.tesla.ecl.feature.group</feature>
+									<feature>org.eclipse.ecl.core.feature.group</feature>
+									<feature>org.eclipse.ecl.ide.feature.group</feature>
+									
+									<feature>com.xored.q7.runner.feature.group</feature>
+									<feature>com.xored.watson.feature.group</feature>
+									<feature>com.xored.q7.platform.feature.group</feature>
+									<feature>org.eclipse.ecl.server.feature.group</feature>
+									
+									<feature>com.xored.tesla.feature.group</feature>
+									<feature>com.xored.q7.updates.feature.group</feature>
+									
+									<feature>com.google.libs.feature.group</feature>
+								</features>
+							</injection>
+
+							<injection>
+								<site>${q7URL}/artifact/shared/IDE-update-site</site>
+							</injection>
+						</injections>
+						<args>
+							<arg>-licenseUrl</arg>
+							<arg>http://licensing.xored.com/pool/04fb850c-d95d-eec0-76f9-12313b043cf6</arg>
+						</args>
+					</aut>
+					<q7>
+						<version>${q7-version}</version>
+					</q7>
+					<testOptions>
+						<execTimeout>3600</execTimeout>
+					</testOptions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

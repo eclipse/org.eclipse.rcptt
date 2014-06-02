@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.tesla.ecl.runtime"
+      label="RCPTT Runtime ECL Support"
+      version="1.5.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      ECL command interface for RCPTT Runtime
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.eclipse.rcptt.tesla" version="1.5.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.tesla.runtime" version="1.5.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.0.qualifier"/>
+      <import plugin="org.eclipse.rcptt.tesla.ecl"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.ecl.impl"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+</feature>

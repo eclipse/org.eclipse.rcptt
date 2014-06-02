@@ -1,0 +1,79 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_M-KKMO5KEeCU6db9MgIBkA,_e5RHAOo7EeCjiJ-04yesNg
+Element-Name: TryToAddTestIntoGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _hoopwO89EeCZz89QM6kozg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Double click group context;
+2. Try to drag test case file into a group context - make sure you can't do it;
+3. Try to repeat with other file types except context files. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project/group" | double-click -nowait
+    select "Q7Project/contexts/Pref_test"
+    get-item "Q7Project/contexts/Pref_test" | drag-start 14 10 none
+    get-item "Q7Project/group" | drag-enter 230 9 none -detail 2 -operation 7
+    get-item "Q7Project/group" | drag-over 230 9 none -detail 2 -operation 7
+    get-item "Q7Project/group" | drag-exit -button none
+}
+with [get-editor group | get-section Contexts | get-table] {
+    drag-enter 34 71 none -detail 2 -operation 2
+    drag-over 125 135 none -detail 2 -operation 2
+    drag-exit -button none
+    drag-accept 125 135 none -detail 2 -operation 2
+}
+get-view "Q7 Explorer" | get-tree | get-item Q7Project | drag-set-data "-41" -button none
+get-editor group | get-section Contexts | get-table | drop 125 135 none -detail 2 -operation 2
+get-view "Q7 Explorer" | get-tree | get-item Q7Project | drag-end "-41" -button none -detail 2
+get-editor group | get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project/test1"
+    get-item "Q7Project/test1" | drag-start 18 8 none
+    get-item "Q7Project/test2" | drag-enter 225 2 none -detail 2 -operation 7
+    get-item "Q7Project/test2" | drag-over 225 2 none -operation 7
+    get-item "Q7Project/test2" | drag-exit -button none
+}
+get-editor group | get-section Contexts | get-table | drag-enter 17 49 none -detail 2 -operation 2
+get-editor group | get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project/folder12"
+    get-item "Q7Project/folder12" | drag-start 23 6 none
+    get-item "Q7Project/context" | drag-enter 134 14 none -detail 2 -operation 7
+    get-item "Q7Project/context" | drag-over 134 14 none -operation 7
+    get-item "Q7Project/group" | drag-over 179 16 none -operation 7
+    get-item "Q7Project/test1" | drag-over 201 13 none -operation 7
+    get-item "Q7Project/test2" | drag-over 218 15 none -operation 7
+    drag-over 309 191 none -operation 7
+    get-item "Q7Project/context" | drag-exit -button none
+}
+get-editor group | get-section Contexts | get-table | drag-enter 1 93 none -detail 2 -operation 2
+get-editor group | get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

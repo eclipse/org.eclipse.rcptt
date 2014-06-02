@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+	<aspects>
+		<aspect name="org.eclipse.rcptt.tesla.gef.aspects.DirectEditAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.gef.aspects.AutoExposeAspect" />
+	</aspects>
+	<weaver options="-verbose -Xset:typeDemotion=true" />
+</aspectj>

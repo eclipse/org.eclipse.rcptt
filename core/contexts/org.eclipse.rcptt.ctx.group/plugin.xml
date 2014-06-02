@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+ <extension
+       point="org.eclipse.rcptt.core.contextTypes">
+    <contextType
+          description="Group Context"
+          eclass="GroupContext"
+          epackage-uri="http://eclipse.org/rcptt/model/scenario.ecore"
+          id="org.eclipse.rcptt.ctx.group"
+          name="Group"
+          canCreate="false"
+          priority="40">
+    </contextType>
+ </extension>
+ <extension
+       point="org.eclipse.rcptt.core.contextMaker">
+    <maker
+          class="org.eclipse.rcptt.ctx.internal.group.GroupContextMaker"
+          type="org.eclipse.rcptt.ctx.group">
+    </maker>
+ </extension>
+ <extension
+       point="org.eclipse.rcptt.core.indexer">
+    <indexer
+          class="org.eclipse.rcptt.ctx.group.GroupContextIndexer">
+    </indexer>
+ </extension>
+ 
+</plugin>

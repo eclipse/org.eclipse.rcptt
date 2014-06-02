@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.module.nebula.runtime"
+      label="Runtime plugins for Nebula module"
+      version="1.5.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      Nebula Support for RCP Testing Tool
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.nebula"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.nebula.impl"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.nebula.ecl"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.nebula.ecl.impl"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.tesla.recording.nebula"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
+
+</feature>

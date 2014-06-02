@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.eclipse.rcptt.verifications.tree.TreePackage"
+            genModel="models/tree.genmodel"
+            uri="http://eclipse.org/rcptt/verifications/tree">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.verificationTypes">
+      <type
+            canCreate="true"
+            description="Table/Tree contents and appearance verification"
+            eclass="TreeVerification"
+            epackage-uri="http://eclipse.org/rcptt/verifications/tree"
+            id="org.eclipse.rcptt.verifications.tree"
+            name="Table/Tree"
+            phases="finish"
+            priority="50">
+         <widget
+               class="org.eclipse.swt.widgets.Table">
+         </widget>
+         <widget
+               class="org.eclipse.swt.widgets.Tree">
+         </widget>
+      </type>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.core.verificationMaker">
+      <maker
+            class="org.eclipse.rcptt.verifications.tree.TreeVerificationMaker"
+            type="org.eclipse.rcptt.verifications.tree">
+      </maker>
+   </extension>
+
+</plugin>

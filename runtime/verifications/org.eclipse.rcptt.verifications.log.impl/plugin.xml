@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.core.verificationProcessors">
+      <processor
+            class="org.eclipse.rcptt.verifications.log.impl.ErrorLogVerificationProcessor"
+            type="org.eclipse.rcptt.verifications.log">
+      </processor>
+   </extension>
+
+</plugin>

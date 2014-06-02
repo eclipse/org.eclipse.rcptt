@@ -1,0 +1,59 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _vp_JkIHtEeC8fpRZXBpN8g,_4zI9AWpgEeCzId1Gnkds9A,_NBWagUKJEeKFe_1s8hcGwg
+Element-Name: ContextSelectionDialog_ScenarioEditor
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-730
+Id: _SNEYkYHtEeC8fpRZXBpN8g
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Dialog, TestCase, NoLaunches
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Open scenario1
+2. Press "Add context"
+3. Make sure that checkbox "Show only context from required projects" is checked and enabled
+4. Make sure that viewer contains contexts from projects p1 and required p2
+5. Uncheck checkbox "Show only context from required projects"
+6. Make sure that viewer contains contexts from projects p1, p2 and p3
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "p1/scenario1" | double-click -nowait
+get-editor scenario1 | get-section Contexts | get-button "Add..." | click
+with [get-window "Select context"] {
+	with [get-table] {
+		get-property itemCount | equals 3 | verify-true
+		get-item "context1 \\(p1\\)" | get-property caption | equals "context1 (p1)" | verify-true
+		get-item "context2 \\(p2\\)" | get-property caption | equals "context2 (p2)" | verify-true
+		get-item "group1 \\(p1\\)" | get-property caption | equals "group1 (p1)" | verify-true
+	}
+    get-button "Show contexts from required projects only" | click
+	with [get-table] {
+		get-property itemCount | equals 4 | verify-true
+		get-item "context1 \\(p1\\)" | get-property caption | equals "context1 (p1)" | verify-true
+		get-item "context2 \\(p2\\)" | get-property caption | equals "context2 (p2)" | verify-true
+		get-item "context3 \\(p3\\)" | get-property caption | equals "context3 (p3)" | verify-true
+		get-item "group1 \\(p1\\)" | get-property caption | equals "group1 (p1)" | verify-true
+	}
+	get-button Cancel | click
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

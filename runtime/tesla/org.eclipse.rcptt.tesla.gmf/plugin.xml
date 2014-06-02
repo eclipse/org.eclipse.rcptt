@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.tesla.core.processor">
+      <provider
+            class="org.eclipse.rcptt.tesla.gmf.GMFProcessor">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.tesla.swt.jobCollector">
+      <collector
+            class="org.eclipse.rcptt.tesla.gmf.GMFJobCollector"></collector>
+   </extension>
+
+</plugin>

@@ -1,0 +1,60 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_IeEQkPSUEeCE1L2j6bYoFw
+Element-Name: EditEclContextTagFromTextEditor_NEW
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: __RLy4H8PEeGpb_bcG7OADQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, ECLContext, TextEditor
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open ecl context in a text editor;
+2. Open the same context in a context editor;
+3. Change tag in a text editor and save it;
+4. Verify that tag was changed in context editor;
+5. Repeat vice-versa: change tag in a context editor, verify it has been changed in a text editor.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | double-click -nowait
+with [get-editor EclContext | get-editbox -after [get-label "Tags:"]] {
+    set-text tagg
+    key-type "M1+s"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | get-menu "Open With/Text Editor" | click
+with [get-editor "EclContext.ctx" | get-editbox] {
+    set-text-offset 10 10
+    key-type "NUMPAD_2" 2
+    key-type "M1+s"
+}
+get-editor EclContext | click -nowait
+get-editor EclContext | get-editbox -after [get-label "Tags:"] | get-property value | equals tagg2 | verify-true
+with [get-editor EclContext | get-editbox -after [get-label "Tags:"]] {
+    set-text tagg23
+    key-type "M1+s"
+}
+get-editor "EclContext.ctx" | click -nowait
+get-editor "EclContext.ctx" | get-editbox | get-property value | contains tagg23 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

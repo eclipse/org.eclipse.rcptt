@@ -1,0 +1,52 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _gXkg0K7OEeC6D_0RWH5SeQ,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: CopyTestWithItsRefsToAnotherProject
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _pWT_oK7dEeCzaeonQalAmw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: TestCase, CopyPaste, Reference
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Copy test and contexts from q7project1 and paste to q7project2
+2. Make sure that references to contexts are modified  to q7project2
+3. Make sure that any errors are not displayed in Problems view
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "q7project1/context" "q7project1/group" "q7project1/test"
+    get-menu Copy | click
+    select q7project2 | get-menu Paste | click
+}
+with [get-view "Q7 Explorer" | get-tree] {
+    get-item "q7project1/context" | get-property caption | equals context | verify-true
+    get-item "q7project1/group" | get-property caption | equals group | verify-true
+    get-item "q7project1/test" | get-property caption | equals test | verify-true
+    get-item "q7project2/context" | get-property caption | equals context | verify-true
+    get-item "q7project2/group" | get-property caption | equals group | verify-true
+    get-item "q7project2/test" | get-property caption | equals test | verify-true
+}
+get-view Problems | click -nowait
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tree Widget Verification UI
+Bundle-SymbolicName: org.eclipse.rcptt.verifications.tree.ui;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.rcptt.verifications.tree.ui.Activator
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.core,
+ org.eclipse.rcptt.ui,
+ org.eclipse.rcptt.verifications.tree,
+ org.eclipse.ui.forms,
+ org.eclipse.rcptt.launching,
+ org.eclipse.core.databinding,
+ org.eclipse.jface.databinding,
+ org.eclipse.emf.databinding,
+ org.eclipse.rcptt.tesla.core,
+ org.eclipse.rcptt.util.swt,
+ org.eclipse.rcptt.verifications
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

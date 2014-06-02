@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.core.launching/gen-src"
+    modelPluginID="org.eclipse.rcptt.core.launching" modelName="Platform" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.4" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>launching.ecore</foreignModel>
+  <genPackages prefix="Events" basePackage="org.eclipse.rcptt.core.launching" disposableProviderFactory="true"
+      ecorePackage="launching.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="launching.ecore#//AutStartState">
+      <genEnumLiterals ecoreEnumLiteral="launching.ecore#//AutStartState/Ok"/>
+      <genEnumLiterals ecoreEnumLiteral="launching.ecore#//AutStartState/Fail"/>
+    </genEnums>
+    <genClasses ecoreClass="launching.ecore#//AutEvent"/>
+    <genClasses ecoreClass="launching.ecore#//AutEventInit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference launching.ecore#//AutEventInit/bundleState"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutEventStart">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventStart/eclPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventStart/teslaPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventStart/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventStart/state"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutBundleState">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutBundleState/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutBundleState/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutBundleState/state"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutEventLocation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventLocation/location"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutEventPing">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutEventPing/location"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutEventPingResponse"/>
+    <genClasses ecoreClass="launching.ecore#//AutSendEvent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutSendEvent/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference launching.ecore#//AutSendEvent/event"/>
+    </genClasses>
+    <genClasses ecoreClass="launching.ecore#//AutReconnect">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutReconnect/q7EclPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute launching.ecore#//AutReconnect/id"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

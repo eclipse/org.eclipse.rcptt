@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.nebula.ecl/gen-src"
+    modelPluginID="org.eclipse.rcptt.tesla.nebula.ecl" modelName="Nebula" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui ../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.tesla.core/models/info.genmodel#//info ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.genmodel#//raw ../../org.eclipse.rcptt.tesla.core/models/protocol.genmodel#//protocol ../../org.eclipse.rcptt.tesla.ecl/model/tesla.genmodel#//model">
+  <foreignModel>nebula.ecore</foreignModel>
+  <genPackages prefix="Nebula" basePackage="org.eclipse.rcptt.tesla.ecl" disposableProviderFactory="true"
+      ecorePackage="nebula.ecore#/">
+    <genClasses ecoreClass="nebula.ecore#//GetNebulaGrid"/>
+    <genClasses ecoreClass="nebula.ecore#//NebulaGrid">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGrid/linesVisible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGrid/multiSelection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGrid/headerVisible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGrid/itemCount"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGrid/selection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGrid/columns"/>
+    </genClasses>
+    <genClasses ecoreClass="nebula.ecore#//NebulaGridItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridItem/checked"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGridItem/backgroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGridItem/foregroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGridItem/bounds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridItem/childCount"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridItem/columns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGridItem/columnsBackgroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nebula.ecore#//NebulaGridItem/columnsForegroundColor"/>
+    </genClasses>
+    <genClasses ecoreClass="nebula.ecore#//NebulaGridColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridColumn/resizable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridColumn/movable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridColumn/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//NebulaGridColumn/tooltip"/>
+    </genClasses>
+    <genClasses ecoreClass="nebula.ecore#//GetRowHeader"/>
+    <genClasses ecoreClass="nebula.ecore#//GetItemCell">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//GetItemCell/column"/>
+    </genClasses>
+    <genClasses ecoreClass="nebula.ecore#//GetEmptyArea">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//GetEmptyArea/top"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//GetEmptyArea/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//GetEmptyArea/column"/>
+    </genClasses>
+    <genClasses ecoreClass="nebula.ecore#//SelectGridRange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nebula.ecore#//SelectGridRange/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//SelectGridRange/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nebula.ecore#//SelectGridRange/to"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

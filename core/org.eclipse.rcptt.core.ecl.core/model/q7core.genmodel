@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.core.ecl.core/gen-src"
+    modelPluginID="org.eclipse.rcptt.core.ecl.core" modelName="Q7core" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario ../../org.eclipse.rcptt.watson.core/model/report.genmodel#//report ../../org.eclipse.rcptt.reporting/model/reporting.genmodel#//reporting">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Q7Core" basePackage="org.eclipse.rcptt.core.ecl.core" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genClasses ecoreClass="model.ecore#//EnterContext">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//EnterContext/data"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//CreateContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CreateContext/type"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//PrepareEnvironment"/>
+    <genClasses ecoreClass="model.ecore#//SetCommandsDelay">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SetCommandsDelay/delay"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//GetQ7Information"/>
+    <genClasses ecoreClass="model.ecore#//Q7Information">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Q7Information/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Q7Information/teslaActive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Q7Information/teslaPort"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//SetQ7Features">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SetQ7Features/features"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//GetPerspectives"/>
+    <genClasses ecoreClass="model.ecore#//PerspectiveInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PerspectiveInfo/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PerspectiveInfo/image"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PerspectiveInfo/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PerspectiveInfo/description"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//PerspectivesList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//PerspectivesList/perspectives"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//GetViews"/>
+    <genClasses ecoreClass="model.ecore#//ViewInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ViewInfo/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ViewInfo/image"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ViewInfo/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ViewInfo/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//ViewInfo/items"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//ViewList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//ViewList/items"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//CreateReport"/>
+    <genClasses ecoreClass="model.ecore#//GetReport"/>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,82 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_n1a-kfriEeCQa9Xqo-1T3A
+Element-Name: ImportedTesCaseEqualsExported
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _JeYzEPsAEeCQa9Xqo-1T3A
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: ImportExport, File
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Export a test case to a clipboard;
+2. Import this test case;
+3. Check test name, tags, description, ext. reference, contexts, script - all items should be the same as in exported test. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/TC1" | double-click -nowait
+with [get-editor TC1] {
+    with [get-section Description] {
+        click -nowait
+        with [get-editbox -after [get-link "External Reference:"]] {
+            set-text ref
+            key-type "M1+s"
+        }
+    }
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click -nowait
+    get-tree | select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
+}
+get-window "Export" | get-button Finish | click
+get-view "Q7 Explorer" | get-tree | select Q7Project3 | get-menu "Import/Q7 Portable Format" | click
+get-window -from "Window.createShell()" | get-button Finish | click
+get-view "Q7 Explorer" | get-tree | select "Q7Project3/TC1" | double-click -nowait
+with [get-editor TC1] {
+    get-editbox -after [get-label "Name:"] | get-property text | equals TC1 | verify-true
+    get-editbox -after [get-label "Tags:"] | get-property text | equals tag1 | verify-true
+}
+get-editor TC1 | get-section Description | click -nowait
+with [get-editor TC1 | get-section Description] {
+    get-editbox | get-property text | equals description1 | verify-true
+    get-editbox -after [get-link "External Reference:"] | get-property text | equals ref | verify-true
+}
+get-editor TC1 | get-section Contexts | click -nowait
+with [get-editor TC1] {
+    with [get-section Contexts | get-table] {
+        get-property itemCount | equals 6 | verify-true
+        get-item "GroupContext \\(Q7Project3\\)" | get-property caption | equals "GroupContext (Q7Project3)" 
+            | verify-true
+        get-item "DebugContext \\(Q7Project3\\)" | get-property caption | equals "DebugContext (Q7Project3)" 
+            | verify-true
+        get-item "EclContext \\(Q7Project3\\)" | get-property caption | equals "EclContext (Q7Project3)" | verify-true
+        get-item "PrefContext \\(Q7Project3\\)" | get-property caption | equals "PrefContext (Q7Project3)" | verify-true
+        get-item "WbContext \\(Q7Project3\\)" | get-property caption | equals "WbContext (Q7Project3)" | verify-true
+        get-item "WsContext \\(Q7Project3\\)" | get-property caption | equals "WsContext (Q7Project3)" | verify-true
+    }
+    get-section Script | get-editbox | get-property text | equals script1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

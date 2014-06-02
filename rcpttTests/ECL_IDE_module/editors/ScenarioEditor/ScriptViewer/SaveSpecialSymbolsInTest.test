@@ -1,0 +1,65 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_IeEQkPSUEeCE1L2j6bYoFw
+Element-Name: SaveSpecialSymbolsInTest
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1700
+Id: _d-j-UDv1EeGWcueqnS9xrA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+
+1. Enter in the Script Viewer the special symbols
+2. Save this changes and reopen this test
+3. Make sure that symbols are displayed correctly
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/TestCase1" | double-click -nowait
+with [get-editor TestCase1 | get-section Script | get-text-viewer] {
+    type-text "∞ © ¥ € 你好世界"
+    key-type Enter
+    type-text "new symbols"
+    key-type "M1+s"
+}
+get-editor TestCase1 | get-section Script | get-editbox | get-property text | equals "∞ © ¥ € 你好世界\n"
+    + "new symbols" | verify-true
+get-editor TestCase1 | close
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "Q7Project/TestCase1" | double-click -nowait
+}
+get-editor TestCase1 | get-section Script | get-editbox | get-property text | equals "∞ © ¥ € 你好世界\n"
+    + "new symbols" | verify-true
+with [get-editor TestCase1 | get-section Script | get-text-viewer] {
+    set-caret-pos 2 11
+    key-type "M1+a"
+    key-type "M1+c"
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | double-click -nowait
+get-editor EclContext | get-section Script | get-text-viewer | key-type "M1+v"
+get-editor EclContext | get-editbox -after [get-label "Name:"] | key-type "M1+s"
+get-editor EclContext | get-section Script | get-editbox | get-property text | equals "∞ © ¥ € 你好世界\n"
+    + "new symbols" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

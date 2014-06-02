@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src"
+    modelPluginID="org.eclipse.rcptt.tesla.core" templateDirectory="" redirection="" modelName="RawProtocol"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" runtimeVersion="2.5" usedGenPackages="info.genmodel#//info controls.genmodel#//ui">
+  <foreignModel>rawProtocol.ecore</foreignModel>
+  <genPackages prefix="Raw" basePackage="org.eclipse.rcptt.tesla.core.protocol" disposableProviderFactory="true"
+      ecorePackage="rawProtocol.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="rawProtocol.ecore#//ResponseStatus">
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ResponseStatus/Ok"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ResponseStatus/Failed"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="rawProtocol.ecore#//CommandTransferKind">
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//CommandTransferKind/Default"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//CommandTransferKind/ReplacePrevious"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//CommandTransferKind/InsertBeforeEssentialCommand"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//CommandTransferKind/InsertBefore"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//CommandTransferKind/Remove"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="rawProtocol.ecore#//TeslaMode">
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//TeslaMode/Features"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//TeslaMode/Recording"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//TeslaMode/Replay"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//TeslaMode/Assertions"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//TeslaMode/Pause"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="rawProtocol.ecore#//ExecuteMode">
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecuteMode/IMMEDIATE"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecuteMode/STEPBYSTEP"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="rawProtocol.ecore#//ExecutionStatusKind">
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecutionStatusKind/STARTED"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecutionStatusKind/RUNNING"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecutionStatusKind/FINISHED"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecutionStatusKind/CANCELED"/>
+      <genEnumLiterals ecoreEnumLiteral="rawProtocol.ecore#//ExecutionStatusKind/PAUSED"/>
+    </genEnums>
+    <genClasses ecoreClass="rawProtocol.ecore#//Element">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Element/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Element/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Element/description"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="rawProtocol.ecore#//Command">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Command/id"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//Response">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Response/status"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//Response/message"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//Response/advancedInformation"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//CommandTransfer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandTransfer/command"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandTransfer/elements"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//CommandTransfer/kind"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandTransfer/controls"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//CommandTransfer/index"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandTransfer/rawEvents"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//CloseConnection"/>
+    <genClasses ecoreClass="rawProtocol.ecore#//TeslaScenario">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//TeslaScenario/commands"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//TeslaScenario/elementMapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//TeslaScenario/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//TeslaScenario/requiredContexts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//TeslaScenario/rawMapping"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//CommandToElementEntry">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandToElementEntry/command"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandToElementEntry/elements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandToElementEntry/controls"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//CommandToRawEntry">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandToRawEntry/rawEvents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//CommandToRawEntry/command"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//GetFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//GetFeature/name"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//GetFeatureResponse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//GetFeatureResponse/value"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//SetMode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//SetMode/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//SetMode/widgetClasses"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//ExecuteScenario">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//ExecuteScenario/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//ExecuteScenario/executeMode"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//StepExecution">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//StepExecution/count"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//ExecutionStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//ExecutionStatus/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//ExecutionStatus/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//ExecutionStatus/statusKind"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//AssertionFocus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//AssertionFocus/pointFixed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rawProtocol.ecore#//AssertionFocus/element"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//AssertionFocus/imageCapture"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//RawEvent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/widget"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/detail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/item"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/time"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/character"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/keyCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/stateMask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//RawEvent/nativeEvent"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//SetFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//SetFeature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rawProtocol.ecore#//SetFeature/value"/>
+    </genClasses>
+    <genClasses ecoreClass="rawProtocol.ecore#//ResetAssertSelection"/>
+  </genPackages>
+</genmodel:GenModel>

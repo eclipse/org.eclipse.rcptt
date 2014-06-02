@@ -1,0 +1,80 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: Merge Resources in same-named project 
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _EsRjcCFWEeGpvKMy1SUvBw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkspaceContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open workspace context containing 2 projects and add folder1 in on project (clear workspace checkbox should be disabled);
+2. Apply the context;
+3. Remove folder1 from the context and add folder2 into the same project;
+4. Apply the context;
+5. Capture the workspace and verify that no duplicated projects have been created and both folder1 and folder2 exist in the project.
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+get-editor ClearWorkspace | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
+with [get-editor "Two Projects"] {
+    with [get-section Workspace] {
+        get-tree | select P1
+        get-button "Create Empty Folder" | click
+        with [get-tree] {
+            select "P1/folder1" | activate-cell-edit
+            get-editbox | key-type "M1+s"
+            apply-cell-edit
+        }
+    }
+    get-button Apply | click
+    with [get-section Workspace] {
+        get-tree | select P1
+        get-button "Create Empty Folder" | click
+        with [get-tree] {
+            select "P1/folder2" | activate-cell-edit
+            apply-cell-edit
+            select "P1/folder1" | key-type DEL
+            select "P1/folder2" | key-type "M1+s"
+        }
+    }
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click -nowait
+with [get-editor ClearWorkspace] {
+    get-button Capture | click
+    get-section Workspace | get-tree | select P1
+}
+with [get-editor ClearWorkspace | get-section Workspace | get-tree] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "P1/folder1" | get-property caption | equals folder1 | verify-true
+    get-item "P1/folder2" | get-property caption | equals folder2 | verify-true
+    get-item "P1/.project" | get-property caption | equals ".project" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

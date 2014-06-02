@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/verifications/time"
+            class="org.eclipse.rcptt.verifications.time.TimePackage"
+            genModel="models/time.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.core.verificationTypes">
+      <type
+            canCreate="false"
+            description="Time Verification"
+            eclass="TimeVerification"
+            epackage-uri="http://eclipse.org/rcptt/verifications/time"
+            id="org.eclipse.rcptt.verifications.time"
+            name="Execution Time"
+            priority="50"
+            phases="start run finish">            
+      </type>
+   </extension>
+   
+   <extension
+         point="org.eclipse.rcptt.core.verificationMaker">
+      <maker
+            class="org.eclipse.rcptt.verifications.time.TimeVerificationMaker"
+            type="org.eclipse.rcptt.verifications.time">
+      </maker>
+   </extension>
+
+</plugin>

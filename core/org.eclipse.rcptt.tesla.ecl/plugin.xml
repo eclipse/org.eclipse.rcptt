@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/rcptt/tesla/ecl"
+            class="org.eclipse.rcptt.tesla.ecl.model.TeslaPackage"
+            genModel="model/tesla.genmodel"/>
+      <package
+            uri="http://eclipse.org/rcptt/tesla/ecl/diagram"
+            class="org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage"
+            genModel="model/tesla.genmodel"/>
+   </extension>
+    <extension
+          point="org.eclipse.rcptt.ecl.core.emfConverters">
+       <serializer
+             class="org.eclipse.rcptt.tesla.internal.ecl.TeslaStatusConverter">
+       </serializer>
+    </extension>
+</plugin>

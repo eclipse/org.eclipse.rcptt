@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ecl.doc">
+      <doc
+            doc="%Length-doc"
+            name="Length"
+            namespace="http://www.eclipse.org/ecl/stdlib.ecore">
+      </doc>
+      <doc
+            doc="%AssertEquals-doc"
+            name="AssertEquals"
+            namespace="http://www.eclipse.org/ecl/stdlib.ecore">
+      </doc>
+      <doc
+            doc="%AssertTrue-doc"
+            name="AssertTrue"
+            namespace="http://www.eclipse.org/ecl/stdlib.ecore">
+      </doc>
+      <doc
+            doc="%AssertFalse-doc"
+            name="AssertFalse"
+            namespace="http://www.eclipse.org/ecl/stdlib.ecore">
+      </doc>
+      <doc
+            doc="%Concat-doc"
+            name="Concat"
+            namespace="http://www.eclipse.org/ecl/stdlib.ecore">
+      </doc>
+   </extension>
+</plugin>

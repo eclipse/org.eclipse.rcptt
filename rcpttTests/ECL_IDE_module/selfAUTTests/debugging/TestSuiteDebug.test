@@ -1,0 +1,89 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
+Element-Name: TestSuiteDebug
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1825
+Id: _5OxMoY01EeGZA7v42Kh00Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: selfAUT, Debug, TestSuite, QS-2256
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Add breakpoints to several test cases 
+2. Create test suite and add these tests in test suite 
+3. Select test suite in Q7 Explorer and choose "Debug As/ Test Cases" from context menu
+4. Verify that breakpoints are applied 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
+with [get-editor CreateJavaProject | get-section Script | get-text-viewer] {
+    set-caret-pos 6 1
+    key-type "M1+M2+b"
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/Check New Project Window" | double-click
+get-editor "Check New Project Window" | get-section Script | get-text-viewer | key-type "M1+M2+b"
+get-view "Q7 Explorer" | get-tree | select MyProject | get-menu "New/Test Suite" | click
+with [get-window "New Test Suite"] {
+    get-editbox -after [get-label "Name:"] | set-text TestSuite
+    get-button Finish | click
+}
+get-editor TestSuite | get-section "Test Cases" | get-button "Add Test Case" | click
+with [get-window "Select Test Case"] {
+    get-table 
+        | select "Check New Project Window \\(MyProject\\/Check New Project Window.test\\)" "CreateJavaProject \\(MyProject\\/CreateJavaProject.test\\)"
+    get-button OK | click
+}
+with [get-editor TestSuite | get-section "Test Cases" | get-button "Add Test Case"] {
+    key-type "M1+M2+s"
+    key-type "M1+M2+w"
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "Debug As/1 Test Cases" | click
+try -times 20 -delay 5000 -command {
+	get-view Debug | get-tree 
+    | get-item "TestSuite \\[Q7 Test Suite\\]/TestSuite/ECL Thread/get-window \\(Check New Project Window: 1\\)" 
+    | get-property caption | equals "get-window (Check New Project Window: 1)" | verify-true
+}
+with [get-tab-folder] {
+    get-property activePage | equals "Check New Project Window" | verify-true
+    get-property tabCount | equals 1 | verify-true
+}
+get-eclipse-window | key-type F8
+try -times 20 -delay 5000 -command {
+	get-view Debug | get-tree 
+    | get-item "TestSuite \\[Q7 Test Suite\\]/TestSuite/ECL Thread/get-button \\(CreateJavaProject: 6\\)" 
+    | get-property caption | equals "get-button (CreateJavaProject: 6)" | verify-true
+}
+with [get-tab-folder] {
+    get-property activePage | equals CreateJavaProject | verify-true
+    get-property tabCount | equals 1 | verify-true
+}
+get-eclipse-window | key-type F8
+get-button "Q7 perspective" | click
+with [get-view "Execution View"] {
+    get-label "2/2" | get-property caption | equals "2/2" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,188 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: ErrLogVerification_Plain Text Serialization
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-3150
+Id: _QFTJQH5iEeOfM8HQbSz0og
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test steps:
+1. Create a verification with various strange symbols in fields.
+2. Save 
+3. Load
+4. Ensure load is correct
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/ErrorLogVerification" | double-click
+with [get-editor ErrorLogVerification] {
+    with [get-section Require] {
+        get-button "Add..." | click
+        with [get-table] {
+            select ".\\*" -column "Plugin Pattern" | activate-cell-edit -column 3
+            get-editbox | set-text "a b c"
+            apply-cell-edit -deactivate
+            select abc -column "Plugin Pattern" | activate-cell-edit -column 4
+            get-editbox | set-text "a b c "
+            apply-cell-edit -deactivate
+            select abc -column "Plugin Pattern" | activate-cell-edit -column 5
+            get-editbox | set-text "1 2 3"
+            apply-cell-edit -deactivate
+        }
+    }
+    with [get-section Allow | get-table] {
+        select "org.eclipse.ui" -column "Plugin Pattern" | activate-cell-edit -column 3
+        with [get-editbox] {
+            set-text "org. eclipse.ui"
+            set-text "org. eclipse. ui"
+        }
+        apply-cell-edit -deactivate
+        select "org.eclipse.pde" -column "Plugin Pattern" | activate-cell-edit -column 3
+        with [get-editbox] {
+            set-text "org.  eclipse.pde"
+            set-text "org.  eclipse.  pde"
+            set-text "org.  eclipse.  pde  "
+        }
+        apply-cell-edit -deactivate
+        select "org.eclipse.equinox" -column "Plugin Pattern" | activate-cell-edit -column 3
+        with [get-editbox] {
+            set-text "org.   eclipse.equinox"
+            set-text "org.   eclipse   .equinox"
+        }
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1] | activate-cell-edit -column 3
+        with [get-editbox] {
+            set-text "org. eclipse.pde"
+            set-text "org. eclipse. pde"
+        }
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2] | activate-cell-edit -column 3
+        get-editbox | set-text "org.ecl   ipse.pde"
+        apply-cell-edit -deactivate
+        select "org.eclipse.ui" -column "Plugin Pattern" | activate-cell-edit -column 4
+        get-editbox | set-text "Info Entry    "
+        apply-cell-edit -deactivate
+        select "org.eclipse.pde" -column "Plugin Pattern" | activate-cell-edit -column 4
+        get-editbox | set-text "Warning     Entry"
+        apply-cell-edit -deactivate
+        select "org.eclipse.equinox" -column "Plugin Pattern" | activate-cell-edit -column 4
+        with [get-editbox] {
+            set-text "  Error Entry"
+            set-text "  Error Entry  "
+        }
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1] | activate-cell-edit -column 4
+        get-editbox | set-text " OK Entry"
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2] | activate-cell-edit -column 4
+        with [get-editbox] {
+            set-text "   Cancel Entry"
+            set-text "   Cancel Entry  "
+            set-text "   Cancel    Entry  "
+        }
+        apply-cell-edit -deactivate
+        select "org.eclipse.ui" -column "Plugin Pattern" | activate-cell-edit -column 5
+        get-editbox | set-text 1
+        apply-cell-edit -deactivate
+        select "org.eclipse.pde" -column "Plugin Pattern" | activate-cell-edit -column 5
+        get-editbox | set-text 2
+        apply-cell-edit -deactivate
+        select "org.eclipse.equinox" -column "Plugin Pattern" | activate-cell-edit -column 5
+        get-editbox | set-text 3
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1] | activate-cell-edit -column 5
+        get-editbox | set-text 4
+        apply-cell-edit -deactivate
+        select [get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2] | activate-cell-edit -column 5
+        get-editbox | set-text 5
+        apply-cell-edit -deactivate
+        key-type "M1+s"
+    }
+    close
+}
+with [get-view "Q7 Explorer"] {
+    click
+    get-tree | select "MyProject/ErrorLogVerification" | double-click
+}
+with [get-editor ErrorLogVerification] {
+    with [get-section Require | get-table] {
+        get-item abc -column "Plugin Pattern" | get-property "columns[0]" | equals true | verify-true
+        get-item abc -column "Plugin Pattern" | get-property "columns[1]" | equals true | verify-true
+        get-item abc -column "Plugin Pattern" | get-property "columns[2]" | equals true | verify-true
+        get-item abc -column "Plugin Pattern" | get-property "columns[3]" | equals abc | verify-true
+        get-item abc -column "Plugin Pattern" | get-property "columns[4]" | equals "a b c " | verify-true
+        get-item abc -column "Plugin Pattern" | get-property "columns[5]" | equals 123 | verify-true
+    }
+    with [get-section Allow | get-table] {
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[0]" | equals false | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[1]" | equals false | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[2]" | equals true | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[3]" | equals "org.eclipse.ui" 
+            | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[4]" | equals "Info Entry    " 
+            | verify-true
+        get-item "org.eclipse.ui" -column "Plugin Pattern" | get-property "columns[5]" | equals 1 | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[0]" | equals false | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[1]" | equals true | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[2]" | equals false | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[3]" | equals "org.eclipse.pde" 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[4]" | equals "Warning     Entry" 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" | get-property "columns[5]" | equals 2 | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[0]" | equals true | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[1]" | equals false | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[2]" | equals false | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[3]" 
+            | equals "org.eclipse.equinox" | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[4]" | equals "  Error Entry  " 
+            | verify-true
+        get-item "org.eclipse.equinox" -column "Plugin Pattern" | get-property "columns[5]" | equals 3 | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[0]" | equals true 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[1]" | equals false 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[2]" | equals false 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[3]" 
+            | equals "org.eclipse.pde" | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[4]" | equals " OK Entry" 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 1 | get-property "columns[5]" | equals 4 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[0]" | equals true 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[1]" | equals false 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[2]" | equals false 
+            | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[3]" 
+            | equals "org.eclipse.pde" | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[4]" 
+            | equals "   Cancel    Entry  " | verify-true
+        get-item "org.eclipse.pde" -column "Plugin Pattern" -index 2 | get-property "columns[5]" | equals 5 
+            | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

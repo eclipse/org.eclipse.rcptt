@@ -1,0 +1,12 @@
+doubleClick("GeneraProiec.png")
+doubleClick("FoIderA.png")
+click("Elfile1.png")
+keyDown(Key.CTRL)
+click("Elfile2.png")
+keyUp()
+rightClick("l2l.png")
+hover("CompareWith.png")
+click("EachOther.png")
+click("BBBbbbCCC.png")
+click("111222333.png")
+

@@ -1,0 +1,53 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_M-KKMO5KEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: ExecuteGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _s-9MEO_dEeCZz89QM6kozg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, GroupContext, Runtime
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Create group context and drop another group context into it;
+2. Try to apply group context;
+3. Make sure it has been executed. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Q7 Explorer" | get-tree] {
+    select "Q7Project3/GroupContext4" | double-click -nowait
+    select "Q7Project3/GroupContext4" | double-click -nowait
+}
+get-editor GroupContext4 | get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true
+get-editor GroupContext4 | get-button Apply | click
+with [get-view "Execution View"] {
+    with [get-tree] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "GroupContext4.*" | get-property caption | equals "GroupContext4.*" | verify-true
+    }
+    get-label 0 | get-property caption | equals 0 | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_E1k1UP2pEeKZNomN8DrgVg
+Element-Name: QS-1252_It is possible to add duplicate editor in Workbench context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _9yLycf2lEeKZNomN8DrgVg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Open Workbench context;
+2. Press "+" button to add a new editor;
+3. Select any editor from a list, press OK button;
+4. Press "+" button again. Make sure that already added editor is followed by "(already in use)";
+5. Select it - make sure that OK button is disabled;
+6. Make sure that you can add another editor.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/WB Context" | double-click
+get-editor "WB Context" | get-section Editors | get-button "Add..." | click
+with [get-window "Select file path"] {
+    get-tree | select "WS Context/MyProject/WB Context.ctx"
+    get-button OK | click
+}
+get-editor "WB Context" | get-section Editors | get-button "Add..." | click
+with [get-window "Select file path"] {
+    get-tree | get-item "WS Context/MyProject/WB Context.ctx \\(already in use\\)" | get-property caption 
+        | equals "WB Context.ctx (already in use)" | verify-true
+    get-button OK | get-property enablement | equals false | verify-true
+}
+get-window "Select file path" | get-tree | select "WS Context/MyProject/WB Context.ctx \\(already in use\\)"
+get-window "Select file path" | get-button OK | get-property enablement | equals false | verify-true
+get-window "Select file path" | get-tree | select "WS Context/MyProject/WS Context.ctx" | double-click
+with [get-editor "WB Context" | get-section Editors | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "MyProject\\/WB Context.ctx" | get-property caption | equals "MyProject/WB Context.ctx" | verify-true
+    get-item "MyProject\\/WS Context.ctx" | get-property caption | equals "MyProject/WS Context.ctx" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

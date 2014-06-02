@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA
+Element-Name: QS-2221_Add a preference for ECL content assist autoactivation
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ZPcfMP2uEeKZNomN8DrgVg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open Q7/Content Assist preference page;
+2. Verify that there is "Enable Auto Activation" checkbox (enabled);
+3. Verify that there are Auto Activation Delay (ms) editbox with 200 value by default;
+4. Verify that there is Auto Activation Triggers for ECL Script with -[ value by default.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-preferences-menu | click
+get-window Preferences | get-tree | select "Q7/ECL Editor/Content Assist"
+with [get-window Preferences] {
+    get-label "Enable Auto Activation" | get-property caption | equals "Enable Auto Activation" | verify-true
+    get-button -after [get-label "Enable Auto Activation"] | get-property selected | equals true | verify-true
+    with [get-label "Auto Activation Delay (ms)"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Auto Activation Delay (ms)" | verify-true
+    }
+    with [get-editbox -after [get-label "Auto Activation Delay (ms)"]] {
+        get-property enablement | equals true | verify-true
+        get-property text | equals 200 | verify-true
+    }
+    with [get-label "Auto Activation Triggers for ECL Script"] {
+        get-property enablement | equals true | verify-true
+        get-property caption | equals "Auto Activation Triggers for ECL Script" | verify-true
+    }
+    with [get-editbox -after [get-label "Auto Activation Triggers for ECL Script"]] {
+        get-property enablement | equals true | verify-true
+        get-property text | equals "-[$" | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

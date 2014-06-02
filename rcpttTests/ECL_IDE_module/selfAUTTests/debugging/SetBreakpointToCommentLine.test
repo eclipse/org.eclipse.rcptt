@@ -1,0 +1,75 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
+Element-Name: SetBreakpointToCommentLine
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _u_S3IHM6EeGsLtfm1BUmHg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: feature/debug, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Test Steps:
+1. Set comment on the line
+2. Set breakpoint on this line
+3. Run this test on debug
+4. Make sure that breakpoint is not applyed
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
+with [get-editor CreateJavaProject | get-section Script] {
+    get-left-ruler | get-ruler-column | double-click-ruler 8
+    with [get-text-viewer] {
+        set-caret-pos 8 1
+        type-text "//"
+    }
+    with [get-left-ruler] {
+        get-ruler-column -index 1 | double-click-ruler 1
+        hover-ruler -line 1
+    }
+}
+//get-window -from "Information Window" | get-control Browser | get-property text
+//    | matches "^.*Line Breakpoint: CreateJavaProject\.test \[line: 1].*$" | verify-true
+//get-editor CreateJavaProject | get-section Script | get-left-ruler | hover-ruler -line 6
+//get-window -from "Information Window" | get-control Browser | get-property text 
+//    | matches "^.*Line Breakpoint: CreateJavaProject\.test \[line: 8].*$" | verify-true
+get-menu "Run/Debug As/.* Test Cases" | click
+get-window "Save Resource" | get-button Yes | click
+get-view Debug | get-tree 
+    | get-item "CreateJavaProject \\[Q7 Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
+    | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true
+get-view Debug | get-tree | key-type F8
+wait 2000
+get-view Debug | get-tree 
+    | get-item "<terminated>CreateJavaProject \\[Q7 Test Suite\\]/<terminated>CreateJavaProject/<terminated>ECL Thread" 
+    | get-property caption | equals "<terminated>ECL Thread" | verify-true
+get-button "Q7 perspective" | click
+with [get-view "Execution View"] {
+    get-tree | get-item "CreateJavaProject.*" | get-property caption 
+        | equals "CreateJavaProject.*" | verify-true
+    get-label "1/1" | get-property caption | equals "1/1" | verify-true
+    get-label 0 | get-property caption | equals 0 | verify-true
+    get-label 0 -after [get-label "Stops:"] | get-property caption | equals 0 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -1,0 +1,321 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.rcptt.internal.launching.ext.ui;
+
+import java.util.StringTokenizer;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.pde.core.plugin.TargetPlatform;
+import org.eclipse.pde.internal.ui.PDEUIMessages;
+import org.eclipse.pde.internal.ui.SWTFactory;
+import org.eclipse.pde.launching.IPDELauncherConstants;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+
+import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+
+@SuppressWarnings("restriction")
+public class AUTProgramBlock {
+
+	protected Combo fApplicationCombo;
+	private Button fProductButton;
+	private Combo fProductCombo;
+	private Button fApplicationButton;
+	private ExternalAUTMainTab fTab;
+	private Listener fListener = new Listener();
+	private ControlDecoration fProductComboDecoration;
+	private String configurationProductName;
+
+	// private String configurationApplicationName;
+
+	class Listener extends SelectionAdapter implements ModifyListener {
+		public void widgetSelected(SelectionEvent e) {
+			Object source = e.getSource();
+			if (source == fProductButton) {
+				boolean enabled = fProductButton.getSelection();
+				fProductCombo.setEnabled(enabled);
+				fApplicationCombo.setEnabled(!enabled);
+				updateProductDecorator();
+			}
+
+			fTab.scheduleUpdateJob();
+		}
+
+		public void modifyText(ModifyEvent e) {
+			if (e.getSource() == fProductCombo) {
+				updateProductDecorator();
+			}
+		}
+
+	}
+
+	private void updateProductDecorator() {
+		if (!fProductCombo.isEnabled()) {
+			fProductComboDecoration.hide();
+			return;
+		}
+
+		String productValue = fProductCombo.getText();
+		String[] knownProducts = getProductNames();
+		boolean found = false;
+		for (int i = 0; i < knownProducts.length; i++) {
+			String knownProduct = knownProducts[i];
+			if (knownProduct.equals(productValue)) {
+				found = true;
+				break;
+			}
+		}
+		if (found)
+			fProductComboDecoration.hide();
+		else
+			fProductComboDecoration.show();
+
+	}
+
+	public AUTProgramBlock(ExternalAUTMainTab tab) {
+		fTab = tab;
+	}
+
+	public void createControl(Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(PDEUIMessages.ProgramBlock_programToRun);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		group.setLayout(layout);
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		createProductSection(group);
+		createApplicationSection(group);
+	}
+
+	protected void createProductSection(Composite parent) {
+		fProductButton = new Button(parent, SWT.RADIO);
+		fProductButton.setText(PDEUIMessages.ProgramBlock_runProduct);
+		fProductButton.addSelectionListener(fListener);
+
+		fProductCombo = SWTFactory.createCombo(parent, SWT.DROP_DOWN, 1,
+				getProductNames());
+		fProductCombo.addSelectionListener(fListener);
+		fProductCombo.addModifyListener(fListener);
+
+		fProductComboDecoration = new ControlDecoration(fProductCombo, SWT.TOP
+				| SWT.LEFT);
+		FieldDecoration warningDecoration = FieldDecorationRegistry
+				.getDefault().getFieldDecoration(
+						FieldDecorationRegistry.DEC_WARNING);
+		fProductComboDecoration
+				.setDescriptionText(PDEUIMessages.ProgramBlock_productDecorationWarning0);
+		fProductComboDecoration.setImage(warningDecoration.getImage());
+
+	}
+
+	private String[] getProductNames() {
+		ITargetPlatformHelper target = fTab.getTarget();
+		if (target != null && target.isValid()) {
+			return target.getProducts();
+		}
+		return new String[0];
+	}
+
+	private String[] getApplicationNames() {
+		ITargetPlatformHelper target = fTab.getTarget();
+		if (target != null && target.isValid()) {
+			return target.getApplications();
+		}
+		return new String[0];
+	}
+
+	private String getDefaultApplication() {
+		ITargetPlatformHelper target = fTab.getTarget();
+		if (target != null && target.isValid()) {
+			String result = target.getDefaultApplication();
+			if (result != null) {
+				return result;
+			}
+		}
+		return TargetPlatformHelper.IDE_APPLICATION;
+	}
+
+	protected void createApplicationSection(Composite parent) {
+		fApplicationButton = new Button(parent, SWT.RADIO);
+		fApplicationButton.setText(PDEUIMessages.ProgramBlock_runApplication);
+
+		fApplicationCombo = SWTFactory.createCombo(parent, SWT.READ_ONLY
+				| SWT.DROP_DOWN, 1, getApplicationNames());
+		fApplicationCombo.addSelectionListener(fListener);
+	}
+
+	public void initializeFrom(ILaunchConfiguration config)
+			throws CoreException {
+		initializeProductSection(config);
+		initializeApplicationSection(config);
+
+		boolean bUseProduct = config.getAttribute(
+				IPDELauncherConstants.USE_PRODUCT, false);
+		updateProductEnablement(bUseProduct);
+		boolean useProduct = bUseProduct && fProductCombo.getItemCount() > 0;
+		fApplicationButton.setSelection(!useProduct);
+		fProductButton.setSelection(useProduct);
+		updateProductDecorator();
+	}
+
+	private void updateProductEnablement(boolean bUseProduct) {
+		boolean useProduct = bUseProduct && fProductCombo.getItemCount() > 0;
+		fApplicationCombo.setEnabled(!useProduct);
+		fProductButton.setEnabled(fProductCombo.getItemCount() > 0);
+		fProductCombo.setEnabled(useProduct);
+	}
+
+	protected void initializeProductSection(ILaunchConfiguration config)
+			throws CoreException {
+		configurationProductName = config.getAttribute(
+				IPDELauncherConstants.PRODUCT, (String) null);
+		if (configurationProductName != null) {
+			fProductCombo.setText(configurationProductName);
+		}
+	}
+
+	protected void initializeApplicationSection(ILaunchConfiguration config)
+			throws CoreException {
+
+		String attribute = getApplicationAttribute();
+
+		// first see if the application name has been set on the launch config
+		String application = config.getAttribute(attribute, (String) null);
+		if (application == null || fApplicationCombo.indexOf(application) == -1) {
+			application = null;
+
+			// check if the user has entered the -application arg in the program
+			// arg field
+			StringTokenizer tokenizer = new StringTokenizer(
+					config.getAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+							"")); //$NON-NLS-1$
+			while (tokenizer.hasMoreTokens()) {
+				String token = tokenizer.nextToken();
+				if (token.equals("-application") && tokenizer.hasMoreTokens()) { //$NON-NLS-1$
+					application = tokenizer.nextToken();
+					break;
+				}
+			}
+
+			int index = -1;
+			if (application != null)
+				index = fApplicationCombo.indexOf(application);
+
+			// use default application as specified in the install.ini of the
+			// target platform
+			if (index == -1)
+				index = fApplicationCombo.indexOf(getDefaultApplication());
+
+			if (index != -1) {
+				fApplicationCombo.setText(fApplicationCombo.getItem(index));
+			} else if (fApplicationCombo.getItemCount() > 0) {
+				fApplicationCombo.setText(fApplicationCombo.getItem(0));
+			}
+		} else {
+			fApplicationCombo.setText(application);
+		}
+		// configurationApplicationName = fApplicationCombo.getText();
+	}
+
+	public void performApply(ILaunchConfigurationWorkingCopy config) {
+		saveApplicationSection(config);
+		saveProductSection(config);
+	}
+
+	protected void saveProductSection(ILaunchConfigurationWorkingCopy config) {
+		config.setAttribute(IPDELauncherConstants.USE_PRODUCT,
+				fProductButton.getSelection());
+		config.setAttribute(IPDELauncherConstants.PRODUCT,
+				fProductCombo.getText());
+	}
+
+	protected void saveApplicationSection(ILaunchConfigurationWorkingCopy config) {
+		String text = fApplicationCombo.getText();
+		String attribute = getApplicationAttribute();
+		if (text.length() == 0
+				|| text.equals(TargetPlatform.getDefaultApplication()))
+			config.setAttribute(attribute, (String) null);
+		else
+			config.setAttribute(attribute, text);
+	}
+
+	public void setDefaults(ILaunchConfigurationWorkingCopy config) {
+		String product = TargetPlatform.getDefaultProduct();
+		if (product != null) {
+			config.setAttribute(IPDELauncherConstants.USE_PRODUCT, true);
+			config.setAttribute(IPDELauncherConstants.PRODUCT, product);
+		}
+	}
+
+	protected String getApplicationAttribute() {
+		return IPDELauncherConstants.APPLICATION;
+	}
+
+	public void updateInfo(ITargetPlatformHelper currentTargetPlatform) {
+		if (fProductCombo.isDisposed() || fApplicationCombo.isDisposed()) {
+			return;
+		}
+		if (currentTargetPlatform != null && currentTargetPlatform.isValid()) {
+			String[] products = currentTargetPlatform.getProducts();
+			String[] applications = currentTargetPlatform.getApplications();
+			fProductCombo.setItems(products);
+			fApplicationCombo.setItems(applications);
+			updateProductEnablement(fProductButton.getSelection());
+			String applicationText = fApplicationCombo.getText();
+
+			if (applicationText == null || applicationText.trim().length() == 0) {
+				String defaultApplication = currentTargetPlatform
+						.getDefaultApplication();
+				if (defaultApplication != null
+						&& fApplicationCombo.indexOf(defaultApplication) != -1) {
+					fApplicationCombo.setText(defaultApplication);
+				} else if (applications.length != 0) {
+					fApplicationCombo.setText(applications[0]);
+				}
+
+			}
+			String productText = fProductCombo.getText();
+			if (productText == null || productText.trim().length() == 0) {
+				String product = currentTargetPlatform.getDefaultProduct();
+				if (product != null) {
+					fProductCombo.setText(product);
+					fProductButton.setSelection(true);
+					fApplicationButton.setSelection(false);
+					fProductCombo.setEnabled(true);
+					fApplicationCombo.setEnabled(false);
+					updateProductDecorator();
+				}
+			}
+		} else {
+			fProductCombo.setItems(new String[0]);
+			fApplicationCombo.setItems(new String[0]);
+			updateProductDecorator();
+		}
+	}
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.platform/gen-src"
+    modelPluginID="org.eclipse.rcptt.ecl.platform" modelName="Objects" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5">
+  <foreignModel>objects.ecore</foreignModel>
+  <genPackages prefix="Objects" basePackage="org.eclipse.rcptt.ecl.platform" disposableProviderFactory="true"
+      ecorePackage="objects.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="objects.ecore#//PluginState">
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/UNINSTALLED"/>
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/INSTALLED"/>
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/RESOLVED"/>
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/STARTING"/>
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/STOPPING"/>
+      <genEnumLiterals ecoreEnumLiteral="objects.ecore#//PluginState/ACTIVE"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="objects.ecore#//Feature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Feature/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Feature/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Feature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Feature/provider"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//Plugin">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/state"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/requiredBundles"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Plugin/importedPackages"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//Repository">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Repository/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Repository/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Repository/isMetadata"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//Repository/isArtifact"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//InstallUnit">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//InstallUnit/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//InstallUnit/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//InstallUnit/name"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//UpdateResult">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//UpdateResult/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//UpdateResult/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//UpdateResult/to"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//LogMessage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//LogMessage/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//LogMessage/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//LogMessage/dateText"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//LogMessage/pluginId"/>
+    </genClasses>
+    <genClasses ecoreClass="objects.ecore#//LaunchConfiguration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute objects.ecore#//LaunchConfiguration/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

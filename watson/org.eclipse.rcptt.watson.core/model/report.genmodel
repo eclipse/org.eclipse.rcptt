@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.watson.core/src-gen"
+    modelPluginID="org.eclipse.rcptt.watson.core" modelName="Report" importerID="org.eclipse.emf.importer.java"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" classNamePattern=""
+    runtimePlatform="RCP">
+  <foreignModel>@model</foreignModel>
+  <genPackages prefix="Report" basePackage="org.eclipse.rcptt.sherlock.core.model.sherlock"
+      disposableProviderFactory="true" ecorePackage="report.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="report.ecore#//EventKind">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//EventKind/Info"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//EventKind/Begin"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//EventKind/End"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="report.ecore#//ScreenshotKind">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//ScreenshotKind/PNG"/>
+    </genEnums>
+    <genClasses ecoreClass="report.ecore#//Report">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Report/root"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Report/sources"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//ReportContainer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//ReportContainer/content"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Node/startTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Node/endTime"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Node/children"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Node/events"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Node/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Node/properties"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference report.ecore#//Node/parent"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference report.ecore#//Node/report"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Node/snapshots"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Event">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Event/time"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Event/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Event/data"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference report.ecore#//Event/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Event/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Event/color"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//EventSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//EventSource/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//EventSource/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//PropertyMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//PropertyMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference report.ecore#//PropertyMap/value"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Snaphot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Snaphot/time"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Snaphot/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Snaphot/data"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//ReportBuilderStore">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//ReportBuilderStore/report"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference report.ecore#//ReportBuilderStore/currentNode"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Screenshot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Screenshot/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Screenshot/kind"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

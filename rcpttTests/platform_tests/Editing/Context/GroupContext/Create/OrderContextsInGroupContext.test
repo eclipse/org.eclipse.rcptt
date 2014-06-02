@@ -1,0 +1,118 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_W62xEO9AEeCZz89QM6kozg
+Element-Name: OrderContextsInGroupContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _4yLQ0O9AEeCZz89QM6kozg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, GroupContext, Create
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open group context;
+2. Select entire context and press "Up"/"Down" buttons;
+3. Make sure context order is changed appropriately.
+4. Repeat with drag/drop.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click -nowait
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    get-property itemCount | equals 8 | verify-true
+    get-item "1 \\(Q7Project\\)" | get-property index | equals 0 | verify-true
+    get-item "2 \\(Q7Project\\)" | get-property index | equals 1 | verify-true
+    get-item "A \\(Q7Project\\)" | get-property index | equals 2 | verify-true
+    get-item "b \\(Q7Project\\)" | get-property index | equals 3 | verify-true
+    get-item "C \\(Q7Project\\)" | get-property index | equals 4 | verify-true
+    get-item "d \\(Q7Project\\)" | get-property index | equals 5 | verify-true
+    get-item "E \\(Q7Project\\)" | get-property index | equals 6 | verify-true
+    get-item "f \\(Q7Project\\)" | get-property index | equals 7 | verify-true
+}
+with [get-editor GroupContext | get-section Contexts] {
+    get-table | select "2 \\(Q7Project\\)"
+    with [get-button Down] {
+        click
+        click
+        click
+        click
+    }
+}
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    get-item "1 \\(Q7Project\\)" | get-property index | equals 0 | verify-true
+    get-item "A \\(Q7Project\\)" | get-property index | equals 1 | verify-true
+    get-item "b \\(Q7Project\\)" | get-property index | equals 2 | verify-true
+    get-item "C \\(Q7Project\\)" | get-property index | equals 3 | verify-true
+    get-item "d \\(Q7Project\\)" | get-property index | equals 4 | verify-true
+    get-item "2 \\(Q7Project\\)" | get-property index | equals 5 | verify-true
+    get-item "E \\(Q7Project\\)" | get-property index | equals 6 | verify-true
+    get-item "f \\(Q7Project\\)" | get-property index | equals 7 | verify-true
+}
+with [get-editor GroupContext | get-section Contexts] {
+    get-table | select "f \\(Q7Project\\)"
+    with [get-button Up] {
+        click
+        click
+    }
+}
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    get-item "1 \\(Q7Project\\)" | get-property index | equals 0 | verify-true
+    get-item "A \\(Q7Project\\)" | get-property index | equals 1 | verify-true
+    get-item "b \\(Q7Project\\)" | get-property index | equals 2 | verify-true
+    get-item "C \\(Q7Project\\)" | get-property index | equals 3 | verify-true
+    get-item "d \\(Q7Project\\)" | get-property index | equals 4 | verify-true
+    get-item "f \\(Q7Project\\)" | get-property index | equals 5 | verify-true
+    get-item "2 \\(Q7Project\\)" | get-property index | equals 6 | verify-true
+    get-item "E \\(Q7Project\\)" | get-property index | equals 7 | verify-true
+}
+
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    select "E \\(Q7Project\\)"
+    get-item "E \\(Q7Project\\)" | drag-start 48 2 none
+    get-item "E \\(Q7Project\\)" | drag-enter 48 1 none -detail 2 -operation 2
+    get-item "E \\(Q7Project\\)" | drag-over 48 -button none -detail 2 -operation 2
+    get-item "2 \\(Q7Project\\)" | drag-over 48 -button none -detail 2 -operation 2
+    get-item "f \\(Q7Project\\)" | drag-over 48 -button none -detail 2 -operation 2
+    get-item "d \\(Q7Project\\)" | drag-over 48 -button none -detail 2 -operation 2
+    get-item "C \\(Q7Project\\)" | drag-over 47 -button none -detail 2 -operation 2
+    get-item "b \\(Q7Project\\)" | drag-over 47 1 none -detail 2 -operation 2
+    get-item "A \\(Q7Project\\)" | drag-over 46 -button none -detail 2 -operation 2
+    get-item "1 \\(Q7Project\\)" | drag-over 46 4 none -detail 2 -operation 2
+    get-item "E \\(Q7Project\\)" | drag-exit -button none
+    get-item "1 \\(Q7Project\\)" | drag-accept 46 4 none -detail 2 -operation 2
+    drag-set-data 2 2 none
+    get-item "1 \\(Q7Project\\)" | drop 46 4 none -detail 2 -operation 2
+    drag-end 2 2 none -detail 2
+}
+with [get-editor GroupContext | get-section Contexts | get-table] {
+    get-item "E \\(Q7Project\\)" | get-property caption | equals "E (Q7Project)" | verify-true
+    get-item "E \\(Q7Project\\)" | get-property index | equals 0 | verify-true
+    get-item "1 \\(Q7Project\\)" | get-property index | equals 1 | verify-true
+    get-item "A \\(Q7Project\\)" | get-property index | equals 2 | verify-true
+    get-item "b \\(Q7Project\\)" | get-property index | equals 3 | verify-true
+    get-item "C \\(Q7Project\\)" | get-property index | equals 4 | verify-true
+    get-item "d \\(Q7Project\\)" | get-property index | equals 5 | verify-true
+    get-item "f \\(Q7Project\\)" | get-property index | equals 6 | verify-true
+    get-item "2 \\(Q7Project\\)" | get-property index | equals 7 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

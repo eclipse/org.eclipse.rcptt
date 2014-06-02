@@ -1,0 +1,110 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,__2fEACC3EeGpvKMy1SUvBw
+Element-Name: SelectAll in Script Viewer
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _3rkFsCnmEeG5j4IHaNDqCg
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: ECL_IDE_module, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+Pre-conditions:
+Project with test-case
+
+Actions:
+1. Open test-case, set cursor in script viewer
+2. Press on "Ctrl+A", copy and paste this text in another test-case
+3. Make sure that all text is copied
+4. Varify selection all from context menu and from main menu
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "MyProject/P1 is left" | double-click
+with [get-editor "P1 is left" | get-section Script | get-editbox] {
+    set-text-offset 12 4
+    key-type "M1+a"
+    key-type "M1+c"
+}
+get-view "Q7 Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click
+with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
+    set-text-offset 83 0
+    key-type Enter
+    key-type "M1+v"
+    key-type "M1+s"
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    get-item \"P1\"\n"
+    + "    \n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+get-view "Q7 Explorer" | get-tree | select "MyProject/CreateQ7Project" | double-click
+with [get-editor CreateQ7Project | get-section Script | get-editbox] {
+    set-text-offset 8 3
+    key-type "M1+a"
+    key-type "M1+c"
+}
+with [get-editor WorkspaceIsEmpty] {
+    click
+    with [get-section Script | get-editbox] {
+        set-text-offset 83 5
+        key-type Enter
+        key-type "M1+v"
+        key-type "M1+s"
+    }
+}
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    get-item \"P1\"\n"
+    + "    \n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "    get-button Finish | click\n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | set-text-offset 12 2
+get-menu "Edit/Select All" | click
+get-editor WorkspaceIsEmpty | get-section Script | get-editbox | key-type "M1+c"
+get-editor "P1 is left" | click
+get-menu "Edit/Select All" | click
+get-editor "P1 is left" | get-section Script | get-editbox | set-text-offset 1 3
+get-menu "Edit/Select All" | click
+with [get-editor "P1 is left" | get-section Script | get-editbox] {
+    key-type "M1+v"
+    key-type "M1+s"
+}
+get-editor "P1 is left" | get-section Script | get-editbox | get-property text 
+    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "    get-item \"P1\"\n"
+    + "    \n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n"
+    + "with [get-window \"New Project\"] {\n"
+    + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
+    + "    get-button Finish | click\n}\n"
+    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

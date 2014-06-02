@@ -1,0 +1,33 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Element-Name: SelfAUTRestartTests
+Element-Type: testsuite
+Element-Version: 2.0
+Id: _p5wFkO2MEeG89eOPG8CMxw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
+Content-Type: text/testcase
+Entry-Name: testcase-items
+
+_eUMjUMfGEeCxZoPRptqJ7A	//
+_IUApoMfGEeCxZoPRptqJ7A	//
+_wFfUMDwFEeGWcueqnS9xrA	//
+
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--

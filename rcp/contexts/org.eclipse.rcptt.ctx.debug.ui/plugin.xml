@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+        point="org.eclipse.rcptt.ui.viewers">
+     <viewer
+           class="org.eclipse.rcptt.ctx.debug.ui.DebugContextViewer"
+           icon="/icons/releng_gears.gif"
+           type="org.eclipse.rcptt.ctx.debug">
+     </viewer>
+  </extension>
+</plugin>

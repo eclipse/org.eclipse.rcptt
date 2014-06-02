@@ -1,0 +1,84 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _wFTf0KDsEeKGc-nsvHJqGA,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
+Element-Name: TerminateExistingLaunches
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _yTuaYasMEeKPyJLvtvYvAw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, LaunchContext, selfAUT
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Check "Terminate Existing Launches" in Launch Context
+2. Make sure that existing launches are terminated
+3. Uncheck "Terminate Existing Launches" in Launch Context
+4. Make sure that existing launches are not terminated
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/PrefContext" | double-click
+get-editor PrefContext | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/JavaProgram" | double-click
+get-editor JavaProgram | get-button Apply | click
+with [get-editor LaunchContextTest] {
+    click
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext" | double-click
+get-editor EmptyLaunchContext | get-section Options | get-button "Terminate existing launches" | get-property selected 
+    | equals true | verify-true
+get-editor EmptyLaunchContext | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext2" | double-click
+get-editor EmptyLaunchContext2 | get-button Capture | click
+get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree | verify-error { get-item Launches } 
+with [get-editor LaunchContextTest] {
+    click
+    get-button Apply | click
+}
+with [get-editor EmptyLaunchContext] {
+    click
+    with [get-section Options | get-button "Terminate existing launches"] {
+        click
+        key-type "M1+s"
+    }
+}
+get-editor EmptyLaunchContext | get-section Options | get-editbox 
+    -after [get-label "Do not terminate launches of following configurations:"] | get-property enablement 
+    | equals false | verify-true
+get-editor EmptyLaunchContext | get-button Apply | click
+with [get-editor EmptyLaunchContext2] {
+    click
+    get-button Capture | click
+}
+get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree | get-item Launches | get-property caption | equals Launches | verify-true
+with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree] {
+    get-item Launches | get-property childCount | equals 1 | verify-true
+    get-item "Launches/Main" | get-property caption | equals Main | verify-true
+    get-item "Launches/Main" | get-property childCount | equals 3 | verify-true
+    get-item "Launches/Main/configuration" | get-property caption | equals configuration | verify-true
+    get-item "Launches/Main/mode" | get-property caption | equals mode | verify-true
+    get-item "Launches/Main/configurationDelta" | get-property caption | equals configurationDelta | verify-true
+} 
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

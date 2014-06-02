@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.ecl/gen-src"
+    modelPluginID="org.eclipse.rcptt.tesla.ecl" modelName="Tesla" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui ../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.tesla.core/models/info.genmodel#//info ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.genmodel#//raw ../../org.eclipse.rcptt.tesla.core/models/protocol.genmodel#//protocol">
+  <foreignModel>tesla.ecore</foreignModel>
+  <genPackages prefix="Tesla" basePackage="org.eclipse.rcptt.tesla.ecl" disposableProviderFactory="true"
+      fileExtensions="tesla" ecorePackage="tesla.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tesla.ecore#//Button">
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/none"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/button1"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/button2"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/button3"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="tesla.ecore#//ElementKind"/>
+    <genClasses ecoreClass="tesla.ecore#//Wait">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Wait/ms"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetupPlayer"/>
+    <genClasses ecoreClass="tesla.ecore#//ShoutdownPlayer"/>
+    <genClasses ecoreClass="tesla.ecore#//TeslaProcessStatus">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tesla.ecore#//TeslaProcessStatus/info"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Wrapper">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Wrapper/object"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetProperty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetProperty/object"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetProperty/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetProperty/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetProperty/raw"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//VerifyTrue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//VerifyTrue/condition"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//VerifyFalse">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//VerifyFalse/condition"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//VerifyHandler">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//VerifyHandler/element"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//VerifyHandler/attribute"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//VerifyHandler/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//VerifyHandler/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//VerifyHandler/index"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//VerifyError">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//VerifyError/command"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Equals">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Equals/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Equals/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Contains">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Contains/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Contains/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Matches">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Matches/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Matches/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//IsEmpty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//IsEmpty/input"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Unsupported">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Unsupported/desc"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ControlNotFound">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlNotFound/id"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ControlHandler">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/customKindId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/indexes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ControlHandler/after"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ControlHandler/parent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ControlHandler/resolved"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/row"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ControlHandler/rawImage"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetEclipseWindow"/>
+    <genClasses image="false" ecoreClass="tesla.ecore#//Selector">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Selector/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Selector/after"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Selector/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Selector/index"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Selector/parent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//PathSelector">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//PathSelector/path"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//TextSelector">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//TextSelector/text"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetControl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetControl/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetButton"/>
+    <genClasses ecoreClass="tesla.ecore#//GetCanvas"/>
+    <genClasses ecoreClass="tesla.ecore#//GetCheckbox"/>
+    <genClasses ecoreClass="tesla.ecore#//GetCombo"/>
+    <genClasses ecoreClass="tesla.ecore#//GetEditbox"/>
+    <genClasses ecoreClass="tesla.ecore#//GetGroup"/>
+    <genClasses ecoreClass="tesla.ecore#//GetItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetItem/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetItem/column"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetLabel"/>
+    <genClasses ecoreClass="tesla.ecore#//GetLink"/>
+    <genClasses ecoreClass="tesla.ecore#//GetList"/>
+    <genClasses ecoreClass="tesla.ecore#//GetMenu"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTabFolder"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTabItem"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTable"/>
+    <genClasses ecoreClass="tesla.ecore#//GetToolbar"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTree"/>
+    <genClasses ecoreClass="tesla.ecore#//GetWindow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetWindow/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetWindow/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetWindow/class"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetView"/>
+    <genClasses ecoreClass="tesla.ecore#//GetEditor"/>
+    <genClasses ecoreClass="tesla.ecore#//GetSection"/>
+    <genClasses ecoreClass="tesla.ecore#//GetBanner"/>
+    <genClasses ecoreClass="tesla.ecore#//GetCoolbar"/>
+    <genClasses ecoreClass="tesla.ecore#//GetColorSelector"/>
+    <genClasses ecoreClass="tesla.ecore#//GetCell">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetCell/row"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetCell/column"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//Click">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Click/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/nowait"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/default"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/arrow"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//DoubleClick"/>
+    <genClasses image="false" ecoreClass="tesla.ecore#//GetText">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetText/control"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//IsDisabled">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//IsDisabled/control"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//IsDisposed">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//IsDisposed/control"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//TypeText">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//TypeText/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//TypeText/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//TypeText/display"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//KeyType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//KeyType/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//KeyType/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//KeyType/char"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//KeyType/display"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//KeyType/times"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//TypeCommandKey">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//TypeCommandKey/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//TypeCommandKey/commandId"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetText">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SetText/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetText/text"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetTextSelection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SetTextSelection/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextSelection/offset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextSelection/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextSelection/startLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextSelection/endLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextSelection/endOffset"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetTextOffset">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SetTextOffset/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextOffset/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetTextOffset/line"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Check">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Check/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Uncheck">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Uncheck/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Select">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Select/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Select/items"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Select/all"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Select/column"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//CellEdit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//CellEdit/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ActivateCellEdit">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ActivateCellEdit/column"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ApplyCellEdit"/>
+    <genClasses ecoreClass="tesla.ecore#//CancelCellEdit"/>
+    <genClasses ecoreClass="tesla.ecore#//Close">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Close/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ReturnFromOsDialog">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ReturnFromOsDialog/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ReturnFromOsDialog/result"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//WaitUntilEclipseIsReady"/>
+    <genClasses ecoreClass="tesla.ecore#//ShowContentAssist">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ShowContentAssist/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//DragAction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//DragAction/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/mask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/detail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DragAction/operation"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//DragStart"/>
+    <genClasses ecoreClass="tesla.ecore#//DragEnd"/>
+    <genClasses ecoreClass="tesla.ecore#//DragEnter"/>
+    <genClasses ecoreClass="tesla.ecore#//DragExit"/>
+    <genClasses ecoreClass="tesla.ecore#//DragSetData"/>
+    <genClasses ecoreClass="tesla.ecore#//DragAccept"/>
+    <genClasses ecoreClass="tesla.ecore#//DragDetect"/>
+    <genClasses ecoreClass="tesla.ecore#//DragOver"/>
+    <genClasses ecoreClass="tesla.ecore#//Drop"/>
+    <genClasses ecoreClass="tesla.ecore#//Recognize">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Recognize/image"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Recognize/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Recognize/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Recognize/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Recognize/height"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//RecognizeResponse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//RecognizeResponse/text"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ContainsImage">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ContainsImage/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ContainsImage/imageURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ContainsImage/rawImage"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetRegionText">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetRegionText/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/sx"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/sy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegionText/height"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetRegion">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegion/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegion/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegion/imageURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRegion/rawImage"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetAdvancedInfo"/>
+    <genClasses ecoreClass="tesla.ecore#//GetAboutMenu"/>
+    <genClasses ecoreClass="tesla.ecore#//GetPreferencesMenu"/>
+    <genClasses ecoreClass="tesla.ecore#//GetDateTime"/>
+    <genClasses ecoreClass="tesla.ecore#//GetSlider"/>
+    <genClasses ecoreClass="tesla.ecore#//SetValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SetValue/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Minimize">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Minimize/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Maximize">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Maximize/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Restore">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Restore/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ShowTabList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ShowTabList/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Options">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Options/allowStatusDialog"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//Options/command"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ExecWithOptions">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ExecWithOptions/command"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ExecWithOptions/allowStatusDialog"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ExecWithOptions/disableJobWaiting"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ShutdownAut"/>
+    <genClasses ecoreClass="tesla.ecore#//SetDialogResult">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetDialogResult/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetDialogResult/result"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetPropertyNodes">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetPropertyNodes/element"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetPropertyNodes/nodePath"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetByOs">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetByOs/default"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetByOs/win"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetByOs/linux"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetByOs/macosx"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//FromRawKey">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//FromRawKey/mask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//FromRawKey/keyCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//FromRawKey/meta"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//HoverAtTextOffset">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//HoverAtTextOffset/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverAtTextOffset/offset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverAtTextOffset/line"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetTextViewer"/>
+    <genClasses ecoreClass="tesla.ecore#//SelectRange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SelectRange/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SelectRange/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SelectRange/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SelectRange/endLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SelectRange/endColumn"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetCaretPos">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//SetCaretPos/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetCaretPos/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetCaretPos/column"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//HoverText">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//HoverText/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverText/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverText/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverText/with"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//OpenDeclaration">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//OpenDeclaration/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetVerticalRuler"/>
+    <genClasses ecoreClass="tesla.ecore#//GetLeftRuler"/>
+    <genClasses ecoreClass="tesla.ecore#//GetRulerColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetRulerColumn/text"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetRightRuler"/>
+    <genClasses ecoreClass="tesla.ecore#//ClickRuler">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ClickRuler/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickRuler/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickRuler/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickRuler/with"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//DoubleClickRuler">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//DoubleClickRuler/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DoubleClickRuler/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DoubleClickRuler/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DoubleClickRuler/with"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//HoverRuler">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//HoverRuler/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverRuler/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//HoverRuler/with"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tesla.ecore#//ControlCommand">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ControlCommand/control"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ClickLink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickLink/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Expand"/>
+    <genClasses ecoreClass="tesla.ecore#//Collapse"/>
+    <genClasses ecoreClass="tesla.ecore#//SetFocus"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTableData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetTableData/includeChecked"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//GetTableData/excludeHidden"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ClickColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickColumn/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickColumn/index"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Trace">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Trace/message"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//Mouse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/event"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/with"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Mouse/y"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetObject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetObject/object"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetItems"/>
+    <genClasses ecoreClass="tesla.ecore#//ExpandAll"/>
+    <genClasses ecoreClass="tesla.ecore#//CollapseAll"/>
+    <genClasses ecoreClass="tesla.ecore#//TakeScreenshot">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//TakeScreenshot/message"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SelectItem"/>
+    <genClasses ecoreClass="tesla.ecore#//GetWidgetDetails">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//GetWidgetDetails/element"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ClickText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickText/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickText/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ClickText/button"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//GetQuickAccess"/>
+    <genClasses ecoreClass="tesla.ecore#//GetColumnHeader"/>
+    <genClasses ecoreClass="tesla.ecore#//GetPropertyTab"/>
+    <genClasses ecoreClass="tesla.ecore#//ShowAlert">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ShowAlert/message"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//DoubleClickText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DoubleClickText/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//DoubleClickText/button"/>
+    </genClasses>
+    <nestedGenPackages prefix="Diagram" basePackage="org.eclipse.rcptt.tesla.ecl.model" disposableProviderFactory="true"
+        ecorePackage="tesla.ecore#//diagram">
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetDiagram"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetPalette"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetEditPart">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/path"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/feature"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/text"/>
+      </genClasses>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetFigure"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetEntry"/>
+      <genClasses image="false" ecoreClass="tesla.ecore#//diagram/DirectEdit">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tesla.ecore#//diagram/DirectEdit/control"/>
+      </genClasses>
+      <genClasses ecoreClass="tesla.ecore#//diagram/ActivateDirectEdit"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/CommitDirectEdit"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/CancelDirectEdit"/>
+      <genClasses image="false" ecoreClass="tesla.ecore#//diagram/MouseAction">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tesla.ecore#//diagram/MouseAction/control"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/y"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/button"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/mask"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/height"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/MouseAction/width"/>
+      </genClasses>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseMove"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseDrag"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MousePress"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseRelease"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseDoubleClick"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseEnter"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseExit"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/MouseHover"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetSourceConnection"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetTargetConnection"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetPopupBarItem"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetConnectionHandle"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetPaletteEntry"/>
+      <genClasses ecoreClass="tesla.ecore#//diagram/GetHandle"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

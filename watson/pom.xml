@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.rcptt</groupId>
+  <artifactId>watson</artifactId>
+  <version>1.5.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <artifactId>rcptt</artifactId>
+    <groupId>org.eclipse.rcptt</groupId>
+    <version>1.5.0-SNAPSHOT</version>
+  </parent>
+
+  <modules>
+    <module>org.eclipse.rcptt.watson.core</module>
+    <module>org.eclipse.rcptt.watson-feature</module>
+    <module>org.eclipse.rcptt.watson.jobs</module>
+    <module>org.eclipse.rcptt.watson.jobs.impl</module>
+    <module>org.eclipse.rcptt.watson.aspects.swt</module>
+    <module>org.eclipse.rcptt.watson.aspects.jobs</module>
+    <module>org.eclipse.rcptt.watson.jface</module>
+    <module>org.eclipse.rcptt.watson.runtime-feature</module>
+  </modules>
+</project>

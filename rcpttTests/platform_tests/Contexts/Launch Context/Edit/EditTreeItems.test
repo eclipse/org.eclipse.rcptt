@@ -1,0 +1,98 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _wFTf0KDsEeKGc-nsvHJqGA,_0_PAAKDoEeKGc-nsvHJqGA
+Element-Name: EditTreeItems
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _AFkykKD6EeKoB6XnDYclhw
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, LaunchContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Add new low level 
+2. Make sure that item is added
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-editor LaunchContextTest] {
+    with [get-section "Launch configurations" | get-tree] {
+        select "Launch configurations/Java Application/Main/org.eclipse.jdt.launching.MAIN_TYPE" | activate-cell-edit 
+            -column 1
+        with [get-editbox] {
+            set-text Main2
+            key-type Enter
+        }
+        apply-cell-edit
+    }
+}
+get-tab-folder -index 1 | get-property activePage | equals "*LaunchContextTest" | verify-true
+get-eclipse-window | key-type "M1+s"
+get-tab-folder -index 1 | get-property activePage | equals "LaunchContextTest" | verify-true
+
+get-editor LaunchContextTest | get-section "Launch configurations" | get-tree 
+    | get-item "Launch configurations/Java Application/Main/org.eclipse.jdt.launching.MAIN_TYPE" | get-property columns 
+    -index 1 | equals Main2 | verify-true
+with [get-editor LaunchContextTest | get-section "Launch configurations"] {
+    get-tree | select "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_TYPES/"
+    get-button "Add..." | click
+    with [get-tree] {
+        select [get-item "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_TYPES" 
+            | get-item "" -index 1] | activate-cell-edit -column 1
+        with [get-editbox] {
+            set-text 4
+            key-type Enter
+        }
+        apply-cell-edit
+    }
+}
+
+with [get-editor LaunchContextTest | get-section "Launch configurations" | get-tree] {
+    get-item "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_TYPES" 
+        | get-property childCount | equals 2 | verify-true
+    get-item "Launch configurations/Java Application/Main/org.eclipse.debug.core.MAPPED_RESOURCE_TYPES" | get-item "" 
+        -index 1 | get-property columns -index 1 | equals 4 | verify-true
+}
+get-tab-folder -index 1 | get-property activePage | equals "*LaunchContextTest" | verify-true
+get-eclipse-window | key-type "M1+s"
+get-tab-folder -index 1 | get-property activePage | equals "LaunchContextTest" | verify-true
+
+with [get-editor LaunchContextTest | get-section "Launch configurations" | get-tree] {
+    select "Launches/Main/mode" | activate-cell-edit -column 1
+    with [get-editbox] {
+        set-text release
+        key-type Enter
+        set-text "release\n"
+        key-type Enter
+        set-text release
+    }
+    apply-cell-edit
+    select "Launches/Main"
+}
+get-editor LaunchContextTest | get-section "Launch configurations" | get-tree | get-item "Launches/Main/mode" 
+    | get-property columns -index 1 | equals release | verify-true
+get-tab-folder -index 1 | get-property activePage | equals "*LaunchContextTest" | verify-true
+get-eclipse-window | key-type "M1+s"
+get-tab-folder -index 1 | get-property activePage | equals "LaunchContextTest" | verify-true
+    
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

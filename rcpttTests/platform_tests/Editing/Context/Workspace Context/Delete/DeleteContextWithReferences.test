@@ -1,0 +1,105 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _SXufEIwiEeC0d4eAOIxd-g,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: DeleteContextWithReferences
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-984
+Id: __p_14It3EeCibtYekBSVew
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: Context, WorkspaceContext, Delete, Reference
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Select context with references to test-cases
+2. Delete this context
+3. In the "Delete Resource" window check "Delete references?" check-box
+4. Delete all references with test-cases
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
+with [get-editor group | get-section Contexts | get-table] {
+	get-property itemCount | equals 1 | verify-true
+	get-item "context1 \\(Q7Project\\)" | get-property caption 
+		| equals "context1 (Q7Project)" | verify-true
+}
+get-editor group | close
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
+with [get-editor test1] {
+	with [get-section Contexts] {
+		click -nowait
+		with [get-table] {
+			get-property itemCount | equals 1 | verify-true
+			get-item "context1 \\(Q7Project\\)" | get-property caption | equals "context1 (Q7Project)" | verify-true
+		}
+	}
+	close
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
+with [get-editor test2] {
+	with [get-section Contexts] {
+		click -nowait
+		with [get-table] {
+			get-property itemCount | equals 1 | verify-true
+			get-item "context1 \\(Q7Project\\)" | get-property caption | equals "context1 (Q7Project)" | verify-true
+		}
+	}
+	close
+} 
+get-view "Q7 Explorer" | get-tree | select "Q7Project/context1" | get-menu Delete | click
+with [get-window "Delete Resources"] {
+	get-link "See 3 reference(s) found." | click
+	get-button "Delete references?" | get-property kind | equals Check | verify-true
+	with [get-tree] {
+		get-item "context1 \\(Q7Project\\/context1.ctx\\)" | get-property childCount | equals 3 | verify-true
+		get-item "context1 \\(Q7Project\\/context1.ctx\\)/test1 \\(Q7Project\\/test1.test\\)" | get-property caption | equals "test1 (Q7Project/test1.test)" | verify-true
+		get-item "context1 \\(Q7Project\\/context1.ctx\\)/test2 \\(Q7Project\\/test2.test\\)" | get-property caption | equals "test2 (Q7Project/test2.test)" | verify-true
+		get-item "context1 \\(Q7Project\\/context1.ctx\\)/group \\(Q7Project\\/group.ctx\\)" | get-property caption | equals "group (Q7Project/group.ctx)" | verify-true
+	}
+    get-button OK | click
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
+with [get-editor group | get-section Contexts | get-table] {
+	get-property itemCount | equals 0 | verify-true
+}
+get-editor group | close
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
+with [get-editor test1] {
+	with [get-section Contexts] {
+		click -nowait
+		with [get-table] {
+			get-property itemCount | equals 0 | verify-true
+		}
+	}
+	close
+}
+get-view "Q7 Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
+with [get-editor test2] {
+	with [get-section Contexts] {
+		click -nowait
+		with [get-table] {
+			get-property itemCount | equals 0 | verify-true
+		}
+	}
+	close
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

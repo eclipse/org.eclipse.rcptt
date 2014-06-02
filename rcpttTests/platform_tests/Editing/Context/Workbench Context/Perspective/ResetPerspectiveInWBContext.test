@@ -1,0 +1,178 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_94O7wOfZEeCButSfkA0tsQ
+Element-Name: ResetPerspectiveInWBContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: http://jira4.xored.com/browse/QS-1246
+Id: _mZxk0OirEeCButSfkA0tsQ
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:45 PM
+Tags: selfAUT, Context, WorkbenchContext, Perspective
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. Set perspective in WB context
+2. Set "Reset Perspective" 
+3. Apply this context
+4. Make sure that perspective is reset
+5. Uncheck "Reset Perspective"
+6. Apply this context
+7. Make sure that perspective is not reset
+8. Clear perspective field
+9. Apply this context
+10. Make sure that perspective is not reset
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WS_template" | double-click -nowait
+get-editor "WS_template" | get-button Apply | click
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_common" | double-click -nowait
+get-editor "WB_common" | get-section Views | get-button "Add..." | click
+with [get-window "Select View"] {
+    get-tree | select "General/Error Log"
+    get-button OK | click
+}
+get-editor "WB_common" | get-section Views | get-button "Add..." | click
+with [get-window "Select View"] {
+    get-tree | select "General/Console"
+    get-button OK | click
+}
+with [get-editor "WB_common"] {
+    get-editbox -after [get-label "Name:"] | key-type "M1+s"
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
+get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
+with [get-window "Select a perspective"] {
+    get-table | select Q7
+    get-button OK | click
+}
+with [get-editor "WB_test"] {
+    with [get-section Workbench | get-button "Reset perspective"] {
+        key-type "M1+s"
+    }
+    with [get-section Editors | get-button "Close opened editors"] {
+        click
+        key-type "M1+s"
+    }
+    get-button Apply | click
+}
+get-view "Q7 Explorer" | get-tree | select "ContextsProject/WB_check" | double-click -nowait
+get-editor "WB_check" | get-button Capture | click
+
+with [get-editor "WB_check"] {
+    get-section Workbench | get-editbox -after [get-label "Perspective id:"] | get-property value 
+        | equals "com.xored.q7.ui.perspective" | verify-true
+    with [get-section Views | get-table] {
+        get-property itemCount | equals 7 | verify-true
+    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
+        | verify-true
+    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+        | verify-true
+    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.pde.runtime.LogView" | get-property caption | equals "org.eclipse.pde.runtime.LogView" 
+        | verify-true
+    get-item "org.eclipse.ui.console.ConsoleView" | get-property caption | equals "org.eclipse.ui.console.ConsoleView" 
+        | verify-true
+    }
+    with [get-section Editors | get-table] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "project1\\/text.txt" | get-property caption | equals "project1/text.txt" | verify-true
+    }
+}
+
+
+
+
+
+with [get-editor "WB_test"] {
+    click -nowait
+    with [get-section Workbench | get-button "Reset perspective"] {
+        click
+        key-type "M1+s"
+    }
+    get-button Apply | click
+}
+with [get-editor "WB_check"] {
+    click -nowait
+    get-button Capture | click
+}
+with [get-editor "WB_check"] {
+    get-section Workbench | get-editbox -after [get-label "Perspective id:"] | get-property value 
+        | equals "com.xored.q7.ui.perspective" | verify-true
+    with [get-section Views | get-table] {
+        get-property itemCount | equals 5 | verify-true
+    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
+        | verify-true
+    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+        | verify-true
+    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+
+    }
+    get-section Editors | get-table | get-property itemCount | equals 0 | verify-true
+}
+with [get-editor "WB_common"] {
+    click -nowait
+    get-button Apply | click
+}
+with [get-editor "WB_test"] {
+    click -nowait
+    get-section Workbench | get-editbox -after [get-label "Perspective id:"] | set-text ""
+    get-section Views | get-button "Add..." | click
+}
+with [get-window "Select View"] {
+    get-tree | select "General/Classic Search"
+    get-button OK | click
+}
+with [get-editor "WB_test"] {
+    get-section Workbench | get-editbox -after [get-label "Perspective id:"] | key-type "M1+s"
+    get-button Apply | click
+}
+with [get-editor "WB_check"] {
+    click -nowait
+    get-button Capture | click
+}
+with [get-editor "WB_check"] {
+    with [get-section Views | get-table] {
+        get-property itemCount | equals 8 | verify-true
+    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
+        | verify-true
+    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+        | verify-true
+    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.pde.runtime.LogView" | get-property caption | equals "org.eclipse.pde.runtime.LogView" 
+        | verify-true
+    get-item "org.eclipse.ui.console.ConsoleView" | get-property caption | equals "org.eclipse.ui.console.ConsoleView" 
+        | verify-true
+    get-item "org.eclipse.search.SearchResultView" | get-property caption 
+        | equals "org.eclipse.search.SearchResultView" | verify-true
+    }
+    with [get-section Editors | get-table] {
+        get-property itemCount | equals 1 | verify-true
+        get-item "project1\\/text.txt" | get-property caption | equals "project1/text.txt" | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

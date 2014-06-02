@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/ecl/ast.ecore"
+            class="org.eclipse.rcptt.ecl.gen.ast.AstPackage"
+            genModel="model/ast.genmodel"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.param_converter">
+      <converter
+            class="org.eclipse.rcptt.ecl.internal.parser.CommandParamConverter">
+      </converter>
+   </extension>
+
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.parser.commands.ScriptService"
+            name="Script"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.ast.commands.AstExecService"
+            name="AstExec"
+            namespace="http://www.eclipse.org/ecl/ast.ecore">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.emfConverters">
+      <serializer
+            class="org.eclipse.rcptt.ecl.internal.parser.ScriptStatusConverter">
+      </serializer>
+   </extension>
+</plugin>

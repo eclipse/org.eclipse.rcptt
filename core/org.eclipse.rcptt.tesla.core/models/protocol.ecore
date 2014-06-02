@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="protocol"
+    nsURI="http://eclipse.org/rcptt/tesla/protocol" nsPrefix="org.eclipse.rcptt.tesla.core.protocol">
+  <eClassifiers xsi:type="ecore:EClass" name="SelectData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="after" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="indexes" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IMLSelectData" eSuperTypes="#//SelectData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectCommand" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" lowerBound="1" eType="#//SelectData"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containChildren" upperBound="-1"
+        eType="#//SelectData" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementCommand" abstract="true" interface="true"
+      eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Click" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="withWait" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrow" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleClick" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="withWait" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Show" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hide" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Close" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetText" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsEnabled" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IsDisposed" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="select" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetState" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetStateResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitForState" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RollbackToState" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetSelection" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="additionalItems" upperBound="-1"
+        eType="#//MultiSelectionItem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiSelectionItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shutdown" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nop" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CountItems" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Save" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IsDirty" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTextSelection" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLine" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endoffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTextOffset" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GoToTextLine" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextLineOffset" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextLineLength" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectTextLine" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetCaretPosition" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextLine" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTextRange" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startOffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endOffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextSelectionResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetColor" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetColor" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetColorResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fromDisplay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Children" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChildrenResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="ecore:EClass rawProtocol.ecore#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parent" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParentResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fromDisplay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="character" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meta" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traverse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="times" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeAction" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CopyTextSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CutTextSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PasteTextSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReplaceTextSelection" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CheckItem" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expand" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CloseWorkbench" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivateCellEditor" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplyCellEditor" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deactivate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CancelCellEditor" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DeactivateCellEditor" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetSWTDialogInfo" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//SWTDialogKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SWTDialogKind">
+    <eLiterals name="FileSelector"/>
+    <eLiterals name="FolderSelector" value="1"/>
+    <eLiterals name="FontDialog" value="2"/>
+    <eLiterals name="MessageBox" value="3"/>
+    <eLiterals name="Color" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assert" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass rawProtocol.ecore#//Element"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//AssertKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imageData" eType="#//AssertImageData"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRegionText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssertImageData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AssertKind">
+    <eLiterals name="Equals" literal="equals"/>
+    <eLiterals name="NotEquals" value="1" literal="doesn't equal"/>
+    <eLiterals name="NotNull" value="2"/>
+    <eLiterals name="AssertTrue" value="3" literal="is true"/>
+    <eLiterals name="AssertFalse" value="4" literal="is false"/>
+    <eLiterals name="Contains" value="5" literal="contains"/>
+    <eLiterals name="Regexp" value="6" literal="matches"/>
+    <eLiterals name="ContainsImage" value="7"/>
+    <eLiterals name="ImageContainsText" value="8"/>
+    <eLiterals name="NotContains" value="9" literal="doesn't contain"/>
+    <eLiterals name="NotRegexp" value="10" literal="doesn't match"/>
+    <eLiterals name="IsEmpty" value="11" literal="is empty"/>
+    <eLiterals name="NotEmpty" value="12" literal="isn't empty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssertResponse" eSuperTypes="rawProtocol.ecore#//Response"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetSelection" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectionResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//SelectionItem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectionItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DragCommand" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//DragKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DragKind">
+    <eLiterals name="Start"/>
+    <eLiterals name="End" value="1"/>
+    <eLiterals name="SetData" value="2"/>
+    <eLiterals name="Accept" value="3"/>
+    <eLiterals name="Drop" value="4"/>
+    <eLiterals name="Detect" value="5"/>
+    <eLiterals name="Over" value="6"/>
+    <eLiterals name="Leave" value="7"/>
+    <eLiterals name="Enter" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitForRestart" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CellClick" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowContentAssist" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickAboutMenu" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickPreferencesMenu" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RecordingModeRequest" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssertionModeRequest" eSuperTypes="rawProtocol.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Minimize" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Maximize" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Restore" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ShowTabList" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetStatusDialogMode" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HoverAtTextOffset" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetCursorOffset" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTextSelection2" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLine" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startOffset" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endLine" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endOffset" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blockMode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HoverAtText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpenDeclaration" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RulerClick" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RulerDoubleClick" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RulerHover" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickLink" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetFocus" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetPropertyValue" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowRawValues" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetBounds" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundsResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collapse" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickColumn" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetSortColumn" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="descending" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MouseEvent" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//MouseEventKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMask" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MouseEventKind">
+    <eLiterals name="DOWN" literal="down"/>
+    <eLiterals name="UP" value="1" literal="up"/>
+    <eLiterals name="MOVE" value="2" literal="move"/>
+    <eLiterals name="ENTER" value="3" literal="enter"/>
+    <eLiterals name="EXIT" value="4" literal="exit"/>
+    <eLiterals name="DOUBLE_CLICK" value="5" literal="double-click"/>
+    <eLiterals name="HOVER" value="6" literal="hover"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClickText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="left"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleClickText" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="left"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetWidth" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetPosition" eSuperTypes="#//ElementCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

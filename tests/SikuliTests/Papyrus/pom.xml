@@ -1,0 +1,42 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>q7.recording</groupId> 
+  <artifactId>q7.recording.tests.Papyrus</artifactId>
+  <version>1.5.0-SNAPSHOT</version>
+  <packaging>q7test</packaging>
+
+  <parent>
+    <version>1.5.0-SNAPSHOT</version>
+    <groupId>q7.recording</groupId> 
+    <artifactId>q7.recording.tests</artifactId>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.rcptt</groupId>
+        <artifactId>q7-maven-plugin</artifactId>
+        <version>${q7-maven-version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <aut>
+  			<explicit>${q7-AUT-location}</explicit>
+		    <args>
+              <arg>-licenseUrl</arg>
+              <arg>http://licensing.xored.com/pool/04fb850c-d95d-eec0-76f9-12313b043cf6</arg>
+            </args>
+		    
+		  </aut>
+		  <q7>
+			<version>${q7-runner-version}</version>
+		  </q7>
+		  <projects>
+            <project>${project.basedir}/../sikuli</project>
+          </projects>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

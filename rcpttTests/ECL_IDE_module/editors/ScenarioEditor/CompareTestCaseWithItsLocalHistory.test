@@ -1,0 +1,95 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_1DeDkPVYEeCsI4NSS6tu2Q
+Element-Name: CompareTestCaseWithItsLocalHistory
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ri2XAPVaEeCsI4NSS6tu2Q
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Compare, TestCase
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. OPen Test Case and change its name, tag, description and script;
+2. Save Test Case;
+3. Right-click it in Q7 explorer and select "Compare with -> local history";
+4. Make sure that Test Comparison tree is represented;
+5. Make sure that all changes are represented. 
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select "Q7Project1/TestCase1" | double-click -nowait
+with [get-editor TestCase1] {
+    get-editbox -after [get-label "Name:"] | set-text TestCase3
+    get-editbox -after [get-label "Tags:"] | set-text tag3
+    with [get-section Description] {
+        get-editbox | set-text description3
+    }
+    with [get-section Script | get-editbox] {
+        set-text script3
+        key-type "M1+s"
+    }
+}
+get-editor TestCase3 | close
+with [get-view "Q7 Explorer"] {
+    click -nowait
+    get-tree | select "Q7Project1/TestCase3" | get-menu "Compare With/Local History..." | click
+}
+get-view History | get-tree | select [get-item ".*" -index 2] | double-click -nowait
+with [get-editor "Compare TestCase3.test Current and Local Revision" | get-tree] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "Test Case" | get-property caption | equals "Test Case" | verify-true
+    get-item "Test Case/Description" | get-property caption | equals Description | verify-true
+    get-item "Test Case/Name" | get-property caption | equals Name | verify-true
+    get-item "Test Case/Script" | get-property caption | equals Script | verify-true
+    get-item "Test Case/Tags" | get-property caption | equals Tags | verify-true
+}
+ 
+with [get-editor "Compare TestCase3.test Current and Local Revision"] {
+	get-tree | select "Test Case/Description" | double-click -nowait
+    get-editbox -after [get-label "Local history: TestCase3.test .*"] | get-property value 
+        | equals description3 | verify-true
+    get-editbox -index 1 | get-property value | equals description1 | verify-true
+}
+
+with [get-editor "Compare TestCase3.test Current and Local Revision"] {
+	get-tree | select "Test Case/Name" | double-click 
+    get-editbox -after [get-label "Local history: TestCase3.test .*"] | get-property value 
+        | equals TestCase3 | verify-true
+    get-editbox -index 1 | get-property value | equals TestCase1 | verify-true
+}
+ 
+with [get-editor "Compare TestCase3.test Current and Local Revision"] {
+	get-tree | select "Test Case/Script" | double-click
+    get-editbox -after [get-label "Local history: TestCase3.test .*"] | get-property value 
+        | equals script3 | verify-true
+    get-editbox -index 1 | get-property value | equals script1 | verify-true
+}
+ 
+with [get-editor "Compare TestCase3.test Current and Local Revision"] {
+	get-tree | select "Test Case/Tags" | double-click 
+    get-editbox -after [get-label "Local history: TestCase3.test .*"] | get-property value 
+        | equals tag3 | verify-true
+    get-editbox -index 1 | get-property value | equals tag1 | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

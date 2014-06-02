@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.core.ecl.parser.context_container_provider">
+      <provider
+            class="org.eclipse.rcptt.ctx.extensions.ParamContextProvider"
+            contextId="org.eclipse.rcptt.parameters.context">
+      </provider>
+      <provider
+            class="org.eclipse.rcptt.ctx.extensions.EclContextProvider"
+            contextId="org.eclipse.rcptt.core.ecl.context">
+      </provider>
+      <provider
+      		class="org.eclipse.rcptt.ctx.extensions.GroupContextProvider"
+      		contextId="org.eclipse.rcptt.ui.context.group">
+      </provider>
+      <provider
+      		class="org.eclipse.rcptt.ctx.extensions.SupercontextProvider"
+      		contextId="org.eclipse.rcptt.ui.context.superc">
+      </provider>
+   </extension>
+
+</plugin>

@@ -1,0 +1,64 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Q7-vendor: www.xored.com/q7
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_OZy1MLbqEeK5oJHbEAZCPA
+Element-Name: CreateSuperWorkspaceContext
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _o7rP4LbTEeK5oJHbEAZCPA
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 5/14/14 6:44 PM
+Tags: Context, SuperContext
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. Select "New->Super Context" from context menu in Q7 Explorer
+2. Select "Workspace" and enter name
+3. Press "Ok" 
+4. Make sure that super context is created and only workspace contexts can be added to Super Context
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Q7 Explorer" | get-tree | select Q7Project | get-menu "New/Super Context" | click
+with [get-window "New Super Context Wizard"] {
+    get-table | select Workspace
+    get-editbox -after [get-label "Name:"] | set-text SuperWorkspaceContext
+    get-button Finish | click
+}
+get-tab-folder -index 1 | get-property activePage | equals SuperWorkspaceContext | verify-true
+with [get-editor SuperWorkspaceContext] {
+    get-button Capture | get-property enablement | equals false | verify-true
+    get-button Apply | get-property enablement | equals false | verify-true
+    get-section Contexts | get-table | get-property itemCount | equals 0 | verify-true
+}
+get-editor SuperWorkspaceContext | get-section Contexts | get-button "Add..." | click
+with [get-window "Select context"] {
+    get-editbox -after [get-label "Enter context name prefix or pattern (*, ?):"] | set-focus
+    get-table | select "WorkspaceContext \\(Q7Project\\)"
+}
+with [get-window "Select context" | get-table] {
+    get-property itemCount | equals 2 | verify-true
+    get-item "WorkspaceContext \\(Q7Project\\)" | get-property caption | equals "WorkspaceContext (Q7Project)" 
+        | verify-true
+    get-item "WS2 \\(Q7Project\\)" | get-property caption | equals "WS2 (Q7Project)" | verify-true
+}
+get-window "Select context" | get-editbox -after [get-label "Enter context name prefix or pattern (*, ?):"] | set-focus
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
