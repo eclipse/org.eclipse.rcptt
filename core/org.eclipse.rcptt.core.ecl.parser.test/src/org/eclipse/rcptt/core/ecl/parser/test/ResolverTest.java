@@ -33,12 +33,20 @@ public class ResolverTest {
 	private static final ArgDecl arg1 = new ArgDecl("arg1", new SrcLoc(4, 4));
 	private static final ArgDecl arg2 = new ArgDecl("arg2", new SrcLoc(5, 5));
 	private static final ArgDecl lastArg = new ArgDecl("lastArg", new SrcLoc(6, 6));
+	
+	private static final ArgDecl proc2Arg = new ArgDecl("proc2Arg", new SrcLoc(8,8));
 
 	private static final ProcDecl proc1 = new ProcDecl("proc", new SrcLoc(3, 3)) {
 		{
 			addArg(arg1);
 			addArg(arg2);
 			addArg(lastArg);
+		}
+	};
+	
+	private static final ProcDecl proc2 = new ProcDecl("proc2", new SrcLoc(7,7)) {
+		{
+			addArg(proc2Arg);
 		}
 	};
 
@@ -50,6 +58,17 @@ public class ResolverTest {
 			addVar(param2);
 			addProc(proc1);
 
+		}
+	};
+	
+	public static final BaseContainer multiCommandCont = new BaseContainer() {
+		{
+			resource = "sample-multicommand";
+			
+			addVar(param1);
+			addVar(param2);
+			addProc(proc1);
+			addProc(proc2);
 		}
 	};
 

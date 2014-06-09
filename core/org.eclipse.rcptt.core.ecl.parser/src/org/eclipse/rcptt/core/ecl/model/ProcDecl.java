@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.rcptt.ecl.doc.EclDocWriter;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class ProcDecl extends Declaration {
 
@@ -41,6 +42,11 @@ public class ProcDecl extends Declaration {
 
 	public ArgDecl resolveArg(String name) {
 		return args.get(name);
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Procedure name: %s, params: %s", this.name, StringUtils.join(',', args.keySet()));
 	}
 
 	private ArgDecl getInputArg() {

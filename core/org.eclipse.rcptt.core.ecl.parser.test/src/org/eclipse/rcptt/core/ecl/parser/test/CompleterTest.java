@@ -11,13 +11,14 @@
 package org.eclipse.rcptt.core.ecl.parser.test;
 
 import static org.eclipse.rcptt.core.ecl.parser.test.ResolverTest.cont;
+import static org.eclipse.rcptt.core.ecl.parser.test.ResolverTest.multiCommandCont;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.junit.Test;
-
+import org.eclipse.rcptt.core.ecl.model.BaseContainer;
 import org.eclipse.rcptt.core.ecl.parser.ast.Parser;
 import org.eclipse.rcptt.core.ecl.parser.model.Completer;
 import org.eclipse.rcptt.core.ecl.parser.model.Proposal;
@@ -75,6 +76,28 @@ public class CompleterTest {
 		assertProposal(proposals.get(0), ArgNameProposal.class, "-arg1");
 		assertProposal(proposals.get(1), ArgNameProposal.class, "-arg2");
 		assertProposal(proposals.get(2), ArgNameProposal.class, "-lastArg");
+	}
+	
+	@Test
+	public void testMultiCommandOneStringArgProposal() {
+		final String scriptText = "proc -arg1 \"test1\" | proc2 \"test\" ";
+		List<Proposal> proposals = proposals(scriptText, scriptText.length(), multiCommandCont);
+		
+		assertEquals(3, proposals.size());
+		assertProposal(proposals.get(0), ArgNameProposal.class, "-proc2Arg");
+		assertProposal(proposals.get(1), VarValueProposal.class, "$param1");
+		assertProposal(proposals.get(2), VarValueProposal.class, "$param2");
+	}
+	
+	@Test
+	public void testMultiCommandMultiStringArgProposal() {
+		final String scriptText = "proc -arg1 \"test1\" \nproc2 \"test\" ";
+		List<Proposal> proposals = proposals(scriptText, scriptText.length(), multiCommandCont);
+		
+		assertEquals(3, proposals.size());
+		assertProposal(proposals.get(0), ArgNameProposal.class, "-proc2Arg");
+		assertProposal(proposals.get(1), VarValueProposal.class, "$param1");
+		assertProposal(proposals.get(2), VarValueProposal.class, "$param2");
 	}
 
 	@Test
@@ -138,6 +161,10 @@ public class CompleterTest {
 	}
 
 	private static List<Proposal> proposals(String text, int offset) {
-		return Completer.proposals(Parser.parse(text), offset, cont);
+		return proposals(text, offset, cont);
+	}
+	
+	private static List<Proposal> proposals(String text, int offset, BaseContainer container) {
+		return Completer.proposals(Parser.parse(text), offset, container);
 	}
 }

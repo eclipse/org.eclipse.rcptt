@@ -41,4 +41,9 @@ public abstract class Node {
 	public int length() {
 		return end - begin;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Text: %s,  begin: %d, end: %d", this.text, this.begin, this.end);
+	}
 }

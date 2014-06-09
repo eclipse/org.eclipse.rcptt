@@ -33,6 +33,11 @@ public abstract class Proposal {
 	}
 
 	public abstract String fullText();
+	
+	@Override
+	public String toString() {
+		return fullText();
+	}
 
 	public static class ArgNameProposal extends Proposal {
 		public ArgNameProposal(ArgDecl decl) {

@@ -152,7 +152,8 @@ public class EclScannerParser {
 		boolean stringGoesOn = true;
 
 		while (stringGoesOn) {
-			consumeAll(Linebreak, Spacing);
+			// QS-3232: Don't consume line break here, as it is an indicator of the next command.
+			consumeAll(Spacing);
 			EclToken current = peek();
 			switch (current.type) {
 			case String:
