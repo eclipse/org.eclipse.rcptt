@@ -63,6 +63,10 @@ public class EclInformationContol extends BrowserInformationControl {
 		try {
 			URL url = Q7UIPlugin.getDefault().getBundle()
 					.getResource("/docs.css");
+			// Check for missing styles resource.
+			if (url == null) {
+				return styles = "";
+			}
 			return styles = Resources.toString(url, Charsets.UTF_8);
 		} catch (IOException e) {
 			Q7UIPlugin.log(e);
