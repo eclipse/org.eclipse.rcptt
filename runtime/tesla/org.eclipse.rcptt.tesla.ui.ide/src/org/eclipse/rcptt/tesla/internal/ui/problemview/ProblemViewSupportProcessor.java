@@ -15,10 +15,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.ui.IWorkbenchPart;
-
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
@@ -39,6 +38,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.ui.IWorkbenchPart;
 
 public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 
@@ -117,12 +117,15 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 	}
 
 	private class WaitForJobsStatus extends PreExecuteStatus {
-		UIJobCollector collector = new UIJobCollector() {
-			protected void addJob(Job job, long delay) {
-				super.addJob(job, delay);
+		final UIJobCollector collector = new UIJobCollector() {
+			protected JobStatus calcJobStatus(Job job, long delay) {
 				if (isMarkersJob(job)) {
-					add(job);
+					return JobStatus.REQUIRED; 
 				}
+				if (job.belongsTo(ResourcesPlugin.FAMILY_AUTO_BUILD)) {
+					return JobStatus.REQUIRED;
+				}
+				return super.calcJobStatus(job, delay);
 			};
 
 			protected boolean isAsyncSupported() {
@@ -132,12 +135,13 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 			protected boolean isSyncSupported() {
 				return false;
 			};
-
-			public void clean() {
-				Job.getJobManager().removeJobChangeListener(collector);
-			}
-
 		};
+		
+		@Override
+		public void clean() {
+			collector.disable();
+			Job.getJobManager().removeJobChangeListener(collector);
+		}
 
 		public WaitForJobsStatus(boolean canExecute) {
 			super(canExecute);
@@ -170,20 +174,15 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 			if (!s.collector.isEmpty(ContextManagement.currentContext(), info)) {
 				return s;
 			}
+			s.collector.disable();
 			Job.getJobManager().removeJobChangeListener(s.collector);
 		}
 		// Check for marker update job is present
 		Job[] find = Job.getJobManager().find(null);
 		WaitForJobsStatus st = new WaitForJobsStatus(false);
-		for (Job job : find) {
-			if (isMarkersJob(job)) {
-				st.collector.add(job);
-			}
-			if (job.belongsTo(ResourcesPlugin.FAMILY_AUTO_BUILD)) {
-				st.collector.add(job);
-			}
-		}
+		st.collector.enable();
 		if (st.collector.isEmpty(ContextManagement.currentContext(), info)) {
+			st.collector.disable();
 			return null;
 		}
 		Job.getJobManager().addJobChangeListener(st.collector);

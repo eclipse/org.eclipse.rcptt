@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getWriteLines()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Reads objects from input pipe and writes them into file line-by-line as strings'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Reads objects from input pipe and writes them into file line-by-line as strings' example='//writes a list of launch configuration into a file line-by-line\nlist-launch-configurations | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n// appends \"New line\" into a file. \nstr \"New line\" | write-lines -uri \"workspace:/Project/Folder/file.txt\" -append\n'"
  * @generated
  */
 public interface WriteLines extends Command {

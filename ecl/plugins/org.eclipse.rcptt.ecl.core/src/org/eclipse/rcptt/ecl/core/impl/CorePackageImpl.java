@@ -2075,7 +2075,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		  (getEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name."
+			 "description", "Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name.",
+			 "example", "//types 1 into  log\nemit \"1\" \"2\" \"3\" | to-list | get 0 | str | log\n//types Febuary into log\nmap [entry 1 January][entry 2 Febuary] | get 2 | log"
 		   });			
 		addAnnotation
 		  (getGet_Input(), 

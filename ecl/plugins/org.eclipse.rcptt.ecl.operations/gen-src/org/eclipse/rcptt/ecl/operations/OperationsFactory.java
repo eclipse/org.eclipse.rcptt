@@ -381,6 +381,15 @@ public interface OperationsFactory extends EFactory {
 	Split createSplit();
 
 	/**
+	 * Returns a new object of class '<em>Parse Time</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parse Time</em>'.
+	 * @generated
+	 */
+	ParseTime createParseTime();
+
+	/**
 	 * Returns a new object of class '<em>Binary Op</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

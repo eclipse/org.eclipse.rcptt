@@ -383,6 +383,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return models;
 	}
 
+	@Override
 	public IPluginModelBase getWeavingHook() {
 		calcModels();
 		return weavingHook;

@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDoubleClickRuler()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Double clicks ruler on given line with specified modifiers and mouse button' returns='value of control parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Double clicks ruler on given line with specified modifiers and mouse button' returns='value of control parameter' example='with [get-editor t | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {\n    double-click-ruler 1\n}'"
  * @generated
  */
 public interface DoubleClickRuler extends Command {

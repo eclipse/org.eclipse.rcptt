@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickRuler()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks a ruler at given position with specified button and modifiers' returns='value of control parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks a ruler at given position with specified button and modifiers' returns='value of control parameter' example='with [get-left-ruler | get-ruler-column AnnotationColumn] {\n        click-ruler -line 2\n    }'"
  * @generated
  */
 public interface ClickRuler extends Command {

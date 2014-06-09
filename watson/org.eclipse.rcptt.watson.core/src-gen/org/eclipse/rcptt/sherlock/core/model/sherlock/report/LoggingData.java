@@ -1,9 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.model.sherlock.report;
 
 import org.eclipse.emf.ecore.EObject;
@@ -28,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface LoggingData extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Text</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Text</em>' attribute isn't clear,
@@ -37,7 +42,7 @@ public interface LoggingData extends EObject {
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage#getLoggingData_Text()
-	 * @model
+	 * @model default=""
 	 * @generated
 	 */
 	String getText();

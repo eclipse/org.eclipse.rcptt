@@ -29,7 +29,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelectRange()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of *control* parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of *control* parameter' example='with [get-editor \"file.txt\" | get-text-viewer] {\n    select-range 1 2 5 8\n    get-menu Cut | click\n}'"
  * @generated
  */
 public interface SelectRange extends Command {

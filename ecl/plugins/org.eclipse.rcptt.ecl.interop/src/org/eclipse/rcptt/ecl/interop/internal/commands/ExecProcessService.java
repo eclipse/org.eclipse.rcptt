@@ -63,9 +63,11 @@ public class ExecProcessService implements ICommandService {
 			Executor executor = new Executor(process);
 			executor.start();
 			try {
-				if (cmd.getTimeout() > 0)
+				if (cmd.getTimeout() > 0) {
 					executor.join(cmd.getTimeout() * 1000);
-				else
+					executor.interrupt(); // To sync exitCode and output streams
+					executor.join();
+				} else
 					executor.join();
 
 				if (executor.exitCode == null)

@@ -251,6 +251,7 @@
       <details key="description" value="Gets control with defined caption or index. If this control doesn't exist, then error is returned."/>
       <details key="returns" value="link to the control"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="//writes 'Perspective id:' into log&#xA;get-editor WorkbanchContext | get-section Workbench | get-control -kind &quot;Label&quot; -index 1 | get-property text -raw| str | log"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
@@ -275,6 +276,7 @@
       <details key="description" value="Gets checkbox with defined parameter. If this checkbox doesn't exist, then error is returned."/>
       <details key="returns" value="link to the checkbox"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-editor Wb | get-section Workbench | get-checkbox -text &quot;Clear clipboard&quot; | check"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetCombo" eSuperTypes="#//Selector">
@@ -351,6 +353,7 @@
       <details key="description" value="Gets all tabs of editor. If this editor doesn't contain tabs, then error is returned."/>
       <details key="returns" value="all tabs of editor"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-editor SO | get-tab-folder | get-tab-item Documentation | click"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetTabItem" eSuperTypes="#//TextSelector">
@@ -358,6 +361,7 @@
       <details key="description" value="Gets tab of editor with defined name. If this tab doesn't exist, then error is returned."/>
       <details key="returns" value="tab"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-editor SO | get-tab-folder | get-tab-item Documentation | click"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetTable" eSuperTypes="#//Selector">
@@ -439,7 +443,7 @@
       <details key="description" value="Gets cell with defined parameter. If this cell doesn't exist, then error is returned."/>
       <details key="returns" value="cell"/>
       <details key="recorded" value="true"/>
-      <details key="example" value=""/>
+      <details key="example" value="get-editor context | get-section Parameters | get-table | get-cell -row 1 -column 1 | &#xA; get-property text -raw | str  | log"/>
       <contents xsi:type="ecore:EClass" name="GetCell" eSuperTypes="#//Selector">
         <eAnnotations source="http://www.eclipse.org/ecl/docs">
           <details key="description" value="Gets cell with defined parameter. If this cell doesn't exist, then error is returned."/>
@@ -503,7 +507,7 @@
       <details key="description" value="Gets text content of a control. If this text doesn't exist, then error is returned."/>
       <details key="returns" value="text content of a control"/>
       <details key="recorded" value="true"/>
-      <details key="example" value=""/>
+      <details key="example" value="get-editor &quot;WorkbenchContext&quot; | get-control -kind &quot;Label&quot; | get-text | equals &quot;Name:&quot; | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -518,6 +522,7 @@
       <details key="description" value="Cheks if the control is disabled or not"/>
       <details key="returns" value="true if the control is disabled or false otherwise"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-menu &quot;File/Save&quot; | is-disabled | assert-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -532,6 +537,7 @@
       <details key="description" value="Cheks if the control is disposed or not"/>
       <details key="returns" value="true if the control is disposed or false otherwise"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-editor &quot;WorkbenchContext&quot; | is-disposed | verify-false"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -691,7 +697,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Checks the control."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
-      <details key="example" value=""/>
+      <details key="example" value="with [get-editor Wb | get-section Workbench] {&#xA;    get-button &quot;Clear clipboard&quot; | check&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -705,7 +711,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Unchecks the control."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
-      <details key="example" value=""/>
+      <details key="example" value="with [get-editor Wb | get-section Workbench] {&#xA;    get-button &quot;Close all modal dialogs&quot; | uncheck&#xA;    get-button &quot;Clear clipboard&quot; | uncheck&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -771,7 +777,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Applies cell editing."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
-      <details key="example" value=""/>
+      <details key="example" value="with [get-editor context | get-section Parameters | get-table] {&#xA;    select parameter1 | activate-cell-edit -column 1&#xA;    get-editbox | set-text value&#xA;    apply-cell-edit -deactivate&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="deactivate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false"/>
@@ -780,14 +786,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Cancels cell editing."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
-      <details key="example" value=""/>
+      <details key="example" value="with [get-editor context | get-section Parameters | get-table] {&#xA;    select &quot;Add new parameter&quot; | activate-cell-edit&#xA;    get-editbox | set-text &quot;this text won't be applied&quot;&#xA;    cancel-cell-edit&#xA;   }"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DeactivateCellEdit" eSuperTypes="#//CellEdit">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Applies cell editing."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
-      <details key="example" value=""/>
+      <details key="example" value="with [get-editor context2 | get-section Parameters | get-table] {&#xA;    select parameter | activate-cell-edit -column 1&#xA;    get-editbox | set-text &quot;value&quot;&#xA;    cancel-cell-edit&#xA;    deactivate-cell-edit&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Close" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -809,6 +815,7 @@
       <details key="description" value="Emulates result returning from native dialog."/>
       <details key="returns" value="nothing"/>
     </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Must be one of followings: FILE_SELECTOR, FOLDER_SELECTOR, MESSAGE_BOX, FONT_DIALOG, COLOR"/>
@@ -826,6 +833,7 @@
       <details key="description" value="Suspend execution until Eclipse is ready."/>
       <details key="returns" value="nothing"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-menu &quot;File/Restart&quot; | click&#xA;wait-until-eclipse-is-ready&#xA;get-view &quot;Q7 Explorer&quot; | get-tree | select Project"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ShowContentAssist" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -833,6 +841,7 @@
       <details key="description" value="Shows content assist."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="with [get-editor t | get-section Script | get-text-viewer] {&#xA;    set-caret-pos 1 1&#xA;    type-text &quot;get-&quot;&#xA;    show-content-assist&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -898,24 +907,28 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag start event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-item &quot;Project/t.test&quot; | drag-start 23 5"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DragEnd" eSuperTypes="#//DragAction">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag end event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="with [get-view &quot;Project Explorer&quot; | get-tree] {&#xA;    drag-end -detail copy&#xA;    select &quot;Project/Folder/t.test&quot; | get-menu Delete | click&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DragEnter" eSuperTypes="#//DragAction">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag enter event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-item &quot;Project/t.test&quot; | drag-enter 23 11 -detail copy"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DragExit" eSuperTypes="#//DragAction">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag exit event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-item &quot;Project/t.test&quot; | drag-exit"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DragSetData" eSuperTypes="#//DragAction">
@@ -928,6 +941,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag accept event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-item &quot;Project/Folder&quot; | drag-accept 18 11 -detail copy"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DragDetect" eSuperTypes="#//DragAction">
@@ -940,12 +954,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drag over event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="with [get-view &quot;Project Explorer&quot; | get-tree] {&#xA;    select &quot;Project/t.test&quot;&#xA;    get-item &quot;Project/t.test&quot; | drag-start 23 5&#xA;    get-item &quot;Project/t.test&quot; | drag-enter 23 11 -detail copy&#xA;    get-item &quot;Project/t.test&quot; | drag-over 23 11 -detail copy&#xA;    get-item &quot;Project/q7.properties&quot; | drag-over 21 2 -detail copy&#xA;    drag-over 70 84 -detail copy&#xA;    get-item &quot;Project/file.csv&quot; | drag-over 19 0 -detail copy&#xA;    get-item &quot;Project/context2.ctx&quot; | drag-over 18 0 -detail copy&#xA;    drag-over 69 33 -detail copy&#xA;    get-item &quot;Project/Folder&quot; | drag-over 18 11 -detail copy&#xA;    get-item &quot;Project/t.test&quot; | drag-exit&#xA;    get-item &quot;Project/Folder&quot; | drag-accept 18 11 -detail copy&#xA;    drag-set-data&#xA;    get-item &quot;Project/Folder&quot; | drop 18 11 -detail copy&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Drop" eSuperTypes="#//DragAction">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates drop event."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor t | get-section Contexts | get-table | drop 111 52 -detail move"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Recognize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -1013,6 +1029,7 @@
       <details key="description" value="Returns the &quot;About&quot; menu."/>
       <details key="returns" value="About menu&#xD;&#xA;"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-about-menu | click&#xA;get-window &quot;About Q7&quot; | get-button OK | click"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetPreferencesMenu" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -1020,6 +1037,7 @@
       <details key="description" value="Returns the &quot;Preferences&quot; menu."/>
       <details key="returns" value="Preferences menu"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="get-preferences-menu | click&#xA;with [get-window Preferences] {&#xA;    get-tree | select &quot;General/Content Types&quot;&#xA;    get-button Cancel | click&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetDateTime" eSuperTypes="#//TextSelector">
@@ -1040,6 +1058,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Set value of the control."/>
       <details key="returns" value=""/>
+      <details key="example" value="get-combo -after [get-label &quot;Mouse move recording mode&quot;] | set-value Never"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1056,8 +1075,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Minimize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Minimize the tab folder."/>
+      <details key="description" value="Minimize the tab folder.&#xA;See more details about &lt;a href=&quot;http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a&quot;>How to resize a window.&lt;/a>"/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-window &quot;New Project&quot; | minimize"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1069,8 +1089,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Maximize" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Maximize the tab folder."/>
+      <details key="description" value="Maximize the tab folder.&#xA;See more details about &lt;a href=&quot;http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a&quot;>How to resize a window.&lt;/a>"/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-window &quot;New Project&quot; | maximize&#xA;&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1084,6 +1105,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Restore the tab folder."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | minimize&#xA;get-view &quot;Q7 Explorer&quot; | restore"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1097,6 +1119,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Show the list of tabs from tab folder."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-editor SO | show-tab-list "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1107,6 +1130,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Options" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowStatusDialog" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -1132,6 +1156,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Emulates result returning from native dialog."/>
       <details key="returns" value="nothing"/>
+      <details key="example" value="set-dialog-result File &quot;/Users/Ulik_MacAir/Downloads/MyLicense.license&quot;&#xA;get-menu &quot;File/Open File...&quot; | click"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -1177,6 +1202,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FromRawKey" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="meta" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
@@ -1210,12 +1236,14 @@
       <details key="description" value="Gets the text viewer. If text viewer doesn't exist, then error is returned."/>
       <details key="returns" value="text viewer"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="with [get-section Script | get-text-viewer] {&#xA;        set-caret-pos 1 20&#xA;        type-text MyText&#xA;    }"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SelectRange" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line."/>
       <details key="returns" value="value of *control* parameter"/>
+      <details key="example" value="with [get-editor &quot;file.txt&quot; | get-text-viewer] {&#xA;    select-range 1 2 5 8&#xA;    get-menu Cut | click&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1233,6 +1261,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Sets the text offset.&#xA;For specified line."/>
       <details key="returns" value="value of *control* parameter"/>
+      <details key="example" value="with [get-editor &quot;q7enterprise.license&quot; | get-text-viewer] {&#xA;    set-caret-pos 3 5&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1269,6 +1298,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Perform open declaration command in the current text position (CTRL+Left click)"/>
       <details key="returns" value="value of *control* parameter"/>
+      <details key="example" value="with [get-editor t | get-section Script | get-text-viewer] {&#xA;    &#x9;set-caret-pos 4 3&#xA;&#x9;open-declaration&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1313,6 +1343,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Clicks a ruler at given position with specified button and modifiers"/>
       <details key="returns" value="value of control parameter"/>
+      <details key="example" value="with [get-left-ruler | get-ruler-column AnnotationColumn] {&#xA;        click-ruler -line 2&#xA;    }"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1339,6 +1370,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Double clicks ruler on given line with specified modifiers and mouse button"/>
       <details key="returns" value="value of control parameter"/>
+      <details key="example" value="with [get-editor t | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {&#xA;    double-click-ruler 1&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//ControlHandler">
@@ -1391,6 +1423,7 @@
       <details key="description" value="Clicks on a link."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
       <details key="recorded" value="true"/>
+      <details key="example" value="with [get-window Preferences] {&#xA;    get-tree | select &quot;Ant/Editor&quot;&#xA;    get-link &quot;See &lt;a href=\&quot;org.eclipse.ui.preferencePages.GeneralTextEditor\&quot;>\'Text Editors\'&lt;/a> for general text editor preferences and &lt;a href=\&quot;org.eclipse.ui.preferencePages.ColorsAndFonts\&quot;>\'Colors and Fonts\'&lt;/a> to configure the font.&quot; &#xA;        | click-link &quot;org.eclipse.ui.preferencePages.GeneralTextEditor&quot;&#xA;    get-button OK | click&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
@@ -1508,6 +1541,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Gets interop object from UI control."/>
       <details key="returns" value="Interop object."/>
+      <details key="example" value="get-view &quot;Package Explorer&quot; | get-tree | get-object | my-custom-tree-command"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
@@ -1521,23 +1555,26 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Gets item list of a table, or visible items of a tree, or visible children of a tree item."/>
       <details key="returns" value="List of items."/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | get-items | foreach {get-property caption -raw | str | log}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExpandAll" eSuperTypes="#//ControlCommand">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Expands a tree item and all its children, or a whole tree."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | get-item Project | expand-all"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CollapseAll" eSuperTypes="#//ControlCommand">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Collapses a tree item and all its children, or a whole tree."/>
       <details key="returns" value="value of &lt;code>control&lt;/code> parameter"/>
+      <details key="example" value="get-view &quot;Q7 Explorer&quot; | get-tree | collapse-all"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TakeScreenshot" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Takes a screenshot and attaches it to test report."/>
+      <details key="description" value="Takes a screenshot and attaches it to test report.&#xA;Note: please make sure you enabled &quot;Include 'trace' and 'take-screenshot' in HTML report&quot; option (Q7 Advanced options/Reporting). "/>
       <details key="returns" value="Nothing."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
@@ -1561,6 +1598,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>Clicks on editbox to set cursor position (when only &lt;code>start&lt;/code> argument specified) or text selection (when both &lt;code>start&lt;/code> and &lt;code>end&lt;/code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:&lt;/p>&#xD;&#xA;&lt;ol>&#xD;&#xA;  &lt;li>Sets focus to editbox if not yet focused&lt;/li>&#xD;&#xA;  &lt;li>Sends mouse down and up events&lt;/li>&#xD;&#xA;  &lt;li>Sets caret position or text selection based on arguments&lt;/li>&#xD;&#xA;&lt;/ol>&#xD;&#xA;&lt;p>&#xD;&#xA;  &lt;code>start&lt;/code> and &lt;code>end&lt;/code> arguments have different forms depending on editbox kind:&#xD;&#xA;  &lt;ul>&#xD;&#xA;    &lt;li>For single line editboxes &amp;ndash; 1-based indices in text (e.g. &lt;code>1&lt;/code>, &lt;code>5&lt;/code>)&lt;/li>&#xD;&#xA;    &lt;li>For multi line editboxes &amp;ndash; 1-based line and colum indices separated by colon (e.g &lt;code>1:32&lt;/code>, &lt;code>30:1&lt;/code>).&lt;/li>&#xD;&#xA;  &lt;/ul>&#xD;&#xA;&lt;/p>"/>
       <details key="returns" value="input item"/>
+      <details key="example" value="with [get-editbox -after [get-label &quot;Location:&quot;]] {&#xA;        click-text 3&#xA;    }"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
         defaultValueLiteral="">
@@ -1619,12 +1657,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Gets the tab of the Properties View."/>
       <details key="returns" value="The tab of the Properties View."/>
+      <details key="example" value="with [get-view Properties] {&#xA;    get-property-tab Description | click&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ShowAlert" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Displays a message."/>
       <details key="returns" value="Nothing."/>
+      <details key="example" value="show-alert &quot;Hello!&quot;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -1637,6 +1677,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>Double-clicks on editbox to set cursor position and/or selection. More verbosely, it does the following:&lt;/p>&#xD;&#xA;&lt;ol>&#xD;&#xA;  &lt;li>Sets focus to editbox if not yet focused&lt;/li>&#xD;&#xA;  &lt;li>Sends double-click event&lt;/li>&#xD;&#xA;&lt;/ol>&#xD;&#xA;&lt;p>&#xD;&#xA;  &lt;code>position&lt;/code> argument have different form depending on editbox kind:&#xD;&#xA;  &lt;ul>&#xD;&#xA;    &lt;li>For single line editboxes &amp;ndash; 1-based indices in text (e.g. &lt;code>1&lt;/code>, &lt;code>5&lt;/code>)&lt;/li>&#xD;&#xA;    &lt;li>For multi line editboxes &amp;ndash; 1-based line and colum indices separated by colon (e.g &lt;code>1:32&lt;/code>, &lt;code>30:1&lt;/code>).&lt;/li>&#xD;&#xA;  &lt;/ul>&#xD;&#xA;&lt;/p>"/>
       <details key="returns" value="input item"/>
+      <details key="example" value="with [get-editbox -after [get-label &quot;Project name:&quot;]] {&#xA;        set-text Project1&#xA;        double-click-text 9 1&#xA;    }"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
@@ -1675,6 +1716,17 @@
       <details key="recorded" value="true"/>
       <details key="example" value="get-view &quot;Q7 Testing&quot; | get-section &quot;CellEdit Tree Test&quot; | get-tree | get-editbox | set-focus"/>
     </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decrypt" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Decrypts an encrypted string"/>
+      <details key="returns" value="Decrypted string"/>
+      <details key="recorded" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecryptResult">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
       nsPrefix="org.eclipse.ecl.tesla.diagram">

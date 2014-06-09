@@ -155,6 +155,11 @@ public final class SWTUIPlayer {
 	private Shell[] ignoredShells;
 	private final List<File> screenshotsDuringSession = null;
 	private final SWTEvents events;
+	private volatile Throwable error = null;
+
+	public Throwable getError() {
+		return error;
+	}
 
 	private static SWTKeyboard keyboard = new SWTKeyboard();
 
@@ -274,11 +279,7 @@ public final class SWTUIPlayer {
 					Group.class);
 			break;
 		case Expandable:
-			try {
-				result = EclipseFormsSupport.searchExpandable(this, filter);
-			} catch (Throwable e) {
-				TeslaCore.log(e);
-			}
+			result = EclipseFormsSupport.searchExpandable(this, filter);
 			break;
 		case Text:
 			result = selectWidget(filter, Text.class, StyledText.class,
@@ -314,11 +315,7 @@ public final class SWTUIPlayer {
 					Label.class, CLabel.class);
 			break;
 		case Link:
-			try {
-				result = EclipseFormsSupport.searchLink(this, filter);
-			} catch (Throwable e) {
-				TeslaCore.log(e);
-			}
+			result = EclipseFormsSupport.searchLink(this, filter);
 			break;
 		case TabItem:
 			result = selectWidget(filter,
@@ -335,11 +332,7 @@ public final class SWTUIPlayer {
 			result = selectEditor(filter);
 			break;
 		case FormText:
-			try {
-				result = EclipseFormsSupport.searchFormText(this, filter);
-			} catch (Throwable e) {
-				TeslaCore.log(e);
-			}
+			result = EclipseFormsSupport.searchFormText(this, filter);
 			break;
 		case Any:
 			result = selectWidget(filter.withoutKind());
@@ -929,10 +922,16 @@ public final class SWTUIPlayer {
 
 	private static final Point LEGACY_CLICK_POINT = new Point(0, 0);
 
-	private static Point getClickPoint(SWTUIElement w) {
-		switch (w.getKind().kind) {
+	private static Point getMiddleClickPoint(Control w) {
+		Point size = w.getSize();
+		return new Point(size.x/2, size.y/2);
+	}
+	
+	private static Point getClickPoint(SWTUIElement element) {
+		Widget widget = unwrapWidget(element);
+		switch (element.getKind().kind) {
 		case Tree:
-			Tree tree = (Tree) unwrapWidget(w);
+			Tree tree = (Tree) widget;
 			TreeItem[] selection = tree.getSelection();
 			if (selection.length < 1)
 				return LEGACY_CLICK_POINT;
@@ -943,6 +942,8 @@ public final class SWTUIPlayer {
 				return LEGACY_CLICK_POINT;
 			return point;
 		default:
+			if (widget instanceof Control)
+				return getMiddleClickPoint((Control)widget);
 			return LEGACY_CLICK_POINT;
 		}
 	}
@@ -1276,13 +1277,9 @@ public final class SWTUIPlayer {
 		if (s instanceof IWorkbenchPartReference) {
 			return new WorkbenchUIElement((IWorkbenchPartReference) s, this);
 		}
-		try {
-			SWTUIElement o = EclipseFormsSupport.wrapSegment(this, s);
-			if (o != null) {
-				return o;
-			}
-		} catch (Throwable e) {
-			TeslaCore.log(e);
+		SWTUIElement o = EclipseFormsSupport.wrapSegment(this, s);
+		if (o != null) {
+			return o;
 		}
 		if (s instanceof Widget) {
 			return new SWTUIElement((Widget) s, this);
@@ -1605,19 +1602,15 @@ public final class SWTUIPlayer {
 	}
 
 	public void show(SWTUIElement uiElement, int x, int y) {
-		try {
-			Point pos = new Point(x, y);
-			if (pos.x == -1 && pos.y == -1) {
-				pos = getMousePos(unwrapWidget(uiElement));
-			}
-			events.sendEvent(uiElement, SWT.Show, pos.x, pos.y, 0);
+		Point pos = new Point(x, y);
+		if (pos.x == -1 && pos.y == -1) {
+			pos = getMousePos(unwrapWidget(uiElement));
+		}
+		events.sendEvent(uiElement, SWT.Show, pos.x, pos.y, 0);
 
-			Menu menu = (Menu) uiElement.unwrap();
-			if ((menu.getStyle() & SWT.BAR) == 0) { // Not a menu bar
-				shownMenus.add(new WeakReference<Menu>(menu));
-			}
-		} catch (Throwable e) {
-			TeslaCore.log(e);
+		Menu menu = (Menu) uiElement.unwrap();
+		if ((menu.getStyle() & SWT.BAR) == 0) { // Not a menu bar
+			shownMenus.add(new WeakReference<Menu>(menu));
 		}
 	}
 
@@ -1658,11 +1651,7 @@ public final class SWTUIPlayer {
 		elementKinds.put(IEditorReference.class, ElementKind.Editor);
 		elementKinds.put(DateTime.class, ElementKind.DateTime);
 		elementKinds.put(Slider.class, ElementKind.Slider);
-		try {
-			EclipseFormsSupport.addKinds(elementKinds);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
+		EclipseFormsSupport.addKinds(elementKinds);
 		elementKinds.put(Link.class, ElementKind.Link);
 		elementKinds.put(Shell.class, ElementKind.Window);
 		elementKinds.put(TreeItem.class, ElementKind.Item);
@@ -1693,13 +1682,9 @@ public final class SWTUIPlayer {
 	public static Class<?> getSearchableClass(Object w) {
 		ElementKind kind = elementKinds.get(w.getClass());
 		if (kind == null) {
-			try {
-				Class<?> result = EclipseFormsSupport.getSearchableClass(w);
-				if (result != null) {
-					return result;
-				}
-			} catch (Throwable e) {
-				TeslaCore.log(e);
+			Class<?> result = EclipseFormsSupport.getSearchableClass(w);
+			if (result != null) {
+				return result;
 			}
 			// Check all items
 			for (Map.Entry<Class<?>, ElementKind> entry : elementKinds
@@ -1726,13 +1711,9 @@ public final class SWTUIPlayer {
 
 		ElementKind kind = elementKinds.get(w.getClass());
 		if (kind == null) {
-			try {
-				ElementKind result = EclipseFormsSupport.getKind(w);
-				if (result != null) {
-					return new GenericElementKind(result);
-				}
-			} catch (Throwable e) {
-				TeslaCore.log(e);
+			ElementKind result = EclipseFormsSupport.getKind(w);
+			if (result != null) {
+				return new GenericElementKind(result);
 			}
 			for (Map.Entry<Class<?>, ElementKind> entry : elementKinds.entrySet()) {
 				Class<?> key = entry.getKey();
@@ -2321,14 +2302,12 @@ public final class SWTUIPlayer {
 		exec("save", new Runnable() {
 
 			public void run() {
-				switch (w.getKind().kind) {
-				case Editor:
+				if (w.getKind().kind == ElementKind.Editor) {
 					IEditorReference editor = (IEditorReference) (((WorkbenchUIElement) w).reference);
 					IEditorPart editorPart = editor.getEditor(false);
 					if (editorPart != null) {
 						editorPart.doSave(new NullProgressMonitor());
 					}
-					break;
 				}
 
 			}
@@ -2337,8 +2316,7 @@ public final class SWTUIPlayer {
 	}
 
 	public boolean isDirty(final SWTUIElement w) {
-		switch (w.getKind().kind) {
-		case Editor:
+		if (w.getKind().kind == ElementKind.Editor) {
 			IEditorReference editor = (IEditorReference) (((WorkbenchUIElement) w).reference);
 			return editor.isDirty();
 		}
@@ -2515,7 +2493,6 @@ public final class SWTUIPlayer {
 				try {
 					canvas.removeDisposeListener(this);
 				} catch (Throwable e2) {
-					// SWTAspectActivator.log(e2);
 				}
 			}
 		});
@@ -2580,13 +2557,9 @@ public final class SWTUIPlayer {
 			// update
 			StyledText t = (StyledText) widget;
 			int topPixel = t.getTopPixel();
-			try {
-				Viewer viewer = TeslaSWTAccess.getViewer(t);
-				if (viewer != null) {
-					JFaceTextSupport.setLastPixels(viewer, topPixel);
-				}
-			} catch (Throwable e) {
-				TeslaCore.log(e);
+			Viewer viewer = TeslaSWTAccess.getViewer(t);
+			if (viewer != null) {
+				JFaceTextSupport.setLastPixels(viewer, topPixel);
 			}
 		}
 	}
@@ -2811,6 +2784,8 @@ public final class SWTUIPlayer {
 				// Wait for all jobs
 				display.wake();
 			} catch (Throwable t) {
+				if (error != null)
+					error = t;
 				TeslaCore.log(new TeslaExecutionFailedException(
 						errorMethod, t));
 			} finally {
@@ -2876,5 +2851,12 @@ public final class SWTUIPlayer {
 			}
 		});
 		return result[0];
+	}
+	
+	public void clean() {
+		getCollector().clean();
+		getBrowserManager().clear();
+		cleanMenus(null);
+		error = null;
 	}
 }

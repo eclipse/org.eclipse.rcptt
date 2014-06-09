@@ -10,19 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.tesla.ecl.model.TakeScreenshot;
 import org.eclipse.rcptt.tesla.internal.ui.player.ReportScreenshotProvider;
+import org.eclipse.ui.PlatformUI;
 
 public class TakeScreenshotService implements ICommandService {
 
@@ -30,17 +26,9 @@ public class TakeScreenshotService implements ICommandService {
 			throws InterruptedException, CoreException {
 		TakeScreenshot cmd = (TakeScreenshot) command;
 
-		List<Snaphot> snaphot = ReportScreenshotProvider.takeScreenshot(
+		ReportScreenshotProvider.takeScreenshot(
 				PlatformUI.getWorkbench().getDisplay(), true,
-				"user take snapshot:" + System.currentTimeMillis());
-		if (snaphot != null) {
-			for (Snaphot shot : snaphot) {
-				org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot sc = (org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot) shot
-						.getData();
-				sc.setMessage(cmd.getMessage());
-			}
-		}
-
+				"user take snapshot:" + System.currentTimeMillis()+": " + cmd.getMessage());
 		return Status.OK_STATUS;
 	}
 

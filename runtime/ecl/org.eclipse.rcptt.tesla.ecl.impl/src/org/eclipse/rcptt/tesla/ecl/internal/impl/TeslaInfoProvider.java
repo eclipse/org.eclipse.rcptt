@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.internal.impl;
 
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -20,16 +20,12 @@ public class TeslaInfoProvider extends AbstractEventProvider {
 	public TeslaInfoProvider() {
 	}
 
+	@Override
 	public void storeSnapshot(IReportBuilder builder, String type) {
 		AdvancedInformation info = TeslaBridge.getLastInfo();
 		if (info != null && builder != null) {
-			Snaphot snapshot = builder.createSnapshot();
-			snapshot.setData(info);
+			ReportHelper.addSnapshotWithData(builder.getCurrent(), info);
 		}
-//		if (builder != null) {
-//			ReportScreenshotProvider.takeScreenshot(PlatformUI.getWorkbench()
-//					.getDisplay());
-//		}
 	}
 
 	@Override

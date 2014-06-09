@@ -13,6 +13,8 @@ package org.eclipse.rcptt.sherlock.core.reporting;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
+
 public abstract class AbstractEventProvider implements IEventProvider {
 
 	private List<IReportBuilder> listeners = new ArrayList<IReportBuilder>();
@@ -49,6 +51,12 @@ public abstract class AbstractEventProvider implements IEventProvider {
 					.toArray(new IReportBuilder[listeners.size()]);
 		}
 		return result;
+	}
+	
+	protected void logEvent(Event event) {
+		for (IReportBuilder builder: getListeners()) {
+			builder.getCurrent().createEvent(event);
+		}
 	}
 
 }

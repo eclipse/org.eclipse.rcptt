@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetAboutMenu()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns the \"About\" menu.' returns='About menu\r\n' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns the \"About\" menu.' returns='About menu\r\n' recorded='true' example='get-about-menu | click\nget-window \"About Q7\" | get-button OK | click'"
  * @generated
  */
 public interface GetAboutMenu extends Command {

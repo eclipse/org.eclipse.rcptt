@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetObject()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets interop object from UI control.' returns='Interop object.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets interop object from UI control.' returns='Interop object.' example='get-view \"Package Explorer\" | get-tree | get-object | my-custom-tree-command'"
  * @generated
  */
 public interface GetObject extends Command {

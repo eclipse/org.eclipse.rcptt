@@ -11,12 +11,8 @@
 package org.eclipse.rcptt.sherlock.core.reporting;
 
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 
 public interface IReportBuilder {
 
@@ -25,38 +21,19 @@ public interface IReportBuilder {
 	 */
 	public EventSource registerEventSource(String name);
 
-	/**
-	 * Create new event in current structure model
-	 */
-	public Event createEvent();
 
-	/**
-	 * Return current report. Direct operations are not thread safe.
-	 */
-	public Report getReport();
+//	/**
+//	 * Return current report. Direct operations are not thread safe.
+//	 */
+//	public Report getReport();
 
-	/**
-	 * Add subnode to current one and make it active.
-	 */
-	public Node beginTask(String name);
 	
-	/**
-	 * Works with current node. Proper synchronizations are applied.
-	 * @param procedure
-	 */
-	public void withCurrentNode(Procedure1<Node> procedure);
+//	/**
+//	 * Works with current node. Proper synchronizations are applied.
+//	 * @param procedure
+//	 */
+//	public void withCurrentNode(Procedure1<Node> procedure);
 
-	/**
-	 * End current task and go level up
-	 */
-	public void endTask();
-
-	/**
-	 * Create snaphot instance and add it to current node.
-	 * 
-	 * @return
-	 */
-	public Snaphot createSnapshot();
 
 	/**
 	 * Store snapshot using following event provider. 'id' used for prefix
@@ -71,4 +48,10 @@ public interface IReportBuilder {
 	public void takeSnapshot(String type, String... id);
 
 	public EventSource findSource(String attr, EObject info);
+
+
+	/**
+	 * Works with current node. Proper synchronizations are applied.
+	 */
+	INodeBuilder getCurrent();
 }

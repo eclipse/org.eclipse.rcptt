@@ -17,7 +17,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
-
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.IQ7ElementDelta;
@@ -353,12 +352,12 @@ public class Q7ElementDelta extends SimpleDelta implements IQ7ElementDelta {
 	 * is not a descendant of the root of this tree, <code>null</code> is
 	 * returned.
 	 */
-	private ArrayList getAncestors(IQ7Element element) {
+	private ArrayList<IQ7Element> getAncestors(IQ7Element element) {
 		IQ7Element parent = element.getParent();
 		if (parent == null) {
 			return null;
 		}
-		ArrayList parents = new ArrayList();
+		ArrayList<IQ7Element> parents = new ArrayList<IQ7Element>();
 		while (!parent.equals(this.changedElement)) {
 			parents.add(parent);
 			parent = parent.getParent();
@@ -560,7 +559,7 @@ public class Q7ElementDelta extends SimpleDelta implements IQ7ElementDelta {
 		if (length == 0) {
 			return new IQ7ElementDelta[] {};
 		}
-		ArrayList children = new ArrayList(length);
+		ArrayList<IQ7ElementDelta> children = new ArrayList<IQ7ElementDelta>(length);
 		for (int i = 0; i < length; i++) {
 			if (affectedChildren[i].getKind() == type) {
 				children.add(affectedChildren[i]);

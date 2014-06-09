@@ -434,4 +434,18 @@
          version="1.5.0.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.rcptt.launching.multiaut.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.launching.multiaut"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

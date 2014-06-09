@@ -27,16 +27,8 @@ import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 import org.eclipse.rcptt.ecl.parser.EclCoreParser;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.util.Base64;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -61,6 +53,10 @@ import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.rcptt.tesla.swt.events.ITeslaEventListener;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager.HasEventKind;
+import org.eclipse.rcptt.util.Base64;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.PlatformUI;
 
 public class TeslaBridge {
 	private static TeslaQPlayer player;
@@ -126,22 +122,7 @@ public class TeslaBridge {
 	}
 
 	public static Q7WaitInfoRoot getCurrentWaitInfo(final boolean tick) {
-		final Q7WaitInfoRoot[] rv = new Q7WaitInfoRoot[1];
-		ReportBuilder builder = ReportManager.getBuilder();
-		if (builder != null) {
-			builder.withCurrentNode(new Procedure1<Node>() {
-				
-				@Override
-				public void apply(Node node) {
-					Q7WaitInfoRoot info = ReportHelper.getWaitInfo(node, true);
-					if (info != null && tick) {
-						info.setTick(info.getTick() + 1);
-					}
-					rv[0] = info;
-				}
-			});
-		}
-		return rv[0];
+		return ReportHelper.getWaitInfo(ReportManager.getCurrentReportNode());
 	}
 
 	public static void waitDelay() throws CoreException {

@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getAssertEmpty()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Asserts that input pipe doesn\'t contain anything' returns='Nothing'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Asserts that input pipe doesn\'t contain anything' returns='Nothing' example='find-in-workspace -path \"Project/nonexisting.file\" | assert-empty'"
  * @generated
  */
 public interface AssertEmpty extends Command {

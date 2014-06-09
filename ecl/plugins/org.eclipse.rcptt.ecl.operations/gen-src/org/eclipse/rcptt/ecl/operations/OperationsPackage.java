@@ -2206,6 +2206,52 @@ public interface OperationsPackage extends EPackage {
 	int SPLIT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.operations.impl.ParseTimeImpl <em>Parse Time</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.operations.impl.ParseTimeImpl
+	 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getParseTime()
+	 * @generated
+	 */
+	int PARSE_TIME = 41;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TIME__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TIME__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TIME__FORMAT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Parse Time</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TIME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3134,6 +3180,27 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getSplit_OmitEmptyStrings();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.ParseTime <em>Parse Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parse Time</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ParseTime
+	 * @generated
+	 */
+	EClass getParseTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getFormat <em>Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ParseTime#getFormat()
+	 * @see #getParseTime()
+	 * @generated
+	 */
+	EAttribute getParseTime_Format();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.BinaryOp <em>Binary Op</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3970,6 +4037,24 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SPLIT__OMIT_EMPTY_STRINGS = eINSTANCE.getSplit_OmitEmptyStrings();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.ParseTimeImpl <em>Parse Time</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.operations.impl.ParseTimeImpl
+		 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getParseTime()
+		 * @generated
+		 */
+		EClass PARSE_TIME = eINSTANCE.getParseTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARSE_TIME__FORMAT = eINSTANCE.getParseTime_Format();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.BinaryOpImpl <em>Binary Op</em>}' class.

@@ -13,30 +13,27 @@ package org.eclipse.rcptt.core.internal.ecl.core.commands;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.core.ContextTypeManager;
+import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
+import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.rcptt.core.ContextTypeManager;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.internal.core.TeslaProcessorManager;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
+import org.eclipse.swt.widgets.Display;
 
 public class EnterContextService implements ICommandService {
 
@@ -44,18 +41,14 @@ public class EnterContextService implements ICommandService {
 			throws InterruptedException, CoreException {
 		EnterContext ewc = (EnterContext) command;
 		Context data = ewc.getData();
-		ReportBuilder builder = ReportManager.getBuilder();
-		Node nde = null;
-		Q7Info info = null;
-		if (builder != null) {
-			nde = builder.beginTask(data.getName() == null ? "Unnamed ctx"
-					: data.getName());
-			info = ReportHelper.getInfo(nde);
-			info.setType(ItemKind.CONTEXT);
-			info.setId(data.getId());
-			info.setTags(data.getTags());
-			info.setSubtype(data.getId());
-		}
+		final INodeBuilder nde = ReportManager.getCurrentReportNode().beginTask(data.getName() == null ? "Unnamed ctx"
+				: data.getName());
+		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+		info.setType(ItemKind.CONTEXT);
+		info.setId(data.getId());
+		info.setTags(data.getTags());
+		info.setSubtype(data.getId());
+		ReportHelper.setInfo(nde, info);
 		try {
 			ContextTypeManager.getInstance().apply(data, context.getSession());
 			if (nde != null) {
@@ -74,10 +67,10 @@ public class EnterContextService implements ICommandService {
 						.getStatus();
 				if (sest.getCause() instanceof TeslaErrorStatus) {
 					TeslaErrorStatus tes = (TeslaErrorStatus) sest.getCause();
+					
 					AdvancedInformation advancedInfo = tes.getInfo();
 					if (advancedInfo != null) {
-						Snaphot shot = builder.createSnapshot();
-						shot.setData(EcoreUtil.copy(advancedInfo));
+						ReportHelper.addSnapshotWithData(nde, advancedInfo);
 						processed = true;
 					}
 				}
@@ -110,10 +103,7 @@ public class EnterContextService implements ICommandService {
 					// ignore
 				}
 				GeneralInformationCollector.collectInformation(information);
-				if (builder != null) {
-					Snaphot shot = builder.createSnapshot();
-					shot.setData(information);
-				}
+				ReportHelper.addSnapshotWithData(nde, information);
 			}
 			if (e instanceof CoreException) {
 				throw (CoreException) e;
@@ -124,9 +114,7 @@ public class EnterContextService implements ICommandService {
 			}
 
 		} finally {
-			if (builder != null) {
-				builder.endTask();
-			}
+			nde.endTask();
 		}
 		return Status.OK_STATUS;
 	}

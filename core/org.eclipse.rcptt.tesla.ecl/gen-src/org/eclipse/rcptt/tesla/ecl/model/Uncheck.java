@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getUncheck()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Unchecks the control.' returns='value of <code>control</code> parameter' example=''"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Unchecks the control.' returns='value of <code>control</code> parameter' example='with [get-editor Wb | get-section Workbench] {\n    get-button \"Close all modal dialogs\" | uncheck\n    get-button \"Clear clipboard\" | uncheck\n}'"
  * @generated
  */
 public interface Uncheck extends Command {

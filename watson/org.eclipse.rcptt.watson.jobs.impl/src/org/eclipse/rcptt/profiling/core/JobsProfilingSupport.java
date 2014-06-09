@@ -19,11 +19,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.sherlock.aspects.jobs.internal.IJobsEventListener;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventKind;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.sherlock.jobs.jobs.JobEventInfo;
 import org.eclipse.rcptt.sherlock.jobs.jobs.JobEventKind;
@@ -123,7 +123,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 			}
 			getSources(builder).put(job, source);
 
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(source);
 			event.setKind(EventKind.BEGIN);
 			event.setColor(JOBS_WAITING_COLOR);
@@ -133,6 +133,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 			eventInfo.setKind(JobEventKind.SHEDULED);
 			eventInfo.setId(JobsEventProvider.getID(job));
 			currentStates.put(job, JobEventKind.SHEDULED);
+			builder.getCurrent().createEvent(event);
 		}
 	}
 
@@ -165,7 +166,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 						.createJobEventInfo();
 				eventInfo.setId(JobsEventProvider.getID(job));
 
-				Event event = builder.createEvent();
+				Event event = ReportFactory.eINSTANCE.createEvent();
 				event.setSource(getSources(builder).get(job));
 				event.setData(eventInfo);
 				event.setKind(EventKind.BEGIN);
@@ -182,6 +183,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 					eventInfo.setKind(JobEventKind.WAITING);
 					event.setColor(JOBS_WAITING_COLOR);
 				}
+				builder.getCurrent().createEvent(event);
 				currentStates.put(job, eventInfo.getKind());
 			}
 		}
@@ -193,7 +195,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 			if (getSources(builder).get(job) == null) {
 				return;
 			}
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(getSources(builder).get(job));
 			JobEventInfo eventInfo = JobsFactory.eINSTANCE.createJobEventInfo();
 			eventInfo.setId(JobsEventProvider.getID(job));
@@ -207,6 +209,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 				currentStates.remove(job);
 				getSources(builder).remove(job);
 			}
+			builder.getCurrent().createEvent(event);
 		}
 	}
 
@@ -242,7 +245,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 			if (getSources(builder).get(job) == null) {
 				return;
 			}
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(getSources(builder).get(job));
 			JobEventInfo eventInfo = JobsFactory.eINSTANCE.createJobEventInfo();
 			event.setData(eventInfo);
@@ -250,6 +253,7 @@ public class JobsProfilingSupport implements IJobsEventListener,
 			eventInfo.setId(JobsEventProvider.getID(job));
 			event.setKind(EventKind.END);
 			currentStates.remove(job);
+			builder.getCurrent().createEvent(event);
 		}
 	}
 

@@ -14,6 +14,7 @@
     <module>org.eclipse.rcptt.launching.p2utils</module>
     <module>org.eclipse.rcptt.reporting.util</module>
     <module>org.eclipse.rcptt.launching.common</module>
+    <module>org.eclipse.rcptt.launching.multiaut</module>
     <module>org.eclipse.rcptt.launching.remote</module>
   </modules>
   <groupId>org.eclipse.rcptt</groupId>

@@ -32,9 +32,10 @@ Entry-Name: .content
 
 get-view "Q7 Explorer" | get-tree | select "MyProject/Test_SuperWb" | double-click
 get-editor "Test_SuperWb" | get-button Replay | click
-wait 9000
 with [get-view "Execution View"] {
-    get-label "4/4" | get-property caption | equals "4/4" | verify-true
+    try -delay 1000 -times 14 {    
+    	get-label "4/4"
+    }
     get-label 2 | get-property caption | equals 2 | verify-true
     get-tree | get-property itemCount | equals 4 | verify-true
 }

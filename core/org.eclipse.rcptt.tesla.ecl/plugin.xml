@@ -11,6 +11,14 @@
             class="org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage"
             genModel="model/tesla.genmodel"/>
    </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tesla -->
+      <package
+            uri="http://eclipse.org/rcptt/tesla/ecl/diagram"
+            class="org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage"
+            genModel="model/tesla.genmodel"/>
+   </extension>
     <extension
           point="org.eclipse.rcptt.ecl.core.emfConverters">
        <serializer

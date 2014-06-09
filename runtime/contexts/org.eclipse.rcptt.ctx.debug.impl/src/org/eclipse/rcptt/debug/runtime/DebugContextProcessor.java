@@ -265,13 +265,17 @@ public class DebugContextProcessor implements IContextProcessor {
 					return null;
 				}
 			});
-			collector.join(TeslaLimits.getContextJoinTimeout());
+			try {
+				collector.join(TeslaLimits.getContextJoinTimeout());
+			} catch (InterruptedException e) {
+				return;
+			}
 			ContextHelper helper = new ContextHelper();
 			helper.setFrom(context);
 			helper.applyLaunches(context.getLaunches());
 		} finally {
+			Job.getJobManager().removeJobChangeListener(collector);
 		}
-		Job.getJobManager().removeJobChangeListener(collector);
 	}
 
 	private void applyLaunchConfigurations(EList<LaunchType> launchTypes)

@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetPreferencesMenu()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns the \"Preferences\" menu.' returns='Preferences menu' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns the \"Preferences\" menu.' returns='Preferences menu' recorded='true' example='get-preferences-menu | click\nwith [get-window Preferences] {\n    get-tree | select \"General/Content Types\"\n    get-button Cancel | click\n}'"
  * @generated
  */
 public interface GetPreferencesMenu extends Command {

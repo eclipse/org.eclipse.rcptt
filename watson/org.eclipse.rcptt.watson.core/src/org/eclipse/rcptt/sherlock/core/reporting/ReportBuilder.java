@@ -10,16 +10,21 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting;
 
+import java.util.Map;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingData;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportBuilderStore;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 
@@ -27,15 +32,122 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
  * Build a complex report.
  */
 public class ReportBuilder implements IReportBuilder {
-	private Report report;
-	private Node currentNode;
+	private final Report report;
+	private NodeBuilder currentNode;
+	
+	//Provides synchronized access to report nodes
+	private class NodeBuilder implements INodeBuilder {
+		private final Node node;
+		private NodeBuilder parent;
+		private NodeBuilder(NodeBuilder parent, Node node){
+			this.parent = parent;
+			this.node = node;
+		}
+		/**
+		 * Will add new node to current one and go one level down.
+		 */
+		@Override
+		public INodeBuilder beginTask(String name) {
+			Node child = ReportFactory.eINSTANCE.createNode();
+			child.setName(name);
+			child.setStartTime(getTime());
+			synchronized (report) {
+				node.getChildren().add(child);
+			}
+			return new NodeBuilder(this, child);
+		}
+		
+		/**
+		 * Will go one level up.
+		 */
+		@Override
+		public void endTask() {
+			synchronized (report) {
+				node.setEndTime(getTime());
+				if (parent != null) {
+					currentNode = parent;
+				}
+			}
+		}
+		
+		@Override
+		public void createEvent(Event event) {
+			synchronized (report) {
+				Event copy = EcoreUtil.copy(event);
+				copy.setTime(getTime());
+				node.getEvents().add(copy);
+			}
+		}
+		
+		
+		/*
+		 * Add or append existing log entry into current node.
+		 */
+		@Override
+		public void appendLog(LoggingCategory category, String text) {
+			String log_key = getLogCategoryKey(category);
+			synchronized (report) {
+				EMap<String, EObject> properties = node.getProperties();
+				LoggingData data = (LoggingData) properties.get(log_key);
+				if (data == null)
+					properties.put(log_key, data = ReportFactory.eINSTANCE.createLoggingData());
+				StringBuilder sb = new StringBuilder(data.getText());
+				sb.append(text);
+				sb.append("\n");
+				data.setText(sb.toString());
+			}
+		}
+		
+		@Override
+		public void setProperty(String key, EObject value) {
+			EObject copy = EcoreUtil.copy(value);
+			synchronized (report) {
+				if (node.getProperties().containsKey(key))
+					throw new IllegalStateException("Property " + key+ " is already set for node" + node.getName());
+				node.getProperties().put(key, copy);
+			}
+		}
 
-	public ReportBuilder() {
-		report = ReportFactory.eINSTANCE.createReport();
-		currentNode = ReportFactory.eINSTANCE.createNode();
-		report.setRoot(currentNode);
-		currentNode.setName("root");
-		currentNode.setStartTime(getTime());
+		
+		@Override
+		public void addSnapshot(Snaphot snapshot) {
+			Snaphot copy = EcoreUtil.copy(snapshot);
+			copy.setTime(getTime());
+			synchronized (report) {
+				node.getSnapshots().add(copy);
+			}
+		}
+		
+		@Override
+		public void update(Procedure1<Node> runnable) {
+			synchronized (report) {
+				runnable.apply(node);
+			}
+		}
+	}
+
+	static private Report createReport() {
+		Report report = ReportFactory.eINSTANCE.createReport();
+		Node root = ReportFactory.eINSTANCE.createNode();
+		report.setRoot(root);
+		root.setName("root");
+		root.setStartTime(getTime());
+		return report;
+	}
+	
+	private ReportBuilder(Report report, Node currentNode) {
+		this.report = report;
+		this.currentNode = new NodeBuilder(null, currentNode);
+		if (report.getRoot() == null) 
+			throw new NullPointerException();
+		if (currentNode == null)
+			throw new NullPointerException();
+		Node root = currentNode;
+		
+		while (root.getParent() != null)
+			root = root.getParent();
+		if (root != report.getRoot())
+			throw new IllegalArgumentException();
 	}
 
 	public EventSource registerEventSource(String name) {
@@ -47,34 +159,20 @@ public class ReportBuilder implements IReportBuilder {
 		return source;
 	}
 
-	/**
-	 * Will add new node to current one and go one level down.
-	 */
 
-	public Node beginTask(String name) {
-		Node nde = ReportFactory.eINSTANCE.createNode();
-		nde.setName(name);
-		nde.setStartTime(getTime());
-		synchronized (report) {
-			currentNode.getChildren().add(nde);
-			currentNode = nde;
-		}
-		return nde;
-	}
-
-	@Override
-	public void withCurrentNode(Procedure1<Node> procedure) {
-		synchronized (report) {
-			procedure.apply(currentNode);
-		}
-	}
+//	@Override
+//	public void withCurrentNode(Procedure1<Node> procedure) {
+//		synchronized (report) {
+//			procedure.apply(currentNode);
+//		}
+//	}
 	
-	public Report getReport() {
-		synchronized (report) {
-			report.getRoot().setEndTime(getTime());
-		}
-		return report;
-	}
+//	 Report getReport() {
+//		synchronized (report) {
+//			report.getRoot().setEndTime(getTime());
+//		}
+//		return report;
+//	}
 
 	public Report getReportCopy() {
 		synchronized (report) {
@@ -85,47 +183,16 @@ public class ReportBuilder implements IReportBuilder {
 		}
 	}
 
-	/**
-	 * Will go one level up.
-	 */
-
-	public void endTask() {
-		synchronized (report) {
-			currentNode.setEndTime(getTime());
-			if (!report.getRoot().equals(currentNode)) {
-				currentNode = currentNode.getParent();
-			}
-		}
+	@Override
+	public INodeBuilder getCurrent() {
+		return currentNode;
 	}
 
-	public long getTime() {
+	public static long getTime() {
 		return System.currentTimeMillis();
 	}
 
-	public Event createEvent() {
-		synchronized (report) {
-			return createEvent(currentNode);
-		}
-	}
-
-	public Event createEvent(Node node) {
-		Event event = ReportFactory.eINSTANCE.createEvent();
-		event.setTime(getTime());
-		synchronized (report) {
-			node.getEvents().add(event);
-		}
-		return event;
-	}
-
-	public Snaphot createSnapshot() {
-		Snaphot snapshot = ReportFactory.eINSTANCE.createSnaphot();
-		snapshot.setTime(getTime());
-		synchronized (report) {
-			currentNode.getSnapshots().add(snapshot);
-		}
-		return snapshot;
-	}
-
+	@Override
 	public void takeSnapshot(String type, String... id) {
 		if (id.length == 0) {
 			EventProviderManager.getInstance().takeSnapshot(this, null, type);
@@ -157,11 +224,6 @@ public class ReportBuilder implements IReportBuilder {
 		}
 	}
 
-	public void setReport(Report eObject, Node node) {
-		report = eObject;
-		currentNode = node;
-	}
-
 	/**
 	 * Search for event source with equals eobject specified in property
 	 */
@@ -178,24 +240,6 @@ public class ReportBuilder implements IReportBuilder {
 		return null;
 	}
 
-	/*
-	 * Add or append existing log entry into current node.
-	 */
-	public static void appendLog(Node node, LoggingCategory category, String text) {
-		if (node == null) {
-			return;
-		}
-		LoggingData data = null;
-		String log_key = getLogCategoryKey(category);
-		EObject eObject = node.getProperties().get(log_key);
-		if (eObject instanceof LoggingData) {
-			data = (LoggingData) eObject;
-		}
-		if (data == null) {
-			data = ReportFactory.eINSTANCE.createLoggingData();
-			node.getProperties().put(log_key, data);
-		}
-	}
 
 	private static String getLogCategoryKey(LoggingCategory category) {
 		return "log_" + category.name();
@@ -207,5 +251,39 @@ public class ReportBuilder implements IReportBuilder {
 			return ((LoggingData) object).getText();
 		}
 		return null;
+	}
+	
+	
+	public static ReportBuilder create(String title) {
+		Report report = createReport();
+		report.getRoot().setName(title);
+		return new ReportBuilder(report, report.getRoot());
+	}
+	
+	public ReportBuilderStore save() {
+		ReportBuilderStore store = ReportFactory.eINSTANCE.createReportBuilderStore();
+		synchronized (report) {
+			EcoreUtil.Copier copier = new Copier();
+			store.setReport((Report) copier.copy(report));
+			store.setCurrentNode((Node) copier.get(currentNode.node));
+		}
+		assert store.getCurrentNode() != null;
+		assert store.getCurrentNode().eContainer() != null;
+		store.getReport().getRoot().setEndTime(getTime());
+		return store;
+	}
+	
+	public static ReportBuilder load(ReportBuilderStore store) {
+		return new ReportBuilder(store.getReport(), store.getCurrentNode());
+	}
+
+	public static Snaphot createSnapshot(EObject data, Map<String, EObject> properties) {
+		Snaphot snapshot = ReportFactory.eINSTANCE.createSnaphot();
+		snapshot.setTime(getTime());
+		snapshot.setData(data);
+		if (properties != null) {
+			snapshot.getProperties().addAll(properties.entrySet());
+		}
+		return snapshot;
 	}
 }

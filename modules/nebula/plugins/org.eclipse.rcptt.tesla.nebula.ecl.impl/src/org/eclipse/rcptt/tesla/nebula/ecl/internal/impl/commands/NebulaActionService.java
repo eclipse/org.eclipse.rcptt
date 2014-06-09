@@ -16,7 +16,9 @@ import static org.eclipse.rcptt.tesla.nebula.ecl.NebulaElementKinds.ROW_HEADER;
 import java.util.Arrays;
 
 import org.eclipse.core.runtime.CoreException;
-
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.tesla.core.protocol.nebula.NebulaGridUIElement;
 import org.eclipse.rcptt.tesla.ecl.impl.AbstractActionService;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
@@ -63,4 +65,11 @@ public abstract class NebulaActionService extends AbstractActionService {
 				Activator.err("Mixed parameters are not supported, please use either items or item parts"));
 	}
 
+	@Override
+	protected IStatus handleWithExtensions(Command command, IProcess context)
+			throws InterruptedException, CoreException {
+		return null;
+	}
+
+	
 }

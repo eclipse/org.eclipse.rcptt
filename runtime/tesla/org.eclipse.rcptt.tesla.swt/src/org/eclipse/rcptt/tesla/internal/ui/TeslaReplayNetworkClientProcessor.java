@@ -40,9 +40,9 @@ public class TeslaReplayNetworkClientProcessor implements
 
 	public TeslaReplayNetworkClientProcessor() {
 		listener = new ITeslaEventListener() {
-			public boolean doProcessing(Context currentContext) {
+			public boolean doProcessing(final Context currentContext) {
 				if (client != null) {
-					Q7WaitInfoRoot info = ReportHelper.getCurrentWaitInfo(ReportManager.getBuilder());
+					Q7WaitInfoRoot  info = ReportHelper.getWaitInfo(ReportManager.getCurrentReportNode());
 					client.processNext(currentContext, info);
 				}
 				return false;

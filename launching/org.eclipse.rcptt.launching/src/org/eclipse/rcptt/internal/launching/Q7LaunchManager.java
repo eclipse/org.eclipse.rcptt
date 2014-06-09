@@ -73,12 +73,12 @@ public class Q7LaunchManager {
 
 	private static final String Q7_TEST_SUITE_LAUNCH_ID = "org.eclipse.rcptt.launching.scenarios"; //$NON-NLS-1$
 
-	private class SessionRunnable implements Runnable, IDebugEventSetListener {
+	public static class SessionRunnable implements Runnable, IDebugEventSetListener {
 		private final String launchId;
 		private final ExecutionSession session;
 		private final Q7Process q7Process;
 
-		private SessionRunnable(final String launchId,
+		public SessionRunnable(final String launchId,
 				final ExecutionSession session, final Q7Process q7Process) {
 			this.launchId = launchId;
 			this.session = session;
@@ -90,7 +90,7 @@ public class Q7LaunchManager {
 				Object source = event.getSource();
 				if (q7Process == source
 						&& event.getKind() == DebugEvent.TERMINATE) {
-					stop();
+					Q7LaunchManager.getInstance().stop();
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public class Q7LaunchManager {
 			DebugPlugin.getDefault().addDebugEventListener(this);
 			final Executable[] executables = session.getExecutables();
 
-			fireStarted(session);
+			Q7LaunchManager.getInstance().fireStarted(session);
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
 				for (final Executable executable : executables) {
@@ -141,10 +141,10 @@ public class Q7LaunchManager {
 							throw e;
 						}
 					}
-					fireLaunchStatusChanged(executable);
+					Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 				}
 				if (massUpdateOnTerminate.size() > 0) {
-					fireLaunchStatusChanged(massUpdateOnTerminate
+					Q7LaunchManager.getInstance().fireLaunchStatusChanged(massUpdateOnTerminate
 							.toArray(new Executable[massUpdateOnTerminate
 									.size()]));
 				}
@@ -154,18 +154,23 @@ public class Q7LaunchManager {
 				Q7LaunchingPlugin.log(e);
 			} finally {
 				DebugPlugin.getDefault().removeDebugEventListener(this);
-				synchronized (Q7LaunchManager.this) {
-					threads.remove(launchId);
+				synchronized (Q7LaunchManager.getInstance()) {
+					Q7LaunchManager.getInstance().threads.remove(launchId);
 				}
 				session.stop();
 				session.setEndTime(new Date());
-				fireFinished(session);
+				Q7LaunchManager.getInstance().fireFinished(session);
 				try {
-					q7Process.getLaunch().terminate();
+					session.getLaunch().terminate();
 				} catch (DebugException e) {
 					Q7LaunchingPlugin.log(e);
 				}
 			}
+		}
+
+		private boolean isTestCase(Executable executable) {
+			return executable instanceof PrepareExecutionWrapper
+					&& executable.getType() == IExecutable.TYPE_SCENARIO;
 		}
 
 		private IStatus execute(final ExecutionSession session,
@@ -174,23 +179,23 @@ public class Q7LaunchManager {
 				throw new InterruptedException();
 
 			executable.startLaunching();
-			fireLaunchStatusChanged(executable);
+			Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 			session.setActive(executable);
 			try {
 				try {
 					IStatus st = executable.execute();
 
-					if (isConnectionException(st)) {
+					if (Q7LaunchManager.getInstance().isConnectionException(st)) {
 						// connection lost break execution
 						executable.terminate(false);
 						session.stop();
 					} else if (!st.isOK()) {
-						fireLaunchStatusChanged(executable);
+						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 						return st;
 					}
 				} finally {
 					session.setActive(null);
-					fireLaunchStatusChanged(executable);
+					Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 				}
 				if (executable.isTerminated()) {
 					throw new InterruptedException();
@@ -201,8 +206,8 @@ public class Q7LaunchManager {
 					st = execute(session, child);
 
 					if (!st.isOK()) {
-						fireLaunchStatusChanged(child);
-						fireLaunchStatusChanged(executable);
+						Q7LaunchManager.getInstance().fireLaunchStatusChanged(child);
+						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 						if (!(executable instanceof TestSuiteExecutable)) {
 							return st;
 						}
@@ -211,10 +216,10 @@ public class Q7LaunchManager {
 			} finally {
 				executable.postExecute();
 				if (executable instanceof PrepareExecutionWrapper) {
-					updateSessionCounters(session, executable);
+					Q7LaunchManager.getInstance().updateSessionCounters(session, executable);
 				}
 			}
-			fireLaunchStatusChanged(executable);
+			Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 			return Status.OK_STATUS;
 		}
 	}
@@ -335,7 +340,6 @@ public class Q7LaunchManager {
 			return;
 		}
 
-		sessions.add(session);
 		launch.setSession(session);
 
 		// start execution
@@ -452,7 +456,7 @@ public class Q7LaunchManager {
 
 	private synchronized void execute(final ExecutionSession session,
 			Q7Process process) {
-
+		sessions.add(session);
 		final String launchId = process.getLaunch().getLaunchConfiguration()
 				.getName();
 
@@ -471,6 +475,20 @@ public class Q7LaunchManager {
 		execThread.start();
 	}
 
+	public void execute(String launchId, ExecutionSession session, Runnable runnable) {
+		sessions.add(session);
+		// if something is already running on that SUT, terminate it
+		final ExecThread existing = threads.get(launchId);
+		if (existing != null) {
+			existing.stop();
+		}
+
+		final ExecThread execThread = new ExecThread(session, runnable,
+				launchId);
+		threads.put(launchId, execThread);
+		execThread.start();
+	}
+
 	public static boolean isTestSuiteLauch(ILaunch launch) {
 		if (launch != null && launch.getLaunchConfiguration() != null) {
 			try {
@@ -483,13 +501,13 @@ public class Q7LaunchManager {
 		return false;
 	}
 
-	private static class ExecutableFabric {
+	public static class ExecutableFabric {
 		private final AutLaunch launch;
 		private final IWorkspaceFinder finder;
 		private final TestCaseDebugger debugger;
 		private final Set<ITestSuite> unresolvedItems = new HashSet<ITestSuite>();
 
-		private ExecutableFabric(AutLaunch launch, IWorkspaceFinder finder,
+		public ExecutableFabric(AutLaunch launch, IWorkspaceFinder finder,
 				TestCaseDebugger debugger) {
 			this.launch = launch;
 			this.finder = finder;
@@ -586,7 +604,7 @@ public class Q7LaunchManager {
 			return plan.size() > 1 ? new GroupExecutable(parent, plan) : parent;
 		}
 
-		private Executable[] map(final IQ7NamedElement[] elements,
+		public Executable[] map(final IQ7NamedElement[] elements,
 				Map<IQ7NamedElement, List<List<String>>> namedVariants)
 				throws CoreException {
 			List<Executable> executables = new ArrayList<Executable>();

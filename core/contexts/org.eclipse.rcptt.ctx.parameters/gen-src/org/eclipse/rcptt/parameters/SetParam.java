@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.parameters.ParametersPackage#getSetParam()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets parameter value.' returns='Value to which parameter was set.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='<b>Deprecated!</b> Please see <a href=\"http://www.xored.com/2013/06/11/supercontexts/\">Supercontexts</a> page to learn more about parameters.\n\n\n' returns='Value to which parameter was set.'"
  * @generated
  */
 public interface SetParam extends Command {

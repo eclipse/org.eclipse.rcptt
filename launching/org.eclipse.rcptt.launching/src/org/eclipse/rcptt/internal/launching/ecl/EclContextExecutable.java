@@ -50,7 +50,7 @@ public class EclContextExecutable extends ContextExecutable {
 		launch.run(getActualElement(), TeslaLimits.getContextRunnableTimeout(), monitor, getPhase());
 	}
 
-	private static final String ECL_SCRIPT_TYPE_ID = "org.eclipse.rcptt.core.ecl.context";
+	private static final String ECL_SCRIPT_TYPE_ID = "org.eclipse.rcptt.ctx.ecl";
 
 	public static boolean isEclScriptContext(IQ7NamedElement context) {
 		try {
@@ -111,7 +111,7 @@ public class EclContextExecutable extends ContextExecutable {
 	public void postExecute() {
 		try {
 			if (isEcl) {
-				ReportMaker.endReportNode(props, true, null, launch);
+				ReportMaker.endReportNode(true, null, launch);
 			}
 		} catch (CoreException e) {
 			updateStatus(FAILED);

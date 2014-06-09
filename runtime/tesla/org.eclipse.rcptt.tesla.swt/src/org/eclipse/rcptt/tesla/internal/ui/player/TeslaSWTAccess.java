@@ -13,7 +13,6 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.core.runtime.ListenerList;
@@ -253,6 +252,8 @@ public class TeslaSWTAccess {
 
 	public static <T> T getField(Class<T> targetClass, Object object,
 			String fieldName) {
+		if (object == null)
+			return null;
 		try {
 			Class<?> class_ = object.getClass();
 

@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting.internal;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.info.Info;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
@@ -19,16 +22,18 @@ public class CoreSnaphotsProvider extends AbstractEventProvider {
 
 	public CoreSnaphotsProvider() {
 	}
-
+	
+	private static void addSnapshotWithData(INodeBuilder node, EObject data) {
+		Snaphot snapshot = ReportFactory.eINSTANCE.createSnaphot();
+		snapshot.setData(data);
+		node.addSnapshot(snapshot);
+	}
+	
 	public void storeSnapshot(IReportBuilder builder, String type) {
-		Snaphot snaphot = builder.createSnapshot();
-		snaphot.setData(Info.getEclipse());
-		//
-		snaphot = builder.createSnapshot();
-		snaphot.setData(Info.getJava());
-		//
-		snaphot = builder.createSnapshot();
-		snaphot.setData(Info.getSystem());
+		INodeBuilder node = builder.getCurrent();
+		addSnapshotWithData(node, Info.getEclipse());
+		addSnapshotWithData(node, Info.getJava());
+		addSnapshotWithData(node, Info.getSystem());
 	}
 
 	@Override

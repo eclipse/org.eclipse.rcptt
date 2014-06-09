@@ -26,7 +26,7 @@
 		<repository>
 			<id>indigo</id>
 			<layout>p2</layout>
-			<url>http://download.xored.com/mirrors/indigo/</url>
+			<url>http://updates.xored.com/indigo/</url>
 		</repository>
 		<repository>
 		  <id>orbit</id>

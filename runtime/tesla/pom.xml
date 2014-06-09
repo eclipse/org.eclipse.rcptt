@@ -11,6 +11,8 @@
 		<profile>
 			<id>runtime_e3x</id>
 			<modules>
+				<module>org.eclipse.rcptt.tesla.swt.win32</module>
+				<module>org.eclipse.rcptt.tesla.swt.win64</module>
 				<module>org.eclipse.rcptt.tesla.core.am</module>
 				<module>org.eclipse.rcptt.tesla.runtime-feature</module>
 				<module>org.eclipse.rcptt.tesla.canvas</module>
@@ -62,6 +64,8 @@
 		<profile>
 			<id>runtime_e4x</id>
 			<modules>
+				<module>org.eclipse.rcptt.tesla.swt.win32</module>
+				<module>org.eclipse.rcptt.tesla.swt.win64</module>
 				<module>org.eclipse.rcptt.tesla.core.am</module>
 				<module>org.eclipse.rcptt.tesla.runtime.e4x-feature</module>
 				<module>org.eclipse.rcptt.tesla.canvas</module>

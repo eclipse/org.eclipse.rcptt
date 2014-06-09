@@ -60,14 +60,11 @@ public class ReportMaker implements IQ7ReportConstants {
 	 * If snaphots contains elements, then only items will be used, overwize all
 	 * snaphots will be taken
 	 */
-	public static void endReportNode(Map<String, EObject> properties,
-			boolean takeSnaphots, List<String> snaphosts, AutLaunch launch)
+	public static void endReportNode(boolean takeSnaphots,
+			List<String> snaphosts, AutLaunch launch)
 			throws CoreException {
 		EndReportNode reportNode = Q7CoreFactory.eINSTANCE
 				.createEndReportNode();
-		if (properties != null) {
-			reportNode.getProperties().putAll(properties);
-		}
 		reportNode.setTakeSnaphots(takeSnaphots);
 		if (takeSnaphots && snaphosts != null) {
 			reportNode.getSnaphots().addAll(snaphosts);

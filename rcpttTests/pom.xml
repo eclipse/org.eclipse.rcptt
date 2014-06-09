@@ -24,7 +24,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.xored.q7</groupId>
+				<groupId>${q7-maven-group}</groupId>
 				<artifactId>q7-maven-plugin</artifactId>
 				<version>${q7-maven-version}</version>
 				<extensions>true</extensions>

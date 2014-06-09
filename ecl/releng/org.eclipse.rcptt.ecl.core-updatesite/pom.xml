@@ -9,6 +9,5 @@
   </parent>
   <groupId>org.eclipse.rcptt.ecl</groupId>
   <artifactId>org.eclipse.rcptt.ecl.core-updatesite</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
   <packaging>eclipse-update-site</packaging>
 </project>

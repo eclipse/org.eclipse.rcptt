@@ -105,7 +105,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 		// Take all snapshots
 		try {
 			// if (!isTerminated()) {
-			ReportMaker.endReportNode(props, true, null, launch);
+			ReportMaker.endReportNode(true, null, launch);
 			// }
 		} catch (CoreException e) {
 			updateStatus(FAILED);

@@ -32,9 +32,10 @@ Entry-Name: .content
 
 get-view "Q7 Explorer" | get-tree | select "MyProject/Test_SuperLaunch" | double-click
 get-editor "Test_SuperLaunch" | get-button Replay | click
-wait 12000
 with [get-view "Execution View"] {
-    get-label "2/2" | get-property caption | equals "2/2" | verify-true
+	try -times 12 -delay 1000 -command {
+    	get-label "2/2" 
+    }
     get-label 0 | get-property caption | equals 0 | verify-true
 }
 

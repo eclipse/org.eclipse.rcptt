@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.rcptt.launching.multiaut.MultiAutLaunchDelegate"
+            id="com.xored.q7.launching.multiaut"
+            modes="run, debug"
+            name="MultiAUT Suite"
+            public="true">
+      </launchConfigurationType>
+   </extension>
+
+</plugin>

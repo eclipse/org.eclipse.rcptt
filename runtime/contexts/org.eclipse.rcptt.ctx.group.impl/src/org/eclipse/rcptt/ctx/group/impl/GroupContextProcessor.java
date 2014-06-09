@@ -12,20 +12,19 @@ package org.eclipse.rcptt.ctx.group.impl;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.ecl.runtime.ISession;
-
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.IEclAwareProcessor;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.GroupContext;
+import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 
 public class GroupContextProcessor implements IContextProcessor, IEclAwareProcessor {
 	public void apply(Context context, ISession session) throws CoreException {
@@ -33,14 +32,9 @@ public class GroupContextProcessor implements IContextProcessor, IEclAwareProces
 
 		ContextTypeManager typeManager = ContextTypeManager.getInstance();
 		for (Context refContext : groupContext.getContexts()) {
-			ReportBuilder builder = ReportManager.getBuilder();
-			Node nde = null;
-			Q7Info info = null;
-			if (builder != null) {
-				nde = builder.beginTask(refContext.getName());
-				info = ReportHelper.getInfo(nde);
-				info.setType(ItemKind.CONTEXT);
-			}
+			final INodeBuilder nde = ReportManager.getCurrentReportNode().beginTask(refContext.getName());
+			final Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+			info.setType(ItemKind.CONTEXT);
 			try {
 				typeManager.apply(refContext, session);
 				if (nde != null) {
@@ -53,9 +47,8 @@ public class GroupContextProcessor implements IContextProcessor, IEclAwareProces
 				}
 				throw e;
 			} finally {
-				if (builder != null) {
-					builder.endTask();
-				}
+				ReportHelper.setInfo(nde, info);
+				nde.endTask();
 			}
 		}
 

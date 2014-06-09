@@ -1,9 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl;
 
 import java.util.Collection;
@@ -281,7 +285,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 */
 	public Node getParent() {
 		if (eContainerFeatureID() != ReportPackage.NODE__PARENT) return null;
-		return (Node)eContainer();
+		return (Node)eInternalContainer();
 	}
 
 	/**
@@ -322,7 +326,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 */
 	public Report getReport() {
 		if (eContainerFeatureID() != ReportPackage.NODE__REPORT) return null;
-		return (Report)eContainer();
+		return (Report)eInternalContainer();
 	}
 
 	/**

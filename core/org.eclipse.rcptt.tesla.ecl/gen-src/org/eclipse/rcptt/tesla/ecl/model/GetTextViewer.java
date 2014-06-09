@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetTextViewer()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the text viewer. If text viewer doesn\'t exist, then error is returned.' returns='text viewer' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the text viewer. If text viewer doesn\'t exist, then error is returned.' returns='text viewer' recorded='true' example='with [get-section Script | get-text-viewer] {\n        set-caret-pos 1 20\n        type-text MyText\n    }'"
  * @generated
  */
 public interface GetTextViewer extends Selector {

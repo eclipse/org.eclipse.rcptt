@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.filesystem.FilesystemPackage#getCopyFile()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Copies <code>source</code> file or directory into <code>destination</code> directory, optionally giving it a new <code>name</code>.' returns='Nothing.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Copies <code>source</code> file or directory into <code>destination</code> directory, optionally giving it a new <code>name</code>.' returns='Nothing.' example='copy-file -source \"/Users/Ulik_MacAir/aut-Q7-1.3.12-B2/Project/t.test\" \n-destination \"/Users/Ulik_MacAir/aut-Q7-1.3.12-B2/Project/Folder\" -name \"Clone.test\"'"
  * @generated
  */
 public interface CopyFile extends Command {
@@ -70,7 +70,7 @@ public interface CopyFile extends Command {
 	 * @see #setDestination(String)
 	 * @see org.eclipse.rcptt.ecl.filesystem.FilesystemPackage#getCopyFile_Destination()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Destination directory under which a <code>source</code> file or directory will be stored.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Destination directory under which the <code>source</code> file or directory will be stored.'"
 	 * @generated
 	 */
 	String getDestination();
@@ -96,7 +96,7 @@ public interface CopyFile extends Command {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.rcptt.ecl.filesystem.FilesystemPackage#getCopyFile_Name()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='New name for a file or directory.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='New name for the <code>source</code> file or directory.'"
 	 * @generated
 	 */
 	String getName();

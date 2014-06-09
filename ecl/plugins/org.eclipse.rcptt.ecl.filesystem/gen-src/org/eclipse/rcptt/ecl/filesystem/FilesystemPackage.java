@@ -130,6 +130,127 @@ public interface FilesystemPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.UriFromPathImpl <em>Uri From Path</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.UriFromPathImpl
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getUriFromPath()
+	 * @generated
+	 */
+	int URI_FROM_PATH = 1;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URI_FROM_PATH__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URI_FROM_PATH__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URI_FROM_PATH__PATH = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Uri From Path</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URI_FROM_PATH_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.GetFileImpl <em>Get File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.GetFileImpl
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getGetFile()
+	 * @generated
+	 */
+	int GET_FILE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_FILE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Get File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.FileImpl <em>File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.FileImpl
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getFile()
+	 * @generated
+	 */
+	int FILE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE__URI = 0;
+
+	/**
+	 * The number of structural features of the '<em>File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_FEATURE_COUNT = 1;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.CopyFile <em>Copy File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -171,6 +292,69 @@ public interface FilesystemPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCopyFile_Name();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.UriFromPath <em>Uri From Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uri From Path</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.UriFromPath
+	 * @generated
+	 */
+	EClass getUriFromPath();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.UriFromPath#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Path</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.UriFromPath#getPath()
+	 * @see #getUriFromPath()
+	 * @generated
+	 */
+	EAttribute getUriFromPath_Path();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.GetFile <em>Get File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get File</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.GetFile
+	 * @generated
+	 */
+	EClass getGetFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.GetFile#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.GetFile#getUri()
+	 * @see #getGetFile()
+	 * @generated
+	 */
+	EAttribute getGetFile_Uri();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.File <em>File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>File</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.File
+	 * @generated
+	 */
+	EClass getFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.File#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.File#getUri()
+	 * @see #getFile()
+	 * @generated
+	 */
+	EAttribute getFile_Uri();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -227,6 +411,60 @@ public interface FilesystemPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COPY_FILE__NAME = eINSTANCE.getCopyFile_Name();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.UriFromPathImpl <em>Uri From Path</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.UriFromPathImpl
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getUriFromPath()
+		 * @generated
+		 */
+		EClass URI_FROM_PATH = eINSTANCE.getUriFromPath();
+
+		/**
+		 * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute URI_FROM_PATH__PATH = eINSTANCE.getUriFromPath_Path();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.GetFileImpl <em>Get File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.GetFileImpl
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getGetFile()
+		 * @generated
+		 */
+		EClass GET_FILE = eINSTANCE.getGetFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GET_FILE__URI = eINSTANCE.getGetFile_Uri();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.FileImpl <em>File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.FileImpl
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getFile()
+		 * @generated
+		 */
+		EClass FILE = eINSTANCE.getFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FILE__URI = eINSTANCE.getFile_Uri();
 
 	}
 

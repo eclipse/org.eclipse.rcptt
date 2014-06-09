@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getAssertTrue()
- * @model annotation="http://www.eclipse.org/ecl/docs description='If input is not true, fails' returns='Nothing'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='If input is not true, fails' returns='Nothing' example='...get-tree | get-item Project | get-property childCount -raw | gt 3 | assert-true -message \"Child count is not greater then 3!\" '"
  * @generated
  */
 public interface AssertTrue extends Command {

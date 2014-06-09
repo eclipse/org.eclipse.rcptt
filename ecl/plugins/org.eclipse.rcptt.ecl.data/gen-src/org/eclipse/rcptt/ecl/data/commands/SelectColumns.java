@@ -30,7 +30,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectColumns()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table containing only columns passed into <code>columns</code> argument.' returns='Copy of input table object with only columns with names listed in <code>columns</code>'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table containing only columns passed into <code>columns</code> argument.' returns='Copy of input table object with only columns with names listed in <code>columns</code>' example='get-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" '"
  * @generated
  */
 public interface SelectColumns extends Command {

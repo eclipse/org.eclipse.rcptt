@@ -13,23 +13,17 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.ui.PlatformUI;
-
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
+import org.eclipse.ui.PlatformUI;
 
 public class AdvancedInfoService implements ICommandService {
 
@@ -58,20 +52,7 @@ public class AdvancedInfoService implements ICommandService {
 												.getClient()
 												.getAdvancedInformation(null);
 										returnGeneralInfo(info, finalContext);
-										if (ReportManager.getBuilder() != null) {
-											ReportManager.getBuilder().withCurrentNode(new Procedure1<Node>() {
-												
-												@Override
-												public void apply(Node node) {
-													if (node != null) {
-														Snaphot snaphot = ReportFactory.eINSTANCE.createSnaphot();
-														snaphot.setTime(System.currentTimeMillis());
-														snaphot.setData(EcoreUtil.copy(info));
-														node.getSnapshots().add(snaphot);
-													}
-												}
-											});
-										}
+										ReportHelper.addSnapshotWithData(ReportManager.getCurrentReportNode(), info);
 									} finally {
 										if (mustClientShutdown) {
 											TeslaBridge.shutdown();

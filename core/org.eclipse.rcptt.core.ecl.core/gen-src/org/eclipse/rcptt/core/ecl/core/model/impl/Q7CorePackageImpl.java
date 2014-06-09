@@ -1115,6 +1115,11 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		   new String[] {
 		   });		
 		addAnnotation
+		  (resetVerificationsEClass, 
+		   source, 
+		   new String[] {
+		   });		
+		addAnnotation
 		  (createVerificationEClass, 
 		   source, 
 		   new String[] {
@@ -1137,7 +1142,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		  (getReportAppend_Objects(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });						
 	}
 
 	/**
@@ -1159,7 +1164,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		   source, 
 		   new String[] {
 			 "description", "<br/>\r\nAvailable keys:\r\n<ul>\r\n    <li> <b>jobDebugjobTimeout</b> Eclipse job debug plugin jobs timeout (def: 300000 ms) </li>\r\n    <li> <b>jobSleepingStepTime</b> Step in step mode (def: 200 ms) </li>\r\n    <li> <b>jobSleepingStepTimeout</b> Stepping job timeout (def: 120000 ms) </li>\r\n    <li> <b>jobTreatAsSleepingTimeout</b> Enable Job step mode timeout (def: 10000 ms) </li>\r\n    <li> <b>jobHangTimeout</b> Job skip timeout (def: 30000 ms) </li>\r\n    <li> <b>jobScheduleDelayedMaxtime</b> Wait for jobs with delay less timeout (def: 600 ms) </li>\r\n    <li> <b>eclExecutionDelay</b> Wait for time between each ECL command (def: 0 ms) </li>\r\n    <li> <b>workspaceClearForceGc</b> Forces garbage collection on workspace cleanup (def: true) </li>\r\n</ul>"
-		   });			
+		   });				
 	}
 
 } // Q7CorePackageImpl

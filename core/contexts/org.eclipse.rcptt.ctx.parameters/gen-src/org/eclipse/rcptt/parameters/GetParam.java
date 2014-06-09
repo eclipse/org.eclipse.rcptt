@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.parameters.ParametersPackage#getGetParam()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets parameter value.' returns='Parameter value.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='<b>Deprecated!</b> Please see <a href=\"http://www.xored.com/2013/06/11/supercontexts/\">Supercontexts</a> page to learn more about parameters.\n\n\n' returns='Parameter value.'"
  * @generated
  */
 public interface GetParam extends Command {

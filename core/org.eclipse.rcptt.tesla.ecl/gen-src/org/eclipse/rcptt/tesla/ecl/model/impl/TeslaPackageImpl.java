@@ -10,162 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.model.impl;
 
-import org.eclipse.rcptt.tesla.core.info.InfoPackage;
-
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
-
-import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
-
-import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Button;
-import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.Check;
-import org.eclipse.rcptt.tesla.ecl.model.Click;
-import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
-import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
-import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.ClickText;
-import org.eclipse.rcptt.tesla.ecl.model.Close;
-import org.eclipse.rcptt.tesla.ecl.model.Collapse;
-import org.eclipse.rcptt.tesla.ecl.model.CollapseAll;
-import org.eclipse.rcptt.tesla.ecl.model.Contains;
-import org.eclipse.rcptt.tesla.ecl.model.ContainsImage;
-import org.eclipse.rcptt.tesla.ecl.model.ControlCommand;
-import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
-import org.eclipse.rcptt.tesla.ecl.model.ControlNotFound;
-import org.eclipse.rcptt.tesla.ecl.model.DeactivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClick;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickText;
-import org.eclipse.rcptt.tesla.ecl.model.DragAccept;
-import org.eclipse.rcptt.tesla.ecl.model.DragAction;
-import org.eclipse.rcptt.tesla.ecl.model.DragDetect;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnd;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnter;
-import org.eclipse.rcptt.tesla.ecl.model.DragExit;
-import org.eclipse.rcptt.tesla.ecl.model.DragOver;
-import org.eclipse.rcptt.tesla.ecl.model.DragSetData;
-import org.eclipse.rcptt.tesla.ecl.model.DragStart;
-import org.eclipse.rcptt.tesla.ecl.model.Drop;
-import org.eclipse.rcptt.tesla.ecl.model.Equals;
-import org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions;
-import org.eclipse.rcptt.tesla.ecl.model.Expand;
-import org.eclipse.rcptt.tesla.ecl.model.ExpandAll;
-import org.eclipse.rcptt.tesla.ecl.model.FromRawKey;
-import org.eclipse.rcptt.tesla.ecl.model.GetAboutMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetAdvancedInfo;
-import org.eclipse.rcptt.tesla.ecl.model.GetBanner;
-import org.eclipse.rcptt.tesla.ecl.model.GetButton;
-import org.eclipse.rcptt.tesla.ecl.model.GetByOs;
-import org.eclipse.rcptt.tesla.ecl.model.GetCanvas;
-import org.eclipse.rcptt.tesla.ecl.model.GetCell;
-import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
-import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
-import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
-import org.eclipse.rcptt.tesla.ecl.model.GetControl;
-import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
-import org.eclipse.rcptt.tesla.ecl.model.GetEclipseWindow;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditor;
-import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
-import org.eclipse.rcptt.tesla.ecl.model.GetItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetItems;
-import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
-import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetLink;
-import org.eclipse.rcptt.tesla.ecl.model.GetList;
-import org.eclipse.rcptt.tesla.ecl.model.GetMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetObject;
-import org.eclipse.rcptt.tesla.ecl.model.GetPreferencesMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyNodes;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyTab;
-import org.eclipse.rcptt.tesla.ecl.model.GetQuickAccess;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
-import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
-import org.eclipse.rcptt.tesla.ecl.model.GetSection;
-import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetTable;
-import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
-import org.eclipse.rcptt.tesla.ecl.model.GetText;
-import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
-import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetTree;
-import org.eclipse.rcptt.tesla.ecl.model.GetVerticalRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetView;
-import org.eclipse.rcptt.tesla.ecl.model.GetWidgetDetails;
-import org.eclipse.rcptt.tesla.ecl.model.GetWindow;
-import org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.HoverRuler;
-import org.eclipse.rcptt.tesla.ecl.model.HoverText;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisabled;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisposed;
-import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
-import org.eclipse.rcptt.tesla.ecl.model.KeyType;
-import org.eclipse.rcptt.tesla.ecl.model.Matches;
-import org.eclipse.rcptt.tesla.ecl.model.Maximize;
-import org.eclipse.rcptt.tesla.ecl.model.Minimize;
-import org.eclipse.rcptt.tesla.ecl.model.Mouse;
-import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
-import org.eclipse.rcptt.tesla.ecl.model.Options;
-import org.eclipse.rcptt.tesla.ecl.model.PathSelector;
-import org.eclipse.rcptt.tesla.ecl.model.Recognize;
-import org.eclipse.rcptt.tesla.ecl.model.RecognizeResponse;
-import org.eclipse.rcptt.tesla.ecl.model.Restore;
-import org.eclipse.rcptt.tesla.ecl.model.ReturnFromOsDialog;
-import org.eclipse.rcptt.tesla.ecl.model.Select;
-import org.eclipse.rcptt.tesla.ecl.model.SelectItem;
-import org.eclipse.rcptt.tesla.ecl.model.SelectRange;
-import org.eclipse.rcptt.tesla.ecl.model.Selector;
-import org.eclipse.rcptt.tesla.ecl.model.SetCaretPos;
-import org.eclipse.rcptt.tesla.ecl.model.SetDialogResult;
-import org.eclipse.rcptt.tesla.ecl.model.SetFocus;
-import org.eclipse.rcptt.tesla.ecl.model.SetPosition;
-import org.eclipse.rcptt.tesla.ecl.model.SetText;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextSelection;
-import org.eclipse.rcptt.tesla.ecl.model.SetValue;
-import org.eclipse.rcptt.tesla.ecl.model.SetWidth;
-import org.eclipse.rcptt.tesla.ecl.model.SetupPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShoutdownPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShowAlert;
-import org.eclipse.rcptt.tesla.ecl.model.ShowContentAssist;
-import org.eclipse.rcptt.tesla.ecl.model.ShowTabList;
-import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
-import org.eclipse.rcptt.tesla.ecl.model.TakeScreenshot;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaProcessStatus;
-import org.eclipse.rcptt.tesla.ecl.model.TextSelector;
-import org.eclipse.rcptt.tesla.ecl.model.ToControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Trace;
-import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
-import org.eclipse.rcptt.tesla.ecl.model.TypeText;
-import org.eclipse.rcptt.tesla.ecl.model.Uncheck;
-import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
-import org.eclipse.rcptt.tesla.ecl.model.Unsupported;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyFalse;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyHandler;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyTrue;
-import org.eclipse.rcptt.tesla.ecl.model.Wait;
-import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
-import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
-
-import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
-
-import org.eclipse.rcptt.tesla.ecl.model.diagram.impl.DiagramPackageImpl;
-
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -173,9 +17,15 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.rcptt.ecl.core.CorePackage;
+import org.eclipse.rcptt.tesla.core.info.InfoPackage;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
+import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
+import org.eclipse.rcptt.tesla.ecl.model.*;
+import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
+import org.eclipse.rcptt.tesla.ecl.model.diagram.impl.DiagramPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -1170,6 +1020,20 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	private EClass unfocusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass decryptEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass decryptResultEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -4311,6 +4175,42 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDecrypt() {
+		return decryptEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDecrypt_Value() {
+		return (EAttribute)decryptEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDecryptResult() {
+		return decryptResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDecryptResult_Value() {
+		return (EAttribute)decryptResultEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
 	}
@@ -4832,6 +4732,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		unfocusEClass = createEClass(UNFOCUS);
 
+		decryptEClass = createEClass(DECRYPT);
+		createEAttribute(decryptEClass, DECRYPT__VALUE);
+
+		decryptResultEClass = createEClass(DECRYPT_RESULT);
+		createEAttribute(decryptResultEClass, DECRYPT_RESULT__VALUE);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
 
@@ -5016,6 +4922,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		toControlHandleEClass.getESuperTypes().add(theCorePackage.getCommand());
 		boundControlHandleEClass.getESuperTypes().add(this.getControlHandler());
 		unfocusEClass.getESuperTypes().add(this.getControlCommand());
+		decryptEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5498,6 +5405,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		initEClass(unfocusEClass, Unfocus.class, "Unfocus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(decryptEClass, Decrypt.class, "Decrypt", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDecrypt_Value(), theEcorePackage.getEString(), "value", null, 1, 1, Decrypt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(decryptResultEClass, DecryptResult.class, "DecryptResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDecryptResult_Value(), theEcorePackage.getEString(), "value", null, 1, 1, DecryptResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
 		addEEnumLiteral(buttonEEnum, Button.NONE);
@@ -5737,7 +5650,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Gets control with defined caption or index. If this control doesn\'t exist, then error is returned.",
 			 "returns", "link to the control",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "//writes \'Perspective id:\' into log\nget-editor WorkbanchContext | get-section Workbench | get-control -kind \"Label\" -index 1 | get-property text -raw| str | log"
 		   });		
 		addAnnotation
 		  (getButtonEClass, 
@@ -5763,7 +5677,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Gets checkbox with defined parameter. If this checkbox doesn\'t exist, then error is returned.",
 			 "returns", "link to the checkbox",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-editor Wb | get-section Workbench | get-checkbox -text \"Clear clipboard\" | check"
 		   });		
 		addAnnotation
 		  (getComboEClass, 
@@ -5848,7 +5763,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Gets all tabs of editor. If this editor doesn\'t contain tabs, then error is returned.",
 			 "returns", "all tabs of editor",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-editor SO | get-tab-folder | get-tab-item Documentation | click"
 		   });		
 		addAnnotation
 		  (getTabItemEClass, 
@@ -5856,7 +5772,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Gets tab of editor with defined name. If this tab doesn\'t exist, then error is returned.",
 			 "returns", "tab",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-editor SO | get-tab-folder | get-tab-item Documentation | click"
 		   });		
 		addAnnotation
 		  (getTableEClass, 
@@ -5946,7 +5863,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "description", "Gets cell with defined parameter. If this cell doesn\'t exist, then error is returned.",
 			 "returns", "cell",
 			 "recorded", "true",
-			 "example", ""
+			 "example", "get-editor context | get-section Parameters | get-table | get-cell -row 1 -column 1 | \n get-property text -raw | str  | log"
 		   });		
 		addAnnotation
 		  (clickEClass, 
@@ -5993,7 +5910,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "description", "Gets text content of a control. If this text doesn\'t exist, then error is returned.",
 			 "returns", "text content of a control",
 			 "recorded", "true",
-			 "example", ""
+			 "example", "get-editor \"WorkbenchContext\" | get-control -kind \"Label\" | get-text | equals \"Name:\" | verify-true"
 		   });			
 		addAnnotation
 		  (getGetText_Control(), 
@@ -6007,7 +5924,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Cheks if the control is disabled or not",
 			 "returns", "true if the control is disabled or false otherwise",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-menu \"File/Save\" | is-disabled | assert-true"
 		   });			
 		addAnnotation
 		  (getIsDisabled_Control(), 
@@ -6021,7 +5939,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Cheks if the control is disposed or not",
 			 "returns", "true if the control is disposed or false otherwise",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-editor \"WorkbenchContext\" | is-disposed | verify-false"
 		   });			
 		addAnnotation
 		  (getIsDisposed_Control(), 
@@ -6185,7 +6104,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Checks the control.",
 			 "returns", "value of <code>control</code> parameter",
-			 "example", ""
+			 "example", "with [get-editor Wb | get-section Workbench] {\n    get-button \"Clear clipboard\" | check\n}"
 		   });			
 		addAnnotation
 		  (getCheck_Control(), 
@@ -6199,7 +6118,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Unchecks the control.",
 			 "returns", "value of <code>control</code> parameter",
-			 "example", ""
+			 "example", "with [get-editor Wb | get-section Workbench] {\n    get-button \"Close all modal dialogs\" | uncheck\n    get-button \"Clear clipboard\" | uncheck\n}"
 		   });			
 		addAnnotation
 		  (getUncheck_Control(), 
@@ -6259,7 +6178,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Applies cell editing.",
 			 "returns", "value of <code>control</code> parameter",
-			 "example", ""
+			 "example", "with [get-editor context | get-section Parameters | get-table] {\n    select parameter1 | activate-cell-edit -column 1\n    get-editbox | set-text value\n    apply-cell-edit -deactivate\n}"
 		   });		
 		addAnnotation
 		  (cancelCellEditEClass, 
@@ -6267,7 +6186,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Cancels cell editing.",
 			 "returns", "value of <code>control</code> parameter",
-			 "example", ""
+			 "example", "with [get-editor context | get-section Parameters | get-table] {\n    select \"Add new parameter\" | activate-cell-edit\n    get-editbox | set-text \"this text won\'t be applied\"\n    cancel-cell-edit\n   }"
 		   });		
 		addAnnotation
 		  (deactivateCellEditEClass, 
@@ -6275,7 +6194,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Applies cell editing.",
 			 "returns", "value of <code>control</code> parameter",
-			 "example", ""
+			 "example", "with [get-editor context2 | get-section Parameters | get-table] {\n    select parameter | activate-cell-edit -column 1\n    get-editbox | set-text \"value\"\n    cancel-cell-edit\n    deactivate-cell-edit\n}"
 		   });		
 		addAnnotation
 		  (closeEClass, 
@@ -6297,7 +6216,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Emulates result returning from native dialog.",
 			 "returns", "nothing"
-		   });		
+		   });			
 		addAnnotation
 		  (getReturnFromOsDialog_Kind(), 
 		   source, 
@@ -6316,7 +6235,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Suspend execution until Eclipse is ready.",
 			 "returns", "nothing",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-menu \"File/Restart\" | click\nwait-until-eclipse-is-ready\nget-view \"Q7 Explorer\" | get-tree | select Project"
 		   });		
 		addAnnotation
 		  (showContentAssistEClass, 
@@ -6324,7 +6244,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Shows content assist.",
 			 "returns", "value of <code>control</code> parameter",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "with [get-editor t | get-section Script | get-text-viewer] {\n    set-caret-pos 1 1\n    type-text \"get-\"\n    show-content-assist\n}"
 		   });			
 		addAnnotation
 		  (getShowContentAssist_Control(), 
@@ -6383,28 +6304,32 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag start event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-item \"Project/t.test\" | drag-start 23 5"
 		   });		
 		addAnnotation
 		  (dragEndEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag end event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "with [get-view \"Project Explorer\" | get-tree] {\n    drag-end -detail copy\n    select \"Project/Folder/t.test\" | get-menu Delete | click\n}"
 		   });		
 		addAnnotation
 		  (dragEnterEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag enter event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-item \"Project/t.test\" | drag-enter 23 11 -detail copy"
 		   });		
 		addAnnotation
 		  (dragExitEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag exit event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-item \"Project/t.test\" | drag-exit"
 		   });		
 		addAnnotation
 		  (dragSetDataEClass, 
@@ -6418,7 +6343,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag accept event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-item \"Project/Folder\" | drag-accept 18 11 -detail copy"
 		   });		
 		addAnnotation
 		  (dragDetectEClass, 
@@ -6432,14 +6358,16 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Emulates drag over event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "with [get-view \"Project Explorer\" | get-tree] {\n    select \"Project/t.test\"\n    get-item \"Project/t.test\" | drag-start 23 5\n    get-item \"Project/t.test\" | drag-enter 23 11 -detail copy\n    get-item \"Project/t.test\" | drag-over 23 11 -detail copy\n    get-item \"Project/q7.properties\" | drag-over 21 2 -detail copy\n    drag-over 70 84 -detail copy\n    get-item \"Project/file.csv\" | drag-over 19 0 -detail copy\n    get-item \"Project/context2.ctx\" | drag-over 18 0 -detail copy\n    drag-over 69 33 -detail copy\n    get-item \"Project/Folder\" | drag-over 18 11 -detail copy\n    get-item \"Project/t.test\" | drag-exit\n    get-item \"Project/Folder\" | drag-accept 18 11 -detail copy\n    drag-set-data\n    get-item \"Project/Folder\" | drop 18 11 -detail copy\n}"
 		   });		
 		addAnnotation
 		  (dropEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates drop event.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-editor t | get-section Contexts | get-table | drop 111 52 -detail move"
 		   });			
 		addAnnotation
 		  (getContainsImage_Control(), 
@@ -6473,7 +6401,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Returns the \"About\" menu.",
 			 "returns", "About menu\r\n",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-about-menu | click\nget-window \"About Q7\" | get-button OK | click"
 		   });		
 		addAnnotation
 		  (getPreferencesMenuEClass, 
@@ -6481,7 +6410,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Returns the \"Preferences\" menu.",
 			 "returns", "Preferences menu",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "get-preferences-menu | click\nwith [get-window Preferences] {\n    get-tree | select \"General/Content Types\"\n    get-button Cancel | click\n}"
 		   });		
 		addAnnotation
 		  (getDateTimeEClass, 
@@ -6504,7 +6434,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Set value of the control.",
-			 "returns", ""
+			 "returns", "",
+			 "example", "get-combo -after [get-label \"Mouse move recording mode\"] | set-value Never"
 		   });			
 		addAnnotation
 		  (getSetValue_Control(), 
@@ -6522,8 +6453,9 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (minimizeEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Minimize the tab folder.",
-			 "returns", "value of <code>control</code> parameter"
+			 "description", "Minimize the tab folder.\nSee more details about <a href=\"http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a\">How to resize a window.</a>",
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-window \"New Project\" | minimize"
 		   });			
 		addAnnotation
 		  (getMinimize_Control(), 
@@ -6535,8 +6467,9 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (maximizeEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Maximize the tab folder.",
-			 "returns", "value of <code>control</code> parameter"
+			 "description", "Maximize the tab folder.\nSee more details about <a href=\"http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a\">How to resize a window.</a>",
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-window \"New Project\" | maximize\n\n"
 		   });			
 		addAnnotation
 		  (getMaximize_Control(), 
@@ -6549,7 +6482,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Restore the tab folder.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-view \"Q7 Explorer\" | minimize\nget-view \"Q7 Explorer\" | restore"
 		   });			
 		addAnnotation
 		  (getRestore_Control(), 
@@ -6562,14 +6496,15 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Show the list of tabs from tab folder.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-editor SO | show-tab-list "
 		   });			
 		addAnnotation
 		  (getShowTabList_Control(), 
 		   source, 
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });		
+		   });			
 		addAnnotation
 		  (getOptions_Command(), 
 		   source, 
@@ -6587,7 +6522,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Emulates result returning from native dialog.",
-			 "returns", "nothing"
+			 "returns", "nothing",
+			 "example", "set-dialog-result File \"/Users/Ulik_MacAir/Downloads/MyLicense.license\"\nget-menu \"File/Open File...\" | click"
 		   });		
 		addAnnotation
 		  (getSetDialogResult_Kind(), 
@@ -6631,7 +6567,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Value to use on Mac OS X"
-		   });		
+		   });			
 		addAnnotation
 		  (hoverAtTextOffsetEClass, 
 		   source, 
@@ -6663,14 +6599,16 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Gets the text viewer. If text viewer doesn\'t exist, then error is returned.",
 			 "returns", "text viewer",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "with [get-section Script | get-text-viewer] {\n        set-caret-pos 1 20\n        type-text MyText\n    }"
 		   });		
 		addAnnotation
 		  (selectRangeEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.",
-			 "returns", "value of *control* parameter"
+			 "returns", "value of *control* parameter",
+			 "example", "with [get-editor \"file.txt\" | get-text-viewer] {\n    select-range 1 2 5 8\n    get-menu Cut | click\n}"
 		   });			
 		addAnnotation
 		  (getSelectRange_Control(), 
@@ -6683,7 +6621,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Sets the text offset.\nFor specified line.",
-			 "returns", "value of *control* parameter"
+			 "returns", "value of *control* parameter",
+			 "example", "with [get-editor \"q7enterprise.license\" | get-text-viewer] {\n    set-caret-pos 3 5\n}"
 		   });			
 		addAnnotation
 		  (getSetCaretPos_Control(), 
@@ -6715,7 +6654,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Perform open declaration command in the current text position (CTRL+Left click)",
-			 "returns", "value of *control* parameter"
+			 "returns", "value of *control* parameter",
+			 "example", "with [get-editor t | get-section Script | get-text-viewer] {\n    \tset-caret-pos 4 3\n\topen-declaration\n}"
 		   });			
 		addAnnotation
 		  (getOpenDeclaration_Control(), 
@@ -6762,7 +6702,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Clicks a ruler at given position with specified button and modifiers",
-			 "returns", "value of control parameter"
+			 "returns", "value of control parameter",
+			 "example", "with [get-left-ruler | get-ruler-column AnnotationColumn] {\n        click-ruler -line 2\n    }"
 		   });			
 		addAnnotation
 		  (getClickRuler_Control(), 
@@ -6787,7 +6728,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Double clicks ruler on given line with specified modifiers and mouse button",
-			 "returns", "value of control parameter"
+			 "returns", "value of control parameter",
+			 "example", "with [get-editor t | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {\n    double-click-ruler 1\n}"
 		   });			
 		addAnnotation
 		  (getDoubleClickRuler_Control(), 
@@ -6832,7 +6774,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Clicks on a link.",
 			 "returns", "value of <code>control</code> parameter",
-			 "recorded", "true"
+			 "recorded", "true",
+			 "example", "with [get-window Preferences] {\n    get-tree | select \"Ant/Editor\"\n    get-link \"See <a href=\\\"org.eclipse.ui.preferencePages.GeneralTextEditor\\\">\\\'Text Editors\\\'</a> for general text editor preferences and <a href=\\\"org.eclipse.ui.preferencePages.ColorsAndFonts\\\">\\\'Colors and Fonts\\\'</a> to configure the font.\" \n        | click-link \"org.eclipse.ui.preferencePages.GeneralTextEditor\"\n    get-button OK | click\n}"
 		   });		
 		addAnnotation
 		  (expandEClass, 
@@ -6958,7 +6901,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Gets interop object from UI control.",
-			 "returns", "Interop object."
+			 "returns", "Interop object.",
+			 "example", "get-view \"Package Explorer\" | get-tree | get-object | my-custom-tree-command"
 		   });			
 		addAnnotation
 		  (getGetObject_Object(), 
@@ -6971,27 +6915,30 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Gets item list of a table, or visible items of a tree, or visible children of a tree item.",
-			 "returns", "List of items."
+			 "returns", "List of items.",
+			 "example", "get-view \"Q7 Explorer\" | get-tree | get-items | foreach {get-property caption -raw | str | log}"
 		   });		
 		addAnnotation
 		  (expandAllEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Expands a tree item and all its children, or a whole tree.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-view \"Q7 Explorer\" | get-tree | get-item Project | expand-all"
 		   });		
 		addAnnotation
 		  (collapseAllEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Collapses a tree item and all its children, or a whole tree.",
-			 "returns", "value of <code>control</code> parameter"
+			 "returns", "value of <code>control</code> parameter",
+			 "example", "get-view \"Q7 Explorer\" | get-tree | collapse-all"
 		   });		
 		addAnnotation
 		  (takeScreenshotEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Takes a screenshot and attaches it to test report.",
+			 "description", "Takes a screenshot and attaches it to test report.\nNote: please make sure you enabled \"Include \'trace\' and \'take-screenshot\' in HTML report\" option (Q7 Advanced options/Reporting). ",
 			 "returns", "Nothing."
 		   });		
 		addAnnotation
@@ -7012,7 +6959,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "<p>Clicks on editbox to set cursor position (when only <code>start</code> argument specified) or text selection (when both <code>start</code> and <code>end</code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends mouse down and up events</li>\r\n  <li>Sets caret position or text selection based on arguments</li>\r\n</ol>\r\n<p>\r\n  <code>start</code> and <code>end</code> arguments have different forms depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>",
-			 "returns", "input item"
+			 "returns", "input item",
+			 "example", "with [get-editbox -after [get-label \"Location:\"]] {\n        click-text 3\n    }"
 		   });		
 		addAnnotation
 		  (getClickText_Start(), 
@@ -7073,14 +7021,16 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "Gets the tab of the Properties View.",
-			 "returns", "The tab of the Properties View."
+			 "returns", "The tab of the Properties View.",
+			 "example", "with [get-view Properties] {\n    get-property-tab Description | click\n}"
 		   });		
 		addAnnotation
 		  (showAlertEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Displays a message.",
-			 "returns", "Nothing."
+			 "returns", "Nothing.",
+			 "example", "show-alert \"Hello!\""
 		   });			
 		addAnnotation
 		  (getShowAlert_Message(), 
@@ -7093,7 +7043,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "description", "<p>Double-clicks on editbox to set cursor position and/or selection. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends double-click event</li>\r\n</ol>\r\n<p>\r\n  <code>position</code> argument have different form depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>",
-			 "returns", "input item"
+			 "returns", "input item",
+			 "example", "with [get-editbox -after [get-label \"Project name:\"]] {\n        set-text Project1\n        double-click-text 9 1\n    }"
 		   });		
 		addAnnotation
 		  (getDoubleClickText_Position(), 
@@ -7128,6 +7079,14 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "returns", "Nothing",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Testing\" | get-section \"CellEdit Tree Test\" | get-tree | get-editbox | set-focus"
+		   });		
+		addAnnotation
+		  (decryptEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Decrypts an encrypted string",
+			 "returns", "Decrypted string",
+			 "recorded", "true"
 		   });
 	}
 
@@ -7253,7 +7212,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getClose_Control(), 
 		   source, 
 		   new String[] {
-		   });								
+		   });									
 		addAnnotation
 		  (getShowContentAssist_Control(), 
 		   source, 
@@ -7298,7 +7257,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getShowTabList_Control(), 
 		   source, 
 		   new String[] {
-		   });																	
+		   });																			
 		addAnnotation
 		  (getHoverAtTextOffset_Control(), 
 		   source, 
@@ -7358,7 +7317,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getToControlHandle_Widget(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });			
 	}
 
 	/**
@@ -7373,12 +7332,22 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getSelector_Id(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																				
+		   });																																																																																																							
+		addAnnotation
+		  (returnFromOsDialogEClass, 
+		   source, 
+		   new String[] {
+		   });																															
 		addAnnotation
 		  (getAdvancedInfoEClass, 
 		   source, 
 		   new String[] {
-		   });																							
+		   });																						
+		addAnnotation
+		  (optionsEClass, 
+		   source, 
+		   new String[] {
+		   });			
 		addAnnotation
 		  (execWithOptionsEClass, 
 		   source, 
@@ -7393,12 +7362,17 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getPropertyNodesEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																								
+		   });							
+		addAnnotation
+		  (fromRawKeyEClass, 
+		   source, 
+		   new String[] {
+		   });																																																																			
 		addAnnotation
 		  (getWidgetDetailsEClass, 
 		   source, 
 		   new String[] {
-		   });																			
+		   });																				
 	}
 
 	/**
@@ -7415,7 +7389,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Specifies if execution must wait for all UI jobs to complete after clicking.",
 			 "default", "false"
-		   });																																																																																																																																																																																																																				
+		   });																																																																																																																																																																																																																								
 	}
 
 	/**
@@ -7431,7 +7405,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   source, 
 		   new String[] {
 			 "type", "string | org.eclipse.rcptt.tesla.ecl.model.ControlHandler"
-		   });																																																																																																																																																																
+		   });																																																																																																																																																																				
 	}
 
 } //TeslaPackageImpl

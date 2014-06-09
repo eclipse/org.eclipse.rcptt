@@ -32,7 +32,6 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
@@ -41,13 +40,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.ui.Images;
@@ -55,6 +47,11 @@ import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 public abstract class BasicAUTComposite {
 
@@ -68,25 +65,6 @@ public abstract class BasicAUTComposite {
 
 	public void setLaunchListener(ILaunchListener listener) {
 		this.launchListener = listener;
-	}
-
-	protected class AUTLabelProvider extends LabelProvider {
-		@Override
-		public String getText(Object element) {
-			if (element instanceof AutElement) {
-				return AUTProvider.getText((AutElement) element);
-			}
-			return super.getText(element);
-		}
-
-		@Override
-		public Image getImage(Object element) {
-			if (element instanceof AutElement) {
-				AutElement e = (AutElement) element;
-				return AUTProvider.getImage(e);
-			}
-			return super.getImage(element);
-		}
 	}
 
 	protected class StyledAUTLabelProvider extends StyledCellLabelProvider {

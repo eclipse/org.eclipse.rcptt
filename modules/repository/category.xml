@@ -3,6 +3,8 @@
   <feature id="org.eclipse.rcptt.platform">
     <category name="rcptt.modules"/>
   </feature>
+  <feature id="org.eclipse.rcptt.core">
+  </feature>
   <feature id="org.eclipse.rcptt.updates">
   </feature>
   <feature id="org.eclipse.rcptt.ecl.server">

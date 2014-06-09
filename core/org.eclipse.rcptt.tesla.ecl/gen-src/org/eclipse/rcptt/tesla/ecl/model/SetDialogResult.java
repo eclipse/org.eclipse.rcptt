@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetDialogResult()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates result returning from native dialog.' returns='nothing'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates result returning from native dialog.' returns='nothing' example='set-dialog-result File \"/Users/Ulik_MacAir/Downloads/MyLicense.license\"\nget-menu \"File/Open File...\" | click'"
  * @generated
  */
 public interface SetDialogResult extends Command {

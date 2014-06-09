@@ -3,7 +3,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt.ecl</groupId>
   <artifactId>ecl-releng</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <parent>
     <artifactId>ecl</artifactId>

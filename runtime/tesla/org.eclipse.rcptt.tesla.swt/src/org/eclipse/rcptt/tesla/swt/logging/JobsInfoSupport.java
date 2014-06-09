@@ -15,14 +15,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.aspects.jobs.internal.IJobsEventListener;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
-import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
-import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 
@@ -85,8 +80,7 @@ public class JobsInfoSupport implements IJobsEventListener,
 		}
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
-			Q7WaitUtils.updateInfo("job", job.getClass().getName(), waitInfo);
+			ReportHelper.updateWaitInfo(builder.getCurrent(), "job", job.getClass().getName());
 		}
 	}
 

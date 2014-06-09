@@ -902,13 +902,22 @@ public interface ProtocolPackage extends EPackage {
 	int SET_TEXT__SELECT = ELEMENT_COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TEXT__HIDDEN = ELEMENT_COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Set Text</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SET_TEXT_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 2;
+	int SET_TEXT_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetStateImpl <em>Get State</em>}' class.
@@ -5817,6 +5826,17 @@ public interface ProtocolPackage extends EPackage {
 	EAttribute getSetText_Select();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.SetText#isHidden <em>Hidden</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Hidden</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.SetText#isHidden()
+	 * @see #getSetText()
+	 * @generated
+	 */
+	EAttribute getSetText_Hidden();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.GetState <em>Get State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8621,6 +8641,14 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SET_TEXT__SELECT = eINSTANCE.getSetText_Select();
+
+		/**
+		 * The meta object literal for the '<em><b>Hidden</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SET_TEXT__HIDDEN = eINSTANCE.getSetText_Hidden();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetStateImpl <em>Get State</em>}' class.

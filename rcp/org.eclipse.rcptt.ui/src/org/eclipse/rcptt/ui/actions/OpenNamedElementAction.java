@@ -14,10 +14,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
@@ -40,11 +45,28 @@ public abstract class OpenNamedElementAction {
 	}
 
 	public void run(IAction action) {
+		final Display display = Display.getCurrent();
+		new Job("Looking for elements") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				final Set<IQ7NamedElement> allElements = new HashSet<IQ7NamedElement>();
+				fillNamedElements(allElements);
+				display.asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						showDialog(allElements);
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		}.schedule();
+	}
+
+	protected void showDialog(Set<IQ7NamedElement> allElements) {
 		ModernElementListSelectionDialog dialog = new ModernElementListSelectionDialog(
 				WorkbenchUtils.getShell(), createLabelProvider());
-		Set<IQ7NamedElement> allElements = new HashSet<IQ7NamedElement>();
-
-		fillNamedElements(allElements);
 
 		dialog.setElements(allElements.toArray());
 		dialog.setTitle(getWindowTitle());

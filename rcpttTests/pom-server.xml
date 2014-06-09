@@ -2,29 +2,27 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.xored.q7</groupId>
-	<artifactId>q7tests-server</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<artifactId>server</artifactId>
 	<packaging>pom</packaging>
 
 	<properties>
 		<q7Server>http://192.168.2.64:8090</q7Server>
-        <clientId>komaz</clientId>
-        <clientSecret>05fe7461c607c33229772d402505601016a7d0ea</clientSecret>
-        <organization>xored</organization>
+		<clientId>komaz</clientId>
+		<clientSecret>05fe7461c607c33229772d402505601016a7d0ea</clientSecret>
+		<organization>xored</organization>
 	</properties>
 
 	<parent>
-		<groupId>com.xored.q7</groupId>
-		<artifactId>q7tests-base</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
+		<groupId>org.eclipse.rcptt.tests</groupId>
+		<artifactId>base</artifactId>
+		<version>1.5.0-SNAPSHOT</version>
 		<relativePath>./pom-base.xml</relativePath>
 	</parent>
 
 	<modules>
 		<module>contexts/pom-server.xml</module>
 		<module>platform_tests/pom-server.xml</module>
-		<module>ECL_IDE_module/pom-server.xml</module>
+		<!--module>ECL_IDE_module/pom-server.xml</module-->
 	</modules>
 
 	<!--dependencies> <dependency> <groupId>com.xored.q7</groupId> <artifactId>com.xored.q7.pro</artifactId> 
@@ -33,7 +31,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.xored.q7</groupId>
+				<groupId>${q7-maven-group}</groupId>
 				<artifactId>q7-server-maven-plugin</artifactId>
 				<version>${q7-maven-version}</version>
 				<extensions>true</extensions>
@@ -80,7 +78,7 @@
 								</features>
 							</injection>
 							<injection>
-								<site>${q7URL}/artifact/shared/runtime-site</site>
+								<site>${rcpttRuntimeRepository}</site>
 							</injection>
 
 						</injections>

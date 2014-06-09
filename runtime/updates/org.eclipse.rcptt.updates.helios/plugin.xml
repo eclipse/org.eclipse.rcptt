@@ -7,7 +7,7 @@
             id="deps for 3.6"
             kind="dependency"
             path="platform:///plugin/org.eclipse.rcptt.updates.helios/dependencies/"
-            version="[1.1,1.2)">
+            version="[3.6,4.3)">
       </q7runtime>
    </extension>
 </plugin>

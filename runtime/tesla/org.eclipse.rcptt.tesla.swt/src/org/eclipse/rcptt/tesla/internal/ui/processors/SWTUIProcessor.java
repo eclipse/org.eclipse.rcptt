@@ -605,6 +605,10 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 	public Response executeCommand(final Command command,
 			final IElementProcessorMapper mapper) {
+		Throwable error = getPlayer().getError();
+		if (error != null) {
+			throw new RuntimeException("Previous command has failed", error);
+		}
 		if (command instanceof GetBounds) {
 			Element element = ((ElementCommand) command).getElement();
 			SWTUIElement widget = getMapper().get(element);
@@ -1024,8 +1028,9 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						// Do a mouse Down/Up for a selected position
 						int button = TeslaUtils.buttonNameToInt(command
 								.getButton());
-						events.sendEvent(control, SWT.MouseDown, 0, 0, button);
-						events.sendEvent(control, SWT.MouseUp, 0, 0, button);
+						Point size = control.getSize();
+						events.sendEvent(control, SWT.MouseDown, size.x/2, size.y/2, button);
+						events.sendEvent(control, SWT.MouseUp, size.x/2, size.y/2, button);
 						// Do a selection set one more time.
 						control.setSelection(start, end);
 					}
@@ -1087,13 +1092,14 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 						int button = TeslaUtils.buttonNameToInt(command
 								.getButton());
-						events.sendEvent(control, SWT.MouseDown, 0, 0, button);
-						events.sendEvent(control, SWT.MouseUp, 0, 0, button);
-						events.sendEvent(control, SWT.MouseDown, 0, 0, button);
-						events.sendEvent(control, SWT.MouseUp, 0, 0, button);
+						Point size = control.getSize();
+						events.sendEvent(control, SWT.MouseDown, size.x/2, size.y/2, button);
+						events.sendEvent(control, SWT.MouseUp, size.x/2, size.y/2, button);
+						events.sendEvent(control, SWT.MouseDown, size.x/2, size.y/2, button);
+						events.sendEvent(control, SWT.MouseUp, size.x/2, size.y/2, button);
 
 						control.setSelection(finalStart, finalEnd);
-						events.sendEvent(control, SWT.MouseDoubleClick, 0, 0,
+						events.sendEvent(control, SWT.MouseDoubleClick, size.x/2, size.y/2,
 								button);
 					}
 
@@ -2613,9 +2619,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		getMapper().clear();
 		SWTModelMapper.initializeExtensions(client
 				.getProcessors(ISWTModelMapperExtension.class));
-		getPlayer().getCollector().clean();
-		getPlayer().getBrowserManager().clear();
-		getPlayer().cleanMenus(null);
+		getPlayer().clean();
 		getCellEditorSupport().clear();
 		TeslaCellEditorManager.getInstance().clean();
 		SWTDialogManager.clear();

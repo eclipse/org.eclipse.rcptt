@@ -775,8 +775,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (readCsvFileEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Parses given csv file. Fails if file is not found or format is invalid",
-			 "returns", "<code>Table</code> EMF Object. "
+			 "description", "Parses given csv file. Fails if file is not found or format is invalid.\nLearn more about <a href = \"http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table\">Asserting the whole table contents.</a>",
+			 "returns", "<code>Table</code> EMF Object. ",
+			 "example", "with [get-window Preferences] {\n\tget-tree | select \"Java/Installed JREs\"\n\tget-table | get-table-data | eq [read-csv-file \"workspace:/assertData/table.csv\"] | \n\t\tassert-true \"Data in table does not match input file\" \n\tget-button OK | click\n}\n\n//Let\'s say we need to write ErrorLog info to csv file \'table.csv\'.\n//ECL script should look like this:\n \nget-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-csv-file \"workspace:/MyProject/AssertData/table.csv\n \n//Note: \n//<a href=\"#expand-all\">Expand-all</a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won\'t be written.  \n//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. \n \n//In case you want to specify which columns/rows should be written you may use \n//<a href=\"#select-columns\">select-columns</a>/<a href=\"#exclude-columns\">exclude-columns</a> and <a href=\"#select-rows\">select-rows</a>/<a href=\"#exclude-rows\">exclude-rows</a> commands:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" \nget-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\nget-view \"Error Log\" | get-tree | get-table-data | select-rows -column \"Message\"  -value \"Execution of early startup handlers completed.\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\n \n//To compare table data to already written csv file you may use <a href=\"#read-csv-file\">read-csv-file</a> command:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Plug-in\" | eq [read-csv-file \"workspace:/MyProject/AssertData/table.csv\"] | assert-true \"Data in table does not match input file\" "
 		   });		
 		addAnnotation
 		  (getReadCsvFile_Uri(), 
@@ -795,8 +796,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (writeCsvFileEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Writes given table into csv file. Fails if file is not accessible",
-			 "returns", "The value of <code>table</code> argument."
+			 "description", "Writes given table into csv file. Fails if file is not accessible.\nLearn more about <a href = \"http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table\">Asserting the whole table contents.</a>",
+			 "returns", "The value of <code>table</code> argument.",
+			 "example", "with [get-window Preferences] {\n\tget-tree | select \"Java/Installed JREs\"\n\tget-table | get-table-data | write-csv-file \"workspace:/assertData/table.csv\"\n\tget-button OK | click\n}\n\n//Let\'s say we need to write ErrorLog info to csv file \'table.csv\'.\n//ECL script should look like this:\n \nget-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-csv-file \"workspace:/MyProject/AssertData/table.csv\n \n//Note: \n//<a href=\"#expand-all\">Expand-all</a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won\'t be written.  \n//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. \n \n//In case you want to specify which columns/rows should be written you may use \n//<a href=\"#select-columns\">select-columns</a>/<a href=\"#exclude-columns\">exclude-columns</a> and <a href=\"#select-rows\">select-rows</a>/<a href=\"#exclude-rows\">exclude-rows</a> commands:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" \nget-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\nget-view \"Error Log\" | get-tree | get-table-data | select-rows -column \"Message\"  -value \"Execution of early startup handlers completed.\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\n \n//To compare table data to already written csv file you may use <a href=\"#read-csv-file\">read-csv-file</a> command:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Plug-in\" | eq [read-csv-file \"workspace:/MyProject/AssertData/table.csv\"] | assert-true \"Data in table does not match input file\" "
 		   });			
 		addAnnotation
 		  (getWriteCsvFile_Table(), 
@@ -815,7 +817,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "Takes a table from input and returns the same table which has some columns excluded. ",
-			 "returns", "Copy of input table object without columns with names listed in <code>columns</code>"
+			 "returns", "Copy of input table object without columns with names listed in <code>columns</code>",
+			 "example", "get-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\""
 		   });			
 		addAnnotation
 		  (getExcludeColumns_Table(), 
@@ -834,7 +837,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "Takes a table from input and returns the table containing only columns passed into <code>columns</code> argument.",
-			 "returns", "Copy of input table object with only columns with names listed in <code>columns</code>"
+			 "returns", "Copy of input table object with only columns with names listed in <code>columns</code>",
+			 "example", "get-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" "
 		   });			
 		addAnnotation
 		  (getSelectColumns_Table(), 
@@ -852,7 +856,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (assertTablesMatchEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Compares contents of two tables. If contents are not the same, fails with a descriptive message"
+			 "description", "Compares contents of two tables. If contents are not the same, fails with a descriptive message",
+			 "example", "assert-tables-match [get-editor \"context\" | get-section Parameters | get-table | get-table-data ]\n                    [get-editor \"context2\" | get-section Parameters | get-table | get-table-data]"
 		   });		
 		addAnnotation
 		  (getAssertTablesMatch_IgnoreColumnOrder(), 
@@ -870,7 +875,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (writeLinesEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Reads objects from input pipe and writes them into file line-by-line as strings"
+			 "description", "Reads objects from input pipe and writes them into file line-by-line as strings",
+			 "example", "//writes a list of launch configuration into a file line-by-line\nlist-launch-configurations | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n// appends \"New line\" into a file. \nstr \"New line\" | write-lines -uri \"workspace:/Project/Folder/file.txt\" -append\n"
 		   });		
 		addAnnotation
 		  (getWriteLines_Uri(), 
@@ -888,7 +894,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (readLinesEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Reads lines from file identified by uri and writes them one-by-one into output pipe"
+			 "description", "Reads lines from file identified by uri and writes them one-by-one into output pipe",
+			 "example", "//Displays alert with lines count\nshow-alert [concat \"The number of lines is \"[read-lines -uri \"workspace:/Project/Folder/file.txt\" | length | str]]\n\n"
 		   });		
 		addAnnotation
 		  (getReadLines_Uri(), 
@@ -965,7 +972,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "Converts its input to table data format, exactly the same as <code>get-table-data</code> returns.",
-			 "returns", "Table data."
+			 "returns", "Table data.",
+			 "example", "get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\""
 		   });			
 		addAnnotation
 		  (getAsTableData_Input(), 
@@ -978,7 +986,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "Parses given .properties file. Fails if file is not found or format is invalid",
-			 "returns", "ECL map with values from properties file"
+			 "returns", "ECL map with values from properties file",
+			 "example", "...get-item \"General Registers/pc\" | get-property \"values[\\\'Value\\\']\"\n| matches [format \"%s.*\" [read-properties -uri \"file:/C:/Users/Administrator/Desktop/p.properties\" | get myKey]] | verify-true\n"
 		   });		
 		addAnnotation
 		  (getReadProperties_Uri(), 

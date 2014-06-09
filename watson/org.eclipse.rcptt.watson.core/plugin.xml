@@ -34,4 +34,12 @@
       </provider>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated report -->
+      <package
+            uri="http://eclipse.org/rcptt/sherlock/report"
+            class="org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage"
+            genModel="model/report.genmodel"/>
+   </extension>
+
 </plugin>

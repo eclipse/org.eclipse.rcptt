@@ -8,6 +8,8 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.model;
 
 import org.eclipse.rcptt.ecl.core.Command;
@@ -25,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowTabList()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Show the list of tabs from tab folder.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Show the list of tabs from tab folder.' returns='value of <code>control</code> parameter' example='get-editor SO | show-tab-list '"
  * @generated
  */
 public interface ShowTabList extends Command {

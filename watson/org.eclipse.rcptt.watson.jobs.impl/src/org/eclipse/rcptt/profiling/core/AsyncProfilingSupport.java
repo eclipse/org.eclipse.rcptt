@@ -21,6 +21,7 @@ import org.eclipse.rcptt.sherlock.core.SherlockTimerRunnable;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventKind;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.sherlock.jobs.jobs.AsyncEventInfo;
 import org.eclipse.rcptt.sherlock.jobs.jobs.AsyncEventKind;
@@ -84,12 +85,12 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			eventInfo.setKind(AsyncEventKind.TIMER_EXEC);
 			eventInfo.setId(JobsEventProvider.getID(async));
 
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(source);
 			event.setData(eventInfo);
 			event.setKind(EventKind.BEGIN);
-
 			event.setColor(ASYNC_ADDED_COLOR);
+			builder.getCurrent().createEvent(event);
 		}
 	}
 
@@ -120,7 +121,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 						continue;
 					}
 
-					Event event = builder.createEvent();
+					Event event = ReportFactory.eINSTANCE.createEvent();
 					event.setSource(getSources(builder).get(newRunnable));
 
 					AsyncEventInfo eventInfo = JobsFactory.eINSTANCE
@@ -130,6 +131,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 					event.setKind(EventKind.BEGIN);
 					event.setColor(ASYNC_RUNNING_COLOR);
 					eventInfo.setKind(AsyncEventKind.RUNNING);
+					builder.getCurrent().createEvent(event);
 				}
 			}
 
@@ -139,7 +141,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 						continue;
 					}
 
-					Event event = builder.createEvent();
+					Event event = ReportFactory.eINSTANCE.createEvent();
 					event.setSource(getSources(builder).get(newRunnable));
 
 					AsyncEventInfo eventInfo = JobsFactory.eINSTANCE
@@ -149,6 +151,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 					event.setKind(EventKind.END);
 					event.setColor(ASYNC_RUNNING_COLOR);
 					eventInfo.setKind(AsyncEventKind.DONE);
+					builder.getCurrent().createEvent(event);
 					getSources(builder).remove(newRunnable);
 					synchronized(runnables) {
 						for (SherlockTimerRunnable r : runnables) {
@@ -174,7 +177,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 				return;
 			}
 
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(getSources(builder).get(async));
 
 			AsyncEventInfo eventInfo = JobsFactory.eINSTANCE
@@ -184,6 +187,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			event.setKind(EventKind.BEGIN);
 			event.setColor(ASYNC_RUNNING_COLOR);
 			eventInfo.setKind(AsyncEventKind.RUNNING);
+			builder.getCurrent().createEvent(event);
 		}
 	}
 
@@ -204,7 +208,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			if (getSources(builder).get(async) == null) {
 				return;
 			}
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setKind(EventKind.END);
 			event.setColor(ASYNC_RUNNING_COLOR);
 			event.setSource(getSources(builder).get(async));
@@ -214,6 +218,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			event.setData(eventInfo);
 			eventInfo.setId(JobsEventProvider.getID(async));
 			eventInfo.setKind(AsyncEventKind.DONE);
+			builder.getCurrent().createEvent(event);
 			getSources(builder).remove(async);
 		}
 	}
@@ -242,7 +247,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			eventInfo.setKind(AsyncEventKind.STARTING);
 			eventInfo.setId(JobsEventProvider.getID(async));
 
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			event.setSource(source);
 			event.setData(eventInfo);
 			event.setKind(EventKind.BEGIN);
@@ -252,6 +257,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 				event.setColor(ASYNC_RUNNING_COLOR);
 				eventInfo.setKind(AsyncEventKind.RUNNING);
 			}
+			builder.getCurrent().createEvent(event);
 		}
 	}
 

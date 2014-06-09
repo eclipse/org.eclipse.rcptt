@@ -12,6 +12,7 @@ package org.eclipse.rcptt.launching.target;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
@@ -164,4 +165,6 @@ public interface ITargetPlatformHelper {
 	IStatus resolve(IProgressMonitor monitor);
 
 	String getEquinoxStartupPath(String bundleEquinoxLauncher);
+
+	public abstract IPluginModelBase getWeavingHook();
 }

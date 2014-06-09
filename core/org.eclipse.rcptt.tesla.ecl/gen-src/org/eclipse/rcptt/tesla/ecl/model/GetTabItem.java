@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetTabItem()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets tab of editor with defined name. If this tab doesn\'t exist, then error is returned.' returns='tab' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets tab of editor with defined name. If this tab doesn\'t exist, then error is returned.' returns='tab' recorded='true' example='get-editor SO | get-tab-folder | get-tab-item Documentation | click'"
  * @generated
  */
 public interface GetTabItem extends TextSelector {

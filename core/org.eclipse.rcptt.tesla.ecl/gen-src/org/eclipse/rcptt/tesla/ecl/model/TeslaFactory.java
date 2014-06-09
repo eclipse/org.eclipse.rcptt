@@ -1254,6 +1254,24 @@ public interface TeslaFactory extends EFactory {
 	Unfocus createUnfocus();
 
 	/**
+	 * Returns a new object of class '<em>Decrypt</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Decrypt</em>'.
+	 * @generated
+	 */
+	Decrypt createDecrypt();
+
+	/**
+	 * Returns a new object of class '<em>Decrypt Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Decrypt Result</em>'.
+	 * @generated
+	 */
+	DecryptResult createDecryptResult();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -13,32 +13,28 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
+import org.eclipse.rcptt.reporting.core.ReportManager;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
+import org.eclipse.rcptt.tesla.swt.ShellUtilsProvider;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
-
 public class ReportScreenshotProvider {
 	private static SWTScreenCapturer screenCapturer;
 
-	public static List<Snaphot> takeScreenshot(final Display display,
+	public static void takeScreenshot(final Display display,
 			final boolean onError, final String messagePrefix) {
 		if (screenCapturer == null) {
 			screenCapturer = new SWTScreenCapturer();
 		}
 		final List<Shell> toProceed = new ArrayList<Shell>();
-		final List<Snaphot> shots = new ArrayList<Snaphot>();
 
 		display.syncExec(new Runnable() {
 			public void run() {
@@ -60,25 +56,27 @@ public class ReportScreenshotProvider {
 							s.setMinimized(false);
 						}
 						s.setActive();
-						s.forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(s);
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 					}
 				}
 			});
 			display.syncExec(new Runnable() {
 				public void run() {
 					if (!s.isDisposed() && s.isVisible()) {
-						makeScreenshot(display, s, messagePrefix, onError,
-								shots);
+						makeScreenshot(display, s, messagePrefix, onError);
 					}
 				}
 			});
 		}
-
-		return shots;
 	}
+	
 
 	public static void makeScreenshot(Display display, Shell shell,
-			String message, boolean onError, List<Snaphot> shots) {
+			String message, boolean onError) {
 		if (shell.isDisposed()) {
 			return;
 		}
@@ -114,40 +112,16 @@ public class ReportScreenshotProvider {
 		byte[] shotData = screenCapturer.makeScreenShotData(display, minx,
 				miny, maxx - minx, maxy - miny, null, !onError);
 		if (shotData != null) {
-			ReportBuilder builder = ReportManager.getBuilder();
+			INodeBuilder node = ReportManager.getCurrentReportNode();
+			// Clean out previous screenshots with same name.
+			// cleanScreenshots(report.getRoot(), finalMessage);
 
-			if (builder != null) {
-				// Clean out previous screenshots with same name.
-				Report report = builder.getReport();
-				cleanScreenshots(report.getRoot(), finalMessage);
-
-				Snaphot snaphot = builder.createSnapshot();
-				Screenshot img = ReportFactory.eINSTANCE.createScreenshot();
-				img.setKind(ScreenshotKind.PNG);
-				img.setData(shotData);
-				img.setMessage(finalMessage);
-				snaphot.setData(img);
-				shots.add(snaphot);
-			}
-
+			Screenshot img = ReportFactory.eINSTANCE.createScreenshot();
+			img.setKind(ScreenshotKind.PNG);
+			img.setData(shotData);
+			img.setMessage(finalMessage);
+			// TODO: cleanup shots with the same name
+			ReportHelper.addSnapshotWithData(node, img);
 		}
-	}
-
-	private static void cleanScreenshots(Node node, String message) {
-		EList<Node> list = node.getChildren();
-		for (Node child : list) {
-			cleanScreenshots(child, message);
-		}
-		EList<Snaphot> snapshots = node.getSnapshots();
-		List<Snaphot> toClean = new ArrayList<Snaphot>();
-		for (Snaphot snapshot : snapshots) {
-			EObject data = snapshot.getData();
-			if (data instanceof Screenshot) {
-				if (((Screenshot) data).getMessage().equals(message)) {
-					toClean.add(snapshot);
-				}
-			}
-		}
-		snapshots.removeAll(toClean);
 	}
 }

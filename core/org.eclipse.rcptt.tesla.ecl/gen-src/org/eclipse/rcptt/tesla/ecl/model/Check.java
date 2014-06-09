@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getCheck()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Checks the control.' returns='value of <code>control</code> parameter' example=''"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Checks the control.' returns='value of <code>control</code> parameter' example='with [get-editor Wb | get-section Workbench] {\n    get-button \"Clear clipboard\" | check\n}'"
  * @generated
  */
 public interface Check extends Command {

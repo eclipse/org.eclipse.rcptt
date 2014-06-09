@@ -1,9 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl;
 
 import java.util.Map;
@@ -792,7 +796,7 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 		initEAttribute(getTraceData_Message(), ecorePackage.getEString(), "message", null, 0, 1, TraceData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(loggingDataEClass, LoggingData.class, "LoggingData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLoggingData_Text(), ecorePackage.getEString(), "text", null, 0, 1, LoggingData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLoggingData_Text(), ecorePackage.getEString(), "text", "", 0, 1, LoggingData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLoggingData_Category(), this.getLoggingCategory(), "category", null, 0, 1, LoggingData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

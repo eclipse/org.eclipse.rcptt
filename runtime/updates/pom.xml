@@ -24,10 +24,7 @@
 		<profile>
 			<id>rcp</id>
 			<modules>
-				<module>org.eclipse.rcptt.updates.ganymede</module>
-				<module>org.eclipse.rcptt.updates.galileo</module>
 				<module>org.eclipse.rcptt.updates.helios</module>
-				<module>org.eclipse.rcptt.updates.indigo</module>
 				<module>org.eclipse.rcptt.updates.kepler</module>
 				<module>org.eclipse.rcptt.updates-feature</module>
 				

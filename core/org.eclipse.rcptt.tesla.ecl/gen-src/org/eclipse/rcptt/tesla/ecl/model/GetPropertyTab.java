@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetPropertyTab()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the tab of the Properties View.' returns='The tab of the Properties View.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the tab of the Properties View.' returns='The tab of the Properties View.' example='with [get-view Properties] {\n    get-property-tab Description | click\n}'"
  * @generated
  */
 public interface GetPropertyTab extends TextSelector {

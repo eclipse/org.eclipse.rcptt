@@ -1,9 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl;
 
 import java.util.Map;
@@ -12,12 +16,23 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.*;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventKind;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingData;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportBuilderStore;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.TraceData;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +49,7 @@ public class ReportFactoryImpl extends EFactoryImpl implements ReportFactory {
 	 */
 	public static ReportFactory init() {
 		try {
-			ReportFactory theReportFactory = (ReportFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/sherlock/report"); 
+			ReportFactory theReportFactory = (ReportFactory)EPackage.Registry.INSTANCE.getEFactory(ReportPackage.eNS_URI);
 			if (theReportFactory != null) {
 				return theReportFactory;
 			}

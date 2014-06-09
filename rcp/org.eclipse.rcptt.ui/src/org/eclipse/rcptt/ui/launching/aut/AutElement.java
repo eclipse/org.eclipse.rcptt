@@ -64,4 +64,29 @@ public class AutElement {
 	public void stop() {
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((aut == null) ? 0 : aut.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AutElement other = (AutElement) obj;
+		if (aut == null) {
+			if (other.aut != null)
+				return false;
+		} else if (!aut.equals(other.aut))
+			return false;
+		return true;
+	}
+
 }

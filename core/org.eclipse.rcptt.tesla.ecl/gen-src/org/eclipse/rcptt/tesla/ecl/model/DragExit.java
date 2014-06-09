@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragExit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag exit event.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag exit event.' returns='value of <code>control</code> parameter' example='get-item \"Project/t.test\" | drag-exit'"
  * @generated
  */
 public interface DragExit extends DragAction {

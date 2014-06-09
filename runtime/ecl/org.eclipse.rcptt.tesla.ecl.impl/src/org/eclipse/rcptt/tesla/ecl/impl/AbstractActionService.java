@@ -18,11 +18,6 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.dispatch.ServiceDispatchingUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-
-import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.ServiceUtil;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
@@ -38,21 +33,9 @@ public abstract class AbstractActionService implements ICommandService {
 
 		TeslaBridge.waitDelay();
 
-		final String[] msg = new String[1];
-		ReportBuilder builder = ReportManager.getBuilder();
-		if (builder != null) {
-			builder.withCurrentNode(new Procedure1<Node>() {
-
-				@Override
-				public void apply(Node node) {
-					if (node != null)
-						msg[0] = node.getName();
-				}
-			});
-		}
-		makeScreenshot(false, msg[0]);
+		makeScreenshot(false, "");
 		try {
-			IStatus extensionResult = ServiceDispatchingUtils.handleWithExtensions(command, context);
+			IStatus extensionResult = handleWithExtensions(command, context);
 			if (extensionResult != null) {
 				if (!extensionResult.isOK()) {
 					makeScreenshot(true, extensionResult.getMessage());
@@ -85,6 +68,11 @@ public abstract class AbstractActionService implements ICommandService {
 		} finally {
 			TeslaBridge.waitExecution();
 		}
+	}
+
+	protected IStatus handleWithExtensions(Command command, IProcess context)
+			throws InterruptedException, CoreException {
+		return ServiceDispatchingUtils.handleWithExtensions(command, context);
 	}
 
 	protected IProcess getContext() {

@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.launching.ext;
 
 import static com.google.common.base.Objects.firstNonNull;
+import static org.eclipse.rcptt.internal.launching.ext.AJConstants.OSGI_FRAMEWORK_EXTENSIONS;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.status;
 import static org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils.id;
@@ -80,6 +81,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
@@ -569,8 +571,16 @@ public class Q7ExternalLaunchDelegate extends
 
 			// Append all other properties from original config file
 			OriginalOrderProperties properties = target.getConfigIniProperties();
+
 			properties.setBeginAdd(true);
 			properties.putAll(props);
+
+			properties.setProperty(
+					OSGI_FRAMEWORK_EXTENSIONS,
+					addWeavingHook(
+							properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS),
+							target.getWeavingHook()));
+
 			BufferedOutputStream out = new BufferedOutputStream(
 					new FileOutputStream(config));
 			properties.store(out, "Configuration File");
@@ -597,6 +607,33 @@ public class Q7ExternalLaunchDelegate extends
 						+ ": AUT command line arguments is set to: "
 						+ Arrays.toString(info.programArgs));
 		return info.programArgs;
+	}
+
+	private static String addWeavingHook(String extensions, IPluginModelBase hook) throws CoreException {
+		if (hook == null) {
+			throw new CoreException(Q7ExtLaunchingPlugin.status("No "
+					+ AJConstants.HOOK + " plugin"));
+		}
+
+		String ajref = String.format("reference:file:%s", hook.getInstallLocation());
+
+		if (extensions == null) {
+			return ajref;
+		}
+
+		// otherwise split and search for a duplicate AJ hook:
+		StringBuilder result = new StringBuilder();
+
+		for (String extension : extensions.split(",")) {
+			if (extensions.contains(AJConstants.HOOK)) {
+				continue;
+			}
+			if (!extension.isEmpty())
+				result.append(extension).append(',');
+		}
+		result.append(ajref).append(',');
+		result.setLength(result.length() - 1);
+		return result.toString();
 	}
 
 	@Override
@@ -634,6 +671,7 @@ public class Q7ExternalLaunchDelegate extends
 				+ hook.getInstallLocation());
 
 		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args));
+
 		info.vmArgs = args.toArray(new String[args.size()]);
 		Q7ExtLaunchingPlugin.getDefault().info(
 				Q7_LAUNCHING_AUT + config.getName()

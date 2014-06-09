@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetTabFolder()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets all tabs of editor. If this editor doesn\'t contain tabs, then error is returned.' returns='all tabs of editor' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets all tabs of editor. If this editor doesn\'t contain tabs, then error is returned.' returns='all tabs of editor' recorded='true' example='get-editor SO | get-tab-folder | get-tab-item Documentation | click'"
  * @generated
  */
 public interface GetTabFolder extends Selector {

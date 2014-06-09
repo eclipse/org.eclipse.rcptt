@@ -10,56 +10,50 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.internal.ecl.core.commands;
 
+import static org.eclipse.rcptt.reporting.core.ReportHelper.addSnapshotWithData;
+import static org.eclipse.rcptt.reporting.core.ReportHelper.setInfo;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.core.VerificationType;
+import org.eclipse.rcptt.core.VerificationTypeManager;
+import org.eclipse.rcptt.core.VerificationsRuntime;
+import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
+import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.rcptt.core.VerificationType;
-import org.eclipse.rcptt.core.VerificationTypeManager;
-import org.eclipse.rcptt.core.VerificationsRuntime;
-import org.eclipse.rcptt.core.scenario.Verification;
-import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.ResultStatus;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
-import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.internal.core.TeslaProcessorManager;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
+import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
+import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
+import org.eclipse.swt.widgets.Display;
 
 public class ExecVerificationService implements ICommandService {
 
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		ExecVerification execVerification = (ExecVerification) command;
 		Verification verification = execVerification.getVerification();
-		ReportBuilder builder = ReportManager.getBuilder();
-		Node node = null;
-		Q7Info info = null;
-		if (builder != null) {
-			node = builder.beginTask(verification.getName() == null ? "Unnamed verification"
-					: verification.getName());
-			info = ReportHelper.getInfo(node);
-			info.setType(ItemKind.VERIFICATION);
-			info.setId(verification.getId());
-			info.setTags(verification.getTags());
-			info.setSubtype(verification.getId());
-			info.setPhase(execVerification.getPhase().toString());
-		}
+		final INodeBuilder node = ReportManager.getCurrentReportNode().beginTask(verification.getName() == null ? "Unnamed verification"
+				: verification.getName());
+		final Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+		info.setType(ItemKind.VERIFICATION);
+		info.setId(verification.getId());
+		info.setTags(verification.getTags());
+		info.setSubtype(verification.getId());
+		info.setPhase(execVerification.getPhase().toString());
 		try {
 			exec(execVerification, context);
 			if (node != null) {
@@ -86,8 +80,7 @@ public class ExecVerificationService implements ICommandService {
 					TeslaErrorStatus tes = (TeslaErrorStatus) sest.getCause();
 					AdvancedInformation advancedInfo = tes.getInfo();
 					if (advancedInfo != null) {
-						Snaphot shot = builder.createSnapshot();
-						shot.setData(EcoreUtil.copy(advancedInfo));
+						addSnapshotWithData(node, advancedInfo);
 						processed = true;
 					}
 				}
@@ -120,10 +113,7 @@ public class ExecVerificationService implements ICommandService {
 					// ignore
 				}
 				GeneralInformationCollector.collectInformation(information);
-				if (builder != null) {
-					Snaphot shot = builder.createSnapshot();
-					shot.setData(information);
-				}
+				addSnapshotWithData(node, information);
 			}
 			if (e instanceof CoreException) {
 				throw (CoreException) e;
@@ -134,9 +124,8 @@ public class ExecVerificationService implements ICommandService {
 			}
 
 		} finally {
-			if (builder != null) {
-				builder.endTask();
-			}
+			setInfo(node, info);
+			node.endTask();
 		}
 		return Status.OK_STATUS;
 

@@ -30,7 +30,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getAssertTablesMatch()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Compares contents of two tables. If contents are not the same, fails with a descriptive message'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Compares contents of two tables. If contents are not the same, fails with a descriptive message' example='assert-tables-match [get-editor \"context\" | get-section Parameters | get-table | get-table-data ]\n                    [get-editor \"context2\" | get-section Parameters | get-table | get-table-data]'"
  * @generated
  */
 public interface AssertTablesMatch extends Command {

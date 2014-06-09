@@ -1,79 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-	<feature id="org.eclipse.rcptt.platform">
-		<category name="rcptt"/>
-	</feature>
-	<feature id="org.eclipse.rcptt.updates">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.ecl.server">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.tesla.ecl">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.ecl.core">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.ecl.ide">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.ecl.platform">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.ecl.platform.ui">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.tesla">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.rcptt.watson">
-		<!--category name="xored"/ -->
-	</feature>
-	<feature id="org.eclipse.pde">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.ecore">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.workspace">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.jdt">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.platform">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.common">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.common.ui">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.databinding">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.transaction">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.edit.ui">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.edit">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.emf.validation">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<feature id="org.eclipse.cvs">
-		<!--category name="eclipse"/ -->
-	</feature>
-	<category-def label="RCP Testing Tool Project" name="rcptt"/>
-	<!-- category-def name="eclipse" label="Eclipse Foundation"/><category-def 
-		name="polarion" label="Polarion"/><category-def name="google" label="Google"/ -->
-	<feature id="org.eclipse.jdt.lite"/>
-	<feature id="org.eclipse.pde.lite"/>
-	<feature id="org.eclipse.platform.lite"/>
-	<feature id="org.eclipse.rcp.lite"/>
+   <feature id="org.eclipse.rcptt.platform">
+      <category name="rcptt"/>
+   </feature>
+   <feature id="org.eclipse.rcptt.updates"/>
+   <feature id="org.eclipse.rcptt.ecl.server"/>
+   <feature id="org.eclipse.rcptt.tesla.ecl"/>
+   <feature id="org.eclipse.rcptt.ecl.core"/>
+   <feature id="org.eclipse.rcptt.ecl.ide"/>
+   <feature id="org.eclipse.rcptt.ecl.platform"/>
+   <feature id="org.eclipse.rcptt.ecl.platform.ui"/>
+   <feature id="org.eclipse.rcptt.tesla"/>
+   <feature id="org.eclipse.rcptt.watson"/>
+   <feature id="org.eclipse.pde"/>
+   <feature id="org.eclipse.emf.ecore"/>
+   <feature id="org.eclipse.emf.workspace"/>
+   <feature id="org.eclipse.jdt"/>
+   <feature id="org.eclipse.platform"/>
+   <feature id="org.eclipse.emf.common"/>
+   <feature id="org.eclipse.emf.common.ui"/>
+   <feature id="org.eclipse.emf.databinding"/>
+   <feature id="org.eclipse.emf.transaction"/>
+   <feature id="org.eclipse.emf.edit.ui"/>
+   <feature id="org.eclipse.emf.edit"/>
+   <feature id="org.eclipse.emf.validation"/>
+   <feature id="org.eclipse.cvs"/>
+   <feature id="org.eclipse.jdt.lite"/>
+   <feature id="org.eclipse.pde.lite"/>
+   <feature id="org.eclipse.platform.lite"/>
+   <feature id="org.eclipse.rcp.lite"/>
+   <bundle id="com.google.gson"/>
+   <category-def name="rcptt" label="RCP Testing Tool Project"/>
 </site>

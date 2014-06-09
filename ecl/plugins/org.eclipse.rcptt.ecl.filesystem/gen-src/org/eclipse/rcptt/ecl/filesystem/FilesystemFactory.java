@@ -39,6 +39,33 @@ public interface FilesystemFactory extends EFactory {
 	CopyFile createCopyFile();
 
 	/**
+	 * Returns a new object of class '<em>Uri From Path</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uri From Path</em>'.
+	 * @generated
+	 */
+	UriFromPath createUriFromPath();
+
+	/**
+	 * Returns a new object of class '<em>Get File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get File</em>'.
+	 * @generated
+	 */
+	GetFile createGetFile();
+
+	/**
+	 * Returns a new object of class '<em>File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>File</em>'.
+	 * @generated
+	 */
+	File createFile();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

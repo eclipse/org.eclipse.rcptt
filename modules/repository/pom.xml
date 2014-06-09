@@ -10,6 +10,7 @@
   <properties>
 	<platformRepository>${rcpttRepositoryPath}../../rcp/products/repository/target/repository/</platformRepository>
 	<nebulaRepository>${project.baseUri}../nebula/site/target/site</nebulaRepository>
+	<coreRepository>${project.baseUri}../../repository/core/target/repository</coreRepository>	
   </properties>
 
   <repositories>
@@ -17,6 +18,11 @@
 	  <id>rcptt</id>
 	  <layout>p2</layout>
 	  <url>${platformRepository}</url>
+	</repository>
+	<repository>
+	  <id>rcptt-core</id>
+	  <layout>p2</layout>
+	  <url>${coreRepository}</url>
 	</repository>
 	<repository>
 	  <id>nebula</id>

@@ -18,7 +18,7 @@
     <e3xRepository>file://${user.dir}/repository/e3x/target/repository</e3xRepository>
     <e4xRepository>file://${user.dir}/repository/e4x/target/repository</e4xRepository>
     <rcpttRepository>http://download.xored.com/mirrors/q7mirror/</rcpttRepository>
-    <junoRepository>http://download.xored.com/mirrors/juno/</junoRepository>
+    <junoRepository>http://updates.xored.com/juno/</junoRepository>
     <eclRepository>file://${user.dir}/ecl/releng/org.eclipse.rcptt.ecl.core-updatesite/target/site</eclRepository>
   </properties>
   <profiles>

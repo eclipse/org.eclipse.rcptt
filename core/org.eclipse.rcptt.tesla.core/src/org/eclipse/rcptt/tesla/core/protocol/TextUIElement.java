@@ -27,11 +27,12 @@ public class TextUIElement extends ControlUIElement {
 		player.safeExecuteCommand(cmd);
 	}
 
-	public void setText(String text, boolean select) {
+	public void setText(String text, boolean select, boolean hide) {
 		SetText cmd = factory.createSetText();
 		cmd.setElement(getElement());
 		cmd.setValue(text);
 		cmd.setSelect(select);
+		cmd.setHidden(hide);
 		player.safeExecuteCommand(cmd);
 	}
 

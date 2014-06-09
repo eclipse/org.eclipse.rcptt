@@ -21,10 +21,6 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.EclBoolean;
 import org.eclipse.rcptt.ecl.core.EclString;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DND;
-
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.core.protocol.CanvasUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ClickAboutMenu;
 import org.eclipse.rcptt.tesla.core.protocol.ClickPreferencesMenu;
@@ -56,6 +52,8 @@ import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
 import org.eclipse.rcptt.tesla.ecl.model.ClickText;
 import org.eclipse.rcptt.tesla.ecl.model.Close;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
+import org.eclipse.rcptt.tesla.ecl.model.Decrypt;
+import org.eclipse.rcptt.tesla.ecl.model.DecryptResult;
 import org.eclipse.rcptt.tesla.ecl.model.DoubleClick;
 import org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler;
 import org.eclipse.rcptt.tesla.ecl.model.DoubleClickText;
@@ -83,6 +81,7 @@ import org.eclipse.rcptt.tesla.ecl.model.SetTextSelection;
 import org.eclipse.rcptt.tesla.ecl.model.SetValue;
 import org.eclipse.rcptt.tesla.ecl.model.ShowContentAssist;
 import org.eclipse.rcptt.tesla.ecl.model.ShowTabList;
+import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
 import org.eclipse.rcptt.tesla.ecl.model.TypeText;
@@ -91,6 +90,9 @@ import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DirectEdit;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction;
+import org.eclipse.rcptt.util.swt.KeysAndButtons;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
 
 public class ActionService extends AbstractActionService {
 
@@ -182,9 +184,17 @@ public class ActionService extends AbstractActionService {
 			handleClickText((ClickText) command);
 		else if (command instanceof DoubleClickText)
 			handleDoubleClickText((DoubleClickText) command);
+		else if (command instanceof Decrypt)
+			return handleDecrypt((Decrypt)command);
 		// Options
 		else if (command instanceof Options)
 			handleOptions((Options) command);
+		return result;
+	}
+
+	private DecryptResult  handleDecrypt(Decrypt command) {
+		DecryptResult result = TeslaFactory.eINSTANCE.createDecryptResult();
+		result.setValue(command.getValue());
 		return result;
 	}
 
@@ -728,10 +738,11 @@ public class ActionService extends AbstractActionService {
 						/* editPartPath */null, /* figurePath */null, width, height,
 						width, height, mask);
 				return target;
+			default:
+				throw new CoreException(
+						TeslaImplPlugin.err("Illegal control kind: "
+								+ target.getKind()));
 			}
-			throw new CoreException(
-					TeslaImplPlugin.err("Illegal control kind: "
-							+ target.getKind()));
 		}
 		MouseCommand command = DiagramFactory.eINSTANCE.createMouseCommand();
 		command.setKind(kind);

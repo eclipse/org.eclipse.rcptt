@@ -11,6 +11,7 @@
 		<module>org.eclipse.rcptt</module>
 		<module>org.eclipse.rcptt.platform-feature</module>
 		<module>org.eclipse.rcptt.help</module>
+		<module>../launching/org.eclipse.rcptt.launching.multiaut.ui</module>
 		<module>org.eclipse.rcptt.launching.ext.ui</module>
 		<module>org.eclipse.rcptt.launching.remote.ui</module>
 		<module>org.eclipse.rcptt.launching.configuration</module>

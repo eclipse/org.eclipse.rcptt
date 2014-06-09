@@ -14,10 +14,10 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.util.ILogger;
 import org.eclipse.jface.util.Policy;
-
 import org.eclipse.rcptt.sherlock.core.SherlockCore;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
@@ -39,10 +39,11 @@ public class JfacePolicyEventProvider extends AbstractEventProvider implements
 	public void logging(IStatus status, String plugin) {
 		IReportBuilder[] builders = getListeners();
 		for (IReportBuilder builder : builders) {
-			Event event = builder.createEvent();
+			Event event = ReportFactory.eINSTANCE.createEvent();
 			EclipseStatus data = SherlockCore.convert(status);
 			event.setData(data);
 			data.setThreadName(Thread.currentThread().getName());
+			builder.getCurrent().createEvent(event);
 		}
 	}
 

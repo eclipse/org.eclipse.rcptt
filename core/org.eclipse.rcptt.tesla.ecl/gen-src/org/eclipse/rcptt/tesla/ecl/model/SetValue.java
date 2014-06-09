@@ -8,6 +8,8 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.model;
 
 import org.eclipse.rcptt.ecl.core.Command;
@@ -26,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetValue()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Set value of the control.' returns=''"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Set value of the control.' returns='' example='get-combo -after [get-label \"Mouse move recording mode\"] | set-value Never'"
  * @generated
  */
 public interface SetValue extends Command {

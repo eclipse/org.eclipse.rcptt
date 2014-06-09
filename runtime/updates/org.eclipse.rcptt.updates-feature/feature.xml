@@ -6,7 +6,7 @@
       provider-name="%providerName">
 
    <description>
-      Prepared update sites with RCPTT Runtime and RCPTT Runtime prerequsites for ganymede..luna
+      Prepared update sites with RCPTT Runtime and RCPTT Runtime prerequsites for helios..luna
    </description>
 
    <copyright url="%copyrightURL">
@@ -31,29 +31,8 @@
          version="0.0.0"
          unpack="false"/>
 
-
-
-   <plugin
-         id="org.eclipse.rcptt.updates.galileo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.rcptt.updates.ganymede"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
    <plugin
          id="org.eclipse.rcptt.updates.helios"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.rcptt.updates.indigo"
          download-size="0"
          install-size="0"
          version="0.0.0"

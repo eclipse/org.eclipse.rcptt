@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetCaretPos()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the text offset.\nFor specified line.' returns='value of *control* parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the text offset.\nFor specified line.' returns='value of *control* parameter' example='with [get-editor \"q7enterprise.license\" | get-text-viewer] {\n    set-caret-pos 3 5\n}'"
  * @generated
  */
 public interface SetCaretPos extends Command {

@@ -50,6 +50,7 @@ import org.eclipse.rcptt.ecl.operations.NotEq;
 import org.eclipse.rcptt.ecl.operations.OperationsFactory;
 import org.eclipse.rcptt.ecl.operations.OperationsPackage;
 import org.eclipse.rcptt.ecl.operations.Or;
+import org.eclipse.rcptt.ecl.operations.ParseTime;
 import org.eclipse.rcptt.ecl.operations.Plus;
 import org.eclipse.rcptt.ecl.operations.Recur;
 import org.eclipse.rcptt.ecl.operations.Repeat;
@@ -314,6 +315,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass splitEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parseTimeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1113,6 +1121,24 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParseTime() {
+		return parseTimeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParseTime_Format() {
+		return (EAttribute)parseTimeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1293,6 +1319,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		createEAttribute(splitEClass, SPLIT__SEP);
 		createEAttribute(splitEClass, SPLIT__TRIM_RESULTS);
 		createEAttribute(splitEClass, SPLIT__OMIT_EMPTY_STRINGS);
+
+		parseTimeEClass = createEClass(PARSE_TIME);
+		createEAttribute(parseTimeEClass, PARSE_TIME__FORMAT);
 	}
 
 	/**
@@ -1367,6 +1396,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		toListEClass.getESuperTypes().add(theCorePackage.getCommand());
 		eachEClass.getESuperTypes().add(theCorePackage.getCommand());
 		splitEClass.getESuperTypes().add(theCorePackage.getCommand());
+		parseTimeEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(eqEClass, Eq.class, "Eq", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1501,6 +1531,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEAttribute(getSplit_TrimResults(), theEcorePackage.getEBoolean(), "trimResults", "false", 0, 1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSplit_OmitEmptyStrings(), theEcorePackage.getEBoolean(), "omitEmptyStrings", "false", 0, 1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(parseTimeEClass, ParseTime.class, "ParseTime", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getParseTime_Format(), theEcorePackage.getEString(), "format", null, 0, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Create resource
 		createResource(eNS_URI);
 
@@ -1544,7 +1577,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Converts its argument to int.",
-			 "returns", "Returns integer value or fails if value cannot be converted. <code>true</code> is converted to <code>1</code> and <code>false</code> is converted to <code>0</code>."
+			 "returns", "Returns integer value or fails if value cannot be converted. <code>true</code> is converted to <code>1</code> and <code>false</code> is converted to <code>0</code>.",
+			 "example", "//verifies that the number of Stops it less then 3\nget-view \"Execution View\" | get-label -after [get-label \"Stops:\"] | get-text | int | lt 3 | verify-true"
 		   });		
 		addAnnotation
 		  (longEClass, 
@@ -1565,14 +1599,16 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Converts its argument to boolean.",
-			 "returns", "Returns boolean value or fails if value cannot be converted. "
+			 "returns", "Returns boolean value or fails if value cannot be converted. ",
+			 "example", "bool true | assert-true\nbool 1 | assert-true"
 		   });		
 		addAnnotation
 		  (strEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Converts its argument to string.",
-			 "returns", "Returns string value or fails if value cannot be converted. "
+			 "returns", "Returns string value or fails if value cannot be converted. ",
+			 "example", "//Types \"2\" into log\ndiv 10 5 | str | log"
 		   });			
 		addAnnotation
 		  (getConvert_Input(), 
@@ -1585,7 +1621,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "If input is not true, fails",
-			 "returns", "Nothing"
+			 "returns", "Nothing",
+			 "example", "...get-tree | get-item Project | get-property childCount -raw | gt 3 | assert-true -message \"Child count is not greater then 3!\" "
 		   });		
 		addAnnotation
 		  (getAssertTrue_Input(), 
@@ -1604,7 +1641,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Returns count of objects got from input pipe",
-			 "returns", "Object count"
+			 "returns", "Object count",
+			 "example", "emit 1 2 3 | length | equals 3 | verify-true\n\n// verifies that Project item has 10 children\nget-view \"Q7 Explorer\" | get-tree | get-item Project | get-items | length | equals 10 | verify-true"
 		   });		
 		addAnnotation
 		  (getLength_Input(), 
@@ -1617,7 +1655,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Compares arguments are different",
-			 "returns", "<code>false</code> when args are equal, <code>true</code> otherwise."
+			 "returns", "<code>false</code> when args are equal, <code>true</code> otherwise.",
+			 "example", " int 9 | not-eq 10 | verify-true"
 		   });			
 		addAnnotation
 		  (getNotEq_Left(), 
@@ -1636,21 +1675,24 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Compares arguments on to one be greater then another",
-			 "returns", "<code>true</code> when left are greater then right, <code>false</code> otherwise."
+			 "returns", "<code>true</code> when left are greater then right, <code>false</code> otherwise.",
+			 "example", "plus 6 4 | gt 8 | verify-true"
 		   });		
 		addAnnotation
 		  (ltEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Compares arguments one are less then another",
-			 "returns", "<code>true</code> when left is less then right, <code>false</code> otherwise."
+			 "returns", "<code>true</code> when left is less then right, <code>false</code> otherwise.",
+			 "example", "plus 6 4 | lt 12 | verify-true"
 		   });		
 		addAnnotation
 		  (notEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Return !value",
-			 "returns", "<code>true</code> when value is false, <code>false</code> otherwise."
+			 "returns", "<code>true</code> when value is false, <code>false</code> otherwise.",
+			 "example", "minus 10 7 | equals 2 | not | verify-true"
 		   });			
 		addAnnotation
 		  (getNot_Left(), 
@@ -1707,7 +1749,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Execute specified command multiple times.",
-			 "returns", "Aggregated command output"
+			 "returns", "Aggregated command output",
+			 "example", "//creates file0, file1, file2, file3, file4 \n\nrepeat [val index] -times 5 -command {\n\n\tget-view \"Q7 Explorer\" | get-tree | select \"Project/Folder\" | get-menu \"New/Other...\" | click\n\twith [get-window New] {\n    \t\tget-tree | select \"General/File\"\n    \t\tget-button \"Next >\" | click\n\t}\n\twith [get-window \"New File\"] {\n    \t\tget-editbox -after [get-label \"File name:\"] | set-text [concat \"file\" [$index | str]]\n    \t\tget-button Finish | click\n\t}\n}"
 		   });		
 		addAnnotation
 		  (getRepeat_Index(), 
@@ -1720,7 +1763,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Asserts that input pipe doesn\'t contain anything",
-			 "returns", "Nothing"
+			 "returns", "Nothing",
+			 "example", "find-in-workspace -path \"Project/nonexisting.file\" | assert-empty"
 		   });		
 		addAnnotation
 		  (getAssertEmpty_Message(), 
@@ -1733,7 +1777,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Asserts that input pipe contain something",
-			 "returns", "Nothing"
+			 "returns", "Nothing",
+			 "example", "find-in-workspace -path \"Project/.*\" | assert-non-empty"
 		   });		
 		addAnnotation
 		  (getAssertNonEmpty_Message(), 
@@ -1746,14 +1791,16 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Concatenates strings passed as arguments",
-			 "returns", "Concatenated string value"
+			 "returns", "Concatenated string value",
+			 "example", "concat \"Mess\" \"age\" | equals \"Message\" | assert-true"
 		   });		
 		addAnnotation
 		  (orEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Computes the result of logical Or operation for passed arguments.",
-			 "returns", "<code>true</code> or <code>false</code>."
+			 "returns", "<code>true</code> or <code>false</code>.",
+			 "example", "with [get-view \"Q7 Explorer\" | get-tree] {\n  if [or[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"One of two verifications passed\"\n  }\n}"
 		   });		
 		addAnnotation
 		  (getOr_Args(), 
@@ -1766,7 +1813,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Computes the result of logical And operation for passed arguments.",
-			 "returns", "<code>true</code> or <code>false</code>."
+			 "returns", "<code>true</code> or <code>false</code>.",
+			 "example", "with [get-view \"Q7 Explorer\" | get-tree] {\n  if [and[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"Both verifications passed\"\n  }\n}"
 		   });		
 		addAnnotation
 		  (getAnd_Args(), 
@@ -1779,14 +1827,16 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Returns current time as a number of milliseconds since January, 1, 1970.",
-			 "returns", "Current time as long integer"
+			 "returns", "Current time as long integer",
+			 "example", "get-time | format-time -format \"hh:mm:ss\" | log"
 		   });		
 		addAnnotation
 		  (formatTimeEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in <code>java.text.SimpleDateFormat</code>.",
-			 "returns", "String representation of given time"
+			 "returns", "String representation of given time",
+			 "example", "get-time | format-time -format \"dd.MM.yyyy\" | log\n// writes current date, month and year into log"
 		   });			
 		addAnnotation
 		  (getBinaryOp_Left(), 
@@ -1804,43 +1854,50 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (plusEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>left + right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>left + right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "plus 10 3 | equals 13 | verify-true\nint 8 | plus 2 | equals 10 | assert-true \"8 + 2 not equals 10!\""
 		   });		
 		addAnnotation
 		  (minusEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>left - right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>left - right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "minus 8 5 | equals 3 | verify-true"
 		   });		
 		addAnnotation
 		  (divEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>left / right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>left / right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "div 10 5 | equals 2 | assert-true -message \"10/5 not equals 2!\""
 		   });		
 		addAnnotation
 		  (multEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>left * right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>left * right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "mult 5 7 | equals 35 | verify-true"
 		   });		
 		addAnnotation
 		  (absEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>java.lang.Math.abs(arg)</code></p>\n<p>The return type of an operation is determined by the following rules:</p>\n<ol>\n  <li><code>string</code> arg is converted to <code>long</code></li>\n  <li><code>boolean</code> arg is converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li><code>double</code>, <code>float</code>, <code>long</code> args retain its original type</li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) the returned value has type <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>java.lang.Math.abs(arg)</code></p>\n<p>The return type of an operation is determined by the following rules:</p>\n<ol>\n  <li><code>string</code> arg is converted to <code>long</code></li>\n  <li><code>boolean</code> arg is converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li><code>double</code>, <code>float</code>, <code>long</code> args retain its original type</li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) the returned value has type <code>int</code></li>\n</ol>\n",
+			 "example", " emit \"-10.6\" | int | abs | str | log (writes 10 to  log)"
 		   });			
 		addAnnotation
 		  (modEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>left % right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>left % right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "mod 11 3 | equals 2 | verify-true"
 		   });		
 		addAnnotation
 		  (betweenEClass, 
 		   source, 
 		   new String[] {
-			 "description", "<p>returns <code>true</code> if <code>input</code> is greater than or equal to <code>left</code> and less than or equal to <code>right</code></p>\n\n<p>Before performing an operation, arguments are converted according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n"
+			 "description", "<p>returns <code>true</code> if <code>input</code> is greater than or equal to <code>left</code> and less than or equal to <code>right</code></p>\n\n<p>Before performing an operation, arguments are converted according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
+			 "example", "int 10 | between 7 12 | verify-true"
 		   });			
 		addAnnotation
 		  (entryEClass, 
@@ -1865,7 +1922,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (listEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Creates a new list. Also see <a href=\"#get\">get</a> command to find an element by index."
+			 "description", "Creates a new list. Also see <a href=\"#get\">get</a> command to find an element by index.",
+			 "example", "list January Febuary March | get 1 | equals \"Febuary\" | verify-true"
 		   });		
 		addAnnotation
 		  (loopEClass, 
@@ -1918,7 +1976,21 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "Map or List"
-		   });	
+		   });		
+		addAnnotation
+		  (splitEClass, 
+		   source, 
+		   new String[] {
+			 "description", "",
+			 "example", "str \"1, 2, 3, 4, 5\" | split -sep \",\" -trimResults | foreach [val item]{\n\t$item | log\n}\n"
+		   });			
+		addAnnotation
+		  (parseTimeEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Reads a string from input pipe and parses it accoridng to a given format string.",
+			 "returns", "Timestamp value (as a number of milliseconds since January, 1, 1970)"
+		   });
 	}
 
 	/**
@@ -1982,12 +2054,12 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (getEach_Input(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });				
 		addAnnotation
 		  (getSplit_Str(), 
 		   source, 
 		   new String[] {
-		   });
+		   });	
 	}
 
 	/**
@@ -2002,7 +2074,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (convertEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																
+		   });																																																																		
 	}
 
 } // OperationsPackageImpl

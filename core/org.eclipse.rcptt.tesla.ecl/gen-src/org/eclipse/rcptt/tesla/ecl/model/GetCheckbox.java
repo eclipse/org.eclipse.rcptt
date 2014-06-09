@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetCheckbox()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets checkbox with defined parameter. If this checkbox doesn\'t exist, then error is returned.' returns='link to the checkbox' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets checkbox with defined parameter. If this checkbox doesn\'t exist, then error is returned.' returns='link to the checkbox' recorded='true' example='get-editor Wb | get-section Workbench | get-checkbox -text \"Clear clipboard\" | check'"
  * @generated
  */
 public interface GetCheckbox extends TextSelector {

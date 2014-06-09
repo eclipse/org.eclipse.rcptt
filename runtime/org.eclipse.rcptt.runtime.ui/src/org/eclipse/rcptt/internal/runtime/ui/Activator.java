@@ -11,17 +11,8 @@
 package org.eclipse.rcptt.internal.runtime.ui;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IBundleGroup;
-import org.eclipse.core.runtime.IBundleGroupProvider;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-
-import org.eclipse.rcptt.core.launching.events.AutBundleState;
-import org.eclipse.rcptt.core.launching.events.AutEventInit;
 import org.eclipse.rcptt.core.launching.events.AutEventLocation;
 import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.reporting.core.ReportManager;
@@ -29,6 +20,8 @@ import org.eclipse.rcptt.runtime.ui.AutEventManager;
 import org.eclipse.rcptt.runtime.ui.Q7Monitor;
 import org.eclipse.rcptt.tesla.ui.ide.events.UIIDEManager;
 import org.eclipse.rcptt.tesla.ui.ide.events.UIIDEManager.IUIIDEListener;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle

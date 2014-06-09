@@ -43,8 +43,7 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		boolean ignoredTimer = SWTUIPlayer.isTimerIgnored(timerClassName);
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
-			Q7WaitUtils.updateInfo(ignoredTimer ? "timer (ignored)" : "timer", timerClassName, waitInfo);
+			ReportHelper.updateWaitInfo(builder.getCurrent(), ignoredTimer ? "timer (ignored)" : "timer", timerClassName);
 		}
 	}
 
@@ -70,11 +69,10 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		SherlockTimerRunnable result = new SherlockTimerRunnable(newRunnable) {
 			@Override
 			protected void preExecute() {
-				boolean ignoredTimer = SWTUIPlayer.isTimerIgnored(getRunnable().getClass().getName());
+				final boolean ignoredTimer = SWTUIPlayer.isTimerIgnored(getRunnable().getClass().getName());
 				IReportBuilder[] builders = provider.getListeners();
 				for (IReportBuilder builder : builders) {
-					Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
-
+					Q7WaitInfoRoot waitInfo = ReportHelper.getWaitInfo(builder.getCurrent());
 					List<TimerInfo> timers = TeslaTimerExecManager.getManager().getTimers();
 					for (TimerInfo timerInfo : timers) {
 						if (timerInfo.hasRunnable(getRunnable())) {
@@ -118,12 +116,11 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
 			String kind = "async";
 			if (this.sync.contains(async)) {
 				kind = "sync";
 			}
-			Q7WaitUtils.updateInfo(kind, className, waitInfo);
+			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 
@@ -142,13 +139,12 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		}
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
 			String kind = "async";
 			if (this.sync.contains(async)) {
 				kind = "sync";
 				this.sync.remove(async);
 			}
-			Q7WaitUtils.updateInfo(kind, className, waitInfo);
+			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 
@@ -157,12 +153,11 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		String className = getAsyncClassName(async);
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getCurrentWaitInfo(builder);
 			String kind = sync ? "sync" : "async";
-			Q7WaitUtils.updateInfo(kind, className, waitInfo);
 			if (sync) {
 				this.sync.add(async);
 			}
+			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 

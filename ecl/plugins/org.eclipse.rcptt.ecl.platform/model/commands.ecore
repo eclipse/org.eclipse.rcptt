@@ -7,6 +7,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of all plugins."/>
       <details key="returns" value="Lists all available plugins. "/>
+      <details key="example" value="list-plugins | foreach [val item]  {&#xA;&#xA;&#x9;if [$item | get name | matches &quot;Q7 ECL.*&quot;]{&#xA;    &#x9;&#x9;$item | get name | log&#xA;&#x9;}&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeDependencies" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false">
@@ -19,12 +20,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of all features."/>
       <details key="returns" value="Lists all available features. "/>
+      <details key="example" value="list-features | foreach [val item]  {&#xA;&#x9;if [$item | get id | matches &quot;com.xored.q7.*&quot;]{&#xA;    &#x9;&#x9;$item | get name | log&#xA;&#x9;}&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ListRepositories" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of p2 repositories."/>
       <details key="returns" value="List of p2 repositories"/>
+      <details key="example" value="list-repositories | foreach [val item] {&#xA;&#x9;if [$item | get name | equals &quot;download cache&quot;]{&#xA;&#x9;&#x9;$item | get isArtifact | equals true | verify-true&#xA;&#x9;}&#xA;}&#xA;"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AddRepository" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -62,12 +65,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of all install units."/>
       <details key="returns" value="Lists all install units."/>
+      <details key="example" value="list-install-units | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot;&#xA;"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetLog" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns log entries sorted by timestamp descending."/>
       <details key="returns" value="Log entries"/>
+      <details key="example" value="get-log -levels error | as-table-data | write-csv-file &quot;workspace:/Project/file2.csv&quot;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="levels" upperBound="-1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
@@ -87,6 +92,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Writes an entry into Eclipse log"/>
       <details key="returns" value="Nothing"/>
+      <details key="example" value="log -message &quot;Error&quot; -severity error -plugin &quot;com.xored.q7&quot;&#xA;echo &quot;Warning&quot; | log -severity warning"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/input" references="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Foreach/input/%http:%2F%2Fwww.eclipse.org%2Fecl%2Finput%"/>
@@ -111,6 +117,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Takes a string argument and writes it into an output pipe. "/>
       <details key="returns" value="value of &lt;code>str&lt;/code> argument"/>
+      <details key="example" value="echo &quot;MyStr&quot; | log"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="str" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
         defaultValueLiteral="">
@@ -127,6 +134,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of launch configurations."/>
       <details key="returns" value="List of launch configurations."/>
+      <details key="example" value="list-launch-configurations | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot;"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Launch" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -139,8 +147,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SubstituteVariables" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="descriprion" value="Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See &lt;a href='http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/core/variables/IStringVariableManager.html'>IStringVariableManager&lt;/a>for more information."/>
+      <details key="description" value="Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See &lt;a href='http://www.xored.com/2013/09/03/how-to-pass-a-value-to-a-test-during-its-execution/'>How to pass a value to a test&lt;/a> for more information."/>
       <details key="returns" value="expression with variable references replaced with variable values"/>
+      <details key="example" value="//writes prop val to AUT workspace log&#xA;log [subsitute-variables &quot;${system_property:propertyName}&quot;] "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -158,6 +167,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="descriprion" value="Returns the path to workspace root."/>
       <details key="returns" value="path to workspace root"/>
+      <details key="example" value="get-workspace-location | equals &quot;/Users/My_MacAir/aut-Q7-1.3.12-B2&quot; | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FindInWorkspace" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">

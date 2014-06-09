@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getConcat()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Concatenates strings passed as arguments' returns='Concatenated string value'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Concatenates strings passed as arguments' returns='Concatenated string value' example='concat \"Mess\" \"age\" | equals \"Message\" | assert-true'"
  * @generated
  */
 public interface Concat extends Command {

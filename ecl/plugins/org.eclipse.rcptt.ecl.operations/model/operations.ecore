@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="operations"
-    nsURI="http://www.eclipse.org/ecl/operations.ecore" nsPrefix="org.eclipse.rcptt.ecl.core">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="operations" nsURI="http://www.eclipse.org/ecl/operations.ecore"
+    nsPrefix="org.eclipse.rcptt.ecl.core">
   <eClassifiers xsi:type="ecore:EClass" name="Eq" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Compares arguments on equality"/>
@@ -24,6 +23,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Converts its argument to int."/>
       <details key="returns" value="Returns integer value or fails if value cannot be converted. &lt;code>true&lt;/code> is converted to &lt;code>1&lt;/code> and &lt;code>false&lt;/code> is converted to &lt;code>0&lt;/code>."/>
+      <details key="example" value="//verifies that the number of Stops it less then 3&#xA;get-view &quot;Execution View&quot; | get-label -after [get-label &quot;Stops:&quot;] | get-text | int | lt 3 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Long" eSuperTypes="#//Convert">
@@ -42,12 +42,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Converts its argument to boolean."/>
       <details key="returns" value="Returns boolean value or fails if value cannot be converted. "/>
+      <details key="example" value="bool true | assert-true&#xA;bool 1 | assert-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Str" eSuperTypes="#//Convert">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Converts its argument to string."/>
       <details key="returns" value="Returns string value or fails if value cannot be converted. "/>
+      <details key="example" value="//Types &quot;2&quot; into log&#xA;div 10 5 | str | log"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Convert" abstract="true" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
@@ -63,6 +65,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="If input is not true, fails"/>
       <details key="returns" value="Nothing"/>
+      <details key="example" value="...get-tree | get-item Project | get-property childCount -raw | gt 3 | assert-true -message &quot;Child count is not greater then 3!&quot; "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -80,6 +83,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns count of objects got from input pipe"/>
       <details key="returns" value="Object count"/>
+      <details key="example" value="emit 1 2 3 | length | equals 3 | verify-true&#xA;&#xA;// verifies that Project item has 10 children&#xA;get-view &quot;Q7 Explorer&quot; | get-tree | get-item Project | get-items | length | equals 10 | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
@@ -93,6 +97,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Compares arguments are different"/>
       <details key="returns" value="&lt;code>false&lt;/code> when args are equal, &lt;code>true&lt;/code> otherwise."/>
+      <details key="example" value=" int 9 | not-eq 10 | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -110,18 +115,21 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Compares arguments on to one be greater then another"/>
       <details key="returns" value="&lt;code>true&lt;/code> when left are greater then right, &lt;code>false&lt;/code> otherwise."/>
+      <details key="example" value="plus 6 4 | gt 8 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Lt" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Compares arguments one are less then another"/>
       <details key="returns" value="&lt;code>true&lt;/code> when left is less then right, &lt;code>false&lt;/code> otherwise."/>
+      <details key="example" value="plus 6 4 | lt 12 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Return !value"/>
       <details key="returns" value="&lt;code>true&lt;/code> when value is false, &lt;code>false&lt;/code> otherwise."/>
+      <details key="example" value="minus 10 7 | equals 2 | not | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -187,6 +195,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Execute specified command multiple times."/>
       <details key="returns" value="Aggregated command output"/>
+      <details key="example" value="//creates file0, file1, file2, file3, file4 &#xA;&#xA;repeat [val index] -times 5 -command {&#xA;&#xA;&#x9;get-view &quot;Q7 Explorer&quot; | get-tree | select &quot;Project/Folder&quot; | get-menu &quot;New/Other...&quot; | click&#xA;&#x9;with [get-window New] {&#xA;    &#x9;&#x9;get-tree | select &quot;General/File&quot;&#xA;    &#x9;&#x9;get-button &quot;Next >&quot; | click&#xA;&#x9;}&#xA;&#x9;with [get-window &quot;New File&quot;] {&#xA;    &#x9;&#x9;get-editbox -after [get-label &quot;File name:&quot;] | set-text [concat &quot;file&quot; [$index | str]]&#xA;    &#x9;&#x9;get-button Finish | click&#xA;&#x9;}&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Val"
         containment="true">
@@ -204,6 +213,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Asserts that input pipe doesn't contain anything"/>
       <details key="returns" value="Nothing"/>
+      <details key="example" value="find-in-workspace -path &quot;Project/nonexisting.file&quot; | assert-empty"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -215,6 +225,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Asserts that input pipe contain something"/>
       <details key="returns" value="Nothing"/>
+      <details key="example" value="find-in-workspace -path &quot;Project/.*&quot; | assert-non-empty"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -226,6 +237,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Concatenates strings passed as arguments"/>
       <details key="returns" value="Concatenated string value"/>
+      <details key="example" value="concat &quot;Mess&quot; &quot;age&quot; | equals &quot;Message&quot; | assert-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strs" unique="false" upperBound="-1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
@@ -234,6 +246,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Computes the result of logical Or operation for passed arguments."/>
       <details key="returns" value="&lt;code>true&lt;/code> or &lt;code>false&lt;/code>."/>
+      <details key="example" value="with [get-view &quot;Q7 Explorer&quot; | get-tree] {&#xA;  if [or[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {&#xA;    log -message &quot;One of two verifications passed&quot;&#xA;  }&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="args" unique="false" lowerBound="2"
         upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
@@ -246,6 +259,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Computes the result of logical And operation for passed arguments."/>
       <details key="returns" value="&lt;code>true&lt;/code> or &lt;code>false&lt;/code>."/>
+      <details key="example" value="with [get-view &quot;Q7 Explorer&quot; | get-tree] {&#xA;  if [and[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {&#xA;    log -message &quot;Both verifications passed&quot;&#xA;  }&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="args" unique="false" lowerBound="2"
         upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
@@ -258,12 +272,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns current time as a number of milliseconds since January, 1, 1970."/>
       <details key="returns" value="Current time as long integer"/>
+      <details key="example" value="get-time | format-time -format &quot;hh:mm:ss&quot; | log"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FormatTime" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in &lt;code>java.text.SimpleDateFormat&lt;/code>."/>
       <details key="returns" value="String representation of given time"/>
+      <details key="example" value="get-time | format-time -format &quot;dd.MM.yyyy&quot; | log&#xA;// writes current date, month and year into log"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
@@ -283,26 +299,31 @@
   <eClassifiers xsi:type="ecore:EClass" name="Plus" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>left + right&lt;/code>&lt;/p>&#xA;&lt;p>Before performing an operation, arguments are converted to the widest type according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="plus 10 3 | equals 13 | verify-true&#xA;int 8 | plus 2 | equals 10 | assert-true &quot;8 + 2 not equals 10!&quot;"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Minus" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>left - right&lt;/code>&lt;/p>&#xA;&lt;p>Before performing an operation, arguments are converted to the widest type according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="minus 8 5 | equals 3 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Div" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>left / right&lt;/code>&lt;/p>&#xA;&lt;p>Before performing an operation, arguments are converted to the widest type according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="div 10 5 | equals 2 | assert-true -message &quot;10/5 not equals 2!&quot;"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Mult" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>left * right&lt;/code>&lt;/p>&#xA;&lt;p>Before performing an operation, arguments are converted to the widest type according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="mult 5 7 | equals 35 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Abs" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>java.lang.Math.abs(arg)&lt;/code>&lt;/p>&#xA;&lt;p>The return type of an operation is determined by the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arg is converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arg is converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>&lt;code>double&lt;/code>, &lt;code>float&lt;/code>, &lt;code>long&lt;/code> args retain its original type&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) the returned value has type &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value=" emit &quot;-10.6&quot; | int | abs | str | log (writes 10 to  log)"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="arg" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -311,11 +332,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Mod" eSuperTypes="#//BinaryOp">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>left % right&lt;/code>&lt;/p>&#xA;&lt;p>Before performing an operation, arguments are converted to the widest type according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="mod 11 3 | equals 2 | verify-true"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Between" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="&lt;p>returns &lt;code>true&lt;/code> if &lt;code>input&lt;/code> is greater than or equal to &lt;code>left&lt;/code> and less than or equal to &lt;code>right&lt;/code>&lt;/p>&#xA;&#xA;&lt;p>Before performing an operation, arguments are converted according to the following rules:&lt;/p>&#xA;&lt;ol>&#xA;  &lt;li>&lt;code>string&lt;/code> arguments converted to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>&lt;code>boolean&lt;/code> arguments converted to &lt;code>long&lt;/code> (1 for &lt;code>true&lt;/code> and 0 for &lt;code>false&lt;/code>)&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>double&lt;/code>, converts the other one to &lt;code>double&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>float&lt;/code>, converts the other one to &lt;code>float&lt;/code>&lt;/li>&#xA;  &lt;li>If one of arguments is &lt;code>long&lt;/code>, converts the other one to &lt;code>long&lt;/code>&lt;/li>&#xA;  &lt;li>Otherwise (in case of &lt;code>byte&lt;/code>, &lt;code>char&lt;/code>, or &lt;code>short&lt;/code>) converts both arguments to &lt;code>int&lt;/code>&lt;/li>&#xA;&lt;/ol>&#xA;"/>
+      <details key="example" value="int 10 | between 7 12 | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -347,6 +370,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="List" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Creates a new list. Also see &lt;a href=&quot;#get&quot;>get&lt;/a> command to find an element by index."/>
+      <details key="example" value="list January Febuary March | get 1 | equals &quot;Febuary&quot; | verify-true"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
@@ -406,6 +430,10 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Split" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value=""/>
+      <details key="example" value="str &quot;1, 2, 3, 4, 5&quot; | split -sep &quot;,&quot; -trimResults | foreach [val item]{&#xA;&#x9;$item | log&#xA;}&#xA;"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="str" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
     </eStructuralFeatures>
@@ -414,5 +442,12 @@
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="omitEmptyStrings" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParseTime" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Reads a string from input pipe and parses it accoridng to a given format string."/>
+      <details key="returns" value="Timestamp value (as a number of milliseconds since January, 1, 1970)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -1550,11 +1550,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				if (beforeTextState == null
 						|| !beforeTextState.equals(currentText)) {
 					if (widget != JFaceRecordingProcessor.lastCellEditorControl) {
-						if (!(widget instanceof Combo))
-							e.setText(currentText);
-						else
+						if (!(widget instanceof Combo)) {
+							e.setText(currentText, false, (widget.getStyle() & SWT.PASSWORD ) != 0);
+						} else {
 							processComboSelection(e,
 									((Combo) widget).getItems(), currentText);
+						}
 					}
 				}
 			}

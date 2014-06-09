@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="filesystem"
-    nsURI="http://www.eclipse.org/ecl/filesystem.ecore" nsPrefix="org.eclipse.rcptt.ecl.core">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="filesystem" nsURI="http://www.eclipse.org/ecl/filesystem.ecore"
+    nsPrefix="org.eclipse.rcptt.ecl.core">
   <eClassifiers xsi:type="ecore:EClass" name="CopyFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Copies &lt;code>source&lt;/code> file or directory into &lt;code>destination&lt;/code> directory, optionally giving it a new &lt;code>name&lt;/code>."/>
       <details key="returns" value="Nothing."/>
+      <details key="example" value="copy-file -source &quot;/Users/Ulik_MacAir/aut-Q7-1.3.12-B2/Project/t.test&quot; &#xA;-destination &quot;/Users/Ulik_MacAir/aut-Q7-1.3.12-B2/Project/Folder&quot; -name &quot;Clone.test&quot;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
@@ -25,5 +25,35 @@
         <details key="description" value="New name for the &lt;code>source&lt;/code> file or directory."/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UriFromPath" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="returns" value="URI string. Platform independent (can be used on every OS)."/>
+      <details key="example" value="get-file [uri-from-path &quot;C:\windows&quot;] | get exists"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Platform-dependednt filesystem path."/>
+        <details key="example" value="C:\windows\system32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="returns" value="A File object.  Properties: uri, name, exists, children."/>
+      <details key="description" value="Creates a file object by its URI."/>
+      <details key="example" value="get-file &quot;file:/C:/Windows/System32&quot;  | get exists"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI of a file or directory. Can be created manually, or with uri-from-path."/>
+        <details key="example" value="file:/C:/windows/system32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

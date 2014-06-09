@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getNot()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Return !value' returns='<code>true</code> when value is false, <code>false</code> otherwise.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Return !value' returns='<code>true</code> when value is false, <code>false</code> otherwise.' example='minus 10 7 | equals 2 | not | verify-true'"
  * @generated
  */
 public interface Not extends Command {

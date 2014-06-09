@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragEnter()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag enter event.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag enter event.' returns='value of <code>control</code> parameter' example='get-item \"Project/t.test\" | drag-enter 23 11 -detail copy'"
  * @generated
  */
 public interface DragEnter extends DragAction {

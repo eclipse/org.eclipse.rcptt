@@ -24,7 +24,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetControl()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets control with defined caption or index. If this control doesn\'t exist, then error is returned.' returns='link to the control' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets control with defined caption or index. If this control doesn\'t exist, then error is returned.' returns='link to the control' recorded='true' example='//writes \'Perspective id:\' into log\nget-editor WorkbanchContext | get-section Workbench | get-control -kind \"Label\" -index 1 | get-property text -raw| str | log'"
  * @generated
  */
 public interface GetControl extends TextSelector, PathSelector {

@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getGetTime()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns current time as a number of milliseconds since January, 1, 1970.' returns='Current time as long integer'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns current time as a number of milliseconds since January, 1, 1970.' returns='Current time as long integer' example='get-time | format-time -format \"hh:mm:ss\" | log'"
  * @generated
  */
 public interface GetTime extends Command {

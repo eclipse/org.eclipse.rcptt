@@ -8,6 +8,8 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.model;
 
 import org.eclipse.rcptt.ecl.core.Command;
@@ -25,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getRestore()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Restore the tab folder.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Restore the tab folder.' returns='value of <code>control</code> parameter' example='get-view \"Q7 Explorer\" | minimize\nget-view \"Q7 Explorer\" | restore'"
  * @generated
  */
 public interface Restore extends Command {

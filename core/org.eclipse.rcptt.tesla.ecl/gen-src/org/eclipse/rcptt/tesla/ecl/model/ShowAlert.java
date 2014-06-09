@@ -24,7 +24,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowAlert()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Displays a message.' returns='Nothing.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Displays a message.' returns='Nothing.' example='show-alert \"Hello!\"'"
  * @generated
  */
 public interface ShowAlert extends Command {

@@ -83,6 +83,26 @@ public class FilesystemSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case FilesystemPackage.URI_FROM_PATH: {
+				UriFromPath uriFromPath = (UriFromPath)theEObject;
+				T result = caseUriFromPath(uriFromPath);
+				if (result == null) result = caseCommand(uriFromPath);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case FilesystemPackage.GET_FILE: {
+				GetFile getFile = (GetFile)theEObject;
+				T result = caseGetFile(getFile);
+				if (result == null) result = caseCommand(getFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case FilesystemPackage.FILE: {
+				File file = (File)theEObject;
+				T result = caseFile(file);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -99,6 +119,51 @@ public class FilesystemSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCopyFile(CopyFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uri From Path</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uri From Path</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUriFromPath(UriFromPath object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetFile(GetFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFile(File object) {
 		return null;
 	}
 

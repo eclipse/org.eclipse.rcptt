@@ -24,7 +24,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getFormatTime()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in <code>java.text.SimpleDateFormat</code>.' returns='String representation of given time'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in <code>java.text.SimpleDateFormat</code>.' returns='String representation of given time' example='get-time | format-time -format \"dd.MM.yyyy\" | log\n// writes current date, month and year into log'"
  * @generated
  */
 public interface FormatTime extends Command {

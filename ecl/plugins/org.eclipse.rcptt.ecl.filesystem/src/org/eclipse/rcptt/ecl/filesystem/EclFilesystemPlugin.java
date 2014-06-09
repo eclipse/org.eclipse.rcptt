@@ -65,4 +65,12 @@ public class EclFilesystemPlugin extends Plugin implements BundleActivator {
 	public static EclFilesystemPlugin getDefault() {
 		return plugin;
 	}
+	
+	public static Status createError(String message, Throwable throwable) {
+		return new Status(IStatus.ERROR, EclFilesystemPlugin.PLUGIN_ID, message, throwable);
+	}
+
+	public static Status createError(String message) {
+		return createError(message, null);
+	}
 }

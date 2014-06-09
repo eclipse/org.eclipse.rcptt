@@ -7,6 +7,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Invokes method on Java object."/>
       <details key="returns" value="Value returned by method."/>
+      <details key="example" value="get-eclipse-window | get-object | invoke setSize 700 700"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="object" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject">
@@ -31,6 +32,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Executes shell command."/>
       <details key="returns" value="ExecProcessResult filled with execution results: exit code, captured stdout and stderr."/>
+      <details key="example" value="exec-process &quot;\&quot;C:\\Program Files\\Sikuli X\\Sikuli-IDE.exe\&quot;&quot;&quot;-r&quot; [substitute-variables &quot;\&quot;${resource_loc:sikuli/MistypeClassName.sikuli}\&quot;&quot;]&quot;-s&quot;-ignoreExitCode"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
@@ -78,6 +80,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Gets the Java system property indicated by the specified key."/>
       <details key="returns" value="The string value of the system property."/>
+      <details key="example" value="get-java-property &quot;java.home&quot; | log"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">

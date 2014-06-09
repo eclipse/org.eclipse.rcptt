@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getCancelCellEdit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Cancels cell editing.' returns='value of <code>control</code> parameter' example=''"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Cancels cell editing.' returns='value of <code>control</code> parameter' example='with [get-editor context | get-section Parameters | get-table] {\n    select \"Add new parameter\" | activate-cell-edit\n    get-editbox | set-text \"this text won\'t be applied\"\n    cancel-cell-edit\n   }'"
  * @generated
  */
 public interface CancelCellEdit extends CellEdit {

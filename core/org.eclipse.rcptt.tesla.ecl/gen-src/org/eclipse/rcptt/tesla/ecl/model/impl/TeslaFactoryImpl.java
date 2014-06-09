@@ -16,147 +16,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Button;
-import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.Check;
-import org.eclipse.rcptt.tesla.ecl.model.Click;
-import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
-import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
-import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.ClickText;
-import org.eclipse.rcptt.tesla.ecl.model.Close;
-import org.eclipse.rcptt.tesla.ecl.model.Collapse;
-import org.eclipse.rcptt.tesla.ecl.model.CollapseAll;
-import org.eclipse.rcptt.tesla.ecl.model.Contains;
-import org.eclipse.rcptt.tesla.ecl.model.ContainsImage;
-import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
-import org.eclipse.rcptt.tesla.ecl.model.ControlNotFound;
-import org.eclipse.rcptt.tesla.ecl.model.DeactivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClick;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickText;
-import org.eclipse.rcptt.tesla.ecl.model.DragAccept;
-import org.eclipse.rcptt.tesla.ecl.model.DragAction;
-import org.eclipse.rcptt.tesla.ecl.model.DragDetect;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnd;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnter;
-import org.eclipse.rcptt.tesla.ecl.model.DragExit;
-import org.eclipse.rcptt.tesla.ecl.model.DragOver;
-import org.eclipse.rcptt.tesla.ecl.model.DragSetData;
-import org.eclipse.rcptt.tesla.ecl.model.DragStart;
-import org.eclipse.rcptt.tesla.ecl.model.Drop;
-import org.eclipse.rcptt.tesla.ecl.model.Equals;
-import org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions;
-import org.eclipse.rcptt.tesla.ecl.model.Expand;
-import org.eclipse.rcptt.tesla.ecl.model.ExpandAll;
-import org.eclipse.rcptt.tesla.ecl.model.FromRawKey;
-import org.eclipse.rcptt.tesla.ecl.model.GetAboutMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetAdvancedInfo;
-import org.eclipse.rcptt.tesla.ecl.model.GetBanner;
-import org.eclipse.rcptt.tesla.ecl.model.GetButton;
-import org.eclipse.rcptt.tesla.ecl.model.GetByOs;
-import org.eclipse.rcptt.tesla.ecl.model.GetCanvas;
-import org.eclipse.rcptt.tesla.ecl.model.GetCell;
-import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
-import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
-import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
-import org.eclipse.rcptt.tesla.ecl.model.GetControl;
-import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
-import org.eclipse.rcptt.tesla.ecl.model.GetEclipseWindow;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditor;
-import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
-import org.eclipse.rcptt.tesla.ecl.model.GetItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetItems;
-import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
-import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetLink;
-import org.eclipse.rcptt.tesla.ecl.model.GetList;
-import org.eclipse.rcptt.tesla.ecl.model.GetMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetObject;
-import org.eclipse.rcptt.tesla.ecl.model.GetPreferencesMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyNodes;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyTab;
-import org.eclipse.rcptt.tesla.ecl.model.GetQuickAccess;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
-import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
-import org.eclipse.rcptt.tesla.ecl.model.GetSection;
-import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetTable;
-import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
-import org.eclipse.rcptt.tesla.ecl.model.GetText;
-import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
-import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetTree;
-import org.eclipse.rcptt.tesla.ecl.model.GetVerticalRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetView;
-import org.eclipse.rcptt.tesla.ecl.model.GetWidgetDetails;
-import org.eclipse.rcptt.tesla.ecl.model.GetWindow;
-import org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.HoverRuler;
-import org.eclipse.rcptt.tesla.ecl.model.HoverText;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisabled;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisposed;
-import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
-import org.eclipse.rcptt.tesla.ecl.model.KeyType;
-import org.eclipse.rcptt.tesla.ecl.model.Matches;
-import org.eclipse.rcptt.tesla.ecl.model.Maximize;
-import org.eclipse.rcptt.tesla.ecl.model.Minimize;
-import org.eclipse.rcptt.tesla.ecl.model.Mouse;
-import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
-import org.eclipse.rcptt.tesla.ecl.model.Options;
-import org.eclipse.rcptt.tesla.ecl.model.Recognize;
-import org.eclipse.rcptt.tesla.ecl.model.RecognizeResponse;
-import org.eclipse.rcptt.tesla.ecl.model.Restore;
-import org.eclipse.rcptt.tesla.ecl.model.ReturnFromOsDialog;
-import org.eclipse.rcptt.tesla.ecl.model.Select;
-import org.eclipse.rcptt.tesla.ecl.model.SelectItem;
-import org.eclipse.rcptt.tesla.ecl.model.SelectRange;
-import org.eclipse.rcptt.tesla.ecl.model.SetCaretPos;
-import org.eclipse.rcptt.tesla.ecl.model.SetDialogResult;
-import org.eclipse.rcptt.tesla.ecl.model.SetFocus;
-import org.eclipse.rcptt.tesla.ecl.model.SetPosition;
-import org.eclipse.rcptt.tesla.ecl.model.SetText;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextSelection;
-import org.eclipse.rcptt.tesla.ecl.model.SetValue;
-import org.eclipse.rcptt.tesla.ecl.model.SetWidth;
-import org.eclipse.rcptt.tesla.ecl.model.SetupPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShoutdownPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShowAlert;
-import org.eclipse.rcptt.tesla.ecl.model.ShowContentAssist;
-import org.eclipse.rcptt.tesla.ecl.model.ShowTabList;
-import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
-import org.eclipse.rcptt.tesla.ecl.model.TakeScreenshot;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaProcessStatus;
-import org.eclipse.rcptt.tesla.ecl.model.ToControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Trace;
-import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
-import org.eclipse.rcptt.tesla.ecl.model.TypeText;
-import org.eclipse.rcptt.tesla.ecl.model.Uncheck;
-import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
-import org.eclipse.rcptt.tesla.ecl.model.Unsupported;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyFalse;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyHandler;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyTrue;
-import org.eclipse.rcptt.tesla.ecl.model.Wait;
-import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
-import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.model.*;
+import org.eclipse.rcptt.tesla.ecl.model.VerifyError;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -172,7 +34,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	 */
 	public static TeslaFactory init() {
 		try {
-			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/ecl"); 
+			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory(TeslaPackage.eNS_URI);
 			if (theTeslaFactory != null) {
 				return theTeslaFactory;
 			}
@@ -336,6 +198,8 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 			case TeslaPackage.TO_CONTROL_HANDLE: return createToControlHandle();
 			case TeslaPackage.BOUND_CONTROL_HANDLE: return createBoundControlHandle();
 			case TeslaPackage.UNFOCUS: return createUnfocus();
+			case TeslaPackage.DECRYPT: return createDecrypt();
+			case TeslaPackage.DECRYPT_RESULT: return createDecryptResult();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -458,7 +322,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public org.eclipse.rcptt.tesla.ecl.model.VerifyError createVerifyError() {
+	public VerifyError createVerifyError() {
 		VerifyErrorImpl verifyError = new VerifyErrorImpl();
 		return verifyError;
 	}
@@ -1600,6 +1464,26 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	public Unfocus createUnfocus() {
 		UnfocusImpl unfocus = new UnfocusImpl();
 		return unfocus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Decrypt createDecrypt() {
+		DecryptImpl decrypt = new DecryptImpl();
+		return decrypt;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DecryptResult createDecryptResult() {
+		DecryptResultImpl decryptResult = new DecryptResultImpl();
+		return decryptResult;
 	}
 
 	/**

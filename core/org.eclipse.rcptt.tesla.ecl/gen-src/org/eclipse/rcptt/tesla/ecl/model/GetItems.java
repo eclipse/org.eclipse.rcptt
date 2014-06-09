@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetItems()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets item list of a table, or visible items of a tree, or visible children of a tree item.' returns='List of items.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets item list of a table, or visible items of a tree, or visible children of a tree item.' returns='List of items.' example='get-view \"Q7 Explorer\" | get-tree | get-items | foreach {get-property caption -raw | str | log}'"
  * @generated
  */
 public interface GetItems extends ControlCommand {

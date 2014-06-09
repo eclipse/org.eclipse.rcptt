@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getList()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new list. Also see <a href=\"#get\">get</a> command to find an element by index.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new list. Also see <a href=\"#get\">get</a> command to find an element by index.' example='list January Febuary March | get 1 | equals \"Febuary\" | verify-true'"
  * @generated
  */
 public interface List extends Command {

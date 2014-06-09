@@ -35,7 +35,7 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 	 */
 	public static FilesystemFactory init() {
 		try {
-			FilesystemFactory theFilesystemFactory = (FilesystemFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/filesystem.ecore"); 
+			FilesystemFactory theFilesystemFactory = (FilesystemFactory)EPackage.Registry.INSTANCE.getEFactory(FilesystemPackage.eNS_URI);
 			if (theFilesystemFactory != null) {
 				return theFilesystemFactory;
 			}
@@ -65,6 +65,9 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case FilesystemPackage.COPY_FILE: return createCopyFile();
+			case FilesystemPackage.URI_FROM_PATH: return createUriFromPath();
+			case FilesystemPackage.GET_FILE: return createGetFile();
+			case FilesystemPackage.FILE: return createFile();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -78,6 +81,36 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 	public CopyFile createCopyFile() {
 		CopyFileImpl copyFile = new CopyFileImpl();
 		return copyFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UriFromPath createUriFromPath() {
+		UriFromPathImpl uriFromPath = new UriFromPathImpl();
+		return uriFromPath;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetFile createGetFile() {
+		GetFileImpl getFile = new GetFileImpl();
+		return getFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public File createFile() {
+		FileImpl file = new FileImpl();
+		return file;
 	}
 
 	/**

@@ -342,6 +342,8 @@ public class ParametersPackageImpl extends EPackageImpl implements ParametersPac
 		// Create annotations
 		// http://www.eclipse.org/ecl/docs
 		createDocsAnnotations();
+		// http://www.eclipse.org/ecl/internal
+		createInternalAnnotations();
 	}
 
 	/**
@@ -358,12 +360,12 @@ public class ParametersPackageImpl extends EPackageImpl implements ParametersPac
 		   new String[] {
 			 "description", "Resets all parameters.",
 			 "returns", "Nothing."
-		   });		
+		   });			
 		addAnnotation
 		  (setParamEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Sets parameter value.",
+			 "description", "<b>Deprecated!</b> Please see <a href=\"http://www.xored.com/2013/06/11/supercontexts/\">Supercontexts</a> page to learn more about parameters.\n\n\n",
 			 "returns", "Value to which parameter was set."
 		   });		
 		addAnnotation
@@ -382,7 +384,7 @@ public class ParametersPackageImpl extends EPackageImpl implements ParametersPac
 		  (getParamEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Gets parameter value.",
+			 "description", "<b>Deprecated!</b> Please see <a href=\"http://www.xored.com/2013/06/11/supercontexts/\">Supercontexts</a> page to learn more about parameters.\n\n\n",
 			 "returns", "Parameter value."
 		   });		
 		addAnnotation
@@ -391,6 +393,21 @@ public class ParametersPackageImpl extends EPackageImpl implements ParametersPac
 		   new String[] {
 			 "description", "Parameter name."
 		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/ecl/internal</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createInternalAnnotations() {
+		String source = "http://www.eclipse.org/ecl/internal";			
+		addAnnotation
+		  (resetParamsEClass, 
+		   source, 
+		   new String[] {
+		   });					
 	}
 
 } //ParametersPackageImpl

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="core"
-    nsURI="http://www.eclipse.org/ecl/core.ecore" nsPrefix="org.eclipse.rcptt.ecl.core">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="core" nsURI="http://www.eclipse.org/ecl/core.ecore" nsPrefix="org.eclipse.rcptt.ecl.core">
   <eClassifiers xsi:type="ecore:EClass" name="Command">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="host" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
@@ -277,6 +275,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Get" eSuperTypes="#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Depending on input object, either returns a value by key from &lt;a href=&quot;#map&quot;>map&lt;/a>, or element by index from &lt;a href=&quot;#list&quot;>list&lt;/a>, or member of EMF object by name."/>
+      <details key="example" value="//types 1 into  log&#xA;emit &quot;1&quot; &quot;2&quot; &quot;3&quot; | to-list | get 0 | str | log&#xA;//types Febuary into log&#xA;map [entry 1 January][entry 2 Febuary] | get 2 | log"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true">

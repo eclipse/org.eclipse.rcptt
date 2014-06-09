@@ -1315,6 +1315,15 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSetText_Hidden() {
+		return (EAttribute)setTextEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGetState() {
 		return getStateEClass;
 	}
@@ -3470,6 +3479,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		setTextEClass = createEClass(SET_TEXT);
 		createEAttribute(setTextEClass, SET_TEXT__VALUE);
 		createEAttribute(setTextEClass, SET_TEXT__SELECT);
+		createEAttribute(setTextEClass, SET_TEXT__HIDDEN);
 
 		getStateEClass = createEClass(GET_STATE);
 
@@ -3982,6 +3992,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEClass(setTextEClass, SetText.class, "SetText", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSetText_Value(), ecorePackage.getEString(), "value", null, 0, 1, SetText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSetText_Select(), ecorePackage.getEBoolean(), "select", "false", 0, 1, SetText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSetText_Hidden(), theEcorePackage.getEBoolean(), "hidden", "false", 0, 1, SetText.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(getStateEClass, GetState.class, "GetState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

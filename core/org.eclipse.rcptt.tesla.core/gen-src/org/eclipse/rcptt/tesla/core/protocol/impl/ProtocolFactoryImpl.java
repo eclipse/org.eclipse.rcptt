@@ -10,16 +10,14 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.core.protocol.impl;
 
-import org.eclipse.rcptt.tesla.core.protocol.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.rcptt.tesla.core.protocol.*;
+import org.eclipse.rcptt.tesla.core.protocol.Shutdown;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +34,7 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	 */
 	public static ProtocolFactory init() {
 		try {
-			ProtocolFactory theProtocolFactory = (ProtocolFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/protocol"); 
+			ProtocolFactory theProtocolFactory = (ProtocolFactory)EPackage.Registry.INSTANCE.getEFactory(ProtocolPackage.eNS_URI);
 			if (theProtocolFactory != null) {
 				return theProtocolFactory;
 			}

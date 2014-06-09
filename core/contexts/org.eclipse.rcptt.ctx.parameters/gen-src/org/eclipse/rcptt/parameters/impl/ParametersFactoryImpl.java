@@ -35,7 +35,7 @@ public class ParametersFactoryImpl extends EFactoryImpl implements ParametersFac
 	 */
 	public static ParametersFactory init() {
 		try {
-			ParametersFactory theParametersFactory = (ParametersFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/ctx/parameters"); 
+			ParametersFactory theParametersFactory = (ParametersFactory)EPackage.Registry.INSTANCE.getEFactory(ParametersPackage.eNS_URI);
 			if (theParametersFactory != null) {
 				return theParametersFactory;
 			}

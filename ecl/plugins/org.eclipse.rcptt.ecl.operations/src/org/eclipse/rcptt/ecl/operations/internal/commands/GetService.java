@@ -42,6 +42,9 @@ public class GetService implements ICommandService {
 			return createErr("Key must be string when getting member value from EObject");
 		}
 		String name = (String) propertyObject;
+		if (input == null) {
+			return createErr("No input");
+		}
 		EStructuralFeature feature = input.eClass().getEStructuralFeature(name);
 		if (feature == null) {
 			return createErr("Input object of type %s does not have member %s", input.eClass().getName(), name);

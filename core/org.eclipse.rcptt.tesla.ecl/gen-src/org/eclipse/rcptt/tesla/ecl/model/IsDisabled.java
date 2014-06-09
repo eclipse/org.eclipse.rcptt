@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getIsDisabled()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Cheks if the control is disabled or not' returns='true if the control is disabled or false otherwise' recorded='true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Cheks if the control is disabled or not' returns='true if the control is disabled or false otherwise' recorded='true' example='get-menu \"File/Save\" | is-disabled | assert-true'"
  * @generated
  */
 public interface IsDisabled extends Command {
@@ -56,4 +56,4 @@ public interface IsDisabled extends Command {
 	 */
 	void setControl(ControlHandler value);
 
-} // IsDisabled
+}

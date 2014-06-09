@@ -13,12 +13,9 @@ package org.eclipse.rcptt.internal.runtime.ui;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -33,6 +30,8 @@ import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.rcptt.tesla.swt.events.ITeslaEventListener;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager.HasEventKind;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 public abstract class UIRunnable<T> {
 	private enum RunningState {
@@ -208,8 +207,7 @@ public abstract class UIRunnable<T> {
 				GeneralInformationCollector.collectInformation(info);
 			}
 			if (info != null && currentBuilder != null) {
-				Snaphot snapshot = currentBuilder.createSnapshot();
-				snapshot.setData(info);
+				ReportHelper.addSnapshotWithData(currentBuilder.getCurrent(), info);
 			}
 		}
 	}

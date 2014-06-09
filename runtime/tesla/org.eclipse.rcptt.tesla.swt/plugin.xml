@@ -4,6 +4,7 @@
    <extension-point id="jobCollector" name="jobCollertor" schema="schema/jobCollector.exsd"/>
    <extension-point id="describerExtensions" name="describerExtensions" schema="schema/describerExtensions.exsd"/>
    <extension-point id="workbenchProvider" name="workbenchProvider" schema="schema/workbenchProvider.exsd"/>
+   <extension-point id="shellUtils" name="shellUtils" schema="schema/shellUtils.exsd"/>
    <extension
          point="org.eclipse.rcptt.tesla.core.processor">
       <provider

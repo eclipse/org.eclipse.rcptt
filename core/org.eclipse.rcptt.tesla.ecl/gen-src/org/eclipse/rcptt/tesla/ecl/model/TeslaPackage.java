@@ -9821,6 +9821,80 @@ public interface TeslaPackage extends EPackage {
 	int UNFOCUS_FEATURE_COUNT = CONTROL_COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DecryptImpl <em>Decrypt</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.DecryptImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getDecrypt()
+	 * @generated
+	 */
+	int DECRYPT = 141;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT__VALUE = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Decrypt</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DecryptResultImpl <em>Decrypt Result</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.DecryptResultImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getDecryptResult()
+	 * @generated
+	 */
+	int DECRYPT_RESULT = 142;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT_RESULT__VALUE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Decrypt Result</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECRYPT_RESULT_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9828,7 +9902,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getButton()
 	 * @generated
 	 */
-	int BUTTON = 141;
+	int BUTTON = 143;
 
 	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
@@ -9838,7 +9912,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 142;
+	int ELEMENT_KIND = 144;
 
 
 	/**
@@ -13430,6 +13504,48 @@ public interface TeslaPackage extends EPackage {
 	EClass getUnfocus();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.Decrypt <em>Decrypt</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Decrypt</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.Decrypt
+	 * @generated
+	 */
+	EClass getDecrypt();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.Decrypt#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.Decrypt#getValue()
+	 * @see #getDecrypt()
+	 * @generated
+	 */
+	EAttribute getDecrypt_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.DecryptResult <em>Decrypt Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Decrypt Result</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.DecryptResult
+	 * @generated
+	 */
+	EClass getDecryptResult();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.DecryptResult#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.DecryptResult#getValue()
+	 * @see #getDecryptResult()
+	 * @generated
+	 */
+	EAttribute getDecryptResult_Value();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16465,6 +16581,42 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EClass UNFOCUS = eINSTANCE.getUnfocus();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DecryptImpl <em>Decrypt</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.DecryptImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getDecrypt()
+		 * @generated
+		 */
+		EClass DECRYPT = eINSTANCE.getDecrypt();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DECRYPT__VALUE = eINSTANCE.getDecrypt_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DecryptResultImpl <em>Decrypt Result</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.DecryptResultImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getDecryptResult()
+		 * @generated
+		 */
+		EClass DECRYPT_RESULT = eINSTANCE.getDecryptResult();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DECRYPT_RESULT__VALUE = eINSTANCE.getDecryptResult_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.

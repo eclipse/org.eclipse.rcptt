@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.eclipse.rcptt.launching.multiaut.ui.MultiAutLaunchTabGroup"
+            id="com.xored.q7.launching.multiaut"
+            type="com.xored.q7.launching.multiaut">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="com.xored.q7.launching.multiaut"
+            icon="icons/multiaut.gif"
+            id="com.xored.q7.launching.multiaut">
+      </launchConfigurationTypeImage>
+   </extension>
+
+</plugin>

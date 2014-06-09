@@ -73,7 +73,7 @@ public class SelectService extends AbstractActionService {
 				throw new CoreException(
 						TeslaImplPlugin.err("Bad item to select"));
 			String text = item.toString();
-			getTextUIElement(s.getControl()).setText(text, true);
+			getTextUIElement(s.getControl()).setText(text, true, false);
 			return s.getControl();
 		}
 	}

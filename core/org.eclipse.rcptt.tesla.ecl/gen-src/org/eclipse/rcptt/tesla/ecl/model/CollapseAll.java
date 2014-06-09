@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getCollapseAll()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Collapses a tree item and all its children, or a whole tree.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Collapses a tree item and all its children, or a whole tree.' returns='value of <code>control</code> parameter' example='get-view \"Q7 Explorer\" | get-tree | collapse-all'"
  * @generated
  */
 public interface CollapseAll extends ControlCommand {

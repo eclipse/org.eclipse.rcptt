@@ -5,8 +5,9 @@
     nsURI="http://www.eclipse.org/ecl/data/commands.ecore" nsPrefix="dataCommands">
   <eClassifiers xsi:type="ecore:EClass" name="ReadCsvFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Parses given csv file. Fails if file is not found or format is invalid"/>
+      <details key="description" value="Parses given csv file. Fails if file is not found or format is invalid.&#xA;Learn more about &lt;a href = &quot;http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table&quot;>Asserting the whole table contents.&lt;/a>"/>
       <details key="returns" value="&lt;code>Table&lt;/code> EMF Object. "/>
+      <details key="example" value="with [get-window Preferences] {&#xA;&#x9;get-tree | select &quot;Java/Installed JREs&quot;&#xA;&#x9;get-table | get-table-data | eq [read-csv-file &quot;workspace:/assertData/table.csv&quot;] | &#xA;&#x9;&#x9;assert-true &quot;Data in table does not match input file&quot; &#xA;&#x9;get-button OK | click&#xA;}&#xA;&#xA;//Let's say we need to write ErrorLog info to csv file 'table.csv'.&#xA;//ECL script should look like this:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&#xA; &#xA;//Note: &#xA;//&lt;a href=&quot;#expand-all&quot;>Expand-all&lt;/a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won't be written.  &#xA;//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. &#xA; &#xA;//In case you want to specify which columns/rows should be written you may use &#xA;//&lt;a href=&quot;#select-columns&quot;>select-columns&lt;/a>/&lt;a href=&quot;#exclude-columns&quot;>exclude-columns&lt;/a> and &lt;a href=&quot;#select-rows&quot;>select-rows&lt;/a>/&lt;a href=&quot;#exclude-rows&quot;>exclude-rows&lt;/a> commands:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-columns &quot;Message&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | exclude-columns &quot;Message&quot; &quot;Plug-in&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-rows -column &quot;Message&quot;  -value &quot;Execution of early startup handlers completed.&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;&#xA; &#xA;//To compare table data to already written csv file you may use &lt;a href=&quot;#read-csv-file&quot;>read-csv-file&lt;/a> command:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-columns &quot;Plug-in&quot; | eq [read-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;] | assert-true &quot;Data in table does not match input file&quot; "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -27,8 +28,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WriteCsvFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Writes given table into csv file. Fails if file is not accessible"/>
+      <details key="description" value="Writes given table into csv file. Fails if file is not accessible.&#xA;Learn more about &lt;a href = &quot;http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table&quot;>Asserting the whole table contents.&lt;/a>"/>
       <details key="returns" value="The value of &lt;code>table&lt;/code> argument."/>
+      <details key="example" value="with [get-window Preferences] {&#xA;&#x9;get-tree | select &quot;Java/Installed JREs&quot;&#xA;&#x9;get-table | get-table-data | write-csv-file &quot;workspace:/assertData/table.csv&quot;&#xA;&#x9;get-button OK | click&#xA;}&#xA;&#xA;//Let's say we need to write ErrorLog info to csv file 'table.csv'.&#xA;//ECL script should look like this:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&#xA; &#xA;//Note: &#xA;//&lt;a href=&quot;#expand-all&quot;>Expand-all&lt;/a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won't be written.  &#xA;//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. &#xA; &#xA;//In case you want to specify which columns/rows should be written you may use &#xA;//&lt;a href=&quot;#select-columns&quot;>select-columns&lt;/a>/&lt;a href=&quot;#exclude-columns&quot;>exclude-columns&lt;/a> and &lt;a href=&quot;#select-rows&quot;>select-rows&lt;/a>/&lt;a href=&quot;#exclude-rows&quot;>exclude-rows&lt;/a> commands:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-columns &quot;Message&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | exclude-columns &quot;Message&quot; &quot;Plug-in&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-rows -column &quot;Message&quot;  -value &quot;Execution of early startup handlers completed.&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;&#xA; &#xA;//To compare table data to already written csv file you may use &lt;a href=&quot;#read-csv-file&quot;>read-csv-file&lt;/a> command:&#xA; &#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | select-columns &quot;Plug-in&quot; | eq [read-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;] | assert-true &quot;Data in table does not match input file&quot; "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="table" eType="ecore:EClass objects.ecore#//Table">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -46,6 +48,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Takes a table from input and returns the same table which has some columns excluded. "/>
       <details key="returns" value="Copy of input table object without columns with names listed in &lt;code>columns&lt;/code>"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | get-table-data | exclude-columns &quot;Message&quot; &quot;Plug-in&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="table" eType="ecore:EClass objects.ecore#//Table">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -64,6 +67,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Takes a table from input and returns the table containing only columns passed into &lt;code>columns&lt;/code> argument."/>
       <details key="returns" value="Copy of input table object with only columns with names listed in &lt;code>columns&lt;/code>"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | get-table-data | select-columns &quot;Message&quot; | write-csv-file &quot;workspace:/MyProject/AssertData/table.csv&quot; "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="table" eType="ecore:EClass objects.ecore#//Table">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -81,6 +85,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="AssertTablesMatch" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Compares contents of two tables. If contents are not the same, fails with a descriptive message"/>
+      <details key="example" value="assert-tables-match [get-editor &quot;context&quot; | get-section Parameters | get-table | get-table-data ]&#xA;                    [get-editor &quot;context2&quot; | get-section Parameters | get-table | get-table-data]"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass objects.ecore#//Table"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="ecore:EClass objects.ecore#//Table"/>
@@ -106,6 +111,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="WriteLines" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Reads objects from input pipe and writes them into file line-by-line as strings"/>
+      <details key="example" value="//writes a list of launch configuration into a file line-by-line&#xA;list-launch-configurations | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot;&#xA;// appends &quot;New line&quot; into a file. &#xA;str &quot;New line&quot; | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot; -append&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -122,6 +128,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ReadLines" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Reads lines from file identified by uri and writes them one-by-one into output pipe"/>
+      <details key="example" value="//Displays alert with lines count&#xA;show-alert [concat &quot;The number of lines is &quot;[read-lines -uri &quot;workspace:/Project/Folder/file.txt&quot; | length | str]]&#xA;&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -194,6 +201,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Converts its input to table data format, exactly the same as &lt;code>get-table-data&lt;/code> returns."/>
       <details key="returns" value="Table data."/>
+      <details key="example" value="get-log -levels error | as-table-data | write-csv-file &quot;workspace:/Project/file2.csv&quot;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
@@ -207,6 +215,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Parses given .properties file. Fails if file is not found or format is invalid"/>
       <details key="returns" value="ECL map with values from properties file"/>
+      <details key="example" value="...get-item &quot;General Registers/pc&quot; | get-property &quot;values[\'Value\']&quot;&#xA;| matches [format &quot;%s.*&quot; [read-properties -uri &quot;file:/C:/Users/Administrator/Desktop/p.properties&quot; | get myKey]] | verify-true&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">

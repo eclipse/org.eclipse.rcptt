@@ -21,7 +21,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getLt()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments one are less then another' returns='<code>true</code> when left is less then right, <code>false</code> otherwise.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments one are less then another' returns='<code>true</code> when left is less then right, <code>false</code> otherwise.' example='plus 6 4 | lt 12 | verify-true'"
  * @generated
  */
 public interface Lt extends BinaryOp {

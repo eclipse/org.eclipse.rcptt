@@ -47,6 +47,7 @@ import org.eclipse.rcptt.ecl.operations.Not;
 import org.eclipse.rcptt.ecl.operations.NotEq;
 import org.eclipse.rcptt.ecl.operations.OperationsPackage;
 import org.eclipse.rcptt.ecl.operations.Or;
+import org.eclipse.rcptt.ecl.operations.ParseTime;
 import org.eclipse.rcptt.ecl.operations.Plus;
 import org.eclipse.rcptt.ecl.operations.Recur;
 import org.eclipse.rcptt.ecl.operations.Repeat;
@@ -272,6 +273,10 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSplit(Split object) {
 				return createSplitAdapter();
+			}
+			@Override
+			public Adapter caseParseTime(ParseTime object) {
+				return createParseTimeAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -856,6 +861,20 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSplitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.operations.ParseTime <em>Parse Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.operations.ParseTime
+	 * @generated
+	 */
+	public Adapter createParseTimeAdapter() {
 		return null;
 	}
 

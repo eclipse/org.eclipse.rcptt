@@ -29,7 +29,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getLength()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns count of objects got from input pipe' returns='Object count'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns count of objects got from input pipe' returns='Object count' example='emit 1 2 3 | length | equals 3 | verify-true\n\n// verifies that Project item has 10 children\nget-view \"Q7 Explorer\" | get-tree | get-item Project | get-items | length | equals 10 | verify-true'"
  * @generated
  */
 public interface Length extends Command {

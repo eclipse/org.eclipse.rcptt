@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTakeScreenshot()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a screenshot and attaches it to test report.' returns='Nothing.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a screenshot and attaches it to test report.\nNote: please make sure you enabled \"Include \'trace\' and \'take-screenshot\' in HTML report\" option (Q7 Advanced options/Reporting). ' returns='Nothing.'"
  * @generated
  */
 public interface TakeScreenshot extends Command {

@@ -117,7 +117,9 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="#//ExecutionPhase"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ResetVerifications" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResetVerifications" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CreateVerification" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
