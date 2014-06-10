@@ -1193,7 +1193,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public String getRuntimeVersion() {
 		if (target != null && target.isResolved()) {
 			String version = "";
-			Version runtimeBundle = getBundleVersion("com.xored.tesla.swt");
+			Version runtimeBundle = getBundleVersion("org.eclipse.rcptt.tesla.swt");
 			if (runtimeBundle != null) {
 				version = runtimeBundle.toString();
 				if (runtimeBundle.getQualifier().equals("qualifier")) {

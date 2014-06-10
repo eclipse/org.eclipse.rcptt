@@ -58,6 +58,6 @@ with [get-editor test] {
 }
 get-view "Execution View" | get-button "Details..." | click
 get-window "Execution details" | get-editbox | get-property text | contains "list-features" | verify-true
-get-window "Execution details" | get-editbox | get-property text | contains "com.xored.tesla.ecl" | verify-true
+get-window "Execution details" | get-editbox | get-property text | contains "org.eclipse.rcptt.tesla.ecl" | verify-true
 get-window "Execution details" | get-button OK | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

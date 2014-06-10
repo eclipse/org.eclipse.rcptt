@@ -52,7 +52,7 @@ public interface DiagramPackage extends EPackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "org.eclipse.ecl.tesla.diagram";
+	String eNS_PREFIX = "org.eclipse.rcptt.ecl.tesla.diagram";
 
 	/**
 	 * The singleton instance of the package.

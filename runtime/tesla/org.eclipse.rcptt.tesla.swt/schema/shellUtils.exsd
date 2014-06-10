@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
+
 <!-- Schema file written by PDE -->
-<schema targetNamespace="com.xored.tesla.swt" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.rcptt.tesla.swt" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="com.xored.tesla.swt" id="shellUtils" name="shellUtils"/>
+         <meta.schema plugin="org.eclipse.rcptt.tesla.swt" id="shellUtils" name="shellUtils"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   A platform specific set of instruments to manipulate on windows
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":com.xored.tesla.swt.ShellUtils"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.rcptt.tesla.swt.ShellUtils"/>
                </appinfo>
             </annotation>
          </attribute>
