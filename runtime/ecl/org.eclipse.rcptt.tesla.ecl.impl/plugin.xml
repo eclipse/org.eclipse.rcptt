@@ -748,13 +748,13 @@
       	<scriptlet
               class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.ActionService"
               name="Decrypt"
-              namespace="http://www.eclipse.org/ecl/tesla.ecore">
+              namespace="http://eclipse.org/rcptt/tesla/ecl">
         </scriptlet>
         <scriptlet
                class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.GetTableDataService"
                name="GetTableData"
-               namespace="http://www.eclipse.org/ecl/tesla.ecore">
-  </scriptlet>
+               namespace="http://eclipse.org/rcptt/tesla/ecl">
+	</scriptlet>
   <scriptlet
         class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.GetWidgetDetailsService"
         name="GetWidgetDetails"
