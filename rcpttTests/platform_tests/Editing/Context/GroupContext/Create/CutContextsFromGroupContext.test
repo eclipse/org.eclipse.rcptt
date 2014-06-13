@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _88VHYO_gEeCZz89QM6kozg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: skipMacOS, Context, GroupContext, Create
 Testcase-Type: ecl
 
@@ -38,22 +38,22 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
 with [get-editor GroupContext | get-section Contexts | get-table] {
     select "1 \\(Q7Project\\)" "2 \\(Q7Project\\)" "A \\(Q7Project\\)" "b \\(Q7Project\\)" "C \\(Q7Project\\)" "d \\(Q7Project\\)" "E \\(Q7Project\\)" "f \\(Q7Project\\)"
     get-menu Cut | click
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext1" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/GroupContext1" | double-click
 get-editor GroupContext1 | get-section Contexts | get-table | get-menu Paste | click
 get-editor GroupContext1 | get-section Contexts | get-table | get-property itemCount | equals 8 | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
 get-editor GroupContext | get-section Contexts | get-table | get-property itemCount | equals 0 | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext1" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/GroupContext1" | double-click
 with [get-editor GroupContext1 | get-section Contexts | get-table] {
     select "1 \\(Q7Project\\)" "2 \\(Q7Project\\)" "A \\(Q7Project\\)" "b \\(Q7Project\\)" "C \\(Q7Project\\)" "d \\(Q7Project\\)" "E \\(Q7Project\\)" "f \\(Q7Project\\)"
     key-type "M1+x"
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/GroupContext" | double-click
 get-editor GroupContext | get-section Contexts | get-table | key-type "M1+v"
 get-editor GroupContext | get-section Contexts | get-table | get-property itemCount | equals 8 | verify-true
 get-editor GroupContext1 | click

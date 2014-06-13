@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _cLiG4CxREeGFqJlA4K7Ayg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Reference, Q7Explorer
 Testcase-Type: ecl
 
@@ -42,7 +42,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/DebugContext" | get-menu "Q7/Find References" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/DebugContext" | get-menu "Q7/Find References" | click
 with [get-view Search] {
     get-link "\'DebugContext\' - 5 matches in workspace (Context references)" | get-property caption 
         | equals "\'DebugContext\' - 5 matches in workspace (Context references)" | verify-true
@@ -62,7 +62,7 @@ with [get-view Search] {
         get-item "TestProject/folder/TestCase5.test" | get-property caption | equals "TestCase5.test" | verify-true
     }
 }
-get-view "Q7 Explorer" | get-tree | select TestProject | get-menu Properties | click
+get-view "Test Explorer" | get-tree | select TestProject | get-menu Properties | click
 with [get-window "Properties for TestProject"] {
     get-tree | select "Project References"
     get-table | get-item Q7Project | uncheck

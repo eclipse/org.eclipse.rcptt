@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _wBgd0YeNEeGVLeG5HnBFVg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Toolbar
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/Open Modal Dialog" | double-click
     select "MyProject/Check New Project Window" | double-click
     select "MyProject/TestSuite" | double-click
@@ -67,7 +67,7 @@ with [get-tab-folder] {
     get-property tabCount | equals 3 | verify-true
 }
 get-editor "Check New Project Window" | get-section Script | get-text-viewer | key-type "M1+M2+w"
-get-view "Q7 Explorer" | get-tree | key-type "M1+M2+w"
+get-view "Test Explorer" | get-tree | key-type "M1+M2+w"
 get-button "Back to TestSuite.*" | click
 with [get-tab-folder -index 1] {
     get-property pages -index 0 | equals TestSuite | verify-true
@@ -75,5 +75,5 @@ with [get-tab-folder -index 1] {
     get-property tabCount | equals 1 | verify-true
 }
 get-editor TestSuite | close
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1728
 Id: _801YEX1VEeGChtcMSL8kQg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: feature/editor/testsuite
 Testcase-Type: ecl
 
@@ -38,18 +38,18 @@ Window is closed, new test suite is added in project.
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/TestSuite" | get-menu Copy | click
     select MyProject | get-menu Paste | click
 }
 get-window "New Element" | get-editbox -after [get-label "New name:"] | get-property text | equals "Copy of TestSuite" 
     | verify-true
 get-window "New Element" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "MyProject/Copy of TestSuite" | get-property caption | equals "Copy of TestSuite" | verify-true
     get-item "MyProject/TestSuite" | get-property caption | equals TestSuite | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "MyProject/Copy of TestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/Copy of TestSuite" | double-click
 with [get-editor "Copy of TestSuite" | get-section "Test Cases" | get-table] {
     get-property itemCount | equals 3 | verify-true
     get-item "CreateJavaProject \\(MyProject\\)" | get-property caption | equals "CreateJavaProject (MyProject)" 

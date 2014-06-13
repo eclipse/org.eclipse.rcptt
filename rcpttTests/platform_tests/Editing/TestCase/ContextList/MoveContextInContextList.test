@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _F4e7MMpfEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestCase, Context, Move
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test with contexts" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/test with contexts" | double-click -nowait
 with [get-editor "test with contexts" | get-section Contexts] {
     click -nowait
     get-table | select "context2 \\(Q7Project\\)"
@@ -98,7 +98,7 @@ with [get-editor "test with contexts"] {
     get-editbox -after [get-label "Name:"] | key-type "M1+s"
     close
 }
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click -nowait
     get-tree | select "Q7Project/test with contexts" | double-click -nowait
 }
@@ -110,7 +110,7 @@ with [get-editor "test with contexts" | get-section Contexts | get-table] {
     get-item "context2 \\(Q7Project\\)" | get-property index | equals 3 | verify-true
     get-item "contextWB \\(Q7Project\\)" | get-property index | equals 4 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "Q7Project/context1" | get-property index | equals 1 | verify-true
     get-item "Q7Project/context2" | get-property index | equals 2 | verify-true
     get-item "Q7Project/contextWB" | get-property index | equals 3 | verify-true

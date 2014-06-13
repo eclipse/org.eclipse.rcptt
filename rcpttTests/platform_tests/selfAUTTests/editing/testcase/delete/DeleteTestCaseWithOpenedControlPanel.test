@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1739
 Id: _azTkMHTVEeGlmsBsPCBi2g
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestCase, Delete, ControlPanel, selfAUT
 Testcase-Type: ecl
 
@@ -37,26 +37,26 @@ Entry-Name: .content
 
 clear-log-view
 get-button "Record a Snippet" | click
-get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest1" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "q7project/simpleTest1" | get-menu Delete | click
 get-window "Delete Resources" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "q7project/simpleTest1" }
     get-item "q7project/defaultWB" | get-property caption | equals defaultWB | verify-true
     get-item "q7project/defaultWS" | get-property caption | equals defaultWS | verify-true
     get-item "q7project/simpleTest2" | get-property caption | equals simpleTest2 | verify-true
     get-item "q7project/simpleTest3" | get-property caption | equals simpleTest3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest2" | double-click
-get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest2" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "q7project/simpleTest2" | double-click
+get-view "Test Explorer" | get-tree | select "q7project/simpleTest2" | get-menu Delete | click
 get-window "Delete Resources" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item q7project | get-property caption | equals q7project | verify-true
     verify-error { get-item "q7project/simpleTest2" }
     get-item "q7project/defaultWB" | get-property caption | equals defaultWB | verify-true
     get-item "q7project/defaultWS" | get-property caption | equals defaultWS | verify-true
     get-item "q7project/simpleTest3" | get-property caption | equals simpleTest3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest3" | double-click
+get-view "Test Explorer" | get-tree | select "q7project/simpleTest3" | double-click
 with [get-editor simpleTest3] {
     with [get-section Script] {
         get-button "Clear Script" | click
@@ -64,9 +64,9 @@ with [get-editor simpleTest3] {
     }
     get-button Record | click
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/simpleTest3" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "q7project/simpleTest3" | get-menu Delete | click
 get-window "Delete Resources" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "q7project/simpleTest3" }
     get-item "q7project/defaultWB" | get-property caption | equals defaultWB | verify-true
     get-item "q7project/defaultWS" | get-property caption | equals defaultWS | verify-true

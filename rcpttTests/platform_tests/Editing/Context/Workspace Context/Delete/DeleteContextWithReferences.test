@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-984
 Id: __p_14It3EeCibtYekBSVew
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, WorkspaceContext, Delete, Reference
 Testcase-Type: ecl
 
@@ -36,14 +36,14 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
 with [get-editor group | get-section Contexts | get-table] {
 	get-property itemCount | equals 1 | verify-true
 	get-item "context1 \\(Q7Project\\)" | get-property caption 
 		| equals "context1 (Q7Project)" | verify-true
 }
 get-editor group | close
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
 with [get-editor test1] {
 	with [get-section Contexts] {
 		click -nowait
@@ -54,7 +54,7 @@ with [get-editor test1] {
 	}
 	close
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
 with [get-editor test2] {
 	with [get-section Contexts] {
 		click -nowait
@@ -65,7 +65,7 @@ with [get-editor test2] {
 	}
 	close
 } 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/context1" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "Q7Project/context1" | get-menu Delete | click
 with [get-window "Delete Resources"] {
 	get-link "See 3 reference(s) found." | click
 	get-button "Delete references?" | get-property kind | equals Check | verify-true
@@ -77,12 +77,12 @@ with [get-window "Delete Resources"] {
 	}
     get-button OK | click
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/group" | double-click -nowait
 with [get-editor group | get-section Contexts | get-table] {
 	get-property itemCount | equals 0 | verify-true
 }
 get-editor group | close
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/test1" | double-click -nowait
 with [get-editor test1] {
 	with [get-section Contexts] {
 		click -nowait
@@ -92,7 +92,7 @@ with [get-editor test1] {
 	}
 	close
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/test2" | double-click -nowait
 with [get-editor test2] {
 	with [get-section Contexts] {
 		click -nowait

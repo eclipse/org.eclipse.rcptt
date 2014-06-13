@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _jDB5wILuEeGVWel_bIqsJQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Context, ECLContext, Delete
 Testcase-Type: ecl
 
@@ -35,10 +35,10 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "Q7Project/EclContext" | get-menu Delete | click
 get-window "Delete Resources" | get-button OK | click
-verify-error {	get-view "Q7 Explorer" | get-tree | select "Q7Project/EclContext" }
-with [get-view "Q7 Explorer" | get-tree] {
+verify-error {	get-view "Test Explorer" | get-tree | select "Q7Project/EclContext" }
+with [get-view "Test Explorer" | get-tree] {
     get-item "Q7Project/DebugContext" | get-property caption | equals DebugContext | verify-true
     get-item "Q7Project/GroupContext" | get-property caption | equals GroupContext | verify-true
     get-item "Q7Project/PreferenceContext" | get-property caption | equals PreferenceContext | verify-true

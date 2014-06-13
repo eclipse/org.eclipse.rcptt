@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _50ViMHSnEeGlmsBsPCBi2g
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: feature/findReference/testsuite
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/TestFolder/NewTestSuite" | double-click
     select "MyProject/TestSuite" | drag-start 76 261
     get-item "MyProject/TestSuite" | drag-enter 84 13 -detail 2 -operation 7
@@ -50,14 +50,14 @@ with [get-editor NewTestSuite | get-section "Test Cases" | get-table] {
     drag-exit
     drag-accept 168 133 -detail 2 -operation 3
 }
-get-view "Q7 Explorer" | get-tree | get-item "MyProject/TestFolder" | drag-set-data
+get-view "Test Explorer" | get-tree | get-item "MyProject/TestFolder" | drag-set-data
 get-editor NewTestSuite | get-section "Test Cases" | get-table | drop 168 133 -detail 2 -operation 3
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "MyProject/TestFolder" | drag-end -detail 2
     key-type "M1+s"
 }
 get-editor NewTestSuite | get-section "Test Cases" | get-table | key-type "M1+s"
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "Q7/Find References" | click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "Q7/Find References" | click
 with [get-view Search | get-tree] {
     get-item MyProject | get-property childCount | equals 1 | verify-true
     get-item "MyProject/TestFolder" | get-property childCount | equals 1 | verify-true
@@ -66,7 +66,7 @@ with [get-view Search | get-tree] {
 }
 get-editor NewTestSuite | close
 get-view Search | click
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | get-menu "Q7/Find References" | click
+get-view "Test Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | get-menu "Q7/Find References" | click
 with [get-view Search] {
     get-link "\'NewTestSuite\' - 0 matches in workspace (Test references)" | get-property caption 
         | equals "\'NewTestSuite\' - 0 matches in workspace (Test references)" | verify-true

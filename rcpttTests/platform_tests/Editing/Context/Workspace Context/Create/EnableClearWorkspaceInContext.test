@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _GVh0cM79EeCw4ppgsBRMGg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: selfAUT, Context, WorkspaceContext, Create
 Testcase-Type: ecl
 
@@ -36,10 +36,10 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "q7project/defaultWS" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/defaultWS" | double-click -nowait
 get-editor defaultWS | get-button Apply | click
 get-view "Execution View" | get-label "1/1" | get-property caption | equals "1/1" | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/test" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/test" | double-click -nowait
 with [get-editor test | get-section "Workspace Options" | get-button "Clear workspace"] {
     get-property caption | equals "Clear workspace" | verify-true
     get-property selected | equals true | verify-true
@@ -49,7 +49,7 @@ with [get-view "Execution View"] {
     get-label "1/1" | get-property caption | equals "1/1" | verify-true
 }
 
-get-view "Q7 Explorer" | get-tree | select "q7project/checking" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/checking" | double-click -nowait
 get-editor checking | get-section Workspace | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor checking | get-button Capture | click
 get-editor checking | get-section Workspace | get-tree | get-property itemCount | equals 1 | verify-true

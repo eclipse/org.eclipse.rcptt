@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _XRw50MogEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, WorkspaceContext, Rename
 Testcase-Type: ecl
 
@@ -40,16 +40,16 @@ Change is displayed in Q7 explorer
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/context" | get-menu Open | click
+get-view "Test Explorer" | get-tree | select "Q7Project/context" | get-menu Open | click
 with [get-editor context | get-editbox -after [get-label "Name:"]] {
     set-text-selection -offset 7 -startLine 0 -endLine 0 -endOffset 0
     type-text NewName
 }
 get-button "Save (M1+S)" | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     verify-error { get-item "Q7Project/context" }
     get-item "Q7Project/NewName" | get-property caption | equals NewName | verify-true
 }
 get-editor NewName | close
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

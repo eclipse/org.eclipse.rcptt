@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _TSzVcCbcEeGxL-dGhy8NkQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Context, ECLContext, Create
 Testcase-Type: ecl
 
@@ -37,12 +37,12 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select TestQ7Prj | get-menu "New/Context" | click
+get-view "Test Explorer" | get-tree | select TestQ7Prj | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
     get-table | select "Ecl Script"
     get-editbox -after [get-label "Name:"] | set-text Ctx
     get-button Finish | click
 }
 get-tab-folder -index 1 | get-property activePage | equals Ctx | verify-true
-get-view "Q7 Explorer" | get-tree | get-item "TestQ7Prj/Ctx" | get-property caption | equals Ctx | verify-true
+get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/Ctx" | get-property caption | equals Ctx | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

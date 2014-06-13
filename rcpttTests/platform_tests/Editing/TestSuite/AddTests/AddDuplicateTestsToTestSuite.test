@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1732
 Id: _ZttksX_DEeG8n6UWqM25Yw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, TestCase
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | double-click
 get-editor TestSuite | get-section "Test Cases" | get-button "Add Test Case" | click
 get-window "Select Test Case" | get-table 
     | select "Check New Project Window \\(MyProject\\/Check New Project Window.test\\)"

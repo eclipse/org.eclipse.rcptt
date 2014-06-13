@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _FCfboO8wEeCWFp5-_cxtIw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Context, GroupContext, Create
 Testcase-Type: ecl
 
@@ -39,7 +39,7 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext6" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext6" | double-click
 get-editor GroupContext6 | get-section Contexts | get-button "Add..." | click
 with [get-window "Select context"] {
     get-table | select "GroupContext4 \\(Q7Project3\\)"

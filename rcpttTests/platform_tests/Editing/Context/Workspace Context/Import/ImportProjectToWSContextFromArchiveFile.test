@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1031
 Id: _otNBENHjEeCvZZdPZOPlnw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, WorkspaceContext, ImportExport
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p2/context2" | double-click
+get-view "Test Explorer" | get-tree | select "p2/context2" | double-click
 get-editor context2 | get-section Workspace | get-button "Import Projects..." | click
 get-window -from "Window.createShell()" | get-button "Select archive file:" | click
 set-dialog-result File "platform:/resource/project1/ArchiveProject.zip"
@@ -56,5 +56,5 @@ with [get-editor context2] {
     get-section Workspace | get-tree | key-type "M1+s"
     close
 }
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

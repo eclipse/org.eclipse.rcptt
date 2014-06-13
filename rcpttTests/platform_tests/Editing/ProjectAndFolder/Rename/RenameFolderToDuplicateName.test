@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _UETIwNH2EeCvZZdPZOPlnw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Folder, Rename
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p2/folder_test" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "p2/folder_test" | get-menu "Rename..." | click
 get-window "Rename Resource" | get-editbox -after [get-label "New name:"] | set-text "folder_context"
 with [get-window "Rename Resource"] {
     get-label "A file or folder with this name already exists" | get-property caption 
@@ -50,18 +50,18 @@ with [get-window "Rename Resource"] {
     }
 }
 get-window "Rename Resource" | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p2 | get-property caption | equals p2 | verify-true
     get-item p2 | get-property childCount | equals 3 | verify-true
     get-item "p2/folder_context" | get-property caption | equals "folder_context" | verify-true
     get-item "p2/folder_test" | get-property caption | equals "folder_test" | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p2/folder_test" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "p2/folder_test" | get-menu "Rename..." | click
 get-window "Rename Resource" | get-editbox -after [get-label "New name:"] | set-text "folder_context"
 get-window "Rename Resource" | get-label "A file or folder with this name already exists" | get-property caption 
     | equals "A file or folder with this name already exists" | verify-true
 get-window "Rename Resource" | close
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p2 | get-property caption | equals p2 | verify-true
     get-item p2 | get-property childCount | equals 3 | verify-true
     get-item "p2/folder_context" | get-property caption | equals "folder_context" | verify-true

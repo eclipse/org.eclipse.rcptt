@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _MOxZYM71EeCw4ppgsBRMGg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Toolbar, Create, Context, TestCase, TestSuite, Folder, Project
 Testcase-Type: ecl
 
@@ -55,7 +55,7 @@ with [get-window "New Project"] {
     get-editbox -after [get-label "Project name:"] | set-text TestProject
     get-button Finish | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-property itemCount | equals 1 | verify-true
     get-item TestProject | get-property caption | equals TestProject | verify-true
 }
@@ -69,7 +69,7 @@ with [get-tab-folder] {
     get-property pages -index 0 | equals testcase | verify-true
     get-property tabCount | equals 1 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item TestProject | get-property caption | equals TestProject | verify-true
     get-item TestProject | get-property childCount | equals 2 | verify-true
     get-item "TestProject/testcase" | get-property caption | equals testcase | verify-true
@@ -94,7 +94,7 @@ with [get-window "New Context Wizard"] {
 //    get-property pages -index 1 | equals WS | verify-true
 //    get-property tabCount | equals 2 | verify-true
 //}
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-property itemCount | equals 1 | verify-true
     get-item TestProject | get-property caption | equals TestProject | verify-true
     get-item TestProject | get-property childCount | equals 3 | verify-true
@@ -110,7 +110,7 @@ with [get-window "New Folder"] {
     get-editbox -after [get-label "Folder name:"] | set-text Folder
     get-button Finish | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item TestProject | get-property childCount | equals 4 | verify-true
     get-property itemCount | equals 1 | verify-true
     get-item "TestProject/Folder" | get-property caption | equals Folder | verify-true
@@ -133,7 +133,7 @@ with [get-tab-folder -index 1] {
     get-property activePage | equals TestSuite | verify-true
     get-property tabCount | equals 3 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item TestProject | get-property childCount | equals 4 | verify-true
     get-property itemCount | equals 1 | verify-true
     get-item "TestProject/Folder" | get-property childCount | equals 1 | verify-true

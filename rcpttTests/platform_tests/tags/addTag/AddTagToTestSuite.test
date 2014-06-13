@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: __EqR8IUyEeG5as36MMnjSw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Tags, TestSuite
 Testcase-Type: ecl
 
@@ -37,16 +37,16 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
 get-window "Select Tag(s) to Add" | get-tree | get-property itemCount | equals 3 | verify-true
 with [get-window "Select Tag(s) to Add"] {
     get-tree | select "Tag1 \\(2 occurrences\\)"
     get-button OK | click
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/TestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "q7project/TestSuite" | double-click
 get-editor TestSuite | get-editbox -after [get-label "Tags:"] | get-property text | equals Tag1 | verify-true
 get-editor TestSuite | close
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 get-view Tags | click
 with [get-view Tags | get-tree] {
     get-item "Tag1 \\(3\\)" | get-property childCount | equals 3 | verify-true

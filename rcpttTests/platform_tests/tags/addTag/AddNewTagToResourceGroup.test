@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _eoj04Kh5EeCt7ZMCHpjZwg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Tags
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project/folder" "q7project/test2"
     get-menu "Q7/Add Tag..." | click
 }
@@ -46,18 +46,18 @@ with [get-window "Select Tag(s) to Add"] {
 }
 get-view Tags | click -nowait
 get-view Tags | get-tree | get-item "newTag \\(4\\)" | get-property caption | equals "newTag (4)" | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/folder/context" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/folder/context" | double-click -nowait
 get-editor context | get-editbox -after [get-label "Tags:"] | get-property rawValue 
     | equals "t1,t2,     t3/t31/t32/t33, newTag" | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/folder/test1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/folder/test1" | double-click -nowait
 get-editor test1 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "   t3  , newTag" 
     | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
 get-editor test3 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals newTag | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/group" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/group" | double-click -nowait
 get-editor group | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "t3/t31/t32, t1" 
     | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/test2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/test2" | double-click -nowait
 get-editor test2 | get-editbox -after [get-label "Tags:"] | get-property rawValue 
     | equals "    t2, t3/t31/t32, t2, newTag" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

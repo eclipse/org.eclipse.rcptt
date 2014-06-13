@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _JlKIsGphEeCzId1Gnkds9A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Project, Create
 Testcase-Type: ecl
 
@@ -33,10 +33,10 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | get-menu "New/Q7 Project" | click
+get-view "Test Explorer" | get-tree | get-menu "New/Q7 Project" | click
 with [get-window "New Project"] {
     get-editbox -after [get-label "Project name:"] | set-text TestQ7Prj
     get-button Finish | click
 }
-get-view "Q7 Explorer" | get-tree | get-item TestQ7Prj | get-property caption | equals TestQ7Prj | verify-true
+get-view "Test Explorer" | get-tree | get-item TestQ7Prj | get-property caption | equals TestQ7Prj | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

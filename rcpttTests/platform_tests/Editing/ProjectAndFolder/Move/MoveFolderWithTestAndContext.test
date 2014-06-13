@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-yWAUNHwEeCvZZdPZOPlnw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Project, Move, TestCase, Context
 Testcase-Type: ecl
 
@@ -30,12 +30,12 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select p3 | get-menu "New/Folder" | click
+get-view "Test Explorer" | get-tree | select p3 | get-menu "New/Folder" | click
 with [get-window "New Folder"] {
     get-editbox -after [get-label "Folder name:"] | set-text folder
     get-button Finish | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "p3/context3" "p3/scenario3"
     get-menu "Move..." | click
 }
@@ -43,13 +43,13 @@ with [get-window "Move Resources"] {
     get-tree | select "p3/folder"
     get-button OK | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "p3/folder" | get-property caption | equals folder | verify-true
     get-item "p3/folder" | get-property childCount | equals 2 | verify-true
     get-item "p3/folder/context3" | get-property caption | equals context3 | verify-true
     get-item "p3/folder/scenario3" | get-property caption | equals scenario3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p3/folder/scenario3" | double-click
+get-view "Test Explorer" | get-tree | select "p3/folder/scenario3" | double-click
 with [get-editor scenario3 | get-section Contexts] {
     click
     get-button "Add..." | click
@@ -62,7 +62,7 @@ with [get-editor scenario3] {
     get-section Contexts | key-type "M1+s"
     close
 }
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "p3/folder" | get-menu "Move..." | click
 }
@@ -70,21 +70,21 @@ with [get-window "Move Resources"] {
     get-tree | select p1
     get-button OK | click
 }
-get-view "Q7 Explorer" | get-tree | verify-error { get-item "p3/folder" }
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | verify-error { get-item "p3/folder" }
+with [get-view "Test Explorer" | get-tree] {
     get-item "p1/folder" | get-property caption | equals folder | verify-true
     get-item "p1/folder" | get-property childCount | equals 2 | verify-true
     get-item "p1/folder/context3" | get-property caption | equals context3 | verify-true
     get-item "p1/folder/scenario3" | get-property caption | equals scenario3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p1/folder/scenario3" | double-click
+get-view "Test Explorer" | get-tree | select "p1/folder/scenario3" | double-click
 get-editor scenario3 | get-section Contexts | click
 with [get-editor scenario3 | get-section Contexts | get-table] {
     get-property itemCount | equals 1 | verify-true
     get-item "context3 \\(p1\\)" | get-property caption | equals "context3 (p1)" | verify-true
 }
 get-editor scenario3 | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     with [get-tree] {
         select "p1/folder"
@@ -102,13 +102,13 @@ with [get-view "Q7 Explorer"] {
         get-item p1 | drag-end "-41" -detail 2
     }
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "p2/folder" | get-property caption | equals folder | verify-true
     get-item "p2/folder" | get-property childCount | equals 2 | verify-true
     get-item "p2/folder/context3" | get-property caption | equals context3 | verify-true
     get-item "p2/folder/scenario3" | get-property caption | equals scenario3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p2/folder/scenario3" | double-click
+get-view "Test Explorer" | get-tree | select "p2/folder/scenario3" | double-click
 get-editor scenario3 | get-section Contexts | click
 with [get-editor scenario3 | get-section Contexts | get-table] {
     get-property itemCount | equals 1 | verify-true

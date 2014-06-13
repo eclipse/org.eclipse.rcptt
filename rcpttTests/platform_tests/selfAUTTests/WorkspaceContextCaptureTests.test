@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _7r_KYa20EeClLPYnwKXU_A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Runtime, selfAUT, Create, WorkspaceContext
 Testcase-Type: ecl
 
@@ -41,13 +41,13 @@ Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "q7project/defaultWS" | double-click
+get-view "Test Explorer" | get-tree | select "q7project/defaultWS" | double-click
 with [get-editor defaultWS] {
     get-section Workspace | get-tree | select q7project
     get-button Apply | click
     get-window "Save Resource" | get-button Yes | click
 }
-get-view "Q7 Explorer" | get-tree | select q7project | get-menu "New/Context" | click
+get-view "Test Explorer" | get-tree | select q7project | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
     get-editbox -after [get-label "Name:"] | set-text MyWorkspace
     get-button Finish | click
@@ -60,7 +60,7 @@ get-editor MyWorkspace | get-section Workspace | get-tree | get-item q7project |
     | equals q7project | verify-true
 get-editor MyWorkspace | close
 get-editor defaultWS | click
-get-view "Q7 Explorer" | get-tree | select q7project | get-menu "New/Context" | click
+get-view "Test Explorer" | get-tree | select q7project | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
     get-editbox -after [get-label "Name:"] | set-text myworkspace2
     get-button Finish | click

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2424
 Id: _0V-AkXT2EeK3FJaR1pV8TQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: selfAUT, Context, ECLContext, Runtime
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select TestQ7Prj | get-menu "New/Context" | click
+get-view "Test Explorer" | get-tree | select TestQ7Prj | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
     get-table | select "Ecl Script"
     get-editbox -after [get-label "Name:"] | set-text NewEmptyECLContext

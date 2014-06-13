@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _O6vCYSnkEeG5j4IHaNDqCg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ECL_IDE_module, TestCase, UndoRedo
 Testcase-Type: ecl
 
@@ -43,14 +43,14 @@ Test steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
 with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     set-text-offset 83 0
     key-type Enter
     type-text "get-item"
 }
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
     + "get-item" | verify-true
 with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     set-text-offset 8 1
@@ -58,14 +58,14 @@ with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     set-text-offset 83 0
 }
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true" | verify-true
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true" | verify-true
 with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     set-text-offset 16 0
     key-type [get-by-os -default "M1+y" -macosx "M1+M2+z"]
     set-text-offset 2 0
 }
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
     + "get-item" | verify-true
 with [get-editor WorkspaceIsEmpty] {
 	// TODO: Save will trigger replace of all delimiters in document into '\n' format.
@@ -80,11 +80,11 @@ with [get-editor WorkspaceIsEmpty] {
 get-menu "Edit/Undo" | click
 get-menu "Edit/Undo" | click
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n" | verify-true
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n" | verify-true
 get-menu "Edit/Redo" | click
 get-menu "Edit/Redo" | click
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
     + "get-item\n"
     + "get-tree" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

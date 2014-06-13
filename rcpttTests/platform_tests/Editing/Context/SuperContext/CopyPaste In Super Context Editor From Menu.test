@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-3128
 Id: _rnY4UGlFEeOsFbrwusmovw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -33,7 +33,7 @@ Verify that Edit/Copy, Edit/Paste works for Super Context editor.
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/superContext" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/superContext" | double-click
 get-editor superContext | get-editbox -after [get-label "Name:"] | set-text-selection -offset 12 -startLine 0 
     -endLine 0 -endOffset 0
 get-menu "Edit/Copy" | click

@@ -41,7 +41,7 @@ proc "set-save-before-launch" [val mode] {
 }
 
 proc "open-modified-testcase" {
-	get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
+	get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
 	
 	with [get-editor "Delete Test"] {
 	    with [get-section Script | get-text-viewer] {
@@ -53,7 +53,7 @@ proc "open-modified-testcase" {
 }
 
 proc "open-modified-context" {
-	get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click
+	get-view "Test Explorer" | get-tree | select "Q7Project/Create New Project" | double-click
 	with [get-editor "Create New Project" | get-section Script | get-text-viewer] {
 	    set-caret-pos 13 2
 	    type-text " "

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _wC7VIMlWEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Q7Explorer, Project, Move
 Testcase-Type: ecl
 
@@ -34,22 +34,22 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select p2
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select p2
+with [get-view "Test Explorer" | get-tree] {
     get-menu "Move..." | get-property caption | equals "Mo&ve..." | verify-true
     get-menu "Move..." | get-property enablement | equals false | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p1/context1"
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select "p1/context1"
+with [get-view "Test Explorer" | get-tree] {
     get-menu "Move..." | get-property caption | equals "Mo&ve..." | verify-true
     get-menu "Move..." | get-property enablement | equals true | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select p3
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select p3
+with [get-view "Test Explorer" | get-tree] {
     get-menu "Move..." | get-property caption | equals "Mo&ve..." | verify-true
     get-menu "Move..." | get-property enablement | equals false | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select p2
     get-item p2 | drag-start "-6" 11
     get-item "p1/scenario1" | drag-enter "-26" 14 -detail 2 -operation 7
@@ -60,8 +60,8 @@ with [get-view "Q7 Explorer" | get-tree] {
     get-item "p1/scenario1" | drag-exit
     get-item p1 | drag-end "-41"
 }
-get-view "Q7 Explorer" | get-tree | get-property itemCount | equals 3 | verify-true
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | get-property itemCount | equals 3 | verify-true
+with [get-view "Test Explorer" | get-tree] {
     get-item p1 | get-property caption | equals p1 | verify-true
     get-item p2 | get-property caption | equals p2 | verify-true
     get-item p3 | get-property caption | equals p3 | verify-true

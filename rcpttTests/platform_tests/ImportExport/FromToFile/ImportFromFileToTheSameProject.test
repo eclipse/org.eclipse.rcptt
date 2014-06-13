@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _EReTMPsJEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ImportExport, File
 Testcase-Type: ecl
 
@@ -38,7 +38,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
 with [get-window "Export"] {
 	get-button "Export to File" | click
 	set-dialog-result File "platform:/resource/q.test"
@@ -46,7 +46,7 @@ with [get-window "Export"] {
     get-button Finish | click
 }
 
-get-view "Q7 Explorer" | get-tree | select Q7Project | get-menu "Import/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select Q7Project | get-menu "Import/Q7 Portable Format" | click
 
 with [get-window "Import"] {
 	get-button "Import from File" | click
@@ -60,10 +60,10 @@ with [get-window "Import"] {
     get-button Cancel | click
 }
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/TC1" | key-type DEL
+get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | key-type DEL
 get-window "Delete Resources" | get-button OK | click
 
-get-view "Q7 Explorer" | get-tree | select Q7Project | get-menu "Import/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select Q7Project | get-menu "Import/Q7 Portable Format" | click
 
 with [get-window "Import"] {
 	get-button "Import from File" | click
@@ -72,7 +72,7 @@ with [get-window "Import"] {
     get-button Finish | click
 }
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/TC1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | double-click -nowait
 get-editor TC1 | get-section Contexts | click -nowait
 get-editor TC1 | get-section Contexts | get-table | get-property itemCount | equals 6 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

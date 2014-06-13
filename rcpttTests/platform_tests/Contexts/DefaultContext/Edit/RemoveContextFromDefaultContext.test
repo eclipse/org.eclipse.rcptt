@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _GkSeEIrjEeKe4NooVEYS9Q
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, DefaultContext
 Testcase-Type: ecl
 
@@ -36,11 +36,11 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "TestProject/Project Settings" | double-click
+get-view "Test Explorer" | get-tree | select "TestProject/Project Settings" | double-click
 get-editor "TestProject - Project Settings" | get-section "Default Contexts" | get-table 
     | select "PrefContext \\(TestProject\\)" | get-menu Remove | click
 get-editor "TestProject - Project Settings" | get-section Description | get-text-viewer | key-type "M1+s"
-get-view "Q7 Explorer" | get-tree | select "TestProject/TestCase" | double-click
+get-view "Test Explorer" | get-tree | select "TestProject/TestCase" | double-click
 get-editor TestCase | get-section Contexts | click
 with [get-editor TestCase | get-section Contexts | get-table] {
     get-property itemCount | equals 5 | verify-true

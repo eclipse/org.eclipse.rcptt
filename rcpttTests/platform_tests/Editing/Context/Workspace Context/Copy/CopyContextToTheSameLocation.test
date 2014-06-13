@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-981
 Id: _CxBeMMfyEeCxZoPRptqJ7A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Context, WorkspaceContext, CopyPaste
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project1/context" | get-menu Copy | click
     select q7project1 | get-menu Paste | click
 }
@@ -46,14 +46,14 @@ with [get-window "New Element"] {
     get-editbox -after [get-label "File name:"] | get-property value | equals "Copy of context.ctx" | verify-true
 }
 get-window "New Element" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item q7project1 | get-property caption | equals q7project1 | verify-true
     get-item "q7project1/context" | get-property caption | equals context | verify-true
     get-item "q7project1/Copy of context" | get-property caption | equals "Copy of context" | verify-true
     get-item "q7project1/group" | get-property caption | equals group | verify-true
     get-item "q7project1/test" | get-property caption | equals test | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "q7project1/Copy of context" | get-menu Properties | click
+get-view "Test Explorer" | get-tree | select "q7project1/Copy of context" | get-menu Properties | click
 get-window "Properties for Copy of context.ctx" | get-tree | select Resource
 get-window "Properties for Copy of context.ctx" | get-editbox -after [get-label "Path:"] | get-property value | equals "/q7project1/Copy of context.ctx" | verify-true
 get-window "Properties for Copy of context.ctx" | get-button Cancel | click

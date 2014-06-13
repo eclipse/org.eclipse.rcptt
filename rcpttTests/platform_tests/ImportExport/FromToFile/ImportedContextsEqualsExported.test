@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _7UPMEPsAEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ImportExport, File
 Testcase-Type: ecl
 
@@ -36,15 +36,15 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "Q7Project/TC1" | double-click -nowait
     select "Q7Project2/Contexts/WsContext" | double-click -nowait
     select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
 }
 get-window "Export" | get-button Finish | click
-get-view "Q7 Explorer" | get-tree | select Q7Project3 | get-menu "Import/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select Q7Project3 | get-menu "Import/Q7 Portable Format" | click
 get-window -from "Window.createShell()" | get-button Finish | click
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/WsContext" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project3/WsContext" | double-click -nowait
 with [get-editor WsContext] {
     get-section Workspace | get-tree | get-item project1 | get-property caption | equals project1 | verify-true
     get-editbox -after [get-label "Tags:"] | get-property text | equals contextTag | verify-true
@@ -52,14 +52,14 @@ with [get-editor WsContext] {
 get-editor WsContext | get-section Description | click -nowait
 get-editor WsContext | get-section Description | get-editbox | get-property text | equals contextDescription 
     | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/EclContext" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project3/EclContext" | double-click -nowait
 get-editor EclContext | get-section Description | click -nowait
 with [get-editor EclContext] {
     get-editbox -after [get-label "Tags:"] | get-property text | equals contextTag | verify-true
     get-section Description | get-editbox | get-property text | equals contextDescription | verify-true
     get-section Script | get-editbox | get-property text | equals contextScript | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "Q7Project3/DebugContext" | double-click -nowait
     select "Q7Project2/Contexts/DebugContext" | double-click -nowait
     select "Q7Project3/WbContext" | double-click -nowait
@@ -69,14 +69,14 @@ with [get-editor WbContext] {
     get-editbox -after [get-label "Tags:"] | get-property text | equals contextTag | verify-true
     get-section Description | get-editbox | get-property text | equals ContextDescription | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext" | double-click -nowait
 get-editor GroupContext | get-section Description | click -nowait
 with [get-editor GroupContext] {
     get-editbox -after [get-label "Tags:"] | get-property text | equals contextTag | verify-true
     get-section Description | get-editbox | get-property text | equals contextDescription | verify-true
     get-section Contexts | get-table | get-property itemCount | equals 5 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "Q7Project3/WsContext" | double-click -nowait
     select "Q7Project3/PrefContext" | double-click -nowait
 }

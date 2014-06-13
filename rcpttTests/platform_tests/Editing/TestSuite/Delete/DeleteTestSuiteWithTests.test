@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _tntsAEWOEeGf87sdqO61AA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, Delete
 Testcase-Type: ecl
 
@@ -42,19 +42,19 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/TestSuite" | double-click
     select "MyProject/TestSuite" | get-menu Delete | click
 }
 get-window "Delete Resources" | get-label "Are you sure you want to delete \'TestSuite\' from the file system?" 
     | get-property caption | equals "Are you sure you want to delete \'TestSuite\' from the file system?" | verify-true
 get-window "Delete Resources" | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "MyProject/TestSuite" | get-property caption | equals TestSuite | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | key-type Del
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | key-type Del
 get-window "Delete Resources" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item MyProject | get-property caption | equals MyProject | verify-true
     get-item "MyProject/ClearWorkspace" | get-property caption | equals ClearWorkspace | verify-true
     get-item "MyProject/Do Not Clear P1" | get-property caption | equals "Do Not Clear P1" | verify-true
@@ -66,7 +66,7 @@ with [get-view "Q7 Explorer" | get-tree] {
         | verify-true
     get-item "MyProject/CreateJavaProject" | get-property caption | equals CreateJavaProject | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "MyProject/TestFolder" | get-property caption | equals TestFolder | verify-true
     get-item "MyProject/TestFolder" | get-property childCount | equals 3 | verify-true
     get-item "MyProject/TestFolder/P1 is left" | get-property caption | equals "P1 is left" | verify-true

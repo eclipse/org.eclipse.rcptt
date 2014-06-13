@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-730
 Id: _wf8hYYISEeCLcviyQUWYyQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Dialog, GroupContext, NoLaunches
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p1/group1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p1/group1" | double-click -nowait
 get-editor group1 | get-section Contexts | get-button "Add..." | click
 with [get-window "Select context"] {
 	with [get-table] {

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-3110
 Id: _oXy_UHEmEeOzJKwri6rwgQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -29,7 +29,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/P1" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/P1" | double-click
 with [get-editor P1 | get-section Parameters] {
     with [get-table] {
         select p1 | activate-cell-edit -column 1
@@ -47,7 +47,7 @@ with [get-editor P1 | get-section Parameters] {
     }
     get-button "Copy selected parameters" | click
 }
-get-view "Q7 Explorer" | get-tree | select "MyProject/P2" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/P2" | double-click
 get-editor P2 | get-section Parameters | get-button Paste | click
 with [get-window "Parameters name conflict"] {
     get-label "Select parameters to overwrite with new values" | get-property caption 

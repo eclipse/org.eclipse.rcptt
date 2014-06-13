@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _dZ-K8M1REeCKjp0mPLHiEg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: TestCase, Context, Reference
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p2/scenario2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p2/scenario2" | double-click -nowait
 with [get-editor scenario2 | get-section Contexts] {
     click -nowait
     get-button "Add..." | click
@@ -53,14 +53,14 @@ with [get-editor scenario2 | get-section Contexts | get-table] {
     get-property itemCount | equals 1 | verify-true
     get-item "context3 \\(p3\\)" | get-property caption | equals "context3 (p3)" | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p2 | get-property caption | equals p2 | verify-true
 //    get-item p2 | get-property childCount | equals 3 | verify-true
 	verify-error {get-item "p2/context3"}        
     get-item "p2/context2" | get-property caption | equals context2 | verify-true
     get-item "p2/scenario2" | get-property caption | equals scenario2 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select p2 | get-menu Properties | click
+get-view "Test Explorer" | get-tree | select p2 | get-menu Properties | click
 get-window "Properties for p2" | get-tree | select "Project References"
 with [get-window "Properties for p2" | get-table] {
     get-property itemCount | equals 2 | verify-true

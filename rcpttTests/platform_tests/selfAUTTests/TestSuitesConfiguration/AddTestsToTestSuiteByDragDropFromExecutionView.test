@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2460
 Id: _lSWoYHtBEeKxBJ9HhYJ4iA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: TestSuite, selfAUT
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select Q7Project2 | get-menu "New/Test Suite" | click
 }
@@ -45,7 +45,7 @@ with [get-window "New Test Suite"] {
     get-editbox -after [get-label "Name:"] | set-text NewTestSuite
     get-button Finish | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "Q7Project2/folder1" "Q7Project2/folder1/test4" "Q7Project2/folder1/test6" "Q7Project2/folder2"
     get-menu "Run As/\\d+ Test Cases" | click
 }

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _xGZzYMpeEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestCase, Context
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/test with contexts" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/test with contexts" | double-click
 with [get-editor "test with contexts" | get-section Contexts] {
     click
     with [get-table] {
@@ -46,7 +46,7 @@ with [get-editor "test with contexts" | get-section Contexts] {
     }
 }
 get-editor "test with contexts" | get-section Contexts | get-table | get-property itemCount | equals 0 | verify-true
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "Q7Project/context1" | get-property caption | equals context1 | verify-true
     get-item "Q7Project/context2" | get-property caption | equals context2 | verify-true
     get-item "Q7Project/contextWB" | get-property caption | equals contextWB | verify-true

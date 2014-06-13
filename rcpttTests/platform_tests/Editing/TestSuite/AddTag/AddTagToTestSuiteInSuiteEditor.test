@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _V0otwHS0EeGlmsBsPCBi2g
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, Tags
 Testcase-Type: ecl
 
@@ -38,7 +38,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | double-click
 get-editor TestSuite | get-button -after [get-label "Tags:"] | click
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text "tag_suite"
@@ -66,7 +66,7 @@ with [get-view Tags | get-tree] {
 }
 get-editor TestSuite | get-editbox -after [get-label "Tags:"] | get-property text | equals "tag_suite, new_suite" 
     | verify-true
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | double-click
 get-editor NewTestSuite | get-editbox -after [get-label "Tags:"] | get-property text | equals "" | verify-true
 get-editor NewTestSuite | get-button -after [get-label "Tags:"] | click
 with [get-window "Select Tag(s) to Add" | get-tree] {

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _HasGEH8PEeGpb_bcG7OADQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, GroupContext, CopyPaste
 Testcase-Type: ecl
 
@@ -38,19 +38,19 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p1/group1" | double-click
+get-view "Test Explorer" | get-tree | select "p1/group1" | double-click
 get-editor group1 | get-section Contexts | get-button "Add..." | click
 get-window "Select context" | get-table | select "context1 \\(p1\\)" | click -default
 with [get-editor group1] {
     get-section Description | click
     get-editbox -after [get-label "Name:"] | key-type "M1+s"
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "p1/group1" | get-menu Copy | click
     select p3 | get-menu Paste | click
 }
 get-editor group1 | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "p3/group1" | double-click
 }
@@ -66,7 +66,7 @@ with [get-editor group1 | get-section Contexts | get-table] {
     get-property itemCount | equals 1 | verify-true
     get-item "context1 \\(p1\\)" | get-property caption | equals "context1 (p1)" | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select p3 | get-menu Properties | click
+get-view "Test Explorer" | get-tree | select p3 | get-menu Properties | click
 get-window "Properties for p3" | get-tree | select "Project References"
 with [get-window "Properties for p3" | get-table] {
     get-property itemCount | equals 2 | verify-true

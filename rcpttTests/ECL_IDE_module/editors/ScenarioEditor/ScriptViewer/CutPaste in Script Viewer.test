@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _wzvuwCnlEeG5j4IHaNDqCg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ECL_IDE_module, TestCase
 Testcase-Type: ecl
 
@@ -40,13 +40,13 @@ Actions:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/CreateQ7Project" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "MyProject/CreateQ7Project" | double-click -nowait
 with [get-editor CreateQ7Project | get-section Script | get-editbox] {
     set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1
     get-menu Cut | click
     set-text-offset 50 2
 }
-get-view "Q7 Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click -nowait
 with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     set-text-offset 83 0
     key-type CR
@@ -54,16 +54,16 @@ with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     key-type "M1+M2+s"
 }
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
     + "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
     + "    get-button Finish | click\n"
     + "}" | verify-true
 get-editor CreateQ7Project | click
 get-editor CreateQ7Project | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n\n"
-    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
-get-view "Q7 Explorer" | get-tree | select "MyProject/P1 is left" | double-click -nowait
+    | equals "get-view \"Test Explorer\" | get-tree | get-menu \"New/Q7 Project\" | click\n\n"
+    + "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+get-view "Test Explorer" | get-tree | select "MyProject/P1 is left" | double-click -nowait
 with [get-editor "P1 is left" | get-section Script | get-editbox] {
     set-text-selection -offset 0 -startLine 4 -endLine 4 -endOffset 83
     key-type "M1+x"
@@ -78,14 +78,14 @@ with [get-editor WorkspaceIsEmpty] {
     }
 }
 get-editor WorkspaceIsEmpty | get-section Script | get-editbox | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
+    | equals "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 0 | verify-true\n"
     + "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text Project\n"
     + "    get-button Finish | click\n}\n"
-    + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+    + "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
 get-editor "P1 is left" | click
 get-editor "P1 is left" | get-section Script | get-editbox | get-property text 
-    | equals "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    | equals "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    get-item \"P1\"\n"
     + "    \n"
     + "}" | verify-true

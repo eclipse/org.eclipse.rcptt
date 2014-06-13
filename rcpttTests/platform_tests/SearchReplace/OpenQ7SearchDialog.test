@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _yRCOMO5zEeCWFp5-_cxtIw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: SearchReplace, Dialog
 Testcase-Type: ecl
 
@@ -39,7 +39,7 @@ get-button Search | click -arrow
 get-menu "1 Q7 Search" | click
 get-window Search | get-tab-folder | get-property activePage | equals "Q7 Search" | verify-true
 get-window Search | get-button Cancel | click
-get-view "Q7 Explorer" | get-tree | key-type [get-by-os -default "M1+h" -macosx "M4+h"]
+get-view "Test Explorer" | get-tree | key-type [get-by-os -default "M1+h" -macosx "M4+h"]
 with [get-window Search] {
     with [get-tab-folder] {
         get-tab-item "File Search" | click

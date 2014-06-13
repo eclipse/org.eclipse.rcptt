@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _qlNUIBOGEeOQfY3M4mNcSA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: selfAUT, verification
 Testcase-Type: ecl
 
@@ -30,15 +30,15 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/TC" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TC" | double-click
 get-editor TC | get-button Replay | click
-get-view "Q7 Explorer" | get-tree | select "MyProject/StyledTextVerification" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/StyledTextVerification" | double-click
 get-editor StyledTextVerification | get-section "Widget Text" | get-editbox -after [get-label "Widget:"] 
     | get-property text | equals "get-editor TC | get-section Script | get-text-viewer" | verify-true
 get-editor StyledTextVerification | get-button Capture | click
 get-editor StyledTextVerification | get-section "Widget Text" | get-editbox -after [get-label "Text should be:"] 
     | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
+    | equals "get-view \"Test Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
     + "with [get-window \"New Context Wizard\"] {\n"
     + "    get-table | select \"Execution Time\"\n"
     + "    get-editbox -after [get-label \"Name:\"] | set-text TV\n"
@@ -61,7 +61,7 @@ get-editor StyledTextVerification | get-section "Widget Text" | get-editbox -aft
     + "        get-property selected | equals false | verify-true\n"
     + "    }\n"
     + "}" | verify-true
-get-view "Q7 Explorer" | get-tree | select MyProject | get-menu "New/Verification" | click
+get-view "Test Explorer" | get-tree | select MyProject | get-menu "New/Verification" | click
 with [get-window "New Verification Wizard"] {
     get-table | select "Widget Text"
     get-editbox -after [get-label "Name:"] | set-text qqq
@@ -90,7 +90,7 @@ with [get-editor qqq | get-section "Widget Text"] {
 }
 get-editor qqq | get-button Capture | click
 get-editor qqq | get-section "Widget Text" | get-editbox -after [get-label "Text should be:"] | get-property text 
-    | equals "get-view \"Q7 Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
+    | equals "get-view \"Test Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
     + "with [get-window \"New Context Wizard\"] {\n"
     + "    get-table | select \"Execution Time\"\n"
     + "    get-editbox -after [get-label \"Name:\"] | set-text TV\n"

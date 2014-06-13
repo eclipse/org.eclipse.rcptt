@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _SvbMUM7cEeCw4ppgsBRMGg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Toolbar, Save, skipLinux, skipMacOS
 Testcase-Type: ecl
 
@@ -34,7 +34,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p2/scenario2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p2/scenario2" | double-click -nowait
 with [get-editor scenario2] {
     with [get-section Description] {
         click
@@ -42,7 +42,7 @@ with [get-editor scenario2] {
     }
     get-editbox -after [get-label "Tags:"] | set-text test
 }
-get-view "Q7 Explorer" | get-tree | select "p3/scenario3" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p3/scenario3" | double-click -nowait
 with [get-editor scenario3] {
     with [get-section Description] {
         click
@@ -50,7 +50,7 @@ with [get-editor scenario3] {
     }
     get-editbox -after [get-label "Tags:"] | set-text test
 }
-get-view "Q7 Explorer" | get-tree | select "p1/context1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p1/context1" | double-click -nowait
 with [get-editor context1 | get-section Description] {
     click
     get-editbox | set-text test

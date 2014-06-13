@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _0XNGsWJ3EeOG77tsPvjNlQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -48,14 +48,14 @@ get-window "Save Resource" | get-button Yes | click
 get-window "Select an Application Under Test" | get-button Cancel | click
 get-tab-folder | get-property activePage | equals "Delete Test" | verify-true
 open-modified-testcase
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/1 Test Cases" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/1 Test Cases" | click
 get-window "Save Resource" | get-button Cancel | click
 get-tab-folder | get-property activePage | equals "*Delete Test" | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/\\d+ Test Cases" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/\\d+ Test Cases" | click
 get-window "Save Resource" | get-button No | click
 get-window "Select an Application Under Test" | get-button Cancel | click
 get-tab-folder | get-property activePage | equals "*Delete Test" | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/\\d+ Test Cases" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/\\d+ Test Cases" | click
 get-window "Save Resource" | get-button Yes | click
 get-window "Select an Application Under Test" | get-button Cancel | click
 get-tab-folder | get-property activePage | equals "Delete Test" | verify-true

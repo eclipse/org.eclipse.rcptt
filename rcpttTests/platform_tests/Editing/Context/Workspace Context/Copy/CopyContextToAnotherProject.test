@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _29_4QNIGEeCSSY3GE2xBfQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, WorkspaceContext, CopyPaste
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p2/context2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p2/context2" | double-click -nowait
 with [get-editor context2] {
     with [get-section Workspace] {
         get-button "Create Empty Project" | click
@@ -55,20 +55,20 @@ with [get-editor context2] {
     
     close
 }
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click -nowait
     with [get-tree] {
         select "p2/context2" | get-menu Copy | click
         select p3 | get-menu Paste | click
     }
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p3 | get-property caption | equals p3 | verify-true
     get-item "p3/context2" | get-property caption | equals context2 | verify-true
     get-item "p3/context3" | get-property caption | equals context3 | verify-true
     get-item "p3/scenario3" | get-property caption | equals scenario3 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p3/context2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p3/context2" | double-click -nowait
 get-editor context2 | get-section Workspace | get-tree | select project1
 get-section "Workspace Options" | get-button "Clear workspace" | get-property selected | equals false | verify-true
 with [get-editor context2 | get-section Workspace] {
@@ -80,17 +80,17 @@ with [get-editor context2 | get-section Workspace] {
         get-item "project1/folder1" | get-property childCount | equals 0 | verify-true
     }
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "p2/context2" | key-type "M1+c"
     select p1 | key-type "M1+v"
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p1 | get-property caption | equals p1 | verify-true
     get-item "p1/context1" | get-property caption | equals context1 | verify-true
     get-item "p1/context2" | get-property caption | equals context2 | verify-true
 }
 get-editor context2 | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click -nowait
     get-tree | select "p1/context2" | double-click -nowait
 }

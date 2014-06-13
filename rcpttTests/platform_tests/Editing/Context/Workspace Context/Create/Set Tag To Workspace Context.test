@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _eR3tgCFqEeGpvKMy1SUvBw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, WorkspaceContext, Create
 Testcase-Type: ecl
 
@@ -36,7 +36,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "MyProject/Two Projects" | double-click -nowait
 with [get-editor "Two Projects"] {
     with [get-editbox -after [get-label "Tags:"]] {
         set-text tag1
@@ -46,7 +46,7 @@ with [get-editor "Two Projects"] {
 }
 get-window "Select Tag(s) to Add" | get-button Cancel | click
 get-editor "Two Projects" | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "MyProject/P with F" | double-click -nowait
 }

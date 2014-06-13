@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _UToh4Oo3EeCjiJ-04yesNg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: TestSuite, selfAUT
 Testcase-Type: ecl
 
@@ -107,7 +107,7 @@ with [get-window "Run Configurations"] {
     get-button Apply | click
     get-button Close | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item ProjectWithTestSuites | get-property caption | equals ProjectWithTestSuites | verify-true
     get-item "ProjectWithTestSuites/Q7Project.launch" | get-property caption | equals "Q7Project.launch" | verify-true
     get-item "ProjectWithTestSuites/Q7Project2.launch" | get-property caption | equals "Q7Project2.launch" | verify-true

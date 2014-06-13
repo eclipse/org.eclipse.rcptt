@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _kFeOYCFrEeGpvKMy1SUvBw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags:  Context, WorkspaceContext, ImportExport
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/ClearWorkspace" | double-click
 get-editor ClearWorkspace | get-section Workspace | get-button "Import Projects..." | click
 set-dialog-result Folder "platform:/resource/MyProject"
 with [get-window -from "Window.createShell()"] {

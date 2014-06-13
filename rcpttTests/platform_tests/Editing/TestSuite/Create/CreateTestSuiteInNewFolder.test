@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _CfxdMILeEeGVWel_bIqsJQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, Create, Folder
 Testcase-Type: ecl
 
@@ -57,11 +57,11 @@ with [get-tab-folder -index 1] {
     get-property activePage | equals TestSuite | verify-true
     get-property tabCount | equals 1 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "TestQ7Prj/TestSuite" }
     get-item "TestQ7Prj/NewFolder" | get-property childCount | equals 1 | verify-true
     get-item "TestQ7Prj/NewFolder/TestSuite" | get-property childCount | equals 0 | verify-true
 }
 get-editor TestSuite | close
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

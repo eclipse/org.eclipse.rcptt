@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2331
 Id: _h94zAXA1EeKWY-qV8pS7MA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ECL_IDE_module, selfAUT, Reporting
 Testcase-Type: ecl
 
@@ -37,11 +37,11 @@ Test verifies the saving screenshots at the failed tests.
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project/simpleTest1" "q7project/simpleTest2" "q7project/simpleTest3"
 }
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project/simpleTest2" | get-menu "Run As/.* Test Cases" | click
 }
 wait 10000
@@ -51,12 +51,12 @@ with [get-window -from "Window.createShell()"] {
     get-editbox -after [get-label "Location:"] | set-text "/q7project/"
     get-button Finish | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "q7project/images" | get-property childCount | equals 1 | verify-true
     get-item "q7project/images/_Assertion_of_caption1.png" | get-property caption | equals "_Assertion_of_caption1.png" 
         | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/images/_Assertion_of_caption1.png" 
+get-view "Test Explorer" | get-tree | select "q7project/images/_Assertion_of_caption1.png" 
     | get-menu "Open With/Other..." | click
 with [get-window "Editor Selection"] {
     get-table | select "Internal Web Browser"

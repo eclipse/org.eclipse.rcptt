@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _8YKksMogEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestCase, Rename
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p1/scenario1" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "p1/scenario1" | get-menu "Rename..." | click
 get-window "Rename Resource" | get-editbox -after [get-label "New name:"] | set-text testscenario
 with [get-window "Rename Resource"] {
     get-editbox -after [get-label "New name:"] | get-property value | equals testscenario | verify-true
@@ -45,29 +45,29 @@ with [get-window "Rename Resource"] {
     }
 }
 get-window "Rename Resource" | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "p1/testscenario" }
     get-item "p1/scenario1" | get-property caption | equals scenario1 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p1/scenario1" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "p1/scenario1" | double-click -nowait
 get-editor scenario1 | get-editbox -after [get-label "Name:"] | get-property value | equals scenario1 | verify-true
-get-view "Q7 Explorer" | get-tree | select "p2/scenario2" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "p2/scenario2" | get-menu "Rename..." | click
 with [get-window "Rename Resource"] {
     with [get-editbox -after [get-label "New name:"]] {
         set-text test
         key-type "TRAVERSE_ESCAPE"
     }
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "p2/test" }
     get-item "p2/scenario2" | get-property caption | equals scenario2 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "p3/scenario3" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "p3/scenario3" | get-menu "Rename..." | click
 with [get-window "Rename Resource"] {
     get-editbox -after [get-label "New name:"] | set-text newscenario
     close
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	verify-error { get-item "p3/newscenario" }
     get-item "p3/scenario3" | get-property caption | equals scenario3 | verify-true
 }

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1118
 Id: _t7rXYdoCEeCnkbBde7ypfA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Folder, Delete, Reference, Project
 Testcase-Type: ecl
 
@@ -30,7 +30,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "p1/scenario1" | double-click
+get-view "Test Explorer" | get-tree | select "p1/scenario1" | double-click
 with [get-editor scenario1 | get-section Contexts] {
     click
     get-button "Add..." | click
@@ -40,7 +40,7 @@ with [get-window "Select context"] {
     get-button OK | click
 }
 get-editor scenario1 | get-section Contexts | key-type "M1+s"
-get-view "Q7 Explorer" | get-tree | select "p2/folder_context" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "p2/folder_context" | get-menu Delete | click
 get-window "Delete Resources" | get-link "See 2 reference(s) found." | click
 with [get-window "Delete Resources" | get-tree] {
     get-property itemCount | equals 1 | verify-true
@@ -53,7 +53,7 @@ with [get-window "Delete Resources" | get-tree] {
         | get-property caption | equals "scenario2 (p2/folder_test/scenario2.scenario)" | verify-true
 }
 get-window "Delete Resources" | get-button OK | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item p1 | get-property caption | equals p1 | verify-true
     get-item p1 | get-property childCount | equals 5 | verify-true
     get-item "p1/folder" | get-property caption | equals folder | verify-true

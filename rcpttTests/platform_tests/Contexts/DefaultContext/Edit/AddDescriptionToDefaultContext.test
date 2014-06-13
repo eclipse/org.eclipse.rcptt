@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-qWqMIreEeKe4NooVEYS9Q
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, DefaultContext
 Testcase-Type: ecl
 
@@ -38,7 +38,7 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Project Settings" | double-click
+get-view "Test Explorer" | get-tree | select "Q7Project/Project Settings" | double-click
 with [get-editor "Q7Project - Project Settings"] {
     with [get-section Description | get-text-viewer] {
         type-text "Test description"
@@ -48,7 +48,7 @@ with [get-editor "Q7Project - Project Settings"] {
     }
     close
 }
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "Q7Project/Project Settings" | double-click
 }
@@ -59,7 +59,7 @@ get-editor "Q7Project - Project Settings" | get-section Description | get-button
 get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text | equals "" | verify-true
 get-editor "Q7Project - Project Settings" | close
 get-window "Save Resource" | get-button No | click
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "Q7Project/Project Settings" | double-click
 }
@@ -69,7 +69,7 @@ get-editor "Q7Project - Project Settings" | get-section Description | get-editbo
 get-editor "Q7Project - Project Settings" | get-section Description | get-button "Clear Description" | click
 get-editor "Q7Project - Project Settings" | close
 get-window "Save Resource" | get-button Yes | click
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "Q7Project/Project Settings" | double-click
 }

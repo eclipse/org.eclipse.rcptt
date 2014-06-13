@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1380
 Id: _wPSeoPsFEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ImportExport, Clipboard
 Testcase-Type: ecl
 
@@ -37,9 +37,9 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project2/TestCase3" | get-menu "Export/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select "Q7Project2/TestCase3" | get-menu "Export/Q7 Portable Format" | click
 get-window Export | get-button Cancel | click
-get-view "Q7 Explorer" | get-tree | select Q7Project1 | get-menu "Import/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select Q7Project1 | get-menu "Import/Q7 Portable Format" | click
 with [get-window Import] {
     with [get-editbox -after [get-label "Q7 Portable Format"]] {
         get-property enablement | equals true | verify-true
@@ -56,7 +56,7 @@ with [get-window Import] {
     }
 }
 get-window Import | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item Q7Project1 | get-property caption | equals Q7Project1 | verify-true
     get-item Q7Project1 | get-property childCount | equals 3 | verify-true
     get-item "Q7Project1/TestCase1" | get-property caption | equals TestCase1 | verify-true

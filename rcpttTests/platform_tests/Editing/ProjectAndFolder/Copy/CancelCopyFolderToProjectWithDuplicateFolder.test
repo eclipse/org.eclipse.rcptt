@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _vxxSYeWfEeCV0InNm5f5ow
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: Project, Folder, CopyPaste
 Testcase-Type: ecl
 
@@ -30,7 +30,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "TestQ7Prj2/context1" "TestQ7Prj2/context2" "TestQ7Prj2/test1"
     get-menu "Move..." | click
 }
@@ -38,7 +38,7 @@ with [get-window "Move Resources"] {
     get-tree | select "TestQ7Prj2/Folder"
     get-button OK | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "TestQ7Prj/context1" "TestQ7Prj/test1" "TestQ7Prj/test2"
     get-menu "Move..." | click
 }
@@ -46,7 +46,7 @@ with [get-window "Move Resources"] {
     get-tree | select "TestQ7Prj/Folder"
     get-button OK | click
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "TestQ7Prj2/Folder" | get-menu Copy | click
     select TestQ7Prj | get-menu Paste | click
 }
@@ -55,7 +55,7 @@ get-window "Resource Exists"
     | get-property caption | equals "\'TestQ7Prj/Folder\' exists. Do you wish to overwrite?\n"
     + "Folder contents will be merged, existing files will be overwritten." | verify-true
 get-window "Resource Exists" | get-button No | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item TestQ7Prj | get-property caption | equals TestQ7Prj | verify-true
     get-item TestQ7Prj | get-property childCount | equals 2 | verify-true
     get-item "TestQ7Prj/Folder" | get-property caption | equals Folder | verify-true
@@ -71,12 +71,12 @@ with [get-view "Q7 Explorer" | get-tree] {
     get-item "TestQ7Prj2/Folder/context2" | get-property caption | equals context2 | verify-true
     get-item "TestQ7Prj2/Folder/test1" | get-property caption | equals test1 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "TestQ7Prj2/Folder" | get-menu Copy | click
     select TestQ7Prj | get-menu Paste | click
 }
 get-window "Resource Exists" | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item TestQ7Prj | get-property caption | equals TestQ7Prj | verify-true
     get-item "TestQ7Prj/Folder" | get-property caption | equals Folder | verify-true
     get-item "TestQ7Prj/Folder" | get-property childCount | equals 3 | verify-true
@@ -90,12 +90,12 @@ with [get-view "Q7 Explorer" | get-tree] {
     get-item "TestQ7Prj2/Folder/context2" | get-property caption | equals context2 | verify-true
     get-item "TestQ7Prj2/Folder/test1" | get-property caption | equals test1 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "TestQ7Prj/Folder/test1" | double-click
+get-view "Test Explorer" | get-tree | select "TestQ7Prj/Folder/test1" | double-click
 get-editor test1 | get-section Description | click
 get-editor test1 | get-section Description | get-editbox | get-property value | equals "test from TestQ7Prj" 
     | verify-true
 get-editor test1 | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "TestQ7Prj2/Folder/test1" | double-click
 }
@@ -103,5 +103,5 @@ get-editor test1 | get-section Description | click
 get-editor test1 | get-section Description | get-editbox | get-property value | equals "test from TestQ7Prj2" 
     | verify-true
 get-editor test1 | close
-get-view "Q7 Explorer" | click
+get-view "Test Explorer" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

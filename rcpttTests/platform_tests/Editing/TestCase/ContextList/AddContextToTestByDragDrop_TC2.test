@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1722
 Id: _eXEckENWEeGEmKn4hFNAmQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: TestCase, Context
 Testcase-Type: ecl
 
@@ -35,9 +35,9 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | double-click
 get-editor CreateJavaProject | get-section Contexts | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/Two Projects"
     get-item "MyProject/Two Projects" | drag-start 29 6
     get-item "MyProject/Two Projects" | drag-enter 87 13 -detail 2 -operation 7
@@ -52,7 +52,7 @@ with [get-view "Q7 Explorer" | get-tree] {
 //    drag-exit
 //    get-item "Reset Perspective \\(MyProject\\)" | drag-accept 15 18 -detail 2 -operation 2
 //}
-//get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-set-data
+//get-view "Test Explorer" | get-tree | get-item MyProject | drag-set-data
 //get-editor CreateJavaProject | get-section Contexts | get-table | get-item "Reset Perspective \\(MyProject\\)" 
 //    | drop 15 18 -detail 2 -operation 2
 with [get-editor CreateJavaProject | get-section Contexts | get-table] {
@@ -62,10 +62,10 @@ with [get-editor CreateJavaProject | get-section Contexts | get-table] {
     drag-exit
     get-item "ClearWorkspace \\(MyProject\\)" | drag-accept 22 2 -detail 2 -operation 2
 }
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-set-data
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-set-data
 get-editor CreateJavaProject | get-section Contexts | get-table | get-item "ClearWorkspace \\(MyProject\\)" | drop 22 2 
     -detail 2 -operation 2
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-end -detail 2
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-end -detail 2
 with [get-editor CreateJavaProject | get-section Contexts | get-table] {
     get-property itemCount | equals 3 | verify-true
     get-item "Reset Perspective \\(MyProject\\)" | get-property caption | equals "Reset Perspective (MyProject)" 
@@ -76,9 +76,9 @@ with [get-editor CreateJavaProject | get-section Contexts | get-table] {
     get-item "ClearWorkspace \\(MyProject\\)" | get-property caption | equals "ClearWorkspace (MyProject)" | verify-true
     get-item "ClearWorkspace \\(MyProject\\)" | get-property index | equals 2 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "MyProject/Check New Project Window" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/Check New Project Window" | double-click
 get-editor "Check New Project Window" | get-section Contexts | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/ClearWorkspace"
     get-item "MyProject/ClearWorkspace" | drag-start 48 9
     get-item "MyProject/Do Not Clear P1" | drag-enter 77 17 -detail 2 -operation 7
@@ -95,10 +95,10 @@ with [get-editor "Check New Project Window" | get-section Contexts | get-table] 
     drag-exit
     get-item "Reset Perspective \\(MyProject\\)" | drag-accept 27 -detail 2 -operation 2
 }
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-set-data
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-set-data
 get-editor "Check New Project Window" | get-section Contexts | get-table | get-item "Reset Perspective \\(MyProject\\)" 
     | drop 27 -detail 2 -operation 2
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-end -detail 2
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-end -detail 2
 with [get-editor "Check New Project Window" | get-section Contexts | get-table] {
     get-property itemCount | equals 3 | verify-true
     get-item "ClearWorkspace \\(MyProject\\)" | get-property caption | equals "ClearWorkspace (MyProject)" | verify-true

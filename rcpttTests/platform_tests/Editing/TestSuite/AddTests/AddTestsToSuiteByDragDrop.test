@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _DxmlAEVzEeGf87sdqO61AA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, TestCase
 Testcase-Type: ecl
 
@@ -37,7 +37,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select MyProject | get-menu "New/Test Suite" | click
+get-view "Test Explorer" | get-tree | select MyProject | get-menu "New/Test Suite" | click
 with [get-window "New Test Suite"] {
     get-editbox -after [get-label "Name:"] | set-text newTestSuite
     get-button Finish | click
@@ -46,7 +46,7 @@ with [get-tab-folder -index 1] {
     get-property activePage | equals newTestSuite | verify-true
     get-property tabCount | equals 1 | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/Check New Project Window"
     get-item "MyProject/Check New Project Window" | drag-start 44 15
     get-item "MyProject/CreateJavaProject" | drag-enter 143 12 -detail 2 -operation 7
@@ -60,15 +60,15 @@ with [get-editor newTestSuite | get-section "Test Cases" | get-table] {
     drag-exit
     drag-accept 149 178 -detail 2 -operation 3
 }
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-set-data
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-set-data
 get-editor newTestSuite | get-section "Test Cases" | get-table | drop 149 178 -detail 2 -operation 3
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-end -detail 2
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-end -detail 2
 with [get-editor newTestSuite | get-section "Test Cases" | get-table] {
     get-property itemCount | equals 1 | verify-true
     get-item "Check New Project Window \\(MyProject\\)" | get-property caption 
         | equals "Check New Project Window (MyProject)" | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "MyProject/TestFolder"
     get-item "MyProject/TestFolder" | drag-start "-8" 7
     get-item "MyProject/Open Modal Dialog" | drag-enter 86 3 -detail 2 -operation 7
@@ -83,9 +83,9 @@ with [get-editor newTestSuite | get-section "Test Cases" | get-table] {
     drag-exit
     drag-accept 165 163 -detail 2 -operation 3
 }
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-set-data
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-set-data
 get-editor newTestSuite | get-section "Test Cases" | get-table | drop 165 163 -detail 2 -operation 3
-get-view "Q7 Explorer" | get-tree | get-item MyProject | drag-end -detail 2
+get-view "Test Explorer" | get-tree | get-item MyProject | drag-end -detail 2
 with [get-editor newTestSuite | get-section "Test Cases" | get-table] {
     get-property itemCount | equals 4 | verify-true
     get-item "Check New Project Window \\(MyProject\\)" | get-property caption 
@@ -98,7 +98,7 @@ with [get-editor newTestSuite | get-section "Test Cases" | get-table] {
 }
 get-button "Save All (M1+M2+S)" | click
 get-editor newTestSuite | close
-with [get-view "Q7 Explorer"] {
+with [get-view "Test Explorer"] {
     click
     get-tree | select "MyProject/newTestSuite" | double-click
 }

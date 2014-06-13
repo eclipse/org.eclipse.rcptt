@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _QmDnYO_eEeCZz89QM6kozg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: selfAUT, Context, GroupContext, Rename
 Testcase-Type: ecl
 
@@ -36,19 +36,19 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext4" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext4" | double-click -nowait
 with [get-editor GroupContext4 | get-section Contexts | get-table] {
     get-item "GroupContext5 \\(Q7Project3\\)" | get-property caption | equals "GroupContext5 (Q7Project3)" | verify-true
     get-item "GroupContext6 \\(Q7Project3\\)" | get-property caption | equals "GroupContext6 (Q7Project3)" | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext5" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext5" | get-menu "Rename..." | click
 with [get-window "Rename Resource"] {
     get-editbox -after [get-label "New name:"] | set-text C
     get-button OK | click
 }
 get-editor GroupContext4 | get-section Contexts | get-table | get-item "C \\(Q7Project3\\)" | get-property caption 
     | equals "C (Q7Project3)" | verify-true
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext6" | get-menu "Rename..." | click
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext6" | get-menu "Rename..." | click
 with [get-window "Rename Resource"] {
     get-editbox -after [get-label "New name:"] | set-text C2
     get-button OK | click
@@ -57,7 +57,7 @@ with [get-editor GroupContext4 | get-section Contexts | get-table] {
     get-item "C2 \\(Q7Project3\\)" | get-property caption | equals "C2 (Q7Project3)" | verify-true
     get-property itemCount | equals 2 | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project3/GroupContext4"
+get-view "Test Explorer" | get-tree | select "Q7Project3/GroupContext4"
 get-editor GroupContext4 | get-button Apply | click
 with [get-view "Execution View"] {
     get-tree | get-item "GroupContext4.*" | get-property caption | equals "GroupContext4.*" 

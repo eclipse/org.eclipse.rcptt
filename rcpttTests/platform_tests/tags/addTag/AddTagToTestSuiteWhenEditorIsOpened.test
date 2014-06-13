@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1830
 Id: _g36xEIUzEeG5as36MMnjSw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Tags, TestSuite
 Testcase-Type: ecl
 
@@ -39,7 +39,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project/TestSuite" | double-click
     select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
 }

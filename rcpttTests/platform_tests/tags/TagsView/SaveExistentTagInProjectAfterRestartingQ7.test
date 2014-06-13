@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1032
 Id: _eUMjUMfGEeCxZoPRptqJ7A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Tags, Save, restartQ7, skipExecution
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project/folder/test3" "q7project/test2"
     get-menu "Q7/Add Tag..." | click
 }
@@ -43,21 +43,21 @@ with [get-window "Select Tag(s) to Add"] {
     get-tree | select "t1 \\(2 occurrences\\)"
     get-button OK | click
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/test2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/test2" | double-click -nowait
 get-editor test2 | get-editbox -after [get-label "Tags:"] | get-property value | contains t1 | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
 get-editor test3 | get-editbox -after [get-label "Tags:"] | get-property value | equals t1 | verify-true
 get-editor test3 | close
 with [get-editor test2] {
     click -nowait
     close
 }
-get-view "Q7 Explorer" | click -nowait
+get-view "Test Explorer" | click -nowait
 get-menu "File/Restart" | click -nowait
 wait-until-eclipse-is-ready
-get-view "Q7 Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
 get-editor test3 | get-editbox -after [get-label "Tags:"] | get-property value | equals t1 | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project/test2" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project/test2" | double-click -nowait
 get-editor test2 | get-editbox -after [get-label "Tags:"] | get-property value | contains t1 | verify-true
 get-view Tags | click -nowait
 with [get-view Tags | get-tree] {

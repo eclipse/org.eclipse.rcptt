@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _JA6Qga7bEeC7I9XgVmhIeA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestCase, CopyPaste
 Testcase-Type: ecl
 
@@ -37,21 +37,21 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     select "q7project1/test" | get-menu Copy | click
     select q7project1 | get-menu Paste | click
 }
 get-window "New Element" | get-button OK | click
 get-view Problems | click -nowait
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
-get-view "Q7 Explorer" | get-tree | select "q7project1/Copy of test" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "q7project1/Copy of test" | double-click -nowait
 get-editor "Copy of test" | get-section Contexts | click -nowait
 with [get-editor "Copy of test" | get-section Contexts | get-table] {
     get-property itemCount | equals 2 | verify-true
     get-item "context \\(q7project1\\)" | get-property caption | equals "context (q7project1)" | verify-true
     get-item "group \\(q7project1\\)" | get-property caption | equals "group (q7project1)" | verify-true
 }
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
     get-item "q7project1/context" | get-property caption | equals context | verify-true
     get-item "q7project1/group" | get-property caption | equals group | verify-true
     get-item "q7project1/test" | get-property caption | equals test | verify-true

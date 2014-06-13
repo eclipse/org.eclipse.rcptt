@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _3Rs64ZHfEeKX94BNI4sw6A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: q7commands
 Testcase-Type: ecl
 
@@ -36,23 +36,23 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 copy-file [substitute-variables "${workspace_loc}//FilesForContextEditor//folder"] [substitute-variables "${workspace_loc}//ContextsProject"] "new_folder"
-get-view "Q7 Explorer" | get-tree | select ContextsProject | get-menu Refresh | click
-//get-view "Q7 Explorer" | get-tree | get-item ContextsProject | get-property childCount | equals 2 | verify-true
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select ContextsProject | get-menu Refresh | click
+//get-view "Test Explorer" | get-tree | get-item ContextsProject | get-property childCount | equals 2 | verify-true
+with [get-view "Test Explorer" | get-tree] {
     get-item "ContextsProject/new_folder" | get-property caption | equals "new_folder" | verify-true
     get-item "ContextsProject/new_folder" | get-property childCount | equals 1 | verify-true
     get-item "ContextsProject/new_folder/childtext.txt" | get-property caption | equals "childtext.txt" | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "ContextsProject/new_folder/childtext.txt" | double-click
+get-view "Test Explorer" | get-tree | select "ContextsProject/new_folder/childtext.txt" | double-click
 get-editor "childtext.txt" | get-editbox | get-property text | equals "Simple text file" | verify-true
 copy-file [substitute-variables "${workspace_loc}//FilesForContextEditor//folder"] [substitute-variables "${workspace_loc}//ContextsProject"]
-get-view "Q7 Explorer" | get-tree | select ContextsProject | get-menu Refresh | click
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select ContextsProject | get-menu Refresh | click
+with [get-view "Test Explorer" | get-tree] {
     //get-item ContextsProject | get-property childCount | equals 3 | verify-true
     get-item "ContextsProject/folder" | get-property caption | equals folder | verify-true
     get-item "ContextsProject/folder" | get-property childCount | equals 1 | verify-true
     get-item "ContextsProject/folder/childtext.txt" | get-property caption | equals "childtext.txt" | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "ContextsProject/folder/childtext.txt" | double-click
+get-view "Test Explorer" | get-tree | select "ContextsProject/folder/childtext.txt" | double-click
 get-editor "childtext.txt" -index 1 | get-editbox | get-property text | equals "Simple text file" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

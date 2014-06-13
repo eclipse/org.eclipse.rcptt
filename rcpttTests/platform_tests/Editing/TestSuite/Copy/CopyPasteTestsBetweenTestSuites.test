@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _NHrMMEsIEeGa1LZu9UJdCw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:10 PM
 Tags: TestSuite, CopyPaste, TestCase
 Testcase-Type: ecl
 
@@ -37,10 +37,10 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | double-click
 get-editor TestSuite | get-section "Test Cases" | get-table | select "CreateJavaProject \\(MyProject\\)" 
     | get-menu Copy | click
-get-view "Q7 Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/TestFolder/NewTestSuite" | double-click
 with [get-editor NewTestSuite | get-section "Test Cases" | get-table] {
     get-menu Paste | click
     key-type "M1+s"

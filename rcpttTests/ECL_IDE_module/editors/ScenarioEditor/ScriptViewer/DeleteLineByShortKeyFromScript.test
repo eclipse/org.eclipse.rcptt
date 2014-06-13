@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _sVA9MFFDEeG1qoPbj5xXbg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: ECL_IDE_module, TestCase
 Testcase-Type: ecl
 
@@ -36,14 +36,14 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/P1 is left" | double-click
+get-view "Test Explorer" | get-tree | select "MyProject/P1 is left" | double-click
 with [get-editor "P1 is left" | get-section Script | get-text-viewer] {
     set-caret-pos 5 1
     key-type "M1+d"
     key-type "M1+s"
 }
 get-editor "P1 is left" | get-section Script | get-editbox | get-property text 
-    | equals "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    | equals "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    get-item \"P1\"\n"
     + "    \n"
     + "}" | verify-true

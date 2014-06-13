@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2534
 Id: _nKNZoIreEeKe4NooVEYS9Q
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: Context, DefaultContext
 Testcase-Type: ecl
 
@@ -35,14 +35,14 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "q7project/Project Settings"
-with [get-view "Q7 Explorer" | get-tree] {
+get-view "Test Explorer" | get-tree | select "q7project/Project Settings"
+with [get-view "Test Explorer" | get-tree] {
     get-menu Paste | get-property enablement | equals false | verify-true
     get-menu Delete | get-property enablement | equals false | verify-true
     get-menu "Move..." | get-property enablement | equals false | verify-true
     get-menu "Rename..." | get-property enablement | equals false | verify-true
 }
-get-view "Q7 Explorer" | get-tree | select "q7project/Project Settings"
+get-view "Test Explorer" | get-tree | select "q7project/Project Settings"
 get-menu "File/Rename..." | get-property enablement | equals false | verify-true
 get-menu "File/Move..." | get-property enablement | equals false | verify-true
 get-menu "Edit/Delete" | get-property enablement | equals false | verify-true

@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _l9xhYCeNEeGm5NjoKhWsPQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: selfAUT, Context, ECLContext, Runtime
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
 with [get-editor "Delete Test" | get-section Contexts] {
     click
     get-table | select "Clear ws \\(Q7Project\\)"
@@ -46,13 +46,13 @@ with [get-editor "Delete Test" | get-section Contexts] {
     get-button Remove | click
     get-table | key-type "M1+s"
 }
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Clear ws" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/Clear ws" | double-click -nowait
 get-editor "Clear ws" | get-button Apply | click
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Default" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/Default" | double-click -nowait
 get-editor Default | get-button Apply | click
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Create New Project" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/Create New Project" | double-click -nowait
 get-editor "Create New Project" | get-button Apply | click
-get-view "Q7 Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
+get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click -nowait
 get-editor "Delete Test" | get-button Replay | click
 with [get-view "Execution View"] {
     get-tree | get-item "Delete Test.*" | get-property caption | equals "Delete Test.*" 

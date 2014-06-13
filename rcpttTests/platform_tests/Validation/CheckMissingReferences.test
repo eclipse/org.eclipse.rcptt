@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _3EWYUKZMEeKna5gsmcN1Rw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -35,12 +35,12 @@ with [get-window "Show View"] {
     get-button OK | click
 }
 
-get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject"
+get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject"
 get-view Problems | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 //get-menu "Project/Build Automatically" | click //Hangs if this is active
 get-view Progress | click
-get-view "Q7 Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu Delete | click
+get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu Delete | click
 with [get-window "Delete Resources"] {
     get-button "Delete references?" | click
     get-button OK | click

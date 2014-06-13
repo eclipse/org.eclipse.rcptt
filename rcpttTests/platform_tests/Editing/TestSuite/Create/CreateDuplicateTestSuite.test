@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _0EOOgUVkEeGf87sdqO61AA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Q7-Runtime-Version: 1.5.0.201406131029
+Save-Time: 6/13/14 7:04 PM
 Tags: TestSuite, Create
 Testcase-Type: ecl
 
@@ -38,7 +38,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Q7 Explorer" | get-tree | select MyProject
+get-view "Test Explorer" | get-tree | select MyProject
 get-button New | click -arrow
 get-menu "Test Suite" | click
 get-window "New Test Suite" | get-editbox -after [get-label "Name:"] | set-text TestSuite
@@ -51,7 +51,7 @@ with [get-window "New Test Suite"] {
 get-window "New Test Suite" | get-editbox -after [get-label "Name:"] | set-text TestSuite2
 get-window "New Test Suite" | get-button Finish | get-property enablement | equals true | verify-true
 get-window "New Test Suite" | get-button Cancel | click
-with [get-view "Q7 Explorer" | get-tree] {
+with [get-view "Test Explorer" | get-tree] {
 	get-item "MyProject/TestSuite" | get-property caption | equals TestSuite | verify-true
     get-item "MyProject/TestFolder" | get-property caption | equals TestFolder | verify-true
     get-item "MyProject/TestFolder" | get-property childCount | equals 3 | verify-true
