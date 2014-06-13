@@ -32,7 +32,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getExecProcess()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Executes shell command.' returns='ExecProcessResult filled with execution results: exit code, captured stdout and stderr.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Executes shell command.' returns='ExecProcessResult filled with execution results: exit code, captured stdout and stderr.' example='exec-process \"\\\"C:\\\\Program Files\\\\Sikuli X\\\\Sikuli-IDE.exe\\\"\"\"-r\" [substitute-variables \"\\\"${resource_loc:sikuli/MistypeClassName.sikuli}\\\"\"]\"-s\"-ignoreExitCode'"
  * @generated
  */
 public interface ExecProcess extends Command {

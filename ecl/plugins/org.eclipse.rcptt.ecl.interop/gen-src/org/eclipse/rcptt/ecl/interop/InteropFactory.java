@@ -75,6 +75,24 @@ public interface InteropFactory extends EFactory {
 	GetJavaProperty createGetJavaProperty();
 
 	/**
+	 * Returns a new object of class '<em>Invoke Static</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invoke Static</em>'.
+	 * @generated
+	 */
+	InvokeStatic createInvokeStatic();
+
+	/**
+	 * Returns a new object of class '<em>Invoke Ui</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invoke Ui</em>'.
+	 * @generated
+	 */
+	InvokeUi createInvokeUi();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

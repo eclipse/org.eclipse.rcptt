@@ -29,7 +29,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getInvoke()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Invokes method on Java object.' returns='Value returned by method.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Invokes method on Java object.' returns='Value returned by method.' example='get-eclipse-window | get-object | invoke setSize 700 700'"
  * @generated
  */
 public interface Invoke extends Command {

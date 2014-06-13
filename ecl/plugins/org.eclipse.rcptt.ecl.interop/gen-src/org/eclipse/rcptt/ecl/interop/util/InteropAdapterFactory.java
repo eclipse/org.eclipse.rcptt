@@ -98,6 +98,14 @@ public class InteropAdapterFactory extends AdapterFactoryImpl {
 				return createGetJavaPropertyAdapter();
 			}
 			@Override
+			public Adapter caseInvokeStatic(InvokeStatic object) {
+				return createInvokeStaticAdapter();
+			}
+			@Override
+			public Adapter caseInvokeUi(InvokeUi object) {
+				return createInvokeUiAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -188,6 +196,34 @@ public class InteropAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGetJavaPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic <em>Invoke Static</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic
+	 * @generated
+	 */
+	public Adapter createInvokeStaticAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.interop.InvokeUi <em>Invoke Ui</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeUi
+	 * @generated
+	 */
+	public Adapter createInvokeUiAdapter() {
 		return null;
 	}
 

@@ -23,6 +23,8 @@ import org.eclipse.rcptt.ecl.interop.GetMemoryUsage;
 import org.eclipse.rcptt.ecl.interop.InteropFactory;
 import org.eclipse.rcptt.ecl.interop.InteropPackage;
 import org.eclipse.rcptt.ecl.interop.Invoke;
+import org.eclipse.rcptt.ecl.interop.InvokeStatic;
+import org.eclipse.rcptt.ecl.interop.InvokeUi;
 
 /**
  * <!-- begin-user-doc -->
@@ -65,6 +67,20 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 	 * @generated
 	 */
 	private EClass getJavaPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invokeStaticEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invokeUiEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -306,6 +322,60 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvokeStatic() {
+		return invokeStaticEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvokeStatic_PluginId() {
+		return (EAttribute)invokeStaticEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvokeStatic_ClassName() {
+		return (EAttribute)invokeStaticEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvokeStatic_MethodName() {
+		return (EAttribute)invokeStaticEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvokeStatic_Args() {
+		return (EAttribute)invokeStaticEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInvokeUi() {
+		return invokeUiEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public InteropFactory getInteropFactory() {
 		return (InteropFactory)getEFactoryInstance();
 	}
@@ -352,6 +422,14 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		getJavaPropertyEClass = createEClass(GET_JAVA_PROPERTY);
 		createEAttribute(getJavaPropertyEClass, GET_JAVA_PROPERTY__KEY);
 		createEAttribute(getJavaPropertyEClass, GET_JAVA_PROPERTY__DEFAULT);
+
+		invokeStaticEClass = createEClass(INVOKE_STATIC);
+		createEAttribute(invokeStaticEClass, INVOKE_STATIC__PLUGIN_ID);
+		createEAttribute(invokeStaticEClass, INVOKE_STATIC__CLASS_NAME);
+		createEAttribute(invokeStaticEClass, INVOKE_STATIC__METHOD_NAME);
+		createEAttribute(invokeStaticEClass, INVOKE_STATIC__ARGS);
+
+		invokeUiEClass = createEClass(INVOKE_UI);
 	}
 
 	/**
@@ -390,6 +468,8 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		execProcessEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getMemoryUsageEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getJavaPropertyEClass.getESuperTypes().add(theCorePackage.getCommand());
+		invokeStaticEClass.getESuperTypes().add(theCorePackage.getCommand());
+		invokeUiEClass.getESuperTypes().add(this.getInvoke());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(invokeEClass, Invoke.class, "Invoke", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -416,6 +496,14 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		initEAttribute(getGetJavaProperty_Key(), theEcorePackage.getEString(), "key", null, 1, 1, GetJavaProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGetJavaProperty_Default(), theEcorePackage.getEString(), "default", null, 0, 1, GetJavaProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(invokeStaticEClass, InvokeStatic.class, "InvokeStatic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInvokeStatic_PluginId(), theEcorePackage.getEString(), "pluginId", null, 0, 1, InvokeStatic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInvokeStatic_ClassName(), theEcorePackage.getEString(), "className", null, 0, 1, InvokeStatic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInvokeStatic_MethodName(), theEcorePackage.getEString(), "methodName", null, 0, 1, InvokeStatic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInvokeStatic_Args(), theEcorePackage.getEJavaObject(), "args", null, 0, -1, InvokeStatic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(invokeUiEClass, InvokeUi.class, "InvokeUi", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Create resource
 		createResource(eNS_URI);
 
@@ -439,7 +527,8 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		   source, 
 		   new String[] {
 			 "description", "Invokes method on Java object.",
-			 "returns", "Value returned by method."
+			 "returns", "Value returned by method.",
+			 "example", "get-eclipse-window | get-object | invoke setSize 700 700"
 		   });			
 		addAnnotation
 		  (getInvoke_Object(), 
@@ -464,7 +553,8 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		   source, 
 		   new String[] {
 			 "description", "Executes shell command.",
-			 "returns", "ExecProcessResult filled with execution results: exit code, captured stdout and stderr."
+			 "returns", "ExecProcessResult filled with execution results: exit code, captured stdout and stderr.",
+			 "example", "exec-process \"\\\"C:\\\\Program Files\\\\Sikuli X\\\\Sikuli-IDE.exe\\\"\"\"-r\" [substitute-variables \"\\\"${resource_loc:sikuli/MistypeClassName.sikuli}\\\"\"]\"-s\"-ignoreExitCode"
 		   });		
 		addAnnotation
 		  (getExecProcess_Command(), 
@@ -507,7 +597,8 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		   source, 
 		   new String[] {
 			 "description", "Gets the Java system property indicated by the specified key.",
-			 "returns", "The string value of the system property."
+			 "returns", "The string value of the system property.",
+			 "example", "get-java-property \"java.home\" | log"
 		   });		
 		addAnnotation
 		  (getGetJavaProperty_Key(), 
@@ -520,6 +611,12 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		   source, 
 		   new String[] {
 			 "description", "Default value to use if there is no property with the key."
+		   });		
+		addAnnotation
+		  (getInvokeStatic_Args(), 
+		   source, 
+		   new String[] {
+			 "description", "Variable number of arguments to the method."
 		   });
 	}
 
@@ -540,7 +637,7 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		  (getExecProcess_Stdin(), 
 		   source, 
 		   new String[] {
-		   });				
+		   });					
 	}
 
 } // InteropPackageImpl

@@ -360,6 +360,145 @@ public interface InteropPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl <em>Invoke Static</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl
+	 * @see org.eclipse.rcptt.ecl.interop.impl.InteropPackageImpl#getInvokeStatic()
+	 * @generated
+	 */
+	int INVOKE_STATIC = 5;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Plugin Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__PLUGIN_ID = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__CLASS_NAME = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Method Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__METHOD_NAME = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Args</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC__ARGS = CorePackage.COMMAND_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Invoke Static</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_STATIC_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 4;
+
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.interop.impl.InvokeUiImpl <em>Invoke Ui</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.interop.impl.InvokeUiImpl
+	 * @see org.eclipse.rcptt.ecl.interop.impl.InteropPackageImpl#getInvokeUi()
+	 * @generated
+	 */
+	int INVOKE_UI = 6;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__HOST = INVOKE__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__BINDINGS = INVOKE__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__OBJECT = INVOKE__OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__NAME = INVOKE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Args</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__ARGS = INVOKE__ARGS;
+
+	/**
+	 * The number of structural features of the '<em>Invoke Ui</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI_FEATURE_COUNT = INVOKE_FEATURE_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.interop.Invoke <em>Invoke</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -564,6 +703,70 @@ public interface InteropPackage extends EPackage {
 	EAttribute getGetJavaProperty_Default();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic <em>Invoke Static</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invoke Static</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic
+	 * @generated
+	 */
+	EClass getInvokeStatic();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getPluginId <em>Plugin Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Plugin Id</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic#getPluginId()
+	 * @see #getInvokeStatic()
+	 * @generated
+	 */
+	EAttribute getInvokeStatic_PluginId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getClassName <em>Class Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Class Name</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic#getClassName()
+	 * @see #getInvokeStatic()
+	 * @generated
+	 */
+	EAttribute getInvokeStatic_ClassName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getMethodName <em>Method Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method Name</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic#getMethodName()
+	 * @see #getInvokeStatic()
+	 * @generated
+	 */
+	EAttribute getInvokeStatic_MethodName();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getArgs <em>Args</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Args</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeStatic#getArgs()
+	 * @see #getInvokeStatic()
+	 * @generated
+	 */
+	EAttribute getInvokeStatic_Args();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.interop.InvokeUi <em>Invoke Ui</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invoke Ui</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.InvokeUi
+	 * @generated
+	 */
+	EClass getInvokeUi();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -746,6 +949,58 @@ public interface InteropPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GET_JAVA_PROPERTY__DEFAULT = eINSTANCE.getGetJavaProperty_Default();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl <em>Invoke Static</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl
+		 * @see org.eclipse.rcptt.ecl.interop.impl.InteropPackageImpl#getInvokeStatic()
+		 * @generated
+		 */
+		EClass INVOKE_STATIC = eINSTANCE.getInvokeStatic();
+
+		/**
+		 * The meta object literal for the '<em><b>Plugin Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE_STATIC__PLUGIN_ID = eINSTANCE.getInvokeStatic_PluginId();
+
+		/**
+		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE_STATIC__CLASS_NAME = eINSTANCE.getInvokeStatic_ClassName();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE_STATIC__METHOD_NAME = eINSTANCE.getInvokeStatic_MethodName();
+
+		/**
+		 * The meta object literal for the '<em><b>Args</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE_STATIC__ARGS = eINSTANCE.getInvokeStatic_Args();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.interop.impl.InvokeUiImpl <em>Invoke Ui</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.interop.impl.InvokeUiImpl
+		 * @see org.eclipse.rcptt.ecl.interop.impl.InteropPackageImpl#getInvokeUi()
+		 * @generated
+		 */
+		EClass INVOKE_UI = eINSTANCE.getInvokeUi();
 
 	}
 

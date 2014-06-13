@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getGetJavaProperty()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the Java system property indicated by the specified key.' returns='The string value of the system property.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the Java system property indicated by the specified key.' returns='The string value of the system property.' example='get-java-property \"java.home\" | log'"
  * @generated
  */
 public interface GetJavaProperty extends Command {

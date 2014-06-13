@@ -16,6 +16,16 @@
             name="Invoke"
             namespace="http://www.eclipse.org/ecl/interop.ecore">
       </scriptlet>
+	  <scriptlet
+            class="org.eclipse.rcptt.ecl.interop.internal.commands.InvokeService"
+            name="InvokeUi"
+            namespace="http://www.eclipse.org/ecl/interop.ecore">
+      </scriptlet>      
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.interop.internal.commands.InvokeStaticService"
+            name="InvokeStatic"
+            namespace="http://www.eclipse.org/ecl/interop.ecore">
+      </scriptlet>
       <scriptlet
             class="org.eclipse.rcptt.ecl.interop.internal.commands.ExecProcessService"
             name="ExecProcess"
