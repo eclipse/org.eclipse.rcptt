@@ -9895,6 +9895,43 @@ public interface TeslaPackage extends EPackage {
 	int DECRYPT_RESULT_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.RestartAutImpl <em>Restart Aut</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.RestartAutImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getRestartAut()
+	 * @generated
+	 */
+	int RESTART_AUT = 143;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESTART_AUT__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESTART_AUT__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The number of structural features of the '<em>Restart Aut</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESTART_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9902,7 +9939,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getButton()
 	 * @generated
 	 */
-	int BUTTON = 143;
+	int BUTTON = 144;
 
 	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
@@ -9912,7 +9949,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 144;
+	int ELEMENT_KIND = 145;
 
 
 	/**
@@ -13546,6 +13583,16 @@ public interface TeslaPackage extends EPackage {
 	EAttribute getDecryptResult_Value();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.RestartAut <em>Restart Aut</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Restart Aut</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.RestartAut
+	 * @generated
+	 */
+	EClass getRestartAut();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16617,6 +16664,16 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DECRYPT_RESULT__VALUE = eINSTANCE.getDecryptResult_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.RestartAutImpl <em>Restart Aut</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.RestartAutImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getRestartAut()
+		 * @generated
+		 */
+		EClass RESTART_AUT = eINSTANCE.getRestartAut();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.

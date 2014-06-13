@@ -21,15 +21,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.rcptt.ecl.core.Sequence;
-import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
-import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
-
 import org.eclipse.rcptt.core.Q7;
 import org.eclipse.rcptt.core.Q7Features;
-import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.ecl.core.model.CreateReport;
 import org.eclipse.rcptt.core.ecl.core.model.GetReport;
 import org.eclipse.rcptt.core.ecl.core.model.PrepareEnvironment;
@@ -37,6 +30,12 @@ import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
 import org.eclipse.rcptt.core.ecl.core.model.ResetVerifications;
 import org.eclipse.rcptt.core.ecl.core.model.SetCommandsDelay;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
+import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.ecl.core.Sequence;
+import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
+import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
@@ -294,6 +293,13 @@ public class PrepareExecutionWrapper extends Executable {
 					break;
 				}
 			}
+
+			IStatus rs = getResultStatus();
+			if (!rs.isOK()) {
+				rootInfo.setMessage(rs instanceof ExecutionStatus ? EclStackTrace.fromExecStatus(
+						(ExecutionStatus) rs).print() : rs.getMessage());
+			}
+
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}

@@ -1272,6 +1272,15 @@ public interface TeslaFactory extends EFactory {
 	DecryptResult createDecryptResult();
 
 	/**
+	 * Returns a new object of class '<em>Restart Aut</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Restart Aut</em>'.
+	 * @generated
+	 */
+	RestartAut createRestartAut();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

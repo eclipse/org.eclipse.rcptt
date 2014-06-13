@@ -57,7 +57,7 @@ public class DiagramFactoryImpl extends EFactoryImpl implements DiagramFactory {
 	 */
 	public static DiagramFactory init() {
 		try {
-			DiagramFactory theDiagramFactory = (DiagramFactory)EPackage.Registry.INSTANCE.getEFactory(DiagramPackage.eNS_URI);
+			DiagramFactory theDiagramFactory = (DiagramFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/ecl/diagram"); 
 			if (theDiagramFactory != null) {
 				return theDiagramFactory;
 			}

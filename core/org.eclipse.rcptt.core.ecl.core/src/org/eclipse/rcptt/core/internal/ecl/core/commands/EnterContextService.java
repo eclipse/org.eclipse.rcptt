@@ -27,6 +27,8 @@ import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
@@ -40,7 +42,7 @@ public class EnterContextService implements ICommandService {
 	public IStatus service(Command command, IProcess context)
 			throws InterruptedException, CoreException {
 		EnterContext ewc = (EnterContext) command;
-		Context data = ewc.getData();
+		final Context data = ewc.getData();
 		final INodeBuilder nde = ReportManager.getCurrentReportNode().beginTask(data.getName() == null ? "Unnamed ctx"
 				: data.getName());
 		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
@@ -54,11 +56,18 @@ public class EnterContextService implements ICommandService {
 			if (nde != null) {
 				info.setResult(ResultStatus.PASS);
 			}
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			if (nde != null) {
-				info.setResult(ResultStatus.FAIL);
-				info.setMessage(e.getMessage());
-				info.setDescription(data.getDescription());
+				nde.update(new Procedure1<Node>() {
+					@Override
+					public void apply(Node node) {
+						Q7Info existingInfo = ReportHelper.getInfo(node);
+						existingInfo.setResult(ResultStatus.FAIL);
+						existingInfo.setMessage(e.getMessage());
+						existingInfo.setDescription(data.getDescription());
+					}
+				});
+
 			}
 			boolean processed = false;
 			if (e instanceof CoreException

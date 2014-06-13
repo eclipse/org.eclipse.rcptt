@@ -53,8 +53,9 @@ public class ReportBuilder implements IReportBuilder {
 			child.setStartTime(getTime());
 			synchronized (report) {
 				node.getChildren().add(child);
+				currentNode = new NodeBuilder(this, child);
 			}
-			return new NodeBuilder(this, child);
+			return currentNode;
 		}
 		
 		/**

@@ -23,7 +23,6 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
@@ -260,23 +259,16 @@ public class ReportUtils {
 	public static String getFailMessage(Node item) {
 		StringBuilder result = new StringBuilder();
 		EList<Node> children = item.getChildren();
+		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (current != null && current.getResult().equals(ResultStatus.FAIL)) {
+			if (current.getMessage() != null) {
+				return current.getMessage();
+			}
+		}
 		for (Node node : children) {
-			Q7Info info = (Q7Info) node.getProperties().get(
-					IQ7ReportConstants.ROOT);
-			if (info != null && info.getResult().equals(ResultStatus.FAIL)) {
-				String msg = info.getMessage();
-				if (msg != null) {
-					result.append(msg);
-				}
-				// StringBuilder b = new StringBuilder();
-				// EList<Node> children2 = node.getChildren();
-				// for (Node node2 : children2) {
-				// collectFailures(node2, b);
-				// }
-				// if (b.toString().trim().length() > 0) {
-				// result.append("\n").append("Caused by: ")
-				// .append(b.toString());
-				// }
+			String message = getFailMessage(node);
+			if (message != null && !message.isEmpty()) {
+				return message;
 			}
 		}
 		return result.toString();

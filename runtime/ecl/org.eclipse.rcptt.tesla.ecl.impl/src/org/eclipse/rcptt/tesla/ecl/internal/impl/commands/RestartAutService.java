@@ -13,37 +13,24 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
-public class ShutdownAutService implements ICommandService {
-
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
-		try {
-			tryTerminateLaunches();
-			// shutdown AUT itself
-			Runtime.getRuntime().exit(IStatus.OK);
-		} catch (Throwable e) {
-			// ignore
-		}
+public class RestartAutService implements ICommandService {
+	@Override
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
+		ShutdownAutService.tryTerminateLaunches();
+		PlatformUI.getWorkbench().saveAllEditors(false);
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().restart();
+			}
+		});
 		return Status.OK_STATUS;
 	}
 
-	public static void tryTerminateLaunches() {
-		try {
-			// shutdown all launch configurations
-			ILaunchManager manager = DebugPlugin.getDefault()
-					.getLaunchManager();
-			for (ILaunch launch : manager.getLaunches()) {
-				launch.terminate();
-			}
-		} catch (Throwable e) {
-			// do nothing
-		}
-	}
 }
