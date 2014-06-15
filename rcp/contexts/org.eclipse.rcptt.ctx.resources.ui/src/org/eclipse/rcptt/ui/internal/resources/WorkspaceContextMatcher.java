@@ -44,7 +44,7 @@ public class WorkspaceContextMatcher implements Matcher {
 				RcpttPlugin.log(e);
 			}
 		}
-		if (type != null && !type.equals("org.eclipse.rcptt.workspace.context")) {
+		if (type != null && !type.equals("org.eclipse.rcptt.ctx.workspace")) {
 			return false;
 		}
 		try {

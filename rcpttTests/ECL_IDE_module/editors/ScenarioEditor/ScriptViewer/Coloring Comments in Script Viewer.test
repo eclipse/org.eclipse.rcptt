@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Lpfx8CoiEeGt8qLIdTb92A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:48 PM
 Tags: ECL_IDE_module, TestCase
 Testcase-Type: ecl
 
@@ -50,7 +50,7 @@ with [get-editor WorkspaceIsEmpty | get-section Script | get-text-viewer] {
 }
 with [get-editor WorkspaceIsEmpty | get-section Script | get-editbox] {
     get-property text 
-        | equals "get-view \"Test Explorer\" | get-tree | //get-property itemCount | equals 0 | verify-true" | verify-true
+        | equals "get-view \"Q7 Explorer\" | get-tree | //get-property itemCount | equals 0 | verify-true" | verify-true
     get-property "styles.text" -index 4 | equals "get-tree" | verify-true
     get-property "styles.fontStyle" -index 4 | equals bold | verify-true
     get-property "styles.foregroundColor" -index 4 | equals "#7F0055" | verify-true
@@ -103,13 +103,13 @@ with [get-editor "P1 is left" | get-section Script | get-text-viewer] {
 }
 with [get-editor "P1 is left" | get-section Script | get-editbox] {
     get-property text | equals "/*\n"
-        + "with [get-view \"Test Explorer\" | get-tree] {\n"
+        + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
         + "    get-item \"P1\"\n"
         + "    \n}\n"
         + "*/\n"
-        + "get-view \"Test Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
+        + "get-view \"Q7 Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true" | verify-true
     get-property "styles.text" -index 0 | equals "/*\n"
-        + "with [get-view \"Test Explorer\" | get-tree] {\n"
+        + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
         + "    get-item \"P1\"\n"
         + "    \n}\n"
         + "*/\n" | verify-true

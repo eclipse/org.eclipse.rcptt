@@ -837,7 +837,7 @@ public class RcpttCore {
 		if (type == null) {
 			return false;
 		}
-		if (!"org.eclipse.rcptt.ui.context.group".equals(type)) {
+		if (!"org.eclipse.rcptt.ctx.group".equals(type)) {
 			return true;
 		}
 		return false;

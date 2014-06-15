@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1246
 Id: _mZxk0OirEeCButSfkA0tsQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:45 PM
 Tags: selfAUT, Context, WorkbenchContext, Perspective
 Testcase-Type: ecl
 
@@ -61,7 +61,7 @@ with [get-editor "WB_common"] {
 get-view "Test Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
 get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
 with [get-window "Select a perspective"] {
-    get-table | select Q7
+    get-table | select RCPTT
     get-button OK | click
 }
 with [get-editor "WB_test"] {
@@ -79,16 +79,16 @@ get-editor "WB_check" | get-button Capture | click
 
 with [get-editor "WB_check"] {
     get-section Workbench | get-editbox -after [get-label "Perspective id:"] | get-property value 
-        | equals "com.xored.q7.ui.perspective" | verify-true
+        | equals "org.eclipse.rcptt.ui.perspective" | verify-true
     with [get-section Views | get-table] {
         get-property itemCount | equals 7 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
     get-item "org.eclipse.pde.runtime.LogView" | get-property caption | equals "org.eclipse.pde.runtime.LogView" 
         | verify-true
     get-item "org.eclipse.ui.console.ConsoleView" | get-property caption | equals "org.eclipse.ui.console.ConsoleView" 
@@ -118,16 +118,16 @@ with [get-editor "WB_check"] {
 }
 with [get-editor "WB_check"] {
     get-section Workbench | get-editbox -after [get-label "Perspective id:"] | get-property value 
-        | equals "com.xored.q7.ui.perspective" | verify-true
+        | equals "org.eclipse.rcptt.ui.perspective" | verify-true
     with [get-section Views | get-table] {
         get-property itemCount | equals 5 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
 
     }
     get-section Editors | get-table | get-property itemCount | equals 0 | verify-true
@@ -156,13 +156,13 @@ with [get-editor "WB_check"] {
 with [get-editor "WB_check"] {
     with [get-section Views | get-table] {
         get-property itemCount | equals 8 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
     get-item "org.eclipse.pde.runtime.LogView" | get-property caption | equals "org.eclipse.pde.runtime.LogView" 
         | verify-true
     get-item "org.eclipse.ui.console.ConsoleView" | get-property caption | equals "org.eclipse.ui.console.ConsoleView" 

@@ -43,6 +43,7 @@ public class UpdateBuildersJob extends Job {
 									monitor, 10));
 							continue;
 						}
+						RcpttNature.updateProjectNature(iProject, true);
 					}
 				} catch (CoreException e) {
 					RcpttPlugin.log(e);

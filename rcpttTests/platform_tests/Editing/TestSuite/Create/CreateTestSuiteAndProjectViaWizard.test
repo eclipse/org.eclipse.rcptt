@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _gkOtIENVEeGEmKn4hFNAmQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 4:23 PM
 Tags: TestSuite, Create, Project
 Testcase-Type: ecl
 
@@ -44,27 +44,26 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 get-menu "File/New/Other..." | click
-get-window New | get-tree | select "Plug-in Project"
 with [get-window New | get-tree] {
-    get-item Q7 | get-property caption | equals Q7 | verify-true
-    get-item "Q7/Context" | get-property caption | equals Context | verify-true
-    get-item "Q7/Q7 Project" | get-property caption | equals "Q7 Project" | verify-true
-    get-item "Q7/Test Case" | get-property caption | equals "Test Case" | verify-true
-    get-item "Q7/Test Suite" | get-property caption | equals "Test Suite" | verify-true
+    get-item "RCP Testing Tool" | get-property caption | equals "RCP Testing Tool" | verify-true
+    get-item "RCP Testing Tool/Context" | get-property caption | equals Context | verify-true
+    get-item "RCP Testing Tool/RCP Testing Tool Project" | get-property caption | equals "RCP Testing Tool Project" | verify-true
+    get-item "RCP Testing Tool/Test Case" | get-property caption | equals "Test Case" | verify-true
+    get-item "RCP Testing Tool/Test Suite" | get-property caption | equals "Test Suite" | verify-true
 }
 with [get-window New] {
-    get-tree | select "Q7/Test Suite"
+    get-tree | select "RCP Testing Tool/Test Suite"
     get-button "Next >" | click
 }
 with [get-window "New Test Suite"] {
     get-editbox -after [get-label "Location:"] | get-property text | equals "" | verify-true
     get-editbox -after [get-label "Name:"] | get-property text | equals "" | verify-true
-    get-editbox -after [get-label "Test Suite"] | get-property text | equals "Select the parent folder in Q7 project" 
+    get-editbox -after [get-label "Test Suite"] | get-property text | equals "Select the parent folder in RCPTT project" 
         | verify-true
 }
 get-window "New Test Suite" | get-editbox -after [get-label "Name:"] | set-text testSuite
 with [get-window "New Test Suite"] {
-    get-editbox -after [get-label "Test Suite"] | get-property text | equals "Select the parent folder in Q7 project" 
+    get-editbox -after [get-label "Test Suite"] | get-property text | equals "Select the parent folder in RCPTT project" 
         | verify-true
     get-button "Next >" | get-property enablement | equals false | verify-true
     get-button Finish | get-property enablement | equals false | verify-true
@@ -74,7 +73,7 @@ get-window "New Test Suite" | get-window "Select Location" | get-tree | get-prop
 with [get-window "New Test Suite"] {
     with [get-window "Select Location"] {
         get-button "Create new project" | click
-        with [get-window "New Q7 Project"] {
+        with [get-window "New RCPTT Project"] {
             get-editbox -after [get-label "Project name:"] | set-text q7project
             get-button Finish | click
         }

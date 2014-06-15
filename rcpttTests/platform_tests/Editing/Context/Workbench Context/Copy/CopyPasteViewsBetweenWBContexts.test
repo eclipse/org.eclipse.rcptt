@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _hMjckOisEeCButSfkA0tsQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:42 PM
 Tags: skipMacOS, selfAUT, Context, WorkbenchContext, CopyPaste
 Testcase-Type: ecl
 
@@ -38,23 +38,23 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "ContextsProject/WB_common" | double-click -nowait
 with [get-editor "WB_common" | get-section Views | get-table] {
-    select "com.xored.q7.ui.tags" "org.eclipse.ui.views.ProblemView" "com.xored.q7.ui.explorer"
+    select "org.eclipse.rcptt.ui.tags" "org.eclipse.ui.views.ProblemView" "org.eclipse.rcptt.ui.explorer"
     key-type "M1+c"
 }
 get-view "Test Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
 get-editor "WB_test" | get-section Views | get-table | key-type "M1+v"
 with [get-editor "WB_test" | get-section Views | get-table] {
 	get-property itemCount | equals 3 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
 }
 get-editor "WB_test" | get-editbox -after [get-label "Name:"] | key-type "M1+s"
 
 with [get-editor "WB_common" | get-section Views | get-table] {
  	click -nowait
-    select "com.xored.q7.ui.views.execution" "com.xored.q7.ui.views.execution"
+    select "org.eclipse.rcptt.ui.views.execution" "org.eclipse.rcptt.ui.views.execution"
     get-menu Copy | click
 }
 
@@ -64,28 +64,28 @@ with [get-editor "WB_test"] {
 }
 with [get-editor "WB_test" | get-section Views | get-table] {
     get-property itemCount | equals 4 | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
 
 }
 get-editor "WB_test" | get-editbox -after [get-label "Name:"] | key-type "M1+s"
-get-editor "WB_common" | get-section Views | get-table | select "com.xored.q7.ui.aut.manager" | get-menu Cut | click
+get-editor "WB_common" | get-section Views | get-table | select "org.eclipse.rcptt.ui.aut.manager" | get-menu Cut | click
 with [get-editor "WB_test"] {
     click
     get-section Views | get-table | get-menu Paste | click
 }
 with [get-editor "WB_test" | get-section Views | get-table] {
     get-property itemCount | equals 5 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
 }
 get-editor "WB_test" | get-editbox -after [get-label "Name:"] | key-type "M1+s"
 with [get-editor "WB_common"] {
@@ -98,13 +98,13 @@ with [get-editor "WB_test"] {
 }
 with [get-editor "WB_test" | get-section Views | get-table] {
     get-property itemCount | equals 5 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
 }
 get-editor "WB_test" | get-section Editors | get-table | key-type "M1+v"
 get-editor "WB_test" | get-section Editors | get-table | get-property itemCount | equals 0 | verify-true

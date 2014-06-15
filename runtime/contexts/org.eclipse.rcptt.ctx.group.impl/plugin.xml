@@ -4,7 +4,7 @@
        point="org.eclipse.rcptt.core.contextProcessors">
     <processor
           class="org.eclipse.rcptt.ctx.group.impl.GroupContextProcessor"
-          type="org.eclipse.rcptt.ui.context.group">
+          type="org.eclipse.rcptt.ctx.group">
     </processor>
  </extension>
 </plugin>

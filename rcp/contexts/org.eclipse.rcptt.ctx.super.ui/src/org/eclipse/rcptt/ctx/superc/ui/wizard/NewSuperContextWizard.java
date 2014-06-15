@@ -66,7 +66,7 @@ public class NewSuperContextWizard extends Wizard implements INewWizard {
 			IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
 			context = folder.createContext(name, ContextTypeManager
 					.getInstance()
-					.getTypeById("org.eclipse.rcptt.ui.context.superc"), true,
+					.getTypeById("org.eclipse.rcptt.ctx.super"), true,
 					new NullProgressMonitor());
 			IQ7NamedElement copy = context
 					.getWorkingCopy(new NullProgressMonitor());

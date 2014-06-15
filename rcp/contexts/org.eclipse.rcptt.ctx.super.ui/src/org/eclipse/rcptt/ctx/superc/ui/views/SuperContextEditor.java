@@ -50,7 +50,7 @@ public class SuperContextEditor extends BaseContextEditor implements IQ7EditorAc
 			getForm().getForm().setText(type.getName() + " Super Context");
 			contexts = new ContextsTable(getElement(),
 					ScenarioPackage.Literals.SUPER_CONTEXT__CONTEXT_REFERENCES, false);
-			contexts.setContextFilter(getContextElement().getChildType());
+			contexts.setContextFilter(type.getId());
 			return new SectionWithToolbar(contexts, Section.TITLE_BAR | Section.TWISTIE
 					| Section.EXPANDED).create(parent, toolkit);
 		} catch (ModelException e) {

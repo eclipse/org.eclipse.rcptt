@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _t5rYECW6EeOQ58zpl-lVdg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 3:24 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -45,7 +45,7 @@ with [get-editor Dummy | get-section Script | get-left-ruler] {
 }
 get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | get-menu "Debug As/1 Test Cases" | click
 get-view Debug | get-button "Step Over (F6)" | click
-get-view Debug | get-tree | get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" 
+get-view Debug | get-tree | get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" 
     | get-property caption | equals "create-new-context (Dummy: 1)" | verify-true
 with [get-view Variables | get-tree] {
     get-property itemCount | equals 1 | verify-true

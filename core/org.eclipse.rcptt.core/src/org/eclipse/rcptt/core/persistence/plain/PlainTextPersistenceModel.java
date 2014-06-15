@@ -249,7 +249,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 			Bundle runtimeBundle = Platform
 					.getBundle("org.eclipse.rcptt.updates.runtime");
 			if (runtimeBundle != null) {
-				saveAttrs.put("Q7-Runtime-Version", runtimeBundle.getVersion()
+				saveAttrs.put("Runtime-Version", runtimeBundle.getVersion()
 						.toString());
 			}
 

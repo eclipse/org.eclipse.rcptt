@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _9lhUYRkNEeOwAuU1H7YyVQ,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: LaunchCheck_Wb_SuperContext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _PumK4RkUEeOt9MVDSr4v5A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 5:22 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -33,7 +32,7 @@ Entry-Name: .content
 get-view "Test Explorer" | get-tree | select "MyProject/Test_SuperWb" | double-click
 get-editor "Test_SuperWb" | get-button Replay | click
 with [get-view "Execution View"] {
-    try -delay 1000 -times 14 {    
+    try -delay 1000 -times 14 -command {    
     	get-label "4/4"
     }
     get-label 2 | get-property caption | equals 2 | verify-true

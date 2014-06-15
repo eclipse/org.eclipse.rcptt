@@ -75,6 +75,7 @@ public class EventProviderManager {
 		initialize();
 		for (Map.Entry<String, IEventProvider> provider : managers.entrySet()) {
 			if (id == null || provider.getKey().startsWith(id)) {
+				provider.getValue().removeListener(reportBuilder);
 				provider.getValue().addListener(reportBuilder);
 			}
 		}

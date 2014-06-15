@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _MVCb4K6oEeCKALiC9hLN7A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 3:54 PM
 Tags: ECL_IDE_module, selfAUT, Recording, skipExecution
 Testcase-Type: ecl
 
@@ -42,10 +42,10 @@ get-aut selfQ7 | eval {
 	}
 }
 //wait 200
-get-window "Q7 Control Panel - test (q7project) - selfQ7 [Recording]" | get-button Stop | click
-with [get-window "Q7 Control Panel - test (q7project) - selfQ7"] {
+get-window "Control Panel - test (q7project) - selfQ7 [Recording]" | get-button Stop | click
+with [get-window "Control Panel - test (q7project) - selfQ7"] {
     get-button Save | click
-    get-button "Return to Q7" | click
+    get-button "Return to RCPTT" | click
 }
 get-editor test | get-section Script | get-editbox | get-property rawValue 
     | equals "with [get-editor \"model.ecore\" | get-tree] {\\n"

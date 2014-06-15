@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_-03SMOpBEeCjiJ-04yesNg
 Element-Name: RunTestSuite
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _tpaeYOo3EeCjiJ-04yesN2
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 6:13 PM
 Tags: TestSuite, selfAUT
 Testcase-Type: ecl
 
@@ -39,13 +38,13 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 get-menu "Run/Run Configurations..." | click
-get-window "Run Configurations" | get-tree | select "Q7 Test Suite/Q7Project" "Q7 Test Suite/Q7Project2"
+get-window "Run Configurations" | get-tree | select "RCPTT Test Suite/Q7Project" "RCPTT Test Suite/Q7Project2"
 with [get-window "Run Configurations"] {
     get-button Run | get-property enablement | equals false | verify-true
     get-button Close | get-property enablement | equals true | verify-true
 }
 with [get-window "Run Configurations"] {
-    get-tree | select "Q7 Test Suite/Q7Project2"
+    get-tree | select "RCPTT Test Suite/Q7Project2"
     get-button Run | click
 }
 wait 100

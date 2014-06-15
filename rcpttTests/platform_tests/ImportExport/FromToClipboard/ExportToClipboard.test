@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_n1a-kfriEeCQa9Xqo-1T3A
 Element-Name: ExportToClipboard
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-3d94PriEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 4:56 PM
 Tags: ImportExport, Clipboard
 Testcase-Type: ecl
 
@@ -38,7 +37,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Q7 Portable Format" | click
+get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Test Portable Format" | click
 with [get-window "Export"] {
     get-editbox -index 1 | get-property enablement | equals false | verify-true
     get-button "Browse..." | get-property enablement | equals false | verify-true
@@ -53,9 +52,8 @@ with [get-window "New"] {
 
 with [get-editor "Untitled.*" | get-text-viewer] {
 	key-type "M1+v"
-	get-property text | contains "--- Q7 testcase ---\n"
-								+ "Format-Version: 1.0\n"
-    							+ "Q7-vendor: www.xored.com/q7\n" | verify-true
+	get-property text | contains "--- RCPTT testcase ---\n"
+								+ "Format-Version: 1.0\n" | verify-true
 
 	get-property text | contains "Element-Name: TC1\n"
     							+ "Element-Type: testcase\n" | verify-true

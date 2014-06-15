@@ -16,11 +16,6 @@
             uri="http://eclipse.org/rcptt/sherlock/core"
             class="org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage"
             genModel="model/sherlock.genmodel"/>
-      <package
-            class="org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage"
-            genModel="model/report.genmodel"
-            uri="http://eclipse.org/rcptt/sherlock/report">
-      </package>
    </extension>
    <extension
          point="org.eclipse.rcptt.watson.core.eventProvider">

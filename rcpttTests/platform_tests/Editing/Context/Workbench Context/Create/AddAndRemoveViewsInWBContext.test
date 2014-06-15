@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1246
 Id: _GgnQ0M8CEeCw4ppgsBRMGg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:39 PM
 Tags: selfAUT, Context, WorkbenchContext, Create
 Testcase-Type: ecl
 
@@ -92,7 +92,6 @@ with [get-editor "WB_check"] {
     get-section Workbench | get-editbox -after [get-label "Perspective id:"] | get-property text 
         | equals "org.eclipse.ui.resourcePerspective" | verify-true
     with [get-section Views | get-table] {
-        get-property itemCount | equals 6 | verify-true
         get-item "org.eclipse.ui.navigator.ProjectExplorer" | get-property caption 
             | equals "org.eclipse.ui.navigator.ProjectExplorer" | verify-true
         get-item "org.eclipse.ui.views.ContentOutline" | get-property caption 
@@ -129,9 +128,6 @@ with [get-editor "WB_check"] {
     get-button Capture | click
 }
 with [get-editor "WB_check" | get-section Views | get-table] {
-    
-   
-        get-property itemCount | equals 5 | verify-true
         get-item "org.eclipse.ui.navigator.ProjectExplorer" | get-property caption 
             | equals "org.eclipse.ui.navigator.ProjectExplorer" | verify-true
         get-item "org.eclipse.ui.views.ContentOutline" | get-property caption 

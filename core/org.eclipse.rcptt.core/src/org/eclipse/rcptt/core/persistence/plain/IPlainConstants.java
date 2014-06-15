@@ -16,8 +16,6 @@ public interface IPlainConstants {
 	public static final String NODE_POSTFIX = "--";
 	public static final String ATTR_ENTRY_NAME = "Entry-Name";
 	public static final String NODE_PREFIX = "------=_";
-	public static final String Q7_VENDOR = "www.xored.com/q7";
-	public static final String ATTR_Q7_VENDOR = "Q7-vendor";
 	public static final String FORMAT_VERSION = "1.0";
 	public static final String ATTR_FORMAT_VERSION = "Format-Version";
 	public static final String PLAIN_HEADER = "--- RCPTT testcase ---";

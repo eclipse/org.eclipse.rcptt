@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2315
 Id: _mS4-UbC1EeK4L4OXlrrxIQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 4:49 PM
 Tags: Context, ECLContext, selfAUT
 Testcase-Type: ecl
 
@@ -40,13 +40,13 @@ get-view "Test Explorer" | get-tree | select "Q7Project/EclContext" | double-cli
 with [get-editor EclContext] {
     with [get-section Script | get-text-viewer] {
 		set-caret-pos 1 1
-		type-text "get-view \"Test Explorer\" | get-tree | get-menu \"New/Project...\" | click"
+		type-text "get-view \"Unknown Explorer\" | get-tree | get-menu \"New/Project...\" | click"
         key-type "M1+s"
     }
     get-button Apply | click
 }
 get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
-    | equals "The View \"Test Explorer\" could not be found.\n"
+    | equals "The View \"Unknown Explorer\" could not be found.\n"
     + "\tat get-view (/Q7Project/EclContext.ctx:1)" | verify-true
 //with [get-view "Execution View"] {
 //    get-editbox -after [get-label "Message:"] | set-text-offset 45 0

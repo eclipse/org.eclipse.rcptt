@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-959
 Id: _5CS88C9pEeGOD4SfNiyZ1Q
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 3:55 PM
 Tags: Runtime, selfAUT
 Testcase-Type: ecl
 
@@ -40,7 +40,7 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/Test scenario" | double-click
 get-editor "Test scenario" | get-button Record | click
-with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-window "Execution failed"] {
+with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-window "Execution failed"] {
     get-label "The Window \"xxx\" could not be found.\tat get-window (line 1)"
     with [get-button "Go to error location..."] {
         get-property enablement | equals true | verify-true
@@ -51,8 +51,8 @@ with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-w
         get-property caption | equals OK | verify-true
     }
 }
-with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7"] {
+with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7"] {
     get-window "Execution failed" | get-button "Go to error location..." | click
-    get-button "Return to Q7" | click
+    get-button "Return to RCPTT" | click
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

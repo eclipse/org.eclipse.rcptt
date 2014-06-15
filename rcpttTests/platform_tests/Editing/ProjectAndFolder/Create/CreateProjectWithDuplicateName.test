@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1097
 Id: _mt-RwMlzEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 4:07 PM
 Tags: Project, Create
 Testcase-Type: ecl
 
@@ -36,12 +36,12 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | get-menu "New/Other..." | click
 with [get-window New] {
-    get-tree | select "Q7/Q7 Project"
+    get-tree | select "RCP Testing Tool/RCP Testing Tool Project"
     get-button "Next >" | click
 }
 get-window "New Project" | get-editbox -after [get-label "Project name:"] | set-text Q7Project
 with [get-window "New Project"] {
-    get-editbox -after [get-label "Q7 Project"] | get-property value 
+    get-editbox -after [get-label "RCP Testing Tool Project"] | get-property value 
         | equals "A project with that name already exists in the workspace." | verify-true
     get-button Finish | get-property enablement | equals false | verify-true
     get-button "Next >" | get-property enablement | equals false | verify-true

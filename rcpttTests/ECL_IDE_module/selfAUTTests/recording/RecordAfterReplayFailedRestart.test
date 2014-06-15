@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _p6KsES5VEeKaINuLebtgrg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:30 PM
 Tags: selfAUT, Runtime, Recording, skipExecution
 Testcase-Type: ecl
 
@@ -48,8 +48,8 @@ get-recorder | set-feature not_native_events_ignored false
 get-aut selfQ7 | eval {
 	get-view "Test Explorer" | get-tree | select "q7project/test" | double-click 	
 }
-get-window "Q7 Control Panel - selfQ7 [Recording]" | get-button Stop | click
-get-window "Q7 Control Panel - selfQ7" | get-editbox | get-property rawValue 
+get-window "Control Panel - selfQ7 [Recording]" | get-button Stop | click
+get-window "Control Panel - selfQ7" | get-editbox | get-property rawValue 
     | contains "get-view \"Test Explorer\" | get-tree | select \"q7project/test\" | double-click" | verify-true
     
 get-aut selfQ7 | eval {
@@ -58,19 +58,19 @@ get-aut selfQ7 | eval {
 	get-view "Test Explorer" | get-tree | select q7project
 }
 // 
-get-window "Q7 Control Panel - selfQ7" | get-text-viewer | set-text "qwe-qwe-qwe"
-get-window "Q7 Control Panel - selfQ7" | get-button Replay | click
-get-window "Q7 Control Panel - selfQ7" | get-window "Execution failed" |get-button "OK" |click
-get-window "Q7 Control Panel - selfQ7" | get-button "Clear Script" | click
+get-window "Control Panel - selfQ7" | get-text-viewer | set-text "qwe-qwe-qwe"
+get-window "Control Panel - selfQ7" | get-button Replay | click
+get-window "Control Panel - selfQ7" | get-window "Execution failed" |get-button "OK" |click
+get-window "Control Panel - selfQ7" | get-button "Clear Script" | click
 
 // start recording
-get-window "Q7 Control Panel - selfQ7" | get-button Record | click
+get-window "Control Panel - selfQ7" | get-button Record | click
 get-recorder | set-feature not_native_events_ignored false
 get-aut selfQ7 | eval {
 	get-view "Test Explorer" | get-tree | select "q7project/test" | double-click 	
 }
-get-window "Q7 Control Panel - selfQ7 [Recording]" | get-button Stop | click
-get-window "Q7 Control Panel - selfQ7" | get-editbox | get-property rawValue 
+get-window "Control Panel - selfQ7 [Recording]" | get-button Stop | click
+get-window "Control Panel - selfQ7" | get-editbox | get-property rawValue 
     | contains "get-view \"Test Explorer\" | get-tree | select \"q7project/test\" | double-click" | verify-true
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

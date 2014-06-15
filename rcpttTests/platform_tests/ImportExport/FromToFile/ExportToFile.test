@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_n1a-kfriEeCQa9Xqo-1T3A
 Element-Name: ExportToFile
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _B-_akPsGEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:32 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 5:03 PM
 Tags: ImportExport, File
 Testcase-Type: ecl
 
@@ -38,11 +37,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export..." | click
-with [get-window "Export"] {
-	get-tree | select "RCP Testing Tool/Test Portable Format"
-	get-button "Next >" | click
-}
+get-view "Test Explorer" | get-tree | select "Q7Project/TC1" | get-menu "Export/Test Portable Format" | click
 get-window "Export" | get-button "Export to File" | click
 set-dialog-result File "platform:/resource/qqq.test"
 with [get-window "Export"] {
@@ -54,11 +49,7 @@ with [get-view "Test Explorer" | get-tree] {
     select "Q7Project/TC1" | key-type DEL
 }
 get-window "Delete Resources" | get-button OK | click
-get-view "Test Explorer" | get-tree | select Q7Project | get-menu "Import..." | click
-with [get-window "Import"] {
-	get-tree | select "RCP Testing Tool/Test Portable Format"
-	get-button "Next >" | click
-}
+get-view "Test Explorer" | get-tree | select Q7Project | get-menu "Import/Test Portable Format" | click
 with [get-window "Import"] {
 	get-button "Import from File" | click
 	set-dialog-result File "platform:/resource/qqq.test"

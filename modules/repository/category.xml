@@ -5,6 +5,7 @@
   </feature>
   <feature id="org.eclipse.rcptt.core">
   </feature>
+  <feature id="org.eclipse.rcptt.launching"/>
   <feature id="org.eclipse.rcptt.updates">
   </feature>
   <feature id="org.eclipse.rcptt.ecl.server">

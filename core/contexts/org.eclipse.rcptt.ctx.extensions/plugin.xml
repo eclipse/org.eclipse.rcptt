@@ -5,19 +5,19 @@
          point="org.eclipse.rcptt.core.ecl.parser.context_container_provider">
       <provider
             class="org.eclipse.rcptt.ctx.extensions.ParamContextProvider"
-            contextId="org.eclipse.rcptt.parameters.context">
+            contextId="org.eclipse.rcptt.ctx.parameters">
       </provider>
       <provider
             class="org.eclipse.rcptt.ctx.extensions.EclContextProvider"
-            contextId="org.eclipse.rcptt.core.ecl.context">
+            contextId="org.eclipse.rcptt.ctx.ecl">
       </provider>
       <provider
       		class="org.eclipse.rcptt.ctx.extensions.GroupContextProvider"
-      		contextId="org.eclipse.rcptt.ui.context.group">
+      		contextId="org.eclipse.rcptt.ctx.group">
       </provider>
       <provider
       		class="org.eclipse.rcptt.ctx.extensions.SupercontextProvider"
-      		contextId="org.eclipse.rcptt.ui.context.superc">
+      		contextId="org.eclipse.rcptt.ctx.super">
       </provider>
    </extension>
 

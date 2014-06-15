@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _pLS-0CBTEeOjX5Yww5t2_A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 12:50 PM
 Tags: selfAUT, Debug
 Testcase-Type: ecl
 
@@ -40,10 +40,10 @@ with [get-editor "New Java Class Procs" | get-section Script | get-left-ruler] {
 }
 get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | get-menu "Debug As/1 Test Cases" | click
 with [get-view Debug | get-tree] {
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 2 | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/val \\(New Java Class Procs: 5\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 2 | verify-true
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/val \\(New Java Class Procs: 5\\)" | get-property caption 
         | equals "val (New Java Class Procs: 5)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/proc \\(New Java Class Procs: 5\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/proc \\(New Java Class Procs: 5\\)" | get-property caption 
         | equals "proc (New Java Class Procs: 5)" | verify-true
 }
 with [get-view Debug] {
@@ -61,26 +61,26 @@ with [get-view Debug] {
     }
 }
 with [get-view Debug | get-tree] {
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 5 | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/format \\(New Java Class Procs: 16\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 5 | verify-true
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/format \\(New Java Class Procs: 16\\)" | get-property caption 
         | equals "format (New Java Class Procs: 16)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/val \\(New Java Class Procs: 16\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/val \\(New Java Class Procs: 16\\)" | get-property caption 
         | equals "val (New Java Class Procs: 16)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/let \\(New Java Class Procs: 16\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/let \\(New Java Class Procs: 16\\)" | get-property caption 
         | equals "let (New Java Class Procs: 16)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/open-new-context-dialog \\(New Java Class Procs: 24\\)" 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/open-new-context-dialog \\(New Java Class Procs: 24\\)" 
         | get-property caption | equals "open-new-context-dialog (New Java Class Procs: 24)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" | get-property caption 
         | equals "create-new-context (Dummy: 1)" | verify-true
 }
 get-view Debug | get-button "Step Return (F7)" | click
 with [get-view Debug | get-tree] {
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 2 | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/get-window \\(New Java Class Procs: 25\\)" 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 2 | verify-true
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/get-window \\(New Java Class Procs: 25\\)" 
         | get-property caption | equals "get-window (New Java Class Procs: 25)" | verify-true
-    get-item "Dummy \\[Q7 Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" | get-property caption 
+    get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" | get-property caption 
         | equals "create-new-context (Dummy: 1)" | verify-true
 }
 get-view Debug | get-button "Resume (F8)" | click
-get-button "Q7 perspective" | click
+get-button "RCPTT perspective" | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

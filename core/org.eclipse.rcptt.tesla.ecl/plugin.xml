@@ -6,10 +6,6 @@
             uri="http://eclipse.org/rcptt/tesla/ecl"
             class="org.eclipse.rcptt.tesla.ecl.model.TeslaPackage"
             genModel="model/tesla.genmodel"/>
-      <package
-            uri="http://eclipse.org/rcptt/tesla/ecl/diagram"
-            class="org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage"
-            genModel="model/tesla.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">

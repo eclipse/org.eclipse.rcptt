@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _4_DbMM7_EeCw4ppgsBRMGg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/14/14 2:20 PM
 Tags: selfAUT, Context, WorkbenchContext, Create
 Testcase-Type: ecl
 
@@ -65,7 +65,6 @@ with [get-editor "WB_test"] {
         }
     }
     with [get-section Views | get-table] {
-        get-property itemCount | equals 4 | verify-true
         get-item "org.eclipse.ui.navigator.ProjectExplorer" | get-property caption 
             | equals "org.eclipse.ui.navigator.ProjectExplorer" | verify-true
         get-item "org.eclipse.ui.views.ContentOutline" | get-property caption 
@@ -97,7 +96,7 @@ with [get-editor "WB_test"] {
 }
 with [get-editor "WB_test"] {
     with [get-section Workbench] {
-        get-editbox -after [get-label "Perspective id:"] | get-property value | equals "com.xored.q7.ui.perspective" 
+        get-editbox -after [get-label "Perspective id:"] | get-property value | equals "org.eclipse.rcptt.ui.perspective" 
             | verify-true
         with [get-button "Reset perspective"] {
             get-property enablement | equals true | verify-true
@@ -117,13 +116,13 @@ with [get-editor "WB_test"] {
     }
  with [get-editor "WB_test" | get-section Views | get-table] {
     get-property itemCount | equals 5 | verify-true
-    get-item "com.xored.q7.ui.tags" | get-property caption | equals "com.xored.q7.ui.tags" | verify-true
+    get-item "org.eclipse.rcptt.ui.tags" | get-property caption | equals "org.eclipse.rcptt.ui.tags" | verify-true
     get-item "org.eclipse.ui.views.ProblemView" | get-property caption | equals "org.eclipse.ui.views.ProblemView" 
         | verify-true
-    get-item "com.xored.q7.ui.explorer" | get-property caption | equals "com.xored.q7.ui.explorer" | verify-true
-    get-item "com.xored.q7.ui.views.execution" | get-property caption | equals "com.xored.q7.ui.views.execution" 
+    get-item "org.eclipse.rcptt.ui.explorer" | get-property caption | equals "org.eclipse.rcptt.ui.explorer" | verify-true
+    get-item "org.eclipse.rcptt.ui.views.execution" | get-property caption | equals "org.eclipse.rcptt.ui.views.execution" 
         | verify-true
-    get-item "com.xored.q7.ui.aut.manager" | get-property caption | equals "com.xored.q7.ui.aut.manager" | verify-true
+    get-item "org.eclipse.rcptt.ui.aut.manager" | get-property caption | equals "org.eclipse.rcptt.ui.aut.manager" | verify-true
 }
     with [get-section Editors] {
         with [get-button "Close opened editors"] {

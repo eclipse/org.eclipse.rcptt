@@ -359,7 +359,7 @@ public class ModelManager {
 							result.add(element);
 				} else if (element instanceof IContext) {
 					ContextType type = ((IContext) element).getType();
-					if (type == null || !"org.eclipse.rcptt.ui.context.group".equals(type.getId()))
+					if (type == null || !"org.eclipse.rcptt.ctx.group".equals(type.getId()))
 						continue;
 
 					GroupContext groupContext = (GroupContext) element.getNamedElement();

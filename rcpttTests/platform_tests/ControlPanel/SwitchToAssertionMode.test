@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _EgTa4e_8EeCXWfaP50PILw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 11:55 AM
 Tags: selfAUT, ControlPanel, AssertionMode
 Testcase-Type: ecl
 
@@ -40,18 +40,18 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/Test scenario" | double-click -nowait
 get-editor "Test scenario" | get-button Record | click
-with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]"] {
+with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]"] {
     get-button "Switch to Recording Mode" | get-property selected | equals true | verify-true
-    get-button "Switch to Assertion and Verification Mode" | get-property selected | equals false | verify-true
+    get-button "Switch to Assertion Mode" | get-property selected | equals false | verify-true
 }
 
-with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]"] {
+with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]"] {
     get-button "Switch to Recording Mode" | click
-    get-button "Switch to Assertion and Verification Mode" | click
+    get-button "Switch to Assertion Mode" | click
 }
-with [get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Asserting]"] {
-    get-button "Switch to Assertion and Verification Mode" | get-property selected | equals true | verify-true
+with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Asserting]"] {
+    get-button "Switch to Assertion Mode" | get-property selected | equals true | verify-true
     get-button "Switch to Recording Mode" | get-property selected | equals false | verify-true
 }
-get-window "Q7 Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Asserting]" | get-button Record | click
+get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Asserting]" | get-button Record | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

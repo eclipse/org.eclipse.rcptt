@@ -7,8 +7,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _3L6JYNY5EeG4bYZCjcRwJg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Q7-Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 12:50 PM
 Tags: selfAUT, Debug
 Testcase-Type: ecl
 
@@ -44,7 +44,7 @@ with [get-editor CreateJavaProject | get-section Script | get-left-ruler] {
 }
 get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Debug As/.* Test Cases" | click
 with [get-view Debug] {
-    get-tree | get-item "CreateJavaProject \\[Q7 Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)"
+    get-tree | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)"
     with [get-button "Resume (F8)"] {
         get-property enablement | equals true | verify-true
         get-property tooltip | equals "Resume (F8)" | verify-true
@@ -55,7 +55,7 @@ with [get-view Debug] {
     }
 }
 get-view Debug | get-button "Resume (F8)" | click
-get-button "Q7 perspective" | click
+get-button "RCPTT perspective" | click
 with [get-view "Execution View"] {
     get-tree | get-property itemCount | equals 1 | verify-true
     get-label -after [get-label "Runs:"] | get-property caption | equals "1/1" | verify-true

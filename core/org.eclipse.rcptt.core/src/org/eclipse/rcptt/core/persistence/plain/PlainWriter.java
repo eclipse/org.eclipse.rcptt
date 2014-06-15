@@ -44,8 +44,7 @@ public class PlainWriter implements IPlainConstants {
 
 	public void writeHeader(Map<String, String> attrs) throws IOException {
 		write(getPlainFormat());
-		writeAttributes(new MapMaker<String, String>().set(ATTR_Q7_VENDOR,
-				Q7_VENDOR).set(ATTR_FORMAT_VERSION, FORMAT_VERSION));
+		writeAttributes(new MapMaker<String, String>().set(ATTR_FORMAT_VERSION, FORMAT_VERSION));
 		writeAttributes(attrs);
 		write("");
 	}

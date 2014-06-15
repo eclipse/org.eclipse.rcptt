@@ -39,10 +39,7 @@ import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 public class ReportManager implements IQ7ReportConstants {
 	private static ReportBuilder builder = null;
 
-	public static String[] eventProviders = {
-			IEventProviders.LOG_EVENT_PROVIDER,
-			IEventProviders.JFACE_LOG_EVENT_PROVIDER,
-			"org.eclipse.rcptt.tesla.ecl.iml.info.provider", "org.eclipse.rcptt" };
+	public static String[] eventProviders = { "org.eclipse.rcptt" };
 
 	private synchronized static void initializeBuilder(String title, ReportBuilderStore store) {
 		if (builder != null) {

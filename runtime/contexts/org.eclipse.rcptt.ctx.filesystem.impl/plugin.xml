@@ -5,7 +5,7 @@
 	      point="org.eclipse.rcptt.core.contextProcessors">
     <processor
           class="org.eclipse.rcptt.ctx.filesystem.FilesystemContextProcessor"
-          type="org.eclipse.rcptt.filesystem.context">
+          type="org.eclipse.rcptt.ctx.filesystem">
     </processor>
 	</extension>
 

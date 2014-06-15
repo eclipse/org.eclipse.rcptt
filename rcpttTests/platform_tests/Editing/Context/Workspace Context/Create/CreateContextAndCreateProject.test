@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_C0SR0GphEeCzId1Gnkds9A
 Element-Name: CreateContextAndCreateProject
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _z2P44MoeEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 8:51 PM
 Tags: Context, WorkspaceContext, Create, Project
 Testcase-Type: ecl
 
@@ -40,12 +39,12 @@ Entry-Name: .content
 get-view "Test Explorer" | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Test Explorer" | get-tree | get-menu "New/Other..." | click
 with [get-window New] {
-    get-tree | select "Q7/Context"
+    get-tree | select "RCP Testing Tool/Context"
     get-button "Next >" | click
 }
 with [get-window "New Context Wizard"] {
     get-editbox -after [get-label "Create a new test context"] | get-property value 
-        | equals "Select the parent folder in Q7 project" | verify-true
+        | equals "Select the parent folder in RCPTT project" | verify-true
     get-editbox -after [get-label "Location:"] | get-property value | equals "" | verify-true
 }
 get-window "New Context Wizard" | get-button "Browse..." | click
@@ -56,7 +55,7 @@ with [get-window "New Context Wizard" | get-window "Select Location"] {
 }
 with [get-window "New Context Wizard" | get-window "Select Location"] {
     get-button "Create new project" | click
-    with [get-window "New Q7 Project"] {
+    with [get-window "New RCPTT Project"] {
         get-editbox -after [get-label "Project name:"] | set-text q7project
         get-button Finish | click
     }

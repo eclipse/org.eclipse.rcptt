@@ -59,10 +59,8 @@
 								</features>
 							</injection>
 							<injection>
-								<site>${q7URL}/artifact/shared/repository</site>
+								<site>${autRepository}</site>
 								<features>
-									<feature>com.google.libs.feature.group</feature>
-
 									<feature>com.xored.tesla.ecl.feature.group</feature>
 									<feature>org.eclipse.ecl.core.feature.group</feature>
 									<feature>org.eclipse.ecl.ide.feature.group</feature>
@@ -73,8 +71,6 @@
 
 									<feature>com.xored.tesla.feature.group</feature>
 									<feature>com.xored.q7.updates.feature.group</feature>
-
-									<feature>com.google.libs.feature.group</feature>
 								</features>
 							</injection>
 							<injection>

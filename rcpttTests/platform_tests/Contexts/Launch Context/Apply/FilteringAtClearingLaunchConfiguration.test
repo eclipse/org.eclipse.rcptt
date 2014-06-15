@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _qTuHwKvZEeKhFfhAE-FJzg,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
 Element-Name: FilteringAtClearingLaunchConfiguration
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nLU3oKvSEeKhFfhAE-FJzg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 5:12 PM
 Tags: Context, LaunchContext, selfAUT
 Testcase-Type: ecl
 
@@ -61,9 +60,9 @@ with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get
     get-item "Launch configurations" | get-property childCount | equals 2 | verify-true
     get-item "Launch configurations/Eclipse Application under Test" | get-property childCount | equals 1 | verify-true
     get-item "Launch configurations/Eclipse Application under Test/Test Application" | get-property caption | equals "Test Application" | verify-true
-    get-item "Launch configurations/Application Under Test \\(Q7\\)" | get-property caption | equals "Application Under Test (Q7)" | verify-true
-    get-item "Launch configurations/Application Under Test \\(Q7\\)/Test234" | get-property caption | equals Test234 | verify-true
-    get-item "Launch configurations/Application Under Test \\(Q7\\)/Test1" | get-property caption | equals Test1 | verify-true
+    get-item "Launch configurations/Application Under Test \\(RCPTT\\)" | get-property caption | equals "Application Under Test (RCPTT)" | verify-true
+    get-item "Launch configurations/Application Under Test \\(RCPTT\\)/Test234" | get-property caption | equals Test234 | verify-true
+    get-item "Launch configurations/Application Under Test \\(RCPTT\\)/Test1" | get-property caption | equals Test1 | verify-true
 }
 with [get-editor EmptyLaunchContext] {
     click
@@ -93,10 +92,10 @@ with [get-editor EmptyLaunchContext2] {
     get-button Capture | click
 }
 with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree] {
-    get-item "Launch configurations/Q7 Test Suite" | get-property childCount | equals 1 | verify-true
-    get-item "Launch configurations/Q7 Test Suite/Empty Test Suite" | get-property caption | equals "Empty Test Suite" | verify-true
-    get-item "Launch configurations/Application Under Test \\(Q7\\)" | get-property childCount | equals 1 | verify-true
-    get-item "Launch configurations/Application Under Test \\(Q7\\)/Test1" | get-property caption | equals Test1 | verify-true
+    get-item "Launch configurations/RCPTT Test Suite" | get-property childCount | equals 1 | verify-true
+    get-item "Launch configurations/RCPTT Test Suite/Empty Test Suite" | get-property caption | equals "Empty Test Suite" | verify-true
+    get-item "Launch configurations/Application Under Test \\(RCPTT\\)" | get-property childCount | equals 1 | verify-true
+    get-item "Launch configurations/Application Under Test \\(RCPTT\\)/Test1" | get-property caption | equals Test1 | verify-true
 }
 with [get-editor EmptyLaunchContext] {
     click

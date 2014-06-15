@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _Ns1HMM1SEeCKjp0mPLHiEg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_-03SMOpBEeCjiJ-04yesNg
 Element-Name: RemoveTestsFromTestSuite
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _UToh4Oo3EeCjiJ-04yesNg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.0.qualifier
+Save-Time: 6/15/14 6:12 PM
 Tags: TestSuite, selfAUT
 Testcase-Type: ecl
 
@@ -37,7 +36,7 @@ Entry-Name: .content
 
 get-menu "Run/Run Configurations..." | click
 with [get-window "Run Configurations"] {
-    get-tree | select "Q7 Test Suite/Q7Project2"
+    get-tree | select "RCPTT Test Suite/Q7Project2"
     get-table | select test6 test1
     get-button Remove | click
 }
@@ -80,7 +79,7 @@ with [get-view "Execution View" | get-tree] {
     get-item "test1.*" | get-property caption | equals "test1.*" | verify-true
 }
 get-menu "Run/Run Configurations..." | click
-get-window "Run Configurations" | get-tree | select "Q7 Test Suite/Test Suite"
+get-window "Run Configurations" | get-tree | select "RCPTT Test Suite/Test Suite"
 get-window "Run Configurations" | get-table | get-property itemCount | equals 7 | verify-true
 with [get-window "Run Configurations"] {
     get-button Remove | get-property enablement | equals false | verify-true
@@ -94,10 +93,10 @@ get-window "Run Configurations" | get-table | get-property itemCount | equals 7 
 get-window "Run Configurations" | get-button "Remove All" | click
 with [get-window "Run Configurations"] {
     with [get-tree] {
-        get-item "Q7 Test Suite" | get-property childCount | equals 3 | verify-true
-        get-item "Q7 Test Suite/Q7Project" | get-property caption | equals Q7Project | verify-true
-        get-item "Q7 Test Suite/Q7Project2" | get-property caption | equals Q7Project2 | verify-true
-        get-item "Q7 Test Suite/Test Suite" | get-property caption | equals "Test Suite" | verify-true
+        get-item "RCPTT Test Suite" | get-property childCount | equals 3 | verify-true
+        get-item "RCPTT Test Suite/Q7Project" | get-property caption | equals Q7Project | verify-true
+        get-item "RCPTT Test Suite/Q7Project2" | get-property caption | equals Q7Project2 | verify-true
+        get-item "RCPTT Test Suite/Test Suite" | get-property caption | equals "Test Suite" | verify-true
     }
     get-table | get-property itemCount | equals 0 | verify-true
     get-editbox -after [get-label "Create, manage, and run configurations"] | get-property value 
@@ -114,7 +113,7 @@ with [get-view "Test Explorer" | get-tree] {
     get-item "ProjectWithTestSuites/Test Suite.launch" | get-property caption | equals "Test Suite.launch" | verify-true
 }
 get-menu "Run/Run Configurations..." | click
-get-window "Run Configurations" | get-tree | select "Q7 Test Suite/Test Suite"
+get-window "Run Configurations" | get-tree | select "RCPTT Test Suite/Test Suite"
 get-window "Run Configurations" | get-button Run | get-property enablement | equals false | verify-true
 get-window "Run Configurations" | get-button Close | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
