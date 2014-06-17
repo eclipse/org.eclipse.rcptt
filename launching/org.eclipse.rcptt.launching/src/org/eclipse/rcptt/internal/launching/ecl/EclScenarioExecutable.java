@@ -20,12 +20,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
-import org.eclipse.rcptt.internal.launching.EclStackTrace;
-import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.ScenarioExecutable;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -57,18 +54,21 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 				.getModifiedNamedElement();
 
 		props = new HashMap<String, EObject>();
-		Q7Info info = ReportHelper.createInfo();
-		info.setType(ItemKind.SCRIPT);
-		info.setResult(ResultStatus.PASS);
-		info.setTags(scenario.getTags());
-		info.setId(scenario.getId());
-		if (getVariantName() != null) {
-			info.getVariant().clear();
-			info.getVariant().addAll(getVariantName());
-		}
-		props.put(IQ7ReportConstants.ROOT, info);
+		{
+			Q7Info info = ReportHelper.createInfo();
+			info.setType(ItemKind.SCRIPT);
+			info.setResult(ResultStatus.PASS);
+			info.setTags(scenario.getTags());
+			info.setId(scenario.getId());
+			if (getVariantName() != null) {
+				info.getVariant().clear();
+				info.getVariant().addAll(getVariantName());
+			}
+			info.setDescription(scenario.getDescription());
+			props.put(IQ7ReportConstants.ROOT, info);
 
-		ReportMaker.beginReportNode(getName(), props, launch);
+			ReportMaker.beginReportNode(getName(), props, launch);
+		}
 		IStatus resultStatus;
 		try {
 			doExecuteTest(executionMonitor);
@@ -86,15 +86,6 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 			}
 			resultStatus = ExecAdvancedInfoUtil.askForAdvancedInfo(launch,
 					message);
-		}
-
-		info.setResult(resultStatus.isOK() ? ResultStatus.PASS
-				: ResultStatus.FAIL);
-		if (!resultStatus.isOK()) {
-			info.setMessage(resultStatus instanceof ExecutionStatus ? EclStackTrace.fromExecStatus(
-					(ExecutionStatus) resultStatus).print() : resultStatus.getMessage());
-			info.setDescription(scenario.getDescription());
-			
 		}
 
 		return resultStatus;

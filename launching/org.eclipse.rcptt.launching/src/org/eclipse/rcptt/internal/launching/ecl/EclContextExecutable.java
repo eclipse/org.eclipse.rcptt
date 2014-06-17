@@ -18,15 +18,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ContextExecutable;
-import org.eclipse.rcptt.internal.launching.EclStackTrace;
-import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.reporting.ItemKind;
@@ -63,9 +60,9 @@ public class EclContextExecutable extends ContextExecutable {
 
 	@Override
 	protected IStatus doExecute() throws CoreException, InterruptedException {
-		Q7Info info = ReportHelper.createInfo();
 		String description = "";
 		if (isEcl) {
+			Q7Info info = ReportHelper.createInfo();
 			Context context = (Context) getActualElement().getModifiedNamedElement();
 			description = context.getDescription();
 			props = new HashMap<String, EObject>();
@@ -73,6 +70,7 @@ public class EclContextExecutable extends ContextExecutable {
 			info.setResult(ResultStatus.PASS);
 			info.setTags(context.getTags());
 			info.setId(context.getId());
+			info.setDescription(description);
 			props.put(IQ7ReportConstants.ROOT, info);
 
 			ReportMaker.beginReportNode(getName(), props, launch);
@@ -95,14 +93,6 @@ public class EclContextExecutable extends ContextExecutable {
 			}
 			resultStatus = ExecAdvancedInfoUtil.askForAdvancedInfo(launch,
 					message);
-		}
-		if (isEcl) {
-			info.setResult(resultStatus.isOK() ? ResultStatus.PASS : ResultStatus.FAIL);
-			if (!resultStatus.isOK()) {
-				info.setMessage(resultStatus instanceof ExecutionStatus ? EclStackTrace.fromExecStatus(
-						(ExecutionStatus) resultStatus).print() : resultStatus.getMessage());
-				info.setDescription(description);
-			}
 		}
 		return resultStatus;
 	}

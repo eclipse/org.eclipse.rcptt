@@ -128,8 +128,7 @@ public class PrepareExecutionWrapper extends Executable {
 		try {
 			createReport();
 		} catch (CoreException e) {
-			// resultStatus = e.getStatus();
-			// return resultStatus;
+			return e.getStatus();
 		}
 		return executable.execute();
 	}
