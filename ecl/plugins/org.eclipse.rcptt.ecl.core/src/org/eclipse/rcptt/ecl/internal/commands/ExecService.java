@@ -55,11 +55,13 @@ public class ExecService implements ICommandService {
 		List<Object> input = CoreUtils.readPipeContent(process.getInput());
 		return exec(
 				new FQName(null, EclCommandNameConvention.toScriptletName(exec
-						.getName())), exec.getParameters(), process, input, command);
+						.getName())), exec.getParameters(), process, input,
+				command);
 	}
 
 	private IStatus exec(FQName fqn, List<Parameter> params, IProcess process,
-			List<Object> input, Command cmd) throws CoreException, InterruptedException {
+			List<Object> input, Command cmd) throws CoreException,
+			InterruptedException {
 		Command target;
 		try {
 			target = createCommand(fqn, process);
@@ -176,7 +178,8 @@ public class ExecService implements ICommandService {
 
 			while (setParamsCount < upperBound) {
 				try {
-					Object value = calcParamValue(param, feature, process, input);
+					Object value = calcParamValue(param, feature, process,
+							input);
 					setFeatureValue(target, feature, value);
 				} catch (CoreException e) {
 					if (e.getStatus().getCode() != 42 || !processUnnamed) {
@@ -245,8 +248,8 @@ public class ExecService implements ICommandService {
 					list.add(value);
 			}
 		} catch (ClassCastException cce) {
-			IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, 42,
-					"Can't assign value " + value + " to parameter "
+			IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
+					42, "Can't assign value " + value + " to parameter "
 							+ feature.getName(), cce);
 			throw new CoreException(status);
 		}
@@ -298,7 +301,8 @@ public class ExecService implements ICommandService {
 				throw new CoreException(status);
 			}
 		} else if (param instanceof ExecutableParameter) {
-			value = processExecutableValue(param, process, input);
+			value = processExecutableValue((ExecutableParameter) param,
+					process, input);
 		} else {
 			throw new RuntimeException("Invalid parameter");
 		}
@@ -306,23 +310,25 @@ public class ExecService implements ICommandService {
 		// box or unbox
 		value = processBoxUnbox(feature, value);
 		if (feature.isMany() && value instanceof Collection) {
-	        List<Object> result = new ArrayList<Object>();
-	        for (Object item: (Collection<?>)value) {
-	                result.add(adaptSingleObject(instanceClass, item));
-	        }
-	        value = result;
+			List<Object> result = new ArrayList<Object>();
+			for (Object item : (Collection<?>) value) {
+				result.add(adaptSingleObject(instanceClass, item));
+			}
+			value = result;
 		} else {
-		        value = adaptSingleObject(instanceClass, value);
+			value = adaptSingleObject(instanceClass, value);
 		}
 
 		return value;
 	}
+
 	protected Object adaptSingleObject(Class<?> instanceClass, final Object item) {
-        Object rv = Platform.getAdapterManager().getAdapter(item, instanceClass);
-        if (rv != null)
-                return rv;
-        return item;
-}
+		Object rv = Platform.getAdapterManager()
+				.getAdapter(item, instanceClass);
+		if (rv != null)
+			return rv;
+		return item;
+	}
 
 	@SuppressWarnings("unchecked")
 	private Object processBoxUnbox(EStructuralFeature feature, Object value) {
@@ -334,10 +340,10 @@ public class ExecService implements ICommandService {
 		return value;
 	}
 
-	private Object processExecutableValue(Parameter param, IProcess process,
-			List<Object> input) throws CoreException, InterruptedException {
+	private Object processExecutableValue(ExecutableParameter execParam,
+			IProcess process, List<Object> input) throws CoreException,
+			InterruptedException {
 		Object value;
-		ExecutableParameter execParam = (ExecutableParameter) param;
 		IPipe childInput = process.getSession().createPipe();
 		IPipe childOutput = process.getSession().createPipe();
 		for (Object o : input)
