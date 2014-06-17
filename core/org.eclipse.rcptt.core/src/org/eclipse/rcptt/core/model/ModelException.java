@@ -13,6 +13,11 @@ package org.eclipse.rcptt.core.model;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 
+/**
+ * RCP IO error.
+ * 
+ * Warning: getStatus() might return not a Q7Status
+ */
 public class ModelException extends CoreException {
 	private static final long serialVersionUID = 1L;
 
@@ -41,10 +46,6 @@ public class ModelException extends CoreException {
 		} else {
 			return this.nestedCoreException;
 		}
-	}
-	
-	public Q7Status getQ7Status() {
-		return (Q7Status) super.getStatus();
 	}
 	
 }

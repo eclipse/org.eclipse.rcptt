@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
-
 import org.eclipse.rcptt.core.model.IOpenable;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7ElementVisitor;
@@ -103,8 +102,9 @@ public abstract class Q7Element extends PlatformObject implements IQ7Element {
 			getElementInfo();
 			return true;
 		} catch (ModelException e) {
-			if (e.getQ7Status().getStatusCode() == Q7StatusCode.NotPressent)
-				return false;
+			if (e.getStatus() instanceof Q7Status)
+				if (((Q7Status) e.getStatus()).getStatusCode() == Q7StatusCode.NotPressent)
+					return false;
 			throw new RuntimeException(e); 
 		}
 	}
