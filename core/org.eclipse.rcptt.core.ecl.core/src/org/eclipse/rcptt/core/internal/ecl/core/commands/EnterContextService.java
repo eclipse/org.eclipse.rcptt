@@ -27,8 +27,6 @@ import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
@@ -50,25 +48,12 @@ public class EnterContextService implements ICommandService {
 		info.setId(data.getId());
 		info.setTags(data.getTags());
 		info.setSubtype(data.getId());
+		info.setDescription(data.getDescription());
 		ReportHelper.setInfo(nde, info);
 		try {
 			ContextTypeManager.getInstance().apply(data, context.getSession());
-			if (nde != null) {
-				info.setResult(ResultStatus.PASS);
-			}
 		} catch (final Throwable e) {
-			if (nde != null) {
-				nde.update(new Procedure1<Node>() {
-					@Override
-					public void apply(Node node) {
-						Q7Info existingInfo = ReportHelper.getInfo(node);
-						existingInfo.setResult(ResultStatus.FAIL);
-						existingInfo.setMessage(e.getMessage());
-						existingInfo.setDescription(data.getDescription());
-					}
-				});
-
-			}
+			ReportHelper.setResult(nde, ResultStatus.FAIL, e.getMessage());
 			boolean processed = false;
 			if (e instanceof CoreException
 					&& ((CoreException) e).getStatus() instanceof ScriptErrorStatus) {
@@ -105,7 +90,7 @@ public class EnterContextService implements ICommandService {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException eee) {
-							// Ignore
+							break;
 						}
 					}
 				} catch (Throwable eee) {
