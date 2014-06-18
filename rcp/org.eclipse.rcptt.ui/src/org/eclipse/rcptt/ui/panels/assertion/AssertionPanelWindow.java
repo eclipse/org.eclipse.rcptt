@@ -45,8 +45,29 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.window.Window;
+import org.eclipse.rcptt.core.recording.CommandSet;
 import org.eclipse.rcptt.ecl.core.BoxedValue;
 import org.eclipse.rcptt.ecl.runtime.BoxedValues;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.AutLaunch;
+import org.eclipse.rcptt.tesla.core.protocol.Assert;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.core.ui.Color;
+import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
+import org.eclipse.rcptt.tesla.core.ui.UiPackage;
+import org.eclipse.rcptt.tesla.core.ui.Widget;
+import org.eclipse.rcptt.tesla.ecl.model.GetWidgetDetails;
+import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
+import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
+import org.eclipse.rcptt.ui.panels.ActionToolbar;
+import org.eclipse.rcptt.ui.panels.Actions;
+import org.eclipse.rcptt.ui.panels.MenuToolbar;
+import org.eclipse.rcptt.ui.recording.RecordingSupport;
+import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
+import org.eclipse.rcptt.ui.utils.ImageManager;
+import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -72,28 +93,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.rcptt.core.recording.CommandSet;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.launching.AutLaunch;
-import org.eclipse.rcptt.ui.panels.ActionToolbar;
-import org.eclipse.rcptt.ui.panels.Actions;
-import org.eclipse.rcptt.ui.panels.MenuToolbar;
-import org.eclipse.rcptt.ui.recording.RecordingSupport;
-import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
-import org.eclipse.rcptt.ui.utils.ImageManager;
-import org.eclipse.rcptt.util.StringUtils;
-import org.eclipse.rcptt.tesla.core.protocol.Assert;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
-import org.eclipse.rcptt.tesla.core.ui.Color;
-import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
-import org.eclipse.rcptt.tesla.core.ui.UiPackage;
-import org.eclipse.rcptt.tesla.core.ui.Widget;
-import org.eclipse.rcptt.tesla.ecl.model.GetWidgetDetails;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
-import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
 
 public class AssertionPanelWindow extends Dialog {
 
@@ -527,6 +526,7 @@ public class AssertionPanelWindow extends Dialog {
 		viewer = new CheckboxTreeViewer(tree);
 		createColumnViewers(layout);
 		viewer.setContentProvider(new AssertContentProvider(getAut()));
+		viewer.setUseHashlookup(true);
 		viewer.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				processCheck(event.getElement(), event.getChecked());
