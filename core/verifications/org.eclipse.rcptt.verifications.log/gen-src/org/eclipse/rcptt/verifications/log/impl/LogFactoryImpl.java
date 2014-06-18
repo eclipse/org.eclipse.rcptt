@@ -35,7 +35,7 @@ public class LogFactoryImpl extends EFactoryImpl implements LogFactory {
 	 */
 	public static LogFactory init() {
 		try {
-			LogFactory theLogFactory = (LogFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/verifications/log"); 
+			LogFactory theLogFactory = (LogFactory)EPackage.Registry.INSTANCE.getEFactory(LogPackage.eNS_URI);
 			if (theLogFactory != null) {
 				return theLogFactory;
 			}

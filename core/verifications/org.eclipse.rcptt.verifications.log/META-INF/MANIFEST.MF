@@ -9,6 +9,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.verifications.log,
  org.eclipse.rcptt.verifications.log.impl,
+ org.eclipse.rcptt.verifications.log.util,
  org.eclipse.rcptt.verifications.log.tools
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
