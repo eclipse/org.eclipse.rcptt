@@ -37,7 +37,9 @@ public class UriFromPathService extends SingleCommandService<UriFromPath> {
 		try {
 			return new File(path).toURI().toURL().toExternalForm();
 		} catch (MalformedURLException e) {
-			throw new CoreException(new Status(IStatus.ERROR, EclFilesystemPlugin.PLUGIN_ID, "Failed to parse filystem path " + path, e));
+			throw new CoreException(new Status(IStatus.ERROR,
+					EclFilesystemPlugin.PLUGIN_ID,
+					"Failed to parse filesystem path " + path, e));
 		}
 	}
 }
