@@ -23,10 +23,13 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IParent;
@@ -38,6 +41,7 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.ISearchScope;
+import org.eclipse.rcptt.core.nature.RcpttNature;
 import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
@@ -87,6 +91,36 @@ public class ModelManager {
 						| IResourceChangeEvent.POST_CHANGE
 						| IResourceChangeEvent.PRE_DELETE
 						| IResourceChangeEvent.PRE_CLOSE);
+		workspace.addResourceChangeListener(new IResourceChangeListener() {
+
+			@Override
+			public void resourceChanged(IResourceChangeEvent event) {
+				try {
+					event.getDelta().accept(new IResourceDeltaVisitor() {
+
+						@Override
+						public boolean visit(IResourceDelta delta)
+								throws CoreException {
+							if ((delta.getKind() & IResourceDelta.ADDED) != 0) {
+								if (delta.getResource().getType() == IResource.PROJECT) {
+									if (RcpttNature
+											.isRcpttProject((IProject) delta
+													.getResource()))
+										// Launches
+										// RcpttBuilder
+										// if it is
+										// present
+										RcpttCore.getInstance();
+								}
+							}
+							return true;
+						}
+					});
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}, IResourceChangeEvent.POST_CHANGE);
 		getIndexManager().reset();
 		ProjectIndexerManager.startIndexing();
 	}
@@ -346,8 +380,8 @@ public class ModelManager {
 
 	private static final IQ7NamedElement[] EMPTY_NAMED_ELEMENTS = new IQ7NamedElement[0];
 
-	public IQ7NamedElement[] findContextUsageInWorkingCopies(String contextId, ISearchScope scope)
-			throws ModelException {
+	public IQ7NamedElement[] findContextUsageInWorkingCopies(String contextId,
+			ISearchScope scope) throws ModelException {
 		List<IQ7NamedElement> result = new ArrayList<IQ7NamedElement>();
 
 		for (PerWorkingCopyInfo info : perWorkingCopyInfos.values())
@@ -359,10 +393,13 @@ public class ModelManager {
 							result.add(element);
 				} else if (element instanceof IContext) {
 					ContextType type = ((IContext) element).getType();
-					if (type == null || !"org.eclipse.rcptt.ctx.group".equals(type.getId()))
+					if (type == null
+							|| !"org.eclipse.rcptt.ctx.group".equals(type
+									.getId()))
 						continue;
 
-					GroupContext groupContext = (GroupContext) element.getNamedElement();
+					GroupContext groupContext = (GroupContext) element
+							.getNamedElement();
 					if (groupContext == null)
 						continue;
 
@@ -375,8 +412,8 @@ public class ModelManager {
 		return result.toArray(EMPTY_NAMED_ELEMENTS);
 	}
 
-	public IQ7NamedElement[] findVerificationUsageInWorkingCopies(String verificationId, ISearchScope scope)
-			throws ModelException {
+	public IQ7NamedElement[] findVerificationUsageInWorkingCopies(
+			String verificationId, ISearchScope scope) throws ModelException {
 		List<IQ7NamedElement> result = new ArrayList<IQ7NamedElement>();
 
 		for (PerWorkingCopyInfo info : perWorkingCopyInfos.values())
@@ -392,8 +429,8 @@ public class ModelManager {
 		return result.toArray(EMPTY_NAMED_ELEMENTS);
 	}
 
-	public IQ7NamedElement[] findTestCaseUsageInWorkingCopies(String testCaseId, ISearchScope scope)
-			throws ModelException {
+	public IQ7NamedElement[] findTestCaseUsageInWorkingCopies(
+			String testCaseId, ISearchScope scope) throws ModelException {
 		List<IQ7NamedElement> result = new ArrayList<IQ7NamedElement>();
 
 		for (PerWorkingCopyInfo info : perWorkingCopyInfos.values())
@@ -409,8 +446,8 @@ public class ModelManager {
 		return result.toArray(EMPTY_NAMED_ELEMENTS);
 	}
 
-	public IQ7NamedElement[] findTestSuiteUsageInWorkingCopies(String testSuiteId, ISearchScope scope)
-			throws ModelException {
+	public IQ7NamedElement[] findTestSuiteUsageInWorkingCopies(
+			String testSuiteId, ISearchScope scope) throws ModelException {
 		List<IQ7NamedElement> result = new ArrayList<IQ7NamedElement>();
 
 		for (PerWorkingCopyInfo info : perWorkingCopyInfos.values())
