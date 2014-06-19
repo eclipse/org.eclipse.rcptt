@@ -22,7 +22,6 @@ import java.util.Locale;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Get;
 import org.eclipse.rcptt.ecl.dispatch.IScriptletExtension;
@@ -76,7 +75,8 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 					+ command.getKey()));
 		}
 		String uriString = ((File) command.getInput()).getUri();
-		URI input = URI.create(uriString);
+		URI uri = URI.create(uriString);
+		IFileStore input = EFS.getStore(uri);
 		switch (key) {
 		case CHILDREN:
 			return handleChildren(input);
@@ -90,14 +90,13 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 		throw new CoreException(createError("Wrong key: " + key));
 	}
 
-	private boolean handleIsDirectory(URI input) throws CoreException {
-		return EFS.getStore(input).fetchInfo().isDirectory();
+	private boolean handleIsDirectory(IFileStore input) throws CoreException {
+		return input.fetchInfo().isDirectory();
 	}
 
-	private List<File> handleChildren(URI input) throws CoreException {
+	private List<File> handleChildren(IFileStore input) throws CoreException {
 		try {
-			IFileStore[] files = EFS.getStore(input)
-					.childStores(EFS.NONE, null);
+			IFileStore[] files = input.childStores(EFS.NONE, null);
 			ArrayList<File> rv = new ArrayList<File>();
 			for (IFileStore child : files) {
 				File item = FilesystemFactory.eINSTANCE.createFile();
@@ -110,12 +109,12 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 		}
 	}
 
-	private Object handleName(URI uri) {
-		return URIUtil.lastSegment(uri);
+	private String handleName(IFileStore input) {
+		return input.fetchInfo().getName();
 	}
 
-	private boolean handleExists(URI input) throws CoreException {
-		return EFS.getStore(input).fetchInfo().exists();
+	private boolean handleExists(IFileStore input) throws CoreException {
+		return input.fetchInfo().exists();
 	}
 
 }
