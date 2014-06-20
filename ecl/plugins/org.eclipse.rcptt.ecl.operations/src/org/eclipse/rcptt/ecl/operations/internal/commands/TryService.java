@@ -34,10 +34,10 @@ public class TryService implements ICommandService {
 			delay = 100;
 		if (delay < 0)
 			return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
-					"Illegal parameter 'delay'");
+					"Parameter 'delay' should not be negative");
 		if (times != null && times <= 0)
 			return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
-					"Illegal parameter 'times'");
+					"Parameter 'times' should be greater than zero");
 		final List<Object> inputContent = CoreUtils.readPipeContent(process.getInput());
 		IStatus status = Status.OK_STATUS;
 		try {

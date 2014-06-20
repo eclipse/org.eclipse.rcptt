@@ -20,6 +20,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Control Handler</b></em>'.
+ * Represents a control on the AUT window.
  * <!-- end-user-doc -->
  *
  * <p>

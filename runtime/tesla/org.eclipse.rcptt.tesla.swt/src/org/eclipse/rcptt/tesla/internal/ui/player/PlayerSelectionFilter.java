@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player;
 
+import java.util.Arrays;
+
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
 
@@ -52,4 +54,9 @@ public class PlayerSelectionFilter {
 				index, after, indexes, classPattern);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Kind: %s, Path: %s", kind == null ? null : kind.kind,
+				path == null ? null : Arrays.toString(path));
+	}
 }
