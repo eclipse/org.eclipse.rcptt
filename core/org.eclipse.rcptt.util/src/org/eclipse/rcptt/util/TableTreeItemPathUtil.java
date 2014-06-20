@@ -75,6 +75,7 @@ public class TableTreeItemPathUtil {
 					char next = path.charAt(i + 1);
 					if (next == '/') {
 						i++;
+						segment.append('\\');
 						segment.append(next);
 						continue;
 					}
