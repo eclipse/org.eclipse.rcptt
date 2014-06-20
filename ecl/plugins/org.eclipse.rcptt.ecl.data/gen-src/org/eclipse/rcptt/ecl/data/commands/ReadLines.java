@@ -40,7 +40,8 @@ public interface ReadLines extends Command {
 	 * @return the value of the '<em>Uri</em>' attribute.
 	 * @see #setUri(String)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getReadLines_Uri()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='URI to read lines from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system'"
+	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='URI to read lines from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system'"
 	 * @generated
 	 */
 	String getUri();

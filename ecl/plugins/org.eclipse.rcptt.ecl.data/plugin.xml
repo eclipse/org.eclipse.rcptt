@@ -78,4 +78,12 @@
       </scriptlet>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated commands -->
+      <package
+            uri="http://www.eclipse.org/ecl/data/commands.ecore"
+            class="org.eclipse.rcptt.ecl.data.commands.CommandsPackage"
+            genModel="model/commands.genmodel"/>
+   </extension>
+
 </plugin>

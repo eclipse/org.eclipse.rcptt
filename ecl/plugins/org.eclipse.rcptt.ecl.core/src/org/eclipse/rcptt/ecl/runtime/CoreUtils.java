@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -234,10 +235,25 @@ public class CoreUtils {
 			EStructuralFeature feature) {
 		boolean box = feature instanceof EReference;
 		List<Object> result = new ArrayList<Object>();
+		Class<?> clazz = feature.getEType().getInstanceClass();
 		for (Object value : values) {
-			result.add(box ? BoxedValues.box(value) : BoxedValues.unbox(value));
+			result.add(adaptSingleObject(clazz, value, box));
 		}
 		return result;
+	}
+
+	private static Object adaptSingleObject(Class<?> instanceClass,
+			final Object item, boolean box) {
+		Object rv = Platform.getAdapterManager()
+				.getAdapter(item, instanceClass);
+		if (rv == null && item != null) {
+			if (instanceClass.isAssignableFrom(String.class)) {
+				rv = BoxedValues.unbox(item).toString();
+			}
+		}
+		if (rv == null)
+			rv = item;
+		return box ? BoxedValues.box(rv) : BoxedValues.unbox(rv);
 	}
 
 	public static void checkBounds(EStructuralFeature feature, Object value)

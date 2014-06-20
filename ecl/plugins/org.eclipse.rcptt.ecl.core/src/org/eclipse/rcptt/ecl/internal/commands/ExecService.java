@@ -14,7 +14,6 @@ import static org.eclipse.rcptt.ecl.internal.core.ProcService.getProcs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +21,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -309,25 +307,8 @@ public class ExecService implements ICommandService {
 
 		// box or unbox
 		value = processBoxUnbox(feature, value);
-		if (feature.isMany() && value instanceof Collection) {
-			List<Object> result = new ArrayList<Object>();
-			for (Object item : (Collection<?>) value) {
-				result.add(adaptSingleObject(instanceClass, item));
-			}
-			value = result;
-		} else {
-			value = adaptSingleObject(instanceClass, value);
-		}
 
 		return value;
-	}
-
-	protected Object adaptSingleObject(Class<?> instanceClass, final Object item) {
-		Object rv = Platform.getAdapterManager()
-				.getAdapter(item, instanceClass);
-		if (rv != null)
-			return rv;
-		return item;
 	}
 
 	@SuppressWarnings("unchecked")

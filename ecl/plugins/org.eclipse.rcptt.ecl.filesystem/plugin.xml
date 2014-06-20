@@ -35,6 +35,16 @@
             name="Get"
             namespace="http://www.eclipse.org/ecl/core.ecore">
       </scriptletExtension>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.rcptt.ecl.filesystem.File"
+            class="org.eclipse.rcptt.ecl.filesystem.internal.commands.FileAdapterFactory">
+         <adapter
+               type="java.lang.String">
+         </adapter>
+      </factory>
    </extension>   
 
 </plugin>

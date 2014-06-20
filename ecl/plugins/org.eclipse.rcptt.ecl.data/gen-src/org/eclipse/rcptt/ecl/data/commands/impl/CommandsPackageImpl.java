@@ -719,7 +719,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEAttribute(getWriteLines_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(readLinesEClass, ReadLines.class, "ReadLines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getReadLines_Uri(), theEcorePackage.getEString(), "uri", null, 0, 1, ReadLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReadLines_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(selectRowsEClass, SelectRows.class, "SelectRows", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSelectRows_Table(), theObjectsPackage.getTable(), null, "table", null, 0, 1, SelectRows.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -902,7 +902,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "URI to read lines from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
-		   });		
+		   });			
 		addAnnotation
 		  (selectRowsEClass, 
 		   source, 
@@ -1009,7 +1009,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (printEClass, 
 		   source, 
 		   new String[] {
-		   });																																						
+		   });																																							
 	}
 
 	/**
@@ -1039,7 +1039,12 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		  (getSelectColumns_Table(), 
 		   source, 
 		   new String[] {
-		   });													
+		   });												
+		addAnnotation
+		  (getReadLines_Uri(), 
+		   source, 
+		   new String[] {
+		   });			
 		addAnnotation
 		  (getSelectRows_Table(), 
 		   source, 
