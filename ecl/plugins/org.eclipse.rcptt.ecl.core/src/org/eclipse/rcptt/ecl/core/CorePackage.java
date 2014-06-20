@@ -1991,6 +1991,134 @@ public interface CorePackage extends EPackage {
 	int ECL_MAP_ENTRY_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.CaseImpl <em>Case</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.core.impl.CaseImpl
+	 * @see org.eclipse.rcptt.ecl.core.impl.CorePackageImpl#getCase()
+	 * @generated
+	 */
+	int CASE = 45;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__HOST = COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__BINDINGS = COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__INPUT = COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__CONDITION = COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Then</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__THEN = COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Case</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.core.impl.SwitchImpl
+	 * @see org.eclipse.rcptt.ecl.core.impl.CorePackageImpl#getSwitch()
+	 * @generated
+	 */
+	int SWITCH = 46;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__HOST = COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__BINDINGS = COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__INPUT = COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Items</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__ITEMS = COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Default</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH__DEFAULT = COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Switch</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
+
+	/**
 	 * The meta object id for the '<em>Throwable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1998,7 +2126,7 @@ public interface CorePackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.core.impl.CorePackageImpl#getThrowable()
 	 * @generated
 	 */
-	int THROWABLE = 45;
+	int THROWABLE = 47;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.Command <em>Command</em>}'.
@@ -3064,6 +3192,92 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEclMapEntry_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.Case <em>Case</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Case</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Case
+	 * @generated
+	 */
+	EClass getCase();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.core.Case#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Condition</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Case#getCondition()
+	 * @see #getCase()
+	 * @generated
+	 */
+	EReference getCase_Condition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.Case#getThen <em>Then</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Then</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Case#getThen()
+	 * @see #getCase()
+	 * @generated
+	 */
+	EReference getCase_Then();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.Case#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Case#getInput()
+	 * @see #getCase()
+	 * @generated
+	 */
+	EReference getCase_Input();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.Switch <em>Switch</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Switch</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Switch
+	 * @generated
+	 */
+	EClass getSwitch();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rcptt.ecl.core.Switch#getItems <em>Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Items</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Switch#getItems()
+	 * @see #getSwitch()
+	 * @generated
+	 */
+	EReference getSwitch_Items();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.Switch#getDefault <em>Default</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Default</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Switch#getDefault()
+	 * @see #getSwitch()
+	 * @generated
+	 */
+	EReference getSwitch_Default();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.core.Switch#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.Switch#getInput()
+	 * @see #getSwitch()
+	 * @generated
+	 */
+	EReference getSwitch_Input();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.EclBoolean <em>Ecl Boolean</em>}'.
@@ -4166,6 +4380,74 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference ECL_MAP_ENTRY__VALUE = eINSTANCE.getEclMapEntry_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.CaseImpl <em>Case</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.core.impl.CaseImpl
+		 * @see org.eclipse.rcptt.ecl.core.impl.CorePackageImpl#getCase()
+		 * @generated
+		 */
+		EClass CASE = eINSTANCE.getCase();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CASE__CONDITION = eINSTANCE.getCase_Condition();
+
+		/**
+		 * The meta object literal for the '<em><b>Then</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CASE__THEN = eINSTANCE.getCase_Then();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CASE__INPUT = eINSTANCE.getCase_Input();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.core.impl.SwitchImpl
+		 * @see org.eclipse.rcptt.ecl.core.impl.CorePackageImpl#getSwitch()
+		 * @generated
+		 */
+		EClass SWITCH = eINSTANCE.getSwitch();
+
+		/**
+		 * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SWITCH__ITEMS = eINSTANCE.getSwitch_Items();
+
+		/**
+		 * The meta object literal for the '<em><b>Default</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SWITCH__DEFAULT = eINSTANCE.getSwitch_Default();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SWITCH__INPUT = eINSTANCE.getSwitch_Input();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.EclBooleanImpl <em>Ecl Boolean</em>}' class.

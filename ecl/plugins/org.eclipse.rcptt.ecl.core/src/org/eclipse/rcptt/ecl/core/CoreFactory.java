@@ -354,6 +354,24 @@ public interface CoreFactory extends EFactory {
 	EclMapEntry createEclMapEntry();
 
 	/**
+	 * Returns a new object of class '<em>Case</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Case</em>'.
+	 * @generated
+	 */
+	Case createCase();
+
+	/**
+	 * Returns a new object of class '<em>Switch</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Switch</em>'.
+	 * @generated
+	 */
+	Switch createSwitch();
+
+	/**
 	 * Returns a new object of class '<em>Ecl Boolean</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

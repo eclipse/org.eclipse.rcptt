@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.rcptt.ecl.core.Binding;
 import org.eclipse.rcptt.ecl.core.Block;
 import org.eclipse.rcptt.ecl.core.BoxedValue;
+import org.eclipse.rcptt.ecl.core.Case;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.ConvertedToEMFPipe;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
@@ -63,6 +64,7 @@ import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.Serialized;
 import org.eclipse.rcptt.ecl.core.SessionState;
+import org.eclipse.rcptt.ecl.core.Switch;
 import org.eclipse.rcptt.ecl.core.Val;
 import org.eclipse.rcptt.ecl.core.With;
 
@@ -295,6 +297,20 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	private EClass eclMapEntryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass caseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass switchEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1266,6 +1282,78 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCase() {
+		return caseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCase_Condition() {
+		return (EReference)caseEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCase_Then() {
+		return (EReference)caseEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCase_Input() {
+		return (EReference)caseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSwitch() {
+		return switchEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSwitch_Items() {
+		return (EReference)switchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSwitch_Default() {
+		return (EReference)switchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSwitch_Input() {
+		return (EReference)switchEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1615,6 +1703,16 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		createEReference(eclMapEntryEClass, ECL_MAP_ENTRY__KEY);
 		createEReference(eclMapEntryEClass, ECL_MAP_ENTRY__VALUE);
 
+		caseEClass = createEClass(CASE);
+		createEReference(caseEClass, CASE__INPUT);
+		createEReference(caseEClass, CASE__CONDITION);
+		createEReference(caseEClass, CASE__THEN);
+
+		switchEClass = createEClass(SWITCH);
+		createEReference(switchEClass, SWITCH__INPUT);
+		createEReference(switchEClass, SWITCH__ITEMS);
+		createEReference(switchEClass, SWITCH__DEFAULT);
+
 		// Create data types
 		throwableEDataType = createEDataType(THROWABLE);
 	}
@@ -1680,6 +1778,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		saveStateEClass.getESuperTypes().add(this.getCommand());
 		restoreStateEClass.getESuperTypes().add(this.getCommand());
 		getEClass.getESuperTypes().add(this.getCommand());
+		caseEClass.getESuperTypes().add(this.getCommand());
+		switchEClass.getESuperTypes().add(this.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(commandEClass, Command.class, "Command", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1846,6 +1946,16 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEReference(getEclMapEntry_Key(), theEcorePackage.getEObject(), null, "key", null, 0, 1, EclMapEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEclMapEntry_Value(), theEcorePackage.getEObject(), null, "value", null, 0, 1, EclMapEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(caseEClass, Case.class, "Case", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCase_Input(), theEcorePackage.getEObject(), null, "input", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCase_Condition(), theEcorePackage.getEObject(), null, "condition", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCase_Then(), this.getCommand(), null, "then", null, 0, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(switchEClass, Switch.class, "Switch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSwitch_Input(), ecorePackage.getEObject(), null, "input", null, 1, 1, Switch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSwitch_Items(), this.getCase(), null, "items", null, 1, -1, Switch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSwitch_Default(), this.getCommand(), null, "default", null, 0, 1, Switch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize data types
 		initEDataType(throwableEDataType, Throwable.class, "Throwable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
@@ -1908,7 +2018,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		  (restoreStateEClass, 
 		   source, 
 		   new String[] {
-		   });					
+		   });															
 	}
 
 	/**
@@ -1925,6 +2035,16 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   });																										
 		addAnnotation
 		  (getGet_Input(), 
+		   source, 
+		   new String[] {
+		   });						
+		addAnnotation
+		  (getCase_Input(), 
+		   source, 
+		   new String[] {
+		   });						
+		addAnnotation
+		  (getSwitch_Input(), 
 		   source, 
 		   new String[] {
 		   });			
@@ -2095,6 +2215,58 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   source, 
 		   new String[] {
 			 "description", "Value to return if input object does not contain value by requested key"
+		   });		
+		addAnnotation
+		  (caseEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.",
+			 "returns", "An internal object describing the case.",
+			 "example", "list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]"
+		   });			
+		addAnnotation
+		  (getCase_Input(), 
+		   source, 
+		   new String[] {
+			 "description", "The input value to compare."
+		   });		
+		addAnnotation
+		  (getCase_Condition(), 
+		   source, 
+		   new String[] {
+			 "description", "Object used to match to the <code>input</code>. Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
+		   });		
+		addAnnotation
+		  (getCase_Then(), 
+		   source, 
+		   new String[] {
+			 "description", "Branch being executed when <code>input</code> matches the object specified in <code>condition</code>"
+		   });		
+		addAnnotation
+		  (switchEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.",
+			 "returns", "An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.",
+			 "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true"
+		   });			
+		addAnnotation
+		  (getSwitch_Input(), 
+		   source, 
+		   new String[] {
+			 "description", "The input object to match."
+		   });		
+		addAnnotation
+		  (getSwitch_Items(), 
+		   source, 
+		   new String[] {
+			 "description", "One or more <code>case</code> blocks. Block with a condition matching the input will be executed."
+		   });		
+		addAnnotation
+		  (getSwitch_Default(), 
+		   source, 
+		   new String[] {
+			 "description", "Optional parameter. The block which will be executed in case no <code>case</code> block is executed."
 		   });
 	}
 

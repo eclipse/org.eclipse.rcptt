@@ -59,6 +59,16 @@
             namespace="http://www.eclipse.org/ecl/core.ecore">
       </scriptlet>
       <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.CaseService"
+            name="Case"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.internal.commands.SwitchService"
+            name="Switch"
+            namespace="http://www.eclipse.org/ecl/core.ecore">
+      </scriptlet>
+      <scriptlet
             class="org.eclipse.rcptt.ecl.internal.commands.ListenService"
             name="Listen"
             namespace="http://www.eclipse.org/ecl/core.ecore">

@@ -34,7 +34,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 */
 	public static CoreFactory init() {
 		try {
-			CoreFactory theCoreFactory = (CoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/core.ecore"); 
+			CoreFactory theCoreFactory = (CoreFactory)EPackage.Registry.INSTANCE.getEFactory(CorePackage.eNS_URI);
 			if (theCoreFactory != null) {
 				return theCoreFactory;
 			}
@@ -106,6 +106,8 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 			case CorePackage.ECL_LIST: return createEclList();
 			case CorePackage.ECL_MAP: return createEclMap();
 			case CorePackage.ECL_MAP_ENTRY: return createEclMapEntry();
+			case CorePackage.CASE: return createCase();
+			case CorePackage.SWITCH: return createSwitch();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -499,6 +501,26 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	public EclMapEntry createEclMapEntry() {
 		EclMapEntryImpl eclMapEntry = new EclMapEntryImpl();
 		return eclMapEntry;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Case createCase() {
+		CaseImpl case_ = new CaseImpl();
+		return case_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Switch createSwitch() {
+		SwitchImpl switch_ = new SwitchImpl();
+		return switch_;
 	}
 
 	/**

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.core/src"
-    modelPluginID="org.eclipse.rcptt.ecl.core" modelName="Ecl" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.core/src" modelPluginID="org.eclipse.rcptt.ecl.core"
+    modelName="Ecl" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" runtimeVersion="2.5" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>ecl.ecore</foreignModel>
   <genPackages prefix="Core" basePackage="org.eclipse.rcptt.ecl" disposableProviderFactory="true"
       ecorePackage="ecl.ecore#/">
@@ -42,6 +41,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//LiteralParameter/format"/>
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//Foreach">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/item"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/do"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/input"/>
     </genClasses>
@@ -53,7 +53,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/code"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/severity"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/exception"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference ecl.ecore#//ProcessStatus/exception"/>
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//ConvertedToEMFPipe">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//ConvertedToEMFPipe/object"/>
@@ -97,6 +97,83 @@
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//EclString">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclString/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//EclException">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclException/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclException/message"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclException/stackTrace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclException/throwable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclException/cause"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//EclStackTraceEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/declaringClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/methodName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/fileName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/lineNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/nativeMethod"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Listen">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//Listen/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Listen/while"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Declaration"/>
+    <genClasses ecoreClass="ecl.ecore#//Val">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//Val/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Val/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//Val/input"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//GetVal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//GetVal/name"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Let">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Let/vals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Let/body"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Proc">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//Proc/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Proc/vals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Proc/body"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//ProcInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//ProcInstance/definition"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Global">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Global/vals"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//Global/override"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//SessionState">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//SessionState/procs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//SessionState/decls"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//SaveState"/>
+    <genClasses ecoreClass="ecl.ecore#//RestoreState">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//RestoreState/state"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Get">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Get/input"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Get/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Get/default"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//EclList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclList/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//EclMap">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclMap/entries"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//EclMapEntry">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclMapEntry/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclMapEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Case">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/input"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/then"/>
+    </genClasses>
+    <genClasses ecoreClass="ecl.ecore#//Switch">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Switch/input"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Switch/items"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Switch/default"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

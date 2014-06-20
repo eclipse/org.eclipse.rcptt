@@ -254,6 +254,14 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 				return createEclMapEntryAdapter();
 			}
 			@Override
+			public Adapter caseCase(Case object) {
+				return createCaseAdapter();
+			}
+			@Override
+			public Adapter caseSwitch(Switch object) {
+				return createSwitchAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -774,6 +782,34 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEclMapEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.core.Case <em>Case</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.core.Case
+	 * @generated
+	 */
+	public Adapter createCaseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.core.Switch <em>Switch</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.core.Switch
+	 * @generated
+	 */
+	public Adapter createSwitchAdapter() {
 		return null;
 	}
 
