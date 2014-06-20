@@ -40,6 +40,27 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.pde.launching.IPDELauncherConstants;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.ctx.filesystem.FileSystemResolver;
+import org.eclipse.rcptt.ctx.filesystem.PrefixScheme;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFiles;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFolder;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.FSAction;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.Remove;
+import org.eclipse.rcptt.filesystem.FSCaptureParam;
+import org.eclipse.rcptt.filesystem.FSResource;
+import org.eclipse.rcptt.filesystem.FilesystemContext;
+import org.eclipse.rcptt.filesystem.FilesystemFactory;
+import org.eclipse.rcptt.filesystem.FilesystemPackage;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.AutLaunch;
+import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.ui.commons.OneSelectionListener;
+import org.eclipse.rcptt.ui.context.BaseContextEditor;
+import org.eclipse.rcptt.ui.controls.SectionWithComposite;
+import org.eclipse.rcptt.ui.editors.EditorHeader;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.utils.UIContentAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -66,28 +87,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.ctx.filesystem.FileSystemResolver;
-import org.eclipse.rcptt.ctx.filesystem.PrefixScheme;
-import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFiles;
-import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFolder;
-import org.eclipse.rcptt.ctx.filesystem.ui.actions.FSAction;
-import org.eclipse.rcptt.ctx.filesystem.ui.actions.Remove;
-import org.eclipse.rcptt.filesystem.FSCaptureParam;
-import org.eclipse.rcptt.filesystem.FSResource;
-import org.eclipse.rcptt.filesystem.FilesystemContext;
-import org.eclipse.rcptt.filesystem.FilesystemFactory;
-import org.eclipse.rcptt.filesystem.FilesystemPackage;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.launching.AutLaunch;
-import org.eclipse.rcptt.launching.IQ7Launch;
-import org.eclipse.rcptt.ui.commons.OneSelectionListener;
-import org.eclipse.rcptt.ui.context.BaseContextEditor;
-import org.eclipse.rcptt.ui.controls.SectionWithComposite;
-import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.launching.LaunchUtils;
-import org.eclipse.rcptt.ui.utils.UIContentAdapter;
 
 public class FilesystemContextEditor extends BaseContextEditor {
 
@@ -400,11 +399,13 @@ public class FilesystemContextEditor extends BaseContextEditor {
 			result = VariablesPlugin.getDefault().getStringVariableManager()
 					.performStringSubstitution(value, false);
 		} catch (CoreException e) {
+			Activator.logErr(e, "Failed to substitute variables in %s", value);
 		}
 
 		try {
 			result = new File(result).getCanonicalPath();
 		} catch (IOException e) {
+			Activator.logErr(e, "Failed to canonicalize %s", value);
 		}
 
 		return result;
