@@ -1,4 +1,3 @@
-bin/
 target/
 runtime/updates/org.eclipse.rcptt.updates.runtime/q7/
 runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7/
@@ -26,3 +25,4 @@ modules/nebula/plugins/org.eclipse.rcptt.module.nebula.updates/runtime/
 !rcp/org.eclipse.rcptt.dev.ui/src/org/eclipse/rcptt/dev/ui/execution/log
 !rcp/verifications/org.eclipse.rcptt.verifications.log.ui/src/org/eclipse/rcptt/verifications/log
 !runtime/verifications/org.eclipse.rcptt.verifications.log.impl/src/org/eclipse/rcptt/verifications/log
+bin/
