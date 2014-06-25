@@ -246,6 +246,17 @@ public class ReportBuilder implements IReportBuilder {
 		return "log_" + category.name();
 	}
 
+	public static String getLogs(Node node) {
+		StringBuilder result = new StringBuilder();
+		String logs = null;
+		for (LoggingCategory cat : LoggingCategory.VALUES) {
+			logs = getLogs(node, cat);
+			if (logs != null) {
+				result.append(logs);
+			}
+		}
+		return result.toString();
+	}
 	public static String getLogs(Node node, LoggingCategory cat) {
 		EObject object = node.getProperties().get(getLogCategoryKey(cat));
 		if (object != null && object instanceof LoggingData) {

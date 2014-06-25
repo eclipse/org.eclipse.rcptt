@@ -48,7 +48,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.UIJob;
 
-
+/**
+ * Manages jobs information and statuses.
+ * */
 public class UIJobCollector implements IJobChangeListener {
     private class JobInfo {
     	private final Job job;
@@ -94,7 +96,7 @@ public class UIJobCollector implements IJobChangeListener {
 			if (!infoPrinted) {
 				infoPrinted = true;
 				SWTTeslaActivator
-						.log("---->>> Waiting timeout exceed then execute: "
+						.logToReport("---->>> Waiting timeout exceed then execute: "
 								+ getCurrentReportNodeName()
 								+ " <<---\n(skipping)"
 								+ getJobMessage(this));
@@ -362,11 +364,12 @@ public class UIJobCollector implements IJobChangeListener {
 	@SuppressWarnings("deprecation")
 	static String getCurrentReportNodeName() {
 		final String[] rv = new String[1];
-		ReportManager.getCurrentReportNode().update(new Procedure1<Node>(){
+		ReportManager.getCurrentReportNode().update(new Procedure1<Node>() {
 			@Override
 			public void apply(Node node) {
 				rv[0] = node.getName();
-			}});
+			}
+		});
 		return rv[0];
 	}
 	
@@ -410,7 +413,7 @@ public class UIJobCollector implements IJobChangeListener {
 				reportMessage.append(getJobMessage(job)).append("\n");
 			}
 		}
-		SWTTeslaActivator.log(reportMessage.toString());
+		SWTTeslaActivator.logToReport(reportMessage.toString());
 	}
 
 	public boolean isEmpty(Context context, Q7WaitInfoRoot info) {
@@ -441,7 +444,7 @@ public class UIJobCollector implements IJobChangeListener {
 				if (allowSkip) {
 					continue;
 				}
-				// System.out.println("Waiting job:" + job.getName() + ": "
+				// SWTTeslaActivator.debugLog("Waiting job:" + job.getName() + ": "
 				// + job.getClass().getName());
 				long jobStartTime = jobInfo.startingTime;
 				if (jobInfo.checkForTimeout) {
@@ -770,9 +773,7 @@ public class UIJobCollector implements IJobChangeListener {
 	 * @throws InterruptedException 
 	 */
 	public void join(long timeout) throws InterruptedException {
-		if (SWTTeslaActivator.LOGGING) {
-			System.out.println("UIJobCollector is going to join");
-		}
+		SWTTeslaActivator.debugLog("UIJobCollector is going to join");
 		long startTime = System.currentTimeMillis();
 		// Context ctx = ContextManagement.currentContext();
 		while (true) {
@@ -784,14 +785,13 @@ public class UIJobCollector implements IJobChangeListener {
 			if (isJoinEmpty()) {
 				break;
 			}
-			if (SWTTeslaActivator.LOGGING) {
-				List<Job> jobs2 = getJobs();
-				for (Job job : jobs2) {
-					System.out.println("Waiting for job:" + job.getName() + " "
-							+ job.getState());
-				}
-				System.out.println("UIJobCollector is going to join");
+
+			List<Job> jobs2 = getJobs();
+			for (Job job : jobs2) {
+				SWTTeslaActivator.debugLog("Waiting for job:" + job.getName() + " "
+						+ job.getState());
 			}
+			SWTTeslaActivator.debugLog("UIJobCollector is going to join");
 			Thread.sleep(50);
 		}
 	}
