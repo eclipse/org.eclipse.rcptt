@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Q7 Info</b></em>'.
+ * Represents operation result description with additional data like line number, etc.
  * <!-- end-user-doc -->
  *
  * <p>

@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.metadata.VersionRange;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
 public class Q7UpdateSiteExtensions {
@@ -31,6 +30,11 @@ public class Q7UpdateSiteExtensions {
 		public String kind;
 		public String path;
 		public String bundle;
+
+		@Override
+		public String toString() {
+			return bundle;
+		}
 	}
 
 	private Map<String, List<Q7RuntimeInfo>> versionToBundles = new HashMap<String, List<Q7RuntimeInfo>>();

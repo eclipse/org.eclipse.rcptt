@@ -214,6 +214,9 @@ public class ReportUtils {
 		return null;
 	}
 
+	/**
+	 * Is it a 'trace' or 'take-screenshot' command?
+	 * */
 	public static boolean isLoggedCommand(String name) {
 		return isTraceCommand(name) || isScreenshotCommand(name);
 	}

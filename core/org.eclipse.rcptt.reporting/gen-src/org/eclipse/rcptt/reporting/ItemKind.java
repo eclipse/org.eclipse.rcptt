@@ -18,8 +18,7 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Item Kind</b></em>',
- * and utility methods for working with them.
+ * A kind of an operation being executed.
  * <!-- end-user-doc -->
  * @see org.eclipse.rcptt.reporting.ReportingPackage#getItemKind()
  * @model
