@@ -70,7 +70,7 @@ public class InvokeStaticService implements ICommandService {
 
 	private static Object getFieldValue(Class<?> class_, String name) throws CoreException {
 		if (class_ == null) {
-			throw new CoreException(error("method or field not fould"));
+			throw new CoreException(error("method or field not found"));
 		}
 
 		try {
