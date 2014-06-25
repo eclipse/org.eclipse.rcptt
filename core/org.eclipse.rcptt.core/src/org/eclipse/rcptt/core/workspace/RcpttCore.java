@@ -727,7 +727,11 @@ public class RcpttCore {
 		}
 
 		// runtimeVersion = "";
-		Bundle runtimeBundle = Platform.getBundle("org.eclipse.rcptt.updates.runtime");
+		String runtimeBundleId = "org.eclipse.rcptt.updates.runtime";
+		Bundle runtimeBundle = Platform.getBundle(runtimeBundleId);
+		if (runtimeBundle == null)
+			throw new NullPointerException(runtimeBundleId
+					+ " plugin is not loaded");
 		Enumeration<String> paths = runtimeBundle.getEntryPaths("q7/plugins/");
 		if (paths == null)
 			return null;
