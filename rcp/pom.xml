@@ -24,11 +24,6 @@
 		<module>contexts</module>
 		<!-- VERIFICATIONS -->
 		<module>verifications</module>
-		<!-- Lite version of features -->
-		<module>org.eclipse.rcp.lite-feature</module>
-		<module>org.eclipse.platform.lite-feature</module>
-		<module>org.eclipse.jdt.lite-feature</module>
-		<module>org.eclipse.pde.lite-feature</module>
 		<!-- Product -->
 		<module>products</module>
 	</modules>

@@ -25,10 +25,6 @@
    <feature id="org.eclipse.emf.edit"/>
    <feature id="org.eclipse.emf.validation"/>
    <feature id="org.eclipse.cvs"/>
-   <feature id="org.eclipse.jdt.lite"/>
-   <feature id="org.eclipse.pde.lite"/>
-   <feature id="org.eclipse.platform.lite"/>
-   <feature id="org.eclipse.rcp.lite"/>
    <bundle id="com.google.gson"/>
    <category-def name="rcptt" label="RCP Testing Tool Project"/>
 </site>
