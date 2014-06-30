@@ -23,10 +23,10 @@
             class="org.eclipse.rcptt.sherlock.core.reporting.internal.EventLogEventProvider"
             id="org.eclipse.rcptt.sherlock.core.log.provider">
       </provider>
-      <provider
+      <!-- provider
             class="org.eclipse.rcptt.sherlock.core.reporting.internal.CoreSnaphotsProvider"
             id="org.eclipse.rcptt.sherlock.core.core.snaphots">
-      </provider>
+      </provider -->
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
