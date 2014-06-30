@@ -37,11 +37,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IDecoratorManager;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter.ProblemType;
 import org.eclipse.rcptt.core.builder.IQ7Validator;
 import org.eclipse.rcptt.core.model.IContext;
@@ -68,6 +63,16 @@ public class Q7Builder extends IncrementalProjectBuilder {
 
 	private static final String MSG_Q7_Builder = "RCP Testing Tool: Checking model consistency";
 	private static boolean isEnable = true;
+	private static List<Runnable> listeners = new ArrayList<Runnable>();
+	
+	/** Listener is called at the end of each project build */
+	public static synchronized void addListener(Runnable runnable) {
+		listeners.add(runnable);
+	}
+	
+	public static synchronized void removeListener(Runnable runnable) {
+		listeners.remove(runnable);
+	}
 
 	class Q7DeltaVisitor implements IResourceDeltaVisitor {
 		private List<IQ7NamedElement> elements;
@@ -204,23 +209,11 @@ public class Q7Builder extends IncrementalProjectBuilder {
 		} finally {
 			monitor.done();
 			ModelManager.getModelManager().projectStopBuilding(getProject());
-
-			// update links decorations
-			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
-					try {
-						IWorkbench wb = PlatformUI.getWorkbench();
-						if (wb != null) {
-							IDecoratorManager mgr = wb.getDecoratorManager();
-							if (mgr != null) {
-								mgr.update("org.eclipse.rcptt.ui.resources.viewers.WSResourceDecorator");
-							}
-						}
-					} catch (Exception e) {
-						log(e);
-					}
+			synchronized(this) {
+				for (Runnable listener: listeners) {
+					listener.run();
 				}
-			});
+			}
 		}
 
 		return null;

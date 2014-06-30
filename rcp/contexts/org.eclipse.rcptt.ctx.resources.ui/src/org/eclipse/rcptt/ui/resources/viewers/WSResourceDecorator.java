@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.resources.viewers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
-
+import org.eclipse.jface.viewers.LabelProviderChangedEvent;
+import org.eclipse.rcptt.core.internal.builder.Q7Builder;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.ui.internal.resources.WSValidators;
 import org.eclipse.rcptt.workspace.WSLink;
+import org.eclipse.swt.widgets.Display;
 
 public class WSResourceDecorator implements ILightweightLabelDecorator {
 
@@ -29,24 +34,42 @@ public class WSResourceDecorator implements ILightweightLabelDecorator {
 		BROKEN = Images.getImageDescriptor(Images.LINK_BROKEN);
 	}
 
-	
-	public void addListener(ILabelProviderListener listener) {
+	Runnable buildListener = new Runnable() {
+		public void run() {
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					for (ILabelProviderListener listener : listeners) {
+						listener.labelProviderChanged(new LabelProviderChangedEvent(
+								WSResourceDecorator.this));
+					}
+				}
+			});
+		}
+	};
+
+	private List<ILabelProviderListener> listeners = new ArrayList<ILabelProviderListener>();
+
+	public synchronized  void addListener(ILabelProviderListener listener) {
+		if (listeners.size() == 0)
+			Q7Builder.addListener(buildListener);
+		listeners.add(listener);
 	}
 
-	
 	public void dispose() {
+		Q7Builder.removeListener(buildListener);
 	}
 
-	
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
-	
-	public void removeListener(ILabelProviderListener listener) {
+	public synchronized  void removeListener(ILabelProviderListener listener) {
+		listeners.remove(listener);
+		if (listeners.isEmpty())
+			Q7Builder.removeListener(buildListener);
 	}
 
-	
 	public void decorate(Object element, IDecoration decoration) {
 		if (element instanceof WSLink) {
 			if (WSValidators.validateLink((WSLink) element, null, null))
