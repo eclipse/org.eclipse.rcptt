@@ -1,0 +1,8 @@
+#
+#Mon Jun 30 19:56:46 NOVT 2014
+Signature=2c6ecae8947ada7adf9e130d2fedf2420599a219fae6ef685d9b6a35f519940b938e87b0b3ffa82c5829046b8aade8304f1c581c3a8f65985b439c8c3f9412ed46011b671f76d8681f24e89d4e37a192070e3c7a14fc7559e6de72ebfed6b176e04a158e241977e8dee8550b5c037242428e900ad50ee6de9328ea555fcc778c
+Type=Opensource
+Allowed-Bundles=*.source,ch.qos.logback*,com.google.guava,com.google.inject,com.ibm.icu*,com.jcraft.jsch,com.sun.*,javaewah,javax.*,lpg.runtime.java,org.apache.*,org.eclipse.*,org.h2,org.hamcrest*,org.jdom,org.jsoup,org.junit*,org.mortbay.jetty*,org.objectweb.asm,org.sat4j*,org.slf4j*,org.w3c,org.w3c.*,com.xored.*,com.google.gson,org.aspectj.*,org.fantom*,net.sourceforge.*,java_cup.*,com.jcraft.jzlib,org.xmlpull,org.custommonkey.xmlunit*,org.restlet*,org.json,com.vaadin,com.thoughtworks.xstream,com.thoughtworks.selenium,org.uddi4j,org.mozilla*,org.antlr*,ch.ethz.iks.slp,org.easymock,com.thoughtworks.qdox,edu.emory.mathcs*,org.xbill.dns,org.codehaus.jackson*,org.opensaml*,org.aopalliance*,commonj.sdo*,org.dojotoolkit*,com.lowagie.text*,org.kohsuke.args4j,com.google.gwt*,com.google.gerrit*,com.google.protobuf*,net.miginfocom.layout*,org.prefuse*,org.objenesis*,org.mockito*,org.cyberneko*,org.openid4java*,org.quartz*,me.prettyprint*,osgi.enterprise*,org.cliffc.high_scale_lib*,org.jmock,com.novell.ldap,org.swtchart,org.ccil.cowan.tagsoup,org.ow2*,cdi.api,javassist,scannotation,org.glassfish*,bcprov,bcpg,ca.odell.glazedlists,org.pushingpixels.trident,org.tukaani.xz
+Version=1.0
+Email=ivan.inozemtsev@xored.com
+Opensource-Project=Eclipse RCP Testing Tool Project

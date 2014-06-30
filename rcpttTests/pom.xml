@@ -1,67 +1,63 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>tests</artifactId>
-	<packaging>q7test</packaging>
+  <artifactId>tests</artifactId>
+  <packaging>q7test</packaging>
 
-	<parent>
-		<groupId>org.eclipse.rcptt.tests</groupId>
-		<artifactId>base</artifactId>
-		<version>1.5.0-SNAPSHOT</version>
-		<relativePath>./pom-base.xml</relativePath>
-	</parent>
+  <parent>
+    <groupId>org.eclipse.rcptt.tests</groupId>
+    <artifactId>base</artifactId>
+    <version>1.5.0-SNAPSHOT</version>
+    <relativePath>./pom-base.xml</relativePath>
+  </parent>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>${q7-maven-group}</groupId>
-				<artifactId>q7-maven-plugin</artifactId>
-				<version>${q7-maven-version}</version>
-				<extensions>true</extensions>
-				<configuration>
-				  <aut>
-				    <explicit>${rcpttBaseUrl}</explicit>
-					</aut>
-					<q7>
-						<version>${q7-version}</version>
-						<licenseUrl>http://192.168.2.64:9999</licenseUrl>
-						<vmArgs>
-						  <vmArg>-Xmx1024m</vmArg>
-						</vmArgs>
-					</q7>
-					<skipTags>
-						<tag>skipExecution</tag>
-					</skipTags>
-					<testOptions>
-						<execTimeout>18000</execTimeout>
-					</testOptions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <build>
+    <plugins>
+      <plugin>
+	<groupId>${q7-maven-group}</groupId>
+	<artifactId>q7-maven-plugin</artifactId>
+	<version>${q7-maven-version}</version>
+	<extensions>true</extensions>
+	<configuration>
+	  <aut>
+	    <explicit>${rcpttBaseUrl}</explicit>
+	  </aut>
+	  <q7>
+	    <version>${q7-version}</version>
+	  </q7>
+	  <skipTags>
+	    <tag>skipExecution</tag>
+	  </skipTags>
+	  <testOptions>
+	    <execTimeout>18000</execTimeout>
+	  </testOptions>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<snapshots>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-			<id>xored</id>
-			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
-		</pluginRepository>
-	</pluginRepositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <snapshots>
+	<updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>xored</id>
+      <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
-	<repositories>
-		<repository>
-			<id>xored</id>
-			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>thirdparty</id>
-			<name>Maven repo with eclipses</name>
-			<url>http://maven.xored.com/nexus/content/repositories/thirdparty/</url>
-		</repository>
+  <repositories>
+    <repository>
+      <id>xored</id>
+      <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/releases/</url>
+    </repository>
+    <repository>
+      <id>thirdparty</id>
+      <name>Maven repo with eclipses</name>
+      <url>http://maven.xored.com/nexus/content/repositories/thirdparty/</url>
+    </repository>
 
-	</repositories>
+  </repositories>
 </project>
