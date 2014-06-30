@@ -90,6 +90,7 @@ public class ProjectUtil {
 		}
 
 		print(out, "Importing projects to workspace:%n");
+		openProjects(out);
 		for (File file : projectsToImport) {
 			print(out, "    %s... ", file.getAbsolutePath());
 			IStatus result = importProject(file);

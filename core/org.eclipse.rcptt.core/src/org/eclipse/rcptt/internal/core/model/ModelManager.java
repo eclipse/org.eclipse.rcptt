@@ -103,14 +103,15 @@ public class ModelManager {
 								throws CoreException {
 							if ((delta.getKind() & IResourceDelta.ADDED) != 0) {
 								if (delta.getResource().getType() == IResource.PROJECT) {
-									if (RcpttNature
-											.isRcpttProject((IProject) delta
-													.getResource()))
-										// Launches
-										// RcpttBuilder
-										// if it is
-										// present
-										RcpttCore.getInstance();
+									IProject project = (IProject) delta
+											.getResource();
+									if (project.isOpen())
+										if (RcpttNature.isRcpttProject(project))
+											// Launches
+											// RcpttBuilder
+											// if it is
+											// present
+											RcpttCore.getInstance();
 								}
 							}
 							return true;
