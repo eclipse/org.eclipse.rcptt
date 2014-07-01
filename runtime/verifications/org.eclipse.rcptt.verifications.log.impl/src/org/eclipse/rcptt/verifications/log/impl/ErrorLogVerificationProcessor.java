@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.log.impl;
 
+import static java.lang.String.format;
 import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.createMatchingPredicate;
 import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.describe;
 import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.find;
-import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,10 +25,9 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.ecl.runtime.IProcess;
-
 import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.scenario.Verification;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
@@ -131,7 +130,8 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 				errors.add("Required \n%s\nnot found", describe(predicate));
 			}
 		}
-		errors.throwIfAny("Error log verification failed:", this.getClass().getPackage().getName(), verification.getId());
+		errors.throwIfAny(String.format("Error log verification '%s' failed:", verification.getName()), this.getClass()
+				.getPackage().getName(), verification.getId());
 	}
 
 	@Override

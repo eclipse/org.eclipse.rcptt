@@ -20,15 +20,9 @@ import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.reconciler.AbstractReconciler;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
-import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.scenario.Verification;
-import org.eclipse.rcptt.verifications.runtime.ErrorList;
-import org.eclipse.rcptt.verifications.text.TextFactory;
-import org.eclipse.rcptt.verifications.text.TextVerification;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 import org.eclipse.rcptt.tesla.core.ui.TextPosition;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
@@ -36,6 +30,11 @@ import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.recording.aspects.jface.text.JFaceTextEventManager;
+import org.eclipse.rcptt.verifications.runtime.ErrorList;
+import org.eclipse.rcptt.verifications.text.TextFactory;
+import org.eclipse.rcptt.verifications.text.TextVerification;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Widget;
 
 public class TextVerificationProcessor extends VerificationProcessor {
 
@@ -107,7 +106,7 @@ public class TextVerificationProcessor extends VerificationProcessor {
 			}
 		});
 
-		errors.throwIfAny("Widget text verification failed:",
+		errors.throwIfAny(String.format("Widget text verification '%s' failed:", verification.getName()),
 				this.getClass().getPackage().getName(), verification.getId());
 	}
 

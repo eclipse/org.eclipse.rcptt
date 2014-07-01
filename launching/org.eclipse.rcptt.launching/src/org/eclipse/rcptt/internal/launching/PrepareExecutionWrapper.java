@@ -36,6 +36,7 @@ import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
+import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
@@ -268,6 +269,15 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.getType();
 	}
 
+	private static void closeAllNodes(long endTime, Node node) {
+		if (node.getEndTime() == 0) {
+			node.setEndTime(endTime);
+		}
+		for (Node child : node.getChildren()) {
+			closeAllNodes(endTime, child);
+		}
+	}
+
 	@Override
 	public void postExecute() {
 		// Take report
@@ -275,6 +285,8 @@ public class PrepareExecutionWrapper extends Executable {
 			Report resultReport = getReport();
 
 			Node root = resultReport.getRoot();
+			closeAllNodes(root.getStartTime() + getTime(), root);
+
 			Q7Info rootInfo = ReportHelper.getInfo(root);
 			switch (getStatus()) {
 			case IExecutable.WAITING:
@@ -295,8 +307,20 @@ public class PrepareExecutionWrapper extends Executable {
 
 			IStatus rs = getResultStatus();
 			if (!rs.isOK()) {
-				rootInfo.setMessage(rs instanceof ExecutionStatus ? EclStackTrace.fromExecStatus(
-						(ExecutionStatus) rs).print() : rs.getMessage());
+				if (rs instanceof ExecutionStatus) {
+					IStatus cause = ((ExecutionStatus) rs).getCause(true);
+					if (cause == null && rs.getSeverity() == IStatus.CANCEL) {
+						rootInfo.setMessage(rs.getMessage());
+					}
+					if (cause instanceof ScriptErrorStatus) {
+						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) rs).print());
+					} else {
+						// do nothing -- contexts and verifications populate
+						// errors correctly
+					}
+				} else {
+					rootInfo.setMessage(rs.getMessage());
+				}
 			}
 
 			if (this.reportSession != null) {

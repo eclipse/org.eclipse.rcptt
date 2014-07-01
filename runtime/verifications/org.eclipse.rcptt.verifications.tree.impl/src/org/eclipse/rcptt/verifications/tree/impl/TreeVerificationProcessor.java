@@ -16,18 +16,20 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.core.VerificationProcessor;
+import org.eclipse.rcptt.core.ecl.core.model.CreateWidgetVerificationParam;
+import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Widget;
-
+import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
+import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
+import org.eclipse.rcptt.tesla.core.utils.WidgetModels.StyleDiff;
+import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
+import org.eclipse.rcptt.verifications.runtime.ErrorList;
 import org.eclipse.rcptt.verifications.status.StatusFactory;
 import org.eclipse.rcptt.verifications.status.TreeItemStyleVerificationError;
 import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
-import org.eclipse.rcptt.core.VerificationProcessor;
-import org.eclipse.rcptt.core.scenario.Verification;
-import org.eclipse.rcptt.core.ecl.core.model.CreateWidgetVerificationParam;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.verifications.runtime.ErrorList;
 import org.eclipse.rcptt.verifications.tree.CaptureTreeVerificationData;
 import org.eclipse.rcptt.verifications.tree.Cell;
 import org.eclipse.rcptt.verifications.tree.Column;
@@ -37,11 +39,8 @@ import org.eclipse.rcptt.verifications.tree.TreeFactory;
 import org.eclipse.rcptt.verifications.tree.TreeVerificationUtils;
 import org.eclipse.rcptt.verifications.tree.VerifyStyleType;
 import org.eclipse.rcptt.verifications.tree.VerifyTreeData;
-import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
-import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
-import org.eclipse.rcptt.tesla.core.utils.WidgetModels.StyleDiff;
-import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Widget;
 
 public class TreeVerificationProcessor extends VerificationProcessor {
 	@Override
@@ -73,7 +72,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 						treeVerification.getVerifyStyle());
 			}
 		});
-		errors.throwIfAny("Tree widget verification failed:",
+		errors.throwIfAny(String.format("Tree widget verification '%s' failed:", verification.getName()),
 				this.getClass().getPackage().getName(), verification.getId());
 	}
 

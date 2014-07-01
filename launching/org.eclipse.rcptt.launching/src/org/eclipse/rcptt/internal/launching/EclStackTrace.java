@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
-
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class EclStackTrace {
 	private EclStackTrace(IStatus rootCause, ScriptErrorStatus[] trace) {
@@ -53,7 +53,20 @@ public class EclStackTrace {
 	}
 
 	public String getDisplayMessage() {
-		return rootCause == null ? "Execution failed" : rootCause.getMessage();
+		if (rootCause == null) {
+			return "Execution failed";
+		}
+
+		if (!StringUtils.isBlank(rootCause.getMessage())) {
+			return rootCause.getMessage();
+		}
+
+		if (rootCause.getException() != null) {
+			return rootCause.getException().getMessage();
+		}
+
+		return "Unknown reason";
+
 	}
 
 	public static String getLocation(ScriptErrorStatus status) {

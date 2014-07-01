@@ -15,10 +15,9 @@ import java.util.Date;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.ecl.runtime.IProcess;
-
 import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.scenario.Verification;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.util.MathUtils;
 import org.eclipse.rcptt.verifications.time.TimeVerification;
 
@@ -53,8 +52,8 @@ public class TimeVerificationProcessor extends VerificationProcessor {
 							IStatus.ERROR,
 							this.getClass().getPackage().getName(),
 							String.format(
-									"Verification failed. Expected test case execution time is %.2f second(s), but it was %.2f second(s).",
-									goal, diff)));
+									"Verification '%s' failed. Expected test case execution time is %.2f second(s), but it was %.2f second(s).",
+									verification.getName(), goal, diff)));
 	}
 
 }
