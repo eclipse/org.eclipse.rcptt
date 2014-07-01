@@ -26,7 +26,9 @@ public class ExecAdvancedInfoUtil {
 			// try to obtain advanced error information from AUT
 			GetAdvancedInfo advInfoCmd = TeslaFactory.eINSTANCE
 					.createGetAdvancedInfo();
-			info = (AdvancedInformation) launch.execute(advInfoCmd);
+			Object obj = launch.execute(advInfoCmd);
+			if (obj instanceof AdvancedInformation)
+				info = (AdvancedInformation) obj;
 		} catch (Exception e) {
 			Q7LaunchingPlugin.log(e);
 		}

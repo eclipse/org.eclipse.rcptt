@@ -34,6 +34,7 @@ public class AdvancedInfoService implements ICommandService {
 
 		if (PlatformUI.isWorkbenchRunning()) {
 			final boolean complete[] = { false };
+			final CoreException error[] = { null };
 			Thread askForInfoThread = new Thread(new Runnable() {
 				public void run() {
 					PlatformUI.getWorkbench().getDisplay()
@@ -53,6 +54,8 @@ public class AdvancedInfoService implements ICommandService {
 												.getAdvancedInformation(null);
 										returnGeneralInfo(info, finalContext);
 										ReportHelper.addSnapshotWithData(ReportManager.getCurrentReportNode(), info);
+									} catch (CoreException e) {
+										error[0] = e;
 									} finally {
 										if (mustClientShutdown) {
 											TeslaBridge.shutdown();
@@ -70,25 +73,23 @@ public class AdvancedInfoService implements ICommandService {
 				askForInfoThread.interrupt();
 				returnGeneralInfo(null, finalContext);
 			}
+			if (error[0] != null)
+				return error[0].getStatus();
+		} else {
+			returnGeneralInfo(null, finalContext);
 		}
 
 		return Status.OK_STATUS;
 	}
 
 	private void returnGeneralInfo(AdvancedInformation info,
-			final IProcess finalContext) {
+			final IProcess finalContext) throws CoreException {
 		// Return general information in any case.
 		if (info == null) {
 			info = InfoFactory.eINSTANCE.createAdvancedInformation();
 		}
 		GeneralInformationCollector.collectInformation(info);
 
-		if (info != null) {
-			try {
-				finalContext.getOutput().write(info);
-			} catch (CoreException e) {
-				TeslaImplPlugin.err(e.getMessage(), e);
-			}
-		}
+		finalContext.getOutput().write(info);
 	}
 }
