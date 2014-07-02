@@ -232,6 +232,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
+			if (wrapped instanceof CoreException) 
+				throw (CoreException)wrapped; 
 			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, "Wrapped error", wrapped));
 		}
 
