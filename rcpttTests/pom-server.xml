@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>server</artifactId>
-	<packaging>pom</packaging>
+	<packaging>q7test</packaging>
 
 	<properties>
 		<q7Server>http://192.168.2.64:8090</q7Server>
@@ -20,8 +20,8 @@
 	</parent>
 
 	<modules>
-		<module>contexts/pom-server.xml</module>
-		<module>platform_tests/pom-server.xml</module>
+		<!--module>contexts/pom-server.xml</module-->
+		<!--module>platform_tests/pom-server.xml</module-->
 		<!--module>ECL_IDE_module/pom-server.xml</module-->
 	</modules>
 
@@ -41,43 +41,8 @@
 						<!-- <classifier>linux.gtk.x86</classifier> -->
 					</classifiers>
 					<aut>
-						<uri>http://maven.xored.com/nexus/content/repositories/thirdparty/eclipse/sdk/3.7.0/sdk-3.7.0-[classifier].[ext]</uri>
-						<ignoreOtherInjections>true</ignoreOtherInjections>
-						<injections>
-							<injection>
-								<site>http://download.xored.com/mirrors/q7mirror/</site>
-								<features>
-									<feature>org.eclipse.emf.transaction.feature.group</feature>
-									<feature>org.eclipse.emf.validation.feature.group</feature>
-									<feature>org.eclipse.emf.ecore.feature.group</feature>
-									<feature>org.eclipse.emf.common.feature.group</feature>
-									<feature>org.eclipse.emf.workspace.feature.group</feature>
-									<feature>org.eclipse.emf.edit.ui.feature.group</feature>
-									<feature>org.eclipse.emf.edit.feature.group</feature>
-									<feature>org.eclipse.emf.databinding.feature.group</feature>
-									<feature>org.eclipse.emf.common.ui.feature.group</feature>
-								</features>
-							</injection>
-							<injection>
-								<site>${autRepository}</site>
-								<features>
-									<feature>com.xored.tesla.ecl.feature.group</feature>
-									<feature>org.eclipse.ecl.core.feature.group</feature>
-									<feature>org.eclipse.ecl.ide.feature.group</feature>
-									<feature>com.xored.q7.runner.feature.group</feature>
-									<feature>com.xored.watson.feature.group</feature>
-									<feature>com.xored.q7.platform.feature.group</feature>
-									<feature>org.eclipse.ecl.server.feature.group</feature>
-
-									<feature>com.xored.tesla.feature.group</feature>
-									<feature>com.xored.q7.updates.feature.group</feature>
-								</features>
-							</injection>
-							<injection>
-								<site>${rcpttRuntimeRepository}</site>
-							</injection>
-
-						</injections>
+						<uri>${rcpttBaseUrl}</uri>
+						<ignoreOtherInjections>false</ignoreOtherInjections>
 					</aut>
 					<q7server>${q7Server}</q7server>
 					<q7client>
