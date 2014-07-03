@@ -24,10 +24,8 @@
   </feature>
   <feature id="org.eclipse.rcptt.watson">
   </feature>
-  <feature id="org.eclipse.rcptt.module.nebula"/>
+  <feature id="org.eclipse.rcptt.module.nebula">
+    <category name="rcptt.modules"/>
+  </feature>
   <category-def label="RCP Testing Tool Modules" name="rcptt.modules"/>
-  <feature id="org.eclipse.jdt.lite"/>
-  <feature id="org.eclipse.pde.lite"/>
-  <feature id="org.eclipse.platform.lite"/>
-  <feature id="org.eclipse.rcp.lite"/>
 </site>
