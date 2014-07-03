@@ -22,7 +22,7 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>rcp</id>
+			<id>full</id>
 			<modules>
 				<module>org.eclipse.rcptt.updates.helios</module>
 				<module>org.eclipse.rcptt.updates.kepler</module>

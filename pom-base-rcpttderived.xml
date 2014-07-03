@@ -5,20 +5,20 @@
   <artifactId>rcptt-derived-base-pom</artifactId>
   <version>1.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <properties>
-  	<rcpttRepositoryPath>${project.baseUri}</rcpttRepositoryPath>
-  </properties>
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>rcptt-base-pom</artifactId>
     <version>1.5.0-SNAPSHOT</version>
     <relativePath>./pom-base.xml</relativePath>
   </parent>
+  <properties>
+  	<rcpRepository>file:/${user.dir}/repository/rcp/target/repository/</rcpRespository>
+  </properties>
   <repositories>
     <repository>
       <id>rcptt</id>
       <layout>p2</layout>
-      <url>${rcpttRepositoryPath}../../../../rcp/products/repository/target/repository/</url>
+      <url>${rcpRepository}</url>
     </repository>
   </repositories>
 </project>

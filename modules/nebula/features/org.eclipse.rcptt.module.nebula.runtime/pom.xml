@@ -9,14 +9,6 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <repositories>
-	<repository>
-	  <id>rcptt-runtime</id>
-	  <layout>p2</layout>
-	  <url>${rcpttRepositoryPath}../../../../runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</url>
-	</repository>
-  </repositories>
-
   <groupId>org.eclipse.rcptt.features</groupId>
   <artifactId>org.eclipse.rcptt.module.nebula.runtime</artifactId>
   <version>1.5.0-SNAPSHOT</version>

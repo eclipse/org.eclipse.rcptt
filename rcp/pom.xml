@@ -24,8 +24,6 @@
 		<module>contexts</module>
 		<!-- VERIFICATIONS -->
 		<module>verifications</module>
-		<!-- Product -->
-		<module>products</module>
 	</modules>
 	<groupId>org.eclipse.rcptt</groupId>
 	<version>1.5.0-SNAPSHOT</version>

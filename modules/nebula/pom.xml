@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
     <properties>
-      <rcpttRuntimeRepo>${rcpttRepositoryPath}../../../../runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</rcpttRuntimeRepo>
+      <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</rcpttRuntimeRepo>
     </properties>
 
 	<parent>
@@ -28,7 +28,7 @@
 			<layout>p2</layout>
 			<url>${rcpttRuntimeRepo}</url>
 		</repository>
-	</repositories >
+	</repositories>
 	
 	<modules>
 		<module>plugins/org.eclipse.rcptt.tesla.nebula</module>

@@ -39,7 +39,7 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>rcp</id>
+			<id>full</id>
 			<modules>
 				<module>updates</module>
 			</modules>
