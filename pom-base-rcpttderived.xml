@@ -12,7 +12,7 @@
     <relativePath>./pom-base.xml</relativePath>
   </parent>
   <properties>
-  	<rcpRepository>file:/${user.dir}/repository/rcp/target/repository/</rcpRespository>
+  	<rcpRepository>file:/${user.dir}/repository/rcp/target/repository/</rcpRepository>
   </properties>
   <repositories>
     <repository>
