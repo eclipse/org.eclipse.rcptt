@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: ErrLogVerification_NEGATIVE Case Required Entry Not Found (Entry Type)
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _qIjK4H0REeO5CYdzFmGe7Q
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.0.201407012005
+Save-Time: 7/2/14 8:32 AM
 Tags: verification/Error Log, selfAUT
 Testcase-Type: ecl
 
@@ -65,7 +64,7 @@ get-editor ErrorLogVerification | get-section Require | get-table | key-type "M1
 get-view "Test Explorer" | get-tree | select "MyProject/TestCase" | double-click
 get-editor TestCase | get-button Replay | click
 get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
-    | equals "Error log verification failed:\n"
+    | equals "Error log verification \'ErrorLogVerification\' failed:\n"
     + "Required \n"
     + "ERROR, plugin: org.eclipse.ui, message: Info Entry\n"
     + "not found" | verify-true

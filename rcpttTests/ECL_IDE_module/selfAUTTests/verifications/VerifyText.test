@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _byweYBOEEeO4t6fOTB-8xg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: VerifyText
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _P-018BOHEeOQfY3M4mNcSA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.201407012005
+Save-Time: 7/2/14 8:33 AM
 Tags: selfAUT, verification
 Testcase-Type: ecl
 
@@ -48,6 +47,6 @@ with [get-editor TextVerification] {
     get-button Verify | click
 }
 get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
-    | equals "Widget text verification failed:\n"
+    | equals "Widget text verification \'TextVerification\' failed:\n"
     + "Expected text is \"TC2\", but it was \"TC\"." | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
