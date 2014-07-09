@@ -38,5 +38,4 @@
             namespace="http://eclipse.org/rcptt/core/launching.ecore">
       </scriptlet>
    </extension>
-
 </plugin>

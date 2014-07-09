@@ -1022,6 +1022,9 @@
      <startup
            class="org.eclipse.rcptt.internal.ui.ProjectContextListener">
      </startup>
+     <startup
+           class="org.eclipse.rcptt.ui.launching.ResourceLaunchConfigurationMigration">
+     </startup>
   </extension>  
   <extension
         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
@@ -1127,5 +1130,4 @@
          </part>
       </actionSetPartAssociation>
    </extension-->   
-
 </plugin>

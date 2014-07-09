@@ -14,13 +14,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
-
 import org.eclipse.rcptt.core.model.IElementChangedListener;
 import org.eclipse.rcptt.core.model.IQ7ElementDelta;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -30,6 +23,12 @@ import org.eclipse.rcptt.core.tags.TagsRegistry;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.Q7ProjectMetadata;
 import org.eclipse.rcptt.ui.tags.impl.TagsWatcher;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle

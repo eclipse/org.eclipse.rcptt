@@ -71,7 +71,7 @@ import org.eclipse.rcptt.launching.TestCaseDebugger;
 
 public class Q7LaunchManager {
 
-	private static final String Q7_TEST_SUITE_LAUNCH_ID = "org.eclipse.rcptt.launching.scenarios"; //$NON-NLS-1$
+	public static final String Q7_TEST_SUITE_LAUNCH_ID = "org.eclipse.rcptt.launching.scenarios"; //$NON-NLS-1$
 
 	public static class SessionRunnable implements Runnable, IDebugEventSetListener {
 		private final String launchId;
