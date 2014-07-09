@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.ui.launching;
 
 import static java.util.Arrays.asList;
@@ -37,8 +47,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 
-/** Migrates broken launch configurations
- *  Does not depend on storage location. 
+/**
+ * Migrates broken launch configurations Does not depend on storage location.
  * */
 public class LaunchConfigurationMigration {
 	private final Set<String> registeredTypes;
@@ -48,14 +58,15 @@ public class LaunchConfigurationMigration {
 			public String apply(ILaunchConfigurationType input) {
 				return input.getIdentifier();
 			}
-		}; 
-		ILaunchConfigurationType[] types = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationTypes();
+		};
+		ILaunchConfigurationType[] types = DebugPlugin.getDefault()
+				.getLaunchManager().getLaunchConfigurationTypes();
 		Iterable<String> ids = Iterables.transform(asList(types), toIdentifier);
 		registeredTypes = ImmutableSet.copyOf(ids);
 	}
 
-	
-	private static String replacePrefix(String prefix, String newPrefix, String target) {
+	private static String replacePrefix(String prefix, String newPrefix,
+			String target) {
 		if (target == null)
 			return null;
 		if (target.startsWith(prefix)) {
@@ -63,16 +74,15 @@ public class LaunchConfigurationMigration {
 		}
 		return target;
 	}
-	
+
 	private static final Function<String, String> replaceKeyPrefixes = new Function<String, String>() {
 		@Override
 		public String apply(String input) {
-			return replacePrefix("com.xored.q7.launching", Q7LaunchingPlugin.PLUGIN_ID, input);
+			return replacePrefix("com.xored.q7.launching",
+					Q7LaunchingPlugin.PLUGIN_ID, input);
 		}
 	};
 
-
-	
 	public static Document parse(Reader reader) {
 		try {
 			DocumentBuilder parser = DocumentBuilderFactory.newInstance()
@@ -85,9 +95,9 @@ public class LaunchConfigurationMigration {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} 
+		}
 	}
-	
+
 	public static String getType(Document document) {
 		XPathFactory xPathfactory = XPathFactory.newInstance();
 		XPath xpath = xPathfactory.newXPath();
@@ -97,25 +107,25 @@ public class LaunchConfigurationMigration {
 		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
+
 	public static void write(Document document, Writer writer) {
 		if (document == null)
 			throw new NullPointerException();
 		try {
-			//Writes DOM to output.
-			//TODO: find a more straightforward way to write out DOM
-			Transformer identity = TransformerFactory.newInstance().newTransformer();
-			identity.transform(new DOMSource(document), new StreamResult(
-					writer));
+			// Writes DOM to output.
+			// TODO: find a more straightforward way to write out DOM
+			Transformer identity = TransformerFactory.newInstance()
+					.newTransformer();
+			identity.transform(new DOMSource(document),
+					new StreamResult(writer));
 		} catch (TransformerException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	public boolean migrate(Document document)
-			throws CoreException {
+
+	public boolean migrate(Document document) throws CoreException {
 		String type = LaunchConfigurationMigration.getType(document);
 		if (type == null)
 			return false;
@@ -129,11 +139,13 @@ public class LaunchConfigurationMigration {
 			migrateType(document, "org.eclipse.rcptt.launching.ext");
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	public static void migrateKeys(Node root, Function<String, String> calcNewKey) throws XPathExpressionException {
+	public static void migrateKeys(Node root,
+			Function<String, String> calcNewKey)
+			throws XPathExpressionException {
 		assert root != null;
 		NodeList list = root.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
@@ -151,19 +163,19 @@ public class LaunchConfigurationMigration {
 				keynode.setTextContent(newKey);
 		}
 	}
-	
+
 	/** Migrates common part of Q7 launch configuration */
 	public void migrateType(Document document, String newTypeId) {
 		if (!registeredTypes.contains(newTypeId))
-			throw new IllegalArgumentException("New type id must reference existing launch type");
+			throw new IllegalArgumentException(
+					"New type id must reference existing launch type");
 		try {
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr = xpath.compile("launchConfiguration/@type");
 			Node node = (Node) expr.evaluate(document, XPathConstants.NODE);
 			node.setTextContent(newTypeId);
-			migrateKeys(document
-					.getDocumentElement(), replaceKeyPrefixes);
-		} catch(XPathExpressionException e) {
+			migrateKeys(document.getDocumentElement(), replaceKeyPrefixes);
+		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);
 		}
 	}

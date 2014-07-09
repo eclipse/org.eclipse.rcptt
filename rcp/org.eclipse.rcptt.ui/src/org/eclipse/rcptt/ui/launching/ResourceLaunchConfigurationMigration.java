@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.rcptt.ui.launching;
 
 import static org.eclipse.debug.core.ILaunchConfiguration.LAUNCH_CONFIGURATION_FILE_EXTENSION;
@@ -175,7 +186,8 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 				try {
 					migrate((IFile) resource);
 				} catch (Exception e) {
-					Q7UIPlugin.log("Failed to migrate " + resource.getName(), e);
+					Q7UIPlugin
+							.log("Failed to migrate " + resource.getName(), e);
 				}
 			}
 			return false;
@@ -219,12 +231,14 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 				SubMonitor subMonitor = SubMonitor.convert(monitor);
 				subMonitor.beginTask(getName(), files.length);
 				for (int i = 0; i < files.length; i++) {
-					SubMonitor childMonitor = subMonitor.newChild(1, SubMonitor.SUPPRESS_NONE);
+					SubMonitor childMonitor = subMonitor.newChild(1,
+							SubMonitor.SUPPRESS_NONE);
 					childMonitor.beginTask(files[i].getName(), 1);
 					try {
 						migrate(files[i]);
 					} catch (Exception e) {
-						Q7UIPlugin.log("Failed to migrate " + files[i].getName(), e);
+						Q7UIPlugin.log(
+								"Failed to migrate " + files[i].getName(), e);
 					} finally {
 						childMonitor.done();
 					}
@@ -232,7 +246,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 				subMonitor.done();
 				return Status.OK_STATUS;
 			}
-			
+
 		}.schedule();
 	}
 
