@@ -6,7 +6,7 @@
 	<packaging>q7test</packaging>
 
 	<properties>
-		<q7Server>http://192.168.2.64:8090</q7Server>
+		<q7Server>http://192.168.2.64:8902</q7Server>
 		<clientId>komaz</clientId>
 		<clientSecret>05fe7461c607c33229772d402505601016a7d0ea</clientSecret>
 		<organization>xored</organization>
@@ -18,12 +18,6 @@
 		<version>1.5.0-SNAPSHOT</version>
 		<relativePath>./pom-base.xml</relativePath>
 	</parent>
-
-	<modules>
-		<!--module>contexts/pom-server.xml</module-->
-		<!--module>platform_tests/pom-server.xml</module-->
-		<!--module>ECL_IDE_module/pom-server.xml</module-->
-	</modules>
 
 	<!--dependencies> <dependency> <groupId>com.xored.q7</groupId> <artifactId>com.xored.q7.pro</artifactId> 
 		<version>1.1.0-SNAPSHOT</version> </dependency> </dependencies -->
