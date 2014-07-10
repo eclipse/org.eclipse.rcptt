@@ -139,6 +139,10 @@ public class LaunchConfigurationMigration {
 			migrateType(document, "org.eclipse.rcptt.launching.ext");
 			return true;
 		}
+		if (type.equals("com.xored.q7.launching.remote")) {
+			migrateType(document, "org.eclipse.rcptt.launching.remote");
+			return true;
+		}
 
 		return false;
 	}
