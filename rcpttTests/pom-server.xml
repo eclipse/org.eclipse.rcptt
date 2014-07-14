@@ -54,7 +54,6 @@
 					</testOptions>
 
 					<skipTags>
-						<skipTag>selfAUT</skipTag>
 						<skipTag>skipExecution</skipTag>
 					</skipTags>
 				</configuration>
