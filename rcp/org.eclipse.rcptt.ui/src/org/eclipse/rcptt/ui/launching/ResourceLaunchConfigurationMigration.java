@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.rcptt.core.nature.RcpttNature;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
@@ -55,7 +56,10 @@ import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.ui.IStartup;
 import org.w3c.dom.Document;
 
+import com.google.common.io.Files;
+
 /** Migrates launch configurations stored as workspace resources */
+@SuppressWarnings("restriction") //LaunchManager API is needed to notify about migrated launches
 public class ResourceLaunchConfigurationMigration implements IStartup {
 	private static final IPath LOCAL_LOCATION = DebugPlugin.getDefault()
 			.getStateLocation().append(".launches");
@@ -113,6 +117,10 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 		}
 	}
 
+	private static File tempDir = Files.createTempDir();
+	{
+		tempDir.deleteOnExit();
+	}
 	public void migrate(File file) {
 		String fileExtension = Path.fromOSString(file.getName())
 				.getFileExtension();
@@ -127,18 +135,28 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 		} catch (FileNotFoundException e) {
 			FileUtil.safeClose(reader);
 		}
+		File backup = new File(file.getAbsolutePath()+".q7_backup");
+		file.renameTo(backup);
+		File temp = null;
 		try {
 			LaunchConfigurationMigration migration = new LaunchConfigurationMigration();
 			if (migration.migrate(document)) {
-				FileWriter writer = new FileWriter(file);
+				temp = new File(tempDir, file.getName());
+				FileWriter writer = new FileWriter(temp);
 				try {
 					LaunchConfigurationMigration.write(document, writer);
 				} finally {
 					FileUtil.safeClose(writer);
 				}
+				((LaunchManager)DebugPlugin.getDefault().getLaunchManager()).importConfigurations(new File[]{temp}, null);
 			}
 		} catch (Exception e) {
+			file.delete();
+			backup.renameTo(file);
 			throw new RuntimeException(e);
+		} finally {
+			if (temp != null)
+				temp.delete();
 		}
 	}
 
