@@ -32,14 +32,11 @@ public class ParseTimeService implements ICommandService {
 		if (!(command instanceof ParseTime)) {
 			return Status.CANCEL_STATUS;
 		}
-		String format = ((ParseTime) command).getFormat();
-		Object value = BoxedValues.unbox(context.getInput().take(10000));
-		if (!(value instanceof String)) {
-			return createErr(
-					"Expected string value from input pipe, but got '%s'",
-					value);
-		}
-		String strValue = (String) value;
+		ParseTime parseCommand = (ParseTime) command;
+		String format = parseCommand.getFormat();
+		String strValue = parseCommand.getInput();
+		if (strValue == null)
+			return createErr("Mandatory input is missing");
 		Date parsed = new SimpleDateFormat(format).parse(strValue,
 				new ParsePosition(0));
 		if (parsed == null)

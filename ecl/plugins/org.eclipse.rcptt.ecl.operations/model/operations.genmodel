@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.operations/gen-src"
-    modelPluginID="org.eclipse.rcptt.ecl.operations" modelName="Operations" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.ecl.operations/gen-src" modelPluginID="org.eclipse.rcptt.ecl.operations"
+    modelName="Operations" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>operations.ecore</foreignModel>
   <genPackages prefix="Operations" basePackage="org.eclipse.rcptt.ecl" disposableProviderFactory="true"
       ecorePackage="operations.ecore#/">
@@ -12,6 +11,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Eq/right"/>
     </genClasses>
     <genClasses ecoreClass="operations.ecore#//Int"/>
+    <genClasses ecoreClass="operations.ecore#//Long"/>
+    <genClasses ecoreClass="operations.ecore#//Float"/>
     <genClasses ecoreClass="operations.ecore#//Bool"/>
     <genClasses ecoreClass="operations.ecore#//Str"/>
     <genClasses image="false" ecoreClass="operations.ecore#//Convert">
@@ -28,14 +29,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//NotEq/left"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//NotEq/right"/>
     </genClasses>
-    <genClasses ecoreClass="operations.ecore#//Gt">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Gt/left"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Gt/right"/>
-    </genClasses>
-    <genClasses ecoreClass="operations.ecore#//Lt">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Lt/left"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Lt/right"/>
-    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Gt"/>
+    <genClasses ecoreClass="operations.ecore#//Lt"/>
     <genClasses ecoreClass="operations.ecore#//Not">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Not/left"/>
     </genClasses>
@@ -56,6 +51,82 @@
     <genClasses ecoreClass="operations.ecore#//RepeatWith">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//RepeatWith/commands"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//RepeatWith/command"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Repeat">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Repeat/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Repeat/times"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Repeat/command"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Repeat/delay"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//AssertEmpty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//AssertEmpty/message"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//AssertNonEmpty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//AssertNonEmpty/message"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Concat">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Concat/strs"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Or">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Or/args"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//And">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//And/args"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//GetTime"/>
+    <genClasses ecoreClass="operations.ecore#//FormatTime">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//FormatTime/format"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//BinaryOp">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//BinaryOp/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//BinaryOp/right"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Plus"/>
+    <genClasses ecoreClass="operations.ecore#//Minus"/>
+    <genClasses ecoreClass="operations.ecore#//Div"/>
+    <genClasses ecoreClass="operations.ecore#//Mult"/>
+    <genClasses ecoreClass="operations.ecore#//Abs">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Abs/arg"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Mod"/>
+    <genClasses ecoreClass="operations.ecore#//Between">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Between/input"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Between/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Between/right"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Entry">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Entry/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Entry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Map">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Map/entries"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//List">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//List/items"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Loop">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Loop/vals"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Loop/body"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Recur">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Recur/values"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//ToList"/>
+    <genClasses ecoreClass="operations.ecore#//Each">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Each/input"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Each/val"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Each/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operations.ecore#//Each/do"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Split">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Split/str"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Split/sep"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Split/trimResults"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Split/omitEmptyStrings"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//ParseTime">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//ParseTime/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//ParseTime/format"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

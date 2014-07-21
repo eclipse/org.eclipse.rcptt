@@ -2234,13 +2234,22 @@ public interface OperationsPackage extends EPackage {
 	int PARSE_TIME__BINDINGS = CorePackage.COMMAND__BINDINGS;
 
 	/**
+	 * The feature id for the '<em><b>Input</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TIME__INPUT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARSE_TIME__FORMAT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+	int PARSE_TIME__FORMAT = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Parse Time</em>' class.
@@ -2249,7 +2258,7 @@ public interface OperationsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARSE_TIME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+	int PARSE_TIME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
@@ -3201,6 +3210,17 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getParseTime_Format();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ParseTime#getInput()
+	 * @see #getParseTime()
+	 * @generated
+	 */
+	EAttribute getParseTime_Input();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.BinaryOp <em>Binary Op</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4055,6 +4075,14 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARSE_TIME__FORMAT = eINSTANCE.getParseTime_Format();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARSE_TIME__INPUT = eINSTANCE.getParseTime_Input();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.BinaryOpImpl <em>Binary Op</em>}' class.

@@ -1135,6 +1135,15 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	public EAttribute getParseTime_Format() {
+		return (EAttribute)parseTimeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParseTime_Input() {
 		return (EAttribute)parseTimeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1321,6 +1330,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		createEAttribute(splitEClass, SPLIT__OMIT_EMPTY_STRINGS);
 
 		parseTimeEClass = createEClass(PARSE_TIME);
+		createEAttribute(parseTimeEClass, PARSE_TIME__INPUT);
 		createEAttribute(parseTimeEClass, PARSE_TIME__FORMAT);
 	}
 
@@ -1532,6 +1542,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEAttribute(getSplit_OmitEmptyStrings(), theEcorePackage.getEBoolean(), "omitEmptyStrings", "false", 0, 1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parseTimeEClass, ParseTime.class, "ParseTime", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getParseTime_Input(), theEcorePackage.getEString(), "input", null, 1, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParseTime_Format(), theEcorePackage.getEString(), "format", null, 0, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
@@ -1990,6 +2001,12 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   new String[] {
 			 "description", "Reads a string from input pipe and parses it accoridng to a given format string.",
 			 "returns", "Timestamp value (as a number of milliseconds since January, 1, 1970)"
+		   });			
+		addAnnotation
+		  (getParseTime_Input(), 
+		   source, 
+		   new String[] {
+			 "description", "String representation of date."
 		   });
 	}
 
@@ -2059,6 +2076,11 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (getSplit_Str(), 
 		   source, 
 		   new String[] {
+		   });			
+		addAnnotation
+		  (getParseTime_Input(), 
+		   source, 
+		   new String[] {
 		   });	
 	}
 
@@ -2074,7 +2096,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		  (convertEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																		
+		   });																																																																				
 	}
 
 } // OperationsPackageImpl
