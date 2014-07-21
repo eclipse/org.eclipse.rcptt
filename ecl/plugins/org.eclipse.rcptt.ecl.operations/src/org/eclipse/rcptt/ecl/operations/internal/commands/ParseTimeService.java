@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.operations.internal.commands;
 
+import static org.eclipse.rcptt.ecl.operations.internal.OperationsPlugin.createErr;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import static org.eclipse.rcptt.ecl.operations.internal.OperationsPlugin.createErr;
+import java.util.Date;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -36,8 +39,14 @@ public class ParseTimeService implements ICommandService {
 					"Expected string value from input pipe, but got '%s'",
 					value);
 		}
+		String strValue = (String) value;
+		Date parsed = new SimpleDateFormat(format).parse(strValue,
+				new ParsePosition(0));
+		if (parsed == null)
+			return createErr("Failed to parse date: " + strValue
+					+ " of format: " + format);
 		context.getOutput().write(
-				new SimpleDateFormat(format).parse((String) value, new ParsePosition(0)).getTime());
+				parsed.getTime());
 		return Status.OK_STATUS;
 	}
 }
