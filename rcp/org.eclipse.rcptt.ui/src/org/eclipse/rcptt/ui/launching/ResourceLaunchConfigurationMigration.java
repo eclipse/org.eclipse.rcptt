@@ -22,7 +22,6 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import javax.xml.transform.TransformerConfigurationException;
@@ -56,10 +55,12 @@ import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.ui.IStartup;
 import org.w3c.dom.Document;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 /** Migrates launch configurations stored as workspace resources */
-@SuppressWarnings("restriction") //LaunchManager API is needed to notify about migrated launches
+@SuppressWarnings("restriction")
+// LaunchManager API is needed to notify about migrated launches
 public class ResourceLaunchConfigurationMigration implements IStartup {
 	private static final IPath LOCAL_LOCATION = DebugPlugin.getDefault()
 			.getStateLocation().append(".launches");
@@ -88,11 +89,8 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 	}
 
 	public void migrate(IFile resource) throws CoreException {
-		if (!resource
-				.getFullPath()
-				.getFileExtension()
-				.equalsIgnoreCase(
-						ILaunchConfiguration.LAUNCH_CONFIGURATION_FILE_EXTENSION))
+		if (!ILaunchConfiguration.LAUNCH_CONFIGURATION_FILE_EXTENSION
+				.equalsIgnoreCase(resource.getFileExtension()))
 			return;
 		if (!resource.isSynchronized(IResource.DEPTH_ZERO))
 			return;
@@ -104,16 +102,12 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 		} finally {
 			FileUtil.safeClose(reader);
 		}
-		try {
-			LaunchConfigurationMigration migration = new LaunchConfigurationMigration();
-			if (migration.migrate(document)) {
-				Writer writer = new StringWriter();
-				LaunchConfigurationMigration.write(document, writer);
-				resource.setContents(new ByteArrayInputStream(writer.toString()
-						.getBytes("UTF-8")), 0, null);
-			}
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
+		LaunchConfigurationMigration migration = new LaunchConfigurationMigration();
+		if (migration.isMigrationRequired(document) && migration.migrate(document)) {
+			Writer writer = new StringWriter();
+			LaunchConfigurationMigration.write(document, writer);
+			resource.setContents(new ByteArrayInputStream(writer.toString()
+					.getBytes(Charsets.UTF_8)), 0, null);
 		}
 	}
 
@@ -121,6 +115,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 	{
 		tempDir.deleteOnExit();
 	}
+
 	public void migrate(File file) {
 		String fileExtension = Path.fromOSString(file.getName())
 				.getFileExtension();
@@ -135,11 +130,16 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 		} catch (FileNotFoundException e) {
 			FileUtil.safeClose(reader);
 		}
-		File backup = new File(file.getAbsolutePath()+".q7_backup");
+
+		LaunchConfigurationMigration migration = new LaunchConfigurationMigration();
+		if (!migration.isMigrationRequired(document)) {
+			return;
+		}
+		File backup = new File(file.getAbsolutePath() + ".q7_backup");
 		file.renameTo(backup);
 		File temp = null;
 		try {
-			LaunchConfigurationMigration migration = new LaunchConfigurationMigration();
+
 			if (migration.migrate(document)) {
 				temp = new File(tempDir, file.getName());
 				FileWriter writer = new FileWriter(temp);
@@ -148,7 +148,8 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 				} finally {
 					FileUtil.safeClose(writer);
 				}
-				((LaunchManager)DebugPlugin.getDefault().getLaunchManager()).importConfigurations(new File[]{temp}, null);
+				((LaunchManager) DebugPlugin.getDefault().getLaunchManager()).importConfigurations(new File[] { temp },
+						null);
 			}
 		} catch (Exception e) {
 			file.delete();

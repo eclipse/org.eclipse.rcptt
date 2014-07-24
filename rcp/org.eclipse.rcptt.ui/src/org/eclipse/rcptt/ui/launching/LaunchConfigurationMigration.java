@@ -15,6 +15,8 @@ import static java.util.Arrays.asList;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,10 +34,13 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,6 +57,7 @@ import com.google.common.collect.Iterables;
  * */
 public class LaunchConfigurationMigration {
 	private final Set<String> registeredTypes;
+	private final Map<String, String> typeMap = new HashMap<String, String>();
 	{
 		Function<ILaunchConfigurationType, String> toIdentifier = new Function<ILaunchConfigurationType, String>() {
 			@Override
@@ -63,6 +69,23 @@ public class LaunchConfigurationMigration {
 				.getLaunchManager().getLaunchConfigurationTypes();
 		Iterable<String> ids = Iterables.transform(asList(types), toIdentifier);
 		registeredTypes = ImmutableSet.copyOf(ids);
+
+		registerMigration("com.xored.q7.launching.scenarios", Q7LaunchManager.Q7_TEST_SUITE_LAUNCH_ID, registeredTypes,
+				typeMap);
+		registerMigration("com.xored.q7.launching.ext", "org.eclipse.rcptt.launching.ext", registeredTypes, typeMap);
+		registerMigration("com.xored.q7.launching.remote", "org.eclipse.rcptt.launching.remote", registeredTypes,
+				typeMap);
+	}
+
+	private static void registerMigration(String from, String to, Set<String> knownTypes, Map<String, String> typeMap) {
+		if (!knownTypes.contains(to)) {
+			Q7UIPlugin
+					.getDefault()
+					.getLog()
+					.log(new Status(IStatus.WARNING, Q7UIPlugin.PLUGIN_ID, String.format(
+							"Attempt to register launch configuration migration to unknown type %s", to)));
+			return;
+		}
 	}
 
 	private static String replacePrefix(String prefix, String newPrefix,
@@ -108,6 +131,10 @@ public class LaunchConfigurationMigration {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	public boolean isMigrationRequired(Document doc) {
+		return typeMap.containsKey(getType(doc));
 	}
 
 	public static void write(Document document, Writer writer) {
