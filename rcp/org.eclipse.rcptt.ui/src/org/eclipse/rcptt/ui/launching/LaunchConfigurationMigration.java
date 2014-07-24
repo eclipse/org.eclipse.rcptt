@@ -86,6 +86,7 @@ public class LaunchConfigurationMigration {
 							"Attempt to register launch configuration migration to unknown type %s", to)));
 			return;
 		}
+		typeMap.put(from, to);
 	}
 
 	private static String replacePrefix(String prefix, String newPrefix,
