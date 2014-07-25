@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_zOzvECeMEeGm5NjoKhWsPQ,_4QQJ8GJ5EeOG77tsPvjNlQ
 Element-Name: SaveContextBeforeLaunchTestCaseAlways
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-3090
 Id: _RHjBYGJ_EeOG77tsPvjNlQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.201407211318
+Save-Time: 7/25/14 2:40 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -36,12 +35,12 @@ open-modified-context
 get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
 
 get-editor "Delete Test" | get-button Replay | click
-get-window "Select an Application Under Test" | get-button Cancel | click
+try{get-window "Select an Application Under Test" | get-button Cancel | click}-catch{}
 get-tab-folder | get-property "pages[0]" | equals "Create New Project" | verify-true
 open-modified-context
 get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
 get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/1 Test Cases" | click
-get-window "Select an Application Under Test" | get-button Cancel | click
+try{get-window "Select an Application Under Test" | get-button Cancel | click}-catch{}
 get-tab-folder | get-property "pages[0]" | equals "Create New Project" | verify-true
 with [get-editor "Delete Test" | get-section Contexts] {
     click
@@ -51,10 +50,10 @@ get-button "Save (M1+S)" | click
 open-modified-context
 get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | double-click
 get-editor "Delete Test" | get-button Replay | click
-get-window "Select an Application Under Test" | get-button Cancel | click
+try{get-window "Select an Application Under Test" | get-button Cancel | click}-catch{}
 get-tab-folder | get-property "pages[0]" | equals "*Create New Project" | verify-true
 get-view "Test Explorer" | get-tree | select "Q7Project/Delete Test" | get-menu "Run As/\\d+ Test Cases" | click
-get-window "Select an Application Under Test" | get-button Cancel | click
+try{get-window "Select an Application Under Test" | get-button Cancel | click}-catch{}
 get-tab-folder | get-property "pages[0]" | equals "*Create New Project" | verify-true
 
 
@@ -62,6 +61,6 @@ with [get-editor "Create New Project"] {
     click
     get-button Apply | click
 }
-get-window "Select an Application Under Test" | get-button Cancel | click
+try{get-window "Select an Application Under Test" | get-button Cancel | click}-catch{}
 get-tab-folder -index 1 | get-property activePage | equals "Create New Project" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
