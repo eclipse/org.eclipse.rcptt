@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.eclipse.jface.text.AbstractHoverInformationControlManager;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.rcptt.util.WeakMap;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Control;
@@ -30,9 +30,9 @@ public final class JFaceTextManager {
 	private JFaceTextManager() {
 	}
 
-	private static WeakHashMap<StyledText, TextViewer> viewersMap = new WeakHashMap<StyledText, TextViewer>();
-	private static WeakHashMap<Canvas, IVerticalRuler> rulersMap = new WeakHashMap<Canvas, IVerticalRuler>();
-	private static WeakHashMap<IVerticalRuler, ITextViewer> rulersViewerMap = new WeakHashMap<IVerticalRuler, ITextViewer>();
+	private static WeakMap<StyledText, TextViewer> viewersMap = new WeakMap<StyledText, TextViewer>();
+	private static WeakMap<Canvas, IVerticalRuler> rulersMap = new WeakMap<Canvas, IVerticalRuler>();
+	private static WeakMap<IVerticalRuler, ITextViewer> rulersViewerMap = new WeakMap<IVerticalRuler, ITextViewer>();
 	private static Set<WeakReference<AbstractHoverInformationControlManager>> hoverManagers = new HashSet<WeakReference<AbstractHoverInformationControlManager>>();
 
 	public static void mapViewer(StyledText text, TextViewer viewer) {
