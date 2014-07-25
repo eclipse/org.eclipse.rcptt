@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -53,7 +54,6 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.NamedElement;
@@ -284,10 +284,16 @@ public class DebugContextProcessor implements IContextProcessor {
 			ILaunchConfigurationType type = DebugPlugin.getDefault()
 					.getLaunchManager()
 					.getLaunchConfigurationType(modelType.getId());
+			if (type == null)
+				throw new CoreException(createError("Launch configuration type " + modelType.getId() + " is not installed."));
 			for (LaunchConfiguration configuration : modelType
 					.getConfigurations())
 				applyLaunchConfiguration(type, configuration);
 		}
+	}
+	
+	private IStatus createError(String message) {
+		return new Status(IStatus.ERROR, Q7DebugRuntime.PLUGIN_ID, message);
 	}
 
 	private void cleanLaunches(final String exceptions) throws CoreException {
@@ -549,6 +555,10 @@ public class DebugContextProcessor implements IContextProcessor {
 
 	private void applyLaunchConfiguration(ILaunchConfigurationType type,
 			LaunchConfiguration launch) throws CoreException {
+		if (type == null) 
+			throw new NullPointerException("Null type");
+		if (launch == null) 
+			throw new NullPointerException("Null launch");
 		ILaunchManager manager = getLaunchManager();
 		if (launch.getName() == null)
 			throw new IllegalArgumentException("Null launch name");
