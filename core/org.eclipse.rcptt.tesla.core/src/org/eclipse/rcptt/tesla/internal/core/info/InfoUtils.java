@@ -28,10 +28,10 @@ public class InfoUtils {
 	public static NodeProperty property(String name, String value) {
 		NodeProperty property = InfoFactory.eINSTANCE.createNodeProperty();
 		if (name.contains("]]>")) {
-			name = value.replace("]]>", "{q7.replace.CDATA_END}");
+			name = name.replace("]]>", "{q7.replace.CDATA_END}");
 		}
 		property.setName(name);
-		if (value.contains("]]>")) {
+		if (value != null && value.contains("]]>")) {
 			value = value.replace("]]>", "{q7.replace.CDATA_END}");
 		}
 		property.setValue(value);

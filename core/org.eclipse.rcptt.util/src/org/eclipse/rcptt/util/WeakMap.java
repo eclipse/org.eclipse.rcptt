@@ -26,11 +26,20 @@ public class WeakMap<K, V> {
 	private WeakHashMap<K, WeakReference<V>> map = new WeakHashMap<K, WeakReference<V>>();
 
 	public void put(K key, V val) {
-		map.put(key, new WeakReference<V>(val));
+		if (val == null) {
+			throw new IllegalArgumentException("Not supposed to contain null values");
+		}
+		synchronized (map) {
+			map.put(key, new WeakReference<V>(val));
+		}
+
 	}
 
 	public V get(K key) {
-		WeakReference<V> reference = map.get(key);
+		WeakReference<V> reference = null;
+		synchronized (map) {
+			reference = map.get(key);
+		}
 		if (reference == null) {
 			return null;
 		}
@@ -44,12 +53,16 @@ public class WeakMap<K, V> {
 
 	public Collection<V> values() {
 		List<V> result = new ArrayList<V>();
-		for (WeakReference<V> ref : map.values()) {
-			if (ref.isEnqueued()) {
-				// to distinguish removed entries from actual null values
+		List<WeakReference<V>> values;
+		synchronized (map) {
+			values = new ArrayList<WeakReference<V>>(map.values());
+		}
+		for (WeakReference<V> ref : values) {
+			V val = ref.get();
+			if (val == null) {
 				continue;
 			}
-			result.add(ref.get());
+			result.add(val);
 		}
 		return result;
 	}
