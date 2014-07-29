@@ -1,13 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Contexts: _qTuHwKvZEeKhFfhAE-FJzg,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
+Contexts: _JiO8oBa3EeSdGuu1vTlcGw,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
 Element-Name: FilteringAtClearingLaunchConfiguration
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nLU3oKvSEeKhFfhAE-FJzg
-Runtime-Version: 1.5.0.201407211318
-Save-Time: 7/25/14 2:30 PM
+Runtime-Version: 1.5.0.201407281253
+Save-Time: 7/29/14 7:29 AM
 Tags: Context, LaunchContext, selfAUT
 Testcase-Type: ecl
 
@@ -57,9 +57,9 @@ with [get-editor EmptyLaunchContext] {
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext2" | double-click
 get-editor EmptyLaunchContext2 | get-button Capture | click
 with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree] {
-    get-item "Launch configurations" | get-property childCount | equals 2 | verify-true
-    get-item "Launch configurations/Eclipse Application under Test" | get-property childCount | equals 1 | verify-true
-    get-item "Launch configurations/Eclipse Application under Test/Test Application" | get-property caption | equals "Test Application" | verify-true
+    get-item "Launch configurations" | get-property childCount | equals 1 | verify-true
+   // get-item "Launch configurations/Eclipse Application under Test" | get-property childCount | equals 1 | verify-true
+   // get-item "Launch configurations/Eclipse Application under Test/Test Application" | get-property caption | equals "Test Application" | verify-true
     get-item "Launch configurations/Application Under Test \\(RCPTT\\)" | get-property caption | equals "Application Under Test (RCPTT)" | verify-true
     get-item "Launch configurations/Application Under Test \\(RCPTT\\)/Test234" | get-property caption | equals Test234 | verify-true
     get-item "Launch configurations/Application Under Test \\(RCPTT\\)/Test1" | get-property caption | equals Test1 | verify-true

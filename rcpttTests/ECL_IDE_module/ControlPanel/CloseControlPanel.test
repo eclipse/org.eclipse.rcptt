@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_XltvoIKaEeC_2txVMvPWLQ
 Element-Name: CloseControlPanel
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nMf1QPL-EeCE19s6EOk3LA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/14/14 2:30 PM
+Runtime-Version: 1.5.0.201407281253
+Save-Time: 7/29/14 8:01 AM
 Tags: selfAUT, ControlPanel
 Testcase-Type: ecl
 
@@ -41,11 +40,11 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/Test scenario" | double-click -nowait
 get-editor "Test scenario" | get-button Record | click
-get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]" | close
+get-window "Control Panel.*" | close
 get-editor "Test scenario" | get-section Script | get-editbox | get-property value | equals "" | verify-true
 get-editor "Test scenario" | get-button Record | click
 //wait 500
-get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7 [Recording]" | get-button Stop | click
+get-window "Control Panel.*" | get-button Stop | click
 with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7"] {
     get-editbox | type-text qqq
     close

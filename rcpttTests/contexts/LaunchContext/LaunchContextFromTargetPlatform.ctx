@@ -1,6 +1,5 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.debug
 Debug-LaunchShortcutExceptions: selfQ7
 Debug-NoBreakpoints: true
@@ -10,8 +9,8 @@ Element-Name: LaunchContextFromTargetPlatform
 Element-Type: context
 Element-Version: 2.0
 Id: _NyEh4Ks5EeKWk6cOzG_MPA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Runtime-Version: 1.5.0.201407281253
+Save-Time: 7/29/14 7:35 AM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -31,7 +30,7 @@ Contributors:
 Content-Type: q7/binary
 Entry-Name: debug.launchtypes
 
-UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtVUuL3EYQvvtXNAqEGLyafj8mXpt+
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnTtVUuL3EYQvvtXNAqEGLyafj8mXpt+
 gsGBhKzBV62mPSPQK5Jmd/bfp0ZiNz6EnJJL2DqUurqrvnq06O/9x0vXooc8zc3Q3xakxAXKfT0cmv54
 W3y5Sze6+PjhzfthOpa5bptxzuVUj8tS1sulPOT783H/uTr39enuaczo0jX7FzB6BQP4ft7D/m1xWpZx
 v9s9Pj6WQ3csAXL39ZdPzy7/kOEl9Pn8Grr67MBnt/oUqK+6fFvYcWybulqgAvSlP+QJ3eV5QT/9pt4W
@@ -47,7 +46,7 @@ d5tFkwIW4VGw9B8KsI+1gumktqxaAn9xTgRX2ngZdNIOR02BpjyQhlE+EgmvvbjSFQfmEJwprNcamY/O
 W8qI5QmeehZ94vC+B02T1EpjSMKdwJ4my4BmkiYa0gWqTeIA7xmRxBFNSIzGC+mdBmxOBSEqcYYDM0xK
 nIJTjERgOgmEBwW55I0EclKREiYicywEkryVJHohAgXiE8nYGDCxwWEjgX6DSERKzYELeTARfBUN0Qoq
 rx1gRSVPFAiO6kCiSUr4yGJkzzcFMxLA/dxGaBBrWuw+vPkTUEsHCCkM/iWCAwAAHAsAAFBLAQIUABQA
-CAgIAAAAIQApDP4lggMAABwLAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
+CAAIAAAAIQApDP4lggMAABwLAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29udGVudFBLBQYAAAAAAQABADYA
 AAC4AwAAAAA=
 ------=_debug.launchtypes-7159add4-14d7-36f5-abc2-a36dec1fc18e--
 ------=_TargetAUT.debug.launchconfiguration-19da4a7e-6194-326f-8912-7bc611c72ec0
@@ -114,7 +113,7 @@ Entry-Name: TargetAUT.debug.launchconfiguration
     <value xsi:type="org.eclipse.rcptt.ecl.core:EclString" value="3.3"/>
   </attributes>
   <attributes xsi:type="org.eclipse.rcptt.ctx.debug:PrimitiveValue" name="product" description="Copyright (c) 2009, 2014 Xored Software Inc and others.&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    Xored Software Inc - initial creation and/or initial documentation&#xA;--------------------------------------------------------------------------------">
-    <value xsi:type="org.eclipse.rcptt.ecl.core:EclString" value="com.xored.q7.platform.product"/>
+    <value xsi:type="org.eclipse.rcptt.ecl.core:EclString" value="org.eclipse.rcptt.platform.product"/>
   </attributes>
   <attributes xsi:type="org.eclipse.rcptt.ctx.debug:PrimitiveValue" name="useProduct" description="Copyright (c) 2009, 2014 Xored Software Inc and others.&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    Xored Software Inc - initial creation and/or initial documentation&#xA;--------------------------------------------------------------------------------">
     <value xsi:type="org.eclipse.rcptt.ecl.core:EclBoolean" value="true"/>
