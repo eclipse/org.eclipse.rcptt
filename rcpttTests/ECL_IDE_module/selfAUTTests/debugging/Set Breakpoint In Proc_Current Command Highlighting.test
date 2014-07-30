@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_lIpZ0SA0EeOgF-UCjAjUMA
 Element-Name: Set Breakpoint In Proc_Current Command Highlighting
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _eQiE8CBUEeOjX5Yww5t2_A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.201407281253
+Save-Time: 7/29/14 11:21 AM
 Tags: selfAUT, Debug
 Testcase-Type: ecl
 Verifications: _nxKtsCBUEeOjX5Yww5t2_A
@@ -37,5 +36,7 @@ with [get-editor "New Java Class Procs" | get-section Script | get-left-ruler] {
     get-menu "Toggle Breakpoint" | click
 }
 get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | get-menu "Debug As/1 Test Cases" | click
+
+
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
