@@ -1,13 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.ecl
 Element-Name: SetupAUTContext
 Element-Type: context
 Element-Version: 2.0
 Id: _ZQYygK2sEeCqBbDEJWufvQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Runtime-Version: 1.5.0.201407290252
+Save-Time: 7/30/14 3:58 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -27,10 +26,32 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .ecl.context
 
+proc "has-property" [val control -input] [val property] {
+        try {
+                $control | get-property $property -raw
+                bool true // return true
+        } -catch {
+                bool false // return false
+        }
+}
+
 invoke-AUT selfQ7 "-licenseUrl http://192.168.2.64:9999"
 		"-Xmx512m -XX:MaxPermSize=256m"
-get-aut selfQ7 | eval {
-	clean-self-AUT
+
+
+loop [val count 0]{
+if [$count | lt 10]{
+	if [get-view Applications | get-tree | get-item selfQ7 | has-property "image.decorations[0].path"]{
+  		get-aut selfQ7 | eval {
+			clean-self-AUT
+  		}
+	}-else{
+		recur [$count | plus 1]
+	}
 }
+}
+    
+
+
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--

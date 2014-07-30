@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
-Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g,_Ns1HMM1SEeCKjp0mPLHiEg
+Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
 Element-Name: CopyGroupContextWithAddingReference_NEW
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _HasGEH8PEeGpb_bcG7OADQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.0.201407290252
+Save-Time: 7/30/14 4:00 PM
 Tags: Context, GroupContext, CopyPaste
 Testcase-Type: ecl
 

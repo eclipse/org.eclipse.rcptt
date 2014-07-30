@@ -1,13 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.group
 Element-Name: Default
 Element-Type: context
 Element-Version: 2.0
 Id: _ymiyse5IEeCU6db9MgIBkA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Runtime-Version: 1.5.0.201407290252
+Save-Time: 7/30/14 4:00 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -27,11 +26,11 @@ Contributors:
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSdkctOwzAQRff5Cst77AQBolGSKpQq
-jSAItUKwq0IydU3jh2yXPr6+LijdQCXEdubcMzOaZLgVHfoEY7mSKY5IiBHIRrVcshSv3eLiFg+zIFGG
-EWg6ri0Q02jniG1A1oaruDBqrUdKOtg6tBU8Ptkujzbvlzb29RQvndMxpZvNhijBiHfSt6rskfMjTsm+
-fUx+IVSoFjragz6vDGAkawEpvodFve4cRrxN8Xwn+M7CdTmG0ctN+z6oWHm3ynEWIJQ039tPYQHGXw82
-m4/C2TQs9NLj+7KNCrlq7SBP6E/0jOBqXw7yV83+LXiy0aSqopkXPHzoUDw/TviY/SpI6B//kwUHUEsH
-CEhPiy0DAQAA8QEAAFBLAQIUABQACAgIAAAAIQBIT4stAwEAAPEBAAAIAAAAAAAAAAAAAAAAAAAAAAAu
-Y29udGVudFBLBQYAAAAAAQABADYAAAA5AQAAAAA=
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSNkMtugzAQRfd8heV9bVKlVUFARGiF
+WGSTqmp3EcUDsYIfsk0h+fo6rcgmipTtzLlnHslqEj36AWO5kilekBAjkI1iXHYpHlz78IJXWZAo0xFo
+eq4tENNo54htQNaGq7g0atCFkg4mhybB44vt8WzzfmljX0/x3jkdUzqOI1GiI95JvzbVjNwecUnO7XPy
+D6FCMejpDPq8MoCRrAWk+BXaeugdRpyleHcU/GjhqXqD4uOZfUebrlofcpwFCCXN//ZbaMH468FmuyJ8
+34al3nv8VLFFKQ/MRnlCr9EbguWpivJP3d0hSOid782CX1BLBwjBVOYT7AAAALABAABQSwECFAAUAAgA
+CAAAACEAwVTmE+wAAACwAQAACAAAAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRQSwUGAAAAAAEAAQA2AAAA
+IgEAAAAA
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
