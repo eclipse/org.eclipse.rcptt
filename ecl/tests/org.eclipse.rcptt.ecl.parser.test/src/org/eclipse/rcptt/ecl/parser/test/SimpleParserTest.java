@@ -13,11 +13,13 @@ package org.eclipse.rcptt.ecl.parser.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Block;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Exec;
 import org.eclipse.rcptt.ecl.core.ExecutableParameter;
+import org.eclipse.rcptt.ecl.core.GetVal;
 import org.eclipse.rcptt.ecl.core.LiteralParameter;
 import org.eclipse.rcptt.ecl.core.Parallel;
 import org.eclipse.rcptt.ecl.core.Parameter;
@@ -52,6 +54,9 @@ public class SimpleParserTest extends TestCase {
 
 	public void testLexer001d() throws Throwable {
 		check("set1\n|set2", "(set1|set2)");
+	}
+	
+	public void testLexer001e() throws Throwable {
 		check("(set1\n|set2)", "(set1|set2)");
 	}
 
@@ -179,7 +184,132 @@ public class SimpleParserTest extends TestCase {
 	public void testParser022() throws Throwable {
 		check("get-string \"bla\\'\"", "get-string bla\'");
 	}
+	
+	public void testUnclosedBrace() throws Throwable {
+		try {
+			check("try {", "");
+			fail();
+		} catch (CoreException e) {
+			assertEquals("Syntax error", e.getMessage());
+		}
+	}
 
+	public void testCommentedClosedBrace() throws Throwable {
+		try {
+			process("try { //}");
+			fail("Unclosed braces should emit error");
+		} catch (CoreException e) {
+			assertEquals("Syntax error", e.getMessage());
+		}
+	}
+
+	public void testMultilineCommentedClosedBrace() throws Throwable {
+		try {
+			process("try { /*}*/");
+			fail("Unclosed braces should emit error");
+		} catch (CoreException e) {
+			assertEquals("Syntax error", e.getMessage());
+		}
+	}
+
+	public void testCurlyArgWithCommentInside() throws Throwable {
+		check("try { //comment\nargument }", "try  //comment\nargument "); 
+	}
+
+	public void testClosedBraceWithRandomComments() throws Throwable {
+		check("try { /*\nmultiline commment\n */\n// line comment \n command } //booh \n second command",
+				"(try  /*\nmultiline commment\n */\n// line comment \n command ;second command)");
+	}
+	
+	public void testCurlyArg() throws Throwable {
+		check("try { argument }", "try  argument "); 
+	}
+	public void testWithConstruct() throws Throwable {
+		String test = "first -flag\nsecond -secondFlag";
+		check(test, "(first -flag=true;second -secondFlag=true)");
+	}
+	
+	public void testVariableInPipe() throws Throwable {
+		check("$x | command", "(get-val x|command)");
+	}
+
+	public void testVariableArgument() throws Throwable {
+		check("command $x", "command [get-val x]");
+	}
+	
+	public void testNewlineAtEOF() throws Throwable {
+		check("command\n", "command");
+	}
+
+	public void testMultipleNewlinesBeforeCommand() throws Throwable {
+		check("\n\n\ncommand", "command");
+	}
+
+	public void testMultipleNewlinesBetweenCommands() throws Throwable {
+		check("command1\n\n\ncommand2", "(command1;command2)");
+	}
+
+	
+	public void testNewlineBeforePlus() throws Throwable {
+		check("command \"first\"\n+\"second\"", "command firstsecond");
+	}
+
+	public void testNewlineAfterPlus() throws Throwable {
+		check("command \"first\"+\n\"second\"", "command firstsecond");
+	}
+
+	public void testCommandAfterNewLine() throws Throwable {
+		check("command1\ncommand2", "(command1;command2)");
+	}
+	public void testCommandAfterNewLines() throws Throwable {
+		check("command1\n\ncommand2", "(command1;command2)");
+	}
+	public void testCommandAfterCommandAndComment() throws Throwable {
+		check("command1\n//comment\ncommand2", "(command1;command2)");
+	}
+	public void testCommandAfterComment() throws Throwable {
+		check("//comment\ncommand2", "command2");
+	}
+	
+	public void testNewLineAndSpaceCombinationAfterString() throws Throwable {
+		check("command1 \"arg\"\n \ncommand2", "(command1 arg;command2)");
+	}
+
+	public void testStringArgOnNewLine() throws Throwable {
+		check("command \"arg1\"\n \"arg2\"", "command arg1 arg2");
+	}
+
+	public void testCommentAndEolAtEof() throws Throwable {
+		check("//comment1\n", "");
+	}
+
+	public void testCommentsAndEolAtEof() throws Throwable {
+		check("//comment1//comment2\n", "");
+	}
+
+	public void testCommentsAtEof() throws Throwable {
+		check("//comment1//comment2\n", "");
+	}
+	public void testCommandAndCommentsAtEof() throws Throwable {
+		check("command\n//comment1\n", "command");
+	}
+	public void testNewLinesAfterCommand() throws Throwable {
+		check("command\n\n\n", "command");
+	}
+	public void testScringEscape() throws Throwable {
+		check("command \"}\\n\"", "command }\n");
+	}
+	public void testScringEscapeWithinCurly() throws Throwable {
+		check("command {\"}\"}", "command \"}\"");
+	}
+	public void testSubCommandOnANewLine() throws Throwable {
+		check("command\n[subcommand]", "command [subcommand]");
+	}
+	
+	public void testNewLineWithSpacesAfterCommand() throws Throwable {
+		check("command\n   \n", "command");
+	}
+	
 	private Command process(String content) throws Throwable {
 		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
 		System.out.println("Test:" + method);
@@ -214,19 +344,26 @@ public class SimpleParserTest extends TestCase {
 			String ns = exec.getNamespace();
 			String host = exec.getHost();
 			buffer.append(pp(null, ns, "::") + exec.getName() + pp("@", host));
-			EList<Parameter> list = exec.getParameters();
-			for (Parameter parameter : list) {
-				buffer.append(' ');
-				buffer.append(toString(parameter));
-			}
+			toString(exec.getParameters(), buffer);
 		} else if (command instanceof Sequence) {
 			toString((Sequence) command, buffer, ";");
 		} else if (command instanceof Parallel) {
 			toString((Parallel) command, buffer, "&");
 		} else if (command instanceof Pipeline) {
 			toString((Pipeline) command, buffer, "|");
+		} else if (command instanceof GetVal) {
+			buffer.append("get-val " + ((GetVal)command).getName());
+		} else {
+			buffer.append(command.getClass().getSimpleName());
 		}
 		return buffer.toString();
+	}
+
+	private void toString(EList<Parameter> list, StringBuffer buffer) {
+		for (Parameter parameter : list) {
+			buffer.append(' ');
+			buffer.append(toString(parameter));
+		}
 	}
 
 	private void toString(Block seq, StringBuffer buffer, String sep) {
@@ -246,7 +383,7 @@ public class SimpleParserTest extends TestCase {
 			buffer.append(')');
 		}
 	}
-
+	
 	private String toString(Parameter parameter) {
 		if (parameter instanceof LiteralParameter) {
 			LiteralParameter literal = (LiteralParameter) parameter;

@@ -44,111 +44,55 @@ package org.eclipse.rcptt.ecl.internal.parser;
 
 
 @members {  
-	CoreFactory factory = CoreFactory.eINSTANCE;  
-	Command processSequence(Command cmd, Command c2 ) {
-		//Construct sequence if not yet constructed.
-		if (cmd instanceof Sequence) {
-			Sequence seq = (Sequence) cmd;
-			if (c2 != null) {
-				seq.getCommands().add(c2);
-			}
-			return seq;
-		}
-		else {
-			Sequence seq = factory.createSequence();
-			seq.getCommands().add(cmd);
-			seq.getCommands().add(c2);
-			return seq;
-		}
-	}	
+    CoreFactory factory = CoreFactory.eINSTANCE;  
+    Command processSequence(Command cmd, Command c2 ) {
+            //Construct sequence if not yet constructed.
+            if (cmd == null)
+                return c2;
+            if (cmd instanceof Sequence) {
+                    Sequence seq = (Sequence) cmd;
+                    if (c2 != null) {
+                            seq.getCommands().add(c2);
+                    }
+                    return seq;
+            }
+            else {
+                    Sequence seq = factory.createSequence();
+                    seq.getCommands().add(cmd);
+                    seq.getCommands().add(c2);
+                    return seq;
+            }
+    }	
 	
-  public void displayRecognitionError(String[] tokenNames,
-      RecognitionException e) {
-	    if (e.token.getType() == Token.EOF) {
-	      Token prev = getTokenStream().get(e.index - 1);
-	      throw new SyntaxErrorException(prev.getLine(),
-	          prev.getCharPositionInLine());
-	    }
-      throw new SyntaxErrorException(e.line, e.charPositionInLine);
-  }
-  
-  private boolean lookupNL() {
-    int index=input.index();
-    int start=input.mark();
-    
-    if (index >= input.size()) {
-      return true;
-    }
-    if(index < input.size())
-    {
-      if(input.get(index).getType() == RBRACK)
-        return true;
-      if(input.get(index).getType() == RCURLY)
-        return true;
-      if(input.get(index).getType() == ROPEN)
-        return true;
-    }
-    Token token;
-    boolean result=false;
-    while (index > 0)
-    {
-      // look back in the hidden channel until we find a linebreak
-      index--;
-      token = input.get(index);
-      if (token.getType() == EOF) {
-        result=true;
-        break;
-      }
-      if (token.getChannel() != Token.HIDDEN_CHANNEL)
-      {
-        /* We are out of the hidden channel, in other word we found a "real" item,
-        which means we didn't find a linebreak, so we are done (false)
-        */
-        break;
-      }
-      if (token.getType() == NEWLINE)
-      {
-        // found our LineBreak (true)
-        result=true;
-        break;
-      }
-    }
-    input.rewind(start);
-    return result;
-}
+    public void displayRecognitionError(String[] tokenNames,
+        RecognitionException e) {
+              if (e.token.getType() == Token.EOF) {
+                Token prev = getTokenStream().get(e.index - 1);
+                throw new SyntaxErrorException(prev.getLine(),
+                    prev.getCharPositionInLine());
+              }
+        throw new SyntaxErrorException(e.line, e.charPositionInLine);
+    }  
 }
   
 // Parser rules
+eos: (NEWLINE | COLON) +;
 commands returns[Command cmd=null;]:
-	exprs=expr_list	{cmd=exprs;} EOF
-;
-expr_list returns [Command cmd=null]:
-  {Sequence seq = factory.createSequence();} 
-  ( c2=expression {seq.getCommands().add(c2);} )* 
-  {
-    if (seq.getCommands().size() == 1) {
-      cmd = seq.getCommands().get(0);
-    } else {
-      cmd = seq;
-    }
-  }
+	eos* exprs=open_expr_list	{cmd=exprs;} eos* EOF
+        {
+            if (cmd == null)
+                cmd =factory.createSequence();
+        }
 ;
 
 expression returns[Command cmd=null;]: 
    c=and_expr {
    	cmd = c;
    }
-   eos
 ;
 
-eos
-  :
-    EOF
-  | COLON
-  | {lookupNL()}?;
-
 and_expr returns [Command cmd=null;]: 
-  or1=or_expr {cmd=or1;} (AND or2=or_expr{
+  or1=or_expr {cmd=or1;} ( NEWLINE? AND NEWLINE? or2=or_expr{
   	//Construct parallel if not yet constructed.
 	if (cmd instanceof Parallel) {
 		Parallel par = (Parallel) cmd;
@@ -169,7 +113,7 @@ and_expr returns [Command cmd=null;]:
 or_expr returns [Command cmd=null;]: 
   c = cmd {
   cmd = c;
-  }  (OR cmd2=cmd {
+  }  ( NEWLINE? OR NEWLINE? cmd2=cmd {
   	//Construct pipe if not yet constructed.
 	if (cmd instanceof Pipeline) {
 		Pipeline pipe = (Pipeline) cmd;
@@ -188,29 +132,35 @@ or_expr returns [Command cmd=null;]:
 ;
 
 open_expr_list returns [Command cmd=null]:
-  c = expression {
-  	if( c != null ) {
-  		cmd=c;
-  	}
-  } (c2=expression {
-  	cmd = processSequence(cmd, c2);
-  } )*
+    (
+       c = one_or_more_expr {cmd = c;} 
+    )?
+    {
+        if (cmd == null)
+            cmd =factory.createSequence();
+    }
+ ;
+
+one_or_more_expr returns [Command cmd=null]:
+    c = expression {cmd = processSequence(cmd, c);} 
+    (eos+ c2 = one_or_more_expr {cmd = processSequence(cmd, c2);})?
 ;
 
+
 cmd returns [Command cmd=null;]:
- c=command {
+ c=named_command {
 	cmd = c;
  } |
  (LOPEN c=open_expr_list {
  	cmd = c; 
- } ROPEN) | '$' n=command_name {
-  GetVal getVal = CoreFactory.eINSTANCE.createGetVal();
-  getVal.setName(n);
-  cmd = getVal;
- }
+ } ROPEN) | ('$' n=command_name {
+   GetVal getVal = CoreFactory.eINSTANCE.createGetVal();
+   getVal.setName(n);
+   cmd = getVal;
+ })
 ;
 
-command returns[Exec cmd=null;]:
+named_command returns[Exec cmd=null;]:
   {
     Token t = input.LT(1);
     int line = t.getLine();
@@ -238,7 +188,7 @@ command returns[Exec cmd=null;]:
  		cmd.getParameters().add(a);
    	}
    })* 
-   (arg=argument {
+   (NEWLINE? '-' '-'? arg=argument {
    	if( arg != null ) {
  		cmd.getParameters().add(arg);
    	}
@@ -253,7 +203,7 @@ command returns[Exec cmd=null;]:
 
 subcommand returns[Parameter param=null;]:
   (LBRACK
-    c=expr_list {
+    c=open_expr_list {
     	ExecutableParameter p = factory.createExecutableParameter();
   		p.setCommand(c);
 	  	param = p;
@@ -281,12 +231,12 @@ argument returns [Parameter param = null]:
    (p=named_argument) { param = p; }
 ;
 argument_value returns [Parameter param=null;]:
-  (p = simple_value | p= subcommand | p = convert_string) {
+  (p = simple_value | NEWLINE? p= subcommand | p = convert_string) {
   	param = p;
   }
 ;
 simple_value returns[Parameter param = null;]:
-	(d=NAME|d=NUMBER|d2=string|d3=CURLY_STRING) { 
+	(d=NAME|d=NUMBER|NEWLINE? d2=string|NEWLINE? d3=CURLY_STRING) { 
     AstLiteral literal = AstFactory.eINSTANCE.createAstLiteral();
     Token t = input.LT(-1);    
     literal.setLine(t.getLine());
@@ -327,7 +277,7 @@ simple_value returns[Parameter param = null;]:
 	}
 ;
 named_argument returns [Parameter param=null;]: 
- ('-' '-'? n=NAME ('='? (v=argument_value))?) {
+ (n=NAME ('='? (v=argument_value))?) {
   if (v == null){    
     LiteralParameter l = factory.createLiteralParameter();
     l.setLiteral("true");
@@ -372,7 +322,7 @@ IP4:
 string returns [String s = null]:
   f=STRING  {StringBuilder sb = 
     new StringBuilder(f.getText().substring(1, f.getText().length()-1));}
-  ('+' r=STRING 
+  (NEWLINE? '+' NEWLINE? r=STRING 
     {sb.append(r.getText().substring(1, r.getText().length()-1));}
   )*
   {s = sb.toString();}
@@ -400,54 +350,22 @@ LBRACK  : '[';
 protected
 RBRACK  : ']';
 
-//CURLY_STRING:
-//'{'(
-//('(')=>CURLY_STRING | .
-// )* '}'
-//;
-
-CURLY_STRING: { int deep = 0; }
-  LCURLY { deep += 1; }
+CURLY_STRING:
+  LCURLY 
   (
-  { 
-    if (input.LA(1) == '"') {
-      mSTRING();
-    }
-    if( input.LA( 1 ) == '{' ) {
-      deep += 1;
-    }
-    else if( input.LA( 1 ) == '}' ) {
-      deep -= 1;
-    }
-    if( deep == 0 ) {
-      break loop3;
-    }
-  }.)* 
+    CURLY_STRING | 
+    LINE_COMMENT | 
+    COMMENT | 
+    STRING |
+    '/'? ~('/' | '{' | '}' | '*' | '"')+ '*'?
+  )*
   RCURLY
-  { 
-  if( deep > 1 ) {
-    MismatchedTokenException e = new MismatchedTokenException(RCURLY,input);
-    e.expecting='}';
-    throw e;
-  }
-  }
 ;
 
 NAME:
  ('a'..'z'|'A'..'Z') (('a'..'z'|'A'..'Z'|'_'|'.'|'/')|DIGIT)*
 ; 
 
-//COMMAND_NAME:
-// ((NAME SEMI)? NAME ('::' NAME)+ ('-' NAME)*)
-// | (d=NAME s=SEMI c=CURLY_STRING ) {
-// 	$d.setType(NAME);
-//	emit(d);
-//	$s.setType(SEMI);
-//	emit(s);
-//	$c.setType(CURLY_STRING);
-//	emit(c);
-// }
-//;
 DNAME:
 	NAME ('-' NAME)+
 ;
@@ -458,14 +376,12 @@ WS: (' '|'\t')+
 }
 ;
 
-NEWLINE: ('\r'|'\n')+
-{
-  $channel=HIDDEN;
-}
+COMMENT: '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
 ;
 
-COMMENT: '/*' ( options {greedy=false;} : . )* '*/' {skip();}
+LINE_COMMENT: '//' ~('\n'|'\r')* {$channel=HIDDEN;}
 ;
 
-LINE_COMMENT: '//' ~('\n'|'\r')* {skip();}
+NEWLINE: (('\r'|'\n')+ COMMENT* LINE_COMMENT* WS*)+
 ;
+

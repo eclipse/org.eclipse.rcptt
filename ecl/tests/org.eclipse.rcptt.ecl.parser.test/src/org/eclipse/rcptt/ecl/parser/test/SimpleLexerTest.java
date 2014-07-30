@@ -52,6 +52,11 @@ public class SimpleLexerTest extends TestCase {
 	public void testLexer007() throws Exception {
 		process("/*Alfa\nBeta\bGamma*/\na::b::get-length alfa");
 	}
+	
+	public void testLexer008() throws Exception {
+		process("first -flag\nsecond -secondFlag");
+	}
+
 
 	private void process(String content) throws IllegalAccessException {
 		String method = Thread.currentThread().getStackTrace()[2].getMethodName();
