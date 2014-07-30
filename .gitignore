@@ -26,3 +26,5 @@ modules/nebula/plugins/org.eclipse.rcptt.module.nebula.updates/runtime/
 !runtime/verifications/org.eclipse.rcptt.verifications.log.impl/src/org/eclipse/rcptt/verifications/log
 bin/
 target/
+ecl/plugins/org.eclipse.rcptt.ecl.parser/antlr/Ecl__.g
+ecl/plugins/org.eclipse.rcptt.ecl.parser/src/org/eclipse/rcptt/ecl/internal/parser/Ecl.tokens

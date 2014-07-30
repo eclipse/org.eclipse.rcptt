@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 Ecl.g 2014-07-23 22:41:28
+// $ANTLR 3.5.2 H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g 2014-07-30 18:12:41
 
 package org.eclipse.rcptt.ecl.internal.parser;
 
@@ -57,16 +57,15 @@ public class EclLexer extends Lexer {
 	public EclLexer(CharStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
-	@Override public String getGrammarFileName() { return "Ecl.g"; }
+	@Override public String getGrammarFileName() { return "H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g"; }
 
 	// $ANTLR start "T__25"
 	public final void mT__25() throws RecognitionException {
-		traceIn("T__25", 1);
 		try {
 			int _type = T__25;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:17:7: ( '$' )
-			// Ecl.g:17:9: '$'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:17:7: ( '$' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:17:9: '$'
 			{
 			match('$'); 
 			}
@@ -76,19 +75,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("T__25", 1);
 		}
 	}
 	// $ANTLR end "T__25"
 
 	// $ANTLR start "T__26"
 	public final void mT__26() throws RecognitionException {
-		traceIn("T__26", 2);
 		try {
 			int _type = T__26;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:18:7: ( '+' )
-			// Ecl.g:18:9: '+'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:18:7: ( '+' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:18:9: '+'
 			{
 			match('+'); 
 			}
@@ -98,19 +95,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("T__26", 2);
 		}
 	}
 	// $ANTLR end "T__26"
 
 	// $ANTLR start "T__27"
 	public final void mT__27() throws RecognitionException {
-		traceIn("T__27", 3);
 		try {
 			int _type = T__27;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:19:7: ( '-' )
-			// Ecl.g:19:9: '-'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:19:7: ( '-' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:19:9: '-'
 			{
 			match('-'); 
 			}
@@ -120,19 +115,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("T__27", 3);
 		}
 	}
 	// $ANTLR end "T__27"
 
 	// $ANTLR start "T__28"
 	public final void mT__28() throws RecognitionException {
-		traceIn("T__28", 4);
 		try {
 			int _type = T__28;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:20:7: ( '=' )
-			// Ecl.g:20:9: '='
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:20:7: ( '=' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:20:9: '='
 			{
 			match('='); 
 			}
@@ -142,19 +135,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("T__28", 4);
 		}
 	}
 	// $ANTLR end "T__28"
 
 	// $ANTLR start "T__29"
 	public final void mT__29() throws RecognitionException {
-		traceIn("T__29", 5);
 		try {
 			int _type = T__29;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:21:7: ( '@' )
-			// Ecl.g:21:9: '@'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:21:7: ( '@' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:21:9: '@'
 			{
 			match('@'); 
 			}
@@ -164,19 +155,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("T__29", 5);
 		}
 	}
 	// $ANTLR end "T__29"
 
 	// $ANTLR start "COLON"
 	public final void mCOLON() throws RecognitionException {
-		traceIn("COLON", 6);
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:304:6: ( ';' )
-			// Ecl.g:304:8: ';'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:304:6: ( ';' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:304:8: ';'
 			{
 			match(';'); 
 			}
@@ -186,19 +175,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("COLON", 6);
 		}
 	}
 	// $ANTLR end "COLON"
 
 	// $ANTLR start "AND"
 	public final void mAND() throws RecognitionException {
-		traceIn("AND", 7);
 		try {
 			int _type = AND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:305:4: ( '&' )
-			// Ecl.g:305:6: '&'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:305:4: ( '&' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:305:6: '&'
 			{
 			match('&'); 
 			}
@@ -208,19 +195,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("AND", 7);
 		}
 	}
 	// $ANTLR end "AND"
 
 	// $ANTLR start "OR"
 	public final void mOR() throws RecognitionException {
-		traceIn("OR", 8);
 		try {
 			int _type = OR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:306:3: ( '|' )
-			// Ecl.g:306:5: '|'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:306:3: ( '|' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:306:5: '|'
 			{
 			match('|'); 
 			}
@@ -230,19 +215,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("OR", 8);
 		}
 	}
 	// $ANTLR end "OR"
 
 	// $ANTLR start "SEMI"
 	public final void mSEMI() throws RecognitionException {
-		traceIn("SEMI", 9);
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:307:5: ( ':' )
-			// Ecl.g:307:7: ':'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:307:5: ( ':' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:307:7: ':'
 			{
 			match(':'); 
 			}
@@ -252,17 +235,15 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("SEMI", 9);
 		}
 	}
 	// $ANTLR end "SEMI"
 
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
-		traceIn("DIGIT", 10);
 		try {
-			// Ecl.g:309:15: ( ( '0' .. '9' ) )
-			// Ecl.g:
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:309:15: ( ( '0' .. '9' ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 			{
 			if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 				input.consume();
@@ -277,21 +258,19 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("DIGIT", 10);
 		}
 	}
 	// $ANTLR end "DIGIT"
 
 	// $ANTLR start "NUMBER"
 	public final void mNUMBER() throws RecognitionException {
-		traceIn("NUMBER", 11);
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:313:7: ( ( DIGIT )+ )
-			// Ecl.g:314:3: ( DIGIT )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:313:7: ( ( DIGIT )+ )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:314:3: ( DIGIT )+
 			{
-			// Ecl.g:314:3: ( DIGIT )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:314:3: ( DIGIT )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -303,7 +282,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt1) {
 				case 1 :
-					// Ecl.g:
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 						input.consume();
@@ -331,19 +310,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("NUMBER", 11);
 		}
 	}
 	// $ANTLR end "NUMBER"
 
 	// $ANTLR start "IP4"
 	public final void mIP4() throws RecognitionException {
-		traceIn("IP4", 12);
 		try {
 			int _type = IP4;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:318:4: ( NUMBER '.' NUMBER '.' NUMBER '.' NUMBER )
-			// Ecl.g:319:3: NUMBER '.' NUMBER '.' NUMBER '.' NUMBER
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:318:4: ( NUMBER '.' NUMBER '.' NUMBER '.' NUMBER )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:319:3: NUMBER '.' NUMBER '.' NUMBER '.' NUMBER
 			{
 			mNUMBER(); 
 
@@ -363,22 +340,20 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("IP4", 12);
 		}
 	}
 	// $ANTLR end "IP4"
 
 	// $ANTLR start "STRING"
 	public final void mSTRING() throws RecognitionException {
-		traceIn("STRING", 13);
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:331:7: ( '\"' (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )* '\"' )
-			// Ecl.g:332:4: '\"' (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )* '\"'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:331:7: ( '\"' (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )* '\"' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:4: '\"' (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )* '\"'
 			{
 			match('\"'); 
-			// Ecl.g:332:8: (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:8: (~ ( '\"' | '\\n' | '\\\\' ) | ( '\\\\' . ) )*
 			loop2:
 			while (true) {
 				int alt2=3;
@@ -392,7 +367,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt2) {
 				case 1 :
-					// Ecl.g:332:9: ~ ( '\"' | '\\n' | '\\\\' )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:9: ~ ( '\"' | '\\n' | '\\\\' )
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= '[')||(input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -405,10 +380,10 @@ public class EclLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// Ecl.g:332:26: ( '\\\\' . )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:26: ( '\\\\' . )
 					{
-					// Ecl.g:332:26: ( '\\\\' . )
-					// Ecl.g:332:27: '\\\\' .
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:26: ( '\\\\' . )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:332:27: '\\\\' .
 					{
 					match('\\'); 
 					matchAny(); 
@@ -430,19 +405,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("STRING", 13);
 		}
 	}
 	// $ANTLR end "STRING"
 
 	// $ANTLR start "LOPEN"
 	public final void mLOPEN() throws RecognitionException {
-		traceIn("LOPEN", 14);
 		try {
 			int _type = LOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:337:8: ( '(' )
-			// Ecl.g:337:10: '('
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:337:8: ( '(' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:337:10: '('
 			{
 			match('('); 
 			}
@@ -452,19 +425,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("LOPEN", 14);
 		}
 	}
 	// $ANTLR end "LOPEN"
 
 	// $ANTLR start "ROPEN"
 	public final void mROPEN() throws RecognitionException {
-		traceIn("ROPEN", 15);
 		try {
 			int _type = ROPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:340:8: ( ')' )
-			// Ecl.g:340:10: ')'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:340:8: ( ')' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:340:10: ')'
 			{
 			match(')'); 
 			}
@@ -474,19 +445,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("ROPEN", 15);
 		}
 	}
 	// $ANTLR end "ROPEN"
 
 	// $ANTLR start "LCURLY"
 	public final void mLCURLY() throws RecognitionException {
-		traceIn("LCURLY", 16);
 		try {
 			int _type = LCURLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:343:9: ( '{' )
-			// Ecl.g:343:11: '{'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:343:9: ( '{' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:343:11: '{'
 			{
 			match('{'); 
 			}
@@ -496,19 +465,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("LCURLY", 16);
 		}
 	}
 	// $ANTLR end "LCURLY"
 
 	// $ANTLR start "RCURLY"
 	public final void mRCURLY() throws RecognitionException {
-		traceIn("RCURLY", 17);
 		try {
 			int _type = RCURLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:346:9: ( '}' )
-			// Ecl.g:346:11: '}'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:346:9: ( '}' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:346:11: '}'
 			{
 			match('}'); 
 			}
@@ -518,19 +485,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("RCURLY", 17);
 		}
 	}
 	// $ANTLR end "RCURLY"
 
 	// $ANTLR start "LBRACK"
 	public final void mLBRACK() throws RecognitionException {
-		traceIn("LBRACK", 18);
 		try {
 			int _type = LBRACK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:349:9: ( '[' )
-			// Ecl.g:349:11: '['
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:349:9: ( '[' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:349:11: '['
 			{
 			match('['); 
 			}
@@ -540,19 +505,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("LBRACK", 18);
 		}
 	}
 	// $ANTLR end "LBRACK"
 
 	// $ANTLR start "RBRACK"
 	public final void mRBRACK() throws RecognitionException {
-		traceIn("RBRACK", 19);
 		try {
 			int _type = RBRACK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:352:9: ( ']' )
-			// Ecl.g:352:11: ']'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:352:9: ( ']' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:352:11: ']'
 			{
 			match(']'); 
 			}
@@ -562,23 +525,21 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("RBRACK", 19);
 		}
 	}
 	// $ANTLR end "RBRACK"
 
 	// $ANTLR start "CURLY_STRING"
 	public final void mCURLY_STRING() throws RecognitionException {
-		traceIn("CURLY_STRING", 20);
 		try {
 			int _type = CURLY_STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:353:13: ( LCURLY ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )* RCURLY )
-			// Ecl.g:354:3: LCURLY ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )* RCURLY
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:353:13: ( LCURLY ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )* RCURLY )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:354:3: LCURLY ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )* RCURLY
 			{
 			mLCURLY(); 
 
-			// Ecl.g:355:3: ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:355:3: ( CURLY_STRING | LINE_COMMENT | COMMENT | STRING | ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )? )*
 			loop6:
 			while (true) {
 				int alt6=6;
@@ -608,37 +569,37 @@ public class EclLexer extends Lexer {
 
 				switch (alt6) {
 				case 1 :
-					// Ecl.g:356:5: CURLY_STRING
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:356:5: CURLY_STRING
 					{
 					mCURLY_STRING(); 
 
 					}
 					break;
 				case 2 :
-					// Ecl.g:357:5: LINE_COMMENT
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:357:5: LINE_COMMENT
 					{
 					mLINE_COMMENT(); 
 
 					}
 					break;
 				case 3 :
-					// Ecl.g:358:5: COMMENT
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:358:5: COMMENT
 					{
 					mCOMMENT(); 
 
 					}
 					break;
 				case 4 :
-					// Ecl.g:359:5: STRING
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:359:5: STRING
 					{
 					mSTRING(); 
 
 					}
 					break;
 				case 5 :
-					// Ecl.g:360:5: ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:5: ( '/' )? (~ ( '/' | '{' | '}' | '*' | '\"' ) )+ ( '*' )?
 					{
-					// Ecl.g:360:5: ( '/' )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:5: ( '/' )?
 					int alt3=2;
 					int LA3_0 = input.LA(1);
 					if ( (LA3_0=='/') ) {
@@ -646,7 +607,7 @@ public class EclLexer extends Lexer {
 					}
 					switch (alt3) {
 						case 1 :
-							// Ecl.g:360:5: '/'
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:5: '/'
 							{
 							match('/'); 
 							}
@@ -654,7 +615,7 @@ public class EclLexer extends Lexer {
 
 					}
 
-					// Ecl.g:360:10: (~ ( '/' | '{' | '}' | '*' | '\"' ) )+
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:10: (~ ( '/' | '{' | '}' | '*' | '\"' ) )+
 					int cnt4=0;
 					loop4:
 					while (true) {
@@ -666,7 +627,7 @@ public class EclLexer extends Lexer {
 
 						switch (alt4) {
 						case 1 :
-							// Ecl.g:
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 							{
 							if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '!')||(input.LA(1) >= '#' && input.LA(1) <= ')')||(input.LA(1) >= '+' && input.LA(1) <= '.')||(input.LA(1) >= '0' && input.LA(1) <= 'z')||input.LA(1)=='|'||(input.LA(1) >= '~' && input.LA(1) <= '\uFFFF') ) {
 								input.consume();
@@ -687,7 +648,7 @@ public class EclLexer extends Lexer {
 						cnt4++;
 					}
 
-					// Ecl.g:360:42: ( '*' )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:42: ( '*' )?
 					int alt5=2;
 					int LA5_0 = input.LA(1);
 					if ( (LA5_0=='*') ) {
@@ -695,7 +656,7 @@ public class EclLexer extends Lexer {
 					}
 					switch (alt5) {
 						case 1 :
-							// Ecl.g:360:42: '*'
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:360:42: '*'
 							{
 							match('*'); 
 							}
@@ -720,19 +681,17 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("CURLY_STRING", 20);
 		}
 	}
 	// $ANTLR end "CURLY_STRING"
 
 	// $ANTLR start "NAME"
 	public final void mNAME() throws RecognitionException {
-		traceIn("NAME", 21);
 		try {
 			int _type = NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:365:5: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )* )
-			// Ecl.g:366:2: ( 'a' .. 'z' | 'A' .. 'Z' ) ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:365:5: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:366:2: ( 'a' .. 'z' | 'A' .. 'Z' ) ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )*
 			{
 			if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 				input.consume();
@@ -742,7 +701,7 @@ public class EclLexer extends Lexer {
 				recover(mse);
 				throw mse;
 			}
-			// Ecl.g:366:22: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:366:22: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' | '/' ) | DIGIT )*
 			loop7:
 			while (true) {
 				int alt7=2;
@@ -753,7 +712,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt7) {
 				case 1 :
-					// Ecl.g:
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 					{
 					if ( (input.LA(1) >= '.' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -778,23 +737,21 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("NAME", 21);
 		}
 	}
 	// $ANTLR end "NAME"
 
 	// $ANTLR start "DNAME"
 	public final void mDNAME() throws RecognitionException {
-		traceIn("DNAME", 22);
 		try {
 			int _type = DNAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:369:6: ( NAME ( '-' NAME )+ )
-			// Ecl.g:370:2: NAME ( '-' NAME )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:369:6: ( NAME ( '-' NAME )+ )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:370:2: NAME ( '-' NAME )+
 			{
 			mNAME(); 
 
-			// Ecl.g:370:7: ( '-' NAME )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:370:7: ( '-' NAME )+
 			int cnt8=0;
 			loop8:
 			while (true) {
@@ -806,7 +763,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt8) {
 				case 1 :
-					// Ecl.g:370:8: '-' NAME
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:370:8: '-' NAME
 					{
 					match('-'); 
 					mNAME(); 
@@ -829,21 +786,19 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("DNAME", 22);
 		}
 	}
 	// $ANTLR end "DNAME"
 
 	// $ANTLR start "WS"
 	public final void mWS() throws RecognitionException {
-		traceIn("WS", 23);
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:373:3: ( ( ' ' | '\\t' )+ )
-			// Ecl.g:373:5: ( ' ' | '\\t' )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:373:3: ( ( ' ' | '\\t' )+ )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:373:5: ( ' ' | '\\t' )+
 			{
-			// Ecl.g:373:5: ( ' ' | '\\t' )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:373:5: ( ' ' | '\\t' )+
 			int cnt9=0;
 			loop9:
 			while (true) {
@@ -855,7 +810,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt9) {
 				case 1 :
-					// Ecl.g:
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 					{
 					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
 						input.consume();
@@ -886,23 +841,21 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("WS", 23);
 		}
 	}
 	// $ANTLR end "WS"
 
 	// $ANTLR start "COMMENT"
 	public final void mCOMMENT() throws RecognitionException {
-		traceIn("COMMENT", 24);
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:379:8: ( '/*' ( options {greedy=false; } : . )* '*/' )
-			// Ecl.g:379:10: '/*' ( options {greedy=false; } : . )* '*/'
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:379:8: ( '/*' ( options {greedy=false; } : . )* '*/' )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:379:10: '/*' ( options {greedy=false; } : . )* '*/'
 			{
 			match("/*"); 
 
-			// Ecl.g:379:15: ( options {greedy=false; } : . )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:379:15: ( options {greedy=false; } : . )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -923,7 +876,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt10) {
 				case 1 :
-					// Ecl.g:379:43: .
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:379:43: .
 					{
 					matchAny(); 
 					}
@@ -944,23 +897,21 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("COMMENT", 24);
 		}
 	}
 	// $ANTLR end "COMMENT"
 
 	// $ANTLR start "LINE_COMMENT"
 	public final void mLINE_COMMENT() throws RecognitionException {
-		traceIn("LINE_COMMENT", 25);
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:382:13: ( '//' (~ ( '\\n' | '\\r' ) )* )
-			// Ecl.g:382:15: '//' (~ ( '\\n' | '\\r' ) )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:382:13: ( '//' (~ ( '\\n' | '\\r' ) )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:382:15: '//' (~ ( '\\n' | '\\r' ) )*
 			{
 			match("//"); 
 
-			// Ecl.g:382:20: (~ ( '\\n' | '\\r' ) )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:382:20: (~ ( '\\n' | '\\r' ) )*
 			loop11:
 			while (true) {
 				int alt11=2;
@@ -971,7 +922,7 @@ public class EclLexer extends Lexer {
 
 				switch (alt11) {
 				case 1 :
-					// Ecl.g:
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -997,21 +948,19 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("LINE_COMMENT", 25);
 		}
 	}
 	// $ANTLR end "LINE_COMMENT"
 
 	// $ANTLR start "NEWLINE"
 	public final void mNEWLINE() throws RecognitionException {
-		traceIn("NEWLINE", 26);
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// Ecl.g:385:8: ( ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+ )
-			// Ecl.g:385:10: ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:8: ( ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+ )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:10: ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+
 			{
-			// Ecl.g:385:10: ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:10: ( ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )* )+
 			int cnt16=0;
 			loop16:
 			while (true) {
@@ -1023,9 +972,9 @@ public class EclLexer extends Lexer {
 
 				switch (alt16) {
 				case 1 :
-					// Ecl.g:385:11: ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )*
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:11: ( '\\r' | '\\n' )+ ( COMMENT )* ( LINE_COMMENT )* ( WS )*
 					{
-					// Ecl.g:385:11: ( '\\r' | '\\n' )+
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:11: ( '\\r' | '\\n' )+
 					int cnt12=0;
 					loop12:
 					while (true) {
@@ -1037,7 +986,7 @@ public class EclLexer extends Lexer {
 
 						switch (alt12) {
 						case 1 :
-							// Ecl.g:
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 							{
 							if ( input.LA(1)=='\n'||input.LA(1)=='\r' ) {
 								input.consume();
@@ -1058,7 +1007,7 @@ public class EclLexer extends Lexer {
 						cnt12++;
 					}
 
-					// Ecl.g:385:24: ( COMMENT )*
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:24: ( COMMENT )*
 					loop13:
 					while (true) {
 						int alt13=2;
@@ -1073,7 +1022,7 @@ public class EclLexer extends Lexer {
 
 						switch (alt13) {
 						case 1 :
-							// Ecl.g:385:24: COMMENT
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:24: COMMENT
 							{
 							mCOMMENT(); 
 
@@ -1085,7 +1034,7 @@ public class EclLexer extends Lexer {
 						}
 					}
 
-					// Ecl.g:385:33: ( LINE_COMMENT )*
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:33: ( LINE_COMMENT )*
 					loop14:
 					while (true) {
 						int alt14=2;
@@ -1096,7 +1045,7 @@ public class EclLexer extends Lexer {
 
 						switch (alt14) {
 						case 1 :
-							// Ecl.g:385:33: LINE_COMMENT
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:33: LINE_COMMENT
 							{
 							mLINE_COMMENT(); 
 
@@ -1108,7 +1057,7 @@ public class EclLexer extends Lexer {
 						}
 					}
 
-					// Ecl.g:385:47: ( WS )*
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:47: ( WS )*
 					loop15:
 					while (true) {
 						int alt15=2;
@@ -1119,7 +1068,7 @@ public class EclLexer extends Lexer {
 
 						switch (alt15) {
 						case 1 :
-							// Ecl.g:385:47: WS
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:385:47: WS
 							{
 							mWS(); 
 
@@ -1149,187 +1098,186 @@ public class EclLexer extends Lexer {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("NEWLINE", 26);
 		}
 	}
 	// $ANTLR end "NEWLINE"
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// Ecl.g:1:8: ( T__25 | T__26 | T__27 | T__28 | T__29 | COLON | AND | OR | SEMI | NUMBER | IP4 | STRING | LOPEN | ROPEN | LCURLY | RCURLY | LBRACK | RBRACK | CURLY_STRING | NAME | DNAME | WS | COMMENT | LINE_COMMENT | NEWLINE )
+		// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:8: ( T__25 | T__26 | T__27 | T__28 | T__29 | COLON | AND | OR | SEMI | NUMBER | IP4 | STRING | LOPEN | ROPEN | LCURLY | RCURLY | LBRACK | RBRACK | CURLY_STRING | NAME | DNAME | WS | COMMENT | LINE_COMMENT | NEWLINE )
 		int alt17=25;
 		alt17 = dfa17.predict(input);
 		switch (alt17) {
 			case 1 :
-				// Ecl.g:1:10: T__25
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:10: T__25
 				{
 				mT__25(); 
 
 				}
 				break;
 			case 2 :
-				// Ecl.g:1:16: T__26
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:16: T__26
 				{
 				mT__26(); 
 
 				}
 				break;
 			case 3 :
-				// Ecl.g:1:22: T__27
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:22: T__27
 				{
 				mT__27(); 
 
 				}
 				break;
 			case 4 :
-				// Ecl.g:1:28: T__28
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:28: T__28
 				{
 				mT__28(); 
 
 				}
 				break;
 			case 5 :
-				// Ecl.g:1:34: T__29
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:34: T__29
 				{
 				mT__29(); 
 
 				}
 				break;
 			case 6 :
-				// Ecl.g:1:40: COLON
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:40: COLON
 				{
 				mCOLON(); 
 
 				}
 				break;
 			case 7 :
-				// Ecl.g:1:46: AND
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:46: AND
 				{
 				mAND(); 
 
 				}
 				break;
 			case 8 :
-				// Ecl.g:1:50: OR
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:50: OR
 				{
 				mOR(); 
 
 				}
 				break;
 			case 9 :
-				// Ecl.g:1:53: SEMI
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:53: SEMI
 				{
 				mSEMI(); 
 
 				}
 				break;
 			case 10 :
-				// Ecl.g:1:58: NUMBER
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:58: NUMBER
 				{
 				mNUMBER(); 
 
 				}
 				break;
 			case 11 :
-				// Ecl.g:1:65: IP4
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:65: IP4
 				{
 				mIP4(); 
 
 				}
 				break;
 			case 12 :
-				// Ecl.g:1:69: STRING
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:69: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
 			case 13 :
-				// Ecl.g:1:76: LOPEN
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:76: LOPEN
 				{
 				mLOPEN(); 
 
 				}
 				break;
 			case 14 :
-				// Ecl.g:1:82: ROPEN
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:82: ROPEN
 				{
 				mROPEN(); 
 
 				}
 				break;
 			case 15 :
-				// Ecl.g:1:88: LCURLY
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:88: LCURLY
 				{
 				mLCURLY(); 
 
 				}
 				break;
 			case 16 :
-				// Ecl.g:1:95: RCURLY
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:95: RCURLY
 				{
 				mRCURLY(); 
 
 				}
 				break;
 			case 17 :
-				// Ecl.g:1:102: LBRACK
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:102: LBRACK
 				{
 				mLBRACK(); 
 
 				}
 				break;
 			case 18 :
-				// Ecl.g:1:109: RBRACK
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:109: RBRACK
 				{
 				mRBRACK(); 
 
 				}
 				break;
 			case 19 :
-				// Ecl.g:1:116: CURLY_STRING
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:116: CURLY_STRING
 				{
 				mCURLY_STRING(); 
 
 				}
 				break;
 			case 20 :
-				// Ecl.g:1:129: NAME
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:129: NAME
 				{
 				mNAME(); 
 
 				}
 				break;
 			case 21 :
-				// Ecl.g:1:134: DNAME
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:134: DNAME
 				{
 				mDNAME(); 
 
 				}
 				break;
 			case 22 :
-				// Ecl.g:1:140: WS
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:140: WS
 				{
 				mWS(); 
 
 				}
 				break;
 			case 23 :
-				// Ecl.g:1:143: COMMENT
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:143: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
 			case 24 :
-				// Ecl.g:1:151: LINE_COMMENT
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:151: LINE_COMMENT
 				{
 				mLINE_COMMENT(); 
 
 				}
 				break;
 			case 25 :
-				// Ecl.g:1:164: NEWLINE
+				// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:1:164: NEWLINE
 				{
 				mNEWLINE(); 
 

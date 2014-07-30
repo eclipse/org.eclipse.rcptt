@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 Ecl.g 2014-07-23 22:41:28
+// $ANTLR 3.5.2 H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g 2014-07-30 18:12:41
 
 package org.eclipse.rcptt.ecl.internal.parser;
 import org.antlr.runtime.BitSet;
@@ -80,7 +80,7 @@ public class EclParser extends Parser {
 	}
 
 	@Override public String[] getTokenNames() { return EclParser.tokenNames; }
-	@Override public String getGrammarFileName() { return "Ecl.g"; }
+	@Override public String getGrammarFileName() { return "H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g"; }
 
 	  
 	    CoreFactory factory = CoreFactory.eINSTANCE;  
@@ -116,14 +116,13 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "eos"
-	// Ecl.g:79:1: eos : ( NEWLINE | COLON )+ ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:79:1: eos : ( NEWLINE | COLON )+ ;
 	public final void eos() throws RecognitionException {
-		traceIn("eos", 1);
 		try {
-			// Ecl.g:79:4: ( ( NEWLINE | COLON )+ )
-			// Ecl.g:79:6: ( NEWLINE | COLON )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:79:4: ( ( NEWLINE | COLON )+ )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:79:6: ( NEWLINE | COLON )+
 			{
-			// Ecl.g:79:6: ( NEWLINE | COLON )+
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:79:6: ( NEWLINE | COLON )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -135,7 +134,7 @@ public class EclParser extends Parser {
 
 				switch (alt1) {
 				case 1 :
-					// Ecl.g:
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:
 					{
 					if ( input.LA(1)==COLON||input.LA(1)==NEWLINE ) {
 						input.consume();
@@ -165,7 +164,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("eos", 1);
 		}
 	}
 	// $ANTLR end "eos"
@@ -173,19 +171,18 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "commands"
-	// Ecl.g:80:1: commands returns [Command cmd=null;] : ( eos )* exprs= open_expr_list ( eos )* EOF ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:80:1: commands returns [Command cmd=null;] : ( eos )* exprs= open_expr_list ( eos )* EOF ;
 	public final Command commands() throws RecognitionException {
-		traceIn("commands", 2);
 		Command cmd = null;;
 
 
 		Command exprs =null;
 
 		try {
-			// Ecl.g:80:36: ( ( eos )* exprs= open_expr_list ( eos )* EOF )
-			// Ecl.g:81:2: ( eos )* exprs= open_expr_list ( eos )* EOF
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:80:36: ( ( eos )* exprs= open_expr_list ( eos )* EOF )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:81:2: ( eos )* exprs= open_expr_list ( eos )* EOF
 			{
-			// Ecl.g:81:2: ( eos )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:81:2: ( eos )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -196,7 +193,7 @@ public class EclParser extends Parser {
 
 				switch (alt2) {
 				case 1 :
-					// Ecl.g:81:2: eos
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:81:2: eos
 					{
 					pushFollow(FOLLOW_eos_in_commands80);
 					eos();
@@ -215,7 +212,7 @@ public class EclParser extends Parser {
 			state._fsp--;
 
 			cmd=exprs;
-			// Ecl.g:81:41: ( eos )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:81:41: ( eos )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -226,7 +223,7 @@ public class EclParser extends Parser {
 
 				switch (alt3) {
 				case 1 :
-					// Ecl.g:81:41: eos
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:81:41: eos
 					{
 					pushFollow(FOLLOW_eos_in_commands89);
 					eos();
@@ -254,7 +251,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("commands", 2);
 		}
 		return cmd;
 	}
@@ -263,17 +259,16 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "expression"
-	// Ecl.g:88:1: expression returns [Command cmd=null;] : c= and_expr ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:88:1: expression returns [Command cmd=null;] : c= and_expr ;
 	public final Command expression() throws RecognitionException {
-		traceIn("expression", 3);
 		Command cmd = null;;
 
 
 		Command c =null;
 
 		try {
-			// Ecl.g:88:38: (c= and_expr )
-			// Ecl.g:89:4: c= and_expr
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:88:38: (c= and_expr )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:89:4: c= and_expr
 			{
 			pushFollow(FOLLOW_and_expr_in_expression119);
 			c=and_expr();
@@ -291,7 +286,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("expression", 3);
 		}
 		return cmd;
 	}
@@ -300,9 +294,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "and_expr"
-	// Ecl.g:94:1: and_expr returns [Command cmd=null;] : or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )* ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:94:1: and_expr returns [Command cmd=null;] : or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )* ;
 	public final Command and_expr() throws RecognitionException {
-		traceIn("and_expr", 4);
 		Command cmd = null;;
 
 
@@ -310,15 +303,15 @@ public class EclParser extends Parser {
 		Command or2 =null;
 
 		try {
-			// Ecl.g:94:37: (or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )* )
-			// Ecl.g:95:3: or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:94:37: (or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:3: or1= or_expr ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )*
 			{
 			pushFollow(FOLLOW_or_expr_in_and_expr138);
 			or1=or_expr();
 			state._fsp--;
 
 			cmd=or1;
-			// Ecl.g:95:26: ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:26: ( ( NEWLINE )? AND ( NEWLINE )? or2= or_expr )*
 			loop6:
 			while (true) {
 				int alt6=2;
@@ -336,9 +329,9 @@ public class EclParser extends Parser {
 
 				switch (alt6) {
 				case 1 :
-					// Ecl.g:95:28: ( NEWLINE )? AND ( NEWLINE )? or2= or_expr
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:28: ( NEWLINE )? AND ( NEWLINE )? or2= or_expr
 					{
-					// Ecl.g:95:28: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:28: ( NEWLINE )?
 					int alt4=2;
 					int LA4_0 = input.LA(1);
 					if ( (LA4_0==NEWLINE) ) {
@@ -346,7 +339,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt4) {
 						case 1 :
-							// Ecl.g:95:28: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:28: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr144); 
 							}
@@ -355,7 +348,7 @@ public class EclParser extends Parser {
 					}
 
 					match(input,AND,FOLLOW_AND_in_and_expr147); 
-					// Ecl.g:95:41: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:41: ( NEWLINE )?
 					int alt5=2;
 					int LA5_0 = input.LA(1);
 					if ( (LA5_0==NEWLINE) ) {
@@ -363,7 +356,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt5) {
 						case 1 :
-							// Ecl.g:95:41: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:95:41: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr149); 
 							}
@@ -408,7 +401,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("and_expr", 4);
 		}
 		return cmd;
 	}
@@ -417,9 +409,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "or_expr"
-	// Ecl.g:113:1: or_expr returns [Command cmd=null;] : c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )* ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:113:1: or_expr returns [Command cmd=null;] : c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )* ;
 	public final Command or_expr() throws RecognitionException {
-		traceIn("or_expr", 5);
 		Command cmd = null;;
 
 
@@ -427,8 +418,8 @@ public class EclParser extends Parser {
 		Command cmd2 =null;
 
 		try {
-			// Ecl.g:113:36: (c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )* )
-			// Ecl.g:114:3: c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:113:36: (c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:114:3: c= cmd ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )*
 			{
 			pushFollow(FOLLOW_cmd_in_or_expr176);
 			c=cmd();
@@ -437,7 +428,7 @@ public class EclParser extends Parser {
 
 			  cmd = c;
 			  
-			// Ecl.g:116:6: ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:6: ( ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -455,9 +446,9 @@ public class EclParser extends Parser {
 
 				switch (alt9) {
 				case 1 :
-					// Ecl.g:116:8: ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:8: ( NEWLINE )? OR ( NEWLINE )? cmd2= cmd
 					{
-					// Ecl.g:116:8: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:8: ( NEWLINE )?
 					int alt7=2;
 					int LA7_0 = input.LA(1);
 					if ( (LA7_0==NEWLINE) ) {
@@ -465,7 +456,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt7) {
 						case 1 :
-							// Ecl.g:116:8: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:8: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr183); 
 							}
@@ -474,7 +465,7 @@ public class EclParser extends Parser {
 					}
 
 					match(input,OR,FOLLOW_OR_in_or_expr186); 
-					// Ecl.g:116:20: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:20: ( NEWLINE )?
 					int alt8=2;
 					int LA8_0 = input.LA(1);
 					if ( (LA8_0==NEWLINE) ) {
@@ -482,7 +473,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt8) {
 						case 1 :
-							// Ecl.g:116:20: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:116:20: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr188); 
 							}
@@ -527,7 +518,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("or_expr", 5);
 		}
 		return cmd;
 	}
@@ -536,19 +526,18 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "open_expr_list"
-	// Ecl.g:134:1: open_expr_list returns [Command cmd=null] : (c= one_or_more_expr )? ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:134:1: open_expr_list returns [Command cmd=null] : (c= one_or_more_expr )? ;
 	public final Command open_expr_list() throws RecognitionException {
-		traceIn("open_expr_list", 6);
 		Command cmd = null;
 
 
 		Command c =null;
 
 		try {
-			// Ecl.g:134:42: ( (c= one_or_more_expr )? )
-			// Ecl.g:135:5: (c= one_or_more_expr )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:134:42: ( (c= one_or_more_expr )? )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:135:5: (c= one_or_more_expr )?
 			{
-			// Ecl.g:135:5: (c= one_or_more_expr )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:135:5: (c= one_or_more_expr )?
 			int alt10=2;
 			int LA10_0 = input.LA(1);
 			if ( (LA10_0==DNAME||(LA10_0 >= LOPEN && LA10_0 <= NAME)||LA10_0==25) ) {
@@ -556,7 +545,7 @@ public class EclParser extends Parser {
 			}
 			switch (alt10) {
 				case 1 :
-					// Ecl.g:136:8: c= one_or_more_expr
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:136:8: c= one_or_more_expr
 					{
 					pushFollow(FOLLOW_one_or_more_expr_in_open_expr_list226);
 					c=one_or_more_expr();
@@ -581,7 +570,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("open_expr_list", 6);
 		}
 		return cmd;
 	}
@@ -590,9 +578,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "one_or_more_expr"
-	// Ecl.g:144:1: one_or_more_expr returns [Command cmd=null] : c= expression ( ( eos )+ c2= one_or_more_expr )? ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:144:1: one_or_more_expr returns [Command cmd=null] : c= expression ( ( eos )+ c2= one_or_more_expr )? ;
 	public final Command one_or_more_expr() throws RecognitionException {
-		traceIn("one_or_more_expr", 7);
 		Command cmd = null;
 
 
@@ -600,15 +587,15 @@ public class EclParser extends Parser {
 		Command c2 =null;
 
 		try {
-			// Ecl.g:144:44: (c= expression ( ( eos )+ c2= one_or_more_expr )? )
-			// Ecl.g:145:5: c= expression ( ( eos )+ c2= one_or_more_expr )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:144:44: (c= expression ( ( eos )+ c2= one_or_more_expr )? )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:145:5: c= expression ( ( eos )+ c2= one_or_more_expr )?
 			{
 			pushFollow(FOLLOW_expression_in_one_or_more_expr263);
 			c=expression();
 			state._fsp--;
 
 			cmd = processSequence(cmd, c);
-			// Ecl.g:146:5: ( ( eos )+ c2= one_or_more_expr )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:146:5: ( ( eos )+ c2= one_or_more_expr )?
 			int alt12=2;
 			int LA12_0 = input.LA(1);
 			if ( (LA12_0==COLON||LA12_0==NEWLINE) ) {
@@ -622,9 +609,9 @@ public class EclParser extends Parser {
 			}
 			switch (alt12) {
 				case 1 :
-					// Ecl.g:146:6: ( eos )+ c2= one_or_more_expr
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:146:6: ( eos )+ c2= one_or_more_expr
 					{
-					// Ecl.g:146:6: ( eos )+
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:146:6: ( eos )+
 					int cnt11=0;
 					loop11:
 					while (true) {
@@ -636,7 +623,7 @@ public class EclParser extends Parser {
 
 						switch (alt11) {
 						case 1 :
-							// Ecl.g:146:6: eos
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:146:6: eos
 							{
 							pushFollow(FOLLOW_eos_in_one_or_more_expr273);
 							eos();
@@ -672,7 +659,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("one_or_more_expr", 7);
 		}
 		return cmd;
 	}
@@ -681,9 +667,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "cmd"
-	// Ecl.g:150:1: cmd returns [Command cmd=null;] : (c= named_command | ( LOPEN c= open_expr_list ROPEN ) | ( '$' n= command_name ) );
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:150:1: cmd returns [Command cmd=null;] : (c= named_command | ( LOPEN c= open_expr_list ROPEN ) | ( '$' n= command_name ) );
 	public final Command cmd() throws RecognitionException {
-		traceIn("cmd", 8);
 		Command cmd = null;;
 
 
@@ -691,7 +676,7 @@ public class EclParser extends Parser {
 		String n =null;
 
 		try {
-			// Ecl.g:150:32: (c= named_command | ( LOPEN c= open_expr_list ROPEN ) | ( '$' n= command_name ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:150:32: (c= named_command | ( LOPEN c= open_expr_list ROPEN ) | ( '$' n= command_name ) )
 			int alt13=3;
 			switch ( input.LA(1) ) {
 			case DNAME:
@@ -717,7 +702,7 @@ public class EclParser extends Parser {
 			}
 			switch (alt13) {
 				case 1 :
-					// Ecl.g:151:2: c= named_command
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:151:2: c= named_command
 					{
 					pushFollow(FOLLOW_named_command_in_cmd300);
 					c=named_command();
@@ -729,10 +714,10 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 2 :
-					// Ecl.g:154:2: ( LOPEN c= open_expr_list ROPEN )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:154:2: ( LOPEN c= open_expr_list ROPEN )
 					{
-					// Ecl.g:154:2: ( LOPEN c= open_expr_list ROPEN )
-					// Ecl.g:154:3: LOPEN c= open_expr_list ROPEN
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:154:2: ( LOPEN c= open_expr_list ROPEN )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:154:3: LOPEN c= open_expr_list ROPEN
 					{
 					match(input,LOPEN,FOLLOW_LOPEN_in_cmd308); 
 					pushFollow(FOLLOW_open_expr_list_in_cmd312);
@@ -748,10 +733,10 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 3 :
-					// Ecl.g:156:13: ( '$' n= command_name )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:156:13: ( '$' n= command_name )
 					{
-					// Ecl.g:156:13: ( '$' n= command_name )
-					// Ecl.g:156:14: '$' n= command_name
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:156:13: ( '$' n= command_name )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:156:14: '$' n= command_name
 					{
 					match(input,25,FOLLOW_25_in_cmd322); 
 					pushFollow(FOLLOW_command_name_in_cmd326);
@@ -776,7 +761,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("cmd", 8);
 		}
 		return cmd;
 	}
@@ -785,9 +769,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "named_command"
-	// Ecl.g:163:1: named_command returns [Exec cmd=null;] :n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )* ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:163:1: named_command returns [Exec cmd=null;] :n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )* ;
 	public final Exec named_command() throws RecognitionException {
-		traceIn("named_command", 9);
 		Exec cmd = null;;
 
 
@@ -797,8 +780,8 @@ public class EclParser extends Parser {
 		Parameter arg =null;
 
 		try {
-			// Ecl.g:163:38: (n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )* )
-			// Ecl.g:164:3: n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:163:38: (n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:164:3: n= command_name (ho= host )? (a= argument_value )* ( ( NEWLINE )? '-' ( '-' )? arg= argument )*
 			{
 
 			    Token t = input.LT(1);
@@ -823,7 +806,7 @@ public class EclParser extends Parser {
 			   		cmd.setName(n.substring(index+2));
 			   	}
 			   
-			// Ecl.g:183:4: (ho= host )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:183:4: (ho= host )?
 			int alt14=2;
 			int LA14_0 = input.LA(1);
 			if ( (LA14_0==29) ) {
@@ -831,7 +814,7 @@ public class EclParser extends Parser {
 			}
 			switch (alt14) {
 				case 1 :
-					// Ecl.g:183:5: ho= host
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:183:5: ho= host
 					{
 					pushFollow(FOLLOW_host_in_named_command360);
 					ho=host();
@@ -845,7 +828,7 @@ public class EclParser extends Parser {
 
 			}
 
-			// Ecl.g:186:4: (a= argument_value )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:186:4: (a= argument_value )*
 			loop15:
 			while (true) {
 				int alt15=2;
@@ -866,7 +849,7 @@ public class EclParser extends Parser {
 
 				switch (alt15) {
 				case 1 :
-					// Ecl.g:186:5: a= argument_value
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:186:5: a= argument_value
 					{
 					pushFollow(FOLLOW_argument_value_in_named_command372);
 					a=argument_value();
@@ -885,7 +868,7 @@ public class EclParser extends Parser {
 				}
 			}
 
-			// Ecl.g:191:4: ( ( NEWLINE )? '-' ( '-' )? arg= argument )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:4: ( ( NEWLINE )? '-' ( '-' )? arg= argument )*
 			loop18:
 			while (true) {
 				int alt18=2;
@@ -903,9 +886,9 @@ public class EclParser extends Parser {
 
 				switch (alt18) {
 				case 1 :
-					// Ecl.g:191:5: ( NEWLINE )? '-' ( '-' )? arg= argument
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:5: ( NEWLINE )? '-' ( '-' )? arg= argument
 					{
-					// Ecl.g:191:5: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:5: ( NEWLINE )?
 					int alt16=2;
 					int LA16_0 = input.LA(1);
 					if ( (LA16_0==NEWLINE) ) {
@@ -913,7 +896,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt16) {
 						case 1 :
-							// Ecl.g:191:5: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:5: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_named_command383); 
 							}
@@ -922,7 +905,7 @@ public class EclParser extends Parser {
 					}
 
 					match(input,27,FOLLOW_27_in_named_command386); 
-					// Ecl.g:191:18: ( '-' )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:18: ( '-' )?
 					int alt17=2;
 					int LA17_0 = input.LA(1);
 					if ( (LA17_0==27) ) {
@@ -930,7 +913,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt17) {
 						case 1 :
-							// Ecl.g:191:18: '-'
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:191:18: '-'
 							{
 							match(input,27,FOLLOW_27_in_named_command388); 
 							}
@@ -970,7 +953,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("named_command", 9);
 		}
 		return cmd;
 	}
@@ -979,9 +961,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "subcommand"
-	// Ecl.g:204:1: subcommand returns [Parameter param=null;] : ( ( LBRACK c= open_expr_list RBRACK ) | '$' name= command_name );
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:204:1: subcommand returns [Parameter param=null;] : ( ( LBRACK c= open_expr_list RBRACK ) | '$' name= command_name );
 	public final Parameter subcommand() throws RecognitionException {
-		traceIn("subcommand", 10);
 		Parameter param = null;;
 
 
@@ -989,7 +970,7 @@ public class EclParser extends Parser {
 		String name =null;
 
 		try {
-			// Ecl.g:204:42: ( ( LBRACK c= open_expr_list RBRACK ) | '$' name= command_name )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:204:42: ( ( LBRACK c= open_expr_list RBRACK ) | '$' name= command_name )
 			int alt19=2;
 			int LA19_0 = input.LA(1);
 			if ( (LA19_0==LBRACK) ) {
@@ -1007,10 +988,10 @@ public class EclParser extends Parser {
 
 			switch (alt19) {
 				case 1 :
-					// Ecl.g:205:3: ( LBRACK c= open_expr_list RBRACK )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:205:3: ( LBRACK c= open_expr_list RBRACK )
 					{
-					// Ecl.g:205:3: ( LBRACK c= open_expr_list RBRACK )
-					// Ecl.g:205:4: LBRACK c= open_expr_list RBRACK
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:205:3: ( LBRACK c= open_expr_list RBRACK )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:205:4: LBRACK c= open_expr_list RBRACK
 					{
 					match(input,LBRACK,FOLLOW_LBRACK_in_subcommand415); 
 					pushFollow(FOLLOW_open_expr_list_in_subcommand423);
@@ -1028,7 +1009,7 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 2 :
-					// Ecl.g:211:13: '$' name= command_name
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:211:13: '$' name= command_name
 					{
 					match(input,25,FOLLOW_25_in_subcommand434); 
 					pushFollow(FOLLOW_command_name_in_subcommand438);
@@ -1053,7 +1034,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("subcommand", 10);
 		}
 		return param;
 	}
@@ -1062,19 +1042,18 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "command_name"
-	// Ecl.g:220:1: command_name returns [String name=null;] : (n= NAME |n= DNAME ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:220:1: command_name returns [String name=null;] : (n= NAME |n= DNAME ) ;
 	public final String command_name() throws RecognitionException {
-		traceIn("command_name", 11);
 		String name = null;;
 
 
 		Token n=null;
 
 		try {
-			// Ecl.g:220:40: ( (n= NAME |n= DNAME ) )
-			// Ecl.g:221:2: (n= NAME |n= DNAME )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:220:40: ( (n= NAME |n= DNAME ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:221:2: (n= NAME |n= DNAME )
 			{
-			// Ecl.g:221:2: (n= NAME |n= DNAME )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:221:2: (n= NAME |n= DNAME )
 			int alt20=2;
 			int LA20_0 = input.LA(1);
 			if ( (LA20_0==NAME) ) {
@@ -1092,13 +1071,13 @@ public class EclParser extends Parser {
 
 			switch (alt20) {
 				case 1 :
-					// Ecl.g:221:3: n= NAME
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:221:3: n= NAME
 					{
 					n=(Token)match(input,NAME,FOLLOW_NAME_in_command_name458); 
 					}
 					break;
 				case 2 :
-					// Ecl.g:221:33: n= DNAME
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:221:33: n= DNAME
 					{
 					n=(Token)match(input,DNAME,FOLLOW_DNAME_in_command_name465); 
 					}
@@ -1116,7 +1095,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("command_name", 11);
 		}
 		return name;
 	}
@@ -1125,23 +1103,22 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "host"
-	// Ecl.g:224:1: host returns [String host=null;] : ( '@' (n= NAME |n= IP4 ) ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:224:1: host returns [String host=null;] : ( '@' (n= NAME |n= IP4 ) ) ;
 	public final String host() throws RecognitionException {
-		traceIn("host", 12);
 		String host = null;;
 
 
 		Token n=null;
 
 		try {
-			// Ecl.g:224:33: ( ( '@' (n= NAME |n= IP4 ) ) )
-			// Ecl.g:225:2: ( '@' (n= NAME |n= IP4 ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:224:33: ( ( '@' (n= NAME |n= IP4 ) ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:2: ( '@' (n= NAME |n= IP4 ) )
 			{
-			// Ecl.g:225:2: ( '@' (n= NAME |n= IP4 ) )
-			// Ecl.g:225:3: '@' (n= NAME |n= IP4 )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:2: ( '@' (n= NAME |n= IP4 ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:3: '@' (n= NAME |n= IP4 )
 			{
 			match(input,29,FOLLOW_29_in_host483); 
-			// Ecl.g:225:7: (n= NAME |n= IP4 )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:7: (n= NAME |n= IP4 )
 			int alt21=2;
 			int LA21_0 = input.LA(1);
 			if ( (LA21_0==NAME) ) {
@@ -1159,13 +1136,13 @@ public class EclParser extends Parser {
 
 			switch (alt21) {
 				case 1 :
-					// Ecl.g:225:8: n= NAME
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:8: n= NAME
 					{
 					n=(Token)match(input,NAME,FOLLOW_NAME_in_host488); 
 					}
 					break;
 				case 2 :
-					// Ecl.g:225:15: n= IP4
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:225:15: n= IP4
 					{
 					n=(Token)match(input,IP4,FOLLOW_IP4_in_host492); 
 					}
@@ -1187,7 +1164,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("host", 12);
 		}
 		return host;
 	}
@@ -1196,20 +1172,19 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "argument"
-	// Ecl.g:230:1: argument returns [Parameter param = null] : (p= named_argument ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:230:1: argument returns [Parameter param = null] : (p= named_argument ) ;
 	public final Parameter argument() throws RecognitionException {
-		traceIn("argument", 13);
 		Parameter param =  null;
 
 
 		Parameter p =null;
 
 		try {
-			// Ecl.g:230:42: ( (p= named_argument ) )
-			// Ecl.g:231:4: (p= named_argument )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:230:42: ( (p= named_argument ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:231:4: (p= named_argument )
 			{
-			// Ecl.g:231:4: (p= named_argument )
-			// Ecl.g:231:5: p= named_argument
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:231:4: (p= named_argument )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:231:5: p= named_argument
 			{
 			pushFollow(FOLLOW_named_argument_in_argument514);
 			p=named_argument();
@@ -1227,7 +1202,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("argument", 13);
 		}
 		return param;
 	}
@@ -1236,19 +1210,18 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "argument_value"
-	// Ecl.g:233:1: argument_value returns [Parameter param=null;] : (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:233:1: argument_value returns [Parameter param=null;] : (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string ) ;
 	public final Parameter argument_value() throws RecognitionException {
-		traceIn("argument_value", 14);
 		Parameter param = null;;
 
 
 		Parameter p =null;
 
 		try {
-			// Ecl.g:233:47: ( (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string ) )
-			// Ecl.g:234:3: (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:233:47: ( (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:3: (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string )
 			{
-			// Ecl.g:234:3: (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:3: (p= simple_value | ( NEWLINE )? p= subcommand |p= convert_string )
 			int alt23=3;
 			switch ( input.LA(1) ) {
 			case NAME:
@@ -1319,7 +1292,7 @@ public class EclParser extends Parser {
 			}
 			switch (alt23) {
 				case 1 :
-					// Ecl.g:234:4: p= simple_value
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:4: p= simple_value
 					{
 					pushFollow(FOLLOW_simple_value_in_argument_value535);
 					p=simple_value();
@@ -1328,9 +1301,9 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 2 :
-					// Ecl.g:234:23: ( NEWLINE )? p= subcommand
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:23: ( NEWLINE )? p= subcommand
 					{
-					// Ecl.g:234:23: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:23: ( NEWLINE )?
 					int alt22=2;
 					int LA22_0 = input.LA(1);
 					if ( (LA22_0==NEWLINE) ) {
@@ -1338,7 +1311,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt22) {
 						case 1 :
-							// Ecl.g:234:23: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:23: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_argument_value539); 
 							}
@@ -1353,7 +1326,7 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 3 :
-					// Ecl.g:234:48: p= convert_string
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:234:48: p= convert_string
 					{
 					pushFollow(FOLLOW_convert_string_in_argument_value553);
 					p=convert_string();
@@ -1376,7 +1349,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("argument_value", 14);
 		}
 		return param;
 	}
@@ -1385,9 +1357,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "simple_value"
-	// Ecl.g:238:1: simple_value returns [Parameter param = null;] : (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:238:1: simple_value returns [Parameter param = null;] : (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING ) ;
 	public final Parameter simple_value() throws RecognitionException {
-		traceIn("simple_value", 15);
 		Parameter param =  null;;
 
 
@@ -1396,10 +1367,10 @@ public class EclParser extends Parser {
 		String d2 =null;
 
 		try {
-			// Ecl.g:238:46: ( (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING ) )
-			// Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:238:46: ( (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
 			{
-			// Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
 			int alt26=4;
 			switch ( input.LA(1) ) {
 			case NAME:
@@ -1453,21 +1424,21 @@ public class EclParser extends Parser {
 			}
 			switch (alt26) {
 				case 1 :
-					// Ecl.g:239:3: d= NAME
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:3: d= NAME
 					{
 					d=(Token)match(input,NAME,FOLLOW_NAME_in_simple_value570); 
 					}
 					break;
 				case 2 :
-					// Ecl.g:239:10: d= NUMBER
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:10: d= NUMBER
 					{
 					d=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_simple_value574); 
 					}
 					break;
 				case 3 :
-					// Ecl.g:239:19: ( NEWLINE )? d2= string
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:19: ( NEWLINE )? d2= string
 					{
-					// Ecl.g:239:19: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:19: ( NEWLINE )?
 					int alt24=2;
 					int LA24_0 = input.LA(1);
 					if ( (LA24_0==NEWLINE) ) {
@@ -1475,7 +1446,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt24) {
 						case 1 :
-							// Ecl.g:239:19: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:19: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value576); 
 							}
@@ -1490,9 +1461,9 @@ public class EclParser extends Parser {
 					}
 					break;
 				case 4 :
-					// Ecl.g:239:38: ( NEWLINE )? d3= CURLY_STRING
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:38: ( NEWLINE )? d3= CURLY_STRING
 					{
-					// Ecl.g:239:38: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:38: ( NEWLINE )?
 					int alt25=2;
 					int LA25_0 = input.LA(1);
 					if ( (LA25_0==NEWLINE) ) {
@@ -1500,7 +1471,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt25) {
 						case 1 :
-							// Ecl.g:239:38: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:239:38: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value583); 
 							}
@@ -1562,7 +1533,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("simple_value", 15);
 		}
 		return param;
 	}
@@ -1571,9 +1541,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "named_argument"
-	// Ecl.g:279:1: named_argument returns [Parameter param=null;] : (n= NAME ( ( '=' )? (v= argument_value ) )? ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:279:1: named_argument returns [Parameter param=null;] : (n= NAME ( ( '=' )? (v= argument_value ) )? ) ;
 	public final Parameter named_argument() throws RecognitionException {
-		traceIn("named_argument", 16);
 		Parameter param = null;;
 
 
@@ -1581,14 +1550,14 @@ public class EclParser extends Parser {
 		Parameter v =null;
 
 		try {
-			// Ecl.g:279:47: ( (n= NAME ( ( '=' )? (v= argument_value ) )? ) )
-			// Ecl.g:280:2: (n= NAME ( ( '=' )? (v= argument_value ) )? )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:279:47: ( (n= NAME ( ( '=' )? (v= argument_value ) )? ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:2: (n= NAME ( ( '=' )? (v= argument_value ) )? )
 			{
-			// Ecl.g:280:2: (n= NAME ( ( '=' )? (v= argument_value ) )? )
-			// Ecl.g:280:3: n= NAME ( ( '=' )? (v= argument_value ) )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:2: (n= NAME ( ( '=' )? (v= argument_value ) )? )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:3: n= NAME ( ( '=' )? (v= argument_value ) )?
 			{
 			n=(Token)match(input,NAME,FOLLOW_NAME_in_named_argument607); 
-			// Ecl.g:280:10: ( ( '=' )? (v= argument_value ) )?
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:10: ( ( '=' )? (v= argument_value ) )?
 			int alt28=2;
 			int LA28_0 = input.LA(1);
 			if ( (LA28_0==CURLY_STRING||LA28_0==LBRACK||LA28_0==NAME||LA28_0==NUMBER||LA28_0==STRING||LA28_0==25||LA28_0==28) ) {
@@ -1605,9 +1574,9 @@ public class EclParser extends Parser {
 			}
 			switch (alt28) {
 				case 1 :
-					// Ecl.g:280:11: ( '=' )? (v= argument_value )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:11: ( '=' )? (v= argument_value )
 					{
-					// Ecl.g:280:11: ( '=' )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:11: ( '=' )?
 					int alt27=2;
 					int LA27_0 = input.LA(1);
 					if ( (LA27_0==28) ) {
@@ -1615,7 +1584,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt27) {
 						case 1 :
-							// Ecl.g:280:11: '='
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:11: '='
 							{
 							match(input,28,FOLLOW_28_in_named_argument610); 
 							}
@@ -1623,8 +1592,8 @@ public class EclParser extends Parser {
 
 					}
 
-					// Ecl.g:280:16: (v= argument_value )
-					// Ecl.g:280:17: v= argument_value
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:16: (v= argument_value )
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:280:17: v= argument_value
 					{
 					pushFollow(FOLLOW_argument_value_in_named_argument616);
 					v=argument_value();
@@ -1658,7 +1627,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("named_argument", 16);
 		}
 		return param;
 	}
@@ -1667,9 +1635,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "convert_string"
-	// Ecl.g:292:1: convert_string returns [Parameter param=null;] : (f= NAME SEMI v= CURLY_STRING ) ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:292:1: convert_string returns [Parameter param=null;] : (f= NAME SEMI v= CURLY_STRING ) ;
 	public final Parameter convert_string() throws RecognitionException {
-		traceIn("convert_string", 17);
 		Parameter param = null;;
 
 
@@ -1677,11 +1644,11 @@ public class EclParser extends Parser {
 		Token v=null;
 
 		try {
-			// Ecl.g:292:47: ( (f= NAME SEMI v= CURLY_STRING ) )
-			// Ecl.g:293:2: (f= NAME SEMI v= CURLY_STRING )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:292:47: ( (f= NAME SEMI v= CURLY_STRING ) )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:293:2: (f= NAME SEMI v= CURLY_STRING )
 			{
-			// Ecl.g:293:2: (f= NAME SEMI v= CURLY_STRING )
-			// Ecl.g:293:3: f= NAME SEMI v= CURLY_STRING
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:293:2: (f= NAME SEMI v= CURLY_STRING )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:293:3: f= NAME SEMI v= CURLY_STRING
 			{
 			f=(Token)match(input,NAME,FOLLOW_NAME_in_convert_string638); 
 			match(input,SEMI,FOLLOW_SEMI_in_convert_string640); 
@@ -1704,7 +1671,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("convert_string", 17);
 		}
 		return param;
 	}
@@ -1713,9 +1679,8 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "string"
-	// Ecl.g:322:1: string returns [String s = null] : f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )* ;
+	// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:322:1: string returns [String s = null] : f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )* ;
 	public final String string() throws RecognitionException {
-		traceIn("string", 18);
 		String s =  null;
 
 
@@ -1723,13 +1688,13 @@ public class EclParser extends Parser {
 		Token r=null;
 
 		try {
-			// Ecl.g:322:33: (f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )* )
-			// Ecl.g:323:3: f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:322:33: (f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )* )
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:323:3: f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
 			{
 			f=(Token)match(input,STRING,FOLLOW_STRING_in_string741); 
 			StringBuilder sb = 
 			    new StringBuilder(f.getText().substring(1, f.getText().length()-1));
-			// Ecl.g:325:3: ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
+			// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:3: ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
 			loop31:
 			while (true) {
 				int alt31=2;
@@ -1747,9 +1712,9 @@ public class EclParser extends Parser {
 
 				switch (alt31) {
 				case 1 :
-					// Ecl.g:325:4: ( NEWLINE )? '+' ( NEWLINE )? r= STRING
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:4: ( NEWLINE )? '+' ( NEWLINE )? r= STRING
 					{
-					// Ecl.g:325:4: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:4: ( NEWLINE )?
 					int alt29=2;
 					int LA29_0 = input.LA(1);
 					if ( (LA29_0==NEWLINE) ) {
@@ -1757,7 +1722,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt29) {
 						case 1 :
-							// Ecl.g:325:4: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:4: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_string749); 
 							}
@@ -1766,7 +1731,7 @@ public class EclParser extends Parser {
 					}
 
 					match(input,26,FOLLOW_26_in_string752); 
-					// Ecl.g:325:17: ( NEWLINE )?
+					// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:17: ( NEWLINE )?
 					int alt30=2;
 					int LA30_0 = input.LA(1);
 					if ( (LA30_0==NEWLINE) ) {
@@ -1774,7 +1739,7 @@ public class EclParser extends Parser {
 					}
 					switch (alt30) {
 						case 1 :
-							// Ecl.g:325:17: NEWLINE
+							// H:\\rcptt\\git\\rcptt\\ecl\\plugins\\org.eclipse.rcptt.ecl.parser\\antlr\\Ecl.g:325:17: NEWLINE
 							{
 							match(input,NEWLINE,FOLLOW_NEWLINE_in_string754); 
 							}
@@ -1802,7 +1767,6 @@ public class EclParser extends Parser {
 		}
 		finally {
 			// do for sure before leaving
-			traceOut("string", 18);
 		}
 		return s;
 	}
