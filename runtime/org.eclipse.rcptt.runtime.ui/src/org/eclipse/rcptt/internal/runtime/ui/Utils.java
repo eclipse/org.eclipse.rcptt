@@ -16,15 +16,14 @@ import java.util.Set;
 
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
 
 public class Utils {
 
@@ -38,6 +37,10 @@ public class Utils {
 			boolean closed = false;
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Display display = workbench.getDisplay();
+
+			// Dummy call for E4, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=440850
+			workbench.getActiveWorkbenchWindow();
+
 			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
 			Set<Shell> windowShells = new HashSet<Shell>();
 			for (IWorkbenchWindow window : windows) {

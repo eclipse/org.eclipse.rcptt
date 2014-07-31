@@ -3,6 +3,7 @@ package org.eclipse.rcptt.tesla.swt.aspects;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.rcptt.tesla.core.am.AspectManager;
@@ -34,6 +35,25 @@ public aspect DebugDisplayAspect {
 		// Runnable called
 		try {
 			logStackTrace("Display unregister called. This is not an error.");
+		} catch (Throwable e) {
+			SWTAspectActivator.log(e);
+		}
+	}
+	
+	@SuppressAjWarnings("adviceDidNotMatch")
+	before(Display display): execution(void Display.deregister(Display)) && args(display) {
+		// Runnable called
+		try {
+			logStackTrace("Display deregister called. This is not an error.");
+		} catch (Throwable e) {
+			SWTAspectActivator.log(e);
+		}
+	}
+	
+	@SuppressAjWarnings("adviceDidNotMatch")
+	before(Device device): execution(void Device.dispose()) && this(device) {
+		try {
+		logStackTrace("Device is disposed. This is not an error.");
 		} catch (Throwable e) {
 			SWTAspectActivator.log(e);
 		}
