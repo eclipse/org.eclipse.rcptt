@@ -76,7 +76,7 @@ package org.eclipse.rcptt.ecl.internal.parser;
 }
   
 // Parser rules
-eos: (NEWLINE | COLON) +;
+eos: (NEWLINE | SEMICOLON) +;
 commands returns[Command cmd=null;]:
 	eos* exprs=open_expr_list	{cmd=exprs;} eos* EOF
         {
@@ -188,7 +188,7 @@ named_command returns[Exec cmd=null;]:
  		cmd.getParameters().add(a);
    	}
    })* 
-   (NEWLINE? '-' '-'? arg=argument {
+   (NEWLINE? MINUS MINUS? arg=argument {
    	if( arg != null ) {
  		cmd.getParameters().add(arg);
    	}
@@ -290,7 +290,7 @@ named_argument returns [Parameter param=null;]:
 ;
 
 convert_string returns [Parameter param=null;]:
- (f=NAME SEMI v=CURLY_STRING) {
+ (f=NAME COLON v=CURLY_STRING) {
  		LiteralParameter p = factory.createLiteralParameter();
  		String value = v.getText();
   		p.setLiteral(value.substring(1, value.length()-1));
@@ -301,10 +301,10 @@ convert_string returns [Parameter param=null;]:
 
  
 // Lexer
-COLON: ';';
+SEMICOLON: ';';
 AND: '&';
 OR: '|';
-SEMI: ':';
+COLON: ':';
 
 fragment DIGIT:
 ('0'..'9')
@@ -350,6 +350,9 @@ LBRACK  : '[';
 protected
 RBRACK  : ']';
 
+protected
+MINUS : '-';
+
 CURLY_STRING:
   LCURLY 
   (
@@ -367,13 +370,10 @@ NAME:
 ; 
 
 DNAME:
-	NAME ('-' NAME)+
+	NAME (MINUS NAME)+
 ;
 
-WS: (' '|'\t')+ 
-{
-  $channel=HIDDEN;
-}
+WS: (' '|'\t')+ {$channel=HIDDEN;}
 ;
 
 COMMENT: '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
@@ -382,6 +382,6 @@ COMMENT: '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
 LINE_COMMENT: '//' ~('\n'|'\r')* {$channel=HIDDEN;}
 ;
 
-NEWLINE: (('\r'|'\n')+ COMMENT* LINE_COMMENT* WS*)+
+NEWLINE: (('\r'|'\n')+ (COMMENT|LINE_COMMENT|WS)*)+
 ;
 

@@ -10,8 +10,14 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.parser.test;
 
-import java.lang.reflect.Field;
+import static java.util.Collections.unmodifiableMap;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -19,24 +25,63 @@ import org.antlr.runtime.Token;
 import org.eclipse.rcptt.ecl.internal.parser.EclLexer;
 
 public class SimpleLexerTest extends TestCase {
+	private static final Map<Integer, String> tokenNamesById = unmodifiableMap(extractNamesById(EclLexer.class));
+
+	public static String toString(Token token) {
+		String name = tokenNamesById.get(token.getType());
+		if (name != null) {
+			switch (token.getType()) {
+			case EclLexer.DIGIT:
+			case EclLexer.DNAME:
+			case EclLexer.IP4:
+			case EclLexer.NAME:
+			case EclLexer.NUMBER:
+			case EclLexer.STRING:
+				return name + "(" + token.getText() + ")";	
+			default:
+				return name;
+			}
+			
+		} else {
+			return token.getType() + "(" + token.getText() + ")";
+		}
+	}
+
+	static void check(String pattern, String input) {
+		EclLexer lexer = new EclLexer(new ANTLRStringStream(input));
+		StringBuilder builder = new StringBuilder();
+		while (true) {
+			Token token = lexer.nextToken();
+			int type = token.getType();
+			if (type == Token.EOF) {
+				break;
+			}
+			if (token.getChannel() == Token.HIDDEN_CHANNEL)
+				continue; 
+			if (builder.length() > 0)
+				builder.append(" ");
+			builder.append(toString(token));
+		}
+		Assert.assertEquals(pattern, builder.toString());
+	}
+
 	public void testLexer001() throws Exception {
-		String content = "set a beta";
-		process(content);
+		check("NAME(set) NAME(a) NAME(beta)", "set a beta");
 	}
 
 	public void testLexer002() throws Exception {
-		String content = "set a \"string\"";
-		process(content);
+		check("NAME(set) NAME(a) STRING(\"string\")", "set a \"string\"");
 	}
 
 	public void testLexer003() throws Exception {
 		String content = "set a \"string\"|set b a\nset d 20";
-		process(content);
+		check("NAME(set) NAME(a) STRING(\"string\") OR NAME(set) NAME(b) NAME(a) NEWLINE NAME(set) NAME(d) NUMBER(20)", content);
 	}
 
 	public void testLexer004() throws Exception {
 		String content = "set a \"string\"|set b a {This is COOL\n\nThis is too\n}\nset d 20";
-		process(content);
+		String pattern = "NAME(set) NAME(a) STRING(\"string\") OR NAME(set) NAME(b) NAME(a) CURLY_STRING NEWLINE NAME(set) NAME(d) NUMBER(20)";
+		check(pattern, content);
 	}
 
 	// public void testLexer005() throws Exception {
@@ -46,49 +91,37 @@ public class SimpleLexerTest extends TestCase {
 	// }
 
 	public void testLexer006() throws Exception {
-		process("cmd ruby:{N.new().format()}");
+		check("NAME(cmd) NAME(ruby) COLON CURLY_STRING", "cmd ruby:{N.new().format()}");
 	}
 
 	public void testLexer007() throws Exception {
-		process("/*Alfa\nBeta\bGamma*/\na::b::get-length alfa");
+		String pattern = "NEWLINE NAME(a) COLON COLON NAME(b) COLON COLON DNAME(get-length) NAME(alfa)";
+		check(pattern, "/*Alfa\nBeta\bGamma*/\na::b::get-length alfa");
+	}
+
+	public void testLexer008() throws Exception {
+		check("NAME(first) MINUS NAME(flag) NEWLINE NAME(second) MINUS NAME(secondFlag)", "first -flag\nsecond -secondFlag");
 	}
 	
-	public void testLexer008() throws Exception {
-		process("first -flag\nsecond -secondFlag");
+	public void testNewLineWithSpaces() throws Exception {
+		check("NAME(command) NEWLINE", "command\n  \t  \n   \n  //comment   \n  ");
 	}
 
-
-	private void process(String content) throws IllegalAccessException {
-		String method = Thread.currentThread().getStackTrace()[2].getMethodName();
-		System.out.println("Test:" + method);
-		EclLexer lexer = new EclLexer(new ANTLRStringStream(content));
-		while (true) {
-			Token token = lexer.nextToken();
-			int type = token.getType();
-			if (type == Token.EOF) {
-				break;
+	private static Map<Integer, String> extractNamesById(Class<?> clazz) {
+		try {
+			Field[] fields = clazz.getFields();
+			Map<Integer, String> rv = new HashMap<Integer, String>();
+			for (int i = 0; i < fields.length; i++) {
+				Field field = fields[i];
+				if (!field.getType().equals(int.class))
+					continue;
+				if (!Modifier.isStatic(field.getModifiers()))
+					continue;
+				rv.put(field.getInt(clazz), field.getName());
 			}
-			printToken(token, lexer);
-		}
-	}
-
-	public static void printToken(Token token, EclLexer lexer) throws IllegalArgumentException, IllegalAccessException {
-		boolean found = false;
-		Class<?> lexerClass = lexer.getClass();
-		Field[] fields = lexerClass.getFields();
-		int type = token.getType();
-		for (int i = 0; i < fields.length; i++) {
-			if (fields[i].getType().getName().equals("int")) {
-				int int1 = fields[i].getInt(lexer);
-				if (int1 == type) {
-					System.out.print("[" + fields[i].getName() + "(" + token.getText() + ")] ");
-					found = true;
-					break;
-				}
-			}
-		}
-		if (!found) {
-			System.out.print("[" + type + "(" + token.getText() + ")] ");
+			return rv;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
