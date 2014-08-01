@@ -49,20 +49,20 @@ package org.eclipse.rcptt.ecl.internal.parser;
             //Construct sequence if not yet constructed.
             if (cmd == null)
                 return c2;
+            Sequence seq; 
             if (cmd instanceof Sequence) {
-                    Sequence seq = (Sequence) cmd;
-                    if (c2 != null) {
-                            seq.getCommands().add(c2);
-                    }
-                    return seq;
+                    seq = (Sequence) cmd;
+            } else {
+              seq = factory.createSequence();
+              seq.getCommands().add(cmd);
             }
-            else {
-                    Sequence seq = factory.createSequence();
-                    seq.getCommands().add(cmd);
-                    seq.getCommands().add(c2);
-                    return seq;
+            if (c2 instanceof Sequence) {
+              seq.getCommands().addAll(((Sequence) c2).getCommands());
+            } else {
+              seq.getCommands().add(c2);
             }
-    }	
+          return seq;
+    } 
 	
     public void displayRecognitionError(String[] tokenNames,
         RecognitionException e) {

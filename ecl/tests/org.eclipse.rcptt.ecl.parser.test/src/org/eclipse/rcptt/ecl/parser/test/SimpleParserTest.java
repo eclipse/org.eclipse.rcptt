@@ -310,6 +310,12 @@ public class SimpleParserTest extends TestCase {
 		check("command\n   \n", "command");
 	}
 	
+	//https://bugs.eclipse.org/bugs/show_bug.cgi?id=440960
+	public void testNoNestedSequences() throws Throwable {
+		check("command1\nwait-until-eclipse-is-ready\ncommand2", 
+				"(command1;wait-until-eclipse-is-ready;command2)");
+	}
+	
 	private Command process(String content) throws Throwable {
 		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
 		System.out.println("Test:" + method);
