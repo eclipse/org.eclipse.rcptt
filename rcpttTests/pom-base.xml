@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.eclipse.rcptt.tests</groupId>
@@ -8,27 +8,33 @@
   <packaging>pom</packaging>
 
   <pluginRepositories>
-	<pluginRepository>
-	  <snapshots>
-		<updatePolicy>always</updatePolicy>
-	  </snapshots>
-	  <id>xored</id>
-	  <name>Xored Maven repository</name>
-	  <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
-	</pluginRepository>
+    <pluginRepository>
+      <id>xored-releases</id>
+      <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+    </pluginRepository>
+
+    <pluginRepository>
+      <snapshots>
+	<updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>xored-snapshots</id>
+      <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+    </pluginRepository>
   </pluginRepositories>
 
   <repositories>
-	<repository>
-	  <id>xored-releases</id>
-	  <name>Xored Maven repository</name>
-	  <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
-	</repository>
-	<repository>
-	  <id>xored-snapshots</id>
-	  <name>Xored Snapshots</name>
-	  <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
-	</repository>
+    <repository>
+      <id>xored-releases</id>
+      <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+    </repository>
+    <repository>
+      <id>xored-snapshots</id>
+      <name>Xored Snapshots</name>
+      <url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+    </repository>
   </repositories>
 
   <properties>
