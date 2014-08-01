@@ -1,12 +1,10 @@
 package org.eclipse.rcptt.ecl.operations.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.rcptt.ecl.core.CoreFactory;
-import org.eclipse.rcptt.ecl.core.Script;
-import org.eclipse.rcptt.ecl.internal.core.Pipe;
 import org.eclipse.rcptt.ecl.parser.EclCoreParser;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.EclRuntime;
@@ -18,8 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ParseTimeTest {
-	
-	private ISession session =null;
+
+	private ISession session = null;
+
 	@Before
 	public void setUp() throws Exception {
 		session = EclRuntime.createSession();
@@ -31,13 +30,13 @@ public class ParseTimeTest {
 		session = null;
 	}
 
-	
 	IStatus unwrap(IStatus status) {
 		if (status instanceof ScriptErrorStatus) {
-			return unwrap(((ScriptErrorStatus)status).getCause());
+			return unwrap(((ScriptErrorStatus) status).getCause());
 		}
 		return status;
 	}
+
 	public Object runScript(String script) throws InterruptedException, CoreException {
 		IPipe out = session.createPipe();
 		IProcess process = session.execute(EclCoreParser.newCommand(script), null, out);
@@ -46,12 +45,12 @@ public class ParseTimeTest {
 			throw new CoreException(unwrap(status));
 		return out.take(1000);
 	}
-	
+
 	@Test
 	public void testNormal() throws InterruptedException, CoreException {
-		assertEquals(1325437320000L, runScript("parse-time \"2012-02-02\" -format \"yyyy-mm-dd\""));
+		assertEquals(1325437320000L, runScript("parse-time \"2012-02-02 +0700\" -format \"yyyy-mm-dd Z\""));
 	}
-	
+
 	@Test
 	public void testParseFail() throws InterruptedException, CoreException {
 		try {
@@ -62,5 +61,5 @@ public class ParseTimeTest {
 		}
 		fail();
 	}
-	
+
 }

@@ -6,7 +6,7 @@ Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.ecl.core,
- org.antlr.runtime;bundle-version="3.2.0"
+ org.antlr.runtime;bundle-version="[3.2.0,3.3.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.ecl.gen.ast,
  org.eclipse.rcptt.ecl.internal.parser;x-friends:="org.eclipse.rcptt.ecl.parser.test",
