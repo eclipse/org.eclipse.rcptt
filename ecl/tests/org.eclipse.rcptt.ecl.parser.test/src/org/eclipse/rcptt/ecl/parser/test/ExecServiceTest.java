@@ -44,7 +44,7 @@ public class ExecServiceTest extends TestCase {
 	}
 	
 	public void testLetExpression() throws InterruptedException, CoreException {
-		runScript("let [val a 1] {\n\t$a | length | eq 1 | assert-true\n\t$a | length | eq 1 | assert-true}");
+		runScript("let [val a 1] {\n\t$a | eq 1 | assert-true\n\t$a | eq 1 | assert-true}");
 	}
 
 }
