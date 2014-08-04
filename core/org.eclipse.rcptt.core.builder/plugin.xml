@@ -7,7 +7,8 @@
          id="q7Builder"
          name="RCPTT Builder"
          point="org.eclipse.core.resources.builders">
-      <builder>
+      <builder
+            hasNature="true">
          <run
                class="org.eclipse.rcptt.core.internal.builder.Q7Builder">
          </run>

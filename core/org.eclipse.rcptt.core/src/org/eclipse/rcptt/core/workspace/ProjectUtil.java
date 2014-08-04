@@ -58,7 +58,6 @@ public class ProjectUtil {
 
 			try {
 				project.open(new NullProgressMonitor());
-				RcpttNature.updateProjectNature(project, true);
 				project.refreshLocal(IResource.DEPTH_INFINITE,
 						new NullProgressMonitor());
 			} catch (CoreException e) {

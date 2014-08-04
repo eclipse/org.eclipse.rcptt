@@ -91,37 +91,7 @@ public class ModelManager {
 						| IResourceChangeEvent.POST_CHANGE
 						| IResourceChangeEvent.PRE_DELETE
 						| IResourceChangeEvent.PRE_CLOSE);
-		workspace.addResourceChangeListener(new IResourceChangeListener() {
-
-			@Override
-			public void resourceChanged(IResourceChangeEvent event) {
-				try {
-					event.getDelta().accept(new IResourceDeltaVisitor() {
-
-						@Override
-						public boolean visit(IResourceDelta delta)
-								throws CoreException {
-							if ((delta.getKind() & IResourceDelta.ADDED) != 0) {
-								if (delta.getResource().getType() == IResource.PROJECT) {
-									IProject project = (IProject) delta
-											.getResource();
-									if (project.isOpen())
-										if (RcpttNature.isRcpttProject(project))
-											// Launches
-											// RcpttBuilder
-											// if it is
-											// present
-											RcpttCore.getInstance();
-								}
-							}
-							return true;
-						}
-					});
-				} catch (CoreException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}, IResourceChangeEvent.POST_CHANGE);
+		RcpttCore.getInstance();
 		getIndexManager().reset();
 		ProjectIndexerManager.startIndexing();
 	}

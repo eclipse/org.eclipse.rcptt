@@ -13,6 +13,7 @@ package org.eclipse.rcptt.core.nature;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
@@ -28,7 +29,9 @@ import org.eclipse.rcptt.internal.core.RcpttPlugin;
 public class RcpttNature implements IProjectNature {
 
 	public static final String NATURE_ID = RcpttPlugin.PLUGIN_ID + ".rcpttnature";
-	private static final String LEGACY_NATURE_ID = "com.xored.q7.core.q7nature";
+	public static final String LEGACY_NATURE_ID = "com.xored.q7.core.q7nature";
+	public static final String BUILDER_ID = "org.eclipse.rcptt.core.builder.q7Builder";
+
 	private IProject project;
 
 	/*
@@ -37,7 +40,8 @@ public class RcpttNature implements IProjectNature {
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
 	public void configure() throws CoreException {
-		updateProjectNature(project, true);
+		if (!hasBuilder(project))
+			enableFor(project);
 	}
 
 	/*
@@ -46,11 +50,11 @@ public class RcpttNature implements IProjectNature {
 	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
 	 */
 	public void deconfigure() throws CoreException {
-		updateProjectNature(project, false);
+		//Builder is associated with nature and will be deactivated automatically
 	}
 
 	public static boolean isRcpttProject(IProject project) throws CoreException {
-		return project.hasNature(NATURE_ID) || project.hasNature(LEGACY_NATURE_ID);
+		return project.hasNature(NATURE_ID);
 	}
 
 	public static void updateProjectNature(IProject project, boolean add)
@@ -109,6 +113,29 @@ public class RcpttNature implements IProjectNature {
 	 */
 	public void setProject(IProject project) {
 		this.project = project;
+	}
+
+	private static boolean hasBuilder(IProject iProject) throws CoreException {
+		IProjectDescription description = iProject.getDescription();
+		ICommand[] buildSpec = description.getBuildSpec();
+		for (ICommand iCommand : buildSpec) {
+			if (iCommand.getBuilderName().equals(BUILDER_ID)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static void enableFor(IProject iProject) throws CoreException {
+		IProjectDescription description = iProject.getDescription();
+		ICommand[] buildSpec = description.getBuildSpec();
+		ICommand[] newSpecs = new ICommand[buildSpec.length + 1];
+		System.arraycopy(buildSpec, 0, newSpecs, 0, buildSpec.length);
+		newSpecs[buildSpec.length] = description.newCommand();
+		newSpecs[buildSpec.length].setBuilderName(BUILDER_ID);
+		// newSpecs[buildSpec.length].setArguments(args)
+		description.setBuildSpec(newSpecs);
+		iProject.setDescription(description, new NullProgressMonitor());
 	}
 
 }

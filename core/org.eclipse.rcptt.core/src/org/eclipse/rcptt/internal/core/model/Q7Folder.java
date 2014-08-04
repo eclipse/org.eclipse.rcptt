@@ -22,12 +22,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.VerificationType;
 import org.eclipse.rcptt.core.model.IContext;
@@ -206,21 +203,6 @@ public class Q7Folder extends Openable implements IQ7Folder {
 		}
 		if (file.exists()) {
 			return;
-		}
-		IFile legacyMetadataFile = parentContainer.getFile(new Path(IQ7Project.LEGACY_METADATA_NAME));
-		try {
-			legacyMetadataFile.refreshLocal(IResource.DEPTH_ZERO, null);
-		} catch (CoreException e) {
-			// do nothing
-			legacyMetadataFile = null;
-		}
-		if(legacyMetadataFile.exists()) {
-			try {
-				legacyMetadataFile.move(file.getFullPath(), true, null);
-				return;
-			} catch (CoreException e) {
-				// do nothing
-			}
 		}
 		Resource resource = createResource(file);
 		ProjectMetadata md = createMetadata();

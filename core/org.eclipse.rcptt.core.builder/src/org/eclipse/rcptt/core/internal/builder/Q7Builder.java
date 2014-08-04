@@ -20,11 +20,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
@@ -48,6 +46,7 @@ import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.Q7ElementChangedEvent;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
+import org.eclipse.rcptt.core.nature.RcpttNature;
 import org.eclipse.rcptt.core.utils.ModelCycleDetector;
 import org.eclipse.rcptt.core.utils.ModelCycleDetector.CycleGraph;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
@@ -107,7 +106,7 @@ public class Q7Builder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "org.eclipse.rcptt.core.builder.q7Builder";
+	public static final String BUILDER_ID = RcpttNature.BUILDER_ID;
 
 	public static final String MARKER_TYPE = "org.eclipse.rcptt.core.builder.q7Problem";
 
@@ -534,29 +533,5 @@ public class Q7Builder extends IncrementalProjectBuilder {
 			}
 		}
 		return rv;
-	}
-
-	public static boolean hasBuilder(IProject iProject) throws CoreException {
-		IProjectDescription description = iProject.getDescription();
-		ICommand[] buildSpec = description.getBuildSpec();
-		for (ICommand iCommand : buildSpec) {
-			if (iCommand.getBuilderName().equals(BUILDER_ID)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static void enableFor(IProject iProject) throws CoreException {
-		IProjectDescription description = iProject.getDescription();
-		ICommand[] buildSpec = description.getBuildSpec();
-		ICommand[] newSpecs = new ICommand[buildSpec.length + 1];
-		System.arraycopy(buildSpec, 0, newSpecs, 0, buildSpec.length);
-		newSpecs[buildSpec.length] = description.newCommand();
-		newSpecs[buildSpec.length].setBuilderName(BUILDER_ID);
-		// newSpecs[buildSpec.length].setArguments(args)
-		description.setBuildSpec(newSpecs);
-		iProject.setDescription(description, new NullProgressMonitor());
-
 	}
 }

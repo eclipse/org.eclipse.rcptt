@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.internal.builder;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -17,8 +18,6 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.core.IQ7Extension;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
@@ -34,7 +33,7 @@ public class Q7BuilderExtension implements IQ7Extension {
 			case IResourceDelta.ADDED:
 			case IResourceDelta.CHANGED:
 				if (resource.getType() == IResource.PROJECT) {
-					scheduleJob();
+					new MigrateProjectsJob((IProject)resource).schedule();
 					return false;
 				}
 				break;
@@ -60,15 +59,7 @@ public class Q7BuilderExtension implements IQ7Extension {
 				});
 		// Associate builders to all Q7 projects in workspace
 		// In case project are not associated
-		scheduleJob();
-
-	}
-
-	private void scheduleJob() {
-		Job.getJobManager().cancel(UpdateBuildersJob.class);
-		UpdateBuildersJob j = new UpdateBuildersJob();
-		j.setRule(ResourcesPlugin.getWorkspace().getRoot());
-		j.schedule();
+		new MigrateProjectsJob(ResourcesPlugin.getWorkspace().getRoot()).schedule();
 	}
 
 	public boolean isBuilder() {
