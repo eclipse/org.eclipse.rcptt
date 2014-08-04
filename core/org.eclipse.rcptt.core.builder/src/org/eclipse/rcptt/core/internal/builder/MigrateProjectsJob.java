@@ -95,6 +95,8 @@ public class MigrateProjectsJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
+			if (!resource.isAccessible())
+				return Status.OK_STATUS;
 			resource.accept(resourceVisitor);
 			return Status.OK_STATUS;
 		} catch (CoreException e) {
