@@ -24,9 +24,6 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -49,7 +46,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.rcptt.core.nature.RcpttNature;
-import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.ui.IStartup;
@@ -68,9 +64,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 	class MigrationJob extends Job {
 		private final IResource resource;
 
-		public MigrationJob(IResource resource) throws CoreException,
-				TransformerConfigurationException,
-				TransformerFactoryConfigurationError {
+		public MigrationJob(IResource resource) {
 			super("Q7 launch migration: " + resource.getName());
 			this.resource = resource;
 			setRule(resource);
@@ -161,7 +155,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 		}
 	}
 
-	protected IResourceDeltaVisitor deltaVisitor = new IResourceDeltaVisitor() {
+	protected final IResourceDeltaVisitor deltaVisitor = new IResourceDeltaVisitor() {
 
 		@Override
 		public boolean visit(final IResourceDelta delta) throws CoreException {
@@ -179,15 +173,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 						.equalsIgnoreCase(LAUNCH_CONFIGURATION_FILE_EXTENSION))
 					return false;
 
-				try {
-					new MigrationJob(file).schedule();
-				} catch (CoreException e) {
-					Q7LaunchingPlugin.log(e);
-				} catch (TransformerConfigurationException e) {
-					throw new RuntimeException(e);
-				} catch (TransformerFactoryConfigurationError e) {
-					throw new RuntimeException(e);
-				}
+				new MigrationJob(file).schedule();
 			}
 			return false;
 		}
@@ -197,10 +183,8 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 
 		@Override
 		public boolean visit(IResource resource) throws CoreException {
-			if (resource instanceof IProject)
-				return ((IProject) resource).isOpen();
 			if (resource instanceof IContainer)
-				return true;
+				return resource.isAccessible();
 			if (resource instanceof IFile) {
 				try {
 					migrate((IFile) resource);
@@ -270,18 +254,10 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 	}
 
 	private void migrateResources() {
-		try {
-			new MigrationJob(ResourcesPlugin.getWorkspace().getRoot())
-					.schedule();
-			ResourcesPlugin.getWorkspace().addResourceChangeListener(
-					resourceListener, IResourceChangeEvent.POST_CHANGE);
-		} catch (TransformerConfigurationException e) {
-			throw new RuntimeException(e);
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
-		} catch (TransformerFactoryConfigurationError e) {
-			throw new RuntimeException(e);
-		}
+		new MigrationJob(ResourcesPlugin.getWorkspace().getRoot())
+				.schedule();
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				resourceListener, IResourceChangeEvent.POST_CHANGE);
 	}
 
 }
