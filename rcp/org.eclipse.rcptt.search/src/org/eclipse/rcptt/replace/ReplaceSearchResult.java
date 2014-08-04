@@ -18,23 +18,24 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rcptt.core.Scenarios;
+import org.eclipse.rcptt.core.ecl.context.EclContext;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.Script;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.search.Q7SearchQuery;
+import org.eclipse.rcptt.search.Q7SearchResult;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.part.FileEditorInput;
-
-import org.eclipse.rcptt.core.Scenarios;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ITestCase;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.Scenario;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.search.Q7SearchQuery;
-import org.eclipse.rcptt.search.Q7SearchResult;
 
 public class ReplaceSearchResult {
 
@@ -64,8 +65,8 @@ public class ReplaceSearchResult {
 			for (Object element : searchResult.getElements()) {
 				IFile file = searchResult.getFile(element);
 				if (file != null) {
-					ITestCase scenario = (ITestCase) RcpttCore.create(file);
 					try {
+						EclContainer scenario = adaptToEclContainer((IQ7NamedElement) RcpttCore.create(file));
 						String originalText = getOriginalText(scenario,
 								scenarioPart);
 
@@ -118,6 +119,94 @@ public class ReplaceSearchResult {
 		}
 	}
 
+	interface EclContainer {
+		IQ7NamedElement element();
+
+		String getDescription() throws ModelException;
+
+		Script getScript() throws ModelException;
+
+		// Returns modified working copy
+		IQ7NamedElement setScript(Script script) throws ModelException;
+	}
+
+	static EclContainer adaptToEclContainer(IQ7NamedElement element)
+			throws ModelException {
+		if (element instanceof ITestCase)
+			return new TestCaseEclContainer((ITestCase) element);
+		if (element instanceof IContext
+				&& element.getNamedElement() instanceof EclContext)
+			return new ContextEclContainer((IContext) element);
+		throw new IllegalArgumentException("Can't extract ECL script from "
+				+ element.getClass().getName());
+	}
+
+	static class TestCaseEclContainer implements EclContainer {
+		private final ITestCase testCase;
+
+		public TestCaseEclContainer(ITestCase testCase) {
+			super();
+			this.testCase = testCase;
+		}
+
+		@Override
+		public String getDescription() throws ModelException {
+			return testCase.getNamedElement().getDescription();
+		}
+
+		@Override
+		public Script getScript() throws ModelException {
+			return Scenarios.getEcl(testCase);
+		}
+
+		@Override
+		public IQ7NamedElement element() {
+			return testCase;
+		}
+
+		@Override
+		public IQ7NamedElement setScript(Script script) throws ModelException {
+			ITestCase rv = (ITestCase) testCase
+					.getWorkingCopy(new NullProgressMonitor());
+			rv.setContent(script);
+			return rv;
+		}
+	}
+
+	static class ContextEclContainer implements EclContainer {
+		private final IContext context;
+
+		public ContextEclContainer(IContext testCase) throws ModelException {
+			super();
+			this.context = testCase;
+		}
+
+		@Override
+		public String getDescription() throws ModelException {
+			return context.getNamedElement().getDescription();
+		}
+
+		@Override
+		public Script getScript() throws ModelException {
+			NamedElement element = context.getNamedElement();
+			return ((EclContext) element).getScript();
+		}
+
+		@Override
+		public IQ7NamedElement element() {
+			return context;
+		}
+
+		@Override
+		public IQ7NamedElement setScript(Script script) throws ModelException {
+			IContext rv = (IContext) context
+					.getWorkingCopy(new NullProgressMonitor());
+			EclContext eclc = (EclContext) rv.getNamedElement();
+			eclc.setScript(script);
+			return rv;
+		}
+	}
+
 	public static String getReplaceHint(Q7SearchResult searchResult) {
 		String replaceHint = "Replacing " + searchResult.getMatchCount()
 				+ " matches";
@@ -134,41 +223,35 @@ public class ReplaceSearchResult {
 		return replaceHint;
 	}
 
-	private static String getOriginalText(ITestCase scenario, int scenarioPart)
-			throws ModelException {
+	private static String getOriginalText(EclContainer scenario,
+			int scenarioPart) throws ModelException {
 		String originalText = null;
 		switch (scenarioPart) {
 		case Q7SearchQuery.DESCRIPTION:
 			originalText = scenario.getDescription();
 			break;
 		case Q7SearchQuery.SCRIPT:
-			originalText = Scenarios.getScriptContent((Scenario) scenario
-					.getNamedElement());
+			originalText = scenario.getScript().getContent();
 			break;
 		}
 		return originalText;
 	}
 
-	private static IQ7NamedElement setNewText(ITestCase scenario,
+	private static IQ7NamedElement setNewText(EclContainer scenario,
 			int scenarioPart, String newText) throws ModelException {
-		ITestCase workingCopy = (ITestCase) scenario
-				.getWorkingCopy(new NullProgressMonitor());
 		switch (scenarioPart) {
 		case Q7SearchQuery.DESCRIPTION:
+			IQ7NamedElement workingCopy = scenario.element().getWorkingCopy(
+					new NullProgressMonitor());
 			workingCopy.setDescription(newText);
-			break;
+			return workingCopy;
 		case Q7SearchQuery.SCRIPT:
-			// Switch to ECL mode to store script modification
-			Scenario namedElement = (Scenario) workingCopy.getNamedElement();
-			if (Scenarios.isTeslaMode(namedElement)) {
-				Scenarios.setTypeToEcl(namedElement);
-			}
 			Script script = CoreFactory.eINSTANCE.createScript();
 			script.setContent(newText);
-			workingCopy.setContent(script);
-			break;
+			return scenario.setScript(script);
+		default:
+			throw new IllegalArgumentException("" + scenarioPart);
 		}
-		return workingCopy;
 	}
 
 	private static class InternalReplaceJob extends Job {
