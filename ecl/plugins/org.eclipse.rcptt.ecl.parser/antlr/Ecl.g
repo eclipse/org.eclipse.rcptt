@@ -202,7 +202,7 @@ named_command returns[Exec cmd=null;]:
 ;
 
 subcommand returns[Parameter param=null;]:
-  (LBRACK
+  (NEWLINE? LBRACK
     c=open_expr_list {
     	ExecutableParameter p = factory.createExecutableParameter();
   		p.setCommand(c);
@@ -231,7 +231,7 @@ argument returns [Parameter param = null]:
    (p=named_argument) { param = p; }
 ;
 argument_value returns [Parameter param=null;]:
-  (p = simple_value | NEWLINE? p= subcommand | p = convert_string) {
+  (p = simple_value | p= subcommand | p = convert_string) {
   	param = p;
   }
 ;

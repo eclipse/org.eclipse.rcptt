@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 Ecl.g 2014-08-01 18:23:53
+// $ANTLR 3.5.2 Ecl.g 2014-08-04 20:24:17
 
 package org.eclipse.rcptt.ecl.internal.parser;
 

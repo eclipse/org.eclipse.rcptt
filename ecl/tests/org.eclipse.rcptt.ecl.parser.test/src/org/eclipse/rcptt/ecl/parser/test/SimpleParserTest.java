@@ -316,6 +316,11 @@ public class SimpleParserTest extends TestCase {
 				"(command1;wait-until-eclipse-is-ready;command2)");
 	}
 	
+	//https://bugs.eclipse.org/bugs/show_bug.cgi?id=441083
+	public void testVarDereference() throws Throwable {
+		check("$a | command1 \n $a| command2", "((get-val a|command1);(get-val a|command2))"); 
+	}
+	
 	private Command process(String content) throws Throwable {
 		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
 		System.out.println("Test:" + method);
