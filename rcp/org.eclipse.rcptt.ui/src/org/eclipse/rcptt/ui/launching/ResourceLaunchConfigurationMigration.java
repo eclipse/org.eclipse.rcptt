@@ -52,6 +52,7 @@ import org.eclipse.ui.IStartup;
 import org.w3c.dom.Document;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 
 /** Migrates launch configurations stored as workspace resources */
@@ -169,7 +170,7 @@ public class ResourceLaunchConfigurationMigration implements IStartup {
 				return true;
 			if (delta.getResource() instanceof IFile) {
 				final IFile file = (IFile) delta.getResource();
-				if (!file.getFullPath().getFileExtension()
+				if (!Strings.nullToEmpty(file.getFullPath().getFileExtension())
 						.equalsIgnoreCase(LAUNCH_CONFIGURATION_FILE_EXTENSION))
 					return false;
 
