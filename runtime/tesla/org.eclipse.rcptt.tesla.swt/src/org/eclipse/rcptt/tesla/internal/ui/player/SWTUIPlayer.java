@@ -1602,16 +1602,17 @@ public final class SWTUIPlayer {
 	}
 
 	public void show(SWTUIElement uiElement, int x, int y) {
+		Menu menu = (Menu) uiElement.unwrap();
 		Point pos = new Point(x, y);
 		if (pos.x == -1 && pos.y == -1) {
-			pos = getMousePos(unwrapWidget(uiElement));
+			pos = getMousePos(menu);
 		}
-		events.sendEvent(uiElement, SWT.Show, pos.x, pos.y, 0);
 
-		Menu menu = (Menu) uiElement.unwrap();
 		if ((menu.getStyle() & SWT.BAR) == 0) { // Not a menu bar
 			shownMenus.add(new WeakReference<Menu>(menu));
 		}
+
+		events.sendEvent(uiElement, SWT.Show, pos.x, pos.y, 0);
 	}
 
 	public boolean isDisposed(SWTUIElement uiElement) {
@@ -2852,7 +2853,7 @@ public final class SWTUIPlayer {
 		});
 		return result[0];
 	}
-	
+
 	public void clean() {
 		getCollector().clean();
 		getBrowserManager().clear();
