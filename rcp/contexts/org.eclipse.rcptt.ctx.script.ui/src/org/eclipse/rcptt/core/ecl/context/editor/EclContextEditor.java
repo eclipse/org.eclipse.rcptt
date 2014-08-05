@@ -10,30 +10,35 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.ecl.context.editor;
 
+import org.eclipse.core.databinding.observable.ChangeEvent;
+import org.eclipse.core.databinding.observable.IChangeListener;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.rcptt.core.ecl.context.ContextPackage;
+import org.eclipse.rcptt.core.ecl.context.EclContext;
+import org.eclipse.rcptt.core.ecl.context.internal.viewer.EclContextViewer;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.Script;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.editors.EditorContent;
+import org.eclipse.rcptt.ui.editors.EditorHeader;
+import org.eclipse.rcptt.ui.editors.ecl.EclDocumentProvider;
+import org.eclipse.rcptt.ui.editors.ecl.EclEditor;
+import org.eclipse.rcptt.ui.editors.ecl.EclEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-
-import org.eclipse.rcptt.core.model.IContext;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.core.ecl.context.EclContext;
-import org.eclipse.rcptt.core.ecl.context.internal.viewer.EclContextViewer;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.ui.editors.EditorContent;
-import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.editors.ecl.EclDocumentProvider;
-import org.eclipse.rcptt.ui.editors.ecl.EclEditor;
-import org.eclipse.rcptt.ui.editors.ecl.EclEditorInput;
 
 public class EclContextEditor extends EclEditor {
 	public EclContextEditor() {
@@ -126,4 +131,33 @@ public class EclContextEditor extends EclEditor {
 			}
 		};
 	}
+
+	@Override
+	protected void bindScriptContent() {
+		super.bindScriptContent();
+		IChangeListener scenarioContentListener = new IChangeListener() {
+			public void handleChange(ChangeEvent event) {
+				String script;
+				try {
+					script = getEclContext(getElement());
+				} catch (Exception e) {
+					script = "Ecl context loading failed. See error log for details.";
+					Q7UIPlugin.log(e);
+				}
+				// in some cases after hit upon here from document listener
+				// viewer.getDocument() is null
+				if (viewer.getDocument() != null) {
+					String doc = viewer.getDocument().get();
+					if (!doc.equals(script)) {
+						viewer.getDocument().set(script);
+					}
+				}
+			}
+		};
+		IObservableValue scriptContent = EMFObservables.observeValue(getElement(),
+				ContextPackage.Literals.ECL_CONTEXT__SCRIPT);
+		scriptContent.addChangeListener(scenarioContentListener);
+	}
+	
+	
 }
