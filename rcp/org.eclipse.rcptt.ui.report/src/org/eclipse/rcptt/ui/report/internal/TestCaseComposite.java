@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -26,21 +29,25 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.search.Q7SearchCore;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ResultStatus;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
+import org.eclipse.rcptt.ui.launching.TimeFormatHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
-import org.eclipse.rcptt.ui.launching.TimeFormatHelper;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 
 public class TestCaseComposite extends AbstractEmbeddedComposite {
 
@@ -232,6 +239,36 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 				}
 			}
 		});
+
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				IStructuredSelection thisSelection = (IStructuredSelection) event.getSelection();
+				Object selectedNode = thisSelection.getFirstElement();
+				if (selectedNode == null || !(selectedNode instanceof Node)) {
+					return;
+				}
+
+				Node node = (Node) selectedNode;
+				Q7Info info = (Q7Info) node.getProperties().get(IQ7ReportConstants.ROOT);
+				if (info == null) {
+					return;
+				}
+				String id = info.getId();
+				IQ7NamedElement element = Q7SearchCore.findById(id);
+				if (element == null) {
+					return;
+				}
+
+				try {
+					IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+							(IFile) element.getResource());
+				} catch (PartInitException e) {
+					// Do nothing
+				}
+			}
+		});
+
 	}
 
 	protected void doNodesSelection(List<Node> nodes) {

@@ -4,12 +4,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.rcptt.ui.report.internal.Q7ReportEditor"
+            class="org.eclipse.rcptt.ui.report.internal.RcpttReportEditor"
             default="false"
             extensions="report"
             icon="icons/report.gif"
             id="org.eclipse.rcptt.ui.report.editor1"
-            name="Q7 Report Viewer">
+            name="RCPTT Report Viewer">
       </editor>
    </extension>
 

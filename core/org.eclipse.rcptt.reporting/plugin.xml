@@ -41,11 +41,11 @@
             name="JUnit XML">
       </reportRenderer>
       <reportRenderer
-            class="org.eclipse.rcptt.reporting.internal.Q7FileReportGenerator"
-            description="Allow to save report in q7 report format"
+            class="org.eclipse.rcptt.reporting.internal.RcpttFileReportGenerator"
+            description="Allow to save report in RCPTT internal report format"
             extension="report"
-            id="q7"
-            name="Q7 Report">
+            id="rcptt"
+            name="RCPTT Report">
       </reportRenderer>
       <!--reportRenderer
             class="org.eclipse.rcptt.reporting.internal.FileXMLReportGenerator"

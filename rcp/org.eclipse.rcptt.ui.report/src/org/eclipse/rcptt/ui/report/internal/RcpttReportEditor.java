@@ -25,6 +25,15 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.ui.report.Q7UIReportPlugin;
+import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.ui.IEditorInput;
@@ -33,28 +42,19 @@ import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.forms.editor.IFormPage;
 
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
-import org.eclipse.rcptt.ui.report.Q7UIReportPlugin;
-import org.eclipse.rcptt.util.FileUtil;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-
-public class Q7ReportEditor extends FormEditor {
+public class RcpttReportEditor extends FormEditor {
 	private Q7ReportIterator reportList = null;
 	private String initialWorkspaceLocation;
 
-	public Q7ReportEditor() {
+	public RcpttReportEditor() {
 	}
 
 	@Override
 	protected void addPages() {
 		try {
-			addPage(new ReportInformationPage(this, "q7.report.info.page",
+			addPage(new ReportInformationPage(this, "rcptt.report.info.page",
 					"General"));
 		} catch (PartInitException e) {
 			Q7UIReportPlugin.log(e);
@@ -182,8 +182,15 @@ public class Q7ReportEditor extends FormEditor {
 
 	private void openReportPage(final String id, final String title,
 			Report next, Q7Info info) {
-		ReportPage page = new ReportPage(Q7ReportEditor.this, "report:" + id,
-				title, next);
+		String pageId = "report:" + id;
+
+		IFormPage existingPage = findPage(pageId);
+		if (existingPage != null) {
+			setActivePage(pageId);
+			return;
+		}
+
+		ReportPage page = new ReportPage(RcpttReportEditor.this, pageId, title, next);
 		try {
 			int item = addPage(page);
 			if (getContainer() instanceof CTabFolder) {

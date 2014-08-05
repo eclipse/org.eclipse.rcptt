@@ -21,11 +21,11 @@ import org.eclipse.rcptt.reporting.core.IReportRenderer;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
 import org.eclipse.rcptt.util.FileUtil;
 
-public class Q7FileReportGenerator implements IReportRenderer {
+public class RcpttFileReportGenerator implements IReportRenderer {
 
 	protected static final String ID = null;
 
-	public Q7FileReportGenerator() {
+	public RcpttFileReportGenerator() {
 	}
 
 	

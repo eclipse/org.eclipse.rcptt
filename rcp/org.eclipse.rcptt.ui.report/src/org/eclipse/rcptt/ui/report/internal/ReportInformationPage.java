@@ -231,7 +231,7 @@ public class ReportInformationPage extends FormPage {
 		return button;
 	}
 
-	private Q7ReportEditor getReportEditor() {
-		return ((Q7ReportEditor) getEditor());
+	private RcpttReportEditor getReportEditor() {
+		return ((RcpttReportEditor) getEditor());
 	}
 }
