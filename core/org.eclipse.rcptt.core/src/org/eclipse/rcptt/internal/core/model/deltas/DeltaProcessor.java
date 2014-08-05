@@ -241,32 +241,22 @@ public class DeltaProcessor {
 						this.removeFromParentInfo(q7Project);
 					}
 				} else if ((delta.getFlags() & IResourceDelta.DESCRIPTION) != 0) {
-					boolean wasQ7Project = this.state.findProject(project.getName()) != null;
 					boolean isQ7Project = RcpttCore.hasRcpttNature(project);
-					if (wasQ7Project != isQ7Project) {
-						// q7 nature added or removed: remember project and
-						// its dependents
-						this.addToRootsToRefreshWithDependents(q7Project);
+					// q7 nature added or removed: remember project and
+					// its dependents
+					this.addToRootsToRefreshWithDependents(q7Project);
 
-						// workaround for bug 15168 circular errors not reported
-						if (isQ7Project) {
-							this.addToParentInfo(q7Project);
-						} else {
-							// close project
-							try {
-								q7Project.close();
-							} catch (ModelException e) {
-								// q7 project doesn't exist: ignore
-							}
-							this.removeFromParentInfo(q7Project);
-						}
+					// workaround for bug 15168 circular errors not reported
+					if (isQ7Project) {
+						this.addToParentInfo(q7Project);
 					} else {
-						// in case the project was removed then added then
-						// changed (see bug 19799)
-						if (isQ7Project) { // need nature check - 18698
-							this.addToParentInfo(q7Project);
-							children = delta.getAffectedChildren();
+						// close project
+						try {
+							q7Project.close();
+						} catch (ModelException e) {
+							// q7 project doesn't exist: ignore
 						}
+						this.removeFromParentInfo(q7Project);
 					}
 				} else {
 					if (RcpttCore.hasRcpttNature(project)) { // need
@@ -1268,32 +1258,26 @@ public class DeltaProcessor {
 				}
 				if ((flags & IResourceDelta.DESCRIPTION) != 0) {
 					IProject res = (IProject) delta.getResource();
-					boolean wasDylanProject = this.state.findProject(res.getName()) != null;
 					boolean isQ7Project = RcpttCore.hasRcpttNature(res);
 					element = this.createElement(res, elementType, rootInfo);
 					if (element == null) {
 						return false; // note its resources are still
 					}
-					if (wasDylanProject != isQ7Project) {
-						// project's nature has been added or removed
-						// visible as roots to other
-						// projects
-						if (isQ7Project) {
-							this.elementAdded(element, delta);
-							ProjectIndexerManager.indexProject(res);
-						} else {
-							this.elementRemoved(element, delta, rootInfo);
-							this.manager.getIndexManager().discardJobs(element.getName());
-							final IPath projectPath = res.getFullPath();
-							this.manager.getIndexManager().removeIndex(projectPath);
-							ProjectIndexerManager.removeProject(projectPath);
-						}
-						return false; // when a project's nature is
-						// added/removed don't process children
+					// project's nature has been added or removed
+					// visible as roots to other
+					// projects
+					if (isQ7Project) {
+						this.elementAdded(element, delta);
+						ProjectIndexerManager.indexProject(res);
 					} else {
-						this.currentDelta().changed(element,
-								IQ7ElementDelta.F_DESCRIPTION);
+						this.elementRemoved(element, delta, rootInfo);
+						this.manager.getIndexManager().discardJobs(element.getName());
+						final IPath projectPath = res.getFullPath();
+						this.manager.getIndexManager().removeIndex(projectPath);
+						ProjectIndexerManager.removeProject(projectPath);
 					}
+					return false; // when a project's nature is
+						// added/removed don't process children
 				}
 			}
 			return true;
