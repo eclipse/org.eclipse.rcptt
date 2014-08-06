@@ -14,5 +14,13 @@
             priority="20">
       </describerExtension>
    </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.gef.ecl.GetEditPartObject"
+            name="GetObject"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+   </extension>
 
 </plugin>

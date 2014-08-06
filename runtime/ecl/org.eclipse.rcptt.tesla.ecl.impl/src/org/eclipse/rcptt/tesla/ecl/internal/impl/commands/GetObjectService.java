@@ -13,13 +13,13 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
-
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.ecl.impl.AbstractActionService;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
 import org.eclipse.rcptt.tesla.ecl.model.GetObject;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 
 public class GetObjectService extends AbstractActionService {
@@ -28,20 +28,20 @@ public class GetObjectService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		final GetObject cmd = (GetObject) command;
 		final EObject target = cmd.getObject();
-		Object result = null;
-
 		if (target instanceof ControlHandler) {
 			final Element element = TeslaBridge.find((ControlHandler) target);
-			result = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class)
-					.getMapper().get(element).widget;
+			if (element == null) {
+				return TeslaImplPlugin.err("Cannot find element");
+			}
+			SWTUIElement swtElement = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class)
+					.getMapper().get(element);
+			if (swtElement == null) {
+				return TeslaImplPlugin.err("Cannot find element");
+			}
+			return swtElement.widget;
 		} else
 			return TeslaImplPlugin.err(String.format("Usupported type %s",
 					target.getClass()));
-
-		if (result == null)
-			return String.format("Object not found.");
-
-		return result;
 	}
 
 	@Override
