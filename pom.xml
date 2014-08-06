@@ -17,7 +17,6 @@
     <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
     <rcpRepository>file:/${user.dir}/repository/rcp/target/repository</rcpRepository>
     <junoRepository>http://download.eclipse.org/releases/juno/</junoRepository>
-    <indigoRepository>http://download.eclipse.org/releases/indigo/</indigoRepository>
     <eclRepository>file:/${user.dir}/ecl/releng/org.eclipse.rcptt.ecl.core-updatesite/target/site</eclRepository>
     <e3xRepository>file:/${user.dir}/repository/e3x/target/repository</e3xRepository>
     <e4xRepository>file:/${user.dir}/repository/e4x/target/repository</e4xRepository>
@@ -58,11 +57,6 @@
 	<module>repository/core</module>
       </modules>
       <repositories>
-	<repository>
-	  <id>indigo</id>
-	  <layout>p2</layout>
-	  <url>${indigoRepository}</url>
-	</repository>
         <repository>
           <snapshots>
             <updatePolicy>always</updatePolicy>
@@ -88,11 +82,6 @@
 	    <updatePolicy>always</updatePolicy>
 	  </snapshots>
 	  <url>${coreRepository}</url>
-	</repository>
-	<repository>
-	  <id>indigo</id>
-	  <layout>p2</layout>
-	  <url>${indigoRepository}</url>
 	</repository>
       </repositories>
     </profile>

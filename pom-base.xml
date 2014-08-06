@@ -13,13 +13,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj_version>1.4</aspectj_version>
 		<aspectj_dep>1.7.0</aspectj_dep>
+		<indigoRepository>http://download.eclipse.org/releases/indigo/</indigoRepository>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>indigo</id>
 			<layout>p2</layout>
-			<url>http://download.xored.com/mirrors/q7mirror/</url>
+			<url>${indigoRepository}</url>
 		</repository>
 	</repositories>
 
