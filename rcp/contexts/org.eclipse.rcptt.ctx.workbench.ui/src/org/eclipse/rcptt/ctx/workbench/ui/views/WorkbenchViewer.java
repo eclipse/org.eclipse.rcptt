@@ -11,18 +11,17 @@
 package org.eclipse.rcptt.ctx.workbench.ui.views;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.WorkbenchContext;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.rcptt.ui.editors.IQ7Viewer;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 public class WorkbenchViewer implements IQ7Viewer<Context> {
 
-	public IQ7Editor createEditor() {
+	public IQ7Editor<Context> createEditor() {
 		return new WorkbenchContextEditor();
 	}
 

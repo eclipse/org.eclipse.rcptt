@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.ui.resources.viewers;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
@@ -19,7 +18,7 @@ import org.eclipse.rcptt.ui.editors.IQ7Viewer;
 
 public class WorkspaceViewer implements IQ7Viewer<Context> {
 
-	public IQ7Editor createEditor() {
+	public IQ7Editor<Context> createEditor() {
 		return new WorkspaceContextEditor();
 	}
 

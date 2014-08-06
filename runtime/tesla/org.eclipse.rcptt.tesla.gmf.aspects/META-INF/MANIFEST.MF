@@ -18,3 +18,4 @@ Eclipse-SupplementBundle: org.eclipse.gmf.runtime.diagram.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.tesla.gmf.aspects
 Bundle-Activator: org.eclipse.rcptt.tesla.gmf.aspects.GMFAspectsActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

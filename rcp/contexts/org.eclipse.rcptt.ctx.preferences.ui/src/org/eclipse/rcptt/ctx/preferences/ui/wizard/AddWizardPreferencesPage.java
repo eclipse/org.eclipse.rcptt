@@ -19,6 +19,14 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.ctx.preferences.ui.PreferencesContextEditor;
+import org.eclipse.rcptt.internal.preferences.PrefUtils;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.preferences.PrefNode;
+import org.eclipse.rcptt.preferences.PreferencesContext;
+import org.eclipse.rcptt.preferences.PreferencesFactory;
+import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -28,14 +36,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.osgi.service.prefs.BackingStoreException;
-
-import org.eclipse.rcptt.ctx.preferences.ui.PreferencesContextEditor;
-import org.eclipse.rcptt.internal.preferences.PrefUtils;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.preferences.PrefNode;
-import org.eclipse.rcptt.preferences.PreferencesContext;
-import org.eclipse.rcptt.preferences.PreferencesFactory;
-import org.eclipse.rcptt.ui.editors.IQ7Editor;
 
 public class AddWizardPreferencesPage extends WizardPage implements Listener {
 
@@ -88,7 +88,7 @@ public class AddWizardPreferencesPage extends WizardPage implements Listener {
 				+ "/configuration/plugin.name/L9ServerURL=value");
 	}
 
-	public boolean finish(IQ7Editor contextEditor) {
+	public boolean finish(IQ7Editor<Context> contextEditor) {
 		IPreferencesService service = Platform.getPreferencesService();
 		try {
 			IExportedPreferences prefs;

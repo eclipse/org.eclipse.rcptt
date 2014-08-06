@@ -12,17 +12,17 @@ package org.eclipse.rcptt.ctx.preferences.ui.wizard;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
-
-import org.eclipse.rcptt.ui.editors.IQ7Editor;
 
 public class PreferencesAddWizard extends Wizard implements IImportWizard {
 
 	private AddWizardPreferencesPage mainPage;
-	private final IQ7Editor contextEditor;
+	private final IQ7Editor<Context> contextEditor;
 
-	public PreferencesAddWizard(IQ7Editor contextEditor) {
+	public PreferencesAddWizard(IQ7Editor<Context> contextEditor) {
 		this.contextEditor = contextEditor;
 	}
 

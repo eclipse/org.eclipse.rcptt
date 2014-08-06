@@ -11,17 +11,16 @@
 package org.eclipse.rcptt.core.ecl.context.internal.viewer;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IEditorPart;
-
-import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.ecl.context.viewer.Activator;
+import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.rcptt.ui.editors.IQ7Viewer2;
+import org.eclipse.ui.IEditorPart;
 
 public class EclContextViewer implements IQ7Viewer2<Context> {
 
-	public IQ7Editor createEditor() {
+	public IQ7Editor<Context> createEditor() {
 		return new EclContextEditor();
 	}
 

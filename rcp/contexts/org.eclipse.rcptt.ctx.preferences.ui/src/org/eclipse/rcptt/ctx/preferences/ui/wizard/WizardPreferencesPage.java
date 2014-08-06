@@ -23,6 +23,13 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.internal.preferences.PrefUtils;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.preferences.PrefNode;
+import org.eclipse.rcptt.preferences.PreferencesContext;
+import org.eclipse.rcptt.preferences.PreferencesFactory;
+import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,13 +42,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.osgi.service.prefs.BackingStoreException;
-
-import org.eclipse.rcptt.internal.preferences.PrefUtils;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.preferences.PrefNode;
-import org.eclipse.rcptt.preferences.PreferencesContext;
-import org.eclipse.rcptt.preferences.PreferencesFactory;
-import org.eclipse.rcptt.ui.editors.IQ7Editor;
 
 public class WizardPreferencesPage extends WizardPage implements Listener {
 
@@ -100,7 +100,7 @@ public class WizardPreferencesPage extends WizardPage implements Listener {
 		new Label(parent, SWT.NONE);
 	}
 
-	public boolean finish(IQ7Editor contextEditor) {
+	public boolean finish(IQ7Editor<Context> contextEditor) {
 		FileInputStream fis = null;
 
 		try {
