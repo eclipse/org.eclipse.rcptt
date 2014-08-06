@@ -41,7 +41,7 @@ public class TimeVerificationProcessor extends VerificationProcessor {
 		Val val = CoreFactory.eINSTANCE.createVal();
 		val.setName(key);
 		val.setValue(BoxedValues.box(new Date().getTime()));
-		getGlobals(process).declare(val.getName(), val);
+		getGlobals(process).declare(val.getName(), val, true);
 	}
 
 	private static Date getDate(IProcess process, final String key) {
