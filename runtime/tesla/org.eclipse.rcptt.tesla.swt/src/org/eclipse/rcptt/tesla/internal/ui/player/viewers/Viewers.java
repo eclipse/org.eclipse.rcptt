@@ -777,27 +777,13 @@ public class Viewers {
 		if (table == null || table.isDisposed()) {
 			return result;
 		}
-		TableItem[] items = table.getItems();
-		IViewerItem[] viewerItems = getViewerItems(items);
 		for (String[] path : paths) {
 			if (path == null || path.length == 0) {
 				continue;
 			}
 			String text = path[0];
-
-			for (TableItem item : items) {
-				if (item.isDisposed()) {
-					continue;
-				}
-
-				String itemText = SWTUIPlayer.toSelectionItem(getTableItemText(
-						new TableViewerItem(item), text, viewerItems));
-				if (itemText != null
-						&& (itemText.equals(text) || safeMatches(
-								itemText, text))) {
-					result.add(item);
-				}
-			}
+			// For tables path always contains only one item
+			result.addAll(findMatchingItems(table, text));
 		}
 
 		return result;
