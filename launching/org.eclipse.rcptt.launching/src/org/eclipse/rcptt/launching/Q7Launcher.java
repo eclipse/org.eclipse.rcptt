@@ -393,7 +393,7 @@ public class Q7Launcher {
 			if (c1_includeContext != c2_includeContext) {
 				return false;
 			}
-			return Arrays.equals(getElements(config1), getElements(config2));
+			return Arrays.equals(getElements(config1, true), getElements(config2, true));
 		} catch (CoreException e) {
 			// ignore access problems here, return false
 		}

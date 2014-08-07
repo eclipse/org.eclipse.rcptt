@@ -48,7 +48,11 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 
 public class TestSuiteUtils {
 
-	public static IQ7NamedElement[] getElements(ILaunchConfiguration config)
+	public static IQ7NamedElement[] getElements(ILaunchConfiguration config) throws CoreException {
+		return getElements(config, false);
+	}
+
+	public static IQ7NamedElement[] getElements(ILaunchConfiguration config, boolean excludeNonExistent)
 			throws CoreException {
 		boolean includeContext = config.getAttribute(
 				IQ7Launch.ATTR_INCLUDE_CONTEXT, false);
@@ -57,9 +61,16 @@ public class TestSuiteUtils {
 
 		int resources = config.getAttribute(IQ7Launch.EXEC_RESOURCES, -1);
 		if (resources > 0) {
-			IResource[] result = new IResource[resources];
-			System.arraycopy(mappedResources, 0, result, 0, resources);
-			return getElements(result, !includeContext, !noSort);
+
+			List<IResource> result = new ArrayList<IResource>();
+			for (int i = 0; i < resources; i++) {
+				IResource resource = mappedResources[i];
+				if (!resource.exists() || !resource.getProject().isOpen()) {
+					continue;
+				}
+				result.add(resource);
+			}
+			return getElements(result.toArray(new IResource[result.size()]), !includeContext, !noSort);
 		}
 		return getElements(config.getMappedResources(), !includeContext,
 				!noSort);

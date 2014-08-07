@@ -123,6 +123,9 @@ public class ExecutionLabelProvider extends LabelProvider implements
 		}
 		try {
 			IQ7NamedElement actualElement = executable.getActualElement();
+			if (!actualElement.getResource().getProject().isOpen()) {
+				return styledString;
+			}
 			if (actualElement != null && actualElement.exists()) {
 				String id = executable.getActualElement().getID();
 				if (id != null) {
