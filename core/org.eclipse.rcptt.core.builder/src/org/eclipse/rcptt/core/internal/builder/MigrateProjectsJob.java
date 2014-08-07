@@ -21,6 +21,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -29,18 +31,20 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rcptt.core.model.IQ7Project;
+import org.eclipse.rcptt.core.workspace.ProjectUtil;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 public class MigrateProjectsJob extends Job {
+	private static final IWorkspaceRoot ROOT = ResourcesPlugin.getWorkspace().getRoot();
 	private final IContainer resource;
 
 	public MigrateProjectsJob(IContainer resource) {
 		super("RCPTT: Migrate Q7 projects");
 		this.resource = resource;
-		setRule(ResourcesPlugin.getWorkspace().getRoot());
+		setRule(ROOT);
 	}
 
 	private final IResourceVisitor resourceVisitor = new IResourceVisitor() {
@@ -104,9 +108,23 @@ public class MigrateProjectsJob extends Job {
 		}
 	}
 
+	public IStatus runSync() {
+		try {
+			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+				@Override
+				public void run(IProgressMonitor monitor) throws CoreException {
+					run(monitor);
+				}
+			}, null);
+			return Status.OK_STATUS;
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
+	}
+
 	@Override
 	public boolean belongsTo(Object family) {
-		if (family != null && family.equals(MigrateProjectsJob.class)) {
+		if (family != null && family.equals(ProjectUtil.MIGRATION_FAMILY)) {
 			return true;
 		}
 		return super.belongsTo(family);

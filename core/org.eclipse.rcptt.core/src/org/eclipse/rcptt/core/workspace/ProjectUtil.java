@@ -29,11 +29,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-
-import org.eclipse.rcptt.core.nature.RcpttNature;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
 /**
  * Utility class for importing all prjects from workspace directory which are
@@ -43,28 +44,39 @@ import org.eclipse.rcptt.core.nature.RcpttNature;
  * 
  */
 public class ProjectUtil {
-	public static IProject[] projects() {
+	public static final Object MIGRATION_FAMILY = new Object();
+	public static IProject[] projects() throws InterruptedException {
+		try {
+			Job.getJobManager().join(MIGRATION_FAMILY, null);
+		} catch (OperationCanceledException e) {
+			throw new InterruptedException();
+		}
 		return ResourcesPlugin.getWorkspace().getRoot().getProjects();
 	}
 
 	private static void openProjects(PrintStream out) throws CoreException {
 		print(out, "Refreshing projects:%n");
-		for (IProject project : projects()) {
-			print(out, "    %s... ", project.getName());
-			if (project.isOpen()) {
+		try {
+			for (IProject project : projects()) {
+				print(out, "    %s... ", project.getName());
+				if (project.isOpen()) {
+					print(out, "OK%n");
+					continue;
+				}
+
+				try {
+					project.open(new NullProgressMonitor());
+					project.refreshLocal(IResource.DEPTH_INFINITE,
+							new NullProgressMonitor());
+				} catch (CoreException e) {
+					throw printAndThrow(out, e.getStatus());
+				}
+
 				print(out, "OK%n");
-				continue;
 			}
-
-			try {
-				project.open(new NullProgressMonitor());
-				project.refreshLocal(IResource.DEPTH_INFINITE,
-						new NullProgressMonitor());
-			} catch (CoreException e) {
-				throw printAndThrow(out, e.getStatus());
-			}
-
-			print(out, "OK%n");
+		} catch (InterruptedException e) {
+			throw new CoreException(new Status(IStatus.CANCEL,
+					RcpttPlugin.PLUGIN_ID, "Interrupted", e));
 		}
 	}
 

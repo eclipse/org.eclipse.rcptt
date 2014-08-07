@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.core.IQ7Extension;
@@ -31,7 +32,7 @@ public class Q7BuilderExtension implements IQ7Extension {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
-			case IResourceDelta.CHANGED:
+			case IResourceDelta.DESCRIPTION:
 				if (resource.getType() == IResource.PROJECT) {
 					new MigrateProjectsJob((IProject)resource).schedule();
 					return false;
@@ -39,7 +40,7 @@ public class Q7BuilderExtension implements IQ7Extension {
 				break;
 			}
 			// return true to continue visiting children.
-			return true;
+			return resource instanceof IWorkspaceRoot;
 		}
 	}
 
