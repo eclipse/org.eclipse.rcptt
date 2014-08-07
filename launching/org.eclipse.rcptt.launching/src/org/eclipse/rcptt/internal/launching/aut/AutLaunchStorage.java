@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.debug.core.ILaunch;
-
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchState;
 import org.eclipse.rcptt.launching.IQ7Launch;
@@ -106,11 +105,6 @@ public class AutLaunchStorage {
 	}
 
 	private void filterTerminated() {
-		if (true) {
-			return; // II: If aut is stopped, it might happen that Auts view
-					// will ask for all launches before event from debugging and
-					// it can happen that license server won't be notified
-		}
 		List<BaseAutLaunch> terminated = new ArrayList<BaseAutLaunch>();
 		for (BaseAutLaunch launch : launches) {
 			if (launch.getState() == AutLaunchState.TERMINATE) {

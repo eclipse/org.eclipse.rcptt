@@ -51,8 +51,8 @@ import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.target.provisional.ITargetPlatformService;
-
 import org.eclipse.rcptt.launching.injection.UpdateSite;
+import org.eclipse.rcptt.util.FileUtil;
 
 @SuppressWarnings("restriction")
 public class P2Utils {
@@ -231,9 +231,10 @@ public class P2Utils {
 		 */
 		if (file.getName().toLowerCase().endsWith(".jar")) {
 			BufferedInputStream stream = null;
+			ZipInputStream zin = null;
 			try {
 				stream = new BufferedInputStream(new FileInputStream(file));
-				ZipInputStream zin = new ZipInputStream(stream);
+				zin = new ZipInputStream(stream);
 				Set<String> names = new HashSet<String>();
 				while (true) {
 					ZipEntry entry = zin.getNextEntry();
@@ -248,11 +249,8 @@ public class P2Utils {
 			} catch (Exception e) {
 				return false;
 			} finally {
-				try {
-					stream.close();
-				} catch (Exception e) {
-					// ignore
-				}
+				FileUtil.safeClose(zin);
+				FileUtil.safeClose(stream);
 			}
 		}
 

@@ -33,8 +33,8 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IDebugEventSetListener;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.IStatusHandler;
-
 import org.eclipse.rcptt.core.VerificationType;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -56,7 +56,6 @@ import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.internal.launching.ecl.EclContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugTestExecutable;
@@ -166,11 +165,6 @@ public class Q7LaunchManager {
 					Q7LaunchingPlugin.log(e);
 				}
 			}
-		}
-
-		private boolean isTestCase(Executable executable) {
-			return executable instanceof PrepareExecutionWrapper
-					&& executable.getType() == IExecutable.TYPE_SCENARIO;
 		}
 
 		private IStatus execute(final ExecutionSession session,

@@ -913,10 +913,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
+	@SuppressWarnings("resource")
 	private String readLauncherLibraryFromIniFile(File eclipseIniFile) {
 		BufferedReader in = null;
-		if (eclipseIniFile.exists()) {
-			try {
+		try {
+			if (eclipseIniFile.exists()) {
 				in = new BufferedReader(new FileReader(eclipseIniFile));
 				String str;
 				while ((str = in.readLine()) != null) {
@@ -927,11 +928,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 						}
 					}
 				}
-			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			} finally {
-				FileUtil.safeClose(in);
 			}
+		} catch (IOException e) {
+			Q7ExtLaunchingPlugin.getDefault().log(e);
+		} finally {
+			FileUtil.safeClose(in);
 		}
 		return null;
 	}

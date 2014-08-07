@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.pde.core,
  com.google.guava,
  org.eclipse.equinox.p2.repository.tools,
- org.eclipse.equinox.p2.director
+ org.eclipse.equinox.p2.director,
+ org.eclipse.rcptt.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.launching.p2utils
