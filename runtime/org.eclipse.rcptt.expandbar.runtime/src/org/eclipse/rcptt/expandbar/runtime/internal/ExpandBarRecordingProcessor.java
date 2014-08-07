@@ -39,8 +39,15 @@ public class ExpandBarRecordingProcessor implements IRecordingProcessor, IBasicS
 		getLocator().addExtension(new ExpandBarWidgetLocatorExtension(getLocator()));
 	}
 
+	private TeslaRecorder recorder = null;
+
+	protected TeslaRecorder getRecorder() {
+		return recorder;
+	}
+
 	@Override
-	public void initialize(TeslaRecorder teslaRecorder) {
+	public void initialize(TeslaRecorder recorder) {
+		this.recorder = recorder;
 	}
 
 	@Override
@@ -74,7 +81,7 @@ public class ExpandBarRecordingProcessor implements IRecordingProcessor, IBasicS
 
 	@Override
 	public void recordEvent(Widget widget, int type, Event event) {
-		if (!getLocator().getRecorder().hasListeners()) {
+		if (getRecorder() == null || !getRecorder().hasListeners()) {
 			return;
 		}
 		if (!ExpandBarUtil.isRelatedWidget(widget)) {
