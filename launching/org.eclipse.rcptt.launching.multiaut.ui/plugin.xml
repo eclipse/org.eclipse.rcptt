@@ -6,13 +6,13 @@
       <launchConfigurationTabGroup
             class="org.eclipse.rcptt.launching.multiaut.ui.MultiAutLaunchTabGroup"
             id="com.xored.q7.launching.multiaut"
-            type="com.xored.q7.launching.multiaut">
+            type="org.eclipse.rcptt.launching.multiaut">
       </launchConfigurationTabGroup>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
-            configTypeID="com.xored.q7.launching.multiaut"
+            configTypeID="org.eclipse.rcptt.launching.multiaut"
             icon="icons/multiaut.gif"
             id="com.xored.q7.launching.multiaut">
       </launchConfigurationTypeImage>

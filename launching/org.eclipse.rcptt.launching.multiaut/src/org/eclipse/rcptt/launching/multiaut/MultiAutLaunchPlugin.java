@@ -7,7 +7,7 @@ import org.osgi.framework.BundleContext;
 
 public class MultiAutLaunchPlugin extends Plugin {
 	private static MultiAutLaunchPlugin plugin = null;
-	public static final String PLUGIN_ID = "com.xored.q7.launching.multiaut";
+	public static final String PLUGIN_ID = "org.eclipse.rcptt.launching.multiaut";
 
 	public static MultiAutLaunchPlugin getDefault() {
 		return plugin;

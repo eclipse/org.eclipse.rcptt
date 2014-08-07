@@ -8,7 +8,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 public class MultiAutUIPlugin extends AbstractUIPlugin {
-	public static final String PLUGIN_ID = "com.xored.q7.launching.multiaut.ui";
+	public static final String PLUGIN_ID = "org.eclipse.rcptt.launching.multiaut.ui";
 	private static MultiAutUIPlugin plugin;
 
 	public static MultiAutUIPlugin getDefault() {

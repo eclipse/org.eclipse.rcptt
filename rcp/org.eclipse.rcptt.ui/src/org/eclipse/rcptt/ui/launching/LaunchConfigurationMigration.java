@@ -75,6 +75,8 @@ public class LaunchConfigurationMigration {
 		registerMigration("com.xored.q7.launching.ext", "org.eclipse.rcptt.launching.ext", registeredTypes, typeMap);
 		registerMigration("com.xored.q7.launching.remote", "org.eclipse.rcptt.launching.remote", registeredTypes,
 				typeMap);
+		registerMigration("com.xored.q7.launching.multiaut", "org.eclipse.rcptt.launching.multiaut", registeredTypes,
+				typeMap);
 	}
 
 	private static void registerMigration(String from, String to, Set<String> knownTypes, Map<String, String> typeMap) {
