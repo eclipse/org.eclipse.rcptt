@@ -14,6 +14,7 @@
 		<aspectj_version>1.4</aspectj_version>
 		<aspectj_dep>1.7.0</aspectj_dep>
 		<indigoRepository>http://download.eclipse.org/releases/indigo/</indigoRepository>
+		<ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update</ajdt37repository>
 	</properties>
 
 	<repositories>
@@ -22,6 +23,15 @@
 			<layout>p2</layout>
 			<url>${indigoRepository}</url>
 		</repository>
+		<repository>
+			<id>ajdt37</id>
+			<layout>p2</layout>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<url>${ajdt37repository}</url>
+		</repository>
+
 	</repositories>
 
 	<distributionManagement>

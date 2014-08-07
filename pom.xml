@@ -20,7 +20,6 @@
     <eclRepository>file:/${user.dir}/ecl/releng/org.eclipse.rcptt.ecl.core-updatesite/target/site</eclRepository>
     <e3xRepository>file:/${user.dir}/repository/e3x/target/repository</e3xRepository>
     <e4xRepository>file:/${user.dir}/repository/e4x/target/repository</e4xRepository>
-    <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update</ajdt37repository>
   </properties>
 
   <build>
@@ -161,15 +160,6 @@
   </profiles>
 
   <repositories>
-    <repository>
-      <id>ajdt37</id>
-      <layout>p2</layout>
-      <snapshots>
-	<updatePolicy>always</updatePolicy>
-      </snapshots>
-      <url>${ajdt37repository}</url>
-    </repository>
-
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
