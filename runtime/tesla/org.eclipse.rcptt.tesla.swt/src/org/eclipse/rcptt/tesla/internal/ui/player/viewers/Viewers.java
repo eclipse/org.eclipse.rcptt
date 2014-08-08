@@ -754,7 +754,7 @@ public class Viewers {
 
 	public static Set<Item> findItems(final String[][] paths,
 			final Widget parent, boolean onePerPath) {
-		return (parent instanceof Table) ? findTableItems(paths, (Table) parent)
+		return (parent instanceof Table) ? findTableItems(paths, (Table) parent, onePerPath)
 				: findTreeItems(paths, (Tree) parent, onePerPath);
 	}
 
@@ -772,7 +772,7 @@ public class Viewers {
 	}
 
 	private static Set<Item> findTableItems(final String[][] paths,
-			final Table table) {
+			final Table table, boolean onePerPath) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (table == null || table.isDisposed()) {
 			return result;
@@ -782,8 +782,15 @@ public class Viewers {
 				continue;
 			}
 			String text = path[0];
-			// For tables path always contains only one item
-			result.addAll(findMatchingItems(table, text));
+			Set<Item> matchingItems = findMatchingItems(table, text);
+			if (onePerPath) {
+				Item first = first(matchingItems);
+				if (first != null) {
+					result.add(first);
+				}
+			} else {
+				result.addAll(matchingItems);
+			}
 		}
 
 		return result;
@@ -958,7 +965,7 @@ public class Viewers {
 			return selectItem(element, items, selectAll);
 		}
 		else if (widget instanceof org.eclipse.swt.widgets.List) {
-			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List)widget;
+			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
 			Set<String> toSelect = new HashSet<String>();
 			for (String[] ss : items) {
 				toSelect.addAll(Arrays.asList(ss));
