@@ -113,7 +113,7 @@ public class MigrateProjectsJob extends Job {
 			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
 				@Override
 				public void run(IProgressMonitor monitor) throws CoreException {
-					run(monitor);
+					MigrateProjectsJob.this.run(monitor);
 				}
 			}, null);
 			return Status.OK_STATUS;
