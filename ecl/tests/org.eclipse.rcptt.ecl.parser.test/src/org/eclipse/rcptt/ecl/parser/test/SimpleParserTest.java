@@ -321,6 +321,10 @@ public class SimpleParserTest extends TestCase {
 		check("$a | command1 \n $a| command2", "((get-val a|command1);(get-val a|command2))"); 
 	}
 	
+	public void testCommentAfterPipe() throws Throwable {
+		check("command1|\n//comment\ncommand2", "(command1|command2)");
+	}
+
 	private Command process(String content) throws Throwable {
 		String method = Thread.currentThread().getStackTrace()[3].getMethodName();
 		System.out.println("Test:" + method);
