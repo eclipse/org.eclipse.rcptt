@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECL TCP Client Tests
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.client.tcp.tests
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.5.1.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.junit;bundle-version="3.8.2",
  org.eclipse.rcptt.ecl.client.tcp;bundle-version="1.0.0",

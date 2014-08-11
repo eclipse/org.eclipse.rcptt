@@ -4,7 +4,7 @@
   <parent>
     <artifactId>rcptt</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <modules>
     <module>org.eclipse.rcptt.launching-feature</module>
@@ -18,7 +18,7 @@
     <module>org.eclipse.rcptt.launching.remote</module>
   </modules>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <artifactId>rcptt.launching</artifactId>
   <packaging>pom</packaging>
 </project>

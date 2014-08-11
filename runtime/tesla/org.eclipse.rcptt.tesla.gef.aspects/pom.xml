@@ -4,11 +4,11 @@
   <parent>
     <artifactId>tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla</groupId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.tesla</groupId>
   <artifactId>org.eclipse.rcptt.tesla.gef.aspects</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <dependencies>
     <dependency>

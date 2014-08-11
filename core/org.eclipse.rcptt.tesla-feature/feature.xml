@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.tesla"
       label="RCPTT Runtime core"
-      version="1.5.0.qualifier"
+      version="1.5.1.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -25,21 +25,21 @@
          id="org.eclipse.rcptt.tesla.core"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.core.context"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.core"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.5.1.qualifier"
          unpack="false"/>
 
    <plugin

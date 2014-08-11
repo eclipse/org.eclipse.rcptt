@@ -4,10 +4,10 @@
   <parent>
     <artifactId>org.eclipse.rcptt.updates.aspectj</artifactId>
     <groupId>org.eclipse.rcptt.aspectj_dep.build</groupId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.aspectj_dep.build</groupId>
   <artifactId>org.eclipse.rcptt.updates.aspectj.repository</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 </project>

@@ -5,11 +5,11 @@
 	<parent>
 		<artifactId>rcptt.runtime.updates</artifactId>
 		<groupId>org.eclipse.rcptt</groupId>
-		<version>1.5.0-SNAPSHOT</version>
+		<version>1.5.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.eclipse.rcptt</groupId>
 	<artifactId>org.eclipse.rcptt.updates.runtime.e4x</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>1.5.1-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 	<build>
 		<plugins>

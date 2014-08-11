@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Q7 Runtime Eclipse Forms Recording Support
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.aspects.forms;singleton:=true
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.5.1.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms,
- org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.0,1.6.0)",
+ org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.1,1.6.0)",
  org.eclipse.swt
 onEnvironment: JavaSE-1.6
 Import-Package: org.osgi.framework

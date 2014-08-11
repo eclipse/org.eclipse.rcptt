@@ -4,10 +4,10 @@
   <parent>
     <artifactId>ecl-tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla.ecl</groupId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.features</groupId>
   <artifactId>org.eclipse.rcptt.tesla.ecl.update-site</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>eclipse-update-site</packaging>
 </project>

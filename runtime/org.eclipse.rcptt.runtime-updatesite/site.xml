@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.rcptt.rcptt.runtime_1.5.0.qualifier.jar" id="org.eclipse.rcptt.runtime" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.tesla_1.5.0.qualifier.jar" id="org.eclipse.rcptt.tesla" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.tesla.runtime_1.5.0.qualifier.jar" id="org.eclipse.rcptt.tesla.runtime" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.tesla.ecl_1.5.0.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.tesla.ecl.runtime_1.5.0.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl.runtime" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.ecl.core_1.5.0.qualifier.jar" id="org.eclipse.rcptt.ecl.core" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.ecl.server_1.5.0.qualifier.jar" id="org.eclipse.rcptt.ecl.server" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.ecl.platform_1.5.0.qualifier.jar" id="org.eclipse.rcptt.ecl.platform" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.ecl.platform.ui_1.5.0.qualifier.jar" id="org.eclipse.rcptt.ecl.platform.ui" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.watson_1.5.0.qualifier.jar" id="org.eclipse.rcptt.watson" version="1.5.0.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.watson.runtime_1.5.0.qualifier.jar" id="org.eclipse.rcptt.watson.runtime" version="1.5.0.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.rcptt.runtime_1.5.1.qualifier.jar" id="org.eclipse.rcptt.runtime" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla_1.5.1.qualifier.jar" id="org.eclipse.rcptt.tesla" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.runtime_1.5.1.qualifier.jar" id="org.eclipse.rcptt.tesla.runtime" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl_1.5.1.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl.runtime_1.5.1.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl.runtime" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.ecl.core_1.5.1.qualifier.jar" id="org.eclipse.rcptt.ecl.core" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.ecl.server_1.5.1.qualifier.jar" id="org.eclipse.rcptt.ecl.server" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.ecl.platform_1.5.1.qualifier.jar" id="org.eclipse.rcptt.ecl.platform" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.ecl.platform.ui_1.5.1.qualifier.jar" id="org.eclipse.rcptt.ecl.platform.ui" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.watson_1.5.1.qualifier.jar" id="org.eclipse.rcptt.watson" version="1.5.1.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.watson.runtime_1.5.1.qualifier.jar" id="org.eclipse.rcptt.watson.runtime" version="1.5.1.qualifier"/>
 </site>

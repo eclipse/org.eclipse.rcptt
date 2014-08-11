@@ -4,7 +4,7 @@
   <parent>
 	<artifactId>repositories</artifactId>
 	<groupId>org.eclipse.rcptt.repositories</groupId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>1.5.1-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>e3x</artifactId>
