@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _PumK4RkUEeOt9MVDSr4v5A
 Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 5:22 PM
+Save-Time: 8/11/14 2:20 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -30,7 +30,10 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "MyProject/Test_SuperWb" | double-click
+
+set-q7-option jobTreatAsSleepingTimeout 30000
 get-editor "Test_SuperWb" | get-button Replay | click
+
 with [get-view "Execution View"] {
     try -delay 1000 -times 14 -command {    
     	get-label "4/4"
