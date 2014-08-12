@@ -1,17 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * <copyright>
+ * </copyright>
  *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ * $Id$
+ */
 package org.eclipse.rcptt.ecl.platform.ui.commands;
 
-
 import org.eclipse.rcptt.ecl.core.Command;
+
 import org.eclipse.rcptt.ecl.platform.ui.objects.WorkingSet;
 
 /**
@@ -27,7 +23,7 @@ import org.eclipse.rcptt.ecl.platform.ui.objects.WorkingSet;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage#getDeleteWorkingSet()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Deletes working set' returns='Nothing'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Deletes working set' returns='Nothing' example='list-working-sets | foreach {delete-working-set}'"
  * @generated
  */
 public interface DeleteWorkingSet extends Command {
