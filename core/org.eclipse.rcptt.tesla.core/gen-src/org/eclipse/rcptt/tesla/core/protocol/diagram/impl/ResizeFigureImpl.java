@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * <copyright>
+ * </copyright>
  *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ * $Id$
+ */
 package org.eclipse.rcptt.tesla.core.protocol.diagram.impl;
-
-import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramPackage;
-import org.eclipse.rcptt.tesla.core.protocol.diagram.ResizeFigure;
-
-import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -23,6 +14,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramPackage;
+import org.eclipse.rcptt.tesla.core.protocol.diagram.ResizeFigure;
+
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 
 /**
  * <!-- begin-user-doc -->

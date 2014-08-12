@@ -1,21 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * <copyright>
+ * </copyright>
  *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ * $Id$
+ */
 package org.eclipse.rcptt.tesla.core.protocol.diagram.util;
-
-import org.eclipse.rcptt.tesla.core.protocol.ElementCommand;
-
-import org.eclipse.rcptt.tesla.core.protocol.diagram.*;
-
-import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -23,6 +12,13 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.rcptt.tesla.core.protocol.ElementCommand;
+
+import org.eclipse.rcptt.tesla.core.protocol.diagram.*;
+
+import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 
 /**
  * <!-- begin-user-doc -->
