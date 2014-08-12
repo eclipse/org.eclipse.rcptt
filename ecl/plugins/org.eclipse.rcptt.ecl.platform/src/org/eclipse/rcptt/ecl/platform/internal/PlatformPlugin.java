@@ -56,10 +56,11 @@ public class PlatformPlugin extends Plugin {
 		return new Status(IStatus.ERROR, PLUGIN_ID, message, t);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static IProvisioningAgent getProvisioningAgent() {
 		BundleContext bc = getDefault().bundleContext;
-		ServiceReference<?> reference = bc
-				.getServiceReference(IProvisioningAgent.SERVICE_NAME);
+		@SuppressWarnings("rawtypes")
+		ServiceReference reference = bc.getServiceReference(IProvisioningAgent.SERVICE_NAME);
 		if (reference == null)
 			return null;
 		Object service = bc.getService(reference);
