@@ -1,14 +1,17 @@
-/*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * <copyright>
+ * </copyright>
  *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ * $Id$
+ */
 package org.eclipse.rcptt.preferences.impl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
 
@@ -21,13 +24,6 @@ import org.eclipse.rcptt.preferences.PreferencesPackage;
 import org.eclipse.rcptt.preferences.SecurePrefNode;
 import org.eclipse.rcptt.preferences.SettingsNode;
 import org.eclipse.rcptt.preferences.StringPrefData;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
