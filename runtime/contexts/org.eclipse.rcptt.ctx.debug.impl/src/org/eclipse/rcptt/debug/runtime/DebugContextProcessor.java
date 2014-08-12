@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -46,14 +47,6 @@ import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
-import org.eclipse.rcptt.ecl.runtime.BoxedValues;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.ui.IWorkingSet;
-import org.eclipse.ui.IWorkingSetManager;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.NamedElement;
@@ -68,10 +61,18 @@ import org.eclipse.rcptt.debug.ListValue;
 import org.eclipse.rcptt.debug.MapValue;
 import org.eclipse.rcptt.debug.PrimitiveValue;
 import org.eclipse.rcptt.debug.SetValue;
+import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.IWorkingSetManager;
+import org.eclipse.ui.PlatformUI;
 
 public class DebugContextProcessor implements IContextProcessor {
 
@@ -285,13 +286,14 @@ public class DebugContextProcessor implements IContextProcessor {
 					.getLaunchManager()
 					.getLaunchConfigurationType(modelType.getId());
 			if (type == null)
-				throw new CoreException(createError("Launch configuration type " + modelType.getId() + " is not installed."));
+				throw new CoreException(createError("Launch configuration type " + modelType.getId()
+						+ " is not installed."));
 			for (LaunchConfiguration configuration : modelType
 					.getConfigurations())
 				applyLaunchConfiguration(type, configuration);
 		}
 	}
-	
+
 	private IStatus createError(String message) {
 		return new Status(IStatus.ERROR, Q7DebugRuntime.PLUGIN_ID, message);
 	}
@@ -555,9 +557,9 @@ public class DebugContextProcessor implements IContextProcessor {
 
 	private void applyLaunchConfiguration(ILaunchConfigurationType type,
 			LaunchConfiguration launch) throws CoreException {
-		if (type == null) 
+		if (type == null)
 			throw new NullPointerException("Null type");
-		if (launch == null) 
+		if (launch == null)
 			throw new NullPointerException("Null launch");
 		ILaunchManager manager = getLaunchManager();
 		if (launch.getName() == null)
@@ -587,7 +589,10 @@ public class DebugContextProcessor implements IContextProcessor {
 		rv.setRegistered(breakpoint.isRegistered());
 		rv.setPersisted(breakpoint.isPersisted());
 		rv.setType(marker.getType());
-		for (Map.Entry<String, Object> e : marker.getAttributes().entrySet()) {
+		// core.resources in Helios uses raw map for attributes
+		for (Object entry : marker.getAttributes().entrySet()) {
+			@SuppressWarnings("unchecked")
+			Entry<String, Object> e = (Entry<String, Object>) entry;
 			String key = e.getKey();
 			Object value = e.getValue();
 			rv.getAttributes().add(box(key, value));
