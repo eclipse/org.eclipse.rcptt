@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>rcptt</artifactId>
-		<groupId>org.eclipse.rcptt</groupId>
-		<version>1.5.1-SNAPSHOT</version>
-	</parent>
-	<modules>
-		<module>org.eclipse.rcptt</module>
-		<module>org.eclipse.rcptt.platform-feature</module>
-		<module>org.eclipse.rcptt.help</module>
-		<module>../launching/org.eclipse.rcptt.launching.multiaut.ui</module>
-		<module>org.eclipse.rcptt.launching.ext.ui</module>
-		<module>org.eclipse.rcptt.launching.remote.ui</module>
-		<module>org.eclipse.rcptt.launching.configuration</module>
-		<module>org.eclipse.rcptt.expandbar.ide</module>
-		<module>org.eclipse.rcptt.platform</module>
-		<module>org.eclipse.rcptt.search</module>
-		<module>org.eclipse.rcptt.ui</module>
-		<module>org.eclipse.rcptt.ui.activities</module>
-		<module>org.eclipse.rcptt.ui.report</module>		
-		<!-- CONTEXT PLUGINS -->
-		<module>contexts</module>
-		<!-- VERIFICATIONS -->
-		<module>verifications</module>
-	</modules>
-	<groupId>org.eclipse.rcptt</groupId>
-	<version>1.5.1-SNAPSHOT</version>
-	<artifactId>rcptt.rcp</artifactId>
-	<packaging>pom</packaging>
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>ide</artifactId>
+    <groupId>org.eclipse.rcptt</groupId>
+    <version>1.5.1-SNAPSHOT</version>
+    <relativePath>../releng/ide/pom.xml</relativePath>
+  </parent>
+  <modules>
+    <module>org.eclipse.rcptt</module>
+    <module>org.eclipse.rcptt.platform-feature</module>
+    <module>org.eclipse.rcptt.help</module>
+    <module>../launching/org.eclipse.rcptt.launching.multiaut.ui</module>
+    <module>org.eclipse.rcptt.launching.ext.ui</module>
+    <module>org.eclipse.rcptt.launching.remote.ui</module>
+    <module>org.eclipse.rcptt.launching.configuration</module>
+    <module>org.eclipse.rcptt.expandbar.ide</module>
+    <module>org.eclipse.rcptt.platform</module>
+    <module>org.eclipse.rcptt.search</module>
+    <module>org.eclipse.rcptt.ui</module>
+    <module>org.eclipse.rcptt.ui.activities</module>
+    <module>org.eclipse.rcptt.ui.report</module>		
+    <!-- CONTEXT PLUGINS -->
+    <module>contexts</module>
+    <!-- VERIFICATIONS -->
+    <module>verifications</module>
+  </modules>
+  <groupId>org.eclipse.rcptt</groupId>
+  <version>1.5.1-SNAPSHOT</version>
+  <artifactId>rcptt.rcp</artifactId>
+  <packaging>pom</packaging>
 </project>
