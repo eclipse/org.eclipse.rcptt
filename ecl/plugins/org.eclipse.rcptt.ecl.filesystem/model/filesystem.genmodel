@@ -5,7 +5,7 @@
     modelPluginID="org.eclipse.rcptt.ecl.filesystem" modelName="Filesystem" editPluginClass="org.eclipse.rcptt.ecl.filesystem.provider.FilesystemEditPlugin"
     editorPluginClass="org.eclipse.rcptt.ecl.filesystem.presentation.FilesystemEditorPlugin"
     testSuiteClass="org.eclipse.rcptt.ecl.filesystem.tests.FilesystemAllTests" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>filesystem.ecore</foreignModel>
   <genPackages prefix="Filesystem" basePackage="org.eclipse.rcptt.ecl" disposableProviderFactory="true"
       ecorePackage="filesystem.ecore#/">
@@ -13,6 +13,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//CopyFile/source"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//CopyFile/destination"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//CopyFile/name"/>
+    </genClasses>
+    <genClasses ecoreClass="filesystem.ecore#//UriFromPath">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//UriFromPath/path"/>
+    </genClasses>
+    <genClasses ecoreClass="filesystem.ecore#//GetFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//GetFile/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="filesystem.ecore#//File">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute filesystem.ecore#//File/uri"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
