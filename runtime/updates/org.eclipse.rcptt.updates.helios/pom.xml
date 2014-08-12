@@ -47,7 +47,7 @@
 	<configuration>
 	  <source>
 	    <repository>
-	      <url>http://updates.xored.com/helios</url>
+	      <url>${heliosRepository}</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>

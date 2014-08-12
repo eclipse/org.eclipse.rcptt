@@ -47,7 +47,7 @@
 	<configuration>
 	  <source>
 	    <repository>
-	      <url>http://updates.xored.com/kepler/</url>
+	      <url>${keplerRepository}</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>
