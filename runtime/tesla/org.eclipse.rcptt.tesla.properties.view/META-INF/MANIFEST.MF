@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.rcptt.tesla.recording.core,
  org.eclipse.rcptt.tesla.recording.aspects.swt,
- org.eclipse.rcptt.tesla.recording.swt
+ org.eclipse.rcptt.tesla.recording.swt,
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.2,1.6.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

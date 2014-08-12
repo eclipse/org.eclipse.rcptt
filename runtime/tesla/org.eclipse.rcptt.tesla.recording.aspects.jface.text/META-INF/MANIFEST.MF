@@ -10,7 +10,8 @@ Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.2,1.6.0)",
  org.eclipse.jface.text,
  org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.2,1.6.0)",
- org.eclipse.rcptt.util;bundle-version="[1.5.2,1.6.0)"
+ org.eclipse.rcptt.util;bundle-version="[1.5.2,1.6.0)",
+ org.eclipse.rcptt.tesla.core.context;bundle-version="[1.5.2,1.6.0)"
 onEnvironment: JavaSE-1.6
 Import-Package: org.osgi.framework
 Eclipse-SupplementBundle: org.eclipse.jface.text
