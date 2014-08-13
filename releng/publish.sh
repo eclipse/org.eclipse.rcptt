@@ -15,7 +15,7 @@ typeAbbr=N
 # where all downloads of this branch reside
 streamDestination=$downloadsHome/$type/$productVersion
 
-buildDestination=$streamDestination/$productVersion.$productQualifier
+buildDestination=$streamDestination/$productQualifier
 echo "stream destination: $streamDestination "
 echo "build destination: $buildDestination "
 
@@ -41,11 +41,38 @@ cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime/q7 $buildDest
 cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7 $buildDestination/runtime4x
 
 
+# discard old builds
+buildsToKeep=5
+let "tailArg=$buildsToKeep+1"
+
+ls -r $streamDestination | grep -v latest | tail -n +$tailArg | xargs -I {} rm -r $streamDestination/{}
+
+# symlink latest
+
+$latest=$streamDestination/latest
+if [ -d "$latest" ]; then
+    rm -r $latest
+fi
+mkdir -p $latest
+
+ln -s $buildDestination/repository $latest/repository
+ln -s $buildDestination/runtime3x $latest/runtime3x
+ln -s $buildDestination/runtime4x $latest/runtime4x
+
+mkdir $latest/ide
+
+ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86.zip
+ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86_64.zip
+ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-macosx.cocoa.x86_64.zip
+ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86.zip
+ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86_64.zip
+
+
+
 # echo results
 
-find $buildDestination
-
-# discard old builds
+find $streamDestination
 
 
-#  symlink latest
+
+
