@@ -49,7 +49,7 @@ ls -r $streamDestination | grep -v latest | tail -n +$tailArg | xargs -I {} rm -
 
 # symlink latest
 
-$latest=$streamDestination/latest
+latest=$streamDestination/latest
 if [ -d "$latest" ]; then
     rm -r $latest
 fi
