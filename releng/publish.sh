@@ -55,24 +55,16 @@ if [ -d "$latest" ]; then
 fi
 mkdir -p $latest
 
-ln -s $buildDestination/repository $latest/repository
-ln -s $buildDestination/runtime3x $latest/runtime3x
-ln -s $buildDestination/runtime4x $latest/runtime4x
+cp -r $buildDestination/repository $latest/repository
+cp -r $buildDestination/runtime3x $latest/runtime3x
+cp -r $buildDestination/runtime4x $latest/runtime4x
 
 mkdir $latest/ide
 
-ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86.zip
-ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86_64.zip
-ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-macosx.cocoa.x86_64.zip
-ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86.zip
-ln -s $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86_64.zip
-
-
-
-# echo results
-
-find $streamDestination
-
-
+cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86.zip
+cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86_64.zip
+cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-macosx.cocoa.x86_64.zip
+cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86.zip
+cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86_64.zip
 
 
