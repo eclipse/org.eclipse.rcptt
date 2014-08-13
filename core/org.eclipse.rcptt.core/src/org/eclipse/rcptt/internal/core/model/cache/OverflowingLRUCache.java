@@ -212,24 +212,7 @@ public abstract class OverflowingLRUCache extends LRUCache {
 		LRUCacheEntry entry = (LRUCacheEntry) fEntryTable.get(key);
 
 		if (entry != null) {
-
-			/**
-			 * Replace the entry in the cache if it would not overflow the
-			 * cache. Otherwise flush the entry and re-add it so as to keep
-			 * cache within budget
-			 */
-			int oldSpace = entry._fSpace;
-			int newTotal = fCurrentSpace - oldSpace + newSpace;
-			if (newTotal <= fSpaceLimit) {
-				updateTimestamp(entry);
-				entry._fValue = value;
-				entry._fSpace = newSpace;
-				fCurrentSpace = newTotal;
-				fOverflow = 0;
-				return value;
-			} else {
-				privateRemoveEntry(entry, false, false);
-			}
+			privateRemoveEntry(entry, false, false);
 		}
 
 		// attempt to make new space

@@ -1,0 +1,38 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _CvfmAGniEeK1ouDBqHdAhQ
+Element-Name: Repeated Save of Folder Context
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _F7YTACExEeSkpoj5hg4t9Q
+Runtime-Version: 1.5.0.201407101239
+Save-Time: 8/11/14 4:12 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "project/FilledFolderContext" | double-click
+
+global [val start [get-memory-usage]]
+repeat -times 100 -command {
+	with [get-editor FilledFolderContext] {
+		with [get-section Folder] {
+	    	get-tree | select "toCapture/file.txt"
+	    	get-button Remove | click
+	    	get-tree | select "toCapture"
+			set-dialog-result File "platform:/resource/external/toCapture/file.txt"
+			get-button "Add Files..." | click
+	    }
+	}
+	get-button "Save (M1+S)" | click
+	trace [get-memory-usage]
+}
+
+global [val stop [get-memory-usage]]
+trace $start
+trace $stop
+lt $stop [plus $start 1000000] | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
