@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -53,7 +54,6 @@ import org.eclipse.ui.progress.UIJob;
  * */
 public class UIJobCollector implements IJobChangeListener {
     private class JobInfo {
-    	private final Job job;
     	private JobStatus status;
     	private boolean sleeping = false;
     	private boolean infoPrinted = false;
@@ -62,9 +62,10 @@ public class UIJobCollector implements IJobChangeListener {
     	private boolean jobInStepMode = false;
     	private boolean checkForTimeout = true;
     	private boolean done = false;
+    	private final String name;
         JobInfo(Job job) {
-        	this.job = job;
         	status = calcJobStatus(job, 0);
+        	name = job.toString();
         }
         
         synchronized void awake() {
@@ -92,14 +93,14 @@ public class UIJobCollector implements IJobChangeListener {
         	done = true;
         }
 
-        synchronized void printJobTimeoutLogEntry() {
+		synchronized void printJobTimeoutLogEntry(Job job) {
 			if (!infoPrinted) {
 				infoPrinted = true;
 				SWTTeslaActivator
 						.logToReport("---->>> Waiting timeout exceed then execute: "
 								+ getCurrentReportNodeName()
 								+ " <<---\n(skipping)"
-								+ getJobMessage(this));
+								+ getJobMessage(job));
 			}
 		}
 		
@@ -116,7 +117,7 @@ public class UIJobCollector implements IJobChangeListener {
         	return true;
         }
         
-		synchronized void scheduled(long delay) {
+		synchronized void scheduled(long delay, Job job) {
 			sleeping = false;
 			done = false;
 			checkForTimeout = true;
@@ -127,7 +128,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 		@Override
 		public String toString() {
-			return job.toString();
+			return name;
 		}
 		
 		
@@ -183,7 +184,7 @@ public class UIJobCollector implements IJobChangeListener {
 			return;
 		}
 		JobInfo jobInfo = getOrCreateJobInfo(event.getJob());
-		jobInfo.scheduled(event.getDelay());
+		jobInfo.scheduled(event.getDelay(), event.getJob());
 		if (JobStatus.REQUIRED.equals(jobInfo.status)) {
 			if (event.getJob().belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {
 				JobsManager.getInstance().nulifyTime(event.getJob());
@@ -258,11 +259,10 @@ public class UIJobCollector implements IJobChangeListener {
 	private long lastSuccessTime = 0;
 
 	private String getJobMessage(Job job) {
-		return getJobMessage(getOrCreateJobInfo(job));
+		return getJobMessage(getOrCreateJobInfo(job), job);
 	}
 	
-	private String getJobMessage(JobInfo jobInfo) {
-		Job job = jobInfo.job;
+	private String getJobMessage(JobInfo jobInfo, Job job) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("Job: ").append(job.getName()).append("\n");
 
@@ -428,10 +428,11 @@ public class UIJobCollector implements IJobChangeListener {
 			if (jobs.isEmpty()) {
 				return logReturnResult(true, realJobs, jobsInUI, info);
 			}
-			for (JobInfo jobInfo : jobs.values()) {
+			for (Map.Entry<Job, JobInfo> entry : jobs.entrySet()) {
+				JobInfo jobInfo = entry.getValue();
+				Job job = entry.getKey();
 				if (!jobInfo.isActive())
 					continue;
-				Job job = jobInfo.job;
 				IJobCollector[] collectors = JobCollectorExtensions.getDefault()
 						.getCollectors();
 				boolean allowSkip = true;
@@ -489,7 +490,7 @@ public class UIJobCollector implements IJobChangeListener {
 													.log("---->>> Begin step mode for Job: "
 															+ getCurrentReportNodeName()
 															+ " <<---\n(skipping)"
-															+ getJobMessage(jobInfo));
+															+ getJobMessage(jobInfo, job));
 										}
 										jobInfo.jobInStepMode = true;
 										toContinue = true;
@@ -666,9 +667,9 @@ public class UIJobCollector implements IJobChangeListener {
 
 	private void removeCanceledJobs() {
 		synchronized (jobs) {
-			for (JobInfo job : jobs.values()) {
-				if (JobsManager.getInstance().isCanceled(job.job)) {
-					job.cancel();
+			for (Entry<Job, JobInfo> job : jobs.entrySet()) {
+				if (JobsManager.getInstance().isCanceled(job.getKey())) {
+					job.getKey().cancel();
 				}
 			}
 			List<Job> find = Arrays.asList(Job.getJobManager().find(null));
@@ -698,7 +699,7 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	private void printJobTimeoutLogEntry(Job job) {
-		getOrCreateJobInfo(job).printJobTimeoutLogEntry();
+		getOrCreateJobInfo(job).printJobTimeoutLogEntry(job);
 	}
 
 	protected boolean isSyncSupported() {
@@ -759,9 +760,9 @@ public class UIJobCollector implements IJobChangeListener {
 	public List<Job> getJobs() {
 		synchronized (jobs) {
 			ArrayList<Job> rv = new ArrayList<Job>();
-			for (JobInfo info: jobs.values())
-				if (info.isActive())
-					rv.add(info.job);
+			for (Entry<Job, JobInfo> info : jobs.entrySet())
+				if (info.getValue().isActive())
+					rv.add(info.getKey());
 			return rv;
 		}
 	}
@@ -802,11 +803,10 @@ public class UIJobCollector implements IJobChangeListener {
 			if (jobs.isEmpty()) {
 				return true;
 			}
-			for (JobInfo jobInfo: jobs.values()) {
-				if (!jobInfo.isActive())
+			for (Entry<Job, JobInfo> jobInfo : jobs.entrySet()) {
+				if (!jobInfo.getValue().isActive())
 					continue;
-				Job job = jobInfo.job;
-				Set<String> names = getSuperClassNames(job);
+				Set<String> names = getSuperClassNames(jobInfo.getKey());
 
 				// Locate thread
 				Map<Thread, StackTraceElement[]> traces = Thread
@@ -833,7 +833,7 @@ public class UIJobCollector implements IJobChangeListener {
 				if (toContinue) {
 					continue;
 				}
-				realJobs.add(job);
+				realJobs.add(jobInfo.getKey());
 			}
 		}
 		if (realJobs.size() == 1) {
