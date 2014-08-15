@@ -29,7 +29,9 @@
 	      <artifactId>sdk</artifactId>
 	      <version>3.7.2</version>
 	      <injections>
-		<site>${rcpttRepo}</site>
+		<injection>
+		  <site>${rcpttRepo}</site>
+		</injection>
 	      </injections>
 	    </aut>
 	    <q7>
