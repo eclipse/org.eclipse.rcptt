@@ -11,6 +11,10 @@
     <relativePath>./pom-base.xml</relativePath>
   </parent>
 
+  <properties>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/repository</rcpttRepo>
+  </properties>
+  
   <build>
     <plugins>
       <plugin>
@@ -21,7 +25,12 @@
 
 	<configuration>
 	    <aut>
-	      <explicit>${rcpttBaseUrl}</explicit>
+	      <groupId>org.eclipse</groupId>
+	      <artifactId>sdk</artifactId>
+	      <version>3.7.2</version>
+	      <injections>
+		<site>${rcpttRepo}</site>
+	      </injections>
 	    </aut>
 	    <q7>
 	      <version>${q7-version}</version>
