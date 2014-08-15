@@ -12,7 +12,7 @@
   </parent>
 
   <properties>
-    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/repository</rcpttRepo>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/latest/repository</rcpttRepo>
   </properties>
   
   <build>
