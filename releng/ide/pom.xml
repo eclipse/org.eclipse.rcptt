@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.rcptt</groupId>
+  <artifactId>ide</artifactId>
+  <version>1.5.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.eclipse.rcptt</groupId>
+    <artifactId>rcptt-parent</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+  </parent>
+  
+  <modules>
+    <module>../../modules/nebula</module>
+    <module>../../launching</module>
+    <module>../../rcp</module>
+    <module>../../testing</module>
+
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.helios</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.kepler</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e44x</module>
+    <module>../../repository/full</module>
+  </modules>
+
+  <properties>
+    <e3xRepository>file:/${user.dir}/repository/e3x/target/repository</e3xRepository>
+    <e4xRepository>file:/${user.dir}/repository/e4x/target/repository</e4xRepository>
+    <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>    
+  </properties>
+  
+  <repositories>
+    <repository>
+      <id>indigo</id>
+      <layout>p2</layout>
+      <url>${indigoRepository}</url>
+    </repository>
+    <repository>
+      <id>orbit</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/</url>
+    </repository>
+    <repository>
+      <id>core</id>
+      <layout>p2</layout>
+      <url>${coreRepository}</url>
+    </repository>
+    <repository>
+      <snapshots>
+	<updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>e3x-ide</id>
+      <layout>p2</layout>
+      <url>${e3xRepository}</url>
+    </repository>
+    <repository>
+      <snapshots>
+	<updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>e4x-ide</id>
+      <layout>p2</layout>
+      <url>${e4xRepository}</url>
+    </repository>
+  </repositories>
+</project>

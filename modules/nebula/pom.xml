@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.rcptt</groupId>
-	<artifactId>rcptt-module-nebula</artifactId>
-	<version>1.5.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.rcptt</groupId>
+  <artifactId>rcptt-module-nebula</artifactId>
+  <version>1.5.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <properties>
-      <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</rcpttRuntimeRepo>
-    </properties>
+  <properties>
+    <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</rcpttRuntimeRepo>
+  </properties>
 
-	<parent>
-		<groupId>org.eclipse.rcptt</groupId>
-		<artifactId>rcptt-derived-base-pom</artifactId>
-		<version>1.5.1-SNAPSHOT</version>
-		<relativePath>../../pom-base-rcpttderived.xml</relativePath>
-	</parent>
+  <parent>
+    <groupId>org.eclipse.rcptt</groupId>
+    <artifactId>ide</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+    <relativePath>../../releng/ide/pom.xml</relativePath>
+  </parent>
 
-	<repositories>
-		<repository>
-			<id>nebula</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/technology/nebula/snapshot/</url>
-		</repository>
-		<repository>
-			<id>rcptt-runtime</id>
-			<layout>p2</layout>
-			<url>${rcpttRuntimeRepo}</url>
-		</repository>
-	</repositories>
+  <repositories combine.self="override">
+    <repository>
+      <id>nebula</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/technology/nebula/snapshot/</url>
+    </repository>
+    <repository>
+      <id>rcptt-runtime</id>
+      <layout>p2</layout>
+      <url>${rcpttRuntimeRepo}</url>
+    </repository>
+    <repository>
+      <id>ajdt37</id>
+      <layout>p2</layout>
+      <url>${ajdt37repository}</url>
+    </repository>
+  </repositories>
 
-	<modules>
-		<module>plugins/org.eclipse.rcptt.tesla.nebula</module>
-		<module>plugins/org.eclipse.rcptt.tesla.nebula.impl</module>
-		<module>plugins/org.eclipse.rcptt.tesla.nebula.ecl</module>
-		<module>plugins/org.eclipse.rcptt.tesla.nebula.ecl.impl</module>
-		<module>plugins/org.eclipse.rcptt.tesla.recording.nebula</module>
-		<module>plugins/org.eclipse.rcptt.tesla.recording.nebula.ecl</module>
-		<module>features/org.eclipse.rcptt.module.nebula.runtime</module>
-		<module>runtime-site</module>
-		<module>plugins/org.eclipse.rcptt.module.nebula.updates</module>
-		<module>features/org.eclipse.rcptt.module.nebula</module>
-		<module>site</module>
-	</modules>
+  <modules>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.impl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.ecl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.ecl.impl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.recording.nebula</module>
+    <module>plugins/org.eclipse.rcptt.tesla.recording.nebula.ecl</module>
+    <module>features/org.eclipse.rcptt.module.nebula.runtime</module>
+    <module>runtime-site</module>
+    <module>plugins/org.eclipse.rcptt.module.nebula.updates</module>
+    <module>features/org.eclipse.rcptt.module.nebula</module>
+    <module>site</module>
+  </modules>
 </project>

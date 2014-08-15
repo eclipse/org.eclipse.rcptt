@@ -7,8 +7,6 @@
 	<feature id="org.eclipse.rcptt.tesla.ecl" />
 	<feature id="org.eclipse.rcptt.tesla" />
 	<feature id="org.eclipse.rcptt.core" />
-	<!-- Launching feature -->
-	<feature id="org.eclipse.rcptt.launching" />
 	<!-- ECL Stuff -->
 	<feature id="org.eclipse.rcptt.ecl.server" />
 	<feature id="org.eclipse.rcptt.ecl.core" />

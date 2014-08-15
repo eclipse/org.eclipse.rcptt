@@ -21,6 +21,10 @@ import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.rcptt.tesla.internal.ui.player.DetailUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -44,11 +48,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.TypedListener;
 import org.eclipse.swt.widgets.Widget;
 
-import org.eclipse.rcptt.tesla.internal.ui.player.DetailUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-
 @SuppressWarnings("rawtypes")
 public class WidgetDetailsProvider {
 	private class Style {
@@ -69,6 +68,10 @@ public class WidgetDetailsProvider {
 			return value;
 		}
 	}
+
+	// These two event types introduced only in 3.7:
+	private static final int SWTTouch = 47; // SWT.Touch;
+	private static final int SWTGesture = 48; // SWT.Gesture;
 
 	private Map<Integer, String> eventTypes = new HashMap<Integer, String>();
 	private Map<Class, List<Style>> widgetStyles = new HashMap<Class, List<WidgetDetailsProvider.Style>>();
@@ -121,8 +124,8 @@ public class WidgetDetailsProvider {
 		eventTypes.put(SWT.OrientationChange, "OrientationChange");
 		eventTypes.put(SWT.Skin, "Skin");
 		eventTypes.put(SWT.OpenDocument, "OpenDocument");
-		eventTypes.put(SWT.Touch, "Touch");
-		eventTypes.put(SWT.Gesture, "Gesture");
+		eventTypes.put(SWTTouch, "Touch");
+		eventTypes.put(SWTGesture, "Gesture");
 
 		widgetStyles.put(
 				Decorations.class,

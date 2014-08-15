@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.rcptt</groupId>
+  <artifactId>runtime</artifactId>
+  <version>1.5.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.eclipse.rcptt</groupId>
+    <artifactId>rcptt-parent</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>rcptt-core</id>
+      <layout>p2</layout>
+      <snapshots>
+	<updatePolicy>always</updatePolicy>
+      </snapshots>
+      <url>${coreRepository}</url>
+    </repository>
+    <repository>
+      <id>ajdt37</id>
+      <layout>p2</layout>
+      <url>${ajdt37repository}</url>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>../../runtime</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>runtime3x</id>
+      <modules>
+	<module>../../repository/e3x</module>
+      </modules>
+
+      <repositories>
+	<repository>
+	  <id>helios</id>
+	  <layout>p2</layout>
+	  <url>${heliosRepository}</url>
+	</repository>
+      </repositories>
+    </profile>
+    
+    <profile>
+      <id>runtime4x</id>
+      <modules>
+	<module>../../repository/e4x</module>
+      </modules>
+
+      <repositories>
+	<repository>
+	  <id>juno</id>
+	  <layout>p2</layout>
+	  <url>${junoRepository}</url>
+	</repository>
+      </repositories>
+    </profile>    
+  </profiles>
+</project>

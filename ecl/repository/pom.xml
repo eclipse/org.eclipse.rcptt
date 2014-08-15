@@ -3,11 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>ecl-releng</artifactId>
-    <groupId>org.eclipse.rcptt.ecl</groupId>
+    <artifactId>ecl</artifactId>
+    <groupId>org.eclipse.rcptt</groupId>
     <version>1.5.1-SNAPSHOT</version>
+    <relativePath>../../releng/ecl/pom.xml</relativePath>
   </parent>
-  <groupId>org.eclipse.rcptt.ecl</groupId>
-  <artifactId>org.eclipse.rcptt.ecl.core-updatesite</artifactId>
-  <packaging>eclipse-update-site</packaging>
+  <groupId>org.eclipse.rcptt</groupId>
+  <artifactId>ecl-repository</artifactId>
+  <packaging>eclipse-repository</packaging>
 </project>

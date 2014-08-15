@@ -7,8 +7,9 @@
   <packaging>pom</packaging>
   <parent>
     <artifactId>ecl</artifactId>
-    <groupId>org.eclipse.rcptt.ecl</groupId>
+    <groupId>org.eclipse.rcptt</groupId>
     <version>1.5.1-SNAPSHOT</version>
+    <relativePath>../../releng/ecl/pom.xml</relativePath>    
   </parent>
   <modules>
     <module>org.eclipse.rcptt.ecl.operations.tests</module>

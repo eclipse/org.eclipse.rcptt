@@ -3,9 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>rcptt</artifactId>
+		<artifactId>core</artifactId>
 		<groupId>org.eclipse.rcptt</groupId>
 		<version>1.5.1-SNAPSHOT</version>
+		<relativePath>../releng/core/pom.xml</relativePath>
 	</parent>
 	<modules>
 		<!-- Tesla plugins -->
