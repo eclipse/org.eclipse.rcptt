@@ -1,0 +1,29 @@
+#+OPTIONS:   num:nil toc:nil author:nil email:nil creator:nil timestamp:nil
+#+BIND: org-html-validation-link nil
+#+TITLE: 
+
+** About
+   Set of shell scripts to be executed on http://hudson.eclipse.org/rcptt to publish nightly and release builds to rcptt download area. Layout suggested below is not final, but we need something to begin with.
+
+** Nightly builds
+   #+BEGIN_SRC fundamental
+     # RCPs:
+     /nightly/1.5.1/{qualifier}/ide/rcptt.ide-1.5.1-N{qualifier}-{platform}.zip
+
+     # Main repo & runtime repos
+     /nightly/1.5.1/{qualifier}/repository/
+     /nightly/1.5.1/{qualifier}/runtime3x/
+     /nightly/1.5.1/{qualifier}/runtime4x/
+
+     # Latest (just a copy with minor change in ide file (to ensure url is the same))
+     /nightly/1.5.1/latest/ide/rcptt.ide-1.5.1-nightly-{platform}.zip
+     /nightly/1.5.1/latest/repository/
+     /nightly/1.5.1/latest/runtime3x/
+     /nightly/1.5.1/latest/runtime4x/
+   #+END_SRC
+
+   So if at some point we are going to have more than one version in active development, we can easily distinguish between different streams
+
+** Release builds
+   
+   To be described
