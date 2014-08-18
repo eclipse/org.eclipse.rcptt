@@ -26,11 +26,11 @@ productsDir=$WORKSPACE/repository/full/target/products
 productsDestination=$buildDestination/ide
 
 mkdir -p $productsDestination
-cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86.zip $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86_64.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-macosx.cocoa.x86_64.zip $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86.zip $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86_64.zip $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86_64.zip
+cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86.zip $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86.zip
+cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86_64.zip
+cp $productsDir/org.eclipse.rcptt.platform.product-macosx.cocoa.x86_64.zip $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip
+cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86.zip $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-win32.win32.x86.zip
+cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86_64.zip $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-win32.win32.x86_64.zip
 
 # copy full repository
 cp -r $WORKSPACE/repository/full/target/repository $buildDestination
@@ -61,10 +61,10 @@ cp -r $buildDestination/runtime4x $latest/runtime4x
 
 mkdir $latest/ide
 
-cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86.zip
-cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-linux.gtk.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-linux.gtk.x86_64.zip
-cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-macosx.cocoa.x86_64.zip
-cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86.zip
-cp $productsDestination/rcptt.ide-1.5.1-$typeAbbr$productQualifier-win32.win32.x86_64.zip $latest/ide/rcptt.ide-1.5.1-nightly-win32.win32.x86_64.zip
+cp $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86.zip $latest/ide/rcptt.ide-$productVersion-nightly-linux.gtk.x86.zip
+cp $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86_64.zip $latest/ide/rcptt.ide-$productVersion-nightly-linux.gtk.x86_64.zip
+cp $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-$productVersion-nightly-macosx.cocoa.x86_64.zip
+cp $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-win32.win32.x86.zip $latest/ide/rcptt.ide-$productVersion-nightly-win32.win32.x86.zip
+cp $productsDestination/rcptt.ide-$productVersion-$typeAbbr$productQualifier-win32.win32.x86_64.zip $latest/ide/rcptt.ide-$productVersion-nightly-win32.win32.x86_64.zip
 
 

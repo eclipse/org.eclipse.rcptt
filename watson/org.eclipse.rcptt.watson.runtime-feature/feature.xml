@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.watson.runtime"
       label="Watson eclipse explore engine"
-      version="1.5.1.qualifier"
+      version="1.5.2.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -18,28 +18,28 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.watson" version="1.5.1.qualifier"/>
+      <import feature="org.eclipse.rcptt.watson" version="1.5.2.qualifier"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.jobs"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.swt"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jobs.impl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.2.qualifier"
          unpack="false"/>
 
 </feature>

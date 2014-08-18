@@ -4,7 +4,7 @@
   <parent>
     <artifactId>rcptt.core</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
   </parent>
   <modules>
     <!-- CONTEXT PLUGINS -->
@@ -20,7 +20,7 @@
     <module>org.eclipse.rcptt.ctx.extensions</module>
   </modules>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <artifactId>rcptt.core.contexts</artifactId>
   <packaging>pom</packaging>
 </project>

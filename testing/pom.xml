@@ -4,11 +4,11 @@
   <parent>
     <artifactId>ide</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
     <relativePath>../releng/ide/pom.xml</relativePath>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <artifactId>rcptt.testing</artifactId>
   <packaging>pom</packaging>
   <modules>
