@@ -1,0 +1,67 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: __ZTV8Au2EeOLiPM97zhEfw,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: Procedure documentation
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _GG-CECaOEeS4ZoAAFrP9Rg
+Runtime-Version: 1.5.0.201406020630
+Save-Time: 8/18/14 3:54 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+// Test simple 1-line comment
+get-view "Test Explorer" | get-tree | select "MyProject/New Java Class Procs" | double-click
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    hover-text 10 32
+    set-caret-pos 27 1
+    key-type Enter
+    type-text "// Description of create-java-class procedure"
+    key-type "M1+END"
+    type-text "create-java-class"
+    key-type Enter
+}
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | hover-text 36 9 -with Left
+get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>create-java-class</B> <BR>Description of create-java-class procedure" | verify-true
+
+// Test simple 2-lines comment
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 28 46
+    key-type Enter
+    type-text "// Second description line"
+}
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | hover-text 36 9 -with Left
+get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>create-java-class</B> <BR>Description of create-java-class procedure Second description line" | verify-true
+
+// Test simple 2-lines comment with linebreak
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 28 46
+    key-type Enter
+}
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | hover-text 36 9 -with Left
+get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>create-java-class</B> <BR>Description of create-java-class procedure Second description line" | verify-false
+get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>create-java-class</B> <BR>Second description line" | verify-true
+
+// Test javadoc-like comment && autocomplete
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 19 1
+    type-text "/**"
+    key-type Enter
+    type-text " * Description of open-new-class-dialog"
+    key-type Enter
+    type-text "*/"
+    key-type "M1+END"
+    key-type Enter
+    type-text "open-"
+    key-type "M1+SPACE"
+}
+//wait 1000
+get-window -from "CompletionProposalPopup.createProposalSelector()" | get-window -from "Information Window" 
+    | get-control Browser | get-property text | contains "Procedure <B>open-new-class-dialog</B> <BR>Description of open-new-class-dialog" | verify-true
+    
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

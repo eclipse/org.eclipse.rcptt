@@ -37,6 +37,7 @@ public class ScriptContainer extends BaseContainer {
 			ProcDecl proc = procFromPipeline(pipeline);
 			if (proc != null) {
 				result.addProc(proc);
+				proc.setDescription(script.findProcDescription(pipeline.begin));
 			}
 			result.addAllVars(globalVars(pipeline));
 		}

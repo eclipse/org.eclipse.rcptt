@@ -52,6 +52,7 @@ public class LocalContainer extends BaseContainer {
 			ProcDecl proc = procFromPipeline(pipeline);
 			if (proc != null) {
 				result.addProc(proc);
+				proc.setDescription(script.findProcDescription(pipeline.begin));
 			}
 
 			if (pipeline == firstInPath) {
