@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +42,7 @@ import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.ui.IJobCollector;
 import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
+import org.eclipse.rcptt.util.WeakIdentityHashMap;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -132,8 +132,7 @@ public class UIJobCollector implements IJobChangeListener {
 		
 		
     }
-
-	private final Map<Job, JobInfo> jobs = Collections.synchronizedMap(new IdentityHashMap<Job, JobInfo>());
+    private final Map<Job, JobInfo> jobs = Collections.synchronizedMap(new WeakIdentityHashMap<Job, JobInfo>());
 	private boolean state;
 	private boolean needDisable = false;
 	private long stepModeNext = 0;
@@ -167,16 +166,13 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	public void done(IJobChangeEvent event) {
-		JobsManager.getInstance().removeCanceled(event.getJob());
 		synchronized (jobs) {
-			boolean reschedule = TeslaSWTAccess.getJobEventReSchedule(event) && state;
-			getOrCreateJobInfo(event.getJob()).done(reschedule);
+			getOrCreateJobInfo(event.getJob()).done(TeslaSWTAccess.getJobEventReSchedule(event) && state);
 			if (needDisable && isJoinEmpty()) {
 				disable();
 			}
-			if (!reschedule)
-				jobs.remove(event.getJob());
 		}
+		JobsManager.getInstance().removeCanceled(event.getJob());
 	}
 
 	public void running(IJobChangeEvent event) {
