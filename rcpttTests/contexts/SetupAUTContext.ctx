@@ -35,7 +35,7 @@ proc "has-property" [val control -input] [val property] {
 	}
 }
 
-invoke-AUT selfQ7 -args "" -vmargs "-Xmx512m -XX:MaxPermSize=256m"
+invoke-AUT selfQ7 -args "-nosplash" -vmargs "-Xmx512m -XX:MaxPermSize=256m"
 
 loop [val count 0] {
 	if [$count | lt 10] {
