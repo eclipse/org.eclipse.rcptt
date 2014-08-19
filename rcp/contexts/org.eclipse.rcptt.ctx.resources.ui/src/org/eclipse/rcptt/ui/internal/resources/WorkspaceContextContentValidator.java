@@ -12,10 +12,8 @@ package org.eclipse.rcptt.ui.internal.resources;
 
 import static org.eclipse.rcptt.ui.utils.ModelUtils.loadContext;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
-
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter;
 import org.eclipse.rcptt.core.builder.IQ7Validator;
 import org.eclipse.rcptt.core.model.IContext;
@@ -37,7 +35,7 @@ public class WorkspaceContextContentValidator implements IQ7Validator {
 				return;
 			WSValidators.validateContent(
 					ctx,
-					(IFile) element.getResource(), reporter,
+					context, reporter,
 					SubMonitor.convert(monitor).newChild(1, SubMonitor.SUPPRESS_BEGINTASK));
 		}
 	}

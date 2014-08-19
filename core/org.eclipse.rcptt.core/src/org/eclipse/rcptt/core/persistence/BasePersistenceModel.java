@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.rcptt.core.workspace.Q7Utils;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.util.FileUtil;
@@ -38,7 +37,7 @@ import org.eclipse.rcptt.util.StreamUtil;
 
 public abstract class BasePersistenceModel implements IPersistenceModel {
 
-	protected Map<String, File> files = new HashMap<String, File>();
+	protected final Map<String, File> files = new HashMap<String, File>();
 
 	protected abstract void doExtractAll(InputStream contents)
 			throws IOException;
@@ -51,12 +50,13 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 	protected abstract void doStoreTo(File file) throws FileNotFoundException,
 			IOException;
 
-	protected Resource element;
-	protected File root;
-	protected IPath rootPath;
+	protected final Resource element;
+	protected final File root;
+	protected final IPath rootPath;
 	private boolean modified = false;
 	private byte[] internalContent = null;
 	private Set<String> extractions = new HashSet<String>();
+	private boolean disposed = false;
 
 	public boolean isContentEntryRequired() {
 		return true;
@@ -68,26 +68,27 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 
 	public BasePersistenceModel(Resource element) {
 		this.element = element;
+		IPath nonExistent = null;
 		while (true) {
 			RcpttPlugin default1 = RcpttPlugin.getDefault();
-			if (default1 == null) {
-				return;
-			}
+			assert default1 != null;
 			String uri = (element == null || element.getURI() == null) ? "_"
 					: element.getURI().toString();
-			rootPath = default1
+			nonExistent = default1
 					.getStateLocation()
 					.append("attachments")
 					.append(FileUtil.limitSize(FileUtil.getID(uri))
 							+ System.currentTimeMillis());
-			if (!rootPath.toFile().exists()) {
+			if (!nonExistent.toFile().exists()) {
 				break;
 			}
 		}
-		root = rootPath.toFile();
+		assert nonExistent != null;
+		rootPath = nonExistent;
+		this.root = rootPath.toFile();
 		// Make index
 		try {
-			readIndex(element);
+			readIndex();
 		} catch (CoreException e) {
 			RcpttPlugin.log(e);
 		}
@@ -100,13 +101,14 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 	public void setInternalContent(byte[] internalContent) {
 		this.internalContent = internalContent;
 		try {
-			readIndex(element);
+			readIndex();
 		} catch (CoreException e) {
 			RcpttPlugin.log(e);
 		}
 	}
 
 	private void initialize() {
+		assert !disposed;
 		root.mkdirs();
 	}
 
@@ -118,7 +120,8 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 		return files.keySet().toArray(new String[files.size()]);
 	}
 
-	protected void readIndex(Resource element) throws CoreException {
+	private void readIndex() throws CoreException {
+		assert !disposed;
 		InputStream contents = getContentsStream();
 		if (contents == null) {
 			return;
@@ -167,13 +170,14 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 	}
 
 	public void dispose() {
-		if (root != null) {
-			FileUtil.deleteFiles(root.listFiles());
-			root.delete();
-		}
+		if (disposed)
+			return;
+		removeAll();
+		disposed = true;
 	}
 
 	public InputStream read(String name) {
+		assert !disposed;
 		File file = files.get(name);
 		if (file == null) {
 			return null;
@@ -316,7 +320,10 @@ public abstract class BasePersistenceModel implements IPersistenceModel {
 
 	public void removeAll() {
 		files.clear();
-		dispose();
+		if (root != null) {
+			FileUtil.deleteFiles(root.listFiles());
+			root.delete();
+		}
 	}
 
 	/**
