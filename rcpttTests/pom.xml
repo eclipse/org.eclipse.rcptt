@@ -28,6 +28,7 @@
 	    <explicit>${rcpttPath}</explicit>
 	    <args>
 	      <arg>-nosplash</arg>
+	      <arg>-consoleLog</arg>	      
 	    </args>
 <!--	      <groupId>org.eclipse</groupId>
 	      <artifactId>sdk</artifactId>
