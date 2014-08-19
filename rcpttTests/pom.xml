@@ -26,6 +26,9 @@
 	<configuration>
 	  <aut>
 	    <explicit>${rcpttPath}</explicit>
+	    <args>
+	      <arg>-nosplash</arg>
+	    </args>
 <!--	      <groupId>org.eclipse</groupId>
 	      <artifactId>sdk</artifactId>
 	      <version>3.7.2</version>
