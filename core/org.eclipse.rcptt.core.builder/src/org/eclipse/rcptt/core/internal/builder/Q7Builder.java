@@ -331,34 +331,40 @@ public class Q7Builder extends IncrementalProjectBuilder {
 								monitor, 1);
 
 						subMonitor.beginTask(
-								"Validate RCPTT element " + element.getName(), 5);
+								"Validate RCPTT element " + element.getName(), 2 + validators.length);
 						subMonitor.subTask("Validate RCPTT element "
 								+ element.getName());
 						deleteMarkers((IFile) element.getResource());
 						subMonitor.worked(1);
+
 						try {
-							for (IQ7Validator validator : validators) {
-								if (monitor.isCanceled()) {
-									monitor.done();
-									subMonitor.done();
-									return;
+							final IQ7NamedElement indexingWorkingCopy = element.getIndexingWorkingCopy(null);
+							try {
+								for (IQ7Validator validator : validators) {
+									if (monitor.isCanceled()) {
+										monitor.done();
+										subMonitor.done();
+										return;
+									}
+									IProgressMonitor mon = new SubProgressMonitor(
+											subMonitor, 1) {
+										@Override
+										public void setTaskName(String name) {
+										}
+
+									};
+									validator.validate(indexingWorkingCopy, collector, mon);
+									mon.done();
 								}
-								IProgressMonitor mon = new SubProgressMonitor(
-										subMonitor, 1) {
-											@Override
-											public void setTaskName(String name) {
-											}
-									
-								};
-	
-								validator.validate(element, collector, mon);
-								mon.done();
+							} finally {
+								indexingWorkingCopy.discardWorkingCopy();
 							}
 						} catch (Exception e) {
 							RcpttPlugin.log(e);
 							collector.reportProblem((IFile) element.getResource(), ProblemType.Error, "Validation fail", -1, -1, -1, -1);
+						} finally {
+							subMonitor.done();
 						}
-						subMonitor.done();
 					}
 				});
 			}
