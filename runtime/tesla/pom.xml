@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rcptt.runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
   </parent>
 
   <modules>
@@ -75,7 +75,7 @@
     </profile>
   </profiles>
   <groupId>org.eclipse.rcptt.tesla</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <artifactId>tesla</artifactId>
   <packaging>pom</packaging>
 </project>

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>rcptt-module-nebula</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>ide</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
     <relativePath>../../releng/ide/pom.xml</relativePath>
   </parent>
 

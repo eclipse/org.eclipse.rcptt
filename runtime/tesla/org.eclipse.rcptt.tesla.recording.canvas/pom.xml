@@ -4,10 +4,10 @@
   <parent>
     <artifactId>tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.2-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.tesla</groupId>
   <artifactId>org.eclipse.rcptt.tesla.recording.canvas</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.2-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

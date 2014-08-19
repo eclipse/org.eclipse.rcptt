@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECL Console
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.popup.ui;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.2.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.popup.ui.internal.EclPopupUIPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,

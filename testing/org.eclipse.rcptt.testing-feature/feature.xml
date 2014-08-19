@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.testing"
       label="Testing Support"
-      version="1.5.1.qualifier"
+      version="1.5.2.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -21,7 +21,7 @@
          id="org.eclipse.rcptt.testing.ecl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.2.qualifier"
          unpack="false"/>
 
 </feature>
