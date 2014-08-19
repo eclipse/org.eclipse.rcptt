@@ -24,15 +24,17 @@
 	<extensions>true</extensions>
 
 	<configuration>
-	    <aut>
-	      <groupId>org.eclipse</groupId>
+	  <aut>
+	    <explicit>${rcpttPath}</explicit>
+<!--	      <groupId>org.eclipse</groupId>
 	      <artifactId>sdk</artifactId>
 	      <version>3.7.2</version>
 	      <injections>
 		<injection>
 		  <site>${rcpttRepo}</site>
 		</injection>
-	      </injections>
+		</injections>
+-->		
 	    </aut>
 	    <q7>
 	      <version>${q7-version}</version>
