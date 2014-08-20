@@ -9,8 +9,10 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,58 +27,53 @@ import org.eclipse.rcptt.ui.controls.TestSuiteButtonsPanel;
 import org.eclipse.rcptt.ui.launching.aut.AutContentProvider;
 import org.eclipse.rcptt.ui.launching.aut.AutElement;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TableColumn;
 
 public class MultiAutLaunchTab extends AbstractLaunchConfigurationTab {
 	private TableViewer entriesViewer;
 
+	private static class ColumnManager {
+		private final TableColumnLayout columnLayout = new TableColumnLayout();
+		private final TableViewer viewer;
+
+		ColumnManager(TableViewer viewer) {
+			this.viewer = viewer;
+			this.viewer.getTable().getParent().setLayout(columnLayout);
+		}
+
+		TableViewerColumn add(String name) {
+			final TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
+			column.getColumn().setText(name);
+			columnLayout.setColumnData(column.getColumn(), new ColumnWeightData(1));
+			return column;
+		}
+
+	}
 	@Override
 	public void createControl(Composite parent) {
 		Composite content = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(content);
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(content);
 
-		entriesViewer = new TableViewer(content);
+		Composite tableContainer = new Composite(content, SWT.NONE);
+		GridLayoutFactory.swtDefaults().applyTo(tableContainer);
+		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tableContainer);
+		entriesViewer = new TableViewer(tableContainer);
+
+		ColumnManager columns = new ColumnManager(entriesViewer);
+
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).hint(1, 1)
 				.applyTo(entriesViewer.getControl());
-		final TableViewerColumn testColumn = new TableViewerColumn(entriesViewer, SWT.NONE);
-		testColumn.getColumn().setText("Test");
-		final TableViewerColumn autColumn = new TableViewerColumn(entriesViewer, SWT.NONE);
-		autColumn.getColumn().setText("AUT");
-		final TableViewerColumn restartColumn = new TableViewerColumn(entriesViewer, SWT.NONE);
-		restartColumn.getColumn().setText("Restart");
+
+		final TableViewerColumn testColumn = columns.add("Test");
+		final TableViewerColumn autColumn = columns.add("AUT");
+		final TableViewerColumn restartColumn = columns.add("Restart");
 		restartColumn.getColumn().setToolTipText("Whether to restart AUT before test case");
 		entriesViewer.getTable().setHeaderVisible(true);
 		entriesViewer.getTable().setLinesVisible(true);
-		entriesViewer.getTable().addControlListener(new ControlAdapter() {
-			@Override
-			public void controlResized(ControlEvent e) {
-				TableColumn restart = restartColumn.getColumn();
-				TableColumn aut = autColumn.getColumn();
-				TableColumn test = testColumn.getColumn();
-
-				int baseWidth = entriesViewer.getTable().getClientArea().width;
-
-				restart.pack();
-				baseWidth -= restart.getWidth();
-
-				int testColumnWidth = (int) (baseWidth * 0.7);
-				int autColumnWidth = baseWidth - testColumnWidth;
-
-				aut.pack();
-				int autPackedWidth = aut.getWidth();
-				autColumnWidth = Math.min(autColumnWidth, autPackedWidth);
-
-				test.setWidth(baseWidth - autColumnWidth);
-				aut.setWidth(autColumnWidth);
-			}
-		});
 		entriesViewer.getTable().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
