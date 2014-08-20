@@ -1,0 +1,29 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: __ZTV8Au2EeOLiPM97zhEfw,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: Comment 1-line
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _bUx9oCbQEeSJvYFSUnsXEQ
+Runtime-Version: 1.5.0.201406020630
+Save-Time: 8/18/14 7:20 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "MyProject/New Java Class Procs" | double-click
+with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
+    set-caret-pos 27 1
+    key-type Enter
+    type-text "// Description of create-java-class procedure"
+    key-type "M1+END"
+    type-text "create-java-class"
+    key-type Enter
+}
+get-editor "New Java Class Procs" | get-section Script | get-text-viewer | hover-text 36 9 -with Left
+get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>create-java-class</B> <BR>Description of create-java-class procedure" | verify-true
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
