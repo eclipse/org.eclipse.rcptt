@@ -23,12 +23,8 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.model.IContext;
@@ -41,7 +37,6 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.ISearchScope;
-import org.eclipse.rcptt.core.nature.RcpttNature;
 import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
@@ -55,7 +50,6 @@ import org.eclipse.rcptt.internal.core.model.index.ProjectIndexerManager;
 
 public class ModelManager {
 	private static ModelManager instance;
-	private ThreadLocal<Map<IQ7Element, Object>> temporaryCache = new ThreadLocal<Map<IQ7Element, Object>>();
 	public ModelCache cache;// = new ModelCache();
 
 	public DeltaProcessingState deltaState = new DeltaProcessingState();
@@ -101,29 +95,8 @@ public class ModelManager {
 		workspace.removeResourceChangeListener(this.deltaState);
 	}
 
-	public Map<IQ7Element, Object> getTemporaryCache() {
-		Map<IQ7Element, Object> result = this.temporaryCache.get();
-		if (result == null) {
-			result = new HashMap<IQ7Element, Object>();
-			this.temporaryCache.set(result);
-		}
-		return result;
-	}
-
 	public synchronized Object getInfo(IQ7Element element) {
-		Map<IQ7Element, Object> tempCache = this.temporaryCache.get();
-		if (tempCache != null) {
-			Object result = tempCache.get(element);
-			if (result != null) {
-				return result;
-			}
-		}
 		return this.cache.getInfo(element);
-	}
-
-	public boolean hasTemporaryCache() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	protected synchronized void putInfos(IQ7Element openedElement,
@@ -167,10 +140,6 @@ public class ModelManager {
 			return info;
 		}
 		return null;
-	}
-
-	public void resetTemporaryCache() {
-		this.temporaryCache.set(null);
 	}
 
 	public static IQ7Element create(IFile file, IQ7Project project) {
@@ -225,13 +194,6 @@ public class ModelManager {
 	}
 
 	public Object peekAtInfo(IQ7Element element) {
-		Map<IQ7Element, Object> tempCache = this.temporaryCache.get();
-		if (tempCache != null) {
-			Object result = tempCache.get(element);
-			if (result != null) {
-				return result;
-			}
-		}
 		return this.cache.peekAtInfo(element);
 	}
 

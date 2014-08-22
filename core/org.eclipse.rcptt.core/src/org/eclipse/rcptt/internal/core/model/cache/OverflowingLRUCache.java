@@ -41,7 +41,7 @@ public abstract class OverflowingLRUCache extends LRUCache {
 		return newCache;
 	}
 
-	protected abstract boolean close(LRUCacheEntry entry);
+	protected abstract boolean close(Object key, Object value);
 
 	@SuppressWarnings("rawtypes")
 	public Enumeration elements() {
@@ -170,7 +170,7 @@ public abstract class OverflowingLRUCache extends LRUCache {
 				fCurrentSpace -= entry._fSpace;
 				privateNotifyDeletionFromCache(entry);
 			} else {
-				if (!close(entry))
+				if (!close(entry._fKey, entry._fValue))
 					return;
 				// buffer close will recursively call #privateRemoveEntry with
 				// external==true
@@ -213,9 +213,11 @@ public abstract class OverflowingLRUCache extends LRUCache {
 
 		if (entry != null) {
 			privateRemoveEntry(entry, false, false);
+//			close(key, value);
+//			return entry._fValue;
 		}
 
-		// attempt to make new space
+		// attempt to make new spaceG
 		makeSpace(newSpace);
 
 		// add without worring about space, it will
