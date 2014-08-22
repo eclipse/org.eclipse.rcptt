@@ -20,7 +20,7 @@ import org.eclipse.rcptt.ecl.filesystem.FilesystemPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl#getPath <em>Path</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl#getUri <em>Uri</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,24 +28,24 @@ import org.eclipse.rcptt.ecl.filesystem.FilesystemPackage;
  */
 public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	/**
-	 * The default value of the '{@link #getPath() <em>Path</em>}' attribute.
+	 * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPath()
+	 * @see #getUri()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PATH_EDEFAULT = null;
+	protected static final String URI_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPath() <em>Path</em>}' attribute.
+	 * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPath()
+	 * @see #getUri()
 	 * @generated
 	 * @ordered
 	 */
-	protected String path = PATH_EDEFAULT;
+	protected String uri = URI_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -71,8 +71,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPath() {
-		return path;
+	public String getUri() {
+		return uri;
 	}
 
 	/**
@@ -80,11 +80,11 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPath(String newPath) {
-		String oldPath = path;
-		path = newPath;
+	public void setUri(String newUri) {
+		String oldUri = uri;
+		uri = newUri;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, FilesystemPackage.DELETE_FILE__PATH, oldPath, path));
+			eNotify(new ENotificationImpl(this, Notification.SET, FilesystemPackage.DELETE_FILE__URI, oldUri, uri));
 	}
 
 	/**
@@ -95,8 +95,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case FilesystemPackage.DELETE_FILE__PATH:
-				return getPath();
+			case FilesystemPackage.DELETE_FILE__URI:
+				return getUri();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -109,8 +109,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case FilesystemPackage.DELETE_FILE__PATH:
-				setPath((String)newValue);
+			case FilesystemPackage.DELETE_FILE__URI:
+				setUri((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -124,8 +124,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case FilesystemPackage.DELETE_FILE__PATH:
-				setPath(PATH_EDEFAULT);
+			case FilesystemPackage.DELETE_FILE__URI:
+				setUri(URI_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -139,8 +139,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case FilesystemPackage.DELETE_FILE__PATH:
-				return PATH_EDEFAULT == null ? path != null : !PATH_EDEFAULT.equals(path);
+			case FilesystemPackage.DELETE_FILE__URI:
+				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -155,8 +155,8 @@ public class DeleteFileImpl extends CommandImpl implements DeleteFile {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (path: ");
-		result.append(path);
+		result.append(" (uri: ");
+		result.append(uri);
 		result.append(')');
 		return result.toString();
 	}

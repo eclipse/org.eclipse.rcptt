@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem.internal.commands;
 
+import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.createError;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,23 +37,23 @@ public class CopyFileService implements ICommandService {
 		String name = copyFile.getName();
 
 		if (src == null || src.length() == 0)
-			return error("Source file/directory is not specified.");
+			return createError("Source file/directory is not specified.");
 
 		if (dst == null || dst.length() == 0)
-			return error("Destination directory is not specified.");
+			return createError("Destination directory is not specified.");
 
 		try {
 			File srcFile = new File(src).getCanonicalFile();
 			if (!srcFile.exists())
-				return error("Source file/directory \"%s\" does not exist.",
+				return createError("Source file/directory \"%s\" does not exist.",
 						srcFile);
 
 			File dstFile = new File(dst).getCanonicalFile();
 			if (dstFile.exists() && !dstFile.isDirectory())
-				return error("Destination \"%s\" must be a directory.", dstFile);
+				return createError("Destination \"%s\" must be a directory.", dstFile);
 
 			if (!dstFile.exists() && !dstFile.mkdirs())
-				return error(
+				return createError(
 						"Unable to create the destination directory \"%s\".",
 						dstFile);
 
@@ -65,19 +67,19 @@ public class CopyFileService implements ICommandService {
 			else if (srcFile.isDirectory())
 				return copyDirectory(srcFile, dstFile);
 			else
-				return error("Unsupported source type.");
+				return createError("Unsupported source type.");
 		} catch (Exception e) {
-			return error(e.getMessage());
+			return createError(e.getMessage());
 		}
 	}
 
 	private static IStatus copyFile(File src, File dst) throws IOException {
 		if (dst.exists())
-			return error("Destination \"%s\" already exists.", dst);
+			return createError("Destination \"%s\" already exists.", dst);
 
 		File parent = dst.getParentFile();
 		if (parent != null && !parent.exists() && !parent.mkdirs())
-			return error("Unable to create the destination directory \"%s\".",
+			return createError("Unable to create the destination directory \"%s\".",
 					parent);
 
 		doCopyFile(src, dst);
@@ -120,14 +122,14 @@ public class CopyFileService implements ICommandService {
 
 	private static IStatus copyDirectory(File src, File dst) throws IOException {
 		if (dst.exists())
-			return error("Destination \"%s\" already exists.", dst);
+			return createError("Destination \"%s\" already exists.", dst);
 
 		if (isSourceIncludesDestination(dst, src))
-			return error("Destination \"%s\" is nested inside source \"%s\".",
+			return createError("Destination \"%s\" is nested inside source \"%s\".",
 					dst, src);
 
 		if (!dst.mkdirs())
-			return error("Unable to create the destination directory \"%s\".",
+			return createError("Unable to create the destination directory \"%s\".",
 					dst);
 
 		copyFilesAndDirectories(src, dst);
@@ -160,8 +162,4 @@ public class CopyFileService implements ICommandService {
 		}
 	}
 
-	private static Status error(String message, Object... args) {
-		return new Status(Status.ERROR, EclFilesystemPlugin.PLUGIN_ID,
-				String.format(message, args));
-	}
 }

@@ -7,14 +7,14 @@ Element-Version: 3.0
 External-Reference: 
 Id: _Ntb8ACkyEeSQyvXPk2B9Hw
 Runtime-Version: 1.5.0.201406020630
-Save-Time: 8/21/14 8:07 PM
+Save-Time: 8/22/14 7:51 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-delete-file [substitute-variables "${workspace_loc}//FilesForContextEditor//text.txt"]
+delete-file [concat [uri-from-path [substitute-variables "${workspace_loc}"]] "FilesForContextEditor/text.txt"]
 get-view "Test Explorer" | get-tree | get-item FilesForContextEditor | get-property childCount | equals 2 | verify-true
 get-view "Test Explorer" | get-tree | select FilesForContextEditor | get-menu Refresh | click
 get-view "Test Explorer" | get-tree | get-item FilesForContextEditor | get-property childCount | equals 1 | verify-true
@@ -27,7 +27,11 @@ with [get-view "Test Explorer" | get-tree] {
 }
 
 verify-error {
-	delete-file [substitute-variables "${workspace_loc}//FilesForContextEditor//text.txt"]
+	delete-file [concat [uri-from-path [substitute-variables "${workspace_loc}"]] "FilesForContextEditor/text.txt"]
 }
+verify-error {
+	delete-file [substitute-variables "${workspace_loc}/FilesForContextEditor/text.txt"]
+}
+
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -279,13 +279,13 @@ public interface FilesystemPackage extends EPackage {
 	int DELETE_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
 
 	/**
-	 * The feature id for the '<em><b>Path</b></em>' attribute.
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DELETE_FILE__PATH = CorePackage.COMMAND_FEATURE_COUNT + 0;
+	int DELETE_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Delete File</em>' class.
@@ -414,15 +414,15 @@ public interface FilesystemPackage extends EPackage {
 	EClass getDeleteFile();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.DeleteFile#getPath <em>Path</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.DeleteFile#getUri <em>Uri</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Path</em>'.
-	 * @see org.eclipse.rcptt.ecl.filesystem.DeleteFile#getPath()
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.DeleteFile#getUri()
 	 * @see #getDeleteFile()
 	 * @generated
 	 */
-	EAttribute getDeleteFile_Path();
+	EAttribute getDeleteFile_Uri();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -545,12 +545,12 @@ public interface FilesystemPackage extends EPackage {
 		EClass DELETE_FILE = eINSTANCE.getDeleteFile();
 
 		/**
-		 * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute DELETE_FILE__PATH = eINSTANCE.getDeleteFile_Path();
+		EAttribute DELETE_FILE__URI = eINSTANCE.getDeleteFile_Uri();
 
 	}
 

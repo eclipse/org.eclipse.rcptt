@@ -1,13 +1,18 @@
 package org.eclipse.rcptt.ecl.filesystem.internal.commands;
 
-import java.io.File;
+import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.createError;
 
+import java.io.File;
+import java.net.URI;
+
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.filesystem.DeleteFile;
-import org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 
@@ -16,43 +21,29 @@ public class DeleteFileService implements ICommandService {
 	@Override
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		DeleteFile deleteFile = (DeleteFile) command;
-		String path = deleteFile.getPath();
+		String uriString = deleteFile.getUri();
 
-		if (path == null || path.length() == 0)
-			return error("File/directory is not specified.");
+		if (uriString == null || uriString.length() == 0)
+			return createError("No uri argument for delete-file command.");
 
 		try {
-			File src = new File(path).getCanonicalFile();
-			if (!src.exists())
-				return error("File/directory \"%s\" does not exist.", src);
-
-			if (src.isFile() || src.isDirectory()) {
-				recursiveDelete(src);
-				return Status.OK_STATUS;
-			} else
-				return error("Unsupported source type.");
-
-		} catch (Exception e) {
-			return error(e.getMessage());
-		}
-	}
-
-	private static void recursiveDelete(File file) {
-		if (!file.exists())
-			return;
-
-		if (file.isDirectory()) {
-			for (File f : file.listFiles()) {
-				recursiveDelete(f);
+			URI uri = new URI(uriString);
+			File file = FileResolver.resolve(uri);
+			if (file != null) {
+				uri = file.toURI();
 			}
+
+			IFileStore input = EFS.getStore(uri);
+			if (!input.fetchInfo().exists()) {
+				return createError("\"%s\" not found.", uriString);
+			}
+
+			input.delete(EFS.NONE, null);
+
+			return Status.OK_STATUS;
+		} catch (Exception e) {
+			return createError(e.getMessage(), e);
 		}
-
-		file.delete();
-	}
-
-	private static Status error(String message, Object... args) {
-		return new Status(Status.ERROR, EclFilesystemPlugin.PLUGIN_ID,
-				String.format(message, args));
 	}
 
 }

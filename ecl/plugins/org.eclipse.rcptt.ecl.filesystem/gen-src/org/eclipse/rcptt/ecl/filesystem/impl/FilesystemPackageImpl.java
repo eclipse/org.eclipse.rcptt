@@ -238,7 +238,7 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDeleteFile_Path() {
+	public EAttribute getDeleteFile_Uri() {
 		return (EAttribute)deleteFileEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -285,7 +285,7 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 		createEAttribute(fileEClass, FILE__URI);
 
 		deleteFileEClass = createEClass(DELETE_FILE);
-		createEAttribute(deleteFileEClass, DELETE_FILE__PATH);
+		createEAttribute(deleteFileEClass, DELETE_FILE__URI);
 	}
 
 	/**
@@ -341,7 +341,7 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 		initEAttribute(getFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, File.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(deleteFileEClass, DeleteFile.class, "DeleteFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDeleteFile_Path(), theEcorePackage.getEString(), "path", null, 1, 1, DeleteFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDeleteFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, DeleteFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -420,9 +420,9 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 		  (deleteFileEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Deletes file or folder",
+			 "description", "Deletes file or folder identified by URI.\r\nCurrently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system.",
 			 "returns", "Nothing",
-			 "example", "delete-file \"C:/temp/t.test\""
+			 "example", "delete-file \"file:/C:/temp/t.test\""
 		   });
 	}
 

@@ -24,6 +24,7 @@ import org.eclipse.rcptt.ecl.data.commands.WriteCsvFile;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
 import org.eclipse.rcptt.ecl.data.objects.Row;
 import org.eclipse.rcptt.ecl.data.objects.Table;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 
