@@ -41,59 +41,59 @@ public class TeslaLimits {
 
 		o.addReplace(UIJOB_WAIT_FOR_DELAYED_TIMEOUT_TYPO, UIJOB_WAIT_FOR_DELAYED_TIMEOUT);
 		o.intOption(AUT_STARTUP_TIMEOUT, 10 * 60).category(TIMEOUTS)
-				.name("Time Q7 wait for AUT application to startup (seconds)")
+				.name("Time RCPTT wait for AUT application to startup (sec)")
 				.showIn(TeslaFeatures.ADV_OPTIONS);
 
 		o.intOption(CONTEXT_RUNNABLE_TIMEOUT, 3 * 60 * 1000).category(TIMEOUTS)
-				.name("Context operation runnable timeout(ms)")
+				.name("Context operation runnable timeout (ms)")
 				.showIn(TeslaFeatures.ADV_OPTIONS);
 
 		o.intOption(UIJOB_JOB_TIMEOUT, 30 * 1000)
 				.category(TIMEOUTS)
-				.name("Job Hang Skip timeout(ms)")
+				.name("Job Hang Skip timeout (ms)")
 				.description(
-						"Timeout then Q7 will deside to stop waiting for job")
+						"Timeout then RCPTT will deside to stop waiting for job")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(1);
 		o.intOption(JOB_LOGGING_TIMEOUT, 10)
 				.category(TIMEOUTS)
-				.name("Log waiting for job if exceed(seconds)")
+				.name("Log waiting for job if exceed (sec)")
 				.description(
-						"Timeout then Q7 will add information entry to Eclipse log.")
+						"Timeout then RCPTT will add information entry to Eclipse log")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(1);
 		o.intOption(AUTOBUILD_JOB_TIMEOUT, 3 * 60 * 1000)
 				.category(TIMEOUTS)
-				.name("AutoBuild Job Hang Skip timeout(ms)")
+				.name("AutoBuild Job Hang Skip timeout (ms)")
 				.description(
-						"Timeout then Q7 will deside to stop waiting for autobuild job")
+						"Timeout then RCPTT will deside to stop waiting for autobuild job")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(1);
 
 		o.intOption(JOB_STEPMODE_ENABLE_TIMEOUT, 10 * 1000)
 				.category(TIMEOUTS)
-				.name("Enable step mode for job after timeout(job in Thread.sleep,Object.wait) ")
+				.name("Enable step mode for job after timeout (job in Thread.sleep, Object.wait)")
 				.description(
-						"If job executes more then(ms). And calling Thread.sleep() or Object.wait(). Q7 will try to continue execution in step mode")
+						"If job executes more then (ms). And calling Thread.sleep() or Object.wait(). RCPTT will try to continue execution in step mode")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(2);
 		o.intOption(JOB_STEPMODE_STEP_TIME, 200)
 				.category(TIMEOUTS)
-				.name("Step mode: One Step every(ms)")
+				.name("Step mode: One Step every (ms)")
 				.description(
-						"If job executes more then(ms). And calling Thread.sleep() or Object.wait(). Q7 will try to continue execution")
+						"If job executes more then (ms). And calling Thread.sleep() or Object.wait(). RCPTT will try to continue execution")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(3);
 		o.intOption(JOB_STEPMODE_TIMEOUT, 120 * 1000).category(TIMEOUTS)
-				.name("Step mode: Stem mode timeout(ms)")
+				.name("Step mode: Step mode timeout (ms)")
 				.description("Allow step mode only for specified time")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(4);
 
 		o.intOption(UIJOB_WAIT_FOR_DELAYED_TIMEOUT, 600).category(TIMEOUTS)
-				.name("Wait for delayed jobs with delay less then(ms)")
+				.name("Wait for delayed jobs with delay less then (ms)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(5);
 		o.intOption(CONTEXTS_WAITFORJOBS_TIMEOUT, 60 * 1000).category(TIMEOUTS)
-				.name("Wait jobs completion after context apply(ms)")
+				.name("Wait jobs completion after context apply (ms)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(6);
 
 		o.intOption(JOB_NULIFY_IF_NOT_RESCHEDULED, 50)
 				.category(TIMEOUTS)
-				.name("Delayed jobs scheduled with delay 0, if not rescheduled more then(times)")
+				.name("Delayed jobs scheduled with delay 0, if not rescheduled more then (times)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(7);
 
 		o.intOption(JOB_DEBUGJOB_TIMEOUT, 5 * 60 * 1000).category(TIMEOUTS)
@@ -101,19 +101,19 @@ public class TeslaLimits {
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(8);
 		o.intOption(TIMER_EXECS_WAIT, 250)
 				.category(TIMEOUTS)
-				.name("Wait for timerExecs(ms) (0 is disabled state)\n(skip org.eclipse.swt,org.eclipse.get packages)")
+				.name("Wait for timerExecs (ms) (0 is disabled state)\n(skip org.eclipse.swt, org.eclipse.get packages)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(9);
 		o.intOption(TIMER_EXECS_SKIP, 5000)
 				.category(TIMEOUTS)
-				.name("Wait for timerExecs(ms) rescheduling for no more then time in ms")
+				.name("Wait for timerExecs (ms) rescheduling for no more then time in ms")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(9);
 		o.intOption(TIMER_EXECS_WAIT_NULLIFY, 100).category(TIMEOUTS)
-				.name("Nullify timetExec if time is less then (ms)")
+				.name("Nullify timerExec if time is less then (ms)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(10);
 
 		o.intOption(TIMER_EXECS_TOTAL_WAIT, 30000)
 				.category(TIMEOUTS)
-				.name("Wait for timerExecs(ms) no more timeout and then do a step mode with step timeout")
+				.name("Wait for timerExecs (ms) no more timeout and then do a step mode\nwith step timeout")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(9);
 		o.intOption(TIMER_EXECS_TOTAL_WAIT_STEP, 2000)
 				.category(TIMEOUTS)
@@ -122,7 +122,7 @@ public class TeslaLimits {
 
 		o.intOption(JFACE_RECONCILER_TIMEOUT, 10000)
 				.category(TIMEOUTS)
-				.name("JFace Viewer Reconciling Timeout(ms)")
+				.name("JFace Viewer Reconciling Timeout (ms)")
 				.showIn(TeslaFeatures.ADV_OPTIONS).order(11);
 
 	}

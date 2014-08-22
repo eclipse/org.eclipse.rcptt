@@ -20,16 +20,20 @@ import java.util.TreeMap;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.rcptt.core.Q7Features;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager;
+import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager.Option;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,16 +46,9 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.IExpansionListener;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
-import org.eclipse.rcptt.core.Q7Features;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.tesla.core.TeslaFeatures;
-import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager;
-import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager.Option;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 
 public class FeaturesComposite {
 	private Map<Option, Control> optionFields = new HashMap<Option, Control>();
@@ -60,46 +57,82 @@ public class FeaturesComposite {
 
 	private boolean groupping = true;
 
+	private ScrolledComposite scrolledContainer;
+
 	public void setOptionChangeCallback(Runnable optionChangeCallback) {
 		this.optionChangeCallback = optionChangeCallback;
 	}
 
-	public void createOptions(final Composite content, String group,
+	public Control createOptions(final Composite content, String group,
 			boolean autoApply, FormToolkit toolkit) {
-		final ScrolledComposite sc = new ScrolledComposite(content,
-				SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledContainer = new ScrolledComposite(content, SWT.V_SCROLL);
+		scrolledContainer.setExpandHorizontal(true);
 		if (toolkit != null)
-			toolkit.adapt(sc);
-		GridLayoutFactory.swtDefaults().applyTo(sc);
-		GridDataFactory.fillDefaults().grab(true, true).hint(500, 450)
-				.applyTo(sc);
+			toolkit.adapt(scrolledContainer);
+		scrolledContainer.getVerticalBar().setIncrement(10); // Increase speed
 
-		final Composite ct = new Composite(sc, SWT.NONE);
+
+		final Composite compositeContainer = new Composite(scrolledContainer, SWT.NONE);
 		if (toolkit != null)
-			toolkit.adapt(ct);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(ct);
-		GridLayoutFactory.fillDefaults().applyTo(ct);
-		createFeatures(ct, Messages.FeaturesComposite_CoreFeaturesGroup,
+			toolkit.adapt(compositeContainer);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(compositeContainer);
+		GridLayoutFactory.fillDefaults().applyTo(compositeContainer);
+
+		scrolledContainer.setContent(compositeContainer);
+
+		// Adds features
+		createFeatures(compositeContainer, Messages.FeaturesComposite_CoreFeaturesGroup,
 				Q7Features.getInstance(), group, autoApply, toolkit);
-		createFeatures(ct, Messages.FeaturesComposite_RuntimeFeaturesGroup,
+		createFeatures(compositeContainer, Messages.FeaturesComposite_RuntimeFeaturesGroup,
 				TeslaFeatures.getInstance(), group, autoApply, toolkit);
-		content.addControlListener(new ControlListener() {
-			public void controlResized(ControlEvent e) {
-				// ct.layout();
-				Rectangle bounds = content.getBounds();
-				Point min = ct.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-				ct.setSize(ct.computeSize(Math.max(min.x, bounds.width - 30),
-						SWT.DEFAULT));
+
+
+		compositeContainer.setSize(compositeContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		IExpansionListener listener = new IExpansionListener() {
+			public void expansionStateChanging(ExpansionEvent e) {
 			}
 
-			public void controlMoved(ControlEvent e) {
+			public void expansionStateChanged(ExpansionEvent e) {
+				Point min = compositeContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				compositeContainer.setSize(min);
 			}
-		});
-		Rectangle bounds = content.getBounds();
-		ct.setSize(ct.computeSize(bounds.width - 30, SWT.DEFAULT));
-		// sc.setMinSize(300, 200);
-		// sc.setSize(300,200);
-		sc.setContent(ct);
+		};
+		recursivelyAddListener(compositeContainer, listener);
+
+		return scrolledContainer;
+	}
+	
+	void recursivelyAddListener(Control control, IExpansionListener listener) {
+		if (control instanceof ExpandableComposite) {
+			((ExpandableComposite) control).addExpansionListener(listener);
+		}
+		if (control instanceof Composite) {
+			for (Control child : ((Composite) control).getChildren()) {
+				recursivelyAddListener(child, listener);
+			}
+		}
+	}
+
+	/**
+	 * Resets controls to default values.
+	 */
+	public void setDefaults() {
+		Control value;
+		Option option;
+		for (Map.Entry<Option, Control> opt : optionFields.entrySet()) {
+			value = opt.getValue();
+			option = opt.getKey();
+
+			if (value instanceof Button) {
+				((Button) value).setSelection("true".equals(option.getDefaultValue()));
+			} else if (value instanceof Spinner) {
+				((Spinner) value).setSelection(Integer.parseInt(option.getDefaultValue()));
+			} else if (value instanceof Combo) {
+				((Combo) value).setText(option.getDefaultValue());
+			} else if (value instanceof Text) {
+				((Text) value).setText(option.getDefaultValue());
+			}
+		}
 	}
 
 	public void apply() {
@@ -188,9 +221,6 @@ public class FeaturesComposite {
 						| (expValue ? Section.EXPANDED : 0));
 				if (toolkit != null)
 					toolkit.adapt(exp);
-				if (!expValue) {
-					exp.setExpanded(false);
-				}
 				exp.setText(entry.getKey());
 				exp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
 						2, 1));
@@ -199,19 +229,6 @@ public class FeaturesComposite {
 					toolkit.adapt(g);
 				g.setLayout(new GridLayout(2, false));
 				exp.setClient(g);
-				exp.addExpansionListener(new IExpansionListener() {
-					public void expansionStateChanging(ExpansionEvent e) {
-					}
-
-					public void expansionStateChanged(ExpansionEvent e) {
-						content.layout();
-						Rectangle bounds = content.getParent().getBounds();
-						Point min = content.computeSize(SWT.DEFAULT,
-								SWT.DEFAULT);
-						content.setSize(content.computeSize(
-								Math.max(min.x, bounds.width - 30), SWT.DEFAULT));
-					}
-				});
 			} else {
 				g = parent;
 			}
@@ -220,7 +237,7 @@ public class FeaturesComposite {
 					String[] values = key.getValues();
 					if (values != null
 							&& values.equals(AbstractFeatureManager.INT_VALUES)) {
-						Label l = new Label(g, SWT.NONE);
+						Label l = new Label(g, SWT.WRAP);
 						l.setText(key.getName());
 						if (toolkit != null)
 							toolkit.adapt(l, false, false);
@@ -231,8 +248,13 @@ public class FeaturesComposite {
 						b.setSelection(Integer.parseInt(key.getValue()));
 						b.setToolTipText(key.getDescription());
 						b.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT,
-								true, false, 1, 1));
+								true, false, 2, 1));
 						optionFields.put(key, b);
+
+						if (key.getDescription() != null) {
+							l.setToolTipText(key.getDescription());
+						}
+
 						if (autoApply) {
 							b.addSelectionListener(new SelectionAdapter() {
 								@Override

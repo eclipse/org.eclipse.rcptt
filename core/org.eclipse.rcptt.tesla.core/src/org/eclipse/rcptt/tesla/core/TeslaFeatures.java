@@ -92,7 +92,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.defaultValue("false")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
-						"Do not use OS clipboard for copy/paste operations.")
+						"Do not use OS clipboard for copy/paste operations")
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(REPORT_PASSED_TEST_DETAILS).category(CAT_REPORTING)
@@ -105,21 +105,21 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(REPORT_INCLUDE_IGNORED_WAIT_DETAILS).category(CAT_REPORTING)
-				.name("Include 'ignored' timers into report files.")
+				.name("Include 'ignored' timers into report files")
 				.value("false")
 				.defaultValue("false")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
-						"RCPTT widget details will contain ignored timer calls.")
+						"RCPTT widget details will contain ignored timer calls")
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(REPORT_PASSED_WAIT_DETAILS).category(CAT_REPORTING)
-				.name("Include 'wait details' into passed report entries.")
+				.name("Include 'wait details' into passed report entries")
 				.value("true")
 				.defaultValue("true")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
-						"RCPTT widget wait details will be also added to passed reports as separate section.")
+						"RCPTT widget wait details will be also added to passed reports as separate section")
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(RECORD_ALL_SELECTIONS)
@@ -134,7 +134,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 		option(STATUS_DIALOG_ALLOWED)
 				.name("Allow status dialogs")
 				.description(
-						"Should the test pass, if appears the status dialog with an error ?")
+						"Should the test pass, if appears the status dialog with an error?")
 				.value("false").defaultValue("false")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES).editable(true)
 				.showIn(TeslaFeatures.ADV_OPTIONS, TeslaFeatures.CP_OPTIONS);

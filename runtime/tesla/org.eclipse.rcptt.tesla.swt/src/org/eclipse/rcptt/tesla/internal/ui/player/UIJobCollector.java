@@ -202,15 +202,16 @@ public class UIJobCollector implements IJobChangeListener {
     private static final Set<String> IGNORED_BY_DEFAULT = Collections.unmodifiableSet(
             new HashSet<String> (
                 asList(
-                    "org.eclipse.jdt.internal.core.search.processing.JobManager$1$ProgressJob",
-                    "org.eclipse.ui.internal.progress.ProgressViewUpdater$1",
-                    "org.eclipse.ui.internal.progress.WorkbenchSiteProgressService$SiteUpdateJob",
-                    "org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshProgressMessageJob",
-                    "org.eclipse.ui.dialogs.FilteredItemsSelectionDialog$RefreshProgressMessageJob",
-                    "org.eclipse.ui.internal.progress.AnimationManager$1",
-                    "org.eclipse.ui.internal.progress.ProgressManager$6",
-                    "org.eclipse.ui.internal.progress.TaskBarProgressManager$2",
-                    "org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$1"
+							"org.eclipse.jdt.internal.core.search.processing.JobManager$1$ProgressJob",
+							"org.eclipse.ui.internal.progress.ProgressViewUpdater$1",
+							"org.eclipse.ui.internal.progress.WorkbenchSiteProgressService$SiteUpdateJob",
+							"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshProgressMessageJob",
+							"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog$RefreshProgressMessageJob",
+							"org.eclipse.ui.internal.progress.AnimationManager$1",
+							"org.eclipse.ui.internal.progress.ProgressManager$6",
+							"org.eclipse.ui.internal.progress.TaskBarProgressManager$2",
+							"org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$1",
+							"org.eclipse.rcptt.ui.recording.RecordingSupport$10"
                 )
             )
         ); 

@@ -86,7 +86,7 @@ public class DiagramFeatures {
 				.value("id,title")
 				.defaultValue("id,title")
 				.description(
-						"Use following feature names\n(comma separated) then generate edit part selector.")
+						"Use following feature names\n(comma separated) then generate edit part selector")
 				.showIn(TeslaFeatures.ADV_OPTIONS, TeslaFeatures.CP_OPTIONS)
 				.order(4);
 		// By Class name

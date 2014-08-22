@@ -200,7 +200,6 @@ public class Messages extends NLS {
 	public static String ExecutionView_NoConnectionEMsg;
 	public static String FeaturesComposite_CoreFeaturesGroup;
 	public static String FeaturesComposite_RuntimeFeaturesGroup;
-	public static String FeaturesConfigurationDialog_0;
 	public static String FileSelectionDialog_Title;
 	public static String FolderSelectionDialog_NewFolderButton;
 	public static String HistoryListAction_OutOfBoundsErrorMsg;
@@ -288,7 +287,8 @@ public class Messages extends NLS {
 	public static String Q7Explorer_PasteLabel;
 	public static String Q7Explorer_RefreshJob;
 	public static String Q7Explorer_SelectAllLabel;
-	public static String Q7PreferencePage_AdvancedLinkText;
+	public static String Q7PreferencePage_AdvancedSectionLabel;
+	public static String Q7PreferencePage_AdvancedRunnerArgLink;
 	public static String Q7PreferencePage_CommandDelayLabel;
 	public static String Q7PreferencePage_IncorrectCommandDelayMsg;
 	public static String Q7PreferencePage_IncorrectLaunchTimeoutMsg;
