@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _GG-CECaOEeS4ZoAAFrP9Rg
-Runtime-Version: 1.5.0.201406020630
-Save-Time: 8/18/14 7:24 PM
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 8/25/14 12:07 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -27,6 +27,10 @@ with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] 
     key-type Enter
 }
 get-editor "New Java Class Procs" | get-section Script | get-text-viewer | hover-text 36 9 -with Left
-get-window -from "Information Window" | get-control Browser | get-property text | contains "Procedure <B>open-new-class-dialog</B> <BR>Description of open-new-class-dialog" | verify-true
+get-window -from "Information Window" | get-control Browser | get-property text -raw | invoke toLowerCase | 
+invoke contains ">procedure <b>open-new-class-dialog</b>\\n"
+    + "<br />\\n"
+    + "  description of open-new-class-dialog\\n"| verify-true
+
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
