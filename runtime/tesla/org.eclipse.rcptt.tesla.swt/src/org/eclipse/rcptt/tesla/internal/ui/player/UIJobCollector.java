@@ -490,7 +490,7 @@ public class UIJobCollector implements IJobChangeListener {
 										if (!jobInfo.jobInStepMode) {
 											// Print step information
 											SWTTeslaActivator
-													.log("---->>> Begin step mode for Job: "
+													.logToReport("---->>> Begin step mode for Job: "
 															+ getCurrentReportNodeName()
 															+ " <<---\n(skipping)"
 															+ getJobMessage(jobInfo));
