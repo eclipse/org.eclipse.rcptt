@@ -30,8 +30,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.rcptt.filesystem.FSFile;
 import org.eclipse.rcptt.filesystem.FSFolder;
 import org.eclipse.rcptt.filesystem.FSResource;
@@ -48,6 +48,15 @@ public class FSUtils {
 		String path = context.getPath();
 		if (path == null)
 			path = "";
+
+		// Tries to substitute variables
+		try {
+			path = VariablesPlugin
+					.getDefault()
+					.getStringVariableManager()
+					.performStringSubstitution(path, true);
+		} catch (NoClassDefFoundError e) {
+		}
 
 		if (path.equals(PrefixScheme.WORKSPACE))
 			throw new CoreException(
