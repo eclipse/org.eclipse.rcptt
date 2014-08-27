@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
-Contexts: _4zI9AWpgEeCzId1Gnkds9A,_LhMUsNH1EeCvZZdPZOPlnw
+Contexts: _LhMUsNH1EeCvZZdPZOPlnw,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: CopyFolderToAnotherProject
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nB3MsNH7EeCvZZdPZOPlnw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 8/25/14 12:16 PM
 Tags: Project, Folder, CopyPaste
 Testcase-Type: ecl
 
