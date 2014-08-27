@@ -245,16 +245,6 @@ public class TeslaEventManager {
 	}
 
 	public static void updateActiveShell() {
-		if (Platform.getOS().equals(Platform.OS_LINUX) && activeShell != null
-				&& !activeShell.isDisposed()) {
-			try {
-				Field field = Display.class.getDeclaredField("activeShell");
-				field.setAccessible(true);
-				field.set(activeShell.getDisplay(), activeShell);
-			} catch (Throwable e) {
-				SWTAspectActivator.log(e);
-			}
-		}
 	}
 
 	public static Shell getActiveShell() {
