@@ -26,21 +26,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.program.Program;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.ui.IWorkbenchPartSite;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.views.properties.IPropertySource;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -55,6 +40,20 @@ import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
 import org.eclipse.rcptt.ui.controls.VerificationsTable;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
 import org.eclipse.rcptt.ui.editors.ecl.EclSourceViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.program.Program;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 public class EditorContent implements INamedElementActions {
 
@@ -71,7 +70,7 @@ public class EditorContent implements INamedElementActions {
 
 	private StyledText externalRefControl;
 	private boolean scenarioEditor;
-	private boolean supportRefs;
+	private final boolean supportRefs;
 
 	private VerificationsTable verificationsTable;
 	private Section verificationsSection;
@@ -465,7 +464,7 @@ public class EditorContent implements INamedElementActions {
 	public void doTextCommand(int fAction) {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
 			descriptionComposite.getDescriptionControl().invokeAction(fAction);
-		} else if (externalRefControl.isFocusControl()) {
+		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
 			externalRefControl.invokeAction(fAction);
 		}
 	}
