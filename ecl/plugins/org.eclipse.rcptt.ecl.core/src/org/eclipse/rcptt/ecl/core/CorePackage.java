@@ -2019,22 +2019,13 @@ public interface CorePackage extends EPackage {
 	int CASE__BINDINGS = COMMAND__BINDINGS;
 
 	/**
-	 * The feature id for the '<em><b>Input</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CASE__INPUT = COMMAND_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Condition</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__CONDITION = COMMAND_FEATURE_COUNT + 1;
+	int CASE__CONDITION = COMMAND_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Then</b></em>' containment reference.
@@ -2043,7 +2034,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__THEN = COMMAND_FEATURE_COUNT + 2;
+	int CASE__THEN = COMMAND_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Case</em>' class.
@@ -2052,7 +2043,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
+	int CASE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.
@@ -3226,17 +3217,6 @@ public interface CorePackage extends EPackage {
 	EReference getCase_Then();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.Case#getInput <em>Input</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Input</em>'.
-	 * @see org.eclipse.rcptt.ecl.core.Case#getInput()
-	 * @see #getCase()
-	 * @generated
-	 */
-	EReference getCase_Input();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.Switch <em>Switch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4406,14 +4386,6 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CASE__THEN = eINSTANCE.getCase_Then();
-
-		/**
-		 * The meta object literal for the '<em><b>Input</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CASE__INPUT = eINSTANCE.getCase_Input();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.
