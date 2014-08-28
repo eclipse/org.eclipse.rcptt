@@ -306,13 +306,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.tesla.recording.aspects.ui.ide"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.rcptt.tesla.variables"
          download-size="0"
          install-size="0"

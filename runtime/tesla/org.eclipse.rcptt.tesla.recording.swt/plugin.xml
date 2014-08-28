@@ -19,9 +19,6 @@
       <recorder
             class="org.eclipse.rcptt.tesla.recording.core.swt.JFaceRecordingProcessor">
       </recorder>
-      <recorder
-            class="org.eclipse.rcptt.tesla.recording.core.swt.UIIDERecordingProcessor">
-      </recorder>
    </extension>
    <extension
          point="org.eclipse.rcptt.tesla.recording.swt.describerExtensions">

@@ -36,6 +36,55 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.tesla.core.am.RecordingModeFeature;
+import org.eclipse.rcptt.tesla.core.context.ContextManagement;
+import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
+import org.eclipse.rcptt.tesla.core.protocol.Click;
+import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.LinkUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.MouseEvent;
+import org.eclipse.rcptt.tesla.core.protocol.MouseEventKind;
+import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
+import org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind;
+import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
+import org.eclipse.rcptt.tesla.core.protocol.SelectData;
+import org.eclipse.rcptt.tesla.core.protocol.SetSWTDialogInfo;
+import org.eclipse.rcptt.tesla.core.protocol.SetSelection;
+import org.eclipse.rcptt.tesla.core.protocol.SetTextOffset;
+import org.eclipse.rcptt.tesla.core.protocol.SetTextSelection;
+import org.eclipse.rcptt.tesla.core.protocol.TextUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.Type;
+import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
+import org.eclipse.rcptt.tesla.core.protocol.raw.RawEvent;
+import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
+import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
+import org.eclipse.rcptt.tesla.core.utils.TeslaUtils;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
+import org.eclipse.rcptt.tesla.internal.ui.player.ISWTModelMapperExtension;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
+import org.eclipse.rcptt.tesla.recording.aspects.IExtendedSWTEventListener;
+import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
+import org.eclipse.rcptt.tesla.recording.core.IRecordingHelper;
+import org.eclipse.rcptt.tesla.recording.core.IRecordingModeListener;
+import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessor;
+import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessorExtension;
+import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
+import org.eclipse.rcptt.tesla.recording.core.swt.peg.CommandPostProcessor;
+import org.eclipse.rcptt.tesla.recording.core.swt.util.LastEvents;
+import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
+import org.eclipse.rcptt.util.swt.StringLines;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CCombo;
@@ -96,56 +145,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.keys.IBindingService;
 import org.osgi.framework.Bundle;
-
-import org.eclipse.rcptt.util.swt.StringLines;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.core.am.RecordingModeFeature;
-import org.eclipse.rcptt.tesla.core.context.ContextManagement;
-import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
-import org.eclipse.rcptt.tesla.core.protocol.Click;
-import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.LinkUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.MouseEvent;
-import org.eclipse.rcptt.tesla.core.protocol.MouseEventKind;
-import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
-import org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind;
-import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
-import org.eclipse.rcptt.tesla.core.protocol.SelectData;
-import org.eclipse.rcptt.tesla.core.protocol.SetSWTDialogInfo;
-import org.eclipse.rcptt.tesla.core.protocol.SetSelection;
-import org.eclipse.rcptt.tesla.core.protocol.SetTextOffset;
-import org.eclipse.rcptt.tesla.core.protocol.SetTextSelection;
-import org.eclipse.rcptt.tesla.core.protocol.TextUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.Type;
-import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
-import org.eclipse.rcptt.tesla.core.protocol.raw.RawEvent;
-import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
-import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
-import org.eclipse.rcptt.tesla.core.utils.TeslaUtils;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
-import org.eclipse.rcptt.tesla.internal.ui.player.ISWTModelMapperExtension;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
-import org.eclipse.rcptt.tesla.recording.aspects.IExtendedSWTEventListener;
-import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
-import org.eclipse.rcptt.tesla.recording.core.IRecordingHelper;
-import org.eclipse.rcptt.tesla.recording.core.IRecordingModeListener;
-import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessor;
-import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessorExtension;
-import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
-import org.eclipse.rcptt.tesla.recording.core.swt.peg.CommandPostProcessor;
-import org.eclipse.rcptt.tesla.recording.core.swt.util.LastEvents;
-import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 /**
  * Simple event collector Each used widget will be added as variable.
@@ -288,7 +287,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 	}
 
 	public TeslaRecorder getRecorder() {
-		return TeslaRecorder.getInstance();
+		return recorder;
 	}
 
 	public SWTEventRecorder() {
@@ -1551,7 +1550,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						|| !beforeTextState.equals(currentText)) {
 					if (widget != JFaceRecordingProcessor.lastCellEditorControl) {
 						if (!(widget instanceof Combo)) {
-							e.setText(currentText, false, (widget.getStyle() & SWT.PASSWORD ) != 0);
+							e.setText(currentText, false, (widget.getStyle() & SWT.PASSWORD) != 0);
 						} else {
 							processComboSelection(e,
 									((Combo) widget).getItems(), currentText);
@@ -1760,19 +1759,17 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 		// detecting assert/record mode shortcuts
 		if (event.detail == SWT.TRAVERSE_MNEMONIC) {
-			String[] assertShortcuts = TeslaRecorder.getInstance()
-					.getAssertModeShortcuts();
-			String[] recordShortcuts = TeslaRecorder.getInstance()
-					.getRecordModeShortcuts();
-			String[] startRecordShortcuts = TeslaRecorder.getInstance()
-					.getStartRecordShortcuts();
-			String[] stopRecordShortcuts = TeslaRecorder.getInstance()
-					.getStopRecordShortcuts();
-			String[] replayShortcuts = TeslaRecorder.getInstance()
-					.getReplayShortcuts();
+			TeslaRecorder recorder = getRecorder();
+			if (recorder == null) {
+				return;
+			}
+			String[] assertShortcuts = recorder.getAssertModeShortcuts();
+			String[] recordShortcuts = recorder.getRecordModeShortcuts();
+			String[] startRecordShortcuts = recorder.getStartRecordShortcuts();
+			String[] stopRecordShortcuts = recorder.getStopRecordShortcuts();
+			String[] replayShortcuts = recorder.getReplayShortcuts();
 
-			SWTAssertManager assertManager = TeslaRecorder.getInstance()
-					.getProcessor(SWTAssertManager.class);
+			SWTAssertManager assertManager = recorder.getProcessor(SWTAssertManager.class);
 
 			if (assertManager != null) {
 				boolean assertRequest = assertManager.isShortcutRequest(event,
@@ -2593,7 +2590,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				int offsetAtLine = text.getOffsetAtLine(lineAtOffset);
 				if (!(last instanceof SetTextSelection && EcoreUtil.equals(
 						((SetTextSelection) last).getElement(),
-								element.element))) {
+						element.element))) {
 					// Ignore after setSelection
 					textCtrl.setTextOffset(lineAtOffset, offset
 							- offsetAtLine);
@@ -2611,7 +2608,11 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		inStyledTextAction = true;
 	}
 
+	private TeslaRecorder recorder = null;
+
 	public void initialize(final TeslaRecorder teslaRecorder) {
+		this.recorder = teslaRecorder;
+		this.dragSupport.setRecorder(teslaRecorder);
 		// getLocator();// .initialize(teslaRecorder);
 		teslaRecorder.addListener(this);
 		final CommandPostProcessor pp = new CommandPostProcessor(teslaRecorder);
