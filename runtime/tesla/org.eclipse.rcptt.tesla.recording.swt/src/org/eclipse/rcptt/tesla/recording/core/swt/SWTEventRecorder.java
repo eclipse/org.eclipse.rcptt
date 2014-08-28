@@ -1550,7 +1550,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						|| !beforeTextState.equals(currentText)) {
 					if (widget != JFaceRecordingProcessor.lastCellEditorControl) {
 						if (!(widget instanceof Combo)) {
-							e.setText(currentText, false, (widget.getStyle() & SWT.PASSWORD) != 0);
+							e.setText(currentText, false, isPasswordField(widget));
 						} else {
 							processComboSelection(e,
 									((Combo) widget).getItems(), currentText);
@@ -1579,6 +1579,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 			// System.out.println("Clean Events" + index++);
 		}
+	}
+
+	private static boolean isPasswordField(Widget widget) {
+		if ((widget.getStyle() & SWT.PASSWORD) != 0)
+			return true;
+		if (widget instanceof Text) {
+			return ((Text) widget).getEchoChar() != '\0';
+		}
+		return false;
 	}
 
 	private void processMenuShow(Widget widget, RecordedEvent toRecording) {
