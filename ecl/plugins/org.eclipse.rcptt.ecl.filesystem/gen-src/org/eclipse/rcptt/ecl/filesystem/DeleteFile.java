@@ -17,7 +17,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.filesystem.FilesystemPackage#getDeleteFile()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Deletes file or folder identified by URI.\r\nCurrently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system.' returns='Nothing' example='delete-file \"file:/C:/temp/t.test\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Deletes file or folder identified by URI.\r\nCurrently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system.' returns='Nothing' example='delete-file \"file:/C:/temp/1.txt\"\r\ndelete-file [uri-from-path \"C:/temp/2.txt\"]\r\nuri-from-path \"C:/temp/3.txt\" | delete-file\r\nget-file \"file:/C:/temp/4.txt\" | delete-file\r\nstr \"workspace:/MyProject/text.txt\" | delete-file\r\n\r\n'"
  * @generated
  */
 public interface DeleteFile extends Command {
@@ -33,6 +33,7 @@ public interface DeleteFile extends Command {
 	 * @see #setUri(String)
 	 * @see org.eclipse.rcptt.ecl.filesystem.FilesystemPackage#getDeleteFile_Uri()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='URI of a file or directory. Can be created manually, or with uri-from-path.' example='file:/C:/temp'"
 	 * @generated
 	 */
 	String getUri();

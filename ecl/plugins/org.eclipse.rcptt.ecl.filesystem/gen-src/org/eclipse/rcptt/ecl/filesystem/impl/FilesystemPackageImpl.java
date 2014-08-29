@@ -422,7 +422,14 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 		   new String[] {
 			 "description", "Deletes file or folder identified by URI.\r\nCurrently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system.",
 			 "returns", "Nothing",
-			 "example", "delete-file \"file:/C:/temp/t.test\""
+			 "example", "delete-file \"file:/C:/temp/1.txt\"\r\ndelete-file [uri-from-path \"C:/temp/2.txt\"]\r\nuri-from-path \"C:/temp/3.txt\" | delete-file\r\nget-file \"file:/C:/temp/4.txt\" | delete-file\r\nstr \"workspace:/MyProject/text.txt\" | delete-file\r\n\r\n"
+		   });	
+		addAnnotation
+		  (getDeleteFile_Uri(), 
+		   source, 
+		   new String[] {
+			 "description", "URI of a file or directory. Can be created manually, or with uri-from-path.",
+			 "example", "file:/C:/temp"
 		   });
 	}
 
@@ -441,6 +448,11 @@ public class FilesystemPackageImpl extends EPackageImpl implements FilesystemPac
 		   });	
 		addAnnotation
 		  (getGetFile_Uri(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getDeleteFile_Uri(), 
 		   source, 
 		   new String[] {
 		   });

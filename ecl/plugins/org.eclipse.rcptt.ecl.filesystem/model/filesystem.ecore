@@ -60,8 +60,14 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Deletes file or folder identified by URI.&#xD;&#xA;Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system."/>
       <details key="returns" value="Nothing"/>
-      <details key="example" value="delete-file &quot;file:/C:/temp/t.test&quot;"/>
+      <details key="example" value="delete-file &quot;file:/C:/temp/1.txt&quot;&#xD;&#xA;delete-file [uri-from-path &quot;C:/temp/2.txt&quot;]&#xD;&#xA;uri-from-path &quot;C:/temp/3.txt&quot; | delete-file&#xD;&#xA;get-file &quot;file:/C:/temp/4.txt&quot; | delete-file&#xD;&#xA;str &quot;workspace:/MyProject/text.txt&quot; | delete-file&#xD;&#xA;&#xD;&#xA;"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI of a file or directory. Can be created manually, or with uri-from-path."/>
+        <details key="example" value="file:/C:/temp"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>
