@@ -162,7 +162,8 @@ public class CommandToStringConverter {
 				} else {
 					EReference ref = (EReference) feature;
 					EClass eclass = ref.getEReferenceType();
-					if (eclass.getClassifierID() == CorePackage.COMMAND) {
+					if (eclass.getEPackage().getName() == CorePackage.eNAME
+							&& eclass.getClassifierID() == CorePackage.COMMAND) {
 						boolean singleLine = !(val instanceof Sequence);
 						formatter.addAttrName(name, forced);
 						formatter.openGroup(singleLine);
