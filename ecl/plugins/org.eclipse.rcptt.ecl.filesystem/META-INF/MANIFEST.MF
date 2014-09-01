@@ -14,5 +14,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.rcptt.ecl.core;visibility:=reexport,
  org.eclipse.rcptt.ecl.dispatch,
- org.eclipse.core.filesystem
+ org.eclipse.core.filesystem,
+ org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy

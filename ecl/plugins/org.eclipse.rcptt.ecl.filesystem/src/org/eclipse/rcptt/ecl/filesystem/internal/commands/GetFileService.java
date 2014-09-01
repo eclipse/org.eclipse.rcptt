@@ -38,7 +38,7 @@ public class GetFileService extends SingleCommandService<GetFile> {
 		try {
 			URIUtil.fromString(command.getUri());
 		} catch (URISyntaxException e) {
-			throw new CoreException(createError("Failed to parse file URI: "+ command.getUri()));
+			throw new CoreException(createError("Failed to parse file URI: %s", command.getUri()));
 		}
 		rv.setUri(command.getUri());
 		return rv;

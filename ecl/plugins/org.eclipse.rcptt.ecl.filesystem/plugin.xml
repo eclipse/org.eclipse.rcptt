@@ -27,6 +27,11 @@
             name="GetFile"
             namespace="http://www.eclipse.org/ecl/filesystem.ecore">
       </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.filesystem.internal.commands.DeleteFileService"
+            name="DeleteFile"
+            namespace="http://www.eclipse.org/ecl/filesystem.ecore">
+      </scriptlet>
    </extension>
    <extension
          point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">

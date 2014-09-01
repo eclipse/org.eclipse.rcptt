@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.data.commands.ReadLines;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 

@@ -67,6 +67,15 @@ public interface FilesystemFactory extends EFactory {
 	File createFile();
 
 	/**
+	 * Returns a new object of class '<em>Delete File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Delete File</em>'.
+	 * @generated
+	 */
+	DeleteFile createDeleteFile();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

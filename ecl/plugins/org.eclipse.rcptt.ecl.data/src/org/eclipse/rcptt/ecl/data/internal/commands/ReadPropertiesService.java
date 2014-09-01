@@ -27,6 +27,7 @@ import org.eclipse.rcptt.ecl.core.EclMap;
 import org.eclipse.rcptt.ecl.core.EclMapEntry;
 import org.eclipse.rcptt.ecl.data.commands.ReadProperties;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;

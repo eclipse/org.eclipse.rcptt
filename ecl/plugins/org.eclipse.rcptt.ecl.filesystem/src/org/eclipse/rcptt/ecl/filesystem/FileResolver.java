@@ -8,9 +8,9 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.ecl.data.internal.commands;
+package org.eclipse.rcptt.ecl.filesystem;
 
-import static org.eclipse.rcptt.ecl.data.internal.EclDataPlugin.createErr;
+import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.createError;
 
 import java.io.File;
 import java.net.URI;
@@ -55,14 +55,14 @@ public class FileResolver {
 		try {
 			return resolve(new URI(uri));
 		} catch (URISyntaxException e) {
-			throw new CoreException(createErr(e, "Cannot parse URI %s", uri));
+			throw new CoreException(createError(e, "Cannot parse URI %s", uri));
 		}
 	}
 
 	public static File resolve(URI uri) throws CoreException {
 		Resolver resolver = resolvers.get(uri.getScheme());
 		if (resolver == null) {
-			throw new CoreException(createErr("Usupported scheme %s",
+			throw new CoreException(createError("Usupported scheme %s",
 					uri.getScheme()));
 		}
 		return resolver.resolve(uri);
@@ -88,7 +88,7 @@ public class FileResolver {
 							.getLocation().toFile();
 				} catch (NoClassDefFoundError e) {
 					throw new CoreException(
-							createErr("Resources plugin is not available, "
+							createError("Resources plugin is not available, "
 									+ "cannot use 'workspace:' scheme"));
 				}
 			}

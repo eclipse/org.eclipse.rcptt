@@ -71,8 +71,7 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 			CoreException {
 		Key key = parseKey(command.getKey());
 		if (key == null) {
-			throw new CoreException(createError("Invalid key: "
-					+ command.getKey()));
+			throw new CoreException(createError("Invalid key: %s", command.getKey()));
 		}
 		String uriString = ((File) command.getInput()).getUri();
 		URI uri = URI.create(uriString);
@@ -87,7 +86,7 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 		case NAME:
 			return handleName(input);
 		}
-		throw new CoreException(createError("Wrong key: " + key));
+		throw new CoreException(createError("Wrong key: %s", key));
 	}
 
 	private boolean handleIsDirectory(IFileStore input) throws CoreException {
