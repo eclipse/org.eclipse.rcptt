@@ -36,7 +36,6 @@
     <module>org.eclipse.rcptt.tesla.recording.aspects.jface.text</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.swt</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.workbench</module>
-    <module>org.eclipse.rcptt.tesla.recording.aspects.ui.ide</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.workbench.texteditor</module>
     <module>org.eclipse.rcptt.tesla.recording.draw2d</module>
     <module>org.eclipse.rcptt.tesla.recording.gef</module>
