@@ -10,7 +10,21 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player;
 
+import java.util.ArrayList;
+
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rcptt.logging.IQ7ActivityLogs;
+import org.eclipse.rcptt.logging.Q7LoggingManager;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.UIColor;
+import org.eclipse.rcptt.tesla.internal.ui.IBasicMappingNode;
+import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
+import org.eclipse.rcptt.tesla.jface.ControlDecoratorRecordingHolder;
+import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -22,17 +36,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.rcptt.logging.IQ7ActivityLogs;
-import org.eclipse.rcptt.logging.Q7LoggingManager;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.core.TeslaFeatures;
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.UIColor;
-import org.eclipse.rcptt.tesla.internal.ui.IBasicMappingNode;
-import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
-import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
 
 /**
  * Instances of this class are used mainly as convenience wraps for SWT widgets
@@ -289,4 +292,15 @@ public class SWTUIElement implements IBasicMappingNode {
 		}
 		return new Rectangle(0, 0, 0, 0);
 	}
+
+	public java.util.List<ControlDecoration> getDecorators() {
+		java.util.List<ControlDecoration> result = new ArrayList<ControlDecoration>();
+
+		if (widget instanceof Control) {
+			result = ControlDecoratorRecordingHolder.getDecorators((Control) widget);
+		}
+
+		return result;
+	}
+
 }

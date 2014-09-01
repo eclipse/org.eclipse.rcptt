@@ -12,13 +12,10 @@ package org.eclipse.rcptt.expandbar.runtime.internal;
 
 import java.util.Arrays;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
-
 import org.eclipse.rcptt.expandbar.ExpandBarConstants;
 import org.eclipse.rcptt.expandbar.widgets.WidgetsFactory;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
+import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.core.protocol.Collapse;
 import org.eclipse.rcptt.tesla.core.protocol.Expand;
@@ -35,12 +32,20 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 
 public class ExpandBarUIProcessor extends SWTUIProcessor implements ISWTModelMapperExtension {
 	private final ExpandBarPlayerExtension ext = new ExpandBarPlayerExtension();
 
 	public ExpandBarUIProcessor() {
 		SWTUIPlayer.addExtension(ext);
+	}
+
+	@Override
+	public void collectInformation(AdvancedInformation information, Command lastCommand) {
+		// No information
 	}
 
 	@Override
