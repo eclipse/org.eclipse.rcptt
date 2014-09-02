@@ -28,5 +28,3 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.runtime.ui,
  org.eclipse.rcptt.runtime.ui
-Runtime-AutoStart: true
-Runtime-StartLevel: 4
