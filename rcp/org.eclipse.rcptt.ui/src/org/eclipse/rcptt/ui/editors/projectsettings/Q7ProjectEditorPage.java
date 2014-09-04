@@ -12,16 +12,6 @@ package org.eclipse.rcptt.ui.editors.projectsettings;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.editor.FormPage;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
-
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.ProjectMetadata;
@@ -34,6 +24,15 @@ import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
 import org.eclipse.rcptt.ui.controls.VerificationsTable;
 import org.eclipse.rcptt.ui.editors.IQ7NamedElementEditorPage;
 import org.eclipse.rcptt.ui.editors.NamedElementEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormPage;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 
 public class Q7ProjectEditorPage extends FormPage implements
 		IQ7NamedElementEditorPage {
@@ -55,6 +54,10 @@ public class Q7ProjectEditorPage extends FormPage implements
 
 	public VerificationsTable getVerificationsTable() {
 		return verificationsTable;
+	}
+
+	public DescriptionComposite getDescriptionComposite() {
+		return descriptionComposite;
 	}
 
 	@Override
@@ -141,32 +144,6 @@ public class Q7ProjectEditorPage extends FormPage implements
 	}
 
 	public void refreshPage() {
-	}
-
-	public boolean canUndo() {
-		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return descriptionComposite.canUndo();
-		}
-		return false;
-	}
-
-	public boolean canRedo() {
-		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return descriptionComposite.canRedo();
-		}
-		return false;
-	}
-
-	public void undo() {
-		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			descriptionComposite.undo();
-		}
-	}
-
-	public void redo() {
-		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			descriptionComposite.redo();
-		}
 	}
 
 	@Override
