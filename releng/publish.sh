@@ -35,6 +35,8 @@ cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86_64.zip $produ
 # copy full repository
 cp -r $WORKSPACE/repository/full/target/repository $buildDestination
 
+# copy full repository archive
+cp -r $WORKSPACE/repository/full/target/full-$productVersion-SNAPSHOT.zip $buildDestination/repository-$productVersion-$typeAbbr$productQualifier.zip
 
 # copy runtimes
 cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime/q7 $buildDestination/runtime3x
@@ -56,6 +58,7 @@ fi
 mkdir -p $latest
 
 cp -r $buildDestination/repository $latest/repository
+cp -r $buildDestination/repository-$productVersion-$typeAbbr$productQualifier.zip $latest/repository-nightly.zip
 cp -r $buildDestination/runtime3x $latest/runtime3x
 cp -r $buildDestination/runtime4x $latest/runtime4x
 
