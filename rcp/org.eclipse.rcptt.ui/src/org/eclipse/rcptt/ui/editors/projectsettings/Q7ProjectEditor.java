@@ -11,10 +11,6 @@
 package org.eclipse.rcptt.ui.editors.projectsettings;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
-
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.ProjectMetadata;
@@ -22,6 +18,10 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.editors.NamedElementEditor;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
+import org.eclipse.rcptt.ui.editors.TextUtils;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
 
 public class Q7ProjectEditor extends NamedElementEditor {
 
@@ -81,51 +81,6 @@ public class Q7ProjectEditor extends NamedElementEditor {
 	public void createActions() {
 		actions = new NamedElementEditorActions(new INamedElementActions() {
 
-			@Override
-			public void undo() {
-				page.undo();
-				updateEnablement();
-			}
-
-			@Override
-			public void redo() {
-				page.redo();
-				updateEnablement();
-			}
-
-			@Override
-			public void paste() {
-				if (isContextsFocus()) {
-					page.getContextTable().paste();
-				}
-				if (isVerificationFocus()) {
-					page.getVerificationsTable().paste();
-				}
-				updateEnablement();
-			}
-
-			@Override
-			public void cut() {
-				if (isContextsFocus()) {
-					page.getContextTable().cut();
-				}
-				if (isVerificationFocus()) {
-					page.getVerificationsTable().cut();
-				}
-				updateEnablement();
-			}
-
-			@Override
-			public void copy() {
-				if (isContextsFocus()) {
-					page.getContextTable().copy();
-				}
-				if (isVerificationFocus()) {
-					page.getVerificationsTable().copy();
-				}
-				updateEnablement();
-			}
-
 			private boolean isContextsFocus() {
 				return page.getContextTable().getControl().isFocusControl();
 			}
@@ -134,16 +89,76 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				return page.getVerificationsTable().getControl().isFocusControl();
 			}
 
+			private boolean isDescriptionFocus() {
+				return page.getDescriptionComposite().getDescriptionControl().isFocusControl();
+			}
+
+			@Override
+			public void undo() {
+				if (isDescriptionFocus()) {
+					page.getDescriptionComposite().undo();
+				}
+				updateEnablement();
+			}
+
+			@Override
+			public void redo() {
+				if (isDescriptionFocus()) {
+					page.getDescriptionComposite().redo();
+				}
+				updateEnablement();
+			}
+
+			@Override
+			public void paste() {
+				if (isContextsFocus()) {
+					page.getContextTable().paste();
+				} else if (isVerificationFocus()) {
+					page.getVerificationsTable().paste();
+				} else if (isDescriptionFocus()) {
+					TextUtils.paste(page.getDescriptionComposite().getDescriptionControl());
+				}
+				updateEnablement();
+			}
+
+			@Override
+			public void cut() {
+				if (isContextsFocus()) {
+					page.getContextTable().cut();
+				} else if (isVerificationFocus()) {
+					page.getVerificationsTable().cut();
+				} else if (isDescriptionFocus()) {
+					TextUtils.cut(page.getDescriptionComposite().getDescriptionControl());
+				}
+				updateEnablement();
+			}
+
+			@Override
+			public void copy() {
+				if (isContextsFocus()) {
+					page.getContextTable().copy();
+				} else if (isVerificationFocus()) {
+					page.getVerificationsTable().copy();
+				} else if (isDescriptionFocus()) {
+					TextUtils.copy(page.getDescriptionComposite().getDescriptionControl());
+				}
+				updateEnablement();
+			}
+
 			@Override
 			public boolean canUndo() {
-				boolean ctxOrVerif = isContextsFocus() || isVerificationFocus();
-				return page.canUndo() && !ctxOrVerif;
+				if (isDescriptionFocus()) {
+					return page.getDescriptionComposite().canUndo();
+				}
+				return false;
 			}
 
 			@Override
 			public boolean canRedo() {
-				boolean ctxOrVerif = isContextsFocus() || isVerificationFocus();
-				return page.canRedo() && !ctxOrVerif;
+				if (isDescriptionFocus()) {
+					return page.getDescriptionComposite().canRedo();
+				}
+				return false;
 			}
 
 			@Override
@@ -153,6 +168,9 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				}
 				if (isVerificationFocus()) {
 					return page.getVerificationsTable().canPaste();
+				}
+				if (isDescriptionFocus()) {
+					return TextUtils.canPaste(page.getDescriptionComposite().getDescriptionControl());
 				}
 				return false;
 			}
@@ -165,6 +183,9 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				if (isVerificationFocus()) {
 					return page.getVerificationsTable().canCut();
 				}
+				if (isDescriptionFocus()) {
+					return TextUtils.canCut(page.getDescriptionComposite().getDescriptionControl());
+				}
 				return false;
 			}
 
@@ -175,6 +196,9 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				}
 				if (isVerificationFocus()) {
 					return page.getVerificationsTable().canCopy();
+				}
+				if (isDescriptionFocus()) {
+					return TextUtils.canCopy(page.getDescriptionComposite().getDescriptionControl());
 				}
 				return false;
 			}
