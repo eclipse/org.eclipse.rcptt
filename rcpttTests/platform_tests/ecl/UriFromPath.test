@@ -6,13 +6,14 @@ Element-Version: 3.0
 External-Reference: 
 Id: _zG1GQOTUEeOShsjP9M9CMw
 Runtime-Version: 1.5.2.201408180747
-Save-Time: 8/29/14 12:13 PM
+Save-Time: 9/3/14 5:19 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-uri-from-path [get-by-os -win "C:\Windows\System32" -macosx "Users" -linux "home"] |
-contains [get-by-os -win "file:/C:/Windows/System32/" -macosx "file:/Users/" -linux "file:/home/"] | verify-true
+global [val uri [uri-from-path [get-by-os -win "C:\Windows\System32" -macosx "/Users" -linux "/home"]]]
+trace $uri
+$uri | contains [get-by-os -win "file:/C:/Windows/System32/" -macosx "file:/Users/" -linux "file:/home/"] | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
