@@ -58,7 +58,6 @@ import org.eclipse.rcptt.tesla.core.TeslaSerializationOptions;
 import org.eclipse.rcptt.tesla.core.info.InfoPackage;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramPackage;
-import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
 import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaScenario;
 import org.eclipse.rcptt.tesla.core.ui.UiPackage;
@@ -516,15 +515,14 @@ public class PersistenceManager implements IPlainConstants {
 
 	public synchronized static void shutdown() {
 		if (persistenceManager != null) {
-			// for (IPersistenceModel model :
-			// persistenceManager.models.values()) {
-			// model.dispose();
-			// }
-			for (IPersistenceModel model : persistenceManager.resourceOnlyModels
-					.values()) {
-				model.dispose();
-			}
+			persistenceManager.shutdownInternal();
 			persistenceManager = null;
+		}
+	}
+
+	private synchronized void shutdownInternal() {
+		for (IPersistenceModel model : resourceOnlyModels.values()) {
+			model.dispose();
 		}
 	}
 
