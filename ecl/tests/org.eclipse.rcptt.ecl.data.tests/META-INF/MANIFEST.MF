@@ -5,4 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.ecl.data.tests
 Bundle-Version: 1.5.2.qualifier
 Fragment-Host: org.eclipse.rcptt.ecl.data
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit;bundle-version="4.8.2"
+Require-Bundle: org.junit;bundle-version="4.8.2",
+ org.eclipse.rcptt.ecl.parser.test;bundle-version="1.5.2",
+ org.eclipse.core.resources;bundle-version="3.7.101",
+ com.google.guava

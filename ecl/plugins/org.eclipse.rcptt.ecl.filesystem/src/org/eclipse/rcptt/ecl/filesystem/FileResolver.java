@@ -13,10 +13,9 @@ package org.eclipse.rcptt.ecl.filesystem;
 import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.createError;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -24,8 +23,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.rcptt.ecl.filesystem.internal.CompositeEclFileResolver;
+import org.eclipse.rcptt.ecl.filesystem.internal.JavaFileResolver;
+import org.eclipse.rcptt.ecl.filesystem.internal.ResourceFileResolver;
 
 public class FileResolver {
+
 	/**
 	 * If file is in workspace, refresh it
 	 * 
@@ -51,7 +54,7 @@ public class FileResolver {
 		}
 	}
 
-	public static File resolve(String uri) throws CoreException {
+	public static EclFile resolve(String uri) throws CoreException {
 		try {
 			return resolve(new URI(uri));
 		} catch (URISyntaxException e) {
@@ -59,40 +62,27 @@ public class FileResolver {
 		}
 	}
 
-	public static File resolve(URI uri) throws CoreException {
-		Resolver resolver = resolvers.get(uri.getScheme());
-		if (resolver == null) {
-			throw new CoreException(createError("Usupported scheme %s",
-					uri.getScheme()));
+	public static EclFile resolve(URI uri) throws CoreException {
+		if (uri == null)
+			throw new NullPointerException();
+		try {
+			return resolvers.resolve(uri);
+		} catch (IOException e) {
+			if (e.getCause() instanceof CoreException)
+				throw (CoreException) e.getCause();
+			throw new CoreException(createError(e, "Failed to resolve " + uri));
 		}
-		return resolver.resolve(uri);
 	}
 
-	private static interface Resolver {
-		File resolve(URI uri) throws CoreException;
-	}
+	private static CompositeEclFileResolver resolvers = new CompositeEclFileResolver();
 
-	private static Map<String, Resolver> resolvers = new HashMap<String, Resolver>();
 	static {
-		resolvers.put("file", new Resolver() {
-			public File resolve(URI uri) {
-				return new File(uri);
-			}
-
-		});
-		resolvers.put("workspace", new Resolver() {
-			public File resolve(URI uri) throws CoreException {
-				try {
-					return ResourcesPlugin.getWorkspace().getRoot()
-							.getFile(Path.fromPortableString(uri.getPath()))
-							.getLocation().toFile();
-				} catch (NoClassDefFoundError e) {
-					throw new CoreException(
-							createError("Resources plugin is not available, "
-									+ "cannot use 'workspace:' scheme"));
-				}
-			}
-		});
+		try {
+			resolvers.add(new ResourceFileResolver());
+		} catch (NoClassDefFoundError e) {
+			// No resources plugin. OK.
+		}
+		resolvers.add(new JavaFileResolver());
 	}
 
 }

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.internal.commands;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -28,6 +26,7 @@ import org.eclipse.rcptt.ecl.core.EclMapEntry;
 import org.eclipse.rcptt.ecl.data.commands.ReadProperties;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
 import org.eclipse.rcptt.ecl.filesystem.FileResolver;
+import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
@@ -37,14 +36,14 @@ public class ReadPropertiesService implements ICommandService {
 	@Override
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		ReadProperties rp = (ReadProperties) command;
-		File file = FileResolver.resolve(rp.getUri());
+		EclFile file = FileResolver.resolve(rp.getUri());
 		Properties p = new Properties();
 		Reader reader = null;
 		try {
-			reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+			reader = new InputStreamReader(file.read(), "UTF-8");
 			p.load(reader);
 		} catch (Exception e) {
-			throw new CoreException(EclDataPlugin.createErr(e, "Error reading file %s", file.getAbsolutePath()));
+			throw new CoreException(EclDataPlugin.createErr(e, "Error reading file %s", file.toURI()));
 		} finally {
 			if (reader != null) {
 				try {

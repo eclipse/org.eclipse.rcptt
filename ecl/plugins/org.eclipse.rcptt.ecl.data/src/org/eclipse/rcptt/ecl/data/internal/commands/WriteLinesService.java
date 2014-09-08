@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.internal.commands;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Writer;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -21,7 +21,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.data.commands.WriteLines;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
+import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.filesystem.FileResolver;
+import org.eclipse.rcptt.ecl.filesystem.Util;
+import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
@@ -35,18 +38,19 @@ public class WriteLinesService implements ICommandService {
 		}
 
 		WriteLines cmd = (WriteLines) command;
-		File out = FileResolver.resolve(cmd.getUri());
+		EclFile out = FileResolver.resolve(cmd.getUri());
 		PrintStream ps = null;
 		try {
-			ps = new PrintStream(new FileOutputStream(out, cmd.isAppend()));
+			Writer fileWriter = Util.getWriter(out, cmd.isAppend());
+			BufferedWriter writer = new BufferedWriter(fileWriter);
 			for (Object obj : CoreUtils.readPipeContent(context.getInput())) {
-				ps.println(obj);
+				writer.write("" + BoxedValues.unbox(obj));
+				writer.newLine();
 			}
-			ps.close();
-			FileResolver.refresh(out);
-		} catch (FileNotFoundException e) {
+			writer.close();
+		} catch (IOException e) {
 			throw new CoreException(EclDataPlugin.createErr(e,
-					"Cannot write to %s", out.getAbsolutePath()));
+					"Cannot write to %s", out.toURI()));
 		} finally {
 			if (ps != null) {
 				ps.close();

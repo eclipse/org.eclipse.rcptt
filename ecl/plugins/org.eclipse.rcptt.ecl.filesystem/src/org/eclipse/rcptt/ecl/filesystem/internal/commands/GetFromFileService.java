@@ -13,19 +13,21 @@ package org.eclipse.rcptt.ecl.filesystem.internal.commands;
 import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.createError;
 import static org.eclipse.rcptt.ecl.runtime.BoxedValues.unbox;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Get;
 import org.eclipse.rcptt.ecl.dispatch.IScriptletExtension;
+import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.filesystem.File;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.filesystem.FilesystemFactory;
 import org.eclipse.rcptt.ecl.runtime.SingleCommandService;
 
@@ -75,7 +77,7 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 		}
 		String uriString = ((File) command.getInput()).getUri();
 		URI uri = URI.create(uriString);
-		IFileStore input = EFS.getStore(uri);
+		EclFile input = FileResolver.resolve(uri);
 		switch (key) {
 		case CHILDREN:
 			return handleChildren(input);
@@ -89,15 +91,15 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 		throw new CoreException(createError("Wrong key: %s", key));
 	}
 
-	private boolean handleIsDirectory(IFileStore input) throws CoreException {
-		return input.fetchInfo().isDirectory();
+	private boolean handleIsDirectory(EclFile input) throws CoreException {
+		return input.isDirectory();
 	}
 
-	private List<File> handleChildren(IFileStore input) throws CoreException {
+	private List<File> handleChildren(EclFile input) throws CoreException {
 		try {
-			IFileStore[] files = input.childStores(EFS.NONE, null);
+			Collection<EclFile> files = input.getChildren();
 			ArrayList<File> rv = new ArrayList<File>();
-			for (IFileStore child : files) {
+			for (EclFile child : files) {
 				File item = FilesystemFactory.eINSTANCE.createFile();
 				item.setUri(child.toURI().toURL().toExternalForm());
 				rv.add(item);
@@ -105,15 +107,17 @@ public class GetFromFileService extends SingleCommandService<Get> implements
 			return rv;
 		} catch (MalformedURLException e) {
 			throw new CoreException(createError("Can't create child URI", e));
+		} catch (IOException e) {
+			throw new CoreException(createError("Can't read children", e));
 		}
 	}
 
-	private String handleName(IFileStore input) {
-		return input.fetchInfo().getName();
+	private String handleName(EclFile input) {
+		return input.getName();
 	}
 
-	private boolean handleExists(IFileStore input) throws CoreException {
-		return input.fetchInfo().exists();
+	private boolean handleExists(EclFile input) throws CoreException {
+		return input.exists();
 	}
 
 }

@@ -7,5 +7,6 @@ Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.core,
  org.eclipse.equinox.common,
  org.eclipse.rcptt.ecl.operations,
- org.eclipse.rcptt.ecl.parser
+ org.eclipse.rcptt.ecl.parser,
+ org.eclipse.rcptt.ecl.parser.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

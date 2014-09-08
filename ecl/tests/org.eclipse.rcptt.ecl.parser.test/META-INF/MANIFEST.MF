@@ -10,6 +10,7 @@ Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.parser,
  org.eclipse.rcptt.ecl.core,
  org.antlr.runtime;bundle-version="3.2.0",
- org.eclipse.rcptt.ecl.operations
+ org.eclipse.rcptt.ecl.operations,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.ecl.parser.test
