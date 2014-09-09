@@ -19,21 +19,20 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.ctx.filesystem.FSUtils;
 import org.eclipse.rcptt.ctx.filesystem.ui.Activator;
 import org.eclipse.rcptt.filesystem.FSFile;
 import org.eclipse.rcptt.filesystem.FSFolder;
 import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 public class AddFiles extends FSAction {
 
 	public AddFiles() {
-		super("Add Files...", Images.getImageDescriptor(Images.FILE));
+		super("Add Files...", Images.getImageDescriptor(Images.NEW_FILE));
 	}
 
 	@Override

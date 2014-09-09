@@ -18,19 +18,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.ctx.filesystem.FSUtils;
 import org.eclipse.rcptt.ctx.filesystem.ui.Activator;
 import org.eclipse.rcptt.filesystem.FSFolder;
 import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 public class AddFolder extends FSAction {
 
 	public AddFolder() {
-		super("Add Folder...", Images.getImageDescriptor(Images.FOLDER));
+		super("Add Folder...", Images.getImageDescriptor(Images.NEW_FOLDER));
 	}
 
 	@Override
