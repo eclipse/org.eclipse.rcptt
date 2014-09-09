@@ -14,15 +14,13 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.events.MouseEvent;
 
 /**
- * Tree/Table Viewer strategy to activate cell editing on double click 
+ * Tree/Table Viewer strategy to activate cell editing manually, not with a mouse.
  */
-public class DoubleClickViewerEditStrategy extends
-		ColumnViewerEditorActivationStrategy {
+public class DefaultTreeViewerEditStrategy extends ColumnViewerEditorActivationStrategy {
 
-	public DoubleClickViewerEditStrategy(ColumnViewer viewer) {
+	public DefaultTreeViewerEditStrategy(ColumnViewer viewer) {
 		super(viewer);
 	}
 
@@ -31,16 +29,11 @@ public class DoubleClickViewerEditStrategy extends
 	 *            the event triggering the action
 	 * @return <code>true</code> if this event should open the editor
 	 */
-	protected boolean isEditorActivationEvent(
-			ColumnViewerEditorActivationEvent event) {
-		boolean singleSelect = ((IStructuredSelection) getViewer()
-				.getSelection()).size() == 1;
-		boolean isLeftMouseSelect = event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
-				&& ((MouseEvent) event.sourceEvent).button == 1;
+	protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
+		boolean singleSelect = ((IStructuredSelection) getViewer().getSelection()).size() == 1;
 
 		return singleSelect
-				&& (isLeftMouseSelect
-						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC || event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL);
+				&& (event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC || event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL);
 	}
 
 }

@@ -30,19 +30,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
-import org.eclipse.ui.dialogs.ISelectionStatusValidator;
-import org.eclipse.ui.dialogs.ISelectionValidator;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.model.BaseWorkbenchContentProvider;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
 import org.eclipse.rcptt.core.persistence.PersistenceManager;
 import org.eclipse.rcptt.ctx.resources.ImportUtils;
@@ -62,6 +49,18 @@ import org.eclipse.rcptt.workspace.WSProjectLink;
 import org.eclipse.rcptt.workspace.WSResource;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.rcptt.workspace.WorkspaceFactory;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
+import org.eclipse.ui.dialogs.ISelectionValidator;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.model.BaseWorkbenchContentProvider;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public abstract class WSAction extends Action {
 
@@ -489,7 +488,7 @@ public abstract class WSAction extends Action {
 	public static class OpenFile extends WSAction {
 
 		public OpenFile() {
-			super("Open File", Images.getImageDescriptor(Images.NEW_FILE));
+			super("Open File", Images.getImageDescriptor(Images.FILE));
 		}
 
 		@Override
@@ -505,21 +504,11 @@ public abstract class WSAction extends Action {
 			if (selection[0] instanceof WSFile) {
 				WSFile file = (WSFile) selection[0];
 				String name = ImportUtils.getName(file);
-
-				// IFile iFile = storage.getFileToOpen(file);
 				IWorkbenchPage page = PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getActivePage();
 				try {
-					IEditorDescriptor descriptor = IDE.getEditorDescriptor(
-							name, true);
-					String id = null;
-					if (descriptor != null) {
-						id = descriptor.getId();
-					} else {
-						id = "org.eclipse.ui.TextEditor";
-					}
 					IDE.openEditor(page, new PersistenceEditorInput(
-							getContext().eResource(), name), id);
+							getContext().eResource(), name), "org.eclipse.ui.DefaultTextEditor");
 				} catch (PartInitException e) {
 					Q7UIPlugin.log(e);
 				}
@@ -536,7 +525,7 @@ public abstract class WSAction extends Action {
 					if (descriptor != null) {
 						id = descriptor.getId();
 					} else {
-						id = "org.eclipse.ui.TextEditor";
+						id = "org.eclipse.ui.DefaultTextEditor";
 					}
 					IFile linkResource = WSUtils.getLinkResource(link);
 					if (linkResource != null) {
@@ -546,6 +535,27 @@ public abstract class WSAction extends Action {
 					Q7UIPlugin.log(e);
 				}
 			}
+		}
+
+	}
+
+	public static class Rename extends WSAction {
+
+		public Rename() {
+			super("Rename", Images.getImageDescriptor(Images.SCENARIO_EMPTY));
+		}
+
+		@Override
+		protected void init() {
+			setEnabled(selection != null
+					&& selection.length == 1
+					&& (selection[0] instanceof WSFile
+					|| selection[0] instanceof WSFolder));
+		}
+
+		@Override
+		public void run() {
+			viewer.editElement(selection[0], 0);
 		}
 
 	}

@@ -33,7 +33,9 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.DecoratingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -41,6 +43,32 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerEditor;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.persistence.IPersistenceModel;
+import org.eclipse.rcptt.core.persistence.PersistenceManager;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.ctx.resources.ImportUtils;
+import org.eclipse.rcptt.ctx.resources.WSUtils;
+import org.eclipse.rcptt.ctx.resources.WorkspaceContextImporter;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.context.BaseContextEditor;
+import org.eclipse.rcptt.ui.controls.SectionWithComposite;
+import org.eclipse.rcptt.ui.editors.EditorHeader;
+import org.eclipse.rcptt.ui.resources.actions.WSAction;
+import org.eclipse.rcptt.ui.utils.DefaultTreeViewerEditStrategy;
+import org.eclipse.rcptt.ui.utils.UIContentAdapter;
+import org.eclipse.rcptt.workspace.WSContainer;
+import org.eclipse.rcptt.workspace.WSFile;
+import org.eclipse.rcptt.workspace.WSFileLink;
+import org.eclipse.rcptt.workspace.WSFolder;
+import org.eclipse.rcptt.workspace.WSProject;
+import org.eclipse.rcptt.workspace.WSProjectLink;
+import org.eclipse.rcptt.workspace.WSResource;
+import org.eclipse.rcptt.workspace.WSRoot;
+import org.eclipse.rcptt.workspace.WorkspaceContext;
+import org.eclipse.rcptt.workspace.WorkspacePackage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -60,33 +88,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.persistence.IPersistenceModel;
-import org.eclipse.rcptt.core.persistence.PersistenceManager;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.workspace.Q7Utils;
-import org.eclipse.rcptt.ctx.resources.ImportUtils;
-import org.eclipse.rcptt.ctx.resources.WSUtils;
-import org.eclipse.rcptt.ctx.resources.WorkspaceContextImporter;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.ui.context.BaseContextEditor;
-import org.eclipse.rcptt.ui.controls.SectionWithComposite;
-import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.resources.actions.WSAction;
-import org.eclipse.rcptt.ui.utils.DoubleClickViewerEditStrategy;
-import org.eclipse.rcptt.ui.utils.UIContentAdapter;
-import org.eclipse.rcptt.workspace.WSContainer;
-import org.eclipse.rcptt.workspace.WSFile;
-import org.eclipse.rcptt.workspace.WSFileLink;
-import org.eclipse.rcptt.workspace.WSFolder;
-import org.eclipse.rcptt.workspace.WSProject;
-import org.eclipse.rcptt.workspace.WSProjectLink;
-import org.eclipse.rcptt.workspace.WSResource;
-import org.eclipse.rcptt.workspace.WSRoot;
-import org.eclipse.rcptt.workspace.WorkspaceContext;
-import org.eclipse.rcptt.workspace.WorkspacePackage;
 
 public class WorkspaceContextEditor extends BaseContextEditor {
 	private boolean corrected = false;
@@ -260,14 +261,13 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 
 	private Tree createTree(Composite parent, FormToolkit toolkit) {
 		Tree tree = new Tree(parent, SWT.BORDER | SWT.MULTI);
-		GridDataFactory.fillDefaults().grab(true, true).hint(100, 50)
-				.applyTo(tree);
+		GridDataFactory.fillDefaults().grab(true, true).hint(100, 50).applyTo(tree);
+
 		viewer = new TreeViewer(tree);
-		TreeViewerEditor.create(viewer, new DoubleClickViewerEditStrategy(
-				viewer), ColumnViewerEditor.KEEP_EDITOR_ON_DOUBLE_CLICK);
+		TreeViewerEditor.create(viewer, new DefaultTreeViewerEditStrategy(
+				viewer), ColumnViewerEditor.DEFAULT);
 		viewer.setCellEditors(new CellEditor[] { new TextCellEditor(tree) });
 		viewer.setCellModifier(new ICellModifier() {
-
 			public void modify(Object element, String property, Object value) {
 				TreeItem item = (TreeItem) element;
 				WSResource res = (WSResource) item.getData();
@@ -338,17 +338,22 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 				setSelection(resources);
 			}
 		});
-		adapter = new UIContentAdapter() {
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			protected void changed(Notification notification) {
-				if (viewer.getControl().isDisposed()) {
-					return;
+			/**
+			 * Opens file or expands/collapses folder.
+			 */
+			public void doubleClick(DoubleClickEvent event) {
+				if (openFileAction.isEnabled()) {
+					openFileAction.run();
+				} else {
+					TreeViewer viewer = (TreeViewer) event.getViewer();
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					Object selectedNode = selection.getFirstElement();
+					viewer.setExpandedState(selectedNode, !viewer.getExpandedState(selectedNode));
 				}
-				viewer.refresh();
 			}
-		};
-		getContextElement().eAdapters().add(adapter);
-
+		});
 		viewer.getControl().addKeyListener(new KeyListener() {
 
 			public void keyReleased(KeyEvent e) {
@@ -364,7 +369,19 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 			}
 		});
 
+		adapter = new UIContentAdapter() {
+
+			protected void changed(Notification notification) {
+				if (viewer.getControl().isDisposed()) {
+					return;
+				}
+				viewer.refresh();
+			}
+		};
+		getContextElement().eAdapters().add(adapter);
+
 		toolkit.adapt(tree);
+
 		return tree;
 	}
 
@@ -399,7 +416,8 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 		createButton(panel, toolkit, new WSAction.LinkFolder());
 		createButton(panel, toolkit, new WSAction.LinkFiles());
 		createButton(panel, toolkit, removeAction = new WSAction.Remove());
-		createButton(panel, toolkit, new WSAction.OpenFile());
+		createButton(panel, toolkit, openFileAction = new WSAction.OpenFile());
+		createButton(panel, toolkit, new WSAction.Rename());
 
 		// createButton(panel, new WSAction.AddFile());
 
@@ -469,5 +487,6 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 	private final List<Button> buttons = new ArrayList<Button>();
 
 	private WSAction.Remove removeAction;
+	private WSAction.OpenFile openFileAction;
 
 }

@@ -13,7 +13,9 @@ package org.eclipse.rcptt.ctx.filesystem.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -25,6 +27,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
@@ -34,10 +37,17 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -46,8 +56,12 @@ import org.eclipse.rcptt.ctx.filesystem.PrefixScheme;
 import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFiles;
 import org.eclipse.rcptt.ctx.filesystem.ui.actions.AddFolder;
 import org.eclipse.rcptt.ctx.filesystem.ui.actions.FSAction;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.OpenFile;
 import org.eclipse.rcptt.ctx.filesystem.ui.actions.Remove;
+import org.eclipse.rcptt.ctx.filesystem.ui.actions.Rename;
 import org.eclipse.rcptt.filesystem.FSCaptureParam;
+import org.eclipse.rcptt.filesystem.FSFile;
+import org.eclipse.rcptt.filesystem.FSFolder;
 import org.eclipse.rcptt.filesystem.FSResource;
 import org.eclipse.rcptt.filesystem.FilesystemContext;
 import org.eclipse.rcptt.filesystem.FilesystemFactory;
@@ -60,25 +74,20 @@ import org.eclipse.rcptt.ui.context.BaseContextEditor;
 import org.eclipse.rcptt.ui.controls.SectionWithComposite;
 import org.eclipse.rcptt.ui.editors.EditorHeader;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.utils.DefaultTreeViewerEditStrategy;
 import org.eclipse.rcptt.ui.utils.UIContentAdapter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -168,6 +177,8 @@ public class FilesystemContextEditor extends BaseContextEditor {
 		createButton(panel, toolkit, new AddFiles());
 		createButton(panel, toolkit, new AddFolder());
 		createButton(panel, toolkit, removeAction = new Remove());
+		createButton(panel, toolkit, openFileAction = new OpenFile());
+		createButton(panel, toolkit, new Rename());
 
 		setSelection(null);
 	}
@@ -198,18 +209,14 @@ public class FilesystemContextEditor extends BaseContextEditor {
 		}
 	}
 
-	private boolean expandOrCollapse = false;
-
 	private void createTree(FormToolkit toolkit, Composite client) {
 		final Tree tree = new Tree(client, SWT.BORDER | SWT.MULTI);
-		GridDataFactory.fillDefaults().grab(true, true).span(1, 1)
-				.hint(100, 50).applyTo(tree);
-		viewer = new TreeViewer(tree);
+		GridDataFactory.fillDefaults().grab(true, true).span(1, 1).hint(100, 50).applyTo(tree);
 
+		viewer = new TreeViewer(tree);
 		viewer.setLabelProvider(new FilesystemContextLabelProvider());
 		viewer.setContentProvider(new FilesystemContextContentProvider());
 		viewer.setInput(getContextElement());
-
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection sel = (IStructuredSelection) viewer
@@ -221,67 +228,66 @@ public class FilesystemContextEditor extends BaseContextEditor {
 				setSelection(resources);
 			}
 		});
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseUp(MouseEvent e) {
-				if (expandOrCollapse || e.button != 1) {
-					expandOrCollapse = false;
+			/**
+			 * Opens file or expands/collapses folder.
+			 */
+			public void doubleClick(DoubleClickEvent event) {
+				if (openFileAction.isEnabled()) {
+					openFileAction.run();
+				} else {
+					TreeViewer viewer = (TreeViewer) event.getViewer();
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					Object selectedNode = selection.getFirstElement();
+					viewer.setExpandedState(selectedNode, !viewer.getExpandedState(selectedNode));
+				}
+			}
+		});
+
+		// Setups renaming
+		TreeViewerEditor.create(viewer, new DefaultTreeViewerEditStrategy(viewer), ColumnViewerEditor.DEFAULT);
+		viewer.setCellEditors(new CellEditor[] { new TextCellEditor(tree) });
+		viewer.setCellModifier(new ICellModifier() {
+			public void modify(Object element, String property, Object value) {
+				TreeItem item = (TreeItem) element;
+				FSResource res = (FSResource) item.getData();
+				EObject parent = res.eContainer();
+				Set<String> allNames = getAllNames(parent);
+				allNames.remove(res.getName());
+
+				String newValue = (String) value;
+				if (allNames.contains(newValue)) {
 					return;
 				}
 
-				TreeItem item = tree.getItem(new Point(e.x, e.y));
-				if (item == null) {
-					tree.deselectAll();
-					setSelection(null);
+				if (newValue != null && !newValue.isEmpty() && !newValue.equals(res.getName())) {
+					res.setName(newValue);
 				}
 			}
-		});
 
-		tree.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				expandOrCollapse = false;
+			public Object getValue(Object element, String property) {
+				return ((FSResource) element).getName();
 			}
+
+			public boolean canModify(Object element, String property) {
+				return true;
+			}
+		});
+		viewer.setColumnProperties(new String[] { "" });
+
+		viewer.getControl().addKeyListener(new KeyListener() {
 
 			public void keyReleased(KeyEvent e) {
-				expandOrCollapse = false;
 			}
-		});
 
-		tree.addListener(SWT.Expand, new Listener() {
-			public void handleEvent(Event event) {
-				expandOrCollapse = true;
-			}
-		});
-
-		tree.addListener(SWT.Collapse, new Listener() {
-			public void handleEvent(Event event) {
-				expandOrCollapse = true;
-			}
-		});
-
-		tree.addKeyListener(new KeyAdapter() {
-			@Override
 			public void keyPressed(KeyEvent e) {
-				viewer.getControl().addKeyListener(new KeyListener() {
-
-					public void keyReleased(KeyEvent e) {
+				if ((SWT.DEL == e.character) && (0 == e.stateMask)) {
+					if (removeAction.isEnabled()) {
+						removeAction.run();
+						e.doit = false;
 					}
-
-					public void keyPressed(KeyEvent e) {
-						if (e.stateMask != 0)
-							return;
-
-						switch (e.keyCode) {
-						case SWT.DEL:
-							if (removeAction.isEnabled()) {
-								removeAction.run();
-								e.doit = false;
-							}
-							break;
-						}
-					}
-				});
+				}
 			}
 		});
 
@@ -492,5 +498,21 @@ public class FilesystemContextEditor extends BaseContextEditor {
 		}
 	};
 
+	private Set<String> getAllNames(EObject parent) {
+		Set<String> allNames = new HashSet<String>();
+		if (parent instanceof FSFolder) {
+			EList<FSFolder> folders = ((FSFolder) parent).getFolders();
+			EList<FSFile> files = ((FSFolder) parent).getFiles();
+			for (FSFile fsFile : files) {
+				allNames.add(fsFile.getName());
+			}
+			for (FSFolder folder : folders) {
+				allNames.add(folder.getName());
+			}
+		}
+		return allNames;
+	}
+
 	private Remove removeAction;
+	private OpenFile openFileAction;
 }

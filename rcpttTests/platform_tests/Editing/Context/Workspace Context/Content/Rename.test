@@ -1,0 +1,87 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_E1k1UP2pEeKZNomN8DrgVg
+Element-Name: Rename
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _GbUZQDfYEeSwKtKur3isuQ
+Runtime-Version: 1.5.0.201406020630
+Save-Time: 9/9/14 11:53 AM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Open context;
+2. Rename file and folder;
+3. Make sure that items have new names;
+4. Close context and open again;
+5. Make sure that items have new names.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Test Explorer" | get-tree] {
+    select MyProject | double-click
+    select "MyProject/WS Context" | double-click
+}
+with [get-editor "WS Context" | get-section Workspace] {
+    with [get-tree] {
+        select MyProject | double-click
+        select "MyProject/.project"
+    }
+    get-button Rename | click
+    with [get-tree] {
+        select "MyProject/.project" | activate-cell-edit
+        with [get-editbox] {
+            key-type Right
+            set-text ".project_renamed"
+            key-type Enter
+        }
+        apply-cell-edit -deactivate
+        select MyProject
+    }
+    get-button Rename | click
+    with [get-tree] {
+        select MyProject | activate-cell-edit
+        with [get-editbox] {
+            set-text "MyProject_renamed"
+            key-type Enter
+        }
+        apply-cell-edit -deactivate
+    }
+}
+with [get-editor "WS Context" | get-section Workspace | get-tree] {
+    get-item "MyProject_renamed" | get-property "getText()" | equals "MyProject_renamed" | verify-true
+    get-item "MyProject_renamed/.project_renamed" | get-property "getText()" | equals ".project_renamed" | verify-true
+}
+
+with [get-editor "WS Context"] {
+    get-section Workspace | get-tree | key-type "M1+s"
+    close
+}
+with [get-view "Test Explorer"] {
+    click
+    get-tree | select "MyProject/WS Context" | double-click
+}
+with [get-editor "WS Context" | get-section Workspace | get-tree] {
+    get-item "MyProject_renamed" | get-property "getText()" | equals "MyProject_renamed" | verify-true
+    get-item "MyProject_renamed/.project_renamed" | get-property "getText()" | equals ".project_renamed" | verify-true
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

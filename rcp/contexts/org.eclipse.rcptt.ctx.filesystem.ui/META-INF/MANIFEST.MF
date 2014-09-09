@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.variables,
  org.eclipse.rcptt.launching,
  org.eclipse.debug.core,
- org.eclipse.pde.launching
+ org.eclipse.pde.launching,
+ org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
