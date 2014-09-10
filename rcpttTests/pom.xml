@@ -33,12 +33,14 @@
 <!--	      <groupId>org.eclipse</groupId>
 	      <artifactId>sdk</artifactId>
 	      <version>3.7.2</version>
-	      <injections>
-		<injection>
-		  <site>${rcpttRepo}</site>
-		</injection>
+-->
+		<ignoreOtherInjections>true</ignoreOtherInjections>
+		<injections>
+			<injection>
+				<site>${runtimeRepository}</site>
+			</injection>
 		</injections>
--->		
+		
 	    </aut>
 	    <q7>
 	      <version>${q7-version}</version>
