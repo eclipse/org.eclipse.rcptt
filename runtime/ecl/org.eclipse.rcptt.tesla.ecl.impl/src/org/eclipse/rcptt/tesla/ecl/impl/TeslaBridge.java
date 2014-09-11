@@ -100,7 +100,8 @@ public class TeslaBridge {
 			listener = new ITeslaEventListener() {
 				public boolean doProcessing(Context context) {
 					Q7WaitInfoRoot info = getCurrentWaitInfo(true);
-					if (client != null && client.processNext(context, info)) {
+					TeslaQClient clientTemp = client;
+					if (clientTemp != null && clientTemp.processNext(context, info)) {
 						return true;
 					}
 					return false;
