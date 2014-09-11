@@ -114,8 +114,7 @@ public abstract class Q7NamedElement extends Openable implements
 			info = (Q7ResourceInfo) getElementInfo();
 		}
 		if (info == null || info.getNamedElement() == null) {
-			throw new ModelException(RcpttPlugin.createStatus("Resources "
-					+ getPath() + " does not exist"));
+			throw newNotPresentException();
 		}
 		return info;
 	}
@@ -286,13 +285,17 @@ public abstract class Q7NamedElement extends Openable implements
 	}
 
 	public boolean hasUnsavedChanges() throws ModelException {
-		ModelManager manager = ModelManager.getModelManager();
-		Object info = manager.getInfo(this);
-		if (info == null && !isWorkingCopy()) {
-			return false;
+		Q7ResourceInfo info = null;
+		if (isWorkingCopy()) {
+			info = getPerWorkingCopyInfo().resourceInfo;
+			if (info != null)
+				return info.hasChanges();
 		}
-
-		return getInfo().hasChanges();
+		ModelManager manager = ModelManager.getModelManager();
+		info = (Q7ResourceInfo) manager.getInfo(this);
+		if (info == null)
+			return false;
+		return info.hasChanges();
 	}
 
 	@Override
