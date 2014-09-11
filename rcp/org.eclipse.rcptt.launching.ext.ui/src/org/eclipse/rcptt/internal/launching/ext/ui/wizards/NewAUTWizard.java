@@ -22,8 +22,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.ui.IWorkbench;
-
+import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
@@ -31,6 +30,8 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.ui.IWorkbench;
 
 @SuppressWarnings("restriction")
 public class NewAUTWizard extends Wizard {
@@ -145,7 +146,11 @@ public class NewAUTWizard extends Wizard {
 						.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
 
 				workingCopy.doSave();
-				Q7TargetPlatformManager.setHelper(target.getName(), target);
+
+				if (page.isLaunchNeeded()) {
+					LaunchUtils.launch(BaseAutManager.INSTANCE.getByName(workingCopy.getName()), getShell());
+				}
+
 				return true;
 			} catch (CoreException e) {
 				Q7UIPlugin.log(e);

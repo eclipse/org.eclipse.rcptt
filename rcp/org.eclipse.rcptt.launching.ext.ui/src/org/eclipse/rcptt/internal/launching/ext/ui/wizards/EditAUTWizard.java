@@ -29,24 +29,27 @@ import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-
+import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
+import org.eclipse.rcptt.launching.AutLaunchState;
 import org.eclipse.rcptt.launching.AutManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.launching.aut.IAUTConfigWizard;
 import org.eclipse.rcptt.util.FileUtil;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 @SuppressWarnings("restriction")
 public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
@@ -251,6 +254,20 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 				if (list != null) {
 					AutManager.INSTANCE.updateAUTLaunches(newConfig, list);
 				}
+
+				if (page.isLaunchNeeded()) {
+					Aut aut = BaseAutManager.INSTANCE.getByName(workingCopy.getName());
+					if (aut != null) {
+						List<AutLaunch> autLaunches = aut.getLaunches();
+						for (AutLaunch autLaunch : autLaunches) {
+							if (autLaunch.getState() != AutLaunchState.TERMINATE) {
+								autLaunch.terminate();
+							}
+						}
+						LaunchUtils.launch(aut, getShell());
+					}
+				}
+
 				return true;
 			} catch (CoreException e) {
 				Q7UIPlugin.log(e);
