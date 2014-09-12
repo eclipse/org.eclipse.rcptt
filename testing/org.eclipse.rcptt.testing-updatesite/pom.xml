@@ -4,12 +4,12 @@
   <parent>
     <artifactId>rcptt.testing</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.testing.repository</artifactId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 
 </project>

@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.data.tests
-Bundle-Version: 1.5.2.qualifier
+Bundle-Version: 1.5.3.qualifier
 Fragment-Host: org.eclipse.rcptt.ecl.data
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.8.2",
- org.eclipse.rcptt.ecl.parser.test;bundle-version="1.5.2",
+ org.eclipse.rcptt.ecl.parser.test;bundle-version="1.5.3",
  org.eclipse.core.resources;bundle-version="3.7.101",
  com.google.guava

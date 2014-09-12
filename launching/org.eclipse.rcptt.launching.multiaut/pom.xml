@@ -4,9 +4,9 @@
   <parent>
     <artifactId>rcptt.launching</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
   <artifactId>org.eclipse.rcptt.launching.multiaut</artifactId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

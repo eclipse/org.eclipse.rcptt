@@ -4,11 +4,11 @@
   <parent>
     <artifactId>tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.tesla</groupId>
   <artifactId>org.eclipse.rcptt.tesla.recording.aspects.jface</artifactId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <dependencies>
     <dependency>

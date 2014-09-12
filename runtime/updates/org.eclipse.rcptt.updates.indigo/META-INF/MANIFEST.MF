@@ -2,6 +2,6 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Indigo
 Bundle-SymbolicName: org.eclipse.rcptt.updates.indigo;singleton:=true
-Bundle-Version: 1.5.2.qualifier
+Bundle-Version: 1.5.3.qualifier
 Bundle-ClassPath: org.eclipse.rcptt.updates.indigo
 Bundle-Vendor: Eclipse RCP Testing Tool Project

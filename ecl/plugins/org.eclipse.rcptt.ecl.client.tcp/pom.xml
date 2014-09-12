@@ -5,10 +5,10 @@
   <parent>
     <artifactId>ecl-plugins</artifactId>
     <groupId>org.eclipse.rcptt.ecl</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.ecl</groupId>
   <artifactId>org.eclipse.rcptt.ecl.client.tcp</artifactId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

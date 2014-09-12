@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.rcptt.module.nebula_1.3.11.qualifier.jar" id="org.eclipse.rcptt.module.nebula" version="1.5.2.qualifier">
+   <feature url="features/org.eclipse.rcptt.module.nebula_1.3.11.qualifier.jar" id="org.eclipse.rcptt.module.nebula" version="1.5.3.qualifier">
       <category name="rcptt.modules"/>
    </feature>
    <category-def name="rcptt.modules" label="RCP Testing Tool Modules"/>

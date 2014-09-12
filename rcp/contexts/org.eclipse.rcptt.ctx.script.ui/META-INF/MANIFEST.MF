@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Q7 ECL Scenario Context UI
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.script.ui;singleton:=true
-Bundle-Version: 1.5.2.qualifier
+Bundle-Version: 1.5.3.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.context.viewer.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,

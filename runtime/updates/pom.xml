@@ -4,7 +4,7 @@
   <parent>
     <artifactId>rcptt.runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
   <profiles>
     <profile>
@@ -35,7 +35,7 @@
     </profile>
   </profiles>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <artifactId>rcptt.runtime.updates</artifactId>
   <packaging>pom</packaging>
 </project>

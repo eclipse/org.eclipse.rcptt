@@ -4,10 +4,10 @@
   <parent>
     <artifactId>ecl-tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla.ecl</groupId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.tesla.ecl.features</groupId>
   <artifactId>org.eclipse.rcptt.tesla.ecl.runtime</artifactId>
-  <version>1.5.2-SNAPSHOT</version>
+  <version>1.5.3-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 </project>

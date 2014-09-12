@@ -9,14 +9,14 @@
         <dependency>
 		<groupId>org.eclipse.rcptt.tests</groupId>
         	<artifactId>q7contexts.shared-server</artifactId>
-		<version>1.5.2-SNAPSHOT</version>
+		<version>1.5.3-SNAPSHOT</version>
             <type>q7test</type>
         </dependency>
     </dependencies>
 	<parent>
 		<groupId>org.eclipse.rcptt.tests</groupId>
 		<artifactId>server</artifactId>
-		<version>1.5.2-SNAPSHOT</version>
+		<version>1.5.3-SNAPSHOT</version>
         <relativePath>../pom-server.xml</relativePath>
 	</parent>
 	

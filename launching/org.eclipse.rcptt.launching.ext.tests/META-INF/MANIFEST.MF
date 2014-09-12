@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.rcptt.launching.ext.tests
-Bundle-Version: 1.5.2.qualifier
+Bundle-Version: 1.5.3.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Fragment-Host: org.eclipse.rcptt.launching.ext;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

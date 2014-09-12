@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.operations.tests
-Bundle-Version: 1.5.2.qualifier
+Bundle-Version: 1.5.3.qualifier
 Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.core,
  org.eclipse.equinox.common,
