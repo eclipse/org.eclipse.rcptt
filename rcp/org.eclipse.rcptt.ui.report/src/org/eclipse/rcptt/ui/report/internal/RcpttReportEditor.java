@@ -109,6 +109,8 @@ public class RcpttReportEditor extends FormEditor {
 			initialWorkspaceLocation = ((IFileEditorInput) input).getFile()
 					.getFullPath().removeLastSegments(1).toString();
 		}
+		if (reportList != null)
+			reportList.close();
 		reportList = new Q7ReportIterator(reportFile);
 		setPartName(new Path(input.getName()).removeFileExtension().toString());
 	}

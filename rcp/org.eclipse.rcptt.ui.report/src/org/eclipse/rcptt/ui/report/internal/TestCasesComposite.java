@@ -10,9 +10,14 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
+import static com.google.common.base.Predicates.notNull;
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IToolBarManager;
@@ -28,6 +33,22 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.search.Q7SearchCore;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ResultStatus;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.internal.ReportUtils;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
+import org.eclipse.rcptt.ui.actions.AbstractRunAction;
+import org.eclipse.rcptt.ui.actions.AbstractRunFailedAction;
+import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.launching.TimeFormatHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -36,25 +57,18 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.internal.ReportUtils;
-import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
-import org.eclipse.rcptt.ui.launching.TimeFormatHelper;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 
 public class TestCasesComposite extends AbstractEmbeddedComposite {
 	private class ReportEntry {
 		public String name;
 		public String id;
 		public int time;
-		public String status;
+		public ResultStatus status;
 		public String message;
 		public boolean warning = false;
 	}
@@ -94,7 +108,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 			case 0:// name
 				return entry.name;
 			case 1:// status
-				return entry.status;
+				return entry.status.getLiteral();
 			case 2:// time
 				return TimeFormatHelper.format(entry.time);
 				// case 3:// location
@@ -117,8 +131,66 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		}
 	};
 
+	private final static Function<ReportEntry, String> toId = new Function<ReportEntry, String>() {
+		@Override
+		public String apply(ReportEntry input) {
+			return input.id;
+		}
+	};
+
+	private final static Function<ReportEntry, ResultStatus> reportToStatus = new Function<ReportEntry, ResultStatus>() {
+		@Override
+		public ResultStatus apply(ReportEntry input) {
+			return input.status;
+		}
+	};
+
+	private final static Function<String, IQ7NamedElement> elementById = new Function<String, IQ7NamedElement>() {
+		@Override
+		public IQ7NamedElement apply(String input) {
+			return Q7SearchCore.findById(input);
+		}
+	};
+
+	private final static Function<IQ7NamedElement, IResource> resourceFromElement = new Function<IQ7NamedElement, IResource>() {
+		@Override
+		public IResource apply(IQ7NamedElement input) {
+			return input.getResource();
+		}
+	};
+
+	private final BaseSelectionListenerAction runAction = new AbstractRunAction() {
+
+		@Override
+		public void run() {
+			final Iterable<ReportEntry> reports = filter(filter(getStructuredSelection().toList(), ReportEntry.class),
+					notNull());
+			final Iterable<String> ids = filter(transform(reports, toId), notNull());
+			final Iterable<IQ7NamedElement> elements = filter(transform(ids, elementById), notNull());
+			final Iterable<IResource> resources = transform(elements, resourceFromElement);
+			LaunchUtils.launchContext(Iterables.toArray(resources, IResource.class), "run");
+		}
+
+	};
+	private final BaseSelectionListenerAction runFailedAction = new AbstractRunFailedAction() {
+
+		@Override
+		public void run() {
+			final Iterable<ReportEntry> reports = filter(
+					filter((List<?>) viewer.getInput(), ReportEntry.class),
+					Predicates.and(notNull(), Predicates.compose(Predicates.equalTo(ResultStatus.FAIL), reportToStatus)));
+			final Iterable<String> ids = filter(transform(reports, toId), notNull());
+			final Iterable<IQ7NamedElement> elements = filter(transform(ids, elementById), notNull());
+			final Iterable<IResource> resources = transform(elements, resourceFromElement);
+			LaunchUtils.launchContext(Iterables.toArray(resources, IResource.class), "run");
+		}
+
+	};
+	private TableViewer viewer;
 	@Override
 	protected void fillActions(IToolBarManager manager) {
+		manager.add(runAction);
+		manager.add(runFailedAction);
 	}
 
 	public TestCasesComposite(Q7ReportIterator iterator) {
@@ -147,7 +219,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 					re.warning = true;
 				}
 				re.message = new SimpleReportGenerator().generateContent(next);//details.toString();
-				re.status = info.getResult().getLiteral();
+				re.status = info.getResult();
 				re.id = info.getId();
 				entries.add(re);
 			}
@@ -170,7 +242,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(false)
 				.applyTo(control);
 
-		TableViewer viewer = new TableViewer(control, SWT.H_SCROLL
+		viewer = new TableViewer(control, SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION
 				| SWT.DOUBLE_BUFFERED);
 		Table table = viewer.getTable();
@@ -217,6 +289,8 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 				}
 			}
 		});
+		viewer.addSelectionChangedListener(runAction);
+		viewer.addSelectionChangedListener(runFailedAction);
 	}
 
 	protected void doSelection(String id, String name, String msg) {

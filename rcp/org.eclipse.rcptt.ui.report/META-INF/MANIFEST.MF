@@ -24,6 +24,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.rcptt.watson.core;bundle-version="[1.5.3,1.6.0)",
  org.eclipse.draw2d;resolution:=optional,
  org.eclipse.rcptt.watson.jobs;bundle-version="[1.5.3,1.6.0)",
- org.eclipse.rcptt.util;bundle-version="1.0.0"
+ org.eclipse.rcptt.util;bundle-version="1.0.0",
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
