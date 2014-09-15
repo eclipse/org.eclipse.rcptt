@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.testing.commands;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.launching.injection.Entry;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +24,9 @@ import org.eclipse.rcptt.ecl.core.Command;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getArgs <em>Args</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getVmargs <em>Vmargs</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getInject <em>Inject</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,6 +88,32 @@ public interface InvokeAUT extends Command {
 	void setArgs(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Path</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Path</em>' attribute.
+	 * @see #setPath(String)
+	 * @see org.eclipse.rcptt.testing.commands.CommandsPackage#getInvokeAUT_Path()
+	 * @model
+	 * @generated
+	 */
+	String getPath();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getPath <em>Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Path</em>' attribute.
+	 * @see #getPath()
+	 * @generated
+	 */
+	void setPath(String value);
+
+	/**
 	 * Returns the value of the '<em><b>Vmargs</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -108,5 +138,21 @@ public interface InvokeAUT extends Command {
 	 * @generated
 	 */
 	void setVmargs(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Inject</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.rcptt.launching.injection.Entry}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inject</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inject</em>' containment reference list.
+	 * @see org.eclipse.rcptt.testing.commands.CommandsPackage#getInvokeAUT_Inject()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Entry> getInject();
 
 } // InvokeAUT

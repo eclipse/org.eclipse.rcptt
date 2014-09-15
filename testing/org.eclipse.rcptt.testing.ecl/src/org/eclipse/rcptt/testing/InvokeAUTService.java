@@ -30,7 +30,6 @@ import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
@@ -38,6 +37,8 @@ import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutManager;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
+import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
+import org.eclipse.rcptt.launching.injection.InjectionFactory;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.testing.commands.InvokeAUT;
 
@@ -70,10 +71,18 @@ public class InvokeAUTService implements ICommandService {
 	}
 
 	private Aut createAut(InvokeAUT cmd) throws CoreException {
-		updateEclipseLocation();
-		if (eclipseLocation == null) {
-			throw new CoreException(
-					RcpttPlugin.createStatus("Failed to launch selfAUT. ${eclipse_home} variable is not resolved..."));
+		final String location;
+
+		if (cmd.getPath() != null) {
+			location = cmd.getPath();
+		} else {
+			updateEclipseLocation();
+			if (eclipseLocation == null) {
+				throw new CoreException(
+						RcpttPlugin
+								.createStatus("Failed to launch selfAUT. ${eclipse_home} variable is not resolved..."));
+			}
+			location = eclipseLocation;
 		}
 		// ITargetPlatformHelper platform = TargetPlatformManager
 		// .getCurrentTargetPlatform();
@@ -81,8 +90,16 @@ public class InvokeAUTService implements ICommandService {
 		// Q7TargetPlatformManager.createTargetPlatform(location, monitor,
 		// addErrorsToLog)
 		ITargetPlatformHelper platform = Q7TargetPlatformManager
-				.createTargetPlatform(eclipseLocation,
+				.createTargetPlatform(location,
 						new NullProgressMonitor(), false);
+
+		platform.setTargetName(cmd.getName());
+		
+		InjectionConfiguration configuration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
+		configuration.getEntries().addAll(cmd.getInject());
+		
+		platform.applyInjection(configuration, new NullProgressMonitor());
+		
 
 		ILaunchConfigurationWorkingCopy launch = Q7LaunchingUtil
 				.createLaunchConfiguration(platform, cmd.getName());

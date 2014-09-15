@@ -16,15 +16,10 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.rcptt.core.recording.NetworkRecorder;
-
-import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-
 import org.eclipse.rcptt.ecl.core.CorePackage;
-
+import org.eclipse.rcptt.launching.injection.InjectionPackage;
 import org.eclipse.rcptt.testing.commands.ApplyContext;
 import org.eclipse.rcptt.testing.commands.CaptureContext;
 import org.eclipse.rcptt.testing.commands.CleanSelfAUT;
@@ -38,6 +33,7 @@ import org.eclipse.rcptt.testing.commands.GetRecorder;
 import org.eclipse.rcptt.testing.commands.InvokeAUT;
 import org.eclipse.rcptt.testing.commands.SetFeature;
 import org.eclipse.rcptt.testing.commands.SetGlobal;
+import org.eclipse.rcptt.testing.commands.SiteInjection;
 
 /**
  * <!-- begin-user-doc -->
@@ -128,6 +124,13 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass siteInjectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType networkRecorderEDataType = null;
 
 	/**
@@ -178,7 +181,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 
 		// Initialize simple dependencies
 		CorePackage.eINSTANCE.eClass();
-		ScenarioPackage.eINSTANCE.eClass();
+		InjectionPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theCommandsPackage.createPackageContents();
@@ -317,8 +320,26 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getInvokeAUT_Vmargs() {
+	public EAttribute getInvokeAUT_Path() {
 		return (EAttribute)invokeAUTEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvokeAUT_Vmargs() {
+		return (EAttribute)invokeAUTEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInvokeAUT_Inject() {
+		return (EReference)invokeAUTEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -443,6 +464,33 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getSiteInjection() {
+		return siteInjectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSiteInjection_Uri() {
+		return (EAttribute)siteInjectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSiteInjection_Unit() {
+		return (EAttribute)siteInjectionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getNetworkRecorder() {
 		return networkRecorderEDataType;
 	}
@@ -492,7 +540,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		invokeAUTEClass = createEClass(INVOKE_AUT);
 		createEAttribute(invokeAUTEClass, INVOKE_AUT__NAME);
 		createEAttribute(invokeAUTEClass, INVOKE_AUT__ARGS);
+		createEAttribute(invokeAUTEClass, INVOKE_AUT__PATH);
 		createEAttribute(invokeAUTEClass, INVOKE_AUT__VMARGS);
+		createEReference(invokeAUTEClass, INVOKE_AUT__INJECT);
 
 		findContextsEClass = createEClass(FIND_CONTEXTS);
 		createEAttribute(findContextsEClass, FIND_CONTEXTS__TYPE);
@@ -512,6 +562,10 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		createEAttribute(setGlobalEClass, SET_GLOBAL__NAME);
 
 		cleanSelfAUTEClass = createEClass(CLEAN_SELF_AUT);
+
+		siteInjectionEClass = createEClass(SITE_INJECTION);
+		createEAttribute(siteInjectionEClass, SITE_INJECTION__URI);
+		createEAttribute(siteInjectionEClass, SITE_INJECTION__UNIT);
 
 		// Create data types
 		networkRecorderEDataType = createEDataType(NETWORK_RECORDER);
@@ -543,6 +597,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		// Obtain other dependent packages
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		InjectionPackage theInjectionPackage = (InjectionPackage)EPackage.Registry.INSTANCE.getEPackage(InjectionPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -560,6 +615,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		getGlobalEClass.getESuperTypes().add(theCorePackage.getCommand());
 		setGlobalEClass.getESuperTypes().add(theCorePackage.getCommand());
 		cleanSelfAUTEClass.getESuperTypes().add(theCorePackage.getCommand());
+		siteInjectionEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(getAutEClass, GetAut.class, "GetAut", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -579,7 +635,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(invokeAUTEClass, InvokeAUT.class, "InvokeAUT", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getInvokeAUT_Name(), theEcorePackage.getEString(), "name", null, 1, 1, InvokeAUT.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInvokeAUT_Args(), theEcorePackage.getEString(), "args", null, 1, 1, InvokeAUT.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInvokeAUT_Path(), theEcorePackage.getEString(), "path", null, 0, 1, InvokeAUT.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInvokeAUT_Vmargs(), theEcorePackage.getEString(), "vmargs", null, 0, 1, InvokeAUT.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInvokeAUT_Inject(), theInjectionPackage.getEntry(), null, "inject", null, 0, -1, InvokeAUT.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(findContextsEClass, FindContexts.class, "FindContexts", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFindContexts_Type(), theEcorePackage.getEString(), "type", null, 0, 1, FindContexts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -599,6 +657,10 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEAttribute(getSetGlobal_Name(), theEcorePackage.getEString(), "name", null, 0, 1, SetGlobal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cleanSelfAUTEClass, CleanSelfAUT.class, "CleanSelfAUT", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(siteInjectionEClass, SiteInjection.class, "SiteInjection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSiteInjection_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, SiteInjection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSiteInjection_Unit(), theEcorePackage.getEString(), "unit", null, 0, -1, SiteInjection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(networkRecorderEDataType, NetworkRecorder.class, "NetworkRecorder", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

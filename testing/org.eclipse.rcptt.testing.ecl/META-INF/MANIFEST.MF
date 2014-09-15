@@ -1,10 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Commands for Q7 Testing
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.testing.ecl;singleton:=true
 Bundle-Version: 1.5.3.qualifier
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.rcptt.testing.commands,
+ org.eclipse.rcptt.testing.commands.impl
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.rcptt.ecl.core;visibility:=reexport,

@@ -38,7 +38,7 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	 */
 	public static CommandsFactory init() {
 		try {
-			CommandsFactory theCommandsFactory = (CommandsFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/testing/ecl"); 
+			CommandsFactory theCommandsFactory = (CommandsFactory)EPackage.Registry.INSTANCE.getEFactory(CommandsPackage.eNS_URI);
 			if (theCommandsFactory != null) {
 				return theCommandsFactory;
 			}
@@ -78,6 +78,7 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.GET_GLOBAL: return createGetGlobal();
 			case CommandsPackage.SET_GLOBAL: return createSetGlobal();
 			case CommandsPackage.CLEAN_SELF_AUT: return createCleanSelfAUT();
+			case CommandsPackage.SITE_INJECTION: return createSiteInjection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -221,6 +222,16 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public CleanSelfAUT createCleanSelfAUT() {
 		CleanSelfAUTImpl cleanSelfAUT = new CleanSelfAUTImpl();
 		return cleanSelfAUT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SiteInjection createSiteInjection() {
+		SiteInjectionImpl siteInjection = new SiteInjectionImpl();
+		return siteInjection;
 	}
 
 	/**
