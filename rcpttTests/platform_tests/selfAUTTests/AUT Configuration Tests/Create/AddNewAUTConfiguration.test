@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: AddNewAUTConfiguration
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _tWNSwQRHEeG4X_LNUBYwqg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/16/14 10:56 AM
 Tags: AUTConfiguration, selfAUT, Create, NoLaunches
 Testcase-Type: ecl
 
@@ -47,6 +46,9 @@ with [get-window "Edit Application Under Test"] {
 get-view Applications | get-button "New..." | click
 with [get-window "New Application Under Test"] {
     get-editbox -after [get-label "Location:"] | key-type "M1+v"
+    get-editbox -after [get-label "Location:"] | click-text 5
+    get-editbox -after [get-label "Location:"] | key-type Space -times 2
+    get-editbox -after [get-label "Location:"] | key-type BackSpace -times 2
     get-button Finish | click
 }
 get-view Applications | get-tree | get-property itemCount | equals 2 | verify-true
