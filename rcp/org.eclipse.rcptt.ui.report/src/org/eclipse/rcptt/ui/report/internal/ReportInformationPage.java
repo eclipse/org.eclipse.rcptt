@@ -11,11 +11,18 @@
 package org.eclipse.rcptt.ui.report.internal;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IDisposeListener;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.IValueChangeListener;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
+import org.eclipse.rcptt.ui.report.ReportWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -41,19 +48,17 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.internal.forms.widgets.FormImages;
 
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
-import org.eclipse.rcptt.ui.report.ReportWizard;
-
 @SuppressWarnings("restriction")
 public class ReportInformationPage extends FormPage {
 	DataBindingContext dbc = new DataBindingContext();
 	private Label nameLabel;
 	private Text nameText;
 	private Section descriptionSection;
+	private final IObservableValue reportIterator;
 
-	public ReportInformationPage(FormEditor editor, String id, String title) {
+	public ReportInformationPage(FormEditor editor, IObservableValue reportIterator, String id, String title) {
 		super(editor, id, title);
+		this.reportIterator = reportIterator;
 	}
 
 	@Override
@@ -72,9 +77,10 @@ public class ReportInformationPage extends FormPage {
 		GridLayoutFactory.fillDefaults().margins(5, 5).spacing(0, 0)
 				.equalWidth(false).applyTo(composite);
 
-		descriptionSection = new SectionWithToolbar(new StatisticsComposite(
-				getReportEditor().getReportList()), Section.TITLE_BAR).create(
+		final StatisticsComposite statistics = new StatisticsComposite();
+		descriptionSection = new SectionWithToolbar(statistics, Section.TITLE_BAR).create(
 				composite, toolkit);
+		
 		GridDataFactory.fillDefaults().grab(true, false)
 				.applyTo(descriptionSection);
 
@@ -84,8 +90,7 @@ public class ReportInformationPage extends FormPage {
 				.spacing(0, 0).equalWidth(true).applyTo(composite2);
 		// descriptionSection.setExpanded(true);
 		final DetailsComposite detailsComposite = new DetailsComposite();
-		new SectionWithToolbar(new TestCasesComposite(
-				getReportEditor().getReportList()) {
+		final TestCasesComposite testCases = new TestCasesComposite() {
 			@Override
 			protected void doOpen(String id, String title) {
 				openReport(id, title);
@@ -95,10 +100,37 @@ public class ReportInformationPage extends FormPage {
 			protected void doSelection(String id, String name, String msg) {
 				detailsComposite.updateText(msg);
 			}
-		}, Section.TITLE_BAR).create(composite2, toolkit);
+		};
+		new SectionWithToolbar(testCases, Section.TITLE_BAR).create(composite2, toolkit);
 		new SectionWithToolbar(detailsComposite, Section.TITLE_BAR).create(
 				composite2, toolkit);
 		composite2.setWeights(new int[] { 60, 40 });
+		reportIterator.addValueChangeListener(new IValueChangeListener() {
+			
+			@Override
+			public void handleValueChange(ValueChangeEvent event) {
+				final Q7ReportIterator iterator = (Q7ReportIterator) event.diff.getNewValue();
+				statistics.setReports(iterator);
+				testCases.setReports(iterator);
+			}
+		});
+		reportIterator.addDisposeListener(new IDisposeListener() {
+
+			@Override
+			public void handleDispose(org.eclipse.core.databinding.observable.DisposeEvent event) {
+				statistics.setReports(null);
+				testCases.setReports(null);
+			}
+		});
+		reportIterator.getRealm().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				final Q7ReportIterator iterator = (Q7ReportIterator) reportIterator.getValue();
+				statistics.setReports(iterator);
+				testCases.setReports(iterator);
+			}
+		});
 	}
 
 	protected void openReport(String id, String title) {
@@ -146,7 +178,7 @@ public class ReportInformationPage extends FormPage {
 		if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
 			// We need to simulate transparent background for labels
 			composite.layout();
-			setBackgroundToHeaderLabel(nameLabel, gradientImage);
+			// setBackgroundToHeaderLabel(nameLabel, gradientImage);
 			// setBackgroundToHeaderLabel(tagsLabel, gradientImage);
 		}
 
@@ -214,8 +246,11 @@ public class ReportInformationPage extends FormPage {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Q7ReportIterator iterator = (Q7ReportIterator) reportIterator.getValue();
+				if (iterator == null)
+					return;
 				ReportWizard wizard = new ReportWizard(new Q7ReportIterator(
-						getReportEditor().getReportList().getReportFile()),
+						iterator.getReportFile()),
 						new Path(getEditorInput().getName())
 								.removeFileExtension().toString());
 				wizard.setDisabledReports("report");

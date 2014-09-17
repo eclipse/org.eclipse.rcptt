@@ -18,9 +18,13 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -45,7 +49,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
 public class RcpttReportEditor extends FormEditor {
-	private Q7ReportIterator reportList = null;
+	private final WritableValue reportListObservable = new WritableValue(null, Q7ReportIterator.class);
 	private String initialWorkspaceLocation;
 
 	public RcpttReportEditor() {
@@ -54,15 +58,11 @@ public class RcpttReportEditor extends FormEditor {
 	@Override
 	protected void addPages() {
 		try {
-			addPage(new ReportInformationPage(this, "rcptt.report.info.page",
+			addPage(new ReportInformationPage(this, reportListObservable, "rcptt.report.info.page",
 					"General"));
 		} catch (PartInitException e) {
 			Q7UIReportPlugin.log(e);
 		}
-	}
-
-	public Q7ReportIterator getReportList() {
-		return reportList;
 	}
 
 	@Override
@@ -109,10 +109,27 @@ public class RcpttReportEditor extends FormEditor {
 			initialWorkspaceLocation = ((IFileEditorInput) input).getFile()
 					.getFullPath().removeLastSegments(1).toString();
 		}
-		if (reportList != null)
-			reportList.close();
-		reportList = new Q7ReportIterator(reportFile);
+		closeList();
+		reportListObservable.setValue(new Q7ReportIterator(reportFile));
+
 		setPartName(new Path(input.getName()).removeFileExtension().toString());
+	}
+
+	private void closeList() {
+		final Q7ReportIterator reportList = (Q7ReportIterator) reportListObservable.getValue();
+		reportListObservable.setValue(null);
+		if (reportList != null) {
+			new Job("Closing report file") {
+
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					synchronized (reportList) {
+						reportList.close();
+					}
+					return Status.OK_STATUS;
+				}
+			};
+		}
 	}
 
 	public String getInitialWorkspaceLocation() {
@@ -121,10 +138,8 @@ public class RcpttReportEditor extends FormEditor {
 
 	@Override
 	public void dispose() {
-		if (reportList != null) {
-			reportList.close();
-			reportList.getReportFile().delete();
-		}
+		closeList();
+		reportListObservable.dispose();
 		super.dispose();
 	}
 
@@ -145,6 +160,9 @@ public class RcpttReportEditor extends FormEditor {
 		final ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 				getSite().getShell());
 		try {
+			final Q7ReportIterator reportList = (Q7ReportIterator) reportListObservable.getValue();
+			if (reportList == null)
+				return;
 			dialog.run(true, false, new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
