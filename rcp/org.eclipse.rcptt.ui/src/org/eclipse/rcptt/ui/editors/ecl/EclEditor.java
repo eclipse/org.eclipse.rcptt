@@ -80,38 +80,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.LineBackgroundEvent;
-import org.eclipse.swt.custom.LineBackgroundListener;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchCommandConstants;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartConstants;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.ide.IGotoMarker;
-import org.eclipse.ui.operations.OperationHistoryActionHandler;
-import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
-import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
-import org.eclipse.ui.texteditor.IDocumentProvider;
-import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-import org.eclipse.ui.texteditor.ResourceAction;
-import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
-import org.eclipse.ui.texteditor.TextOperationAction;
-
 import org.eclipse.rcptt.core.Scenarios;
+import org.eclipse.rcptt.core.ecl.parser.model.OccurrencesSettings;
 import org.eclipse.rcptt.core.internal.builder.Q7Builder;
 import org.eclipse.rcptt.core.model.IElementChangedListener;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -126,9 +96,8 @@ import org.eclipse.rcptt.core.model.Q7ElementChangedEvent;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
-import org.eclipse.rcptt.core.ecl.parser.model.OccurrencesSettings;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.ui.HookUtils;
 import org.eclipse.rcptt.internal.ui.Images;
@@ -160,6 +129,36 @@ import org.eclipse.rcptt.ui.editors.ecl.actions.SmartLineStartAction;
 import org.eclipse.rcptt.ui.editors.ecl.actions.ToggleCommentAction;
 import org.eclipse.rcptt.ui.panels.main.ControlPanelWindow;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.LineBackgroundEvent;
+import org.eclipse.swt.custom.LineBackgroundListener;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchCommandConstants;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartConstants;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.operations.OperationHistoryActionHandler;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
+import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.texteditor.ResourceAction;
+import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
+import org.eclipse.ui.texteditor.TextOperationAction;
 
 public class EclEditor extends AbstractDecoratedTextEditor implements
 		IElementChangedListener, IGotoMarker, INamedElementEditor, IPreferenceChangeListener {
@@ -1015,7 +1014,6 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 
 	private void configureViewer() {
 		viewer.setEditable(true);
-		viewer.getControl().forceFocus();
 		bindScriptContent();
 	}
 
