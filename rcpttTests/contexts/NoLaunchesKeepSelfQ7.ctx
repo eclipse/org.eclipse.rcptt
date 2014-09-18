@@ -1,8 +1,8 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
 Context-Type: org.eclipse.rcptt.ctx.debug
-Debug-LaunchExceptions: selfQ7, mockupsQ7
-Debug-LaunchShortcutExceptions: selfQ7, mockupsQ7
+Debug-LaunchExceptions: selfQ7
+Debug-LaunchShortcutExceptions: selfQ7
 Debug-NoBreakpoints: true
 Debug-NoLaunchShortcuts: true
 Debug-NoLaunches: true
@@ -11,7 +11,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _3QstcUKPEeKd6cDYW-3Z1w
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/16/14 7:03 PM
+Save-Time: 9/18/14 4:08 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
