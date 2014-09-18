@@ -6,7 +6,7 @@ Element-Type: context
 Element-Version: 2.0
 Id: _cQEZwD2QEeSxD9UFwnFS6w
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/16/14 6:14 PM
+Save-Time: 9/18/14 4:23 PM
 
 ------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
 Content-Type: text/ecl
@@ -22,7 +22,7 @@ proc "has-property" [val control -input] [val property] {
 }
 
 //invoke-AUT selfQ7Mockups -args "-nosplash" -vmargs "-Xmx512m -XX:MaxPermSize=256m"
-invoke-AUT mockupsQ7 -inject [site-injection "http://build.xored.com/browse/Q7-Q7QUALITY/latest/artifact/PROD/repository"]
+invoke-AUT mockupsQ7 -inject [site-injection "https://hudson.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository/"]
  -args "-nosplash" -vmargs "-Xmx512m -XX:MaxPermSize=256m"
 
 
