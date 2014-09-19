@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#isDirty <em>Dirty</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#isActive <em>Active</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +95,26 @@ public class EditorImpl extends ControlImpl implements Editor {
 	 * @ordered
 	 */
 	protected boolean dirty = DIRTY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ACTIVE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isActive() <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActive()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean active = ACTIVE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -182,6 +203,27 @@ public class EditorImpl extends ControlImpl implements Editor {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActive(boolean newActive) {
+		boolean oldActive = active;
+		active = newActive;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UiPackage.EDITOR__ACTIVE, oldActive, active));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -191,6 +233,8 @@ public class EditorImpl extends ControlImpl implements Editor {
 				return getInput();
 			case UiPackage.EDITOR__DIRTY:
 				return isDirty();
+			case UiPackage.EDITOR__ACTIVE:
+				return isActive();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -211,6 +255,9 @@ public class EditorImpl extends ControlImpl implements Editor {
 				return;
 			case UiPackage.EDITOR__DIRTY:
 				setDirty((Boolean)newValue);
+				return;
+			case UiPackage.EDITOR__ACTIVE:
+				setActive((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -233,6 +280,9 @@ public class EditorImpl extends ControlImpl implements Editor {
 			case UiPackage.EDITOR__DIRTY:
 				setDirty(DIRTY_EDEFAULT);
 				return;
+			case UiPackage.EDITOR__ACTIVE:
+				setActive(ACTIVE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -251,6 +301,8 @@ public class EditorImpl extends ControlImpl implements Editor {
 				return INPUT_EDEFAULT == null ? input != null : !INPUT_EDEFAULT.equals(input);
 			case UiPackage.EDITOR__DIRTY:
 				return dirty != DIRTY_EDEFAULT;
+			case UiPackage.EDITOR__ACTIVE:
+				return active != ACTIVE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -271,6 +323,8 @@ public class EditorImpl extends ControlImpl implements Editor {
 		result.append(input);
 		result.append(", dirty: ");
 		result.append(dirty);
+		result.append(", active: ");
+		result.append(active);
 		result.append(')');
 		return result.toString();
 	}

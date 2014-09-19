@@ -37,7 +37,7 @@ public class UiFactoryImpl extends EFactoryImpl implements UiFactory {
 	 */
 	public static UiFactory init() {
 		try {
-			UiFactory theUiFactory = (UiFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/widgets"); 
+			UiFactory theUiFactory = (UiFactory)EPackage.Registry.INSTANCE.getEFactory(UiPackage.eNS_URI);
 			if (theUiFactory != null) {
 				return theUiFactory;
 			}

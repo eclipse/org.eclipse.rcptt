@@ -3740,13 +3740,22 @@ public interface UiPackage extends EPackage {
 	int EDITOR__DIRTY = CONTROL_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR__ACTIVE = CONTROL_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 3;
+	int EDITOR_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -6115,6 +6124,17 @@ public interface UiPackage extends EPackage {
 	EAttribute getEditor_Dirty();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Editor#isActive <em>Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Active</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Editor#isActive()
+	 * @see #getEditor()
+	 * @generated
+	 */
+	EAttribute getEditor_Active();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.Window <em>Window</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8044,6 +8064,14 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EDITOR__DIRTY = eINSTANCE.getEditor_Dirty();
+
+		/**
+		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EDITOR__ACTIVE = eINSTANCE.getEditor_Active();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl <em>Window</em>}' class.

@@ -22,6 +22,7 @@ package org.eclipse.rcptt.tesla.core.ui;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#isDirty <em>Dirty</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#isActive <em>Active</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,5 +108,31 @@ public interface Editor extends Control {
 	 * @generated
 	 */
 	void setDirty(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Active</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Active</em>' attribute.
+	 * @see #setActive(boolean)
+	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getEditor_Active()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isActive();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.ui.Editor#isActive <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Active</em>' attribute.
+	 * @see #isActive()
+	 * @generated
+	 */
+	void setActive(boolean value);
 
 } // Editor

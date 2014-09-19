@@ -1,14 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _tlWZcGphEeCzId1Gnkds9A,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: ResourceRenameTest
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _da-SEauHEeCsAecib2O_8g
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Save-Time: 9/19/14 7:48 PM
 Tags: Q7Explorer, Rename
 Testcase-Type: ecl
 
@@ -40,6 +38,7 @@ with [get-window "New File"] {
     get-editbox -after [get-label "File name:"] | set-text "test.txt"
     get-button Finish | click
 }
+get-editor "test.txt" | get-property active -raw | verify-true
 get-editor "test.txt" | close
 get-view "Project Explorer" | click -nowait
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/test.txt" | get-property caption | equals "test.txt" 
