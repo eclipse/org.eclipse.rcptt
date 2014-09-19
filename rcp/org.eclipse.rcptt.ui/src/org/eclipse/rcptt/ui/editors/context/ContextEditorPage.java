@@ -15,15 +15,6 @@ import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.scenario.Context;
@@ -37,6 +28,14 @@ import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.rcptt.ui.editors.IQ7EditorActionsProvider;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorPage;
 import org.eclipse.rcptt.ui.utils.ImageManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class ContextEditorPage extends NamedElementEditorPage {
 
@@ -122,6 +121,9 @@ public class ContextEditorPage extends NamedElementEditorPage {
 		ContextType type = ContextTypeManager.getInstance()
 				.getTypeByContext(getElement());
 		ContextViewer viewer = ContextUIManager.getInstance().getViewer(type);
+		if (viewer == null)
+			throw new RuntimeException("While opening " + getElement().getName() + ", failed to find viewer of "
+					+ type.getId() + " context type.");
 		if (viewer != null) {
 			editor = viewer.getViewer().createEditor();
 			editor.setElement(getModel());
