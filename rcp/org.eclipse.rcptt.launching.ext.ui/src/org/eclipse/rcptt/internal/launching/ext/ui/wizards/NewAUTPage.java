@@ -88,7 +88,7 @@ public class NewAUTPage extends WizardPage {
 	private WritableValue archEnabled = new WritableValue(Boolean.TRUE, Boolean.class);
 	private WritableValue showAdvanced = new WritableValue(Boolean.FALSE, Boolean.class);
 	private WritableValue warningMessageValue = new WritableValue("", String.class);
-	private WritableValue autolaunchValue = new WritableValue(Boolean.TRUE, Boolean.class);
+	private WritableValue autolaunchValue = new WritableValue(Boolean.FALSE, Boolean.class);
 	private WritableValue autolaunchLabel = new WritableValue("Launch AUT", String.class);
 
 	private String JobFamily = "";
