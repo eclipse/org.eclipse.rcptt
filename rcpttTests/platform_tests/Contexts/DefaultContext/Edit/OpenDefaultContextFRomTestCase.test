@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_18rr8K25EeCZfrGRg7GXDg
 Element-Name: OpenDefaultContextFromTestCase
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _dLrKoIozEeKGQoWjCaFDAw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/22/14 10:40 AM
 Tags: Context, DefaultContext
 Testcase-Type: ecl
 
@@ -41,6 +40,8 @@ with [get-editor simpleTest1 | get-section Contexts] {
     click
     get-link "<a>Configure Project Default Contexts</a>" | click-link
 }
+//get-editor "q7project - Project Settings" | get-property active | equals true | verify-true
+//get-editor "simpleTest1" | get-property active | equals false | verify-true
 with [get-tab-folder -index 1] {
     get-property activePage | equals "q7project - Project Settings" | verify-true
     get-property tabCount | equals 2 | verify-true
