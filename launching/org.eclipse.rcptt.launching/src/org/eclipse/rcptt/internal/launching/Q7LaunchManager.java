@@ -68,6 +68,8 @@ import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.ILaunchListener;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
 
+import com.google.common.base.Preconditions;
+
 public class Q7LaunchManager {
 
 	public static final String Q7_TEST_SUITE_LAUNCH_ID = "org.eclipse.rcptt.launching.scenarios"; //$NON-NLS-1$
@@ -553,6 +555,11 @@ public class Q7LaunchManager {
 		private Executable makeExecutionPlan(Executable parent,
 				IContext[] contexts, IVerification[] verifications) {
 			List<Executable> plan = new ArrayList<Executable>();
+			Preconditions.checkNotNull(parent);
+			if (contexts == null)
+				contexts = new IContext[0];
+			if (verifications == null)
+				verifications = new IVerification[0];
 
 			for (IVerification v : verifications)
 				try {
