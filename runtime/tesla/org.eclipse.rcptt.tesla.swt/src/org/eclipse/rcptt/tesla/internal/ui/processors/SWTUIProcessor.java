@@ -324,9 +324,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	public PreExecuteStatus preExecute(final Command command,
 			final PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof ElementCommand) {
-			final ElementCommand cmd = (ElementCommand) command;
-			if (!activateViewEditor(cmd.getElement(), false, info)) {
-				return new PreExecuteStatus(false);
+			if (!(command instanceof GetPropertyValue)) {
+				final ElementCommand cmd = (ElementCommand) command;
+				if (!activateViewEditor(cmd.getElement(), false, info)) {
+					return new PreExecuteStatus(false);
+				}
 			}
 		}
 		PreExecuteStatus resultStatus = preExecuteAssert(command,
