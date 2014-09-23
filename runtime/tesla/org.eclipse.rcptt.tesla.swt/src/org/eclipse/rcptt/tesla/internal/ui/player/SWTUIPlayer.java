@@ -816,7 +816,7 @@ public final class SWTUIPlayer {
 					EclipseFormsSupport.clickOnExpandable(w);
 					break;
 				case Item:
-					clickTableTreeItem(w);
+					clickTableTreeItem(w, doubleClick);
 					break;
 				case Label:
 					clickLabel(w);
@@ -1118,7 +1118,7 @@ public final class SWTUIPlayer {
 		events.sendUnfocus(widget);
 	}
 
-	private void clickTableTreeItem(final SWTUIElement w) {
+	private void clickTableTreeItem(final SWTUIElement w, final boolean doubleClick) {
 		final int column = w instanceof ItemUIElement ? ((ItemUIElement) w)
 				.getColumn() : -1;
 		final Widget item = (Widget) unwrap(w);
@@ -1128,11 +1128,16 @@ public final class SWTUIPlayer {
 				column) : getItemBounds(item));
 		w.getPlayer().exec("click cell", new Runnable() {
 			public void run() {
-				getEvents().sendEvent(itemParent,
-						Events.createMouseDown(itemCenter));
-				getEvents().sendEvent(itemParent,
-						Events.createMouseUp(itemCenter));
-
+				if (doubleClick) {
+					getEvents().sendFocus(itemParent);
+					getEvents().sendAll(itemParent, Events.createDoubleClick(itemCenter));
+					getEvents().sendUnfocus(itemParent);
+				} else {
+					getEvents().sendEvent(itemParent,
+							Events.createMouseDown(itemCenter));
+					getEvents().sendEvent(itemParent,
+							Events.createMouseUp(itemCenter));
+				}
 			}
 		});
 	}
