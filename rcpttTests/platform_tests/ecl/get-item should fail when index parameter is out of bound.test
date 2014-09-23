@@ -1,0 +1,44 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _EyiWsMomEeCVO9X7TqWdlg
+Element-Name: get-item should fail when index parameter is out of bound
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=443487
+Id: _mVwZcEL4EeSNQ5P4DlVSnA
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/23/14 3:28 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Now if there is only one name-matching item in the list and "-index 1" parameter is given, get-item command should fail.
+
+In other words index parameter addresses a position in list of items filtered by name even if it consists of a single item.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+clear-log-view
+log string1
+with [get-view "Error Log" | get-tree] {
+	get-item "string.*"
+    get-item "string.*" -index 0
+    verify-error {
+    	get-item "string.*" -index 1
+    }
+}
+
+log string2
+
+with [get-view "Error Log" | get-tree] {
+    get-item "string.*" -index 1
+    verify-error {
+    	get-item "string.*" -index 2
+    }
+}
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

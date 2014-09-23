@@ -17,8 +17,6 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.dispatch.ServiceDispatchingUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-
-import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.ecl.TeslaScriptletFactory;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
@@ -77,6 +75,7 @@ import org.eclipse.rcptt.tesla.ecl.model.diagram.GetPopupBarItem;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.GetSourceConnection;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.GetTargetConnection;
 import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
+import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 
 public class SelectorService implements ICommandService {
 
@@ -318,9 +317,7 @@ public class SelectorService implements ICommandService {
 			handler.setKind(ElementKind.PropertyTab);
 		}
 
-		if (!(selector instanceof GetItem && selector.getIndex() != null)) {
-			TeslaBridge.find(handler);
-		}
+		TeslaBridge.find(handler);
 
 		context.getOutput().write(handler);
 		TeslaBridge.waitExecution();
