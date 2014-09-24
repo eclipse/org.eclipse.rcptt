@@ -80,4 +80,17 @@ public class WriteLinesTest extends TestWithSession {
 			parent.delete();
 		}
 	}
+
+	@Test
+	public void writeTwiceToFilesystem() throws CoreException {
+		File parent = Files.createTempDir();
+		File fileToCreate = new File(parent, "data.txt");
+		try {
+			String command = "emit first | write-lines \"" + fileToCreate.toURI().toASCIIString() + "\"";
+			runScript(command + "; " + command);
+		} finally {
+			fileToCreate.delete();
+			parent.delete();
+		}
+	}
 }
