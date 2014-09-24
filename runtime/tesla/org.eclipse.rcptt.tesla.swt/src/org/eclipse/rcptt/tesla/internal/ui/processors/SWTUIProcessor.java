@@ -526,9 +526,6 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			final PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof Assert) {
 			final Assert assertCmd = (Assert) command;
-			if (!activateViewEditor(assertCmd.getElement(), true, info)) {
-				return new PreExecuteStatus(false);
-			}
 			if (assertCmd.getElement().getKind()
 					.equalsIgnoreCase(ElementKind.Item.name())) {
 				final SWTUIElement element = getMapper().get(
