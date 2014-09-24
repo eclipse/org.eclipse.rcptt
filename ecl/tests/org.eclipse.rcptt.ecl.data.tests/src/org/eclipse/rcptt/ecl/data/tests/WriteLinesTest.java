@@ -1,13 +1,16 @@
 package org.eclipse.rcptt.ecl.data.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.ecl.parser.test.TestSession;
 import org.eclipse.rcptt.ecl.parser.test.TestWithSession;
 import org.junit.After;
 import org.junit.Before;
@@ -93,4 +96,20 @@ public class WriteLinesTest extends TestWithSession {
 			parent.delete();
 		}
 	}
+
+	@Test
+	public void appendToFilesystem() throws Exception {
+		File parent = Files.createTempDir();
+		File fileToCreate = new File(parent, "data.txt");
+		try {
+			runScript("emit first | write-lines \"" + fileToCreate.toURI().toASCIIString() + "\"");
+			runScript("emit second | write-lines \"" + fileToCreate.toURI().toASCIIString() + "\" -append true");
+			String content = TestSession.toString(new FileInputStream(fileToCreate));
+			assertEquals("first\nsecond\n", content.replaceAll("\r", ""));
+		} finally {
+			fileToCreate.delete();
+			parent.delete();
+		}
+	}
+
 }
