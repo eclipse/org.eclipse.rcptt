@@ -1,5 +1,9 @@
 package org.eclipse.rcptt.ecl.data.tests;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -8,6 +12,8 @@ import org.eclipse.rcptt.ecl.parser.test.TestWithSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.io.Files;
 
 public class WriteLinesTest extends TestWithSession {
 	private final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -47,4 +53,18 @@ public class WriteLinesTest extends TestWithSession {
 		runScript("emit fiiirst | write-lines \"workspace:/project/folder\"");
 	}
 	
+	@Test
+	public void writeToNewFilesystmFolder() throws CoreException {
+		File parent = Files.createTempDir();
+		File dirToCreate = new File(parent, "toCreate");
+		File fileToCreate = new File(dirToCreate, "data.txt");
+		try {
+			runScript("emit first | write-lines \"" + fileToCreate.toURI().toASCIIString() + "\"");
+			assertTrue(fileToCreate.exists());
+		} finally {
+			fileToCreate.delete();
+			dirToCreate.delete();
+			parent.delete();
+		}
+	}
 }
