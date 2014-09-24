@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_tlWZcGphEeCzId1Gnkds9A
 Element-Name: CreateTestAndCreateFolder
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _PTqswMoeEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 4:08 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/24/14 2:51 PM
 Tags: TestCase, Folder, Create
 Testcase-Type: ecl
 
@@ -64,9 +63,6 @@ with [get-view "Test Explorer" | get-tree] {
     get-item "TestQ7Prj/folder" | get-property childCount | equals 1 | verify-true
     get-item "TestQ7Prj/folder/scenario" | get-property caption | equals scenario | verify-true
 }
-with [get-tab-folder] {
-    get-property pages -index 0 | equals scenario | verify-true
-    get-property activePage | equals scenario | verify-true
-    get-property tabCount | equals 1 | verify-true
-}
+get-editor scenario
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

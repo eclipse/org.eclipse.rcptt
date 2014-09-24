@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_vp_JkIHtEeC8fpRZXBpN8g
 Element-Name: Q7SearchBoxTest
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _372FYa0LEeCzBNGfcH4mKA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/24/14 3:18 PM
 Tags: Q7Explorer, SearchReplace
 Testcase-Type: ecl
 
@@ -42,5 +41,5 @@ with [get-view "Test Explorer"] {
         select "p3/context3" | click -default
     }
 }
-get-tab-folder -index 1 | get-property pages -index 0 | equals context3 | verify-true
+get-editor context3
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
