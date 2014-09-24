@@ -54,7 +54,7 @@ public class WriteLinesTest extends TestWithSession {
 	}
 	
 	@Test
-	public void writeToNewFilesystmFolder() throws CoreException {
+	public void writeToNewFilesystemFolder() throws CoreException {
 		File parent = Files.createTempDir();
 		File dirToCreate = new File(parent, "toCreate");
 		File fileToCreate = new File(dirToCreate, "data.txt");
@@ -64,6 +64,19 @@ public class WriteLinesTest extends TestWithSession {
 		} finally {
 			fileToCreate.delete();
 			dirToCreate.delete();
+			parent.delete();
+		}
+	}
+
+	@Test
+	public void writeToExistingFilesystemFolder() throws CoreException {
+		File parent = Files.createTempDir();
+		parent.mkdirs();
+		File fileToCreate = new File(parent, "data.txt");
+		try {
+			runScript("emit first | write-lines \"" + fileToCreate.toURI().toASCIIString() + "\"");
+		} finally {
+			fileToCreate.delete();
 			parent.delete();
 		}
 	}

@@ -157,9 +157,9 @@ public class JavaFile implements EclFile {
 
 	private void mkdirs() throws IOException {
 		File parent = file.getParentFile();
-		if (parent != null)
-			if (!parent.mkdirs())
-				throw new IOException("Failed to create directory " + parent);
+		if (parent == null)
+			return;
+		parent.mkdirs();
 	}
 
 

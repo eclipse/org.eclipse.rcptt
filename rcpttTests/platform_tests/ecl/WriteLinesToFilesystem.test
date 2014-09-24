@@ -1,0 +1,25 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _zOzvECeMEeGm5NjoKhWsPQ
+Element-Name: WriteLinesToFilesystem
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _-30aIEPhEeSiytEvm-Mt7g
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/24/14 7:15 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+global [val file "file:/C:/temp/folder/file.txt"]
+global [val folder "file:/C:/temp/folder"]
+get-file $folder |  get exists | verify-false
+get-file $file |  get exists | verify-false
+emit "data" | write-lines $file
+emit "data" | write-lines $file
+get-file $folder |  get exists | verify-true
+get-file $file |  get exists | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
