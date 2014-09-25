@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _C-wb4NB8EeCyMsM9po39hw
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/24/14 2:05 PM
+Save-Time: 9/25/14 12:45 PM
 Tags: Context
 Testcase-Type: ecl
 
@@ -40,7 +40,7 @@ with [get-editor "test with contexts" | get-section Contexts] {
     get-table | select "group \\(Q7Project\\)" | double-click
 }
 get-editor "test with contexts"
-get-editor group | get-property active | equals true | verify-true
+get-editor group | get-property active -raw | eq true | verify-true
 
 with [get-editor "test with contexts"] {
     click
@@ -48,7 +48,7 @@ with [get-editor "test with contexts"] {
 }
 get-editor "test with contexts"
 get-editor group
-get-editor contextWB | get-property active | equals true | verify-true
+get-editor contextWB | get-property active -raw | eq true | verify-true
 
 with [get-editor "test with contexts"] {
     click
@@ -57,7 +57,7 @@ with [get-editor "test with contexts"] {
 get-editor "test with contexts"
 get-editor group
 get-editor contextWB
-get-editor "ecl-script" | get-property active | equals true | verify-true
+get-editor "ecl-script" | get-property active -raw | eq true | verify-true
 
 with [get-editor "test with contexts"] {
     click
@@ -66,7 +66,7 @@ with [get-editor "test with contexts"] {
 get-editor "test with contexts"
 get-editor group
 get-editor contextWB
-get-editor "ecl-script" | get-property active | equals true | verify-true
-get-editor "contextWS" | get-property active | equals true | verify-true
+get-editor "ecl-script"
+get-editor "contextWS" | get-property active -raw | eq true | verify-true
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

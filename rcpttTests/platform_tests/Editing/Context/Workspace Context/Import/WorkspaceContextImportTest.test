@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_5eGgkaegEeCBv-onBLuocQ
 Element-Name: WorkspaceContextImportTest
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Jj_woKeiEeCBv-onBLuocQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 12:50 PM
 Tags: Context, WorkspaceContext, ImportExport
 Testcase-Type: ecl
 
@@ -40,12 +39,12 @@ with [get-window "New Context Wizard"] {
     get-button Finish | click
 }
 with [get-editor ws | get-section Workspace] {
+    
     get-button "Create Empty Project" | click
-    with [get-tree] {
-        select project1 | get-item -index 0 | activate-cell-edit
-        get-item -index 0 | apply-cell-edit
-    }
+    get-tree | select project1 | activate-cell-edit
     get-button "Import Files..." | click
+    get-tree | apply-cell-edit -deactivate
+    
 }
 return-from-os-dialog "FOLDER_SELECTOR" "platform:/resource/FilesForContextEditor"
 with [get-window -from "Window.createShell()"] {
