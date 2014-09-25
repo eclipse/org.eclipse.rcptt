@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _StFI0CCzEeGpvKMy1SUvBw
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/24/14 1:43 PM
+Save-Time: 9/25/14 3:23 PM
 Tags: Context, WorkspaceContext, Create
 Testcase-Type: ecl
 
@@ -43,6 +43,6 @@ with [get-window "New Context Wizard"] {
     get-button Finish | click
 }
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/Ws" | get-property caption | equals Ws | verify-true
-//get-tab-folder -index 1 | get-property activePage | equals Ws | verify-true
+
 get-editor Ws
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

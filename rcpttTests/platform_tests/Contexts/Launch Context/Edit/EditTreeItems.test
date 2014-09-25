@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _AFkykKD6EeKoB6XnDYclhw
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/22/14 10:21 AM
+Save-Time: 9/25/14 3:21 PM
 Tags: Context, LaunchContext
 Testcase-Type: ecl
 
@@ -45,10 +45,10 @@ with [get-editor LaunchContextTest] {
         apply-cell-edit
     }
 }
-//get-tab-folder -index 1 | get-property activePage | equals "*LaunchContextTest" | verify-true
+
 get-editor "LaunchContextTest" | get-property dirty | equals true | verify-true
 get-eclipse-window | key-type "M1+s"
-//get-tab-folder -index 1 | get-property activePage | equals "LaunchContextTest" | verify-true
+
 get-editor "LaunchContextTest" | get-property dirty | equals false | verify-true
 
 get-editor LaunchContextTest | get-section "Launch configurations" | get-tree 

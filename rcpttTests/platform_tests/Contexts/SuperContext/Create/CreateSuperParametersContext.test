@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _6XbqMLbVEeK5oJHbEAZCPA
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/22/14 9:54 AM
+Save-Time: 9/25/14 3:22 PM
 Tags: Context, SuperContext
 Testcase-Type: ecl
 
@@ -43,7 +43,7 @@ with [get-window "New Super Context Wizard"] {
     get-button Finish | click
 }
 get-editor "SuperParamContext" | get-property active -raw | equals true | verify-true
-//get-tab-folder -index 1 | get-property activePage | equals SuperParamContext | verify-true
+
 with [get-editor SuperParamContext] {
     get-button Capture | get-property enablement | equals false | verify-true
     get-button Apply | get-property enablement | equals false | verify-true

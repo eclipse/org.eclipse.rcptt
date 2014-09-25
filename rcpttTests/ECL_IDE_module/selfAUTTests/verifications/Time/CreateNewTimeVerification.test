@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _byweYBOEEeO4t6fOTB-8xg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: CreateNewTimeVerification
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _cG_zkROFEeOQfY3M4mNcSA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 3:07 PM
 Tags: selfAUT, verification
 Testcase-Type: ecl
 
@@ -36,10 +35,8 @@ with [get-window "New Verification Wizard"] {
     get-editbox -after [get-label "Name:"] | set-text TV
     get-button Finish | click
 }
-with [get-tab-folder -index 1] {
-    get-property activePage | equals TV | verify-true
-    get-property tabCount | equals 1 | verify-true
-}
+get-editor TV | get-property active | equals true | verify-true
+
 with [get-editor TV | get-section "Execution Time"] {
     get-label "Execution Time" | get-property caption | equals "Execution Time" | verify-true
     get-label "Test case execution time should be less than:" | get-property caption 

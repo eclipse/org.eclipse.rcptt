@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: ErrLogVerification_Create New Error Log Verification
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _CPCScH0BEeO5CYdzFmGe7Q
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 2:43 PM
 Tags: verification, verification/Error Log, selfAUT
 Testcase-Type: ecl
 
@@ -36,7 +35,7 @@ with [get-window "New Verification Wizard"] {
     get-table | select "Error Log"
     get-button Finish | click
 }
-get-tab-folder -index 1 | get-property activePage | equals v1 | verify-true
+get-editor v1 | get-property active | equals true | verify-true
 with [get-editor v1] {
     get-section Require | get-property "getText()" | equals Require | verify-true
     get-section Allow | get-property "getText()" | equals Allow | verify-true

@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _v8LsUM7aEeCw4ppgsBRMGg
-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 5:32 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 3:25 PM
 Tags: Q7Explorer
 Testcase-Type: ecl
 
@@ -36,10 +36,7 @@ Entry-Name: .content
 get-button "Open Context (RCPTT)" | click
 get-window "Select Context" | get-table | select "context3 \\(p3\/context3.ctx\\)" | click -nowait -default
 get-editor context3 | get-section Workspace | click -nowait
-with [get-tab-folder -index 1] {
-    get-property pages -index 0 | equals context3 | verify-true
-    get-property tabCount | equals 1 | verify-true
-}
+
 get-view "Test Explorer" | get-button "Link with Editor" | click
 with [get-view "Test Explorer" | get-tree] {
     get-property itemCount | equals 3 | verify-true
@@ -51,12 +48,8 @@ with [get-view "Test Explorer" | get-tree] {
 get-button "Open Test Case (RCPTT)" | click
 get-window "Select Test Case" | get-table | select "scenario2 \\(p2\/scenario2.scenario\\)" | click -nowait -default
 get-editor scenario2 | get-section Contexts | mouse-release 77 6 button1 524288
-with [get-tab-folder] {
-    get-property pages -index 0 | equals context3 | verify-true
-    get-property pages -index 1 | equals scenario2 | verify-true
-    get-property activePage | equals scenario2 | verify-true
-    get-property tabCount | equals 2 | verify-true
-}
+get-editor context3
+get-editor scenario2 | get-property active -raw | equals true | verify-true
 with [get-view "Test Explorer" | get-tree] {
     get-item "p2/context2" | get-property caption | equals context2 | verify-true
     get-item "p2/context2" | get-property selected | equals false | verify-true
