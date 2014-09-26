@@ -7,7 +7,7 @@ Element-Version: 3.0
 External-Reference: 
 Id: _hcLWYO8iEeCWFp5-_cxtIw
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/25/14 3:22 PM
+Save-Time: 9/26/14 9:11 AM
 Tags: Context, GroupContext, Create
 Testcase-Type: ecl
 
@@ -39,12 +39,12 @@ Entry-Name: .content
 get-view "Test Explorer" | get-tree | select Q7Project | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
     get-table | select Group
-    get-editbox -after [get-label "Name:"] | set-text ContextTtitle
+    get-editbox -after [get-label "Name:"] | set-text ContextTitle
     get-button Finish | click
 }
 get-editor ContextTitle | get-property active | equals true | verify-true
-get-editor ContextTtitle | get-section Contexts | get-property className 
+get-editor ContextTitle | get-section Contexts | get-property className 
     | equals "org.eclipse.ui.forms.widgets.Section" | verify-true
-get-view "Test Explorer" | get-tree | get-item "Q7Project/ContextTtitle" | get-property caption | equals ContextTtitle 
+get-view "Test Explorer" | get-tree | get-item "Q7Project/ContextTitle" | get-property caption | equals ContextTitle 
     | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
