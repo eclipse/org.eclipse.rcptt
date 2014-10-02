@@ -143,7 +143,7 @@ public abstract class BaseFileQ7Monitor {
 
 	private void disposeLogger() {
 		Logger logger2 = null;
-		synchronized (logger2) {
+		synchronized (this) {
 			logger2 = logger;
 			logger = null;
 		}
