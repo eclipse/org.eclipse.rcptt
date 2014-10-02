@@ -11,7 +11,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Binding">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="#//Command"
         containment="true"/>
   </eClassifiers>
@@ -29,7 +29,7 @@
       <details key="example" value="get-view &quot;Package Explorer&quot; | get-button &quot;Collapse All (M1+M2+Numpad_Divide)&quot; | click&#xA;get-view &quot;Package Explorer&quot; | get-button &quot;Link with Editor&quot; | click&#xA;// can be shorten to:&#xA;with [get-view &quot;Package Explorer&quot;] {&#xA;    get-button &quot;Collapse All (M1+M2+Numpad_Divide)&quot; | click&#xA;    get-button &quot;Link with Editor&quot; | click&#xA;}&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="do" lowerBound="1" eType="#//Command"
         containment="true"/>
@@ -67,7 +67,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Script" eSuperTypes="#//Command">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ProcessStatus">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -78,7 +78,7 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConvertedToEMFPipe">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Serialized">
@@ -86,9 +86,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Throwable" instanceClassName="java.lang.Throwable"/>
   <eClassifiers xsi:type="ecore:EClass" name="Nullable">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -96,7 +96,7 @@
       <details key="returns" value="Output of executed branch"/>
       <details key="example" value="if [get-property caption -raw | not-eq &quot;Test&quot; ] {&#xD;&#xA;&#x9;select-item&#xD;&#xA;&#x9;get-menu Delete | click&#xD;&#xA;&#x9;get-window &quot;Delete Resources&quot; | get-button OK | click&#xD;&#xA;}"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Accepted values are boolean, string (&lt;code>true&lt;/code> when case-insensitive equals to &lt;code>true&lt;/code>, &lt;code>false&lt;/code> otherwise) and number (&lt;code>0&lt;/code> for &lt;code>false&lt;/code>, &lt;code>true&lt;/code> otherwise). "/>
       </eAnnotations>
@@ -116,35 +116,35 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BoxedValue" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="EclByte" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByte"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EByte"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclShort" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EShort"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EShort"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclInteger" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclLong" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclDouble" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclFloat" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclBoolean" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclChar" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EChar"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EChar"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclString" eSuperTypes="#//BoxedValue">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclException">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stackTrace" upperBound="-1"
         eType="#//EclStackTraceEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="throwable" eType="#//Throwable"/>
@@ -152,12 +152,12 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclStackTraceEntry">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="declaringClass" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="declaringClass" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeMethod" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeMethod" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Listen" eSuperTypes="#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -166,7 +166,7 @@
       <details key="example" value="// assert no new errors while clicking on the button&#xD;&#xA;listen errorLog {&#xD;&#xA;&#x9;get-button OK | click&#xD;&#xA;} | assert-empty"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
-        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Source to listen for, for example, &lt;code>errorLog&lt;/code>."/>
       </eAnnotations>
@@ -184,17 +184,17 @@
       <details key="returns" value="An internal object, describing a variable"/>
       <details key="example" value="let [val button [get-button OK]] {&#xA;    $button | click&#xA;}"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Variable name. Later this name can be used to refer to a variable value by prepending a dollar sign, i.e. $varName. If variable with the same name already defined in outer scope, then it will be hidden by inner variable with the same name."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Variable value. When variable is defined in &lt;a href=&quot;#proc&quot;>proc&lt;/a> block, this value denotes the default parameter value."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="An option to indicate that variable value should be taken from input pipe. "/>
@@ -205,7 +205,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns variable value by its name. Syntax sugar form &lt;code>$name&lt;/code> can be used instead."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Let" eSuperTypes="#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -232,7 +232,7 @@
       <details key="returns" value="An output of a &lt;code>body&lt;/code> script"/>
       <details key="example" value="// example 1&#xA;// declaration:&#xA;proc click-button [val window] [val button] {&#xA;   get-window $window | get-button $button | click&#xA;}&#xA;&#xA;// usage&#xA;click-button &quot;New Project&quot; &quot;Cancel&quot;&#xA;&#xA;// example #2, using input argument and default value&#xA;// declaration:&#xA;proc set-text-after-label [val parent -input] [val label] [val text &quot;&quot;] {&#xA;&#x9;$parent | get-editbox -after [get-label $label] | set-text $text&#xA;}&#xA;&#xA;// usage:&#xA;with [get-window &quot;New Project&quot;] {&#xA;   set-text-after-label &quot;Name:&quot; &quot;Sample Project&quot;&#xA;}&#xA;get-editor | set-text-after-label &quot;Text&quot;"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Procedure name. Must be unique in a context of current ECL session"/>
       </eAnnotations>
@@ -255,7 +255,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="vals" upperBound="-1" eType="#//Declaration"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SessionState">
@@ -277,20 +277,20 @@
       <details key="description" value="Depending on input object, either returns a value by key from &lt;a href=&quot;#map&quot;>map&lt;/a>, or element by index from &lt;a href=&quot;#list&quot;>list&lt;/a>, or member of EMF object by name."/>
       <details key="example" value="//types 1 into  log&#xA;emit &quot;1&quot; &quot;2&quot; &quot;3&quot; | to-list | get 0 | str | log&#xA;//types Febuary into log&#xA;map [entry 1 January][entry 2 Febuary] | get 2 | log"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Object to get a value from"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Depending on an input object either a key in a map, or index in a list, or name of a feature/attribute of EMF object"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Value to return if input object does not contain value by requested key"/>
@@ -299,7 +299,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclList">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclMap">
@@ -307,9 +307,9 @@
         eType="#//EclMapEntry" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclMapEntry">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Case" eSuperTypes="#//Command">
@@ -319,7 +319,7 @@
       <details key="example" value="list 1 2 3 | get 0 | switch [case 1 {&#xD;&#xA;&#x9;log -message &quot;First item is 1&quot;&#xD;&#xA;}] [case 2 {&#xA;&#x9;log -message &quot;First item is 2&quot;&#xA;}]"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="Object used to match to the &lt;code>input&lt;/code>. Accepted values are boolean, string (&lt;code>true&lt;/code> when case-insensitive equals to &lt;code>true&lt;/code>, &lt;code>false&lt;/code> otherwise) and number (&lt;code>0&lt;/code> for &lt;code>false&lt;/code>, &lt;code>true&lt;/code> otherwise). "/>
       </eAnnotations>
@@ -335,7 +335,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Reads object from input pipe or &lt;code>input&lt;/code> parameter and executes a &lt;code>case&lt;/code> part with matching &lt;code>condition&lt;/code> parameter (if any) sending &lt;code>input&lt;/code> parameter as an input. If no &lt;code>case&lt;/code> matched, the &lt;code>default&lt;code> block (if any) will be executed."/>
       <details key="returns" value="An output of executed block (&lt;code>case&lt;/code> command or &lt;code>-default&lt;/code> block). If nothing is executed, no output will be produced."/>
-      <details key="example" value="list 1 2 3 | get 0 | switch [case 1 {&#xA;&#x9;echo &quot;Found 1&quot;&#xA;}] [case 2 {&#xA;&#x9;echo &quot;Found 2&quot;&#xA;}] - default {&#xA;&#x9;echo &quot;Unknown item&quot;&#xA;} | equals &quot;Found 1&quot; | verify-true"/>
+      <details key="example" value="list 1 2 3 | get 0 | switch [case 1 {&#xA;&#x9;echo &quot;Found 1&quot;&#xA;}] [case 2 {&#xA;&#x9;echo &quot;Found 2&quot;&#xA;}] - default {&#xA;&#x9;echo &quot;Unknown item&quot;&#xA;} | equals &quot;Found 1&quot; | verify-true&#xA;&#xA;///////////&#xA;&#xA;proc &quot;set-schedules-view-value&quot; [val view] [val date] [val direction] {&#xA;// First, determine View to set desired Date value in&#xA;get-view Schedules | get-section $view | get-property &quot;getText()&quot; -raw | switch&#xA;[case &quot;Year View&quot; {&#xA;echo &quot;The YEAR View is being Evaluated!&quot;&#xA;// Second, determine if the desired Date is already set&#xA;set-view-value $view &quot;\d\d\d\d&quot; $date $direction }]&#xA;[case &quot;Month View&quot; {&#xA;echo &quot;The MONTH View is being Evaluated!&quot;&#xA;set-view-value $view &quot;(January|February|March|April|May|June|July|August|September|October|November|December), \d+&quot; $date $direction}]&#xA;[case &quot;Week View&quot; {&#xA;echo &quot;The WEEK View is being Evaluated!&quot;&#xA;set-view-value $view &quot;Week \d+, \d+&quot; $date $direction }]&#xA;[case &quot;Day View&quot; {&#xA;echo &quot;The DAY View is being Evaluated!&quot;&#xA;set-view-value $view &quot;(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \d+, \d+&quot; $date $direction}]&#xA;-default {&#xA;echo &quot;The View Value specified in NOT Supported!&quot;&#xA;}&#xA;}&#xA;"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" unique="false" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
