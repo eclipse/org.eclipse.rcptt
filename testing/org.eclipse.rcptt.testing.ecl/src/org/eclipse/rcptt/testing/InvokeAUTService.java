@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.testing;
 
 import java.io.File;
+import java.util.Collections;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -26,16 +27,15 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.pde.internal.launching.PreferenceInitializer;
-import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
-import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutManager;
+import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
 import org.eclipse.rcptt.launching.injection.InjectionFactory;
@@ -115,19 +115,6 @@ public class InvokeAUTService implements ICommandService {
 		launch.setAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE,
 				(String) null);
 		launch.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, (String) null);
-		// Add SUT default vm arguments
-		String vmArgs = platform.getIniVMArgs();
-		if (vmArgs == null) {
-			// Lets use current runner vm arguments
-			vmArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
-		} else {
-			vmArgs = vmArgs.trim();
-		}
-		if (vmArgs != null && vmArgs.length() > 0) {
-			vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-			launch.setAttribute(
-					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, vmArgs);
-		}
 		launch.setAttribute(
 				IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
 				getVMArgs(cmd, platform));
@@ -140,17 +127,7 @@ public class InvokeAUTService implements ICommandService {
 		if (cmd.getVmargs() != null) {
 			return cmd.getVmargs();
 		}
-		String vmArgs = platform.getIniVMArgs();
-		if (vmArgs == null) {
-			// Lets use current runner vm arguments
-			vmArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
-		} else {
-			vmArgs = vmArgs.trim();
-		}
-		if (vmArgs != null && vmArgs.length() > 0) {
-			vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-		}
-		return vmArgs;
+		return Q7LaunchDelegateUtils.getVMArgs(platform, Collections.<String> emptyList());
 	}
 
 	public static void updateEclipseLocation() {

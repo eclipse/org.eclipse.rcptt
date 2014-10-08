@@ -32,15 +32,15 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
-
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.PDEUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 
 @SuppressWarnings("restriction")
 public class Q7LaunchDelegateUtils {
@@ -274,7 +274,7 @@ public class Q7LaunchDelegateUtils {
 		StringBuilder result = new StringBuilder();
 		String iniArgs = aut.getIniVMArgs();
 		if (iniArgs == null) {
-			iniArgs = LaunchArgumentsHelper.getInitialVMArguments();
+			iniArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
 		}
 		if (iniArgs == null) {
 			iniArgs = "";
