@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.aspects.asyncs.IAsyncEventListener;
 import org.eclipse.rcptt.sherlock.core.SherlockTimerRunnable;
@@ -91,11 +90,13 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 			}
 
 			public void postExecute() {
-				preExecute();
-				synchronized (runnables) {
-					runnables.remove(this);
+				try {
+					preExecute();
+				} finally {
+					synchronized (runnables) {
+						runnables.remove(this);
+					}
 				}
-
 			}
 		};
 		synchronized (runnables) {
