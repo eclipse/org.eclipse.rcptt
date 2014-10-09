@@ -157,23 +157,26 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			}
 
 			public void postExecute() {
-				for (IReportBuilder builder : localSources.keySet()) {
-					if (localSources.get(builder) == null) {
-						continue;
+				try {
+					for (IReportBuilder builder : localSources.keySet()) {
+						if (localSources.get(builder) == null) {
+							continue;
+						}
+
+						Event event = ReportFactory.eINSTANCE.createEvent();
+						event.setSource(getSources(builder).get(newRunnable));
+
+						AsyncEventInfo eventInfo = JobsFactory.eINSTANCE
+								.createAsyncEventInfo();
+						eventInfo.setId(JobsEventProvider.getID(newRunnable));
+						event.setData(eventInfo);
+						event.setKind(EventKind.END);
+						event.setColor(ASYNC_RUNNING_COLOR);
+						eventInfo.setKind(AsyncEventKind.DONE);
+						builder.getCurrent().createEvent(event);
+						getSources(builder).remove(newRunnable);
 					}
-
-					Event event = ReportFactory.eINSTANCE.createEvent();
-					event.setSource(getSources(builder).get(newRunnable));
-
-					AsyncEventInfo eventInfo = JobsFactory.eINSTANCE
-							.createAsyncEventInfo();
-					eventInfo.setId(JobsEventProvider.getID(newRunnable));
-					event.setData(eventInfo);
-					event.setKind(EventKind.END);
-					event.setColor(ASYNC_RUNNING_COLOR);
-					eventInfo.setKind(AsyncEventKind.DONE);
-					builder.getCurrent().createEvent(event);
-					getSources(builder).remove(newRunnable);
+				} finally {
 					synchronized (runnables) {
 						for (SherlockTimerRunnable r : runnables) {
 							if (r.getRunnable() == newRunnable) {
