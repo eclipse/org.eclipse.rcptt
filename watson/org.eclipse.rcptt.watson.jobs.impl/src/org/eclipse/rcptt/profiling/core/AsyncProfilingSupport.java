@@ -108,7 +108,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 		}
 		synchronized (runnables) {
 			for (SherlockTimerRunnable r : runnables) {
-				if (r.getRunnable() == newRunnable) {
+				if (r.getDirectChild() == newRunnable) {
 					return r;
 				}
 			}

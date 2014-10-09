@@ -53,4 +53,8 @@ public class SherlockTimerRunnable implements Runnable {
 		}
 		return runnable;
 	}
+
+	public Runnable getDirectChild() {
+		return runnable;
+	}
 }
