@@ -262,17 +262,11 @@ public class Q7LaunchDelegateUtils {
 				: Arrays.asList(args));
 	}
 
-	public static String getVMArgs(ITargetPlatformHelper aut, String[] userArgs) {
-		return getVMArgs(
-				aut,
-				userArgs == null ? Collections.<String> emptyList() : Arrays
-						.asList(userArgs));
-	}
-
 	public static String getVMArgs(ITargetPlatformHelper aut,
 			Collection<String> userArgs) {
 		StringBuilder result = new StringBuilder();
 		String iniArgs = aut.getIniVMArgs();
+
 		if (iniArgs == null) {
 			iniArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
 		}

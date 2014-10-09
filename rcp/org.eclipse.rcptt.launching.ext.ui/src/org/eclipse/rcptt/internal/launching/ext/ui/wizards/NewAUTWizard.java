@@ -28,6 +28,7 @@ import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
+import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
@@ -65,14 +66,7 @@ public class NewAUTWizard extends Wizard {
 				workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
 						autArch.name());
 				OSArchitecture jvmArch = page.getJVMArch();
-				String vmArgs = target.getIniVMArgs();
-				if (vmArgs == null) {
-					// Lets use current runner vm arguments
-					vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
-							.trim();
-				} else {
-					vmArgs = vmArgs.trim();
-				}
+				String vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
 				if (!autArch.equals(jvmArch)
 						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
 					if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
