@@ -12,6 +12,7 @@ package org.eclipse.rcptt.profiling.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -39,6 +40,9 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 
 	public AsyncProfilingSupport(JobsEventProvider jobsEventProvider) {
 		this.provider = jobsEventProvider;
+	}
+
+	public void timerCanceled(Runnable timer) {
 	}
 
 	public synchronized void timerAdded(Runnable async) {
@@ -92,6 +96,23 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 			event.setColor(ASYNC_ADDED_COLOR);
 			builder.getCurrent().createEvent(event);
 		}
+	}
+
+	public Runnable cancelTimerProc(final Runnable runnable) {
+		if (!collectTimerExecs) {
+			return runnable;
+		}
+		synchronized (runnables) {
+			Iterator<SherlockTimerRunnable> iterator = runnables.iterator();
+			while (iterator.hasNext()) {
+				SherlockTimerRunnable r = iterator.next();
+				if (r.getDirectChild() == runnable) {
+					iterator.remove();
+					return r;
+				}
+			}
+		}
+		return runnable;
 	}
 
 	public Runnable processTimerProc(final Runnable newRunnable) {
@@ -153,7 +174,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 					eventInfo.setKind(AsyncEventKind.DONE);
 					builder.getCurrent().createEvent(event);
 					getSources(builder).remove(newRunnable);
-					synchronized(runnables) {
+					synchronized (runnables) {
 						for (SherlockTimerRunnable r : runnables) {
 							if (r.getRunnable() == newRunnable) {
 								runnables.remove(r);
@@ -164,7 +185,7 @@ final class AsyncProfilingSupport implements IAsyncEventListener {
 				}
 			}
 		};
-		synchronized(runnables) {
+		synchronized (runnables) {
 			runnables.add(result);
 		}
 		return result;

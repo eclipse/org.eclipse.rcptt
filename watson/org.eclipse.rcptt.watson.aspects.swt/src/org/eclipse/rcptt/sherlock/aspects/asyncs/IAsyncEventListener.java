@@ -15,11 +15,14 @@ public interface IAsyncEventListener {
 	void asyncAdded(Runnable async, boolean sync);
 
 	void timerAdded(Runnable async);
-	
+
+	void timerCanceled(Runnable timer);
+
 	void asyncRunning(Runnable async);
 
 	void asyncDone(Runnable async);
 
 	Runnable processTimerProc(Runnable newRunnable);
 
+	Runnable cancelTimerProc(Runnable runnable);
 }
