@@ -1080,11 +1080,13 @@ public class SWTModelMapper {
 			}
 			org.eclipse.rcptt.tesla.core.ui.Image result = mapSource(composite.children
 					.get(0));
-			for (int i = 1; i < composite.children.size(); i++) {
-				org.eclipse.rcptt.tesla.core.ui.Image decoration = mapSource(composite.children
-						.get(i));
-				if (decoration != null) {
-					result.getDecorations().add(decoration);
+			if (result != null) {
+				for (int i = 1; i < composite.children.size(); i++) {
+					org.eclipse.rcptt.tesla.core.ui.Image decoration = mapSource(composite.children
+							.get(i));
+					if (decoration != null) {
+						result.getDecorations().add(decoration);
+					}
 				}
 			}
 			return result;
