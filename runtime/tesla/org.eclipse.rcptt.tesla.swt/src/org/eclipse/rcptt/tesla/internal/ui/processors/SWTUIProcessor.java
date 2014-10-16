@@ -1932,7 +1932,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			}
 			break;
 		case NOT_EMPTY:
-			result = value != null && strValue.length() >= 0;
+			result = value != null && strValue.length() > 0;
 			if (!result) {
 				message = NLS.bind(
 						TeslaSWTMessages.SWTUIProcessor_AssertNotEmptyFailed,
