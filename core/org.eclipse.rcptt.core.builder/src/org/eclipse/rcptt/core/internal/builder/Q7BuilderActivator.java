@@ -11,7 +11,10 @@
 package org.eclipse.rcptt.core.internal.builder;
 
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.osgi.framework.BundleContext;
+
+import com.google.common.base.Preconditions;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -40,6 +43,8 @@ public class Q7BuilderActivator extends Plugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		// Ensures dependency is loaded (to enable logging in async builders)
+		Preconditions.checkNotNull(RcpttPlugin.getDefault().getLog());
 	}
 
 	/*
