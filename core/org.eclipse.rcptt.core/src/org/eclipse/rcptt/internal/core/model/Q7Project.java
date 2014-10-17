@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7Folder;
@@ -45,6 +44,8 @@ public class Q7Project extends Openable implements IQ7Project {
 	protected Q7Project(IProject project, Q7Element parent)
 			throws IllegalArgumentException {
 		super(parent);
+		if (parent == null)
+			throw new NullPointerException();
 		this.project = project;
 	}
 
