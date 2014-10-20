@@ -27,8 +27,6 @@ import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.internal.launching.ext.Q7UpdateSiteExtensions.Q7RuntimeInfo;
 import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
@@ -37,6 +35,7 @@ import org.eclipse.rcptt.launching.injection.UpdateSite;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.osgi.framework.Bundle;
 
 public class Q7TargetPlatformInitializer {
 
@@ -306,6 +305,8 @@ public class Q7TargetPlatformInitializer {
 		String version = map.get(AUTInformation.VERSION);
 		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions
 				.getDefault().getRuntimes(version);
+		if (updates.isEmpty())
+			throw new RuntimeException("Failed to find built-in injections for " + version);
 		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE
 				.createInjectionConfiguration();
 		if (updates != null) {
