@@ -1,0 +1,23 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _roqd8KekEeC8_YI4qVLWTA,_9M0hkFqCEeS6pvyZFIXgkQ
+Element-Name: GetPropertyWithoutEscaping
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _yoJZMFgiEeSkvvK1JT1kIg
+Runtime-Version: 1.5.3.qualifier
+Save-Time: 10/23/14 2:05 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "FilesForContextEditor/text.txt"
+
+with [get-view Properties | get-tree] {
+    get-item "Info/name" | get-property "values['Property']" | equals name | verify-true
+    get-item "Info/name" | get-property "values['Value']" | equals "text.txt" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

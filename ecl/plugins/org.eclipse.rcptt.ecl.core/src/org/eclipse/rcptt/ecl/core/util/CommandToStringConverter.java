@@ -225,7 +225,6 @@ public class CommandToStringConverter {
 				value = value.replace("\n", "\\n");
 				value = value.replace("\r", "\\r");
 				value = value.replace("\f", "\\f");
-				value = value.replace("'", "\\'");
 				value = value.replace("\"", "\\\"");
 				opening = "\"";
 				closing = "\"";
