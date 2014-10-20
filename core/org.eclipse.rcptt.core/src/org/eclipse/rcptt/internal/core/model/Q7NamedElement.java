@@ -38,8 +38,7 @@ public abstract class Q7NamedElement extends Openable implements
 	public Q7NamedElement(Q7Element parent, String name)
 			throws IllegalArgumentException {
 		super(parent);
-		if (parent == null)
-			throw new NullPointerException();
+		// Parent can be null on agent
 		this.name = name;
 	}
 
