@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.profiling.core;
 
-import org.eclipse.rcptt.sherlock.aspects.asyncs.AsyncEventManager;
 import org.eclipse.rcptt.sherlock.aspects.jobs.internal.JobsEventManager;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 
 public class JobsEventProvider extends AbstractEventProvider {
-	AsyncProfilingSupport profilingListener = new AsyncProfilingSupport(this);
 	JobsProfilingSupport profilingJobListener = new JobsProfilingSupport(this);
 
 	@Override
@@ -32,17 +30,14 @@ public class JobsEventProvider extends AbstractEventProvider {
 
 	@Override
 	protected void initializeBuilder(IReportBuilder builder) {
-		AsyncEventManager.getDefault().addListener(profilingListener);
 		JobsEventManager.getDefault().addListener(profilingJobListener);
 		profilingJobListener.register();
 	}
 
 	@Override
 	protected void doneBuilders() {
-		AsyncEventManager.getDefault().removeListener(profilingListener);
 		JobsEventManager.getDefault().removeListener(profilingJobListener);
 		profilingJobListener.clear();
-		profilingListener.clear();
 
 		profilingJobListener.unregister();
 	}
