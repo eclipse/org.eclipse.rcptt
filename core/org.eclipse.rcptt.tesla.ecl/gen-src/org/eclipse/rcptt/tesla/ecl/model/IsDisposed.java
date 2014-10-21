@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getIsDisposed()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Cheks if the control is disposed or not' returns='true if the control is disposed or false otherwise' recorded='true' example='get-editor \"WorkbenchContext\" | is-disposed | verify-false'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if the control is disposed or not' returns='true if the control is disposed or false otherwise' recorded='true' example='get-editor \"WorkbenchContext\" | is-disposed | verify-false'"
  * @generated
  */
 public interface IsDisposed extends Command {

@@ -1164,7 +1164,7 @@ public final class SWTUIPlayer {
 					"getValue", new Class[] { Object.class }, item.getData());
 			if (!(value instanceof Boolean))
 				throw new RuntimeException(
-						"Does not look like a chekbox tree column.");
+						"Does not look like a checkbox tree column.");
 			if ((Boolean) value == state)
 				return;
 			v.editElement(item.getData(), column);
@@ -1189,7 +1189,7 @@ public final class SWTUIPlayer {
 					"getValue", new Class[] { Object.class }, item.getData());
 			if (!(value instanceof Boolean))
 				throw new RuntimeException(
-						"Does not look like a chekbox table column.");
+						"Does not look like a checkbox table column.");
 			if ((Boolean) value == state)
 				return;
 			v.editElement(item.getData(), column);
