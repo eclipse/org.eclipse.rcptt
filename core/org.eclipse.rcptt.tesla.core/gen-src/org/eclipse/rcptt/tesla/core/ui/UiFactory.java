@@ -399,6 +399,15 @@ public interface UiFactory extends EFactory {
 	WithImage createWithImage();
 
 	/**
+	 * Returns a new object of class '<em>Marker</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Marker</em>'.
+	 * @generated
+	 */
+	Marker createMarker();
+
+	/**
 	 * Returns a new object of class '<em>Style Range Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

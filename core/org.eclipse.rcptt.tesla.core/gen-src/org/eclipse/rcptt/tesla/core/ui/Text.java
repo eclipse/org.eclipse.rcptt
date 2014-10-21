@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.core.ui;
 
+import java.util.Map;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 
 
 /**
@@ -30,6 +32,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getCaretPosition <em>Caret Position</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getStyleAtCaret <em>Style At Caret</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkers <em>Markers</em>}</li>
  * </ul>
  * </p>
  *
@@ -251,5 +254,22 @@ public interface Text extends Control {
 	 * @generated
 	 */
 	void setStyleAtCaret(StyleRangeEntry value);
+
+	/**
+	 * Returns the value of the '<em><b>Markers</b></em>' map.
+	 * The key is of type {@link java.lang.String},
+	 * and the value is of type list of {@link org.eclipse.rcptt.tesla.core.ui.Marker},
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Markers</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Markers</em>' map.
+	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getText_Markers()
+	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.LineMarkersValue<org.eclipse.emf.ecore.EString, org.eclipse.rcptt.tesla.core.ui.Marker>"
+	 * @generated
+	 */
+	EMap<String, EList<Marker>> getMarkers();
 
 } // Text

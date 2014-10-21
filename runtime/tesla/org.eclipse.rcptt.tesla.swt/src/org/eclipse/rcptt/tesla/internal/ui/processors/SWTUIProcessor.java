@@ -1742,6 +1742,9 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	private static final Pattern stringIndexedAttr = Pattern
 			.compile("(.*)\\[\\'(.*)\\'\\]");
 
+	private static final Pattern stringAndNumIndexedAttr = Pattern
+			.compile("(.*)\\[\\'(.*)\\'\\]\\[(\\d+)\\]");
+
 	public static Object getAttrValue(EObject object, String attrName,
 			Integer index) {
 		int lastDotIndex = StringUtils.getAttrLastSplitterInd(attrName);
@@ -1755,15 +1758,23 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			attrName = attrName.substring(lastDotIndex + 1);
 		}
 		String stringKey = null;
-		Matcher matcher = indexedAttr.matcher(attrName);
+
+		Matcher matcher = stringAndNumIndexedAttr.matcher(attrName);
 		if (matcher.matches()) {
 			attrName = matcher.group(1);
-			index = Integer.parseInt(matcher.group(2));
+			stringKey = matcher.group(2);
+			index = Integer.parseInt(matcher.group(3));
 		} else {
-			Matcher stringMatcher = stringIndexedAttr.matcher(attrName);
-			if (stringMatcher.matches()) {
-				attrName = stringMatcher.group(1);
-				stringKey = stringMatcher.group(2);
+			matcher = indexedAttr.matcher(attrName);
+			if (matcher.matches()) {
+				attrName = matcher.group(1);
+				index = Integer.parseInt(matcher.group(2));
+			} else {
+				Matcher stringMatcher = stringIndexedAttr.matcher(attrName);
+				if (stringMatcher.matches()) {
+					attrName = stringMatcher.group(1);
+					stringKey = stringMatcher.group(2);
+				}
 			}
 		}
 
@@ -1776,18 +1787,33 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		Object value = object.eGet(feature);
 
-		if (value instanceof EList<?> && index != null) {
-			EList<?> list = (EList<?>) value;
-			if (index >= list.size()) {
+		if (value instanceof EMap<?, ?> && stringKey != null && index != null) {
+			EMap<?, ?> map = (EMap<?, ?>) value;
+			if (!map.containsKey(stringKey)) {
 				return null;
 			}
-			value = list.get(index);
+			value = map.get(stringKey);
+			if (value instanceof EList) {
+				EList<?> list = (EList<?>) value;
+				if (index >= list.size()) {
+					return null;
+				}
+				value = list.get(index);
+			} else {
+				return null;
+			}
 		} else if (value instanceof EMap<?, ?> && stringKey != null) {
 			EMap<?, ?> map = (EMap<?, ?>) value;
 			if (!map.containsKey(stringKey)) {
 				return null;
 			}
 			value = map.get(stringKey);
+		} else if (value instanceof EList<?> && index != null) {
+			EList<?> list = (EList<?>) value;
+			if (index >= list.size()) {
+				return null;
+			}
+			value = list.get(index);
 		}
 
 		return value == null ? "" : value;

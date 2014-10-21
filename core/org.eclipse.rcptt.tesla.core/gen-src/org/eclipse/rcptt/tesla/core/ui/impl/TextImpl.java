@@ -13,20 +13,29 @@ package org.eclipse.rcptt.tesla.core.ui.impl;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 import org.eclipse.rcptt.tesla.core.ui.Text;
 import org.eclipse.rcptt.tesla.core.ui.TextPosition;
+import org.eclipse.rcptt.tesla.core.ui.Tree;
+import org.eclipse.rcptt.tesla.core.ui.TreeItem;
 import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.rcptt.tesla.core.ui.Marker;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,6 +53,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getCaretPosition <em>Caret Position</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getStyleAtCaret <em>Style At Caret</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getMarkers <em>Markers</em>}</li>
  * </ul>
  * </p>
  *
@@ -189,6 +199,16 @@ public class TextImpl extends ControlImpl implements Text {
 	 * @ordered
 	 */
 	protected StyleRangeEntry styleAtCaret;
+
+	/**
+	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMarkers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<String, EList<Marker>> markers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -424,6 +444,18 @@ public class TextImpl extends ControlImpl implements Text {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<String, EList<Marker>> getMarkers() {
+		if (markers == null) {
+			markers = new EcoreEMap<String,EList<Marker>>(UiPackage.Literals.LINE_MARKERS_VALUE, LineMarkersValueImpl.class, this, UiPackage.TEXT__MARKERS);
+		}
+		return markers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -431,6 +463,8 @@ public class TextImpl extends ControlImpl implements Text {
 				return ((InternalEList<?>)getStyles()).basicRemove(otherEnd, msgs);
 			case UiPackage.TEXT__STYLE_AT_CARET:
 				return basicSetStyleAtCaret(null, msgs);
+			case UiPackage.TEXT__MARKERS:
+				return ((InternalEList<?>)getMarkers()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -462,6 +496,9 @@ public class TextImpl extends ControlImpl implements Text {
 				return basicGetCaretPosition();
 			case UiPackage.TEXT__STYLE_AT_CARET:
 				return getStyleAtCaret();
+			case UiPackage.TEXT__MARKERS:
+				if (coreType) return getMarkers();
+				else return getMarkers().map();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -504,6 +541,9 @@ public class TextImpl extends ControlImpl implements Text {
 			case UiPackage.TEXT__STYLE_AT_CARET:
 				setStyleAtCaret((StyleRangeEntry)newValue);
 				return;
+			case UiPackage.TEXT__MARKERS:
+				((EStructuralFeature.Setting)getMarkers()).set(newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -543,6 +583,9 @@ public class TextImpl extends ControlImpl implements Text {
 			case UiPackage.TEXT__STYLE_AT_CARET:
 				setStyleAtCaret((StyleRangeEntry)null);
 				return;
+			case UiPackage.TEXT__MARKERS:
+				getMarkers().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -573,6 +616,8 @@ public class TextImpl extends ControlImpl implements Text {
 				return caretPosition != null;
 			case UiPackage.TEXT__STYLE_AT_CARET:
 				return styleAtCaret != null;
+			case UiPackage.TEXT__MARKERS:
+				return markers != null && !markers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

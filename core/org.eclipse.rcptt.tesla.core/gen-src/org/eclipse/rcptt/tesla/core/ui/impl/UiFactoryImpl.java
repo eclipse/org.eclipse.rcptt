@@ -13,6 +13,7 @@ package org.eclipse.rcptt.tesla.core.ui.impl;
 import org.eclipse.rcptt.tesla.core.ui.*;
 
 import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -109,6 +110,8 @@ public class UiFactoryImpl extends EFactoryImpl implements UiFactory {
 			case UiPackage.IMAGE: return createImage();
 			case UiPackage.WITH_IMAGE: return createWithImage();
 			case UiPackage.VALUES_MAP: return (EObject)createValuesMap();
+			case UiPackage.MARKER: return createMarker();
+			case UiPackage.LINE_MARKERS_VALUE: return (EObject)createLineMarkersValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -566,6 +569,26 @@ public class UiFactoryImpl extends EFactoryImpl implements UiFactory {
 	public Map.Entry<String, String> createValuesMap() {
 		ValuesMapImpl valuesMap = new ValuesMapImpl();
 		return valuesMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, EList<Marker>> createLineMarkersValue() {
+		LineMarkersValueImpl lineMarkersValue = new LineMarkersValueImpl();
+		return lineMarkersValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Marker createMarker() {
+		MarkerImpl marker = new MarkerImpl();
+		return marker;
 	}
 
 	/**

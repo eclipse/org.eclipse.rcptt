@@ -1,13 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.core.ui;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -65,356 +57,6 @@ public interface UiPackage extends EPackage {
 	UiPackage eINSTANCE = org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.WidgetImpl <em>Widget</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.WidgetImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getWidget()
-	 * @generated
-	 */
-	int WIDGET = 0;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl <em>Control</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getControl()
-	 * @generated
-	 */
-	int CONTROL = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl <em>Button</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getButton()
-	 * @generated
-	 */
-	int BUTTON = 3;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ToolItemImpl <em>Tool Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ToolItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getToolItem()
-	 * @generated
-	 */
-	int TOOL_ITEM = 4;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl <em>Label</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLabel()
-	 * @generated
-	 */
-	int LABEL = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LinkImpl <em>Link</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.LinkImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLink()
-	 * @generated
-	 */
-	int LINK = 6;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl <em>Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getItem()
-	 * @generated
-	 */
-	int ITEM = 7;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl <em>Menu Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getMenuItem()
-	 * @generated
-	 */
-	int MENU_ITEM = 8;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl <em>Tree Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTreeItem()
-	 * @generated
-	 */
-	int TREE_ITEM = 10;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TableItemImpl <em>Table Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TableItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTableItem()
-	 * @generated
-	 */
-	int TABLE_ITEM = 11;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl <em>Text</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TextImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getText()
-	 * @generated
-	 */
-	int TEXT = 12;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl <em>Color</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getColor()
-	 * @generated
-	 */
-	int COLOR = 14;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PointImpl <em>Point</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PointImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPoint()
-	 * @generated
-	 */
-	int POINT = 15;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl <em>Rectangle</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getRectangle()
-	 * @generated
-	 */
-	int RECTANGLE = 16;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ComboImpl <em>Combo</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ComboImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getCombo()
-	 * @generated
-	 */
-	int COMBO = 17;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl <em>Tab Folder</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTabFolder()
-	 * @generated
-	 */
-	int TAB_FOLDER = 18;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.CompositeImpl <em>Composite</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.CompositeImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getComposite()
-	 * @generated
-	 */
-	int COMPOSITE = 19;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.GroupImpl <em>Group</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.GroupImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getGroup()
-	 * @generated
-	 */
-	int GROUP = 20;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ExpandableCompositeImpl <em>Expandable Composite</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ExpandableCompositeImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getExpandableComposite()
-	 * @generated
-	 */
-	int EXPANDABLE_COMPOSITE = 21;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeImpl <em>Tree</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TreeImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTree()
-	 * @generated
-	 */
-	int TREE = 22;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl <em>Table</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TableImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTable()
-	 * @generated
-	 */
-	int TABLE = 23;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ViewerColumnImpl <em>Viewer Column</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ViewerColumnImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getViewerColumn()
-	 * @generated
-	 */
-	int VIEWER_COLUMN = 24;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.SelectionImpl <em>Selection</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.SelectionImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getSelection()
-	 * @generated
-	 */
-	int SELECTION = 25;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl <em>Diagram Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDiagramItem()
-	 * @generated
-	 */
-	int DIAGRAM_ITEM = 26;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl <em>Diagram Connection</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDiagramConnection()
-	 * @generated
-	 */
-	int DIAGRAM_CONNECTION = 27;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyEntryImpl <em>Property Entry</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyEntryImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyEntry()
-	 * @generated
-	 */
-	int PROPERTY_ENTRY = 28;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyMapImpl <em>Property Map</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyMapImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyMap()
-	 * @generated
-	 */
-	int PROPERTY_MAP = 29;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyWidgetImpl <em>Property Widget</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyWidgetImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyWidget()
-	 * @generated
-	 */
-	int PROPERTY_WIDGET = 30;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.BrowserImpl <em>Browser</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.BrowserImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getBrowser()
-	 * @generated
-	 */
-	int BROWSER = 31;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ViewImpl <em>View</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ViewImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getView()
-	 * @generated
-	 */
-	int VIEW = 32;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl <em>Editor</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getEditor()
-	 * @generated
-	 */
-	int EDITOR = 33;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl <em>Window</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getWindow()
-	 * @generated
-	 */
-	int WINDOW = 34;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl <em>Date Time</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDateTime()
-	 * @generated
-	 */
-	int DATE_TIME = 35;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.SliderImpl <em>Slider</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.SliderImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getSlider()
-	 * @generated
-	 */
-	int SLIDER = 36;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl <em>Property Node</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl
-	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyNode()
-	 * @generated
-	 */
-	int PROPERTY_NODE = 37;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeListImpl <em>Property Node List</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -443,6 +85,16 @@ public interface UiPackage extends EPackage {
 	int PROPERTY_NODE_LIST_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.WidgetImpl <em>Widget</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.WidgetImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getWidget()
+	 * @generated
+	 */
+	int WIDGET = 0;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -459,6 +111,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIDGET_FEATURE_COUNT = PROPERTY_NODE_LIST_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl <em>Control</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getControl()
+	 * @generated
+	 */
+	int CONTROL = 1;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -586,6 +248,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTROL_DECORATOR_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl <em>Button</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getButton()
+	 * @generated
+	 */
+	int BUTTON = 3;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -730,6 +402,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUTTON_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 6;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ToolItemImpl <em>Tool Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ToolItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getToolItem()
+	 * @generated
+	 */
+	int TOOL_ITEM = 4;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -885,6 +567,16 @@ public interface UiPackage extends EPackage {
 	int TOOL_ITEM_FEATURE_COUNT = BUTTON_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl <em>Label</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLabel()
+	 * @generated
+	 */
+	int LABEL = 5;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -991,6 +683,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int LABEL_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LinkImpl <em>Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.LinkImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLink()
+	 * @generated
+	 */
+	int LINK = 6;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -1101,6 +803,16 @@ public interface UiPackage extends EPackage {
 	int LINK_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl <em>Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getItem()
+	 * @generated
+	 */
+	int ITEM = 7;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1153,6 +865,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl <em>Menu Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getMenuItem()
+	 * @generated
+	 */
+	int MENU_ITEM = 8;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -1408,6 +1130,16 @@ public interface UiPackage extends EPackage {
 	int STYLE_RANGE_ENTRY_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 17;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl <em>Tree Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTreeItem()
+	 * @generated
+	 */
+	int TREE_ITEM = 10;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1579,6 +1311,16 @@ public interface UiPackage extends EPackage {
 	int TREE_ITEM_FEATURE_COUNT = ITEM_FEATURE_COUNT + 13;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TableItemImpl <em>Table Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TableItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTableItem()
+	 * @generated
+	 */
+	int TABLE_ITEM = 11;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1739,6 +1481,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int TABLE_ITEM_FEATURE_COUNT = ITEM_FEATURE_COUNT + 12;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl <em>Text</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TextImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getText()
+	 * @generated
+	 */
+	int TEXT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -1903,13 +1655,22 @@ public interface UiPackage extends EPackage {
 	int TEXT__STYLE_AT_CARET = CONTROL_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Markers</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT__MARKERS = CONTROL_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Text</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 9;
+	int TEXT_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextPositionImpl <em>Text Position</em>}' class.
@@ -1947,6 +1708,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXT_POSITION_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl <em>Color</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getColor()
+	 * @generated
+	 */
+	int COLOR = 14;
 
 	/**
 	 * The feature id for the '<em><b>Red</b></em>' attribute.
@@ -1994,6 +1765,16 @@ public interface UiPackage extends EPackage {
 	int COLOR_FEATURE_COUNT = 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PointImpl <em>Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PointImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPoint()
+	 * @generated
+	 */
+	int POINT = 15;
+
+	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2019,6 +1800,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int POINT_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl <em>Rectangle</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getRectangle()
+	 * @generated
+	 */
+	int RECTANGLE = 16;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2064,6 +1855,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int RECTANGLE_FEATURE_COUNT = 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ComboImpl <em>Combo</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ComboImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getCombo()
+	 * @generated
+	 */
+	int COMBO = 17;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -2192,6 +1993,16 @@ public interface UiPackage extends EPackage {
 	int COMBO_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl <em>Tab Folder</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTabFolder()
+	 * @generated
+	 */
+	int TAB_FOLDER = 18;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2318,6 +2129,16 @@ public interface UiPackage extends EPackage {
 	int TAB_FOLDER_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.CompositeImpl <em>Composite</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.CompositeImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getComposite()
+	 * @generated
+	 */
+	int COMPOSITE = 19;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2415,6 +2236,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPOSITE_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.GroupImpl <em>Group</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.GroupImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getGroup()
+	 * @generated
+	 */
+	int GROUP = 20;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -2523,6 +2354,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int GROUP_FEATURE_COUNT = COMPOSITE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ExpandableCompositeImpl <em>Expandable Composite</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ExpandableCompositeImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getExpandableComposite()
+	 * @generated
+	 */
+	int EXPANDABLE_COMPOSITE = 21;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -2640,6 +2481,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int EXPANDABLE_COMPOSITE_FEATURE_COUNT = COMPOSITE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeImpl <em>Tree</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TreeImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTree()
+	 * @generated
+	 */
+	int TREE = 22;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -2786,6 +2637,16 @@ public interface UiPackage extends EPackage {
 	int TREE_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 6;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl <em>Table</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.TableImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getTable()
+	 * @generated
+	 */
+	int TABLE = 23;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2930,6 +2791,16 @@ public interface UiPackage extends EPackage {
 	int TABLE_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 6;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ViewerColumnImpl <em>Viewer Column</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ViewerColumnImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getViewerColumn()
+	 * @generated
+	 */
+	int VIEWER_COLUMN = 24;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3020,6 +2891,16 @@ public interface UiPackage extends EPackage {
 	int VIEWER_COLUMN_FEATURE_COUNT = ITEM_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.SelectionImpl <em>Selection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.SelectionImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getSelection()
+	 * @generated
+	 */
+	int SELECTION = 25;
+
+	/**
 	 * The feature id for the '<em><b>Path</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3036,6 +2917,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int SELECTION_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl <em>Diagram Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDiagramItem()
+	 * @generated
+	 */
+	int DIAGRAM_ITEM = 26;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3180,6 +3071,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int DIAGRAM_ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 14;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl <em>Diagram Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDiagramConnection()
+	 * @generated
+	 */
+	int DIAGRAM_CONNECTION = 27;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3344,6 +3245,16 @@ public interface UiPackage extends EPackage {
 	int DIAGRAM_CONNECTION_FEATURE_COUNT = DIAGRAM_ITEM_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyEntryImpl <em>Property Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyEntryImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyEntry()
+	 * @generated
+	 */
+	int PROPERTY_ENTRY = 28;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3371,6 +3282,16 @@ public interface UiPackage extends EPackage {
 	int PROPERTY_ENTRY_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyMapImpl <em>Property Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyMapImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyMap()
+	 * @generated
+	 */
+	int PROPERTY_MAP = 29;
+
+	/**
 	 * The feature id for the '<em><b>properties</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3387,6 +3308,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_MAP_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyWidgetImpl <em>Property Widget</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyWidgetImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyWidget()
+	 * @generated
+	 */
+	int PROPERTY_WIDGET = 30;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3414,6 +3345,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_WIDGET_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.BrowserImpl <em>Browser</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.BrowserImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getBrowser()
+	 * @generated
+	 */
+	int BROWSER = 31;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3533,6 +3474,16 @@ public interface UiPackage extends EPackage {
 	int BROWSER_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.ViewImpl <em>View</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.ViewImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getView()
+	 * @generated
+	 */
+	int VIEW = 32;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3630,6 +3581,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int VIEW_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl <em>Editor</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getEditor()
+	 * @generated
+	 */
+	int EDITOR = 33;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3756,6 +3717,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDITOR_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl <em>Window</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getWindow()
+	 * @generated
+	 */
+	int WINDOW = 34;
 
 	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
@@ -3947,6 +3918,16 @@ public interface UiPackage extends EPackage {
 	int WINDOW_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 11;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl <em>Date Time</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getDateTime()
+	 * @generated
+	 */
+	int DATE_TIME = 35;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4073,6 +4054,16 @@ public interface UiPackage extends EPackage {
 	int DATE_TIME_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.SliderImpl <em>Slider</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.SliderImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getSlider()
+	 * @generated
+	 */
+	int SLIDER = 36;
+
+	/**
 	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4170,6 +4161,16 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int SLIDER_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl <em>Property Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyNode()
+	 * @generated
+	 */
+	int PROPERTY_NODE = 37;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4419,6 +4420,107 @@ public interface UiPackage extends EPackage {
 	int VALUES_MAP_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl <em>Line Markers Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLineMarkersValue()
+	 * @generated
+	 */
+	int LINE_MARKERS_VALUE = 44;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl <em>Marker</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getMarker()
+	 * @generated
+	 */
+	int MARKER = 43;
+
+	/**
+	 * The feature id for the '<em><b>Property Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__PROPERTY_NODES = WIDGET__PROPERTY_NODES;
+
+	/**
+	 * The feature id for the '<em><b>Line</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__LINE = WIDGET_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__TYPE = WIDGET_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__TEXT = WIDGET_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Column</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__COLUMN = WIDGET_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Marker</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_MARKERS_VALUE__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_MARKERS_VALUE__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Line Markers Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_MARKERS_VALUE_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.ButtonKind <em>Button Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4426,8 +4528,7 @@ public interface UiPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getButtonKind()
 	 * @generated
 	 */
-	int BUTTON_KIND = 43;
-
+	int BUTTON_KIND = 45;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.PropertyNodeType <em>Property Node Type</em>}' enum.
@@ -4437,7 +4538,7 @@ public interface UiPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyNodeType()
 	 * @generated
 	 */
-	int PROPERTY_NODE_TYPE = 44;
+	int PROPERTY_NODE_TYPE = 46;
 
 
 	/**
@@ -4804,6 +4905,203 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMenuItem_Cascade();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry <em>Style Range Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Style Range Entry</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry
+	 * @generated
+	 */
+	EClass getStyleRangeEntry();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStart <em>Start</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStart()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Start();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getLength <em>Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Length</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getLength()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Length();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getText()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Text();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFontStyle <em>Font Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Font Style</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFontStyle()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_FontStyle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFont <em>Font</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Font</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFont()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Font();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getForegroundColor <em>Foreground Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Foreground Color</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getForegroundColor()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_ForegroundColor();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBackgroundColor <em>Background Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Background Color</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBackgroundColor()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_BackgroundColor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderline <em>Underline</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Underline</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderline()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Underline();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderlineColor <em>Underline Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Underline Color</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderlineColor()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_UnderlineColor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeout <em>Strikeout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Strikeout</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeout()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Strikeout();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeoutColor <em>Strikeout Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Strikeout Color</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeoutColor()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_StrikeoutColor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderStyle <em>Border Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Border Style</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderStyle()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_BorderStyle();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderColor <em>Border Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Border Color</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderColor()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_BorderColor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getRise <em>Rise</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rise</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getRise()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Rise();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getMetrics <em>Metrics</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Metrics</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getMetrics()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EAttribute getStyleRangeEntry_Metrics();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStartPos <em>Start Pos</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Start Pos</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStartPos()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_StartPos();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getEndPos <em>End Pos</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>End Pos</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getEndPos()
+	 * @see #getStyleRangeEntry()
+	 * @generated
+	 */
+	EReference getStyleRangeEntry_EndPos();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.TreeItem <em>Tree Item</em>}'.
@@ -5186,6 +5484,17 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getText_StyleAtCaret();
+
+	/**
+	 * Returns the meta object for the map '{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkers <em>Markers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Markers</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Text#getMarkers()
+	 * @see #getText()
+	 * @generated
+	 */
+	EReference getText_Markers();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.TextPosition <em>Text Position</em>}'.
@@ -5779,6 +6088,61 @@ public interface UiPackage extends EPackage {
 	EClass getDiagramItem();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getText()
+	 * @see #getDiagramItem()
+	 * @generated
+	 */
+	EAttribute getDiagramItem_Text();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getTooltip <em>Tooltip</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Tooltip</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getTooltip()
+	 * @see #getDiagramItem()
+	 * @generated
+	 */
+	EAttribute getDiagramItem_Tooltip();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getClassName <em>Class Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Class Name</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getClassName()
+	 * @see #getDiagramItem()
+	 * @generated
+	 */
+	EAttribute getDiagramItem_ClassName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getItemAddress <em>Item Address</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Item Address</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getItemAddress()
+	 * @see #getDiagramItem()
+	 * @generated
+	 */
+	EAttribute getDiagramItem_ItemAddress();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#isSelected <em>Selected</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Selected</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#isSelected()
+	 * @see #getDiagramItem()
+	 * @generated
+	 */
+	EAttribute getDiagramItem_Selected();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getX <em>X</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5823,17 +6187,6 @@ public interface UiPackage extends EPackage {
 	EAttribute getDiagramItem_Height();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getTooltip <em>Tooltip</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Tooltip</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getTooltip()
-	 * @see #getDiagramItem()
-	 * @generated
-	 */
-	EAttribute getDiagramItem_Tooltip();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getChildrenCount <em>Children Count</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5843,17 +6196,6 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDiagramItem_ChildrenCount();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getText <em>Text</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Text</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getText()
-	 * @see #getDiagramItem()
-	 * @generated
-	 */
-	EAttribute getDiagramItem_Text();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getBackgroundColor <em>Background Color</em>}'.
@@ -5887,39 +6229,6 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDiagramItem_ModelPropertyNodes();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getItemAddress <em>Item Address</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Item Address</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getItemAddress()
-	 * @see #getDiagramItem()
-	 * @generated
-	 */
-	EAttribute getDiagramItem_ItemAddress();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#isSelected <em>Selected</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Selected</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#isSelected()
-	 * @see #getDiagramItem()
-	 * @generated
-	 */
-	EAttribute getDiagramItem_Selected();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getClassName <em>Class Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Class Name</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.DiagramItem#getClassName()
-	 * @see #getDiagramItem()
-	 * @generated
-	 */
-	EAttribute getDiagramItem_ClassName();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.DiagramConnection <em>Diagram Connection</em>}'.
@@ -6167,6 +6476,50 @@ public interface UiPackage extends EPackage {
 	EAttribute getWindow_Sizeable();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasBorder <em>Has Border</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Has Border</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasBorder()
+	 * @see #getWindow()
+	 * @generated
+	 */
+	EAttribute getWindow_HasBorder();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasMinimizeButton <em>Has Minimize Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Has Minimize Button</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasMinimizeButton()
+	 * @see #getWindow()
+	 * @generated
+	 */
+	EAttribute getWindow_HasMinimizeButton();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasMaximizeButton <em>Has Maximize Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Has Maximize Button</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasMaximizeButton()
+	 * @see #getWindow()
+	 * @generated
+	 */
+	EAttribute getWindow_HasMaximizeButton();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasCloseButton <em>Has Close Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Has Close Button</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasCloseButton()
+	 * @see #getWindow()
+	 * @generated
+	 */
+	EAttribute getWindow_HasCloseButton();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isIsPrimaryModal <em>Is Primary Modal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6220,50 +6573,6 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getWindow_IsSheet();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasCloseButton <em>Has Close Button</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Has Close Button</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasCloseButton()
-	 * @see #getWindow()
-	 * @generated
-	 */
-	EAttribute getWindow_HasCloseButton();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasMinimizeButton <em>Has Minimize Button</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Has Minimize Button</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasMinimizeButton()
-	 * @see #getWindow()
-	 * @generated
-	 */
-	EAttribute getWindow_HasMinimizeButton();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasMaximizeButton <em>Has Maximize Button</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Has Maximize Button</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasMaximizeButton()
-	 * @see #getWindow()
-	 * @generated
-	 */
-	EAttribute getWindow_HasMaximizeButton();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Window#isHasBorder <em>Has Border</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Has Border</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.Window#isHasBorder()
-	 * @see #getWindow()
-	 * @generated
-	 */
-	EAttribute getWindow_HasBorder();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.DateTime <em>Date Time</em>}'.
@@ -6513,201 +6822,92 @@ public interface UiPackage extends EPackage {
 	EAttribute getValuesMap_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry <em>Style Range Entry</em>}'.
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Line Markers Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Style Range Entry</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry
+	 * @return the meta object for class '<em>Line Markers Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EString"
+	 *        valueType="org.eclipse.rcptt.tesla.core.ui.Marker" valueMany="true"
 	 * @generated
 	 */
-	EClass getStyleRangeEntry();
+	EClass getLineMarkersValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStart <em>Start</em>}'.
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Start</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStart()
-	 * @see #getStyleRangeEntry()
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getLineMarkersValue()
 	 * @generated
 	 */
-	EAttribute getStyleRangeEntry_Start();
+	EAttribute getLineMarkersValue_Key();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getLength <em>Length</em>}'.
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Length</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getLength()
-	 * @see #getStyleRangeEntry()
+	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getLineMarkersValue()
 	 * @generated
 	 */
-	EAttribute getStyleRangeEntry_Length();
+	EReference getLineMarkersValue_Value();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getText <em>Text</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.Marker <em>Marker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Marker</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Marker
+	 * @generated
+	 */
+	EClass getMarker();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Marker#getLine <em>Line</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Line</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Marker#getLine()
+	 * @see #getMarker()
+	 * @generated
+	 */
+	EAttribute getMarker_Line();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Marker#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Marker#getType()
+	 * @see #getMarker()
+	 * @generated
+	 */
+	EAttribute getMarker_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Marker#getText <em>Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Text</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getText()
-	 * @see #getStyleRangeEntry()
+	 * @see org.eclipse.rcptt.tesla.core.ui.Marker#getText()
+	 * @see #getMarker()
 	 * @generated
 	 */
-	EAttribute getStyleRangeEntry_Text();
+	EAttribute getMarker_Text();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFontStyle <em>Font Style</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Marker#getColumn <em>Column</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Font Style</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFontStyle()
-	 * @see #getStyleRangeEntry()
+	 * @return the meta object for the attribute '<em>Column</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Marker#getColumn()
+	 * @see #getMarker()
 	 * @generated
 	 */
-	EAttribute getStyleRangeEntry_FontStyle();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFont <em>Font</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Font</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getFont()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_Font();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getForegroundColor <em>Foreground Color</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Foreground Color</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getForegroundColor()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_ForegroundColor();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBackgroundColor <em>Background Color</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Background Color</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBackgroundColor()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_BackgroundColor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderline <em>Underline</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Underline</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderline()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_Underline();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderlineColor <em>Underline Color</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Underline Color</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getUnderlineColor()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_UnderlineColor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeout <em>Strikeout</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Strikeout</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeout()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_Strikeout();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeoutColor <em>Strikeout Color</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Strikeout Color</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStrikeoutColor()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_StrikeoutColor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderStyle <em>Border Style</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Border Style</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderStyle()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_BorderStyle();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderColor <em>Border Color</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Border Color</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getBorderColor()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_BorderColor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getRise <em>Rise</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rise</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getRise()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_Rise();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getMetrics <em>Metrics</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Metrics</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getMetrics()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EAttribute getStyleRangeEntry_Metrics();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStartPos <em>Start Pos</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Start Pos</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStartPos()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_StartPos();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getEndPos <em>End Pos</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>End Pos</em>'.
-	 * @see org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getEndPos()
-	 * @see #getStyleRangeEntry()
-	 * @generated
-	 */
-	EReference getStyleRangeEntry_EndPos();
+	EAttribute getMarker_Column();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.ui.ButtonKind <em>Button Kind</em>}'.
@@ -7042,6 +7242,152 @@ public interface UiPackage extends EPackage {
 		EAttribute MENU_ITEM__CASCADE = eINSTANCE.getMenuItem_Cascade();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl <em>Style Range Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getStyleRangeEntry()
+		 * @generated
+		 */
+		EClass STYLE_RANGE_ENTRY = eINSTANCE.getStyleRangeEntry();
+
+		/**
+		 * The meta object literal for the '<em><b>Start</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__START = eINSTANCE.getStyleRangeEntry_Start();
+
+		/**
+		 * The meta object literal for the '<em><b>Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__LENGTH = eINSTANCE.getStyleRangeEntry_Length();
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__TEXT = eINSTANCE.getStyleRangeEntry_Text();
+
+		/**
+		 * The meta object literal for the '<em><b>Font Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__FONT_STYLE = eINSTANCE.getStyleRangeEntry_FontStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Font</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__FONT = eINSTANCE.getStyleRangeEntry_Font();
+
+		/**
+		 * The meta object literal for the '<em><b>Foreground Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__FOREGROUND_COLOR = eINSTANCE.getStyleRangeEntry_ForegroundColor();
+
+		/**
+		 * The meta object literal for the '<em><b>Background Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__BACKGROUND_COLOR = eINSTANCE.getStyleRangeEntry_BackgroundColor();
+
+		/**
+		 * The meta object literal for the '<em><b>Underline</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__UNDERLINE = eINSTANCE.getStyleRangeEntry_Underline();
+
+		/**
+		 * The meta object literal for the '<em><b>Underline Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__UNDERLINE_COLOR = eINSTANCE.getStyleRangeEntry_UnderlineColor();
+
+		/**
+		 * The meta object literal for the '<em><b>Strikeout</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__STRIKEOUT = eINSTANCE.getStyleRangeEntry_Strikeout();
+
+		/**
+		 * The meta object literal for the '<em><b>Strikeout Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__STRIKEOUT_COLOR = eINSTANCE.getStyleRangeEntry_StrikeoutColor();
+
+		/**
+		 * The meta object literal for the '<em><b>Border Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__BORDER_STYLE = eINSTANCE.getStyleRangeEntry_BorderStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Border Color</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__BORDER_COLOR = eINSTANCE.getStyleRangeEntry_BorderColor();
+
+		/**
+		 * The meta object literal for the '<em><b>Rise</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__RISE = eINSTANCE.getStyleRangeEntry_Rise();
+
+		/**
+		 * The meta object literal for the '<em><b>Metrics</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STYLE_RANGE_ENTRY__METRICS = eINSTANCE.getStyleRangeEntry_Metrics();
+
+		/**
+		 * The meta object literal for the '<em><b>Start Pos</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__START_POS = eINSTANCE.getStyleRangeEntry_StartPos();
+
+		/**
+		 * The meta object literal for the '<em><b>End Pos</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STYLE_RANGE_ENTRY__END_POS = eINSTANCE.getStyleRangeEntry_EndPos();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl <em>Tree Item</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -7326,6 +7672,14 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TEXT__STYLE_AT_CARET = eINSTANCE.getText_StyleAtCaret();
+
+		/**
+		 * The meta object literal for the '<em><b>Markers</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TEXT__MARKERS = eINSTANCE.getText_Markers();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextPositionImpl <em>Text Position</em>}' class.
@@ -7796,6 +8150,46 @@ public interface UiPackage extends EPackage {
 		EClass DIAGRAM_ITEM = eINSTANCE.getDiagramItem();
 
 		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM_ITEM__TEXT = eINSTANCE.getDiagramItem_Text();
+
+		/**
+		 * The meta object literal for the '<em><b>Tooltip</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM_ITEM__TOOLTIP = eINSTANCE.getDiagramItem_Tooltip();
+
+		/**
+		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM_ITEM__CLASS_NAME = eINSTANCE.getDiagramItem_ClassName();
+
+		/**
+		 * The meta object literal for the '<em><b>Item Address</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM_ITEM__ITEM_ADDRESS = eINSTANCE.getDiagramItem_ItemAddress();
+
+		/**
+		 * The meta object literal for the '<em><b>Selected</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM_ITEM__SELECTED = eINSTANCE.getDiagramItem_Selected();
+
+		/**
 		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -7828,28 +8222,12 @@ public interface UiPackage extends EPackage {
 		EAttribute DIAGRAM_ITEM__HEIGHT = eINSTANCE.getDiagramItem_Height();
 
 		/**
-		 * The meta object literal for the '<em><b>Tooltip</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM_ITEM__TOOLTIP = eINSTANCE.getDiagramItem_Tooltip();
-
-		/**
 		 * The meta object literal for the '<em><b>Children Count</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute DIAGRAM_ITEM__CHILDREN_COUNT = eINSTANCE.getDiagramItem_ChildrenCount();
-
-		/**
-		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM_ITEM__TEXT = eINSTANCE.getDiagramItem_Text();
 
 		/**
 		 * The meta object literal for the '<em><b>Background Color</b></em>' containment reference feature.
@@ -7874,30 +8252,6 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DIAGRAM_ITEM__MODEL_PROPERTY_NODES = eINSTANCE.getDiagramItem_ModelPropertyNodes();
-
-		/**
-		 * The meta object literal for the '<em><b>Item Address</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM_ITEM__ITEM_ADDRESS = eINSTANCE.getDiagramItem_ItemAddress();
-
-		/**
-		 * The meta object literal for the '<em><b>Selected</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM_ITEM__SELECTED = eINSTANCE.getDiagramItem_Selected();
-
-		/**
-		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM_ITEM__CLASS_NAME = eINSTANCE.getDiagramItem_ClassName();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl <em>Diagram Connection</em>}' class.
@@ -8100,6 +8454,38 @@ public interface UiPackage extends EPackage {
 		EAttribute WINDOW__SIZEABLE = eINSTANCE.getWindow_Sizeable();
 
 		/**
+		 * The meta object literal for the '<em><b>Has Border</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WINDOW__HAS_BORDER = eINSTANCE.getWindow_HasBorder();
+
+		/**
+		 * The meta object literal for the '<em><b>Has Minimize Button</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WINDOW__HAS_MINIMIZE_BUTTON = eINSTANCE.getWindow_HasMinimizeButton();
+
+		/**
+		 * The meta object literal for the '<em><b>Has Maximize Button</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WINDOW__HAS_MAXIMIZE_BUTTON = eINSTANCE.getWindow_HasMaximizeButton();
+
+		/**
+		 * The meta object literal for the '<em><b>Has Close Button</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WINDOW__HAS_CLOSE_BUTTON = eINSTANCE.getWindow_HasCloseButton();
+
+		/**
 		 * The meta object literal for the '<em><b>Is Primary Modal</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -8138,38 +8524,6 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WINDOW__IS_SHEET = eINSTANCE.getWindow_IsSheet();
-
-		/**
-		 * The meta object literal for the '<em><b>Has Close Button</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WINDOW__HAS_CLOSE_BUTTON = eINSTANCE.getWindow_HasCloseButton();
-
-		/**
-		 * The meta object literal for the '<em><b>Has Minimize Button</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WINDOW__HAS_MINIMIZE_BUTTON = eINSTANCE.getWindow_HasMinimizeButton();
-
-		/**
-		 * The meta object literal for the '<em><b>Has Maximize Button</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WINDOW__HAS_MAXIMIZE_BUTTON = eINSTANCE.getWindow_HasMaximizeButton();
-
-		/**
-		 * The meta object literal for the '<em><b>Has Border</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WINDOW__HAS_BORDER = eINSTANCE.getWindow_HasBorder();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl <em>Date Time</em>}' class.
@@ -8372,30 +8726,56 @@ public interface UiPackage extends EPackage {
 		EAttribute VALUES_MAP__VALUE = eINSTANCE.getValuesMap_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl <em>Style Range Entry</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl <em>Line Markers Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl
-		 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getStyleRangeEntry()
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getLineMarkersValue()
 		 * @generated
 		 */
-		EClass STYLE_RANGE_ENTRY = eINSTANCE.getStyleRangeEntry();
+		EClass LINE_MARKERS_VALUE = eINSTANCE.getLineMarkersValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Start</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STYLE_RANGE_ENTRY__START = eINSTANCE.getStyleRangeEntry_Start();
+		EAttribute LINE_MARKERS_VALUE__KEY = eINSTANCE.getLineMarkersValue_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Length</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STYLE_RANGE_ENTRY__LENGTH = eINSTANCE.getStyleRangeEntry_Length();
+		EReference LINE_MARKERS_VALUE__VALUE = eINSTANCE.getLineMarkersValue_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl <em>Marker</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getMarker()
+		 * @generated
+		 */
+		EClass MARKER = eINSTANCE.getMarker();
+
+		/**
+		 * The meta object literal for the '<em><b>Line</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MARKER__LINE = eINSTANCE.getMarker_Line();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MARKER__TYPE = eINSTANCE.getMarker_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
@@ -8403,119 +8783,15 @@ public interface UiPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STYLE_RANGE_ENTRY__TEXT = eINSTANCE.getStyleRangeEntry_Text();
+		EAttribute MARKER__TEXT = eINSTANCE.getMarker_Text();
 
 		/**
-		 * The meta object literal for the '<em><b>Font Style</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STYLE_RANGE_ENTRY__FONT_STYLE = eINSTANCE.getStyleRangeEntry_FontStyle();
-
-		/**
-		 * The meta object literal for the '<em><b>Font</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__FONT = eINSTANCE.getStyleRangeEntry_Font();
-
-		/**
-		 * The meta object literal for the '<em><b>Foreground Color</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__FOREGROUND_COLOR = eINSTANCE.getStyleRangeEntry_ForegroundColor();
-
-		/**
-		 * The meta object literal for the '<em><b>Background Color</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__BACKGROUND_COLOR = eINSTANCE.getStyleRangeEntry_BackgroundColor();
-
-		/**
-		 * The meta object literal for the '<em><b>Underline</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__UNDERLINE = eINSTANCE.getStyleRangeEntry_Underline();
-
-		/**
-		 * The meta object literal for the '<em><b>Underline Color</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__UNDERLINE_COLOR = eINSTANCE.getStyleRangeEntry_UnderlineColor();
-
-		/**
-		 * The meta object literal for the '<em><b>Strikeout</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__STRIKEOUT = eINSTANCE.getStyleRangeEntry_Strikeout();
-
-		/**
-		 * The meta object literal for the '<em><b>Strikeout Color</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__STRIKEOUT_COLOR = eINSTANCE.getStyleRangeEntry_StrikeoutColor();
-
-		/**
-		 * The meta object literal for the '<em><b>Border Style</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__BORDER_STYLE = eINSTANCE.getStyleRangeEntry_BorderStyle();
-
-		/**
-		 * The meta object literal for the '<em><b>Border Color</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__BORDER_COLOR = eINSTANCE.getStyleRangeEntry_BorderColor();
-
-		/**
-		 * The meta object literal for the '<em><b>Rise</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__RISE = eINSTANCE.getStyleRangeEntry_Rise();
-
-		/**
-		 * The meta object literal for the '<em><b>Metrics</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STYLE_RANGE_ENTRY__METRICS = eINSTANCE.getStyleRangeEntry_Metrics();
-
-		/**
-		 * The meta object literal for the '<em><b>Start Pos</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__START_POS = eINSTANCE.getStyleRangeEntry_StartPos();
-
-		/**
-		 * The meta object literal for the '<em><b>End Pos</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STYLE_RANGE_ENTRY__END_POS = eINSTANCE.getStyleRangeEntry_EndPos();
+		EAttribute MARKER__COLUMN = eINSTANCE.getMarker_Column();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.ButtonKind <em>Button Kind</em>}' enum.
