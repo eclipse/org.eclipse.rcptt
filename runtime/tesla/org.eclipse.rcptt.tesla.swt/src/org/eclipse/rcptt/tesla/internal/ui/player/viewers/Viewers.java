@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player.viewers;
 
-import static org.eclipse.rcptt.util.swt.TableTreeUtil.deselectAll;
+import static java.lang.Integer.parseInt;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.safeMatches;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrap;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
-import static java.lang.Integer.parseInt;
+import static org.eclipse.rcptt.util.swt.TableTreeUtil.deselectAll;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +42,19 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerColumn;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures.EscapeMode;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTEvents;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
+import org.eclipse.rcptt.tesla.ui.IViewerItem;
+import org.eclipse.rcptt.util.TableTreeItemPathUtil;
+import org.eclipse.rcptt.util.swt.Events;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -54,18 +67,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-
-import org.eclipse.rcptt.util.TableTreeItemPathUtil;
-import org.eclipse.rcptt.util.swt.Events;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTEvents;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
-import org.eclipse.rcptt.tesla.ui.IViewerItem;
 
 public class Viewers {
 
@@ -367,13 +368,13 @@ public class Viewers {
 					List<String> path = new ArrayList<String>();
 					String text = createTreeItemPathText(
 							new TreeViewerItem(selection[i]), null, true);
-					path.add(SWTUIPlayer.toSelectionItem(text));
+					path.add(escapePath(text));
 					String columnToSelect = TableTreeItemPathUtil.findColumnName(text);
 					TreeItem parentItem = selection[i].getParentItem();
 					while (parentItem != null) {
 						String parentText = createTreeItemPathText(new TreeViewerItem(parentItem),
 								columnToSelect, false);
-						path.add(0, SWTUIPlayer.toSelectionItem(parentText));
+						path.add(0, escapePath(parentText));
 						parentItem = parentItem.getParentItem();
 					}
 					paths.add(path.toArray(new String[path.size()]));
@@ -388,8 +389,7 @@ public class Viewers {
 				List<String[]> path = new ArrayList<String[]>();
 				for (TableItem item : selection) {
 					String text = createTableItemPathText(new TableViewerItem(item), null, true);
-					path.add(new String[] { SWTUIPlayer
-							.toSelectionItem(text) });
+					path.add(new String[] { escapePath(text) });
 				}
 				return path.toArray(new String[path.size()][]);
 			}
@@ -406,6 +406,14 @@ public class Viewers {
 			}
 		}
 		return null;
+	}
+
+	private static String escapePath(String path) {
+		String escapeMode = TeslaFeatures.getInstance().getValue(TeslaFeatures.ESCAPE_TREES_TABLES_MODE);
+		if (escapeMode.equals(EscapeMode.EscapedRegex.toString())) {
+			path = SWTUIPlayer.toSelectionItem(path);
+		}
+		return path;
 	}
 
 	/**
