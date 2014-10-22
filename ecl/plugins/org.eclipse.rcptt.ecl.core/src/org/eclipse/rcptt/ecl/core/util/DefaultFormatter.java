@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.core.util;
 
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
+
 public class DefaultFormatter implements ICommandFormatter {
 
 	private static final int INDENT_SIZE = 4;
-	private static final int LINE_LENGTH = 120;
 
 	private static final String LINE_SEP = "\n";
 	private static final String SPACE = " ";
@@ -147,7 +148,8 @@ public class DefaultFormatter implements ICommandFormatter {
 	private DefaultFormatter append(String s) {
 		buffer.append(s);
 		posInLine += s.length();
-		if (posInLine > LINE_LENGTH && possibleLineBreak > 0 && possibleLineBreak < posInLine) {
+		if (posInLine > CorePlugin.getECLMaximumLineWidth() && possibleLineBreak > 0
+				&& possibleLineBreak < posInLine) {
 			lineBreak(possibleLineBreak, lineBreak);
 		}
 		return this;

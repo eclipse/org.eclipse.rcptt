@@ -519,7 +519,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IsDisabled" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Cheks if the control is disabled or not"/>
+      <details key="description" value="Checks if the control is disabled or not"/>
       <details key="returns" value="true if the control is disabled or false otherwise"/>
       <details key="recorded" value="true"/>
       <details key="example" value="get-menu &quot;File/Save&quot; | is-disabled | assert-true"/>
@@ -534,7 +534,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IsDisposed" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Cheks if the control is disposed or not"/>
+      <details key="description" value="Checks if the control is disposed or not"/>
       <details key="returns" value="true if the control is disposed or false otherwise"/>
       <details key="recorded" value="true"/>
       <details key="example" value="get-editor &quot;WorkbenchContext&quot; | is-disposed | verify-false"/>

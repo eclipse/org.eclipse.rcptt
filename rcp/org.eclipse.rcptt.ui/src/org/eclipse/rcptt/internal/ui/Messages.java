@@ -293,6 +293,7 @@ public class Messages extends NLS {
 	public static String Q7PreferencePage_IncorrectCommandDelayMsg;
 	public static String Q7PreferencePage_IncorrectLaunchTimeoutMsg;
 	public static String Q7PreferencePage_LaunchTimeoutLabel;
+	public static String ECLPreferenceEditorPage_MaximumLineWidth;
 	public static String Q7RenameResourceWizard_NewNameLabel;
 	public static String Q7RenameResourceWizard_PageTitle;
 	public static String Q7RenameResourceWizard_WindowTitle;

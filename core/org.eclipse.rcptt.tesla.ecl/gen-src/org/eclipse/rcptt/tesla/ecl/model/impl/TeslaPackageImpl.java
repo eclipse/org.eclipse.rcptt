@@ -6089,7 +6089,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (isDisabledEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Cheks if the control is disabled or not",
+			 "description", "Checks if the control is disabled or not",
 			 "returns", "true if the control is disabled or false otherwise",
 			 "recorded", "true",
 			 "example", "get-menu \"File/Save\" | is-disabled | assert-true"
@@ -6104,7 +6104,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (isDisposedEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Cheks if the control is disposed or not",
+			 "description", "Checks if the control is disposed or not",
 			 "returns", "true if the control is disposed or false otherwise",
 			 "recorded", "true",
 			 "example", "get-editor \"WorkbenchContext\" | is-disposed | verify-false"
