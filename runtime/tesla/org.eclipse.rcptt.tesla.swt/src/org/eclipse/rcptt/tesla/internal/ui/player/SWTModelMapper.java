@@ -745,7 +745,7 @@ public class SWTModelMapper {
 						text = value.toString();
 					}
 				}
-				tItem.getValues().put(((TableColumn) columns[i]).getText(), text);
+				tItem.getValues().put(getTextOrToolTip((TableColumn) columns[i]), text);
 				tItem.getColumns().add(text);
 				tItem.getColumnsBackgroundColor().add(
 						makeColor(wItem.getBackground(i)));
@@ -830,7 +830,7 @@ public class SWTModelMapper {
 						text = value.toString();
 					}
 				}
-				tItem.getValues().put(((TreeColumn) columns[i]).getText(), text);
+				tItem.getValues().put(getTextOrToolTip((TreeColumn) columns[i]), text);
 				tItem.getColumns().add(text);
 				tItem.getColumnsBackgroundColor().add(
 						makeColor(wItem.getBackground(i)));
@@ -891,6 +891,22 @@ public class SWTModelMapper {
 		}
 
 		return tItem;
+	}
+
+	private static String getTextOrToolTip(TreeColumn column) {
+		if (!column.getText().isEmpty()) {
+			return column.getText();
+		} else {
+			return column.getToolTipText();
+		}
+	}
+
+	private static String getTextOrToolTip(TableColumn column) {
+		if (!column.getText().isEmpty()) {
+			return column.getText();
+		} else {
+			return column.getToolTipText();
+		}
 	}
 
 	private static Object getColumnValue(org.eclipse.swt.widgets.Widget widget,

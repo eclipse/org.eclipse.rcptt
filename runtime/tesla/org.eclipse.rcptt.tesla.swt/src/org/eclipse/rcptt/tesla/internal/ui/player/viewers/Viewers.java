@@ -15,6 +15,8 @@ import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.safeMat
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrap;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
 import static org.eclipse.rcptt.util.swt.TableTreeUtil.deselectAll;
+import static org.eclipse.rcptt.util.swt.TableTreeUtil.getColumn;
+import static org.eclipse.rcptt.util.swt.TableTreeUtil.getParent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -752,12 +755,37 @@ public class Viewers {
 		if (columnInd < 1) {
 			text = TableTreeUtil.getValue(item);
 		} else {
-			text = TableTreeItemPathUtil.appendSegmentColumnName(TableTreeUtil.getValue(item, columnInd), columnName);
+			String columnValue = TableTreeUtil.getValue(item, columnInd);
+			if (columnValue.equals("")) {
+				Object value = getColumnValue(
+						item, columnInd);
+				if (value != null) {
+					columnValue = value.toString();
+				}
+			}
+			text = TableTreeItemPathUtil.appendSegmentColumnName(columnValue,
+					columnName);
 		}
 		return viewerMatchs(pattern, text)
 				|| viewerMatchs(pattern,
 						SWTUIPlayer.toSelectionItem(getItemText(item, pattern,
 								items)));
+	}
+
+	private static Object getColumnValue(Widget widget,
+			int index) {
+		Widget column = getColumn(getParent(widget),
+				index);
+		Object columnViewer = column.getData(Policy.JFACE + ".columnViewer");
+		EditingSupport es = TeslaSWTAccess.getField(EditingSupport.class,
+				columnViewer, "editingSupport");
+		Object value = null;
+		if (es != null) {
+			value = TeslaSWTAccess.callMethod(EditingSupport.class, es,
+					"getValue", new Class[] { Object.class },
+					((Item) widget).getData());
+		}
+		return value;
 	}
 
 	public static Set<Item> findItems(final String[][] paths,

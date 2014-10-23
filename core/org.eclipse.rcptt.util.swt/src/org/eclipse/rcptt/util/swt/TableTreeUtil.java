@@ -415,7 +415,13 @@ public class TableTreeUtil {
 			boolean regex) {
 		for (Widget column : columns) {
 			if (!matches(getName(column), name, regex)) {
-				continue;
+				String nameFromTooltip = getTooltip(column);
+				if (nameFromTooltip == null) {
+					continue;
+				}
+				if (!matches(nameFromTooltip, name, regex)) {
+					continue;
+				}
 			}
 			if (index == 0) {
 				return column;
