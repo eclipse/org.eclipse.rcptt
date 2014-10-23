@@ -3,7 +3,7 @@
 	id="org.eclipse.rcptt.ecl.shell" 
 	label="ECL Telnet Shell" 
 	provider-name="%providerName"
-	version="1.5.3.qualifier">
+	version="1.5.4.qualifier">
 	
   <description>
 	Telnet shell for interactive remote execution of ECL commands
@@ -18,8 +18,8 @@
   </license>
   
   <requires>
-    <import feature="org.eclipse.rcptt.ecl.core" version="1.5.3.qualifier"/>
-    <import feature="org.eclipse.rcptt.ecl.server" version="1.5.3.qualifier"/>
+    <import feature="org.eclipse.rcptt.ecl.core" version="1.5.4.qualifier"/>
+    <import feature="org.eclipse.rcptt.ecl.server" version="1.5.4.qualifier"/>
   </requires>
   
   <plugin unpack="false" id="org.eclipse.rcptt.ecl.telnet.server"  version="0.0.0"/>

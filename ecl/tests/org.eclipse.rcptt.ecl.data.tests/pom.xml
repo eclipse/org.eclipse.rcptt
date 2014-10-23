@@ -5,7 +5,7 @@
   <parent>
     <artifactId>ecl-tests</artifactId>
     <groupId>org.eclipse.rcptt.ecl</groupId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
   <artifactId>org.eclipse.rcptt.ecl.data.tests</artifactId>
   <packaging>eclipse-test-plugin</packaging>

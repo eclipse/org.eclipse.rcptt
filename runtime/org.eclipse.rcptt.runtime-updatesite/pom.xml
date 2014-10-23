@@ -4,11 +4,11 @@
   <parent>
     <artifactId>rcptt.runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.runtime-updatesite</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-update-site</packaging>
   <build>
     <plugins>

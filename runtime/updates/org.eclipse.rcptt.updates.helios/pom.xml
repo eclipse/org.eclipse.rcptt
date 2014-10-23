@@ -4,12 +4,12 @@
   <parent>
     <artifactId>ide</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>../../../releng/ide/pom.xml</relativePath>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.updates.helios</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
   <build>

@@ -2,22 +2,22 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Q7 Runtime SWT Recording Support
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.swt;singleton:=true
-Bundle-Version: 1.5.3.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.recording.core.swt.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.rcptt.tesla.core;bundle-version="[1.5.3,1.6.0)",
- org.eclipse.rcptt.tesla.recording.core;bundle-version="[1.5.3,1.6.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.recording.core;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.ui,
- org.eclipse.rcptt.tesla.recording.aspects.swt;bundle-version="[1.5.3,1.6.0)",
+ org.eclipse.rcptt.tesla.recording.aspects.swt;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.emf.ecore,
- org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.3,1.6.0)",
- org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.3,1.6.0)",
- org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.3,1.6.0)",
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.ui.forms;resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.tesla.recording.aspects.forms;bundle-version="[1.5.3,1.6.0)";resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.tesla.recording.aspects.jface;bundle-version="[1.5.3,1.6.0)";resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.tesla.recording.aspects.workbench;bundle-version="[1.5.3,1.6.0)";resolution:=optional;x-installation:=greedy,
+ org.eclipse.rcptt.tesla.recording.aspects.forms;bundle-version="[1.5.4,1.6.0)";resolution:=optional;x-installation:=greedy,
+ org.eclipse.rcptt.tesla.recording.aspects.jface;bundle-version="[1.5.4,1.6.0)";resolution:=optional;x-installation:=greedy,
+ org.eclipse.rcptt.tesla.recording.aspects.workbench;bundle-version="[1.5.4,1.6.0)";resolution:=optional;x-installation:=greedy,
  org.eclipse.core.resources;resolution:=optional;x-installation:=greedy,
  org.eclipse.rcptt.logging;bundle-version="1.1.0",
  org.eclipse.rcptt.util.swt;bundle-version="1.0.0",

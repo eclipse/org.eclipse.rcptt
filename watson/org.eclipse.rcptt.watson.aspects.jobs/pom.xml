@@ -4,12 +4,12 @@
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>watson</artifactId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.watson.aspects.jobs</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <dependencies>
     <dependency>

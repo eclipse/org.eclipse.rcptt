@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECL Parser Tests
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.parser.test;singleton:=true
-Bundle-Version: 1.5.3.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.junit,
  org.eclipse.core.runtime,

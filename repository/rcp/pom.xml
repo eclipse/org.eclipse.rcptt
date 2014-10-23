@@ -4,7 +4,7 @@
   <parent>
 	<artifactId>repositories</artifactId>
 	<groupId>org.eclipse.rcptt.repositories</groupId>
-	<version>1.5.3-SNAPSHOT</version>
+	<version>1.5.4-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>rcp</artifactId>

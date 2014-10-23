@@ -4,10 +4,10 @@
   <parent>
     <artifactId>q7.rcp.verifications</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.verifications.tree.ui</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
