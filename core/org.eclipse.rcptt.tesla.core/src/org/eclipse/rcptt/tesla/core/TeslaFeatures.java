@@ -25,6 +25,17 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	public final static String INTERNAL_CLIPBOARD = "org.eclipse.rcptt.tesla.internal.clipboard";
 	public final static String COMMAND_EXECUTION_DELAY_TESLA = "org.eclipse.rcptt.tesla.execution.delay";
 	public final static String RECORD_ALL_SELECTIONS = "org.eclipse.rcptt.tesla.record.all.selections";
+	public final static String ESCAPE_TREES_TABLES_MODE = "org.eclipse.rcptt.tesla.escape.mode";
+
+	private static final String[] ESCAPE_TREES_TABLES_VALUES = new String[] {
+			EscapeMode.ExactString.toString(),
+			EscapeMode.EscapedRegex.toString()
+	};
+
+	public static enum EscapeMode {
+		ExactString,
+		EscapedRegex
+	}
 
 	public final static String ACTIVITY_LOGS = "com.xored.runtime.enable.activity.logs";
 
@@ -130,6 +141,13 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.description(
 						"Enables or disables collapsing of selection events")
 				.editable(true).showIn(ADV_OPTIONS, CP_OPTIONS);
+
+		option(ESCAPE_TREES_TABLES_MODE)
+				.name("Table/tree item literal mode")
+				.values(ESCAPE_TREES_TABLES_VALUES)
+				.defaultValue(EscapeMode.ExactString.toString())
+				.value(EscapeMode.ExactString.toString())
+				.showIn(ADV_OPTIONS, CP_OPTIONS);
 
 		option(STATUS_DIALOG_ALLOWED)
 				.name("Allow status dialogs")
