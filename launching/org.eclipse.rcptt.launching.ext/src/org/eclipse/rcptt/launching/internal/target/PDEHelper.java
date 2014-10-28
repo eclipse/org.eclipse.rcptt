@@ -49,7 +49,7 @@ public class PDEHelper {
 	}
 
 	public static IMetadataRepository safeLoadRepository(URI uri,
-			IProgressMonitor monitor) {
+			IProgressMonitor monitor) throws CoreException {
 		return P2Utils.safeLoadRepository(uri, monitor,
 				P2Utils.getProvisioningAgent());
 	}

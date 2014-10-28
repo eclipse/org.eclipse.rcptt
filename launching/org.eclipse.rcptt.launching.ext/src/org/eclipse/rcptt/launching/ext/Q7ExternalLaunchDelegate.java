@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.launching.ext;
 
 import static com.google.common.base.Objects.firstNonNull;
+import static java.util.Arrays.asList;
 import static org.eclipse.rcptt.internal.launching.ext.AJConstants.OSGI_FRAMEWORK_EXTENSIONS;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.status;
@@ -18,7 +19,6 @@ import static org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils.id;
 import static org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils.setDelegateFields;
 import static org.eclipse.rcptt.launching.ext.StartLevelSupport.getStartInfo;
 import static org.eclipse.rcptt.util.Versions.isGreater;
-import static java.util.Arrays.asList;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -45,6 +45,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -74,14 +75,6 @@ import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.osgi.framework.Version;
-
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
@@ -100,8 +93,15 @@ import org.eclipse.rcptt.launching.internal.target.Q7Target;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
-import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.util.FileUtil;
+import org.osgi.framework.Version;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 @SuppressWarnings("restriction")
 public class Q7ExternalLaunchDelegate extends
@@ -134,7 +134,7 @@ public class Q7ExternalLaunchDelegate extends
 							+ " cause " + e.getMessage(), e);
 			waiter.handle(e);
 			// no need to throw exception in case of cancel
-			if (e.getStatus().getSeverity() != IStatus.CANCEL) {
+			if (!e.getStatus().matches(IStatus.CANCEL)) {
 				throw e;
 			}
 		} catch (RuntimeException e) {
@@ -230,19 +230,16 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		info.target = target;
-
-		if (!target.isValid()
-				|| !target.validateBundles(new SubProgressMonitor(monitor, 1))) {
+		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "target platform initialization for "
+				+ configuration.getName(), null);
+		error.add(target.getStatus());
+		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
+		
+		if (!error.isOK()) { 
 			if (monitor.isCanceled()) {
 				removeTargetPlatform(configuration);
 				return false;
 			}
-
-			String errorMessage = "RCPTT failed to launch configuration: "
-					+ configuration.getName()
-					+ " because target platform for configuration is not valid. Error: "
-					+ target.getErrorMessage();
-			IStatus error = Q7ExtLaunchingPlugin.status(errorMessage, null);
 			Q7ExtLaunchingPlugin.log(error);
 			removeTargetPlatform(configuration);
 			throw new CoreException(error);
@@ -378,7 +375,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 	}
 
-	private boolean updateJVM(ILaunchConfiguration configuration,
+	private static boolean updateJVM(ILaunchConfiguration configuration,
 			OSArchitecture architecture, ITargetPlatformHelper target) {
 		try {
 			IVMInstall jvmInstall = null;
@@ -404,14 +401,7 @@ public class Q7ExternalLaunchDelegate extends
 
 				String vmArgs = workingCopy.getAttribute(
 						IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-						target.getIniVMArgs());
-				if (vmArgs == null) {
-					// Lets use current runner vm arguments
-					vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
-							.trim();
-				} else {
-					vmArgs = vmArgs.trim();
-				}
+						Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
 
 				OSArchitecture configArch;
 				String archAttrValue = configuration.getAttribute(
@@ -575,12 +565,6 @@ public class Q7ExternalLaunchDelegate extends
 			properties.setBeginAdd(true);
 			properties.putAll(props);
 
-			properties.setProperty(
-					OSGI_FRAMEWORK_EXTENSIONS,
-					addWeavingHook(
-							properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS),
-							target.getWeavingHook()));
-
 			BufferedOutputStream out = new BufferedOutputStream(
 					new FileOutputStream(config));
 			properties.store(out, "Configuration File");
@@ -667,8 +651,10 @@ public class Q7ExternalLaunchDelegate extends
 					+ AJConstants.HOOK + " plugin"));
 		}
 
-		args.add("-Dosgi.framework.extensions=reference:file:"
-				+ hook.getInstallLocation());
+		// Append all other properties from original config file
+		OriginalOrderProperties properties = target.getConfigIniProperties();
+
+		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
 
 		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args));
 
@@ -889,7 +875,7 @@ public class Q7ExternalLaunchDelegate extends
 	}
 
 	private void copyConfiguratonFiles(
-			final ILaunchConfiguration configuration, CachedInfo info) {
+			final ILaunchConfiguration configuration, CachedInfo info) throws CoreException {
 		String targetPlatformPath = ((ITargetPlatformHelper) info.target)
 				.getTargetPlatformProfilePath();
 		File configFolder = new File(targetPlatformPath, "configuration"); //$NON-NLS-1$

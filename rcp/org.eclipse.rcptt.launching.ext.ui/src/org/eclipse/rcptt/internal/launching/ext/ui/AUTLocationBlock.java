@@ -10,17 +10,25 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.internal.debug.ui.actions.ControlAccessibleListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.pde.internal.ui.SWTFactory;
+import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
+import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -35,15 +43,21 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
-import org.eclipse.rcptt.launching.IQ7Launch;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
-
 @SuppressWarnings("restriction")
 public class AUTLocationBlock {
 
 	private ExternalAUTMainTab fTab;
 	private Listener fListener = new Listener();
+	private final WritableValue status = new WritableValue(Status.OK_STATUS, IStatus.class);
+
+	private void setStatus(final IStatus newStatus) {
+		status.getRealm().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				status.setValue(newStatus);
+			}
+		});
+	}
 
 	private Text locationField;
 	private Button fileLocationButton;
@@ -86,8 +100,11 @@ public class AUTLocationBlock {
 			runInDialog(new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
-					info = Q7TargetPlatformManager.createTargetPlatform(
-							location, monitor, true);
+					try {
+						info = Q7TargetPlatformManager.createTargetPlatform(location, monitor);
+					} catch (CoreException e) {
+						setStatus(e.getStatus());
+					}
 				}
 			});
 		}
@@ -161,24 +178,18 @@ public class AUTLocationBlock {
 		}
 	}
 
-	public String infoValidate() {
-		if (info != null && info.isValid()) {
-			return info.getWarningMessage();
-		}
-		return null;
+	IStatus createError(String message) {
+		return new Status(IStatus.ERROR, PLUGIN_ID, message);
 	}
 
-	public String validate() {
+	public IStatus getStatus() {
 		if (locationField.getText().trim().length() == 0) {
-			return "Please specify Application installation directory...";
+			return createError("Please specify Application installation directory...");
 		}
 		if (info == null) {
-			return "Please specify correct Application installation directory...";
+			return createError("Please specify correct Application installation directory...");
 		} else {
-			if (info.isValid()) {
-				return null;
-			}
-			return info.getErrorMessage();
+			return info.getStatus();
 		}
 	}
 

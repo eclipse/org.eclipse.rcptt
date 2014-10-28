@@ -12,6 +12,7 @@ package org.eclipse.rcptt.launching.internal.target;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static java.util.Collections.emptyList;
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -102,34 +103,28 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private static final String OSGI_BUNDLES = "osgi.bundles";
 	private static final String SIMPLECONFIGURATOR = "org.eclipse.equinox.simpleconfigurator"; //$NON-NLS-1$
 	private static final String SC_BUNDLES_PATH = "configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"; //$NON-NLS-1$
-	private String errorMessage = null;
-	ITargetDefinition target;
-	IBundleContainer instanceContainer;
+	private IStatus status = Status.OK_STATUS;
+	private final ITargetDefinition target;
 	private final ArrayList<IBundleContainer> extra = new ArrayList<IBundleContainer>();
 	private IPluginModelBase[] models;
 	private PDEExtensionRegistry registry;
 
 	private Q7Target q7target = new Q7Target();
 
+	public TargetPlatformHelper(ITargetDefinition target) {
+		this.target = target;
+		initialize();
+	}
+
+
 	public Q7Target getQ7Target() {
 		return q7target;
 	}
 
+	@Deprecated
+	/** Use getStatus().isOK() instead */
 	public boolean isValid() {
-		if (target == null) {
-			return false;
-		}
-		if (errorMessage != null) {
-			return false;
-		}
-		if (!target.isResolved()) {
-			return false;
-		}
-		IStatus status = getBundleStatus();
-		if (status == null) {
-			return false;
-		}
-		return status.isOK();
+		return getStatus().isOK();
 	}
 
 	public boolean isResolved() {
@@ -140,19 +135,20 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public boolean isInstanceContainerValid() {
-		return instanceContainer != null
-				&& instanceContainer.getStatus().isOK();
+		return getInstanceContainer() != null
+				&& getInstanceContainer().getStatus().isOK();
 	}
 
+	public IStatus getStatus() {
+		if (status == null) {
+			return new Status(IStatus.ERROR, PLUGIN_ID, "Target platform is unset");
+		}
+		return status;
+	}
+
+	@Deprecated
 	public String getErrorMessage() {
-		if (errorMessage != null) {
-			return errorMessage;
-		}
-		if (target != null) {
-			IStatus bundleStatus = getBundleStatus();
-			return getNonMultiStatusMessage(bundleStatus);
-		}
-		return null;
+		return getNonMultiStatusMessage(getStatus());
 	}
 
 	public String getWarningMessage() {
@@ -282,22 +278,13 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return st == null ? "" : st.getMessage();
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-
-	public void setTarget(ITargetDefinition target) {
-		this.target = target;
-		initialize();
-	}
-
 	private void initialize() {
 		extra.clear();
+		q7target = new Q7Target();
 		if (this.target != null && this.target.getBundleContainers() != null) {
 			IBundleContainer[] containers = this.target.getBundleContainers();
 			for (IBundleContainer iUBundleContainer : containers) {
 				if (iUBundleContainer instanceof ProfileBundleContainer) {
-					instanceContainer = iUBundleContainer;
 					getQ7Target().setInstall(iUBundleContainer);
 				} else if (iUBundleContainer instanceof DirectoryBundleContainer) {
 					getQ7Target().pluginsDir = iUBundleContainer;
@@ -307,10 +294,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				extra.add(iUBundleContainer);
 			}
 		}
-	}
-
-	public void setTargetContainer(IBundleContainer container) {
-		this.instanceContainer = container;
 	}
 
 	public void setTargetName(String name) {
@@ -340,9 +323,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public String getTargetPlatformProfilePath() {
-		if (instanceContainer != null) {
+		if (getInstanceContainer() != null) {
 			try {
-				return ((ProfileBundleContainer) instanceContainer)
+				return ((ProfileBundleContainer) getInstanceContainer())
 						.getLocation(true).toString();
 			} catch (CoreException e) {
 				Q7ExtLaunchingPlugin.getDefault().log(e);
@@ -452,7 +435,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private IPluginModelBase weavingHook;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public boolean validateBundles(IProgressMonitor monitor) {
+	public IStatus validateBundles(IProgressMonitor monitor) {
 		LaunchValidationOperation validation = new LaunchValidationOperation(
 				null) {
 			@Override
@@ -482,16 +465,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				}
 			}
 			if (b.length() > 0) {
-				errorMessage = b.toString();
-				return false;
+				return new Status(IStatus.ERROR, PLUGIN_ID, "Bundle validation failed: " + b.toString());
 			}
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
-			return false;
+			return status = e.getStatus();
 		} catch (OperationCanceledException e) {
-			return false;
+			return status = Status.CANCEL_STATUS;
 		}
-		return true;
+		return status = Status.OK_STATUS;
 	}
 
 	public String[] getProducts() {
@@ -550,9 +532,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public IStatus resolve(IProgressMonitor monitor) {
 		ITargetDefinition target = getTarget();
 		if (target != null) {
-			return target.resolve(monitor);
+			return status = target.resolve(monitor);
 		}
-		return Status.CANCEL_STATUS;
+		return status = Status.CANCEL_STATUS;
 	}
 
 	public OriginalOrderProperties getConfigIniProperties() {
@@ -695,13 +677,13 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return injectConfig;
 	}
 
-	public boolean applyInjection(InjectionConfiguration configuration,
+	public IStatus applyInjection(InjectionConfiguration configuration,
 			IProgressMonitor monitor) {
 		injectConfig = configuration;
 		// remove the "host" from bundles, it is handled in a separate, special
 		// way
 		for (int i = 0; i < extra.size(); ++i) {
-			if (extra.get(i) == instanceContainer) {
+			if (extra.get(i) == getInstanceContainer()) {
 				extra.remove(i);
 				break;
 			}
@@ -712,106 +694,114 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		for (Entry entry : entries) {
 			SubProgressMonitor mon = new SubProgressMonitor(monitor, 20);
 			if (monitor.isCanceled()) {
-				return false;
+				return Status.CANCEL_STATUS;
 			}
-			boolean result = false;
+			IStatus result = new Status(IStatus.ERROR, PLUGIN_ID, "Unknown injection type: "
+					+ entry.getClass().getName());
 			if (entry instanceof UpdateSite) {
 				result = processUpdateSite(mon, (UpdateSite) entry);
-			}
-			if (entry instanceof Directory) {
+			} else if (entry instanceof Directory) {
 				result = processDirectory(mon, (Directory) entry);
 			}
-			if (!result) {
-				return false;
+			if (result.matches(IStatus.ERROR)) {
+				return result;
 			}
 		}
 		update();
 		IStatus resolveStatus = resolve(monitor);
 		if (!resolveStatus.isOK()) {
-			return false;
+			return resolveStatus;
 		}
 		save();
 		return validateBundles(monitor);
 	}
 
-	private boolean processDirectory(IProgressMonitor monitor, Directory entry) {
+	private IStatus processDirectory(IProgressMonitor monitor, Directory entry) {
 		String path = entry.getPath();
+		MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Processing " + path, null);
 		if (path.startsWith("platform:///")) {
 			// if path is platform uri, lets resolve it to file
 			try {
 				URL resolve = FileLocator.resolve(URI.create(path).toURL());
 				path = resolve.getPath();
 			} catch (MalformedURLException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
+				rv.add(new Status(IStatus.WARNING, PLUGIN_ID, e.getMessage(), e));
 			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
+				rv.add(new Status(IStatus.WARNING, PLUGIN_ID, e.getMessage(), e));
 			}
 		}
 		IBundleContainer container = PDEHelper.getTargetService()
 				.newDirectoryContainer(path);
 		q7target.addExtra(container);
 		extra.add(container);
-		return true;
+		return Status.OK_STATUS;
 	}
 
-	private boolean processUpdateSite(IProgressMonitor monitor, UpdateSite site) {
-		URI uri = URI.create(site.getUri());
-		IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
-				monitor);
-		IArtifactRepository artifactRepository = PDEHelper
-				.safeLoadArtifactRepository(uri, monitor);
-		if (repository == null || artifactRepository == null) {
-			if (monitor.isCanceled()) {
-				return false;
-			}
-			Q7ExtLaunchingPlugin.getDefault().log(
-					"Failed to load repository from " + uri, null);
-			errorMessage = "Failed to load update site:" + uri;
-			return false;
+	private static final IStatus createError(String message) {
+		return createError(message, null);
+	}
+
+	private static final IStatus createError(String message, Throwable error) {
+		if (message == null && error != null) {
+			message = error.getMessage();
 		}
+		return new Status(IStatus.ERROR, PLUGIN_ID, message, error);
+	}
 
-		List<IInstallableUnit> unitsToInstall = new ArrayList<IInstallableUnit>();
-
-		// Query for all entries and then choose required.
-		IQuery<IInstallableUnit> finalQuery = P2Utils.createQuery(site);
-
-		IQueryResult<IInstallableUnit> result = repository.query(finalQuery,
-				monitor);
-		Set<IInstallableUnit> availableUnits = result.toSet();
-
-		if (site.isAllUnits()) {
-			unitsToInstall.addAll(availableUnits);
-		} else {
-			P2Utils.expandFeatures(monitor, repository, availableUnits);
-
-			Set<String> unitIDs = P2Utils.mapUnitsToId(availableUnits);
-			Set<String> missingUnits = new HashSet<String>(site.getUnits());
-			missingUnits.removeAll(unitIDs);
-			if (!missingUnits.isEmpty()) { // Some units are not available
-				errorMessage = "Few units are not available:"
-						+ Arrays.toString(missingUnits.toArray());
-				return false;
-			}
-			unitsToInstall.addAll(availableUnits);
-		}
-		if (unitsToInstall.size() > 0) {
-			IInstallableUnit[] unitsAsArray = unitsToInstall
-					.toArray(new IInstallableUnit[unitsToInstall.size()]);
-			URI[] uriArray = new URI[] { uri };
-
-			IBundleContainer container = PDEHelper.getTargetService()
-					.newIUContainer(unitsAsArray, uriArray,
-							IUBundleContainer.INCLUDE_ALL_ENVIRONMENTS);
-
-			extra.add(container);
-			q7target.addExtra(container);
-
-		}
-
-		// Lets mirror all required artifacts into bundle pool, since we don't
-		// really trust P2.
-
+	private IStatus processUpdateSite(IProgressMonitor monitor, UpdateSite site) {
 		try {
+			URI uri = URI.create(site.getUri());
+			IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
+					monitor);
+			IArtifactRepository artifactRepository = PDEHelper
+					.safeLoadArtifactRepository(uri, monitor);
+			if (repository == null || artifactRepository == null) {
+				if (monitor.isCanceled()) {
+					return Status.CANCEL_STATUS;
+				}
+				return createError("Failed to load update site:" + uri);
+			}
+
+			List<IInstallableUnit> unitsToInstall = new ArrayList<IInstallableUnit>();
+
+			// Query for all entries and then choose required.
+			IQuery<IInstallableUnit> finalQuery = P2Utils.createQuery(site);
+
+			IQueryResult<IInstallableUnit> result = repository.query(finalQuery,
+					monitor);
+			Set<IInstallableUnit> availableUnits = result.toSet();
+
+			if (site.isAllUnits()) {
+				unitsToInstall.addAll(availableUnits);
+			} else {
+				P2Utils.expandFeatures(monitor, repository, availableUnits);
+
+				Set<String> unitIDs = P2Utils.mapUnitsToId(availableUnits);
+				Set<String> missingUnits = new HashSet<String>(site.getUnits());
+				missingUnits.removeAll(unitIDs);
+				if (!missingUnits.isEmpty()) { // Some units are not available
+					return createError("Few units are not available:"
+							+ Arrays.toString(missingUnits.toArray()));
+				}
+				unitsToInstall.addAll(availableUnits);
+			}
+			if (unitsToInstall.size() > 0) {
+				IInstallableUnit[] unitsAsArray = unitsToInstall
+						.toArray(new IInstallableUnit[unitsToInstall.size()]);
+				URI[] uriArray = new URI[] { uri };
+
+				IBundleContainer container = PDEHelper.getTargetService()
+						.newIUContainer(unitsAsArray, uriArray,
+								IUBundleContainer.INCLUDE_ALL_ENVIRONMENTS);
+
+				extra.add(container);
+				q7target.addExtra(container);
+
+			}
+
+			// Lets mirror all required artifacts into bundle pool, since we don't
+			// really trust P2.
+
 			IFileArtifactRepository filesRepository = P2TargetUtils
 					.getBundlePool();
 
@@ -819,22 +809,20 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			toInstall.addAll(unitsToInstall);
 			P2Utils.installUnits(monitor, artifactRepository, filesRepository,
 					toInstall, 10, null, false, P2Utils.getProvisioningAgent());
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Failed to install next units from repository: "
+					+ repository.getName(), null);
 			if (toInstall.size() > 0) {
 				// Not all plugins are installed.
-				errorMessage = "Failed to install next units from repository: "
-						+ repository.getName();
 				for (IInstallableUnit u : toInstall) {
-					errorMessage += "\n" + u.getId();
+					rv.add(createError(u.getId()));
 				}
-
-				return false;
+				return rv;
 			}
-
 		} catch (CoreException e) {
-			// Q7ExtLaunchingPlugin.log(Q7ExtLaunchingPlugin.status(e));
+			return e.getStatus();
 		}
 
-		return true;
+		return Status.OK_STATUS;
 	}
 
 	public String getIniVMArgs() {
@@ -850,7 +838,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private List<File> getAppIniFiles() {
 		List<File> iniFiles = new ArrayList<File>();
-		if (instanceContainer == null) {
+		if (getInstanceContainer() == null) {
 			return iniFiles;
 		}
 		File installDirectory = new File(getTargetPlatformProfilePath());
@@ -1261,4 +1249,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		return null;
 	}
+
+	ProfileBundleContainer getInstanceContainer() {
+		return getQ7Target().getInstall().container;
+	}
+
+	public void setBundleContainers(IBundleContainer[] containers) {
+		target.setBundleContainers(containers);
+		initialize();
+	}
+
 }

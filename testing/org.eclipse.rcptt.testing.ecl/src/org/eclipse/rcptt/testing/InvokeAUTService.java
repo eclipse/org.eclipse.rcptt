@@ -91,7 +91,7 @@ public class InvokeAUTService implements ICommandService {
 		// addErrorsToLog)
 		ITargetPlatformHelper platform = Q7TargetPlatformManager
 				.createTargetPlatform(location,
-						new NullProgressMonitor(), false);
+						new NullProgressMonitor());
 
 		platform.setTargetName(cmd.getName());
 		
@@ -127,7 +127,7 @@ public class InvokeAUTService implements ICommandService {
 		if (cmd.getVmargs() != null) {
 			return cmd.getVmargs();
 		}
-		return Q7LaunchDelegateUtils.getVMArgs(platform, Collections.<String> emptyList());
+		return Q7LaunchDelegateUtils.getJoinedVMArgs(platform, Collections.<String> emptyList());
 	}
 
 	public static void updateEclipseLocation() {

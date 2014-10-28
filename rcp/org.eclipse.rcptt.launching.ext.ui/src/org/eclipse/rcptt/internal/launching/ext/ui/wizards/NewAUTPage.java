@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
+
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -45,6 +48,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
+import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.ui.Activator;
 import org.eclipse.rcptt.internal.launching.ext.ui.SyncProgressMonitor;
@@ -103,14 +107,38 @@ public class NewAUTPage extends WizardPage {
 		super(pageName, title, titleImage);
 	}
 
-	public void validate(boolean clean) {
-		setErrorMessage(null);
-		setMessage(null);
 
+	void setStatus(final IStatus status) {
+		if (!status.isOK() && !status.matches(IStatus.CANCEL)) {
+			log(status);
+		}
+		shell.getDisplay().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				if (status.isOK()) {
+					setErrorMessage(null);
+					setMessage(null);
+					setPageComplete(true);
+				} else if (status.matches(IStatus.ERROR)) {
+					setMessage(null);
+					setErrorMessage(status.getMessage());
+					setPageComplete(false);
+				} else {
+					setMessage(status.getMessage());
+					setErrorMessage(null);
+					setPageComplete(false);
+				}
+			}
+		});
+
+	}
+
+	public void validate(boolean clean) {
 		final String location = (String) locationValue.getValue();
 		if (location.trim().length() == 0) {
-			setErrorMessage("Please specify your Eclipse application installation directory.");
-			setPageComplete(false);
+			setStatus(new Status(IStatus.CANCEL, Q7ExtLaunchingPlugin.PLUGIN_ID,
+					"Please specify your Eclipse application installation directory."));
 			archEnabled.setValue(Boolean.FALSE);
 			return;
 		}
@@ -120,6 +148,7 @@ public class NewAUTPage extends WizardPage {
 		if (clean) {
 			if (helper != null) {
 				helper.delete();
+				info.setValue(null);
 			}
 			runInDialog(new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
@@ -128,14 +157,16 @@ public class NewAUTPage extends WizardPage {
 
 					TargetPlatformManager.clearTargets();
 
-					final ITargetPlatformHelper platform = Q7TargetPlatformManager
-							.createTargetPlatform(location, monitor, false);
-					if (!monitor.isCanceled()) {
+					try {
+					final ITargetPlatformHelper platform = Q7TargetPlatformManager.createTargetPlatform(location,
+							monitor);
 						shell.getDisplay().asyncExec(new Runnable() {
 							public void run() {
 								info.setValue(platform);
 							}
 						});
+					} catch (final CoreException e) {
+						setStatus(e.getStatus());
 					}
 				}
 			});
@@ -144,25 +175,24 @@ public class NewAUTPage extends WizardPage {
 		}
 	}
 
+	private void setError(String message) {
+		setStatus(new Status(IStatus.ERROR, PLUGIN_ID, message));
+	}
 	private void validatePlatform() {
 		ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
-
 		if (helper == null) {
 			archEnabled.setValue(Boolean.FALSE);
-			setErrorMessage("Please specify correct Application installation directory...");
-			setPageComplete(false);
+			setError("Please specify correct Application installation directory...");
 			return;
 		}
+		setStatus(helper.getStatus());
 
 		if (!helper.isValid()) {
 			archEnabled.setValue(Boolean.FALSE);
-			setErrorMessage(helper.getErrorMessage());
 			setPageComplete(false);
 			return;
 		}
 
-		setMessage(helper.getWarningMessage());
-		setErrorMessage(null);
 		if (((String) nameValue.getValue()).trim().length() == 0) {
 			String defaultProduct = helper.getDefaultProduct();
 			if (defaultProduct != null) {
@@ -213,8 +243,7 @@ public class NewAUTPage extends WizardPage {
 
 		architectureError.setValue(!haveArch);
 		if (!haveArch) {
-			setPageComplete(false);
-			setErrorMessage("The selected AUT requires "
+			setError("The selected AUT requires "
 					+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit"
 							: "64 bit") + " Java VM which cannot be found.");
 			return;
@@ -254,16 +283,14 @@ public class NewAUTPage extends WizardPage {
 	private boolean validateAUTName() {
 		String name = ((String) nameValue.getValue()).trim();
 		if (name.length() == 0) {
-			setErrorMessage("The name of Application Under Test (AUT) can not be empty.");
-			setPageComplete(false);
+			setError("The name of Application Under Test (AUT) can not be empty.");
 			archEnabled.setValue(Boolean.FALSE);
 			return false;
 		}
 		for (char c : name.toCharArray()) {
 			if (FileUtil.isInvalidFileNameChar(c)) {
-				setErrorMessage("Symbol \"" + c
+				setError("Symbol \"" + c
 						+ "\" is not acceptable in AUT name.");
-				setPageComplete(false);
 				archEnabled.setValue(Boolean.FALSE);
 				return false;
 			}
@@ -280,11 +307,10 @@ public class NewAUTPage extends WizardPage {
 					.getLaunchConfigurations(type);
 			for (ILaunchConfiguration iLaunchConfiguration : configurations) {
 				if (name.equals(iLaunchConfiguration.getName())) {
-					setErrorMessage(MessageFormat
+					setError(MessageFormat
 							.format("Application {0} already exists. Please specify a different name.",
 									name));
 					archEnabled.setValue(Boolean.FALSE);
-					setPageComplete(false);
 					return false;
 				}
 			}

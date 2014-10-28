@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
@@ -66,22 +68,15 @@ public class NewAUTWizard extends Wizard {
 				workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
 						autArch.name());
 				OSArchitecture jvmArch = page.getJVMArch();
-				String vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
+				List<String> vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
 				if (!autArch.equals(jvmArch)
 						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-					if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-						vmArgs += " " + ATTR_D32;
-					} else {
-						vmArgs = ATTR_D32;
-					}
+					UpdateVMArgs.addIfAbsent(vmArgs, ATTR_D32, "");
 				}
-				if (vmArgs != null && vmArgs.length() > 0) {
-					vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-									vmArgs);
-				}
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+								Q7LaunchDelegateUtils.joinCommandArgs(vmArgs));
 
 				IVMInstall install = page.getJVMInstall();
 				if (install != null) {

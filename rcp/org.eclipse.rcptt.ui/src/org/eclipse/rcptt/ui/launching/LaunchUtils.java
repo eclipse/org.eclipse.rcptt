@@ -42,26 +42,14 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISaveableFilter;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.Saveable;
-
-import com.google.common.base.Strings;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.utils.TagsUtil;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.ui.Messages;
@@ -74,6 +62,18 @@ import org.eclipse.rcptt.ui.actions.SyncProgressMonitor;
 import org.eclipse.rcptt.ui.launching.aut.AUTConnectionErrorDialog;
 import org.eclipse.rcptt.ui.launching.aut.AUTSelectionDialog;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.ISaveableFilter;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.Saveable;
+
+import com.google.common.base.Strings;
 
 public class LaunchUtils {
 	public static final String PREF_SAVE_DIRTY_EDITORS_BEFORE_LAUNCH = IDebugUIConstants.PLUGIN_ID
@@ -392,9 +392,9 @@ public class LaunchUtils {
 				}
 			});
 		} catch (InvocationTargetException e1) {
-			RcpttPlugin.log(e1);
+			status.set(new Status(IStatus.ERROR, RcpttPlugin.PLUGIN_ID, "Failed to launch " + aut.getName(), e1));
 		} catch (InterruptedException e1) {
-			RcpttPlugin.log(e1);
+			return;
 		}
 		while (status.get() == null) {
 			try {
@@ -408,6 +408,7 @@ public class LaunchUtils {
 			return;
 		}
 		if (!s.isOK()) {
+			RcpttPlugin.getDefault().getLog().log(s);
 			AUTConnectionErrorDialog.showAUTConnectionError(shell, s,
 					aut.getConfig());
 			return;

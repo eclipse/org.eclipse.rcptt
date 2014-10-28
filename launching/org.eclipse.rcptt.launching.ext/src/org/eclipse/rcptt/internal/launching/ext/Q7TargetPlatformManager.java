@@ -16,11 +16,12 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationListener;
-
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
@@ -106,9 +107,10 @@ public class Q7TargetPlatformManager {
 
 	private synchronized static ITargetPlatformHelper newTargetPlatform(
 			ILaunchConfiguration config, IProgressMonitor monitor,
-			String location) {
+			String location) throws CoreException {
+
 		ITargetPlatformHelper info = Q7TargetPlatformManager
-				.createTargetPlatform(location, monitor, true);
+				.createTargetPlatform(location, monitor);
 		if (info != null && info.isValid()) {
 			info.setTargetName(getTargetPlatformName(config));
 			info.save();
@@ -117,19 +119,42 @@ public class Q7TargetPlatformManager {
 		return info;
 	}
 
+	private static void throwOnError(IStatus status) throws CoreException {
+		if (status.matches(IStatus.ERROR))
+			throw new CoreException(status);
+		if (!status.isOK())
+			Q7ExtLaunchingPlugin.log(status);
+	}
+
 	public synchronized static ITargetPlatformHelper createTargetPlatform(
-			String location, IProgressMonitor monitor, boolean addErrorsToLog) {
+			String location, IProgressMonitor monitor) throws CoreException {
+		boolean isOk = false;
 		if (monitor.isCanceled()) {
-			return null;
+			throw new CoreException(Status.CANCEL_STATUS);
 		}
-		monitor.beginTask("Create AUT configuration", 100);
-		ITargetPlatformHelper platform = TargetPlatformManager
-				.createTargetPlatform(location, new SubProgressMonitor(monitor,
-						50));
-		Q7TargetPlatformInitializer.initialize(platform,
-				new SubProgressMonitor(monitor, 50), addErrorsToLog);
-		monitor.done();
-		return platform;
+		ITargetPlatformHelper platform = null;
+		try {
+			monitor.beginTask("Create AUT configuration", 100);
+			platform = TargetPlatformManager
+					.createTargetPlatform(location, new SubProgressMonitor(monitor,
+							50));
+			if (!platform.isValid())
+				throw new CoreException(platform.getStatus());
+			IStatus rv = Q7TargetPlatformInitializer.initialize(platform,
+					new SubProgressMonitor(monitor, 50));
+			throwOnError(rv);
+			isOk = true;
+			return platform;
+		} catch (CoreException e) {
+			throw e;
+		} catch (Throwable e) {
+			throw new CoreException(new Status(IStatus.ERROR, Q7ExtLaunchingPlugin.PLUGIN_ID,
+					"Target platform initialization failed", e));
+		} finally {
+			if (!isOk && platform != null)
+				platform.delete();
+			monitor.done();
+		}
 	}
 
 	/**
