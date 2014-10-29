@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#isTeslaActive <em>Tesla Active</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#getTeslaPort <em>Tesla Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#isClientActive <em>Client Active</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#getWindowCount <em>Window Count</em>}</li>
  * </ul>
  * </p>
  *
@@ -116,6 +117,26 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 	 * @ordered
 	 */
 	protected boolean clientActive = CLIENT_ACTIVE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getWindowCount() <em>Window Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWindowCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int WINDOW_COUNT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getWindowCount() <em>Window Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWindowCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int windowCount = WINDOW_COUNT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,6 +246,27 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getWindowCount() {
+		return windowCount;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWindowCount(int newWindowCount) {
+		int oldWindowCount = windowCount;
+		windowCount = newWindowCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.Q7_INFORMATION__WINDOW_COUNT, oldWindowCount, windowCount));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -236,6 +278,8 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 				return getTeslaPort();
 			case Q7CorePackage.Q7_INFORMATION__CLIENT_ACTIVE:
 				return isClientActive();
+			case Q7CorePackage.Q7_INFORMATION__WINDOW_COUNT:
+				return getWindowCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -259,6 +303,9 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 				return;
 			case Q7CorePackage.Q7_INFORMATION__CLIENT_ACTIVE:
 				setClientActive((Boolean)newValue);
+				return;
+			case Q7CorePackage.Q7_INFORMATION__WINDOW_COUNT:
+				setWindowCount((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -284,6 +331,9 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 			case Q7CorePackage.Q7_INFORMATION__CLIENT_ACTIVE:
 				setClientActive(CLIENT_ACTIVE_EDEFAULT);
 				return;
+			case Q7CorePackage.Q7_INFORMATION__WINDOW_COUNT:
+				setWindowCount(WINDOW_COUNT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -304,6 +354,8 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 				return teslaPort != TESLA_PORT_EDEFAULT;
 			case Q7CorePackage.Q7_INFORMATION__CLIENT_ACTIVE:
 				return clientActive != CLIENT_ACTIVE_EDEFAULT;
+			case Q7CorePackage.Q7_INFORMATION__WINDOW_COUNT:
+				return windowCount != WINDOW_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -326,6 +378,8 @@ public class Q7InformationImpl extends EObjectImpl implements Q7Information {
 		result.append(teslaPort);
 		result.append(", clientActive: ");
 		result.append(clientActive);
+		result.append(", windowCount: ");
+		result.append(windowCount);
 		result.append(')');
 		return result.toString();
 	}

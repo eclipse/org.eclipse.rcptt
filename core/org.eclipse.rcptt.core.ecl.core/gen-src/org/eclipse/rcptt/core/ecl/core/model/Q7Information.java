@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#isTeslaActive <em>Tesla Active</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getTeslaPort <em>Tesla Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#isClientActive <em>Client Active</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getWindowCount <em>Window Count</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,5 +136,31 @@ public interface Q7Information extends EObject {
 	 * @generated
 	 */
 	void setClientActive(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Window Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Window Count</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Window Count</em>' attribute.
+	 * @see #setWindowCount(int)
+	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getQ7Information_WindowCount()
+	 * @model
+	 * @generated
+	 */
+	int getWindowCount();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getWindowCount <em>Window Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Window Count</em>' attribute.
+	 * @see #getWindowCount()
+	 * @generated
+	 */
+	void setWindowCount(int value);
 
 } // Q7Information
