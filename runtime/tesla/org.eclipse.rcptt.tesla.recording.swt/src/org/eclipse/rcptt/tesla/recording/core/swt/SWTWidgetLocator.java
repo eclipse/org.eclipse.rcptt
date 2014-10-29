@@ -23,6 +23,34 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
+import org.eclipse.rcptt.tesla.core.protocol.ItemUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.UISelector;
+import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
+import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
+import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
+import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
+import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
+import org.eclipse.rcptt.tesla.swt.util.IndexUtil;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -70,35 +98,6 @@ import org.eclipse.ui.internal.PerspectiveBarContributionItem;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.part.WorkbenchPart;
-
-import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
-import org.eclipse.rcptt.tesla.core.protocol.ItemUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.UISelector;
-import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
-import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
-import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
-import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
-import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
-import org.eclipse.rcptt.tesla.swt.util.IndexUtil;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 @SuppressWarnings("restriction")
 public final class SWTWidgetLocator {
@@ -180,9 +179,8 @@ public final class SWTWidgetLocator {
 	 * There is also a convenience method receiving a {@link Widget} instance:
 	 * {@link #findElement(Widget, boolean, boolean, boolean)}
 	 * <p>
-	 * See
-	 * {@link IWidgetLocatorExtension#findElement(SWTUIPlayer, SWTUIElement, boolean, boolean, boolean)}
-	 * for notes about the extensibility.
+	 * See {@link IWidgetLocatorExtension#findElement(SWTUIPlayer, SWTUIElement, boolean, boolean, boolean)} for notes
+	 * about the extensibility.
 	 */
 	public FindResult findElement(SWTUIElement widget, boolean unknownAllowed,
 			boolean alwaysFindLeaf, boolean supportEclipseWorkbench) {
@@ -263,6 +261,7 @@ public final class SWTWidgetLocator {
 				if (checkParentsTextFieldChange(uiElement, false)) {
 					element = null;
 				}
+				updateElementIfDiffers(uiElement);
 			}
 
 			SWTUIElement parentElement = getPlayer()
@@ -360,6 +359,18 @@ public final class SWTWidgetLocator {
 		SWTRecordingHelper.getHelper().put(player.wrap(widget),
 				new ElementEntry(columnElement.getElement()));
 		return new FindResult(player.wrap(column), columnElement.getElement());
+	}
+
+	private void updateElementIfDiffers(SWTUIElement uiElement) {
+		ElementEntry old = SWTRecordingHelper.getHelper().get(uiElement);
+		if (checkTextFieldChange(uiElement, old) == null) {
+			recorder.setControls(uiElement.getModel());
+			FindResult afterElement = findElement(uiElement, false, false, true);
+			String realAfterText = uiElement.getText();
+			ElementEntry updated = new ElementEntry(afterElement.element);
+			updated.set(ATTR_TEXT, realAfterText);
+			SWTRecordingHelper.getHelper().put(uiElement, updated);
+		}
 	}
 
 	public boolean checkParentsTextFieldChange(SWTUIElement uiElement,
