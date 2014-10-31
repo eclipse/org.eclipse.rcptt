@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _9lhUYRkNEeOwAuU1H7YyVQ,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: LaunchCheck_Launch_SuperContext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _cJ8b0BkVEeOt9MVDSr4v5A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.201410231434
+Save-Time: 10/31/14 3:46 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -45,4 +44,12 @@ with [get-view "Execution View" | get-tree] {
     get-item "Test_SuperLaunch \\(Launch2\\).*/Launch2.*" | get-property caption 
         | equals "Launch2.*" | verify-true
 }
+get-view "Execution View" | get-label 1 | get-property caption | equals 1 | verify-true
+get-view "Execution View" | get-tree | select ".*Launch1.*"
+get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
+    | equals "" | verify-true
+get-view "Execution View" | get-tree | select ".*Launch2.*"
+get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
+    | equals "Assertion of caption failed: expected:<Configuration1> but was:<Configuration2>.\n"
+    + "\tat verify-true (/MyProject/Test_SuperLaunch.test:7)" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
