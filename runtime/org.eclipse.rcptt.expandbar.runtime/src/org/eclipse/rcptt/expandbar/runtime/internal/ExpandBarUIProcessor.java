@@ -207,7 +207,7 @@ public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCom
 
 	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator, IElementProcessorMapper mapper) {
-		return null;
+		return getSWTProcessor().select(cmd, generator, mapper);
 	}
 
 	@Override
