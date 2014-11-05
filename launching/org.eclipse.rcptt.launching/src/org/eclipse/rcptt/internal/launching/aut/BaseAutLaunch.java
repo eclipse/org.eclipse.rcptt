@@ -37,6 +37,29 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.launching.IPDELauncherConstants;
+import org.eclipse.rcptt.core.ContextType;
+import org.eclipse.rcptt.core.Scenarios;
+import org.eclipse.rcptt.core.VerificationType;
+import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
+import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
+import org.eclipse.rcptt.core.launching.events.AutBundleState;
+import org.eclipse.rcptt.core.launching.events.AutEvent;
+import org.eclipse.rcptt.core.launching.events.AutEventInit;
+import org.eclipse.rcptt.core.launching.events.AutEventLocation;
+import org.eclipse.rcptt.core.launching.events.AutEventStart;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.IVerification;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.Verification;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
@@ -55,30 +78,6 @@ import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
-
-import org.eclipse.rcptt.core.ContextType;
-import org.eclipse.rcptt.core.Scenarios;
-import org.eclipse.rcptt.core.VerificationType;
-import org.eclipse.rcptt.core.launching.events.AutBundleState;
-import org.eclipse.rcptt.core.launching.events.AutEvent;
-import org.eclipse.rcptt.core.launching.events.AutEventInit;
-import org.eclipse.rcptt.core.launching.events.AutEventLocation;
-import org.eclipse.rcptt.core.launching.events.AutEventStart;
-import org.eclipse.rcptt.core.model.IContext;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ITestCase;
-import org.eclipse.rcptt.core.model.IVerification;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.core.scenario.Scenario;
-import org.eclipse.rcptt.core.scenario.Verification;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
-import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
-import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
-import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
 import org.eclipse.rcptt.internal.core.model.Q7InternalVerification;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
@@ -302,6 +301,11 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					throw new CoreException(
 							Q7LaunchingPlugin
 									.createStatus("Tesla is not activated"));
+				}
+				if (info.getWindowCount() == 0) {
+					throw new CoreException(
+							Q7LaunchingPlugin
+									.createStatus("AUT has no windows"));
 				}
 			} else {
 				throw new CoreException(

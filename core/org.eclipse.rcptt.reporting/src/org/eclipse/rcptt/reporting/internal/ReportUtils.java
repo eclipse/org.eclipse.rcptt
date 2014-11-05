@@ -277,6 +277,17 @@ public class ReportUtils {
 		return result.toString();
 	}
 
+	public static String getSkipMessage(Node item) {
+		StringBuilder result = new StringBuilder();
+		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (current != null && current.getResult().equals(ResultStatus.SKIPPED)) {
+			if (current.getMessage() != null) {
+				result.append(current.getMessage());
+			}
+		}
+		return result.toString();
+	}
+
 	public static String replaceHtmlEntities(String string) {
 		string = string.replace("&", "&amp;");
 		string = string.replace("<", "&lt;");

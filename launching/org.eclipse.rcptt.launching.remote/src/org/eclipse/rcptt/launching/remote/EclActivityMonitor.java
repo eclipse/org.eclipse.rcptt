@@ -20,7 +20,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
-
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
@@ -80,7 +79,7 @@ public final class EclActivityMonitor implements IProcess {
 						Q7LaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
 			}
 		} finally {
-			restart = true;
+			restart = false;
 		}
 	}
 
