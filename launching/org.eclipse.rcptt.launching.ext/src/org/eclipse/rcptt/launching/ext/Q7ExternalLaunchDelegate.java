@@ -47,7 +47,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -70,7 +69,6 @@ import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
 import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
 import org.eclipse.pde.internal.launching.PDEMessages;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
-import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
@@ -123,10 +121,8 @@ public class Q7ExternalLaunchDelegate extends
 		monitor.beginTask("", 2); //$NON-NLS-1$
 		Q7ExtLaunchMonitor waiter = new Q7ExtLaunchMonitor(launch);
 
-		ILaunchConfiguration cfg = updateConsoleAttribute(configuration);
-
 		try {
-			super.launch(cfg, mode, launch, SubMonitor.convert(monitor, 1));
+			super.launch(configuration, mode, launch, SubMonitor.convert(monitor, 1));
 			waiter.wait(monitor, TeslaLimits.getAUTStartupTimeout() / 1000);
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
@@ -147,27 +143,6 @@ public class Q7ExternalLaunchDelegate extends
 			waiter.dispose();
 		}
 		monitor.done();
-	}
-
-	private ILaunchConfiguration updateConsoleAttribute(
-			ILaunchConfiguration configuration) throws CoreException {
-		ILaunchConfigurationWorkingCopy configurationWc = configuration
-				.getWorkingCopy();
-
-		String log_directory = new Path(LaunchConfigurationHelper
-				.getConfigurationArea(configuration).getAbsolutePath()).append(
-				"console.log").toOSString();
-
-		String old_path = configurationWc.getAttribute(
-				IQ7Launch.ATTR_CAPTURE_IN_FILE, (String) null);
-		if (old_path == null) {
-			configurationWc.setAttribute(IQ7Launch.ATTR_CAPTURE_IN_FILE,
-					log_directory);
-		}
-		configurationWc.setAttribute(IQ7Launch.ATTR_APPEND_TO_FILE, true);
-
-		ILaunchConfiguration cfg = configurationWc.doSave();
-		return cfg;
 	}
 
 	@Override

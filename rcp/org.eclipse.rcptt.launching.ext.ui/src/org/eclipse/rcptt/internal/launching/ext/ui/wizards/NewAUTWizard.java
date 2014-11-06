@@ -13,6 +13,7 @@ package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -23,12 +24,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
+import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
@@ -129,11 +132,8 @@ public class NewAUTWizard extends Wizard {
 				// config);
 				// }
 				// Disable console by default
-				workingCopy.setAttribute(
-						IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
-				workingCopy
-						.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
 
+				setDefaultsAttributes(workingCopy);
 				workingCopy.doSave();
 
 				if (page.isLaunchNeeded()) {
@@ -147,6 +147,19 @@ public class NewAUTWizard extends Wizard {
 		}
 		target.delete();
 		return false;
+	}
+
+	private void setDefaultsAttributes(
+			ILaunchConfigurationWorkingCopy configurationWc) throws CoreException {
+
+		String log_directory = new Path(LaunchConfigurationHelper
+				.getConfigurationArea(configurationWc).getAbsolutePath())
+				.append("console.log").toOSString();
+
+		configurationWc.removeAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT);
+		configurationWc.setAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
+		configurationWc.setAttribute(IQ7Launch.ATTR_APPEND_TO_FILE, true);
+		configurationWc.setAttribute(IQ7Launch.ATTR_CAPTURE_IN_FILE, log_directory);
 	}
 
 	public static String getDefaultWorkspaceLocation(String uniqueName) {
