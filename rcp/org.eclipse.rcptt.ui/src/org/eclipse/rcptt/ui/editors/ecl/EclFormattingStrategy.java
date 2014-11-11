@@ -15,8 +15,9 @@ import org.eclipse.jface.text.formatter.FormattingContextProperties;
 import org.eclipse.jface.text.formatter.IFormattingContext;
 import org.eclipse.jface.text.formatter.IFormattingStrategy;
 import org.eclipse.jface.text.formatter.IFormattingStrategyExtension;
-
 import org.eclipse.rcptt.core.ecl.formatter.EclFormatter;
+import org.eclipse.rcptt.core.ecl.formatter.EclFormatterOptions;
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 
 public class EclFormattingStrategy implements IFormattingStrategyExtension, IFormattingStrategy {
 
@@ -24,8 +25,13 @@ public class EclFormattingStrategy implements IFormattingStrategyExtension, IFor
 
 	@Override
 	public void format() {
+		EclFormatterOptions options = new EclFormatterOptions();
+		options.wrapAt(CorePlugin.getECLEditorLineWidth());
+		options.indent(CorePlugin.getECLEditorIndent());
+		options.wrapIndent(CorePlugin.getECLEditorIndent());
+
 		IDocument document = (IDocument) context.getProperty(FormattingContextProperties.CONTEXT_MEDIUM);
-		document.set(new EclFormatter().format(document.get()));
+		document.set(new EclFormatter(options).format(document.get()));
 	}
 
 	@Override

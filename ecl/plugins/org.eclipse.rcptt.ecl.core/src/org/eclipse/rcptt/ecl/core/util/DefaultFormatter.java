@@ -14,8 +14,6 @@ import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 
 public class DefaultFormatter implements ICommandFormatter {
 
-	private static final int INDENT_SIZE = 4;
-
 	private static final String LINE_SEP = "\n";
 	private static final String SPACE = " ";
 	private static final String PIPE = "|";
@@ -39,13 +37,26 @@ public class DefaultFormatter implements ICommandFormatter {
 
 	private final boolean wrap;
 
+	private int indentSize = 4;
+	private int lineWidth = 80;
+
 	public DefaultFormatter() {
 		this(true);
 	}
 
 	public DefaultFormatter(boolean wrap) {
 		this.wrap = wrap;
+		this.lineWidth = CorePlugin.getECLEditorLineWidth();
+		this.indentSize = CorePlugin.getECLEditorIndent();
 		resetLineBreak();
+	}
+
+	public void setLineWidth(int width) {
+		this.lineWidth = width;
+	}
+
+	public void setIndentSize(int size) {
+		this.indentSize = size;
 	}
 
 	public void newPipeCommand() {
@@ -141,15 +152,14 @@ public class DefaultFormatter implements ICommandFormatter {
 	}
 
 	private void addIndent() {
-		for (int i = 0; i < level * INDENT_SIZE; i++)
+		for (int i = 0; i < level * indentSize; i++)
 			append(SPACE);
 	}
 
 	private DefaultFormatter append(String s) {
 		buffer.append(s);
 		posInLine += s.length();
-		if (posInLine > CorePlugin.getECLMaximumLineWidth() && possibleLineBreak > 0
-				&& possibleLineBreak < posInLine) {
+		if (posInLine > lineWidth && possibleLineBreak > 0 && possibleLineBreak < posInLine) {
 			lineBreak(possibleLineBreak, lineBreak);
 		}
 		return this;
@@ -159,7 +169,7 @@ public class DefaultFormatter implements ICommandFormatter {
 		if (wrap) {
 			int index = lineBreak.indexOf('\n');
 			StringBuilder sb = new StringBuilder(lineBreak.substring(0, index + 1));
-			for (int i = 0; i < (level + 1) * INDENT_SIZE; i++)
+			for (int i = 0; i < (level + 1) * indentSize; i++)
 				sb.append(SPACE);
 			sb.append(lineBreak.substring(index + 1, lineBreak.length()));
 			buffer.insert(buffer.length() - posInLine + pos, sb.toString());

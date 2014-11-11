@@ -137,7 +137,7 @@ public class SourceBuilder {
 
 	public void pipe() {
 		append("|", Block.None, NewLine.None,
-				Spacing.Both, Glue.Left, Quote.Never);
+				Spacing.Both, Glue.Right, Quote.Never);
 	}
 
 	public void plus() {

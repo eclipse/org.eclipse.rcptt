@@ -28,17 +28,20 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class ECLPreferenceEditorPage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private Text textMaxLineWidth;
+	private Text textIndent;
 
 	@Override
 	public boolean performOk() {
-		CorePlugin.setECLMaximumLineWidth(Integer.parseInt(textMaxLineWidth.getText()));
+		CorePlugin.setECLEditorLineWidth(Integer.parseInt(textMaxLineWidth.getText()));
+		CorePlugin.setECLEditorIndent(Integer.parseInt(textIndent.getText()));
 
 		return super.performOk();
 	}
 
 	@Override
 	protected void performDefaults() {
-		textMaxLineWidth.setText(Integer.toString(CorePlugin.DEFAULT_ECL_MAXIMUM_LINE_WIDTH));
+		textMaxLineWidth.setText(Integer.toString(CorePlugin.ECL_EDITOR_LINE_WIDTH_DEFAULT));
+		textIndent.setText(Integer.toString(CorePlugin.ECL_EDITOR_INDENT_DEFAULT));
 
 		super.performDefaults();
 	}
@@ -53,7 +56,10 @@ public class ECLPreferenceEditorPage extends PreferencePage implements IWorkbenc
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		textMaxLineWidth = createText(composite, Messages.ECLPreferenceEditorPage_MaximumLineWidth,
-				Integer.toString(CorePlugin.getECLMaximumLineWidth()));
+				Integer.toString(CorePlugin.getECLEditorLineWidth()));
+
+		textIndent = createText(composite, Messages.ECLPreferenceEditorPage_Indent,
+				Integer.toString(CorePlugin.getECLEditorIndent()));
 
 		return null;
 	}
@@ -82,6 +88,10 @@ public class ECLPreferenceEditorPage extends PreferencePage implements IWorkbenc
 	private String doValidate() {
 		if (!isValidInteger(textMaxLineWidth.getText(), 0, 9999)) {
 			return Messages.ECLPreferenceEditorPage_MaximumLineWidth + " should be positive number between 0 and 9999";
+		}
+
+		if (!isValidInteger(textIndent.getText(), 0, 32)) {
+			return Messages.ECLPreferenceEditorPage_Indent + " should be positive number between 0 and 32";
 		}
 
 		return null;

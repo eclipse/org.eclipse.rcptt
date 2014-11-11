@@ -22,8 +22,10 @@ public class CorePlugin extends Plugin {
 
 	public static final String PLUGIN_ID = "org.eclipse.rcptt.ecl.core";
 
-	public static final String ECL_MAXIMUM_LINE_WIDTH = "ECL_MAXIMUM_LINE_WIDTH";
-	public static final int DEFAULT_ECL_MAXIMUM_LINE_WIDTH = 120;
+	public static final String ECL_EDITOR_LINE_WIDTH = "ECL_EDITOR_LINE_WIDTH";
+	public static final int ECL_EDITOR_LINE_WIDTH_DEFAULT = 120;
+	public static final String ECL_EDITOR_INDENT = "ECL_EDITOR_INDENT";
+	public static final int ECL_EDITOR_INDENT_DEFAULT = 4;
 
 	private static CorePlugin plugin;
 
@@ -113,14 +115,29 @@ public class CorePlugin extends Plugin {
 		return new InstanceScope().getNode(PLUGIN_ID);
 	}
 
-	public static int getECLMaximumLineWidth() {
+	public static int getECLEditorLineWidth() {
 		final IEclipsePreferences preferences = getPreferences();
-		return preferences.getInt(ECL_MAXIMUM_LINE_WIDTH, DEFAULT_ECL_MAXIMUM_LINE_WIDTH);
+		return preferences.getInt(ECL_EDITOR_LINE_WIDTH, ECL_EDITOR_LINE_WIDTH_DEFAULT);
 	}
 
-	public static void setECLMaximumLineWidth(final int width) {
+	public static void setECLEditorLineWidth(final int width) {
 		final IEclipsePreferences preferences = getPreferences();
-		preferences.putInt(ECL_MAXIMUM_LINE_WIDTH, width);
+		preferences.putInt(ECL_EDITOR_LINE_WIDTH, width);
+		try {
+			preferences.flush();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static int getECLEditorIndent() {
+		final IEclipsePreferences preferences = getPreferences();
+		return preferences.getInt(ECL_EDITOR_INDENT, ECL_EDITOR_INDENT_DEFAULT);
+	}
+
+	public static void setECLEditorIndent(final int width) {
+		final IEclipsePreferences preferences = getPreferences();
+		preferences.putInt(ECL_EDITOR_INDENT, width);
 		try {
 			preferences.flush();
 		} catch (final Exception e) {
