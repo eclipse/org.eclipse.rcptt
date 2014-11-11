@@ -92,9 +92,10 @@ public class Q7TargetPlatformManager {
 		ITargetPlatformHelper info = TargetPlatformManager.getTargetPlatform(
 				targetPlatform, new SubProgressMonitor(monitor, 1), true);
 
-		if (!info.isValid()) {
+		if (info == null || !info.isValid()) {
 			// Update runtime version
-			info.delete();
+			if (info != null)
+				info.delete();
 			info = newTargetPlatform(config,
 					new SubProgressMonitor(monitor, 1), location);
 		} else {
