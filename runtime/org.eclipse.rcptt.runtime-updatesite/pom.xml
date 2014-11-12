@@ -8,8 +8,7 @@
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.runtime-updatesite</artifactId>
-  <version>1.5.4-SNAPSHOT</version>
-  <packaging>eclipse-update-site</packaging>
+  <packaging>eclipse-repository</packaging>
   <build>
     <plugins>
       <plugin>

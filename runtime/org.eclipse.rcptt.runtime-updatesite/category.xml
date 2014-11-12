@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.eclipse.rcptt.runtime"/>
+   <feature id="org.eclipse.rcptt.tesla"/>
+   <feature id="org.eclipse.rcptt.tesla.runtime"/>
+   <feature id="org.eclipse.rcptt.tesla.ecl"/>
+   <feature id="org.eclipse.rcptt.tesla.ecl.runtime"/>
+   <feature id="org.eclipse.rcptt.ecl.core"/>
+   <feature id="org.eclipse.rcptt.ecl.server"/>
+   <feature id="org.eclipse.rcptt.ecl.platform"/>
+   <feature id="org.eclipse.rcptt.ecl.platform.ui"/>
+   <feature id="org.eclipse.rcptt.watson"/>
+   <feature id="org.eclipse.rcptt.watson.runtime"/>
+</site>
