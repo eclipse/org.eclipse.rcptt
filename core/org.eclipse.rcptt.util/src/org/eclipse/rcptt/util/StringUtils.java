@@ -99,6 +99,10 @@ public final class StringUtils {
 		return result;
 	}
 
+	/**
+	 * not a real glob -- supports only * (any number of any chars)
+	 * and ? (exactly one any char)
+	 */
 	public static String globToRegex(String glob) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < glob.length(); ++i)
@@ -113,16 +117,18 @@ public final class StringUtils {
 				sb.append('.');
 				break;
 			case '.':
-				sb.append("\\.");
-				break;
-			case '\\':
-				sb.append("\\\\");
-				break;
+			case '^':
+			case '$':
+			case '+':
 			case '(':
-				sb.append("\\(");
-				break;
 			case ')':
-				sb.append("\\");
+			case '[':
+			case ']':
+			case '{':
+			case '}':
+			case '\\':
+			case '|':
+				sb.append('\\').append(c);
 				break;
 			default:
 				sb.append(c);

@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.ZipInputStream;
 
 import org.eclipse.core.commands.operations.IOperationHistory;
@@ -46,22 +47,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ctx.impl.internal.resources.Activator;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
+import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
+import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.rcptt.util.resources.ResourcesUtil;
 import org.eclipse.rcptt.workspace.WSFile;
 import org.eclipse.rcptt.workspace.WSFileLink;
@@ -72,9 +67,15 @@ import org.eclipse.rcptt.workspace.WSProjectLink;
 import org.eclipse.rcptt.workspace.WSRoot;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.rcptt.workspace.WorkspaceFactory;
-import org.eclipse.rcptt.tesla.core.TeslaLimits;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 public class WorkspaceContextProcessor implements IContextProcessor {
 
@@ -329,6 +330,14 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 			for (File file : undeletedResource) {
 				appendFileToList(file, message);
 			}
+			message.append(String.format("%nExclusion patterns:"));
+			if(ignoredPatterns == null || ignoredPatterns.length == 0) {
+				message.append(String.format("%n\t<none>"));
+			} else {
+				for(String pattern : ignoredPatterns) {
+					message.append(String.format("%n\t'%s'", pattern));
+				}
+			}
 
 			throw new IOException(message.toString());
 		}
@@ -340,7 +349,7 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 				appendFileToList(child, sb);
 			}
 		}
-		sb.append(String.format("%n%s", file.getAbsolutePath()));
+		sb.append(String.format("%n\t'%s'", file.getAbsolutePath()));
 	}
 
 	private static boolean deleteFilesExceptMetadata(final File folder,
@@ -371,19 +380,25 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 		if (ignoredPattern == null) {
 			return null;
 		}
-		String[] patterns = ignoredPattern.split(",");
-		root = root.replace('\\', '/');
-		for (int i = 0; i < patterns.length; i++) {
-			// remove leading slash from pattern
-			if (patterns[i].length() > 0
-					&& (patterns[i].charAt(0) == '/' || patterns[i].charAt(0) == '\\'))
-				patterns[i] = patterns[i].substring(1);
+		List<String> result = new ArrayList<String>();
+		String prefix = StringUtils.isEmpty(root) ? "" : Pattern.quote(root.replace('\\', '/'));
+		for (String pattern : ignoredPattern.split(",")) {
+			pattern = pattern.trim();
+			// as our patterns don't support escaping, backslashes
+			// only can appear as windows-style path separators
+			pattern = pattern.replace('\\', '/');
+			if (pattern.isEmpty()) {
+				continue;
+			}
 
-			// build full path
-			patterns[i] = root + (root.length() > 0 ? "/" : "")
-					+ patterns[i].replace('\\', '/').replace("*", ".*").trim();
+			// remove leading slashes
+			while (pattern.charAt(0) == '/') {
+				pattern = pattern.substring(1);
+			}
+			pattern = StringUtils.globToRegex(pattern);
+			result.add(StringUtils.isEmpty(prefix) ? pattern : String.format("%s/%s", prefix, pattern));
 		}
-		return patterns;
+		return result.toArray(new String[result.size()]);
 	}
 
 	private static boolean isIgnored(String fileName, String[] ignoredPatterns) {
