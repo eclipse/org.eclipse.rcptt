@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated commands -->
+      <package
+            uri="http://org/eclipse/rcptt/extensions/ecl/model/comands.ecore"
+            class="commands.CommandsPackage"
+            genModel="model/commands.genmodel"/>
+   </extension>
+
+</plugin>

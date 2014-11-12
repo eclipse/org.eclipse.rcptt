@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Impl
+Bundle-SymbolicName: org.eclipse.rcptt.extensions.ecl.impl;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.rcptt.ecl.core,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.extensions.ecl.model,
+ org.eclipse.ui
+Bundle-Vendor: Eclipse RCP Testing Tool Project
