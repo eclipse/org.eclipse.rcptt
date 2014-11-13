@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/site/</rcpttRuntimeRepo>
+    <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/repository/</rcpttRuntimeRepo>
   </properties>
 
   <parent>
