@@ -64,6 +64,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.rcptt.launching.configuration"
+         download-size="0"
+         install-size="0"
+         version="1.5.4.qualifier"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.rcptt.launching.remote.ui"
          download-size="0"
          install-size="0"
