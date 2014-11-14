@@ -41,7 +41,7 @@
 							<outputDirectory>${basedir}/q7</outputDirectory>
 							<resources>
 								<resource>
-									<directory>../../org.eclipse.rcptt.runtime-updatesite/target/site/</directory>
+									<directory>../../org.eclipse.rcptt.runtime-updatesite/target/repository/</directory>
 								</resource>
 							</resources>
 						</configuration>
