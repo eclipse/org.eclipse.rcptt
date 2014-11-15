@@ -23,6 +23,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -224,9 +225,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static void logError(TargetPlatformHelper info) {
-		Q7ExtLaunchingPlugin.getDefault().log(
-				"Target platform initialization error:"
-						+ info.getErrorMessage(), null);
+		Q7ExtLaunchingPlugin.log(new MultiStatus(PLUGIN_ID, 0, new IStatus[]{info.getStatus()}, "Target platform initialization error", null));
 	}
 
 	public static Q7Info getInfo(ITargetPlatformHelper info) {

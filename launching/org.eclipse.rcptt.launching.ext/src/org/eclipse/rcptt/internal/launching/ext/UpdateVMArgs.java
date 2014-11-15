@@ -22,9 +22,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
-import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -55,8 +52,6 @@ public class UpdateVMArgs {
 	};
 	public static void updateVMArgs(
 			ILaunchConfigurationWorkingCopy configuration) {
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
-		final ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
 		try {
 			String attribute = configuration.getAttribute(

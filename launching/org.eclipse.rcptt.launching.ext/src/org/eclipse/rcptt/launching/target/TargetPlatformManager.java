@@ -221,8 +221,7 @@ public class TargetPlatformManager {
 						return Status.OK_STATUS;
 					};
 				};
-				if (helper.isValid()
-						&& helper.getTargetPlatformProfilePath() != null) {
+				if (helper.getStatus().isOK() && helper.getTargetPlatformProfilePath() != null) {
 					return helper;
 				}
 			}

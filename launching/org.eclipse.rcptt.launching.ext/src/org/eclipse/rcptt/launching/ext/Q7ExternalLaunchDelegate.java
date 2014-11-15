@@ -568,33 +568,6 @@ public class Q7ExternalLaunchDelegate extends
 		return info.programArgs;
 	}
 
-	private static String addWeavingHook(String extensions, IPluginModelBase hook) throws CoreException {
-		if (hook == null) {
-			throw new CoreException(Q7ExtLaunchingPlugin.status("No "
-					+ AJConstants.HOOK + " plugin"));
-		}
-
-		String ajref = String.format("reference:file:%s", hook.getInstallLocation());
-
-		if (extensions == null) {
-			return ajref;
-		}
-
-		// otherwise split and search for a duplicate AJ hook:
-		StringBuilder result = new StringBuilder();
-
-		for (String extension : extensions.split(",")) {
-			if (extensions.contains(AJConstants.HOOK)) {
-				continue;
-			}
-			if (!extension.isEmpty())
-				result.append(extension).append(',');
-		}
-		result.append(ajref).append(',');
-		result.setLength(result.length() - 1);
-		return result.toString();
-	}
-
 	@Override
 	public String[] getVMArguments(ILaunchConfiguration config)
 			throws CoreException {

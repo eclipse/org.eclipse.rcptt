@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.target;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
