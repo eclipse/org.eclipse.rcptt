@@ -50,8 +50,12 @@ public class GetItemExtension implements IScriptletExtension {
 
 	@Override
 	public boolean canHandle(Command c) {
-		return (c instanceof GetItem)
-				&& ExpandBarConstants.EXPAND_BAR_KIND.equals(((GetItem) c).getParent().getCustomKindId());
+		if (!(c instanceof GetItem))
+			return false;
+		GetItem getItem = (GetItem) c;
+		if (getItem.getParent() == null)
+			return false;
+		return ExpandBarConstants.EXPAND_BAR_KIND.equals(getItem.getParent().getCustomKindId());
 	}
 
 }
