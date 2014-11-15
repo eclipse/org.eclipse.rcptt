@@ -11,8 +11,11 @@
 package org.eclipse.rcptt.ecl.internal.core;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -40,8 +43,17 @@ public class ProcessStatusConverter implements
 		if (exception != null) {
 			th = getThrowable(exception);
 		}
-		return new Status(ps.getSeverity(), ps.getPluginId(), ps.getCode(),
-				ps.getMessage(), th);
+		if (!ps.getChildren().isEmpty()) {
+			ArrayList<IStatus> children = new ArrayList<IStatus>(ps.getChildren().size());
+			for (ProcessStatus child: ps.getChildren()) {
+				children.add(fromEObject(child));
+			}
+			return new MultiStatus(ps.getPluginId(), ps.getCode(), children.toArray(new IStatus[children.size()]),
+					ps.getMessage(), th);
+		} else {
+			return new Status(ps.getSeverity(), ps.getPluginId(), ps.getCode(),
+					ps.getMessage(), th);
+		}
 	}
 
 	private Throwable getThrowable(EclException exception) {
@@ -102,12 +114,13 @@ public class ProcessStatusConverter implements
 		return stack;
 	}
 
-	public ProcessStatus toEObject(Status status) {
-		return toEObject((IStatus) status);
+	public ProcessStatus toEObject(Status status) throws CoreException {
+		ProcessStatus rv = CoreFactory.eINSTANCE.createProcessStatus();
+		toEObject((IStatus) status, rv);
+		return rv;
 	}
 
-	public ProcessStatus toEObject(IStatus status) {
-		ProcessStatus ps = CoreFactory.eINSTANCE.createProcessStatus();
+	public static void toEObject(IStatus status, ProcessStatus ps) throws CoreException {
 		ps.setCode(status.getCode());
 		ps.setMessage(status.getMessage());
 		ps.setPluginId(status.getPlugin());
@@ -116,10 +129,15 @@ public class ProcessStatusConverter implements
 		if (exception != null) {
 			ps.setException(toException(exception));
 		}
-		return ps;
+		if (status.isMultiStatus()) {
+			for (IStatus child : status.getChildren()) {
+				ps.getChildren().add((ProcessStatus) EMFConverterManager.INSTANCE
+						.toEObject(child));
+			}
+		}
 	}
 
-	private EclException toException(Throwable exception) {
+	private static EclException toException(Throwable exception) {
 		EclException ex = CoreFactory.eINSTANCE.createEclException();
 		ex.setClassName(exception.getClass().getName());
 		ex.setMessage(exception.getMessage());

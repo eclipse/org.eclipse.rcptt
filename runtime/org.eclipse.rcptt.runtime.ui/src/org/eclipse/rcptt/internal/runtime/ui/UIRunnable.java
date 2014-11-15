@@ -111,7 +111,7 @@ public abstract class UIRunnable<T> {
 			}
 			long start = System.currentTimeMillis();
 			while (!processed[0].equals(RunningState.Finished)
-					&& !display.isDisposed()) {
+					&& !display.isDisposed() && exception[0] == null) {
 				// Perform wakeup async
 				SWTUIPlayer.notifyUI(display);
 				try {

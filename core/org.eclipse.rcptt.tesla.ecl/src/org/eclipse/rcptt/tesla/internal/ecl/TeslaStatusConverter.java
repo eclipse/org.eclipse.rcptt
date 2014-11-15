@@ -12,8 +12,8 @@ package org.eclipse.rcptt.tesla.internal.ecl;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.ecl.runtime.IEMFConverter;
-
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
@@ -32,10 +32,7 @@ public class TeslaStatusConverter implements
 			throws CoreException {
 		TeslaProcessStatus ps = TeslaFactory.eINSTANCE
 				.createTeslaProcessStatus();
-		ps.setCode(status.getCode());
-		ps.setMessage(status.getMessage());
-		ps.setPluginId(status.getPlugin());
-		ps.setSeverity(status.getSeverity());
+		ProcessStatusConverter.toEObject(status, ps);
 		ps.setInfo(status.getInfo());
 		return ps;
 	}
