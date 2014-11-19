@@ -18,7 +18,6 @@
     <module>../../ecl/plugins</module>
     <module>../../ecl/features</module>
     <module>../../ecl/tests</module>
-    <module>../../ecl/examples</module>
     <module>../../ecl/repository</module>
   </modules>
 
