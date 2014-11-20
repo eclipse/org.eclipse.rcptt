@@ -3,7 +3,7 @@ set PWD=%CD:\=/%
 
 set TARGETS=clean verify
 
-call mvn clean verify -f clean-pom.xml ||| exit 102
+call mvn clean verify -f clean-pom.xml || exit 102
 
 call mvn %TARGETS% -f releng/core/pom.xml ^
     -DheliosRepository=http://updates.xored.com/helios ^

@@ -12,6 +12,7 @@ package org.eclipse.rcptt.internal.launching.aut;
 
 import java.io.EOFException;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,6 +99,8 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaScenario;
 import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
+
+import com.google.common.base.Preconditions;
 
 @SuppressWarnings("restriction")
 public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
@@ -355,6 +358,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	public ILaunch setLaunch(ILaunch launch) {
+		Preconditions.checkNotNull(launch);
 		ILaunch oldLaunch = this.launch;
 		this.launch = launch;
 		launch.setAttribute(IQ7Launch.ATTR_AUT_ID, id);
@@ -744,39 +748,34 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		terminate();
 	}
 
-	public void gracefulShutdown(int timeoutSeconds) {
+	public void gracefulShutdown(int timeoutSeconds) throws CoreException, InterruptedException {
 		int launchTimeout = Q7Launcher.getLaunchTimeout();
-
 		try {
-			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE
-					.createShutdownAut();
-			unsafeExecute(shutdownCmd, launchTimeout * 1000,
-					new NullProgressMonitor());
+			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE.createShutdownAut();
+			unsafeExecute(shutdownCmd, launchTimeout * 1000, new NullProgressMonitor());
 		} catch (Exception e) {
 			Throwable rootCause = e;
 			while (rootCause instanceof CoreException) {
 				rootCause = rootCause.getCause();
 			}
-			if (!(rootCause instanceof EOFException)) {
+			if (!(rootCause instanceof EOFException || rootCause instanceof SocketException)) {
 				if (e instanceof CoreException) {
-					Q7LaunchingPlugin.log(((CoreException) e).getStatus());
-				} else {
-					Q7LaunchingPlugin.log("Error during graceful shutdown", e);
+					throw (CoreException) e;
 				}
+				throw new CoreException(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
+						"Error during graceful shutdown", e));
 			}
-		}
-
-		for (int i = 0; i < timeoutSeconds; ++i) {
-			if (launch.isTerminated())
-				return;
-
+		} finally {
 			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+				for (int i = 0; i < timeoutSeconds; ++i) {
+					if (launch.isTerminated())
+						return;
+					Thread.sleep(1000);
+				}
+			} finally {
+				terminate();
 			}
 		}
-
-		terminate();
 	}
 
 	public void terminate() {
