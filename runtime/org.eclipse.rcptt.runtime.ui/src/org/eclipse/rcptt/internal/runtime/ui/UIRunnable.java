@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.runtime.ui;
 
+import static org.eclipse.rcptt.internal.runtime.ui.Activator.PLUGIN_ID;
+
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -48,6 +52,7 @@ public abstract class UIRunnable<T> {
 		Job.getJobManager().addJobChangeListener(collector);
 		collector.enable();
 		ITeslaEventListener listener = null;
+		final IStatus[] dialogCloseStatus = new IStatus[1];  
 		try {
 			listener = new ITeslaEventListener() {
 				public synchronized boolean doProcessing(
@@ -125,7 +130,7 @@ public abstract class UIRunnable<T> {
 						// processor
 						display.asyncExec(new Runnable() {
 							public void run() {
-								Utils.closeDialogs();
+								dialogCloseStatus[0] = Utils.closeDialogs();
 							}
 						});
 						collector.clean();
@@ -136,7 +141,7 @@ public abstract class UIRunnable<T> {
 					storeTimeoutInReport(display, collector);
 
 					throw new CoreException(new Status(Status.ERROR,
-							Activator.PLUGIN_ID,
+							PLUGIN_ID,
 							"Timeout during context execution..."));
 				}
 			}
@@ -159,9 +164,11 @@ public abstract class UIRunnable<T> {
 			TeslaEventManager.getManager().removeEventListener(listener);
 		}
 		if (exception[0] != null) {
-			throw new CoreException(
-					new Status(Status.ERROR, RcpttPlugin.PLUGIN_ID,
-							exception[0].getMessage(), exception[0]));
+			MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "UI bound operation failed", null);
+			status.add(new Status(Status.ERROR, PLUGIN_ID, exception[0].getMessage(), exception[0]));
+			if (dialogCloseStatus[0] != null)
+				status.add(dialogCloseStatus[0]);
+			throw new CoreException(status);
 		}
 		return (T) result[0];
 	}
