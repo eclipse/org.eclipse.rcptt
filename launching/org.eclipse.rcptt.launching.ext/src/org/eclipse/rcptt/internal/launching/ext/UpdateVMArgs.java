@@ -144,6 +144,6 @@ public class UpdateVMArgs {
 			addIfAbsent(result, "-XstartOnFirstThread", "");
 			addIfAbsent(result, "-Dorg.eclipse.swt.internal.carbon.smallFonts", "");
 		}
-		return attribute;
+		return result;
 	}
 }
