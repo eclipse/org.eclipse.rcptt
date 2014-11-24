@@ -27,17 +27,17 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.runtime.IEMFConverter;
 
 public class ProcessStatusConverter implements
-		IEMFConverter<Status, ProcessStatus> {
+		IEMFConverter<IStatus, ProcessStatus> {
 
-	public Class<Status> getJavaClass() {
-		return Status.class;
+	public Class<IStatus> getJavaClass() {
+		return IStatus.class;
 	}
 
 	public EClass getEClass() {
 		return CorePackage.eINSTANCE.getProcessStatus();
 	}
 
-	public Status fromEObject(ProcessStatus ps) {
+	public IStatus fromEObject(ProcessStatus ps) {
 		Throwable th = null;
 		EclException exception = ps.getException();
 		if (exception != null) {
@@ -114,7 +114,7 @@ public class ProcessStatusConverter implements
 		return stack;
 	}
 
-	public ProcessStatus toEObject(Status status) throws CoreException {
+	public ProcessStatus toEObject(IStatus status) throws CoreException {
 		ProcessStatus rv = CoreFactory.eINSTANCE.createProcessStatus();
 		toEObject((IStatus) status, rv);
 		return rv;
