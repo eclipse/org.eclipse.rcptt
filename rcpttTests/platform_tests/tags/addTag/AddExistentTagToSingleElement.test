@@ -37,7 +37,7 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select q7project | double-click -nowait
 get-view Tags | click -nowait
-get-view "Test Explorer" | get-tree | select "q7project/test2" | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select "q7project/test2" | get-menu "RCPTT/Add Tag..." | click
 with [get-window "Select Tag(s) to Add" | get-tree] {
     get-item "t1 \\(2 occurrences\\)" | get-property caption | equals "t1 (2 occurrences)" | verify-true
     get-item "t3 \\(4 occurrences\\)" | get-property caption | equals "t3 (4 occurrences)" | verify-true

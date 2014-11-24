@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_32KiIEsiEeGa1LZu9UJdCw
 Element-Name: findReferencesToTestInTestSuite
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _xYO4kXSnEeGlmsBsPCBi2g
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.qualifier
+Save-Time: 11/25/14 10:32 AM
 Tags: feature/findReference/test
 Testcase-Type: ecl
 
@@ -38,7 +37,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Q7/Find References" | click
+get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "RCPTT/Find References" | click
 with [get-view Search] {
     get-link "\'CreateJavaProject\' - 1 match in workspace (Test references)" | get-property caption 
         | equals "\'CreateJavaProject\' - 1 match in workspace (Test references)" | verify-true
@@ -50,8 +49,8 @@ with [get-view Search] {
     }
 }
 with [get-view "Test Explorer" | get-tree] {
-    select "MyProject/TestFolder/WorkspaceIsEmpty" | get-menu "Q7/Find References" | click
-    select "MyProject/Check New Project Window" | get-menu "Q7/Find References" | click
+    select "MyProject/TestFolder/WorkspaceIsEmpty" | get-menu "RCPTT/Find References" | click
+    select "MyProject/Check New Project Window" | get-menu "RCPTT/Find References" | click
 }
 with [get-view Search] {
     get-link "\'Check New Project Window\' - 1 match in workspace (Test references)" | get-property caption 
@@ -84,7 +83,7 @@ with [get-view "Test Explorer" | get-tree] {
     key-type "M1+s"
 }
 get-editor NewTestSuite | get-section "Test Cases" | get-table | key-type "M1+s"
-get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Q7/Find References" | click
+get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "RCPTT/Find References" | click
 with [get-view Search] {
     get-link "\'CreateJavaProject\' - 1 match in workspace (Test references)" | get-property caption 
         | equals "\'CreateJavaProject\' - 1 match in workspace (Test references)" | verify-true

@@ -37,7 +37,7 @@ TEST STEPS
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select "q7project/TestSuite" | get-menu "RCPTT/Add Tag..." | click
 get-window "Select Tag(s) to Add" | get-tree | get-property itemCount | equals 3 | verify-true
 with [get-window "Select Tag(s) to Add"] {
     get-tree | select "Tag1 \\(2 occurrences\\)"
