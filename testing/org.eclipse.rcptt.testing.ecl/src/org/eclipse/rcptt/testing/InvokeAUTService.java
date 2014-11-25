@@ -98,7 +98,9 @@ public class InvokeAUTService implements ICommandService {
 		InjectionConfiguration configuration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
 		configuration.getEntries().addAll(cmd.getInject());
 		
-		platform.applyInjection(configuration, new NullProgressMonitor());
+		IStatus rv = platform.applyInjection(configuration, new NullProgressMonitor());
+		if (!rv.isOK())
+			throw new CoreException(rv);
 		
 
 		ILaunchConfigurationWorkingCopy launch = Q7LaunchingUtil

@@ -79,9 +79,11 @@ public class Q7TargetPlatformInitializer {
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
 
-		IStatus rv = iinfo.getStatus();
-		if (rv.matches(IStatus.ERROR))
-			return rv;
+		{
+			IStatus rv = iinfo.getStatus();
+			if (rv.matches(IStatus.ERROR | IStatus.CANCEL))
+				return rv;
+		}
 
 		TargetPlatformHelper info = (TargetPlatformHelper) iinfo;
 		Map<String, String> map = AUTInformation.getInformationMap(iinfo);
@@ -115,10 +117,15 @@ public class Q7TargetPlatformInitializer {
 
 			InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
 					new NullProgressMonitor(), q7Info, map, repository);
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + iinfo, null);
 			if (injectionConfiguration != null) {
-				info.applyInjection(injectionConfiguration, new SubProgressMonitor(
-						monitor, 60));
+				rv.add(info.applyInjection(injectionConfiguration, new SubProgressMonitor(
+						monitor, 60)));
+				if (rv.matches(IStatus.CANCEL))
+					return rv;
 			}
+			if (!rv.isOK())
+				return rv;
 			return Status.OK_STATUS;
 		} catch (CoreException e) {
 			return e.getStatus();

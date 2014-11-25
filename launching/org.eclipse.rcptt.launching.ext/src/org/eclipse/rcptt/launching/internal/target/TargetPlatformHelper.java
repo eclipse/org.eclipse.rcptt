@@ -92,6 +92,7 @@ import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.util.FileUtil;
 import org.osgi.framework.Version;
 
+import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
@@ -467,6 +468,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			if (b.length() > 0) {
 				return new Status(IStatus.ERROR, PLUGIN_ID, "Bundle validation failed: " + b.toString());
 			}
+			if (getWeavingHook() == null) {
+				return new Status(IStatus.ERROR, PLUGIN_ID, "No " + AJConstants.HOOK + " plugin");
+			}
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
 			return status = e.getStatus();
@@ -682,12 +686,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		injectConfig = configuration;
 		// remove the "host" from bundles, it is handled in a separate, special
 		// way
-		for (int i = 0; i < extra.size(); ++i) {
-			if (extra.get(i) == getInstanceContainer()) {
-				extra.remove(i);
-				break;
-			}
-		}
+		Iterables.removeAll(extra, Arrays.asList(getInstanceContainer()));
 
 		EList<Entry> entries = configuration.getEntries();
 		monitor.beginTask("Apply injection plugins", 20 + entries.size() * 20);
@@ -703,7 +702,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			} else if (entry instanceof Directory) {
 				result = processDirectory(mon, (Directory) entry);
 			}
-			if (result.matches(IStatus.ERROR)) {
+			if (result.matches(IStatus.ERROR |IStatus.CANCEL)) {
 				return result;
 			}
 		}
@@ -1122,7 +1121,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private Map<String, String> getRunlevelsFromSimpleConfigurator() {
 		Map<String, String> result = new HashMap<String, String>();
 		if (getTargetPlatformProfilePath() == null) {
@@ -1259,4 +1257,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		initialize();
 	}
 
+
+	@Override
+	public String toString() {
+		return (getName() == null ? "No name" : getName()) + " " + getTargetPlatformProfilePath();
+	}
+
+	
 }

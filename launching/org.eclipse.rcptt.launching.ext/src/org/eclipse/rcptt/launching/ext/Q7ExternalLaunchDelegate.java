@@ -205,7 +205,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		info.target = target;
-		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "target platform initialization for "
+		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "Target platform initialization failed  for "
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
 		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));

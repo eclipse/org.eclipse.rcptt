@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.p2utils;
 
+import static org.eclipse.rcptt.launching.p2utils.Q7P2UtilsActivator.PLUGIN_ID;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +29,7 @@ import java.util.zip.ZipInputStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.internal.p2.artifact.repository.simple.SimpleArtifactRepository;
@@ -219,12 +222,12 @@ public class P2Utils {
 		return finalQuery;
 	}
 
-	public static boolean validateBundle(File file) {
+	public static IStatus validateBundle(File file) {
 		if (!file.exists()) {
-			return false;
+			return new Status(IStatus.ERROR, PLUGIN_ID, "File " + file + " does not exist");
 		}
 		if (file.isDirectory()) {
-			return true;
+			return Status.OK_STATUS;
 		}
 		/**
 		 * Validate file consistency check if this is valid zip archive if it is
@@ -241,21 +244,20 @@ public class P2Utils {
 					ZipEntry entry = zin.getNextEntry();
 					if (entry == null) {
 						if (names.size() == 0) {
-							return false;
+							return new Status(IStatus.ERROR, PLUGIN_ID, "Empty ZIP archive " + file);
 						}
-						return true;
+						return Status.OK_STATUS;
 					}
 					names.add(entry.getName());
 				}
-			} catch (Exception e) {
-				return false;
+			} catch (Throwable e) {
+				return new Status(IStatus.ERROR, PLUGIN_ID, "Failed to check " + file, e);
 			} finally {
 				FileUtil.safeClose(zin);
 				FileUtil.safeClose(stream);
 			}
 		}
-
-		return true;
+		return Status.OK_STATUS;
 	}
 
 	public static void installUnits(IProgressMonitor monitor,
@@ -272,7 +274,7 @@ public class P2Utils {
 		filesRepository.setProperty(
 				SimpleArtifactRepository.PROP_FORCE_THREADING, "true");
 
-		while (toInstall.size() > 0 && installTryCount > 0) {
+		while (toInstall.size() > 0) {
 			List<IArtifactKey> keys = new ArrayList<IArtifactKey>();
 
 			for (IInstallableUnit unit : toInstall) {
@@ -302,6 +304,7 @@ public class P2Utils {
 						monitor);
 			}
 
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Failed to install bundles", null); 
 			// Check and validate installed units
 			List<IInstallableUnit> installedOK = new ArrayList<IInstallableUnit>();
 			for (IInstallableUnit unit : toInstall) {
@@ -316,9 +319,11 @@ public class P2Utils {
 				for (IArtifactKey key : toDownload) {
 					File file = filesRepository.getArtifactFile(key);
 					if (file != null && file.exists()) {
-						if (P2Utils.validateBundle(file)) {
+						IStatus result = P2Utils.validateBundle(file);
+						if (result.isOK()) {
 							installedOK.add(unit);
-							continue;
+						} else {
+							rv.add(result);
 						}
 					}
 					// Remove key, since it is not valid
@@ -327,9 +332,12 @@ public class P2Utils {
 			}
 			toInstall.removeAll(installedOK);
 			if (toInstall.size() == 0) {
-				break;
+				return;
 			}
 			installTryCount--;
+			if (installTryCount < 0) {
+				throw new CoreException(rv);
+			}
 			if (logMonitor != null) {
 				logMonitor.log("Artifacts left on iteration: "
 						+ toInstall.size() + " retrying: " + installTryCount
@@ -337,7 +345,7 @@ public class P2Utils {
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// ignore
+					throw new CoreException(Status.CANCEL_STATUS);
 				}
 			}
 		}
