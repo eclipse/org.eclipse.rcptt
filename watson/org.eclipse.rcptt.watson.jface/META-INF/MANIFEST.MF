@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Sherlock Jface Policy Event Provider
+Bundle-Name: Sherlock Jface Policy Event Provider (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.watson.jface;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.sherlock.jface.Activator

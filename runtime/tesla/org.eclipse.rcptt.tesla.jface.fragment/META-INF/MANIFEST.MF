@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime JFace Support Tweaks
+Bundle-Name: RCPTT Runtime JFace Support Tweaks (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.jface.fragment;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

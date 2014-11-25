@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Context Extensions
+Bundle-Name: RCPTT Context Extensions (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.extensions;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.extensions.ContextExtensionsPlugin

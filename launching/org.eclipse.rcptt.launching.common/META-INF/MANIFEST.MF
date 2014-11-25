@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Common Launching Stuff
+Bundle-Name: Common Launching Stuff (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.launching.common
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.launching.common.CommonLaunchingPlugin

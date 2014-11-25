@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Utilities for Q7 reporting
+Bundle-Name: Utilities for RCPTT reporting (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.reporting.util
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.reporting.util.internal.ReportingUtilPlugin

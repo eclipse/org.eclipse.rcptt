@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime Workbench Support Aspects
+Bundle-Name: RCPTT Runtime Workbench Support Aspects (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.workbench.texteditor.aspects;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

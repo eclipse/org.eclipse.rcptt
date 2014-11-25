@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests
+Bundle-Name: Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.data.tests
 Bundle-Version: 1.5.4.qualifier
 Fragment-Host: org.eclipse.rcptt.ecl.data

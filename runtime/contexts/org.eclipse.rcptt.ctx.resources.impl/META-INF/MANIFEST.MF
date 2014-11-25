@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Resources Context Runtime
+Bundle-Name: RCPTT Resources Context Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.resources.impl;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.impl.internal.resources.Activator

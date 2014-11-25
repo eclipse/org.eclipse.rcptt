@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL TCP Server
+Bundle-Name: ECL TCP Server (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.server.tcp;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.internal.server.tcp.Activator

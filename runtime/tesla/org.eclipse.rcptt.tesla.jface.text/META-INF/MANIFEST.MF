@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime JFace Text Support
+Bundle-Name: RCPTT Runtime JFace Text Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.jface.text;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.jface.text.JFaceTextActivator

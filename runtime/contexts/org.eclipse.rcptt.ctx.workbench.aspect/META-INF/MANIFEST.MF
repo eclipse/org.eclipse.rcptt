@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Workbench Context Aspects
+Bundle-Name: RCPTT Workbench Context Aspects (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.workbench.aspect;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.workbench.aspect.Activator

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Workbench Context UI
+Bundle-Name: RCPTT Workbench Context UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.workbench.ui;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.workbench.ui.Activator

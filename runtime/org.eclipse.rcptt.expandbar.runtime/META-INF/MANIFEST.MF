@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Record/Replay support for ExpandBar
+Bundle-Name: Record/Replay support for ExpandBar (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.expandbar.runtime;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.expandbar.runtime.internal.ExpandBarRuntimePlugin

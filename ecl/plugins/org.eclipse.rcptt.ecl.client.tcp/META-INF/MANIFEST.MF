@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL TCP Client
+Bundle-Name: ECL TCP Client (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.client.tcp
 Bundle-Version: 1.5.4.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

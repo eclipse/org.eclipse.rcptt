@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Commands for Performance Measurement
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.perf;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.ecl.perf,
  org.eclipse.rcptt.ecl.perf.impl,

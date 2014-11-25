@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime UI JDT Support
+Bundle-Name: RCPTT Runtime UI JDT Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.jdt;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.jdt.Activator

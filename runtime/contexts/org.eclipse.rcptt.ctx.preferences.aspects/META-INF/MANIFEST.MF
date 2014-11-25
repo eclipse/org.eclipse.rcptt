@@ -13,5 +13,5 @@ Export-Package: org.eclipse.rcptt.runtime.ui.preferences,
  org.eclipse.rcptt.runtime.ui.preferences.aspects
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.internal.runtime.ui.preferences.Activator
-Bundle-Name: Q7 Preferences Context Aspects
+Bundle-Name: RCPTT Preferences Context Aspects (Incubation)
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

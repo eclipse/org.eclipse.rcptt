@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Preferences Context UI
+Bundle-Name: RCPTT Preferences Context UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.preferences.ui;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.preferences.ui.Activator

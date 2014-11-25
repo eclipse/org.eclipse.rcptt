@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 runtime logging
+Bundle-Name: RCPTT runtime logging (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.logging
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.logging.Q7LoggingPlugin

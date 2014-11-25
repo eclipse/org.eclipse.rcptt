@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Time Verification
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.verifications.time;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.verifications.time.Activator
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

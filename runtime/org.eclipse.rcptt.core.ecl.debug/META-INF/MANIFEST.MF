@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Debug
+Bundle-Name: Debug (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.debug;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.debug.Q7EclDebugPlugin

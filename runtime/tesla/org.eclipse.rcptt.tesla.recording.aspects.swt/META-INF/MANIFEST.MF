@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime SWT Recording Support
+Bundle-Name: RCPTT Runtime SWT Recording Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.aspects.swt;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

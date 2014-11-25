@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime Gef Support
+Bundle-Name: RCPTT Runtime Gef Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.gef;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.recording.core.gef.Activator

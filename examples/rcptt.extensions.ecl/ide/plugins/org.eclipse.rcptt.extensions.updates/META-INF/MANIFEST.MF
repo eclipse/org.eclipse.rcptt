@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Runtime extension wrapper
+Bundle-Name: RCPTT Runtime extension wrapper (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.extensions.updates;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Resources
+Bundle-Name: Resources (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.util.resources
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Debug
+Bundle-Name: RCPTT Debug (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.debug;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-ClassPath: .

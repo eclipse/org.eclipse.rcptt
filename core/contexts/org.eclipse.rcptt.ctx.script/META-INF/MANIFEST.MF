@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 ECL Scenario Context
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.script;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.internal.context.EclContextPlugin

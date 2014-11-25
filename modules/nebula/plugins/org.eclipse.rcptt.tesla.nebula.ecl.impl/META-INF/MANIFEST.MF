@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime ECL Implementation for Nebula
+Bundle-Name: RCPTT Runtime ECL Implementation for Nebula (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.nebula.ecl.impl;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.nebula.ecl.impl.Activator

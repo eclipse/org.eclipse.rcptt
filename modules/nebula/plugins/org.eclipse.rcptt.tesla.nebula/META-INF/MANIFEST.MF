@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime Nebula Support
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.nebula;singleton:=true
 Bundle-Version: 1.5.4.qualifier
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.rcptt.tesla.core;bundle-version="1.1.0"

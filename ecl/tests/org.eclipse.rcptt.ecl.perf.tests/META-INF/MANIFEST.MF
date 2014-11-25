@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests for org.eclipse.rcptt.ecl.perf plugin
+Bundle-Name: Tests for org.eclipse.rcptt.ecl.perf plugin (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.perf.tests
 Bundle-Version: 1.5.4.qualifier
 Fragment-Host: org.eclipse.rcptt.ecl.perf;bundle-version="1.0.0"

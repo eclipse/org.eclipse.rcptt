@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Parameters Context Runtime
+Bundle-Name: RCPTT Parameters Context Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.parameters.impl;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.parameters.impl.Activator
