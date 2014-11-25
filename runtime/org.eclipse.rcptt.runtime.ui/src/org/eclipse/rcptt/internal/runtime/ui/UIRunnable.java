@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
@@ -105,23 +104,20 @@ public abstract class UIRunnable<T> {
 				}
 
 				public void hasEvent(HasEventKind kind, String run) {
-					// TODO Auto-generated method stub
-
 				}
 			};
 			TeslaEventManager.getManager().addEventListener(listener);
-			// We need notify display to be avait
-			if (!display.isDisposed()) {
-				SWTUIPlayer.notifyUI(display);
-			}
 			long start = System.currentTimeMillis();
-			while (!processed[0].equals(RunningState.Finished)
-					&& !display.isDisposed() && exception[0] == null) {
+			while (!processed[0].equals(RunningState.Finished)) {
+				if (display.isDisposed())
+					throw new CoreException(Status.CANCEL_STATUS);
 				// Perform wakeup async
 				SWTUIPlayer.notifyUI(display);
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
+				Thread.sleep(50);
+				if (exception[0] != null) {
+					if (exception[0] instanceof CoreException)
+						throw (CoreException)exception[0];
+					throw new CoreException(createError(exception[0]));
 				}
 				long time = System.currentTimeMillis();
 				if (time > start + (getTimeout() / 2)) {
@@ -139,10 +135,13 @@ public abstract class UIRunnable<T> {
 				if (time > start + getTimeout()) {
 					// Lets also capture all thread dump.
 					storeTimeoutInReport(display, collector);
-
-					throw new CoreException(new Status(Status.ERROR,
-							PLUGIN_ID,
-							"Timeout during context execution..."));
+					MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Timeout during context execution...", null) {
+						{
+							setSeverity(ERROR);
+						}
+					};
+					if (dialogCloseStatus[0] != null)
+						status.add(dialogCloseStatus[0]);
 				}
 			}
 			long timeoutLeft = System.currentTimeMillis() - start;
@@ -151,26 +150,17 @@ public abstract class UIRunnable<T> {
 				timeLeft = 5000;
 			}
 			collector.join(timeLeft);
-		} catch (Exception e) {
-			try {
-				RcpttPlugin.log(e);
-			} catch (Exception eee) {
-				// Ignore exception, if logging is failed, to be able to return
-				// orignal exception to Q7
-			}
-			exception[0] = e;
+		} catch (InterruptedException e) {
+			throw new CoreException(Status.CANCEL_STATUS);
 		} finally {
 			Job.getJobManager().removeJobChangeListener(collector);
 			TeslaEventManager.getManager().removeEventListener(listener);
 		}
-		if (exception[0] != null) {
-			MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "UI bound operation failed", null);
-			status.add(new Status(Status.ERROR, PLUGIN_ID, exception[0].getMessage(), exception[0]));
-			if (dialogCloseStatus[0] != null)
-				status.add(dialogCloseStatus[0]);
-			throw new CoreException(status);
-		}
 		return (T) result[0];
+	}
+
+	private static IStatus createError(final Throwable exception) {
+		return new Status(Status.ERROR, PLUGIN_ID, exception.getMessage(), exception);
 	}
 
 	private static int getTimeout() {
