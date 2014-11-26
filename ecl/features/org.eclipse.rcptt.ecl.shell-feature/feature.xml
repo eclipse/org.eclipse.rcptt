@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature 
 	id="org.eclipse.rcptt.ecl.shell" 
-	label="ECL Telnet Shell" 
+	label="ECL Telnet Shell" (Incubation) 
 	provider-name="%providerName"
 	version="1.5.4.qualifier">
 	

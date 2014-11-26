@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.ecl.platform"
-      label="ECL Platform"
+      label="ECL Platform (Incubation)"
       version="1.5.4.qualifier"
       provider-name="%providerName%">
 

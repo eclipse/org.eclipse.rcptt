@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.tesla.runtime"
-      label="RCPTT Runtime E4X"
+      label="RCPTT Runtime Eclipse 4.x (Incubation)"
       version="1.5.4.qualifier"
       provider-name="%providerName">
 
