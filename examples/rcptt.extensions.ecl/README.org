@@ -46,9 +46,9 @@ A repository is structured as following:
   - plug-in, which holds a binary runtime repository (it is automatically copied inside a plug-in during maven build)
   - feature, which includes ide plug-in and a common feature
   - repository, which provides IDE feature
-- *rcpttTests* contains sample RCPTT tests
+- *tests* contains sample RCPTT tests
 
 *** Usage
     Use =mvn clean install -Dtycho.localArtifacts=ignore= in repository root to build Runtime and IDE update sites. After that IDE update site can be installed into RCPTT from =ide/repository/org.eclipse.rcptt.extensions.ide.site/target/repository=. Note that for optimization purposes RCPTT IDE does not check for new injections for existing AUTs, so it is required to remove and add back an AUT in RCPTT after installing/updating RCPTT IDE extensions.
 
-    Use =mvn clean install= in =rcpttTests= folder to run sample test cases using custom command.
+    Use =mvn clean install= in =tests/rcptt.extensions.ecl= folder to run sample test cases using custom command.

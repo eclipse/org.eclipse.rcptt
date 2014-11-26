@@ -29,7 +29,7 @@
 
 						<injections>
 							<injection>
-								<site>${project.baseUri}../runtime/repository/org.eclipse.rcptt.extensions.runtime.site/target/repository</site>
+								<site>${project.baseUri}../../runtime/repository/org.eclipse.rcptt.extensions.runtime.site/target/repository</site>
 							</injection>
 						</injections>
 					</aut>

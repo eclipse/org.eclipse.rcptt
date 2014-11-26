@@ -1,23 +1,20 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
 Contexts: _Qddq0G4WEeSAbJi-ePtrvQ,_UMv60Gu3EeSIB8wfH7YVTw
-Element-Name: TestShowView
+Element-Name: VerifyErrorExists
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
-Id: _w3D9cG4YEeSAbJi-ePtrvQ
+Id: _YhpCAGu4EeSIB8wfH7YVTw
 Runtime-Version: 1.5.3.201409120955
-Save-Time: 11/17/14 1:22 PM
+Save-Time: 11/26/14 5:59 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view Problems | close
-show-view org.eclipse.ui.views.ProblemView
-
-// we can't get view if it's was closed
-get-view Problems | get-tree | select "Errors \\(1 item\\)" | double-click
-
+get-problem-messages | length | eq 1 | assert-true "Unexpected error count"
+get-problem-messages | eq "The public type Main2 must be defined in its own file" 
+| assert-true "Error message cannot be found"
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
