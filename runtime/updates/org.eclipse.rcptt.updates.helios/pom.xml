@@ -47,7 +47,8 @@
 	<configuration>
 	  <source>
 	    <repository>
-	      <url>${heliosRepository}</url>
+        <id>helios</id>
+	      <url>http://download.eclipse.org/releases/helios/</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>

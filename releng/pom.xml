@@ -17,7 +17,7 @@
     <heliosRepository>http://updates.xored.com/helios/</heliosRepository>
     <indigoRepository>http://updates.xored.com/indigo/</indigoRepository>
     <junoRepository>http://updates.xored.com/juno/</junoRepository>
-    <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update</ajdt37repository>    
+    <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>    
   </properties>
 
   <build>

@@ -10,20 +10,21 @@
 
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
-    <artifactId>rcptt-parent</artifactId>
+    <artifactId>core</artifactId>
     <version>1.5.4-SNAPSHOT</version>
+    <relativePath>../core/pom.xml</relativePath>
   </parent>
-
+  
   <properties>
     <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
   </properties>
-
+  
   <repositories>
     <repository>
       <id>rcptt-core</id>
       <layout>p2</layout>
       <snapshots>
-	<updatePolicy>always</updatePolicy>
+        <updatePolicy>always</updatePolicy>
       </snapshots>
       <url>${coreRepository}</url>
     </repository>
@@ -42,30 +43,21 @@
     <profile>
       <id>runtime3x</id>
       <modules>
-	<module>../../repository/e3x</module>
+        <module>../../repository/e3x</module>
       </modules>
-
-      <repositories>
-	<repository>
-	  <id>helios</id>
-	  <layout>p2</layout>
-	  <url>${heliosRepository}</url>
-	</repository>
-      </repositories>
     </profile>
     
     <profile>
       <id>runtime4x</id>
       <modules>
-	<module>../../repository/e4x</module>
+        <module>../../repository/e4x</module>
       </modules>
-
       <repositories>
-	<repository>
-	  <id>juno</id>
-	  <layout>p2</layout>
-	  <url>${junoRepository}</url>
-	</repository>
+        <repository>
+          <id>juno</id>
+          <layout>p2</layout>
+          <url>http://download.eclipse.org/releases/juno</url>
+        </repository>
       </repositories>
     </profile>    
   </profiles>

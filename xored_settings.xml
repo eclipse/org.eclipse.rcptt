@@ -1,0 +1,39 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <mirrors>
+    <mirror>
+      <id>helios-xored</id>
+      <mirrorOf>helios</mirrorOf>
+      <name>Xored helios</name>
+      <url>http://updates.xored.com/helios/</url>
+      <layout>p2</layout>
+      <mirrorOfLayouts>p2</mirrorOfLayouts>
+    </mirror>
+    <mirror>
+      <id>juno-xored</id>
+      <mirrorOf>juno</mirrorOf>
+      <url>http://updates.xored.com/juno</url>
+      <layout>p2</layout>
+      <mirrorOfLayouts>p2</mirrorOfLayouts>
+    </mirror>
+    <mirror>
+      <id>kepler-xored</id>
+      <mirrorOf>kepler</mirrorOf>
+      <url>http://updates.xored.com/kepler</url>
+      <layout>p2</layout>
+      <mirrorOfLayouts>p2</mirrorOfLayouts>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <tycho.localArtifacts>ignore</tycho.localArtifacts>
+    </profile>
+  </profiles>
+
+
+</settings>

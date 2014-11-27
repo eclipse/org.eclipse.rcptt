@@ -53,7 +53,7 @@
     </repository>
     <repository>
       <snapshots>
-	<updatePolicy>always</updatePolicy>
+        <updatePolicy>always</updatePolicy>
       </snapshots>
       <id>e3x-ide</id>
       <layout>p2</layout>
@@ -61,7 +61,7 @@
     </repository>
     <repository>
       <snapshots>
-	<updatePolicy>always</updatePolicy>
+        <updatePolicy>always</updatePolicy>
       </snapshots>
       <id>e4x-ide</id>
       <layout>p2</layout>

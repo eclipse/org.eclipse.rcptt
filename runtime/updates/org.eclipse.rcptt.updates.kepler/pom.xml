@@ -47,7 +47,8 @@
 	<configuration>
 	  <source>
 	    <repository>
-	      <url>${keplerRepository}</url>
+        <id>kepler</id>
+	      <url>http://download.eclipse.org/releases/kepler</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>
