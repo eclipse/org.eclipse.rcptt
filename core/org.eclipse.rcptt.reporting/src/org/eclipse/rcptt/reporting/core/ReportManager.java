@@ -18,9 +18,7 @@ import java.io.FileOutputStream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
-import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.IEventProviders;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
@@ -29,17 +27,21 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportBuilderStore;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
-import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 
 public class ReportManager implements IQ7ReportConstants {
 	private static ReportBuilder builder = null;
 
-	public static String[] eventProviders = { "org.eclipse.rcptt" };
+	public static String[] eventProviders = {
+		IEventProviders.LOG_EVENT_PROVIDER,
+		IEventProviders.JFACE_LOG_EVENT_PROVIDER,
+		IEventProviders.JOBS_INFO_PROVIDER,
+		IEventProviders.TESLA_INFO_PROVIDER,
+		IEventProviders.ECL_COMMAND_EVENT_PROVIDER
+	};
 
 	private synchronized static void initializeBuilder(String title, ReportBuilderStore store) {
 		if (builder != null) {
@@ -52,10 +54,6 @@ public class ReportManager implements IQ7ReportConstants {
 			builder = ReportBuilder.create(title);
 		}
 		builder.registerProviders(eventProviders);
-		if (TeslaFeatures.getInstance().isProfilingEnabled()) {
-			builder.registerProviders(IEventProviders.JOBS_EVENT_PROVIDER);
-		}
-		builder.registerProviders(IEventProviders.JOBS_INFO_PROVIDER);
 	}
 
 	public synchronized static Report getReportCopy() {

@@ -12,7 +12,8 @@ package org.eclipse.rcptt.sherlock.core;
 
 public interface IEventProviders {
 	public static final String LOG_EVENT_PROVIDER = "org.eclipse.rcptt.sherlock.core.log.provider";
-	public static final String JOBS_EVENT_PROVIDER = "org.eclipse.rcptt.sherlock.jobs.provider";
 	public static final String JOBS_INFO_PROVIDER = "org.eclipse.rcptt.sherlock.jobs.info.provider";
+	public static final String TESLA_INFO_PROVIDER = "org.eclipse.rcptt.tesla.ecl.iml.info.provider";
+	public static final String ECL_COMMAND_EVENT_PROVIDER = "org.eclipse.rcptt.core.ecl.core.ecl.provider";
 	public static final String JFACE_LOG_EVENT_PROVIDER = "org.eclipse.rcptt.sherlock.core.jface.log.provider";
 }
