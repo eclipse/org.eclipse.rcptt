@@ -1,7 +1,7 @@
 #!/bin/sh
-export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=256m"
+export MAVEN_OPTS="-Xms512m -Xmx756m -XX:MaxPermSize=256m"
 
-OPTIONS="$@"
+OPTIONS="-Dtycho.localArtifacts=ignore $@"
 
 mvn clean verify -f releng/core/pom.xml $OPTIONS || exit 101
 mvn clean verify -f releng/runtime/pom.xml -P runtime3x $OPTIONS || exit 102
