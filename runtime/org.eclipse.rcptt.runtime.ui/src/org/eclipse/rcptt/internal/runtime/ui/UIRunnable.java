@@ -142,6 +142,7 @@ public abstract class UIRunnable<T> {
 					};
 					if (dialogCloseStatus[0] != null)
 						status.add(dialogCloseStatus[0]);
+					throw new CoreException(status);
 				}
 			}
 			long timeoutLeft = System.currentTimeMillis() - start;
