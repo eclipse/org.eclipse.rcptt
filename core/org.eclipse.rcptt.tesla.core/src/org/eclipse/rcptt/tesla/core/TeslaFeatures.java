@@ -48,8 +48,6 @@ public class TeslaFeatures extends AbstractFeatureManager {
 
 	public static final String ENABLE_PROTECTED_MEMBERS = "enable.protected.members";
 
-	public static String PROFILING = "q7.profilig";
-
 	// Logging features
 	public static final String LOGGING_OPTIONS = "logging.options";
 	public static final String CAT_LOGGING = "Logging";
@@ -170,12 +168,6 @@ public class TeslaFeatures extends AbstractFeatureManager {
 		// Timesouts
 		TeslaLimits.init(this);
 
-		option(PROFILING).name("Enable Job/async/sync profiling")
-				.description("Do advanced logging of jobs/async/syncs").value("false")
-				.defaultValue("false")
-				.values(AbstractFeatureManager.BOOLEAN_VALUES).editable(true)
-				.showIn();// TeslaFeatures.LOGGING_OPTIONS,
-							// TeslaFeatures.CP_OPTIONS);
 		option(CAPTURE_EXECUTION).category(CAT_LOGGING).name("Enable per command image capture")
 				.description("Capture screenshots on each command execution")
 				.value("false").defaultValue("false")
@@ -212,7 +204,4 @@ public class TeslaFeatures extends AbstractFeatureManager {
 		return getInstance().isTrue(ENABLE_PROTECTED_MEMBERS);
 	}
 
-	public boolean isProfilingEnabled() {
-		return getInstance().isTrue(TeslaFeatures.PROFILING);
-	}
 }
