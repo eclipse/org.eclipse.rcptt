@@ -209,8 +209,8 @@ public class Q7ExternalLaunchDelegate extends
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
 		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
-		
-		if (!error.isOK()) { 
+
+		if (!error.isOK()) {
 			if (monitor.isCanceled()) {
 				removeTargetPlatform(configuration);
 				return false;
@@ -630,6 +630,9 @@ public class Q7ExternalLaunchDelegate extends
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
+		removeDuplicatedModels(bundlesToLaunch.fModels, ((ITargetPlatformHelper) info.target)
+				.getQ7Target());
+
 		setDelegateFields(this, bundlesToLaunch.fModels,
 				bundlesToLaunch.fAllBundles);
 
@@ -637,6 +640,32 @@ public class Q7ExternalLaunchDelegate extends
 		// configuration location.
 		copyConfiguratonFiles(configuration, info);
 		monitor.done();
+	}
+
+	private void removeDuplicatedModels(Map<IPluginModelBase, String> fModels, Q7Target target) {
+
+		String path = target.getInstallLocation().getAbsolutePath();
+		List<IPluginModelBase> keysForRemove = new ArrayList<IPluginModelBase>();
+		Map<UniquePluginModel, IPluginModelBase> cache = new HashMap<UniquePluginModel,
+				IPluginModelBase>();
+
+		for (Entry<IPluginModelBase, String> entry : fModels.entrySet()) {
+			IPluginModelBase model = entry.getKey();
+			UniquePluginModel uniqueModel = new UniquePluginModel(model);
+			IPluginModelBase secondModel = cache.get(uniqueModel);
+			if (secondModel != null) {
+				if (secondModel.getInstallLocation().contains(path)) {
+					keysForRemove.add(secondModel);
+				} else {
+					keysForRemove.add(model);
+				}
+			} else {
+				cache.put(uniqueModel, model);
+			}
+		}
+		for (IPluginModelBase key : keysForRemove) {
+			fModels.remove(key);
+		}
 	}
 
 	public static class BundlesToLaunchCollector {
@@ -793,7 +822,7 @@ public class Q7ExternalLaunchDelegate extends
 					});
 
 			fAllBundles = new HashMap<String, Object>(latestVersions);
-			fModels = new HashMap<Object, String>(Maps.transformValues(
+			fModels = new HashMap<IPluginModelBase, String>(Maps.transformValues(
 					resolvedBundles, new Function<BundleStart, String>() {
 						public String apply(BundleStart input) {
 							return input.toModelString();
@@ -803,7 +832,7 @@ public class Q7ExternalLaunchDelegate extends
 
 		public final Map<IPluginModelBase, BundleStart> resolvedBundles;
 		public final Map<IPluginModelBase, BundleStart> latestVersionsOnly;
-		public final Map<Object, String> fModels;
+		public final Map<IPluginModelBase, String> fModels;
 		public final Map<String, Object> fAllBundles;
 	}
 
@@ -869,6 +898,42 @@ public class Q7ExternalLaunchDelegate extends
 					FileUtil.copyFiles(file, target);
 				}
 			}
+		}
+	}
+
+	public class UniquePluginModel {
+
+		private String name;
+		private Version version;
+
+		public UniquePluginModel(IPluginModelBase model) {
+			version = model.getBundleDescription().getVersion();
+			name = model.getBundleDescription().getName();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int hashCode = 1;
+			hashCode = prime * hashCode + (name == null ? 0 : name.hashCode());
+			hashCode = prime * hashCode + (version == null ? 0 : version.hashCode());
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (object == null)
+				return false;
+			if (object == this)
+				return true;
+			if (!(object instanceof UniquePluginModel))
+				return false;
+			UniquePluginModel uniquePluginModel = (UniquePluginModel) object;
+			if (uniquePluginModel.name.equals(this.name)
+					&& uniquePluginModel.version.equals(this.version)) {
+				return true;
+			}
+			return false;
 		}
 	}
 }
