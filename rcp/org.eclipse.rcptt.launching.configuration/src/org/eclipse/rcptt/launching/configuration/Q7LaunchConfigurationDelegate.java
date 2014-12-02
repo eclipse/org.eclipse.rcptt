@@ -138,7 +138,7 @@ public class Q7LaunchConfigurationDelegate extends
 		if (helper == null) {
 			helper = TargetPlatformManager.getTargetPlatform(targetName,
 					new SubProgressMonitor(monitor, 1), false);
-			if (info != null) {
+			if (helper != null) {
 				if (!helper.isResolved()) {
 					helper.resolve(monitor);
 					if (helper.isValid()) {
