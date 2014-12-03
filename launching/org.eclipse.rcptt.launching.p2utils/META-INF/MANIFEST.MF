@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Cloud P2utils (Incubation)
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.launching.p2utils
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.launching.p2utils.Q7P2UtilsActivator
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.equinox.p2.artifact.repository,
  org.eclipse.equinox.p2.core,

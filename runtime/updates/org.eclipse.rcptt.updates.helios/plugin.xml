@@ -4,7 +4,6 @@
    <extension
          point="org.eclipse.rcptt.launching.ext.q7runtime">
       <q7runtime
-            id="deps for 3.6"
             kind="dependency"
             path="platform:///plugin/org.eclipse.rcptt.updates.helios/dependencies/"
             version="[3.6,4.3)">

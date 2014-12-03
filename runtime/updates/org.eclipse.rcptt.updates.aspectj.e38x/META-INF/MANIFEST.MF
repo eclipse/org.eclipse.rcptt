@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Kepler (Incubation)
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.updates.aspectj.e38x;singleton:=true
 Bundle-Version: 1.5.4.qualifier
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName
 Eclipse-BundleShape: dir
