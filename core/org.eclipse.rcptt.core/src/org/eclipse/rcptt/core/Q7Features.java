@@ -70,7 +70,7 @@ public class Q7Features extends AbstractFeatureManager {
 				.showIn(TeslaFeatures.ADV_OPTIONS);
 
 		option(LAUNCHING_KILL_AUT_ON_CONNECT_ERROR)
-				.name("Kill AUT on connect error.")
+				.name("Kill AUT on connect error")
 				.description(
 						"Whether to kill AUT after the startup waiting time expiration?")
 				.value("false").defaultValue("false")

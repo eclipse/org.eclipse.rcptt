@@ -1,9 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.rcptt.ecl.filesystem.impl;
 
 import org.eclipse.emf.ecore.EClass;
@@ -64,6 +69,7 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 			case FilesystemPackage.URI_FROM_PATH: return createUriFromPath();
 			case FilesystemPackage.GET_FILE: return createGetFile();
 			case FilesystemPackage.FILE: return createFile();
+			case FilesystemPackage.DELETE_FILE: return createDeleteFile();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -107,6 +113,16 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 	public File createFile() {
 		FileImpl file = new FileImpl();
 		return file;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DeleteFile createDeleteFile() {
+		DeleteFileImpl deleteFile = new DeleteFileImpl();
+		return deleteFile;
 	}
 
 	/**

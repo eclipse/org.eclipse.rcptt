@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
+
 import java.lang.reflect.Field;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IVMInstall;
@@ -25,6 +27,11 @@ import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.launcher.JREBlock;
 import org.eclipse.pde.internal.ui.launcher.ProgramBlock;
 import org.eclipse.pde.ui.launcher.MainTab;
+import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
+import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
@@ -38,12 +45,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
-import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 @SuppressWarnings("restriction")
 public class ExternalAUTMainTab extends MainTab {
@@ -240,20 +241,34 @@ public class ExternalAUTMainTab extends MainTab {
 		}
 	}
 
+	void setStatus(final IStatus status) {
+		if (!status.isOK() && !status.matches(IStatus.CANCEL)) {
+			log(status);
+		}
+		getShell().getDisplay().syncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				if (status.isOK()) {
+					setErrorMessage(null);
+					setMessage(null);
+				} else if (status.matches(IStatus.ERROR)) {
+					setMessage(null);
+					setErrorMessage(status.getMessage());
+				} else {
+					setMessage(status.getMessage());
+					setErrorMessage(null);
+				}
+			}
+		});
+
+	}
+
 	@Override
 	public void validateTab() {
 		super.validateTab();
-
 		if (getErrorMessage() == null) {
-			String infMsg = fLocationBlock.infoValidate();
-			if (infMsg != null && !Status.OK_STATUS.getMessage().equals(infMsg)) {
-				setMessage(infMsg);
-				return;
-			}
-			String msg = fLocationBlock.validate();
-			if (msg != null) {
-				setErrorMessage(msg);
-			}
+			setStatus(fLocationBlock.getStatus());
 		}
 	}
 

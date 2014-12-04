@@ -15,6 +15,7 @@ import org.eclipse.rcptt.tesla.core.ui.*;
 import java.util.List;
 
 import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -441,6 +442,20 @@ public class UiSwitch<T> {
 			case UiPackage.VALUES_MAP: {
 				@SuppressWarnings("unchecked") Map.Entry<String, String> valuesMap = (Map.Entry<String, String>)theEObject;
 				T result = caseValuesMap(valuesMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UiPackage.MARKER: {
+				Marker marker = (Marker)theEObject;
+				T result = caseMarker(marker);
+				if (result == null) result = caseWidget(marker);
+				if (result == null) result = casePropertyNodeList(marker);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UiPackage.LINE_MARKERS_VALUE: {
+				@SuppressWarnings("unchecked") Map.Entry<String, EList<Marker>> lineMarkersValue = (Map.Entry<String, EList<Marker>>)theEObject;
+				T result = caseLineMarkersValue(lineMarkersValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1075,6 +1090,36 @@ public class UiSwitch<T> {
 	 * @generated
 	 */
 	public T caseValuesMap(Map.Entry<String, String> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Line Markers Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Line Markers Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLineMarkersValue(Map.Entry<String, EList<Marker>> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Marker</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Marker</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMarker(Marker object) {
 		return null;
 	}
 

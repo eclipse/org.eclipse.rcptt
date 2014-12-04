@@ -10,21 +10,17 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.controls;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.ui.preferences.FeaturesComposite;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.ui.preferences.FeaturesComposite;
-import org.eclipse.rcptt.tesla.core.TeslaFeatures;
-
 public class OptionsComposite extends AbstractEmbeddedComposite {
 
-	protected Composite scrolled;
+	protected Control scrolled;
 
 	public String getName() {
 		return Messages.OptionsComposite_Name;
@@ -45,10 +41,7 @@ public class OptionsComposite extends AbstractEmbeddedComposite {
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		features = new FeaturesComposite();
-		scrolled = new Composite(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(scrolled);
-		GridLayoutFactory.fillDefaults().applyTo(scrolled);
-		features.createOptions(scrolled, TeslaFeatures.CP_OPTIONS, true,
+		scrolled = features.createOptions(parent, TeslaFeatures.CP_OPTIONS, true,
 		/* new FormToolkit(parent.getDisplay()) */null);
 	}
 

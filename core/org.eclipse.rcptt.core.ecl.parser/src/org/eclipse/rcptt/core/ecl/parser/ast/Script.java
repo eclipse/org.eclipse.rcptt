@@ -34,4 +34,25 @@ public class Script extends Node {
 		}
 		visitor.exit(this);
 	}
+
+	/**
+	 * Returns comment that describes procedure (proc).
+	 * 
+	 * @param procBegin
+	 *            Procedure begin position
+	 * @return String
+	 */
+	public String findProcDescription(int procBegin) {
+		String description = "";
+		for (int i = 0; i < comments.size(); i++) {
+			Comment comment = comments.get(i);
+			if (comment.nextCommandAt == procBegin) {
+				description = comment.text;
+				break;
+			}
+		}
+
+		return description;
+	}
+
 }

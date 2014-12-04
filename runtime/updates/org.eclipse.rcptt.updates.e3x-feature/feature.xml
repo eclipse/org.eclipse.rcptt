@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.updates.e3x"
-      label="RCPTT Runtime Sites"
-      version="1.5.1.qualifier"
+      label="RCPTT Runtime Sites (Incubation)"
+      version="1.5.4.qualifier"
       provider-name="%proiderName">
 
    <description>
@@ -21,7 +21,7 @@
          id="org.eclipse.rcptt.updates.runtime"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
 </feature>

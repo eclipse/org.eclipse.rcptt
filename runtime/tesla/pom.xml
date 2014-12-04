@@ -5,7 +5,7 @@
   <parent>
     <artifactId>rcptt.runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
 
   <modules>
@@ -36,7 +36,6 @@
     <module>org.eclipse.rcptt.tesla.recording.aspects.jface.text</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.swt</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.workbench</module>
-    <module>org.eclipse.rcptt.tesla.recording.aspects.ui.ide</module>
     <module>org.eclipse.rcptt.tesla.recording.aspects.workbench.texteditor</module>
     <module>org.eclipse.rcptt.tesla.recording.draw2d</module>
     <module>org.eclipse.rcptt.tesla.recording.gef</module>
@@ -75,7 +74,7 @@
     </profile>
   </profiles>
   <groupId>org.eclipse.rcptt.tesla</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <artifactId>tesla</artifactId>
   <packaging>pom</packaging>
 </project>

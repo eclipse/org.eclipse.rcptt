@@ -20,11 +20,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.SubMonitor;
-
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter;
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter.ProblemType;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
-import org.eclipse.rcptt.core.persistence.PersistenceManager;
 import org.eclipse.rcptt.ctx.resources.ImportUtils;
 import org.eclipse.rcptt.ctx.resources.WSUtils;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -37,33 +37,38 @@ import org.eclipse.rcptt.workspace.WorkspaceContext;
 public class WSValidators {
 
 	public static void validateContent(final WorkspaceContext ctx,
-			final IFile resource, final IQ7ProblemReporter reporter,
+			final IContext element, final IQ7ProblemReporter reporter,
 			final SubMonitor monitor) {
-		final IPersistenceModel model = PersistenceManager.getInstance()
-				.getModel(ctx.eResource());
-		model.extractAll();
-		WSUtils.visitWorkspace(ctx, monitor, new Predicate<WSResource>() {
-			@Override
-			public boolean apply(WSResource input) {
-				if (monitor.isCanceled())
-					return true;
-				if (input instanceof WSFile) {
-					
-					String name = ImportUtils.getName((WSFile) input);
-					try {
-						WSUtils.getFileStream(null, (WSFile) input, model)
-								.close();
-					} catch (IOException e) {
-						String message = String
-								.format("File %s is absent in workspace %s. Please recapture the context or delete broken file.",
-										name, ctx.getName());
-						reporter.reportProblem(resource, ProblemType.Error,
-								message, -1, -1, -1, -1);
-					}
-				}				
-				return false;
-			}
-		});
+		try {
+			final IPersistenceModel model = element.getPersistenceModel();
+			model.extractAll();
+			WSUtils.visitWorkspace(ctx, monitor, new Predicate<WSResource>() {
+				@Override
+				public boolean apply(WSResource input) {
+					if (monitor.isCanceled())
+						return true;
+					if (input instanceof WSFile) {
+						
+						String name = ImportUtils.getName((WSFile) input);
+						try {
+							WSUtils.getFileStream(null, (WSFile) input, model)
+									.close();
+						} catch (IOException e) {
+							String message = String
+									.format("File %s is absent in workspace %s. Please recapture the context or delete broken file.",
+											name, ctx.getName());
+							reporter.reportProblem((IFile)element.getResource(), ProblemType.Error,
+									message, -1, -1, -1, -1);
+						}
+					}				
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			RcpttPlugin.log(e);
+			reporter.reportProblem((IFile) element.getResource(), ProblemType.Error,
+					e.getMessage(), -1, -1, -1, -1);
+		}
 	}
 
 	public static boolean validateLink(WSLink link, IFile resource,

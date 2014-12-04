@@ -1,9 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.rcptt.ecl.filesystem.util;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -90,6 +95,10 @@ public class FilesystemAdapterFactory extends AdapterFactoryImpl {
 				return createFileAdapter();
 			}
 			@Override
+			public Adapter caseDeleteFile(DeleteFile object) {
+				return createDeleteFileAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -166,6 +175,20 @@ public class FilesystemAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.filesystem.DeleteFile <em>Delete File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.filesystem.DeleteFile
+	 * @generated
+	 */
+	public Adapter createDeleteFileAdapter() {
 		return null;
 	}
 

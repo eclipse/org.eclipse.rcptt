@@ -4,12 +4,12 @@
   <parent>
     <artifactId>rcptt-module-nebula</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.tesla.nebula</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

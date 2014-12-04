@@ -1,15 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime Gef Support Aspects
+Bundle-Name: RCPTT Runtime Gef Support Aspects (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.gef.aspects;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.gef,
  org.eclipse.jface,
- org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.1,1.6.0)"
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.core.context;bundle-version="[1.5.4,1.6.0)"
 onEnvironment: JavaSE-1.6
 Import-Package: org.osgi.framework
 Eclipse-SupplementBundle: org.eclipse.gef

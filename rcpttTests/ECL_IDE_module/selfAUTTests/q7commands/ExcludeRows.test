@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
-Contexts: _ymiyse5IEeCU6db9MgIBkA,_roqd8KekEeC8_YI4qVLWTA
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_QpuEsG3qEeOpKr7OsF8P0g
 Element-Name: ExcludeRows
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _9Tdl8JBTEeKb2YsCtQq5YA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/10/14 2:31 PM
 Tags: q7commands
 Testcase-Type: ecl
 
@@ -35,18 +34,13 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-preferences-menu | click
-get-window Preferences | get-tree | select "General/Network Connections"
-get-window Preferences | get-table | get-table-data | exclude-rows -column "Schema" -value "HTTP" | write-csv-file "workspace:///FilesForContextEditor//test.csv"
-get-window Preferences | get-button OK | click
+get-view "Test Explorer" | get-tree | select "MyProject/P1" | double-click
+get-editor P1 | get-section Parameters | get-table | get-table-data | exclude-rows -column "Value" -value "v2" | write-csv-file "workspace:///FilesForContextEditor//test.csv"
 get-view "Test Explorer" | get-tree | select FilesForContextEditor | get-menu Refresh | click
 get-view "Test Explorer" | get-tree | select "FilesForContextEditor/test.csv" | get-menu "Open With/Text Editor" | click
-get-editor "test.csv" | get-editbox | get-property text | equals ",Schema,Host,Port,Provider,Auth,User,Password\n"
-    + ",HTTPS,,,Manual,false,,\n"
-    + ",SOCKS,,,Manual,false,," | verify-true    
-get-preferences-menu | click
-get-window Preferences | get-tree | select "Team/File Content"    
-get-window Preferences | get-table | get-table-data | exclude-rows -column "Name/Extension" -value "*ecore*" -match "glob" | write-csv-file "workspace:///FilesForContextEditor//test.csv"
-get-window Preferences | get-button OK | click
-get-editor "test.csv" | get-editbox | get-property text | contains "ecore" | verify-false
+get-editor "test.csv" | get-text-viewer | get-property text | equals "Name,Value\n"
+    + "p3,v3\n"
+    + "p1,v1\n"
+    + "Add new parameter," | verify-true
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

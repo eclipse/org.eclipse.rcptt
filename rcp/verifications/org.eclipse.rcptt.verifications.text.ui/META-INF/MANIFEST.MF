@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Text Widget Verification UI
+Bundle-Name: Text Widget Verification UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.verifications.text.ui;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.verifications.text.ui.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,

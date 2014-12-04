@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.swt.workbench;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 
 public class EclipseWorkbenchProvider {
@@ -25,21 +25,24 @@ public class EclipseWorkbenchProvider {
 
 	private static void initialize() {
 		if (currentProvider == null) {
+			final String extensionPointId = SWTTeslaActivator.PLUGIN_ID + ".workbenchProvider";
 			IConfigurationElement[] elements = Platform.getExtensionRegistry()
 					.getConfigurationElementsFor(
-							SWTTeslaActivator.PLUGIN_ID + ".workbenchProvider");
+							extensionPointId);
 			for (IConfigurationElement cfg : elements) {
 				try {
-					Object object = cfg.createExecutableExtension("class");
-					if (object instanceof IEclipseWorkbenchProvider) {
-						if (((IEclipseWorkbenchProvider) object).isSupported()) {
-							currentProvider = (IEclipseWorkbenchProvider) object;
-						}
+					IEclipseWorkbenchProvider object = (IEclipseWorkbenchProvider) cfg
+							.createExecutableExtension("class");
+					if (((IEclipseWorkbenchProvider) object).isSupported()) {
+						currentProvider = (IEclipseWorkbenchProvider) object;
 					}
-				} catch (Throwable e) {
-
+				} catch (CoreException e) {
+					throw new RuntimeException("Failed to create " + cfg.getName(), e);
 				}
 			}
+			if (currentProvider == null)
+				throw new NullPointerException("Failed to find " + extensionPointId
+						+ " extension. Is org.eclipse.rcptt.tesla.swt.e*x extension loaded?");
 		}
 	}
 }

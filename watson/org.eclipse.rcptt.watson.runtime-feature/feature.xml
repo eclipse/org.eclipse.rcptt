@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.watson.runtime"
-      label="Watson eclipse explore engine"
-      version="1.5.1.qualifier"
+      label="RCPTT Eclipse runtime information collector aspects (Incubation)"
+      version="1.5.4.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -18,28 +18,28 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.watson" version="1.5.1.qualifier"/>
+      <import feature="org.eclipse.rcptt.watson" version="1.5.4.qualifier"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.jobs"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.swt"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jobs.impl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
 </feature>

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,17 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.internal.launching.ext.Q7UpdateSiteExtensions.Q7RuntimeInfo;
 import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
@@ -37,6 +41,7 @@ import org.eclipse.rcptt.launching.injection.UpdateSite;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.osgi.framework.Bundle;
 
 public class Q7TargetPlatformInitializer {
 
@@ -57,69 +62,66 @@ public class Q7TargetPlatformInitializer {
 		public List<URI> extra = new ArrayList<URI>();
 	}
 
-	public static void initialize(ITargetPlatformHelper iinfo,
-			IProgressMonitor monitor, boolean addErrorsToLog) {
+	private static final IStatus createError(String message) {
+		return createError(message, null);
+	}
+
+	private static final IStatus createError(String message, Throwable error) {
+		if (message == null && error != null) {
+			message = error.getMessage();
+		}
+		return new Status(IStatus.ERROR, PLUGIN_ID, message, error);
+	}
+
+	public static IStatus initialize(ITargetPlatformHelper iinfo,
+			IProgressMonitor monitor) {
 		monitor.beginTask("Initialize AUT configuration", 100);
-		if (monitor.isCanceled()) {
-			return;
-		}
-		if (!iinfo.isValid()) {
-			return;
-		}
+		if (monitor.isCanceled())
+			return Status.CANCEL_STATUS;
+
+		IStatus rv = iinfo.getStatus();
+		if (rv.matches(IStatus.ERROR))
+			return rv;
+
 		TargetPlatformHelper info = (TargetPlatformHelper) iinfo;
 		Map<String, String> map = AUTInformation.getInformationMap(iinfo);
 
 		String version = map.get(AUTInformation.VERSION);
-		if (version == null) {
-			info.setErrorMessage("Invalid eclipse product location: "
-					+ iinfo.getTargetPlatformProfilePath());
-			if (addErrorsToLog) {
-				logError(info);
-			}
-			return;
-		}
+		if (version == null)
+			return createError("Invalid eclipse product location: " + iinfo.getTargetPlatformProfilePath());
+
 		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions.getDefault()
 				.getRuntimes(version);
 		if (updates.size() == 0) {
-			info.setErrorMessage("Eclipse platform version " + version
+			return createError("Eclipse platform version " + version
 					+ " is not supported");
-			if (addErrorsToLog) {
-				logError(info);
-			}
-			return;
 		}
 		Q7Info q7Info = collectQ7Information(updates);
 		if (q7Info.q7 == null || q7Info.deps == null || q7Info.aspectj == null) {
-			info.setErrorMessage("Eclipse platform version " + version
+			return createError("Eclipse platform version " + version
 					+ " is not supported");
-			if (addErrorsToLog) {
-				logError(info);
-			}
-			return;
 		}
 		monitor.worked(20);
 
-		// Check for dependencies
-		IMetadataRepository repository = PDEHelper.safeLoadRepository(
-				q7Info.q7, new SubProgressMonitor(monitor, 20));
-		if (repository == null) {
-			if (monitor.isCanceled()) {
-				return;
+		try {
+			// Check for dependencies
+			IMetadataRepository repository = PDEHelper.safeLoadRepository(
+					q7Info.q7, new SubProgressMonitor(monitor, 20));
+			if (repository == null) {
+				if (monitor.isCanceled())
+					return Status.CANCEL_STATUS;
+				return createError("Failed to load repository from " + q7Info.q7);
 			}
-			// TODO: Failed
-			info.setErrorMessage("Failed to load repository from " + q7Info.q7);
-			if (addErrorsToLog) {
-				Q7ExtLaunchingPlugin.getDefault().log(
-						"Failed to load repository from " + q7Info.q7, null);
-			}
-			return;
-		}
 
-		InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
-				new NullProgressMonitor(), q7Info, map, repository);
-		if (injectionConfiguration != null) {
-			info.applyInjection(injectionConfiguration, new SubProgressMonitor(
-					monitor, 60));
+			InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
+					new NullProgressMonitor(), q7Info, map, repository);
+			if (injectionConfiguration != null) {
+				info.applyInjection(injectionConfiguration, new SubProgressMonitor(
+						monitor, 60));
+			}
+			return Status.OK_STATUS;
+		} catch (CoreException e) {
+			return e.getStatus();
 		}
 	}
 
@@ -223,9 +225,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static void logError(TargetPlatformHelper info) {
-		Q7ExtLaunchingPlugin.getDefault().log(
-				"Target platform initialization error:"
-						+ info.getErrorMessage(), null);
+		Q7ExtLaunchingPlugin.log(new MultiStatus(PLUGIN_ID, 0, new IStatus[]{info.getStatus()}, "Target platform initialization error", null));
 	}
 
 	public static Q7Info getInfo(ITargetPlatformHelper info) {
@@ -306,6 +306,8 @@ public class Q7TargetPlatformInitializer {
 		String version = map.get(AUTInformation.VERSION);
 		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions
 				.getDefault().getRuntimes(version);
+		if (updates.isEmpty())
+			throw new RuntimeException("Failed to find built-in injections for " + version);
 		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE
 				.createInjectionConfiguration();
 		if (updates != null) {

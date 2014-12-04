@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ,_2Ya0MNCAEeCyMsM9po39hw
 Element-Name: ReWriteWorkspaceContext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _6u8ywNCEEeCyMsM9po39hw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 3:05 PM
 Tags: selfAUT, Context, WorkspaceContext, Create
 Testcase-Type: ecl
 
@@ -51,12 +50,10 @@ with [get-editor defaultWS | get-section Workspace | get-tree] {
     get-item "TestProject/TestFolder" | get-property caption | equals TestFolder | verify-true
     get-item "TestProject/.project" | get-property caption | equals ".project" | verify-true
 }
-with [get-tab-folder -index 1] {
-    get-property pages -index 0 | equals "*defaultWS" | verify-true
-    get-property pages -index 1 | equals test | verify-true
-    get-property activePage | equals "*defaultWS" | verify-true
-    get-property tabCount | equals 2 | verify-true
-}
+
+get-editor defaultWS | get-property dirty | equals true | verify-true
+get-editor test | get-property dirty | equals false | verify-true
+
 get-editor defaultWS | get-editbox -after [get-label "Name:"] | key-type "M1+s"
 with [get-editor defaultWS | get-section Workspace | get-tree] {
     get-item TestProject | get-property caption | equals TestProject | verify-true

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 runtime
+Bundle-Name: RCPTT runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.updates.runtime.e4x;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Eclipse-BundleShape: dir

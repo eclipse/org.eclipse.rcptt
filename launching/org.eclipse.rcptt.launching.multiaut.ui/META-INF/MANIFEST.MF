@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: UI for MultiAUT launch
+Bundle-Name: UI for MultiAUT launch (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.launching.multiaut.ui;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.launching.multiaut.ui.MultiAutUIPlugin
 Bundle-Vendor: Xored Software Inc
 Require-Bundle: org.eclipse.core.runtime,

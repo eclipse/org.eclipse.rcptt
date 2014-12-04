@@ -14,11 +14,18 @@ package org.eclipse.rcptt.ecl.internal.core;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.BundleContext;
 
 public class CorePlugin extends Plugin {
 
 	public static final String PLUGIN_ID = "org.eclipse.rcptt.ecl.core";
+
+	public static final String ECL_EDITOR_LINE_WIDTH = "ECL_EDITOR_LINE_WIDTH";
+	public static final int ECL_EDITOR_LINE_WIDTH_DEFAULT = 120;
+	public static final String ECL_EDITOR_INDENT = "ECL_EDITOR_INDENT";
+	public static final int ECL_EDITOR_INDENT_DEFAULT = 4;
 
 	private static CorePlugin plugin;
 
@@ -101,6 +108,41 @@ public class CorePlugin extends Plugin {
 
 	public static void log(Throwable throwable) {
 		log(err(throwable.getMessage(), throwable));
+	}
+
+	@SuppressWarnings("deprecation")
+	public static IEclipsePreferences getPreferences() {
+		return new InstanceScope().getNode(PLUGIN_ID);
+	}
+
+	public static int getECLEditorLineWidth() {
+		final IEclipsePreferences preferences = getPreferences();
+		return preferences.getInt(ECL_EDITOR_LINE_WIDTH, ECL_EDITOR_LINE_WIDTH_DEFAULT);
+	}
+
+	public static void setECLEditorLineWidth(final int width) {
+		final IEclipsePreferences preferences = getPreferences();
+		preferences.putInt(ECL_EDITOR_LINE_WIDTH, width);
+		try {
+			preferences.flush();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static int getECLEditorIndent() {
+		final IEclipsePreferences preferences = getPreferences();
+		return preferences.getInt(ECL_EDITOR_INDENT, ECL_EDITOR_INDENT_DEFAULT);
+	}
+
+	public static void setECLEditorIndent(final int width) {
+		final IEclipsePreferences preferences = getPreferences();
+		preferences.putInt(ECL_EDITOR_INDENT, width);
+		try {
+			preferences.flush();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

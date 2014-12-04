@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-dIi8O8IEeCWFp5-_cxtIw
-Runtime-Version: 1.5.0.201407101239
-Save-Time: 8/5/14 7:27 PM
+Runtime-Version: 1.5.4.qualifier
+Save-Time: 11/25/14 10:24 AM
 Tags: SearchReplace, TestCase
 Testcase-Type: ecl
 
@@ -39,7 +39,7 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "Q7Project1/TestCase1" | double-click -nowait
 get-button Search | click -arrow
-get-menu "1 Q7 Search" | click
+get-menu "1 RCPTT Search" | click
 with [get-window Search] {
     get-group "Search in" | get-button Script | click
     get-combo -after [get-label "Containing text:"] | set-text key
@@ -51,7 +51,7 @@ with [get-window Search] {
     }
 }
 get-editor TestCase1 | get-section Script | get-editbox | get-property value | equals "script_KEY" | verify-true
-get-tab-folder | get-property "pages[0]" | equals "*TestCase1" | verify-true
+get-editor TestCase1 | get-property dirty | equals true | verify-true
 get-view "Test Explorer" | get-tree | select "Q7Project1/TestCase2" | double-click -nowait
 get-editor TestCase2 | get-section Script | get-editbox | get-property value | equals "script_KEY" | verify-true
 get-view "Test Explorer" | get-tree | select "Q7Project2/Folder/TestCase1" | double-click -nowait

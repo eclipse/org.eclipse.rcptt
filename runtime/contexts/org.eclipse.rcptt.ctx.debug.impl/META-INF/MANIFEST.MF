@@ -1,17 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Debug Context Runtime
+Bundle-Name: RCPTT Debug Context Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.debug.impl;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.debug.runtime.Q7DebugRuntime
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.rcptt.core;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.ctx.debug;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.ctx.debug;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.debug.core,
- org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.runtime.ui;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.tesla.core;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.runtime.ui;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

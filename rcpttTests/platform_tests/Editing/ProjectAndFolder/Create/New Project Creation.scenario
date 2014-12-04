@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
-Contexts: _C0SR0GphEeCzId1Gnkds9A,_4zI9AWpgEeCzId1Gnkds9A
+Contexts: _4zI9AWpgEeCzId1Gnkds9A
 Element-Name: New Project Creation
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _JlKIsGphEeCzId1Gnkds9A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/14/14 2:09 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/16/14 11:41 AM
 Tags: Project, Create
 Testcase-Type: ecl
 

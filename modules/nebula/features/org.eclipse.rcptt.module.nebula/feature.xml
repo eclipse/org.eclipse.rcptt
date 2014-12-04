@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.module.nebula"
-      label="Nebula Widgets Module"
-      version="1.5.1.qualifier"
+      label="RCPTT Nebula Widgets Support (Incubation)"
+      version="1.5.4.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -21,27 +21,27 @@
          id="org.eclipse.rcptt.tesla.nebula"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.module.nebula.updates"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"/>
+         version="1.5.4.qualifier"/>
 
 </feature>

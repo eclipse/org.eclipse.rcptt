@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_tlWZcGphEeCzId1Gnkds9A
 Element-Name: CreateTestSuiteByFileMenu
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _fkrMQILdEeGVWel_bIqsJQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 3:23 PM
 Tags: TestSuite, Create
 Testcase-Type: ecl
 
@@ -57,11 +56,8 @@ with [get-window "New Test Suite"] {
     get-editbox -after [get-label "Name:"] | set-text TestSuite
     get-button Finish | click
 }
-with [get-tab-folder -index 1] {
-    get-property pages -index 0 | equals TestSuite | verify-true
-    get-property activePage | equals TestSuite | verify-true
-    get-property tabCount | equals 1 | verify-true
-}
+get-editor "TestSuite" | get-property active -raw | eq true | verify-true
+
 get-view "Test Explorer" | get-tree | get-item TestQ7Prj | get-property childCount | equals 2 | verify-true
 get-editor TestSuite | close
 get-view "Test Explorer" | click

@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.internal.core.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,9 +70,9 @@ public abstract class Q7Element extends PlatformObject implements IQ7Element {
 	protected synchronized Object openWhenClosed(Object info,
 			IProgressMonitor monitor) throws ModelException {
 		ModelManager manager = ModelManager.getModelManager();
-		boolean hadTemporaryCache = manager.hasTemporaryCache();
+		final boolean isWC = isInWorkingCopyMode();
 		try {
-			Map<IQ7Element, Object> newElements = manager.getTemporaryCache();
+			Map<IQ7Element, Object> newElements = new HashMap<IQ7Element, Object>();
 			generateInfos(info, newElements, monitor);
 			if (info == null) {
 				info = newElements.get(this);
@@ -79,16 +80,14 @@ public abstract class Q7Element extends PlatformObject implements IQ7Element {
 			if (info == null) {
 				throw newNotPresentException();
 			}
-			if (!hadTemporaryCache && !isInWorkingCopyMode()) {
+			if (!isWC) {
 				// Do not put info if in working copy mode
 				manager.putInfos(this, newElements);
 			}
 		} finally {
-			if (!hadTemporaryCache) {
-				manager.resetTemporaryCache();
-			}
 		}
-		return info;
+		Object info2 = isWC ? info : manager.getInfo(this);
+		return info2;
 	}
 
 	public void close() throws ModelException {

@@ -24,4 +24,12 @@
         uri="http://eclipse.org/rcptt/tesla/info">
   </package>
 	</extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated controls -->
+      <package
+            uri="http://eclipse.org/rcptt/tesla/widgets"
+            class="org.eclipse.rcptt.tesla.core.ui.UiPackage"
+            genModel="models/controls.genmodel"/>
+   </extension>
+
 </plugin>

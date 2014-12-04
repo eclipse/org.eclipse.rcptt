@@ -38,7 +38,7 @@ Entry-Name: .content
 
 with [get-view "Test Explorer" | get-tree] {
     select "q7project/folder" "q7project/test2"
-    get-menu "Q7/Add Tag..." | click
+    get-menu "RCPTT/Add Tag..." | click
 }
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text newTag

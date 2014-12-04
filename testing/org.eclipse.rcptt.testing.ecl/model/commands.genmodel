@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.testing.ecl/gen-src"
-    modelPluginID="org.eclipse.rcptt.testing.ecl" modelName="Commands" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.testing.ecl/gen-src" modelPluginID="org.eclipse.rcptt.testing.ecl"
+    modelName="Commands" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.launching.injection/models/q7Injection.genmodel#//injection">
   <foreignModel>commands.ecore</foreignModel>
   <genPackages prefix="Commands" basePackage="org.eclipse.rcptt.testing" disposableProviderFactory="true"
       adapterFactory="false" ecorePackage="commands.ecore#/">
-    <genDataTypes ecoreDataType="commands.ecore#//AUTElement"/>
     <genDataTypes ecoreDataType="commands.ecore#//NetworkRecorder"/>
     <genClasses ecoreClass="commands.ecore#//GetAut">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetAut/name"/>
     </genClasses>
     <genClasses ecoreClass="commands.ecore#//Eval">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Eval/aut"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Eval/autId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//Eval/script"/>
     </genClasses>
     <genClasses ecoreClass="commands.ecore#//GetRecorder"/>
@@ -22,15 +20,33 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SetFeature/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SetFeature/value"/>
     </genClasses>
-    <genClasses ecoreClass="commands.ecore#//GetTest">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetTest/name"/>
+    <genClasses ecoreClass="commands.ecore#//InvokeAUT">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//InvokeAUT/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//InvokeAUT/args"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//InvokeAUT/vmargs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference commands.ecore#//InvokeAUT/inject"/>
     </genClasses>
-    <genClasses ecoreClass="commands.ecore#//GetContext">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetContext/name"/>
+    <genClasses ecoreClass="commands.ecore#//FindContexts">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//FindContexts/type"/>
     </genClasses>
-    <genClasses ecoreClass="commands.ecore#//HasContext">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//HasContext/element"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//HasContext/name"/>
+    <genClasses ecoreClass="commands.ecore#//CaptureContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//CaptureContext/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//CaptureContext/type"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//ApplyContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//ApplyContext/path"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//GetGlobal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//GetGlobal/name"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//SetGlobal">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference commands.ecore#//SetGlobal/values"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SetGlobal/name"/>
+    </genClasses>
+    <genClasses ecoreClass="commands.ecore#//CleanSelfAUT"/>
+    <genClasses ecoreClass="commands.ecore#//SiteInjection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SiteInjection/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute commands.ecore#//SiteInjection/unit"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -18,16 +18,11 @@ public class SherlockTimerRunnable implements Runnable {
 	}
 
 	public void run() {
-		preExecute();
-		RuntimeException ee = null;
 		try {
+			preExecute();
 			runnable.run();
-		} catch (RuntimeException e) {
-			ee = e;
-		}
-		postExecute();
-		if (ee != null) {
-			throw ee;
+		} finally {
+			postExecute();
 		}
 	}
 
@@ -56,6 +51,10 @@ public class SherlockTimerRunnable implements Runnable {
 		if( runnable instanceof SherlockTimerRunnable) {
 			return ((SherlockTimerRunnable) runnable).getRunnable();
 		}
+		return runnable;
+	}
+
+	public Runnable getDirectChild() {
 		return runnable;
 	}
 }

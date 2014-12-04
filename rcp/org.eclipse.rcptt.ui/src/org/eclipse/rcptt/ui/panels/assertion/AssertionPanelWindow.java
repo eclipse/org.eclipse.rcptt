@@ -792,14 +792,9 @@ public class AssertionPanelWindow extends Dialog {
 						continue;
 					}
 					for (Entry<?, ?> entry : map.entrySet()) {
-						String childPropertyName = String.format("%s%s['%s']",
-								propertyPath, attr.getName(), entry.getKey().toString());
-						final Assert a = AssertionUtils.createAssert(
-								childPropertyName, entry.getValue().toString(),
-								EcorePackage.eINSTANCE.getEString(), element,
-								null);
-						children.add(a);
+						bindMapEntry(entry, element, propertyPath, attr, children);
 					}
+
 				} else if (elements instanceof List<?>) {
 					final List<?> list = (List<?>) elements;
 					if (list.isEmpty()) {
@@ -833,6 +828,44 @@ public class AssertionPanelWindow extends Dialog {
 					group.add(new AssertGroup(attr.getName(), children));
 				}
 			}
+		}
+	}
+
+	private void bindMapEntry(Entry<?, ?> entry, Element element, String propertyPath, EReference attr,
+			List<Object> children) {
+		if (entry.getValue() instanceof List<?>) {
+			final List<?> childNodes = (List<?>) entry.getValue();
+			final List<Object> childNodesMarkers = new ArrayList<Object>();
+			String lineNumber = "['" + entry.getKey() + "']";
+
+			for (int i = 0; i < childNodes.size(); i++) {
+				Object node = childNodes.get(i);
+				String markerNumber = "[" + i + "]";
+				if (node instanceof Color) {
+					final Assert a = AssertionUtils.createAssert(markerNumber, SimpleCommandPrinter
+							.toString((EObject) node, true).trim(),
+							EcorePackage.eINSTANCE.getEString(), element,
+							null);
+					childNodesMarkers.add(a);
+				} else if (node instanceof EObject) {
+					final List<Object> childNodesMarkersView = new ArrayList<Object>();
+					createWidgetPropertiesAssert(childNodesMarkersView, (EObject) node, element,
+							propertyPath + attr.getName() + lineNumber + markerNumber);
+					AssertGroup widgetGroup = new AssertGroup(markerNumber, childNodesMarkersView);
+					childNodesMarkers.add(widgetGroup);
+				}
+			}
+
+			AssertGroup widgetGroup = new AssertGroup(lineNumber, childNodesMarkers);
+			children.add(widgetGroup);
+		} else {
+			String childPropertyName = String.format("%s%s['%s']",
+					propertyPath, attr.getName(), entry.getKey().toString());
+			final Assert a = AssertionUtils.createAssert(
+					childPropertyName, entry.getValue().toString(),
+					EcorePackage.eINSTANCE.getEString(), element,
+					null);
+			children.add(a);
 		}
 	}
 

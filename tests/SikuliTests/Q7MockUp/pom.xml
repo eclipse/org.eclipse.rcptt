@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>q7.recording</groupId> 
   <artifactId>q7.recording.tests.Q7MockUp</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>q7test</packaging>
 
 <parent>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <groupId>q7.recording</groupId> 
   <artifactId>q7.recording.tests</artifactId>
 </parent>

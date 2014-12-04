@@ -10,24 +10,29 @@
  *******************************************************************************/
 package org.eclipse.rcptt.expandbar.runtime.internal;
 
-import java.util.Arrays;
+import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.failResponse;
+import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.okResponse;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
+import java.util.Arrays;
 
 import org.eclipse.rcptt.expandbar.ExpandBarConstants;
 import org.eclipse.rcptt.expandbar.widgets.WidgetsFactory;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
+import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.core.protocol.Collapse;
 import org.eclipse.rcptt.tesla.core.protocol.Expand;
 import org.eclipse.rcptt.tesla.core.protocol.IElementProcessorMapper;
+import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
+import org.eclipse.rcptt.tesla.core.protocol.SelectResponse;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 import org.eclipse.rcptt.tesla.core.ui.Image;
 import org.eclipse.rcptt.tesla.core.ui.Widget;
+import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
+import org.eclipse.rcptt.tesla.internal.core.processing.ElementGenerator;
+import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
 import org.eclipse.rcptt.tesla.internal.ui.SWTElementMapper;
 import org.eclipse.rcptt.tesla.internal.ui.player.ISWTModelMapperExtension;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
@@ -35,18 +40,33 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 
-public class ExpandBarUIProcessor extends SWTUIProcessor implements ISWTModelMapperExtension {
+public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCommandProcessor {
 	private final ExpandBarPlayerExtension ext = new ExpandBarPlayerExtension();
+	private AbstractTeslaClient client;
 
 	public ExpandBarUIProcessor() {
+	}
+
+	@Override
+	public void initialize(AbstractTeslaClient client, String id) {
+		this.client = client;
 		SWTUIPlayer.addExtension(ext);
+	}
+
+
+	@Override
+	public void collectInformation(AdvancedInformation information, Command lastCommand) {
+		// No information
 	}
 
 	@Override
 	public void terminate() {
 		SWTUIPlayer.removeExtension(ext);
-		super.terminate();
+		client = null;
 	}
 
 	@Override
@@ -120,7 +140,10 @@ public class ExpandBarUIProcessor extends SWTUIProcessor implements ISWTModelMap
 			processorMapper.map(element, this);
 		}
 
-		super.postSelect(element, processorMapper);
+	}
+
+	private SWTElementMapper getMapper() {
+		return getSWTProcessor().getMapper();
 	}
 
 	@Override
@@ -161,11 +184,52 @@ public class ExpandBarUIProcessor extends SWTUIProcessor implements ISWTModelMap
 					getPlayer().getEvents().sendEvent(item.getParent(), item, SWT.Expand);
 					item.setExpanded(true);
 				}
+
 			});
 			return okResponse();
 		}
 
 		return null;
+	}
+
+	private SWTUIProcessor getSWTProcessor() {
+		return client.getProcessor(SWTUIProcessor.class);
+	}
+
+	private SWTUIPlayer getPlayer() {
+		return getSWTProcessor().getPlayer();
+	}
+
+	@Override
+	public String getFeatureID() {
+		return getSWTProcessor().getFeatureID();
+	}
+
+	@Override
+	public SelectResponse select(SelectCommand cmd, ElementGenerator generator, IElementProcessorMapper mapper) {
+		return getSWTProcessor().select(cmd, generator, mapper);
+	}
+
+	@Override
+	public PreExecuteStatus preExecute(Command command, PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
+		return null;
+	}
+
+	@Override
+	public boolean isInactivityRequired() {
+		return true;
+	}
+
+	@Override
+	public void clean() {
+	}
+
+	@Override
+	public void checkHang() {
+	}
+
+	@Override
+	public void notifyUI() {
 	}
 
 }

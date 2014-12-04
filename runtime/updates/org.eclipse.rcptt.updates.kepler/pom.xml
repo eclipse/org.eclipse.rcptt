@@ -4,12 +4,12 @@
   <parent>
     <artifactId>ide</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>../../../releng/ide/pom.xml</relativePath>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.updates.kepler</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
   <build>
@@ -47,7 +47,8 @@
 	<configuration>
 	  <source>
 	    <repository>
-	      <url>${keplerRepository}</url>
+        <id>kepler</id>
+	      <url>http://download.eclipse.org/releases/kepler</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>

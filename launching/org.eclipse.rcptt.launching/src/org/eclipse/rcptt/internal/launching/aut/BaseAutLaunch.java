@@ -12,6 +12,7 @@ package org.eclipse.rcptt.internal.launching.aut;
 
 import java.io.EOFException;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +38,29 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.launching.IPDELauncherConstants;
+import org.eclipse.rcptt.core.ContextType;
+import org.eclipse.rcptt.core.Scenarios;
+import org.eclipse.rcptt.core.VerificationType;
+import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
+import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
+import org.eclipse.rcptt.core.launching.events.AutBundleState;
+import org.eclipse.rcptt.core.launching.events.AutEvent;
+import org.eclipse.rcptt.core.launching.events.AutEventInit;
+import org.eclipse.rcptt.core.launching.events.AutEventLocation;
+import org.eclipse.rcptt.core.launching.events.AutEventStart;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.IVerification;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.Verification;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
@@ -55,30 +79,6 @@ import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
-
-import org.eclipse.rcptt.core.ContextType;
-import org.eclipse.rcptt.core.Scenarios;
-import org.eclipse.rcptt.core.VerificationType;
-import org.eclipse.rcptt.core.launching.events.AutBundleState;
-import org.eclipse.rcptt.core.launching.events.AutEvent;
-import org.eclipse.rcptt.core.launching.events.AutEventInit;
-import org.eclipse.rcptt.core.launching.events.AutEventLocation;
-import org.eclipse.rcptt.core.launching.events.AutEventStart;
-import org.eclipse.rcptt.core.model.IContext;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ITestCase;
-import org.eclipse.rcptt.core.model.IVerification;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.core.scenario.Scenario;
-import org.eclipse.rcptt.core.scenario.Verification;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
-import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
-import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
-import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
 import org.eclipse.rcptt.internal.core.model.Q7InternalVerification;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
@@ -99,6 +99,8 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaScenario;
 import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
+
+import com.google.common.base.Preconditions;
 
 @SuppressWarnings("restriction")
 public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
@@ -303,6 +305,11 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 							Q7LaunchingPlugin
 									.createStatus("Tesla is not activated"));
 				}
+				if (info.getWindowCount() == 0) {
+					throw new CoreException(
+							Q7LaunchingPlugin
+									.createStatus("AUT has no windows"));
+				}
 			} else {
 				throw new CoreException(
 						Q7LaunchingPlugin
@@ -351,6 +358,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	public ILaunch setLaunch(ILaunch launch) {
+		Preconditions.checkNotNull(launch);
 		ILaunch oldLaunch = this.launch;
 		this.launch = launch;
 		launch.setAttribute(IQ7Launch.ATTR_AUT_ID, id);
@@ -740,39 +748,34 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		terminate();
 	}
 
-	public void gracefulShutdown(int timeoutSeconds) {
+	public void gracefulShutdown(int timeoutSeconds) throws CoreException, InterruptedException {
 		int launchTimeout = Q7Launcher.getLaunchTimeout();
-
 		try {
-			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE
-					.createShutdownAut();
-			unsafeExecute(shutdownCmd, launchTimeout * 1000,
-					new NullProgressMonitor());
+			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE.createShutdownAut();
+			unsafeExecute(shutdownCmd, launchTimeout * 1000, new NullProgressMonitor());
 		} catch (Exception e) {
 			Throwable rootCause = e;
 			while (rootCause instanceof CoreException) {
 				rootCause = rootCause.getCause();
 			}
-			if (!(rootCause instanceof EOFException)) {
+			if (!(rootCause instanceof EOFException || rootCause instanceof SocketException)) {
 				if (e instanceof CoreException) {
-					Q7LaunchingPlugin.log(((CoreException) e).getStatus());
-				} else {
-					Q7LaunchingPlugin.log("Error during graceful shutdown", e);
+					throw (CoreException) e;
 				}
+				throw new CoreException(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
+						"Error during graceful shutdown", e));
 			}
-		}
-
-		for (int i = 0; i < timeoutSeconds; ++i) {
-			if (launch.isTerminated())
-				return;
-
+		} finally {
 			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+				for (int i = 0; i < timeoutSeconds; ++i) {
+					if (launch.isTerminated())
+						return;
+					Thread.sleep(1000);
+				}
+			} finally {
+				terminate();
 			}
 		}
-
-		terminate();
 	}
 
 	public void terminate() {

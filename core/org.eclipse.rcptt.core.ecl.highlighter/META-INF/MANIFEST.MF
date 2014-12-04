@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Highlighter
+Bundle-Name: ECL Highlighter (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.highlighter
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.highlighter.internal.EclHighlighterPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.core.runtime,

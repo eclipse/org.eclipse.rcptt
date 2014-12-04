@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -69,6 +70,7 @@ public abstract class BaseFileQ7Monitor {
 
 	protected void reinit() {
 		try {
+			disposeLogger();
 			logger = Logger.getAnonymousLogger();
 			logger.setLevel(Level.ALL);
 			FileHandler fileHandler = getFileHandle();
@@ -136,8 +138,28 @@ public abstract class BaseFileQ7Monitor {
 	}
 
 	public void close() {
-		// this.logger.
-		this.logger = null;
+		disposeLogger();
+	}
+
+	private void disposeLogger() {
+		Logger logger2 = null;
+		synchronized (this) {
+			logger2 = logger;
+			logger = null;
+		}
+
+		if (logger2 != null) {
+			Handler[] targets = logger2.getHandlers();
+			for (int i = 0; i < targets.length; i++) {
+				Handler h = targets[i];
+				logger2.removeHandler(h);
+				try {
+					h.close();
+				} catch (Exception ex) {
+					// Problems closing a handler? Keep going...
+				}
+			}
+		}
 	}
 
 }

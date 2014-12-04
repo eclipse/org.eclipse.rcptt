@@ -13,9 +13,6 @@ package org.eclipse.rcptt.tesla.workbench.texteditor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextViewer;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 import org.eclipse.rcptt.tesla.core.ui.Text;
 import org.eclipse.rcptt.tesla.core.ui.TextPosition;
@@ -23,6 +20,8 @@ import org.eclipse.rcptt.tesla.core.ui.UiFactory;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.jface.text.JFaceTextManager;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Widget;
 
 public class TextEditorMapper {
 	public static org.eclipse.rcptt.tesla.core.ui.Widget mapExtraValues(
@@ -43,7 +42,18 @@ public class TextEditorMapper {
 		for (StyleRangeEntry styleEntry : text.getStyles()) {
 			updateStyleEntry(styleEntry, viewer, tabWidth);
 		}
+
+		setMarkers(text, viewer, result);
 		return result;
+	}
+
+	private static void setMarkers(Text text, TextViewer viewer,
+			org.eclipse.rcptt.tesla.core.ui.Widget widget) {
+		if (text == null) {
+			return;
+		}
+		TextEditorAnnotationFinder finder = new TextEditorAnnotationFinder();
+		text.getMarkers().putAll(finder.findAnnotations(viewer));
 	}
 
 	private static void updateStyleEntry(StyleRangeEntry entry,

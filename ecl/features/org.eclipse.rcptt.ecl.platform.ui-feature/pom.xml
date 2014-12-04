@@ -5,7 +5,7 @@
   <parent>
     <artifactId>ecl-features</artifactId>
     <groupId>org.eclipse.rcptt.ecl</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.ecl.features</groupId>
   <artifactId>org.eclipse.rcptt.ecl.platform.ui</artifactId>

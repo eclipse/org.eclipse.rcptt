@@ -16,6 +16,8 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
@@ -23,9 +25,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.IMenuService;
-
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
 
 public class AUTViewComposite extends BasicAUTComposite {
 	private IAction runAction;
@@ -67,12 +66,7 @@ public class AUTViewComposite extends BasicAUTComposite {
 		manager.add(stopAction);
 
 		manager.add(new Separator());
-		configureAction = new Action() {
-			@Override
-			public void run() {
-				configure();
-			}
-		};
+
 		if (getInitWizard("new") != null) {
 			newAction = new Action() {
 				@Override
@@ -83,16 +77,23 @@ public class AUTViewComposite extends BasicAUTComposite {
 			newAction.setImageDescriptor(getNewImage());
 			newAction
 					.setToolTipText(Messages.AUTViewComposite_NewActionToolTip);
-			manager.add(newAction);
 			newAction.setText(Messages.AUTViewComposite_NewActionText);
+			manager.add(newAction);
 		}
+
+		configureAction = new Action() {
+			@Override
+			public void run() {
+				configure();
+			}
+		};
 		configureAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_DEF_VIEW));
 		configureAction
 				.setToolTipText(Messages.AUTViewComposite_ConfigureActionToolTip);
-		manager.add(configureAction);
 		configureAction.setText(Messages.AUTViewComposite_ConfigureActionText);
+		manager.add(configureAction);
 
 		deleteAction = new Action() {
 			@Override
@@ -103,8 +104,8 @@ public class AUTViewComposite extends BasicAUTComposite {
 		deleteAction.setImageDescriptor(getDeleteImage());
 		deleteAction
 				.setToolTipText(Messages.AUTViewComposite_RemoveActionToolTip);
-		manager.add(deleteAction);
 		deleteAction.setText(Messages.AUTViewComposite_RemoveActionText);
+		manager.add(deleteAction);
 	}
 
 	@Override

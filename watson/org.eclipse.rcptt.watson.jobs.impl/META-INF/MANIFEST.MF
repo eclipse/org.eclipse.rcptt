@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.watson.jobs.impl;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.rcptt.watson.core;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.watson.aspects.jobs;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.watson.aspects.swt;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.watson.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.watson.aspects.jobs;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.watson.aspects.swt;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.rcptt.watson.jobs;bundle-version="1.1.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.profiling.core

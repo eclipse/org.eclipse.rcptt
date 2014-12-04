@@ -53,6 +53,8 @@ public class Q7Folder extends Openable implements IQ7Folder {
 
 	protected Q7Folder(Q7Element parent, IPath path) throws IllegalArgumentException {
 		super(parent);
+		if (parent == null)
+			throw new NullPointerException();
 		this.path = path;
 	}
 

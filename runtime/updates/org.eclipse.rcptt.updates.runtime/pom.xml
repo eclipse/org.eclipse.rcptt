@@ -4,11 +4,11 @@
   <parent>
     <artifactId>rcptt.runtime.updates</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.updates.runtime</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <build>
     <plugins>
@@ -40,9 +40,42 @@
               <outputDirectory>${basedir}/q7</outputDirectory>
               <resources>
                 <resource>
-                  <directory>../../org.eclipse.rcptt.runtime-updatesite/target/site/</directory>
+                  <directory>../../org.eclipse.rcptt.runtime-updatesite/target/repository/</directory>
                 </resource>
               </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>${tycho-groupid}</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <timestampProvider>default</timestampProvider>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.3.1</version>
+        <executions>
+          <execution>
+            <id>enforce-artifacts</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <rules>
+                <requireFilesExist>
+                  <files>
+                   <file>${basedir}/q7/artifacts.jar</file>
+                   <file>${basedir}/q7/content.jar</file>
+                  </files>
+                </requireFilesExist>
+              </rules>
+              <fail>true</fail>
             </configuration>
           </execution>
         </executions>

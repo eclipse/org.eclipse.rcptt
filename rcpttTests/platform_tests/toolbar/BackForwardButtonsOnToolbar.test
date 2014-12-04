@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_Z-6cEEVwEeGf87sdqO61AA
 Element-Name: BackForwardButtonsOnToolbar
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _wBgd0YeNEeGVLeG5HnBFVg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/24/14 3:14 PM
 Tags: Toolbar
 Testcase-Type: ecl
 
@@ -43,37 +42,36 @@ with [get-view "Test Explorer" | get-tree] {
     select "MyProject/TestSuite" | double-click
 }
 get-button "Back to Check New Project Window.*" | click
-with [get-tab-folder] {
-    get-property pages -index 0 | equals "Open Modal Dialog" | verify-true
-    get-property pages -index 1 | equals "Check New Project Window" | verify-true
-    get-property pages -index 2 | equals TestSuite | verify-true
-    get-property activePage | equals "Check New Project Window" | verify-true
-    get-property tabCount | equals 3 | verify-true
-}
+
+
+    get-editor "Open Modal Dialog"
+    get-editor "Check New Project Window" | get-property active -raw | eq true | verify-true
+    get-editor TestSuite
+    
+    
+
 get-button "Back to Open Modal Dialog.*" | click
-with [get-tab-folder -index 1] {
-    get-property pages -index 0 | equals "Open Modal Dialog" | verify-true
-    get-property pages -index 1 | equals "Check New Project Window" | verify-true
-    get-property pages -index 2 | equals TestSuite | verify-true
-    get-property activePage | equals "Open Modal Dialog" | verify-true
-    get-property tabCount | equals 3 | verify-true
-}
+
+get-editor "Open Modal Dialog" | get-property active -raw | eq true | verify-true
+get-editor "Check New Project Window"
+get-editor TestSuite
+
 get-button "Forward to Check New Project Window.*" | click
-with [get-tab-folder] {
-    get-property pages -index 0 | equals "Open Modal Dialog" | verify-true
-    get-property pages -index 1 | equals "Check New Project Window" | verify-true
-    get-property pages -index 2 | equals TestSuite | verify-true
-    get-property activePage | equals "Check New Project Window" | verify-true
-    get-property tabCount | equals 3 | verify-true
-}
-get-editor "Check New Project Window" | get-section Script | get-text-viewer | key-type "M1+M2+w"
-get-view "Test Explorer" | get-tree | key-type "M1+M2+w"
-get-button "Back to TestSuite.*" | click
-with [get-tab-folder -index 1] {
-    get-property pages -index 0 | equals TestSuite | verify-true
-    get-property activePage | equals TestSuite | verify-true
-    get-property tabCount | equals 1 | verify-true
-}
+
+ get-editor "Open Modal Dialog"
+ get-editor "Check New Project Window" | get-property active -raw | eq true | verify-true
+ get-editor TestSuite
+ 
+ 
+ get-editor "Open Modal Dialog" | close
 get-editor TestSuite | close
-get-view "Test Explorer" | click
+ get-editor "Check New Project Window" | close
+ 
+//get-editor "Check New Project Window" | get-section Script | get-text-viewer | key-type "M1+M2+w"
+//get-view "Test Explorer" | get-tree | key-type "M1+M2+w"
+
+get-button "Back to Check New.*" | click
+
+get-editor "Check New Project Window"| get-property active -raw | eq true | verify-true
+
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

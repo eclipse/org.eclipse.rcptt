@@ -21,6 +21,7 @@ import org.eclipse.rcptt.ecl.core.tests.model.ModelFactory;
 import org.eclipse.rcptt.ecl.core.tests.model.SampleCommand;
 import org.eclipse.rcptt.ecl.core.util.CommandToStringConverter;
 import org.eclipse.rcptt.ecl.core.util.DefaultFormatter;
+import org.junit.Test;
 
 public class FormatterTest extends TestCase {
 
@@ -100,8 +101,77 @@ public class FormatterTest extends TestCase {
 						+ "    | sample \"loooooooooooooong value\" | sample \"loooooooooooooong value\"");
 	}
 
+	@Test
+	public void testSmallLineWidth() throws Exception {
+		SampleCommand cmdA = ModelFactory.eINSTANCE.createSampleCommand();
+		SampleCommand cmdB = ModelFactory.eINSTANCE.createSampleCommand();
+		cmdB.setHello("value");
+
+		Pipeline pipeline = CoreFactory.eINSTANCE.createPipeline();
+		pipeline.getCommands().add(cmdA);
+		pipeline.getCommands().add(cmdB);
+
+		DefaultFormatter f = new DefaultFormatter();
+		f.setLineWidth(12);
+		f.setIndentSize(4);
+		assertFormatter(f, pipeline, "sample \n    | sample value");
+	}
+
+	@Test
+	public void testLongLineWidth() throws Exception {
+		SampleCommand cmdA = ModelFactory.eINSTANCE.createSampleCommand();
+		SampleCommand cmdB = ModelFactory.eINSTANCE.createSampleCommand();
+		cmdB.setHello("value");
+
+		Pipeline pipeline = CoreFactory.eINSTANCE.createPipeline();
+		pipeline.getCommands().add(cmdA);
+		pipeline.getCommands().add(cmdB);
+
+		DefaultFormatter f = new DefaultFormatter();
+		f.setLineWidth(80);
+		f.setIndentSize(4);
+		assertFormatter(f, pipeline, "sample | sample value");
+	}
+
+	@Test
+	public void testSmallIndent() throws Exception {
+		SampleCommand cmdA = ModelFactory.eINSTANCE.createSampleCommand();
+		SampleCommand cmdB = ModelFactory.eINSTANCE.createSampleCommand();
+		cmdB.setHello("value");
+
+		Pipeline pipeline = CoreFactory.eINSTANCE.createPipeline();
+		pipeline.getCommands().add(cmdA);
+		pipeline.getCommands().add(cmdB);
+
+		DefaultFormatter f = new DefaultFormatter();
+		f.setLineWidth(12);
+		f.setIndentSize(2);
+		assertFormatter(f, pipeline, "sample \n  | sample value");
+	}
+
+	@Test
+	public void testBigIndent() throws Exception {
+		SampleCommand cmdA = ModelFactory.eINSTANCE.createSampleCommand();
+		SampleCommand cmdB = ModelFactory.eINSTANCE.createSampleCommand();
+		cmdB.setHello("value");
+
+		Pipeline pipeline = CoreFactory.eINSTANCE.createPipeline();
+		pipeline.getCommands().add(cmdA);
+		pipeline.getCommands().add(cmdB);
+
+		DefaultFormatter f = new DefaultFormatter();
+		f.setLineWidth(12);
+		f.setIndentSize(16);
+		assertFormatter(f, pipeline, "sample \n                | sample value");
+	}
+
 	private void assertFormatter(Command c, String text) {
-		String converted = new CommandToStringConverter().convert(c, new DefaultFormatter());
+		assertFormatter(new DefaultFormatter(), c, text);
+	}
+
+	private void assertFormatter(DefaultFormatter formatter, Command c, String text) {
+		String converted = new CommandToStringConverter().convert(c, formatter);
 		assertEquals(text, converted);
 	}
+
 }

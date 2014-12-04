@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_bD7OYe5zEeCWFp5-_cxtIw
 Element-Name: SearchInWorkingSet
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-61
 Id: _gjkWYO8BEeCWFp5-_cxtIw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.qualifier
+Save-Time: 11/25/14 10:27 AM
 Tags: SearchReplace
 Testcase-Type: ecl
 
@@ -62,7 +61,7 @@ with [get-window "Select Working Set"] {
     get-button OK | click
 }
 get-button Search | click -arrow
-get-menu "1 Q7 Search" | click
+get-menu "1 RCPTT Search" | click
 with [get-window Search] {
     get-combo -after [get-label "Containing text:"] | set-text key
     get-group "Search in" | get-button Script | click

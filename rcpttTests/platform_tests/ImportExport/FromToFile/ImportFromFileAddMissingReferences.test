@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_n1a-kfriEeCQa9Xqo-1T3A
 Element-Name: ImportFromFileAddMissingReferences
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _USqUUPsIEeCQa9Xqo-1T3A
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/14/14 2:11 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/25/14 3:14 PM
 Tags: ImportExport, File
 Testcase-Type: ecl
 
@@ -54,6 +53,6 @@ with [get-editor TC1 | get-section Contexts] {
     click -nowait
     get-table | select "GroupContext \\(Q7Project3\\)" | double-click -nowait
 }
-get-tab-folder -index 1 | get-property activePage | equals GroupContext | verify-true
+get-editor GroupContext | get-property active | equals true | verify-true
 get-editor GroupContext | get-section Contexts | get-table | get-property itemCount | equals 5 | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

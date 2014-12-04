@@ -1,9 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.rcptt.ecl.filesystem;
 
 import org.eclipse.emf.ecore.EFactory;
@@ -60,6 +65,15 @@ public interface FilesystemFactory extends EFactory {
 	 * @generated
 	 */
 	File createFile();
+
+	/**
+	 * Returns a new object of class '<em>Delete File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Delete File</em>'.
+	 * @generated
+	 */
+	DeleteFile createDeleteFile();
 
 	/**
 	 * Returns the package supported by this factory.

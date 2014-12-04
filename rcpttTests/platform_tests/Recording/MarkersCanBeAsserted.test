@@ -1,0 +1,64 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _GvrA8FXaEeS9KOgkgL8icA
+Element-Name: MarkersCanBeAsserted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _bDa44FXYEeS9KOgkgL8icA
+Runtime-Version: 1.5.3.qualifier
+Save-Time: 10/21/14 10:11 AM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Test Explorer" | get-tree] {
+    select "MyProject/TestCase" | click -default
+    select "MyProject/TestCase" | double-click
+}
+with [get-editor TestCase | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {
+    double-click-ruler 2
+    double-click-ruler 5
+    hover-ruler -line 5
+}
+with [get-editor TestCase | get-section Script | get-text-viewer] {
+    get-property "markers[\'2\'][0].line" | equals 2 | verify-true
+    get-property "markers[\'2\'][0].Type" | equals "org.eclipse.debug.core.breakpoint" | verify-true
+    get-property "markers[\'2\'][0].text" | equals "Line Breakpoint: TestCase.test [line: 2]" | verify-true
+    get-property "markers[\'2\'][0].column" | equals "class org.eclipse.ui.internal.texteditor.AnnotationColumn" 
+        | verify-true
+    get-property "markers[\'5\'][0].line" | equals 5 | verify-true
+    get-property "markers[\'5\'][0].Type" | equals "org.eclipse.debug.core.breakpoint" | verify-true
+    get-property "markers[\'5\'][0].text" | equals "Line Breakpoint: TestCase.test [line: 5]" | verify-true
+    get-property "markers[\'5\'][0].column" | equals "class org.eclipse.ui.internal.texteditor.AnnotationColumn" 
+        | verify-true
+}
+with [get-editor TestCase | get-section Script | get-text-viewer] {
+    get-property "markers[\'2\'][0].line" | equals 3 | verify-false
+    get-property "markers[\'2\'][0].Type" | equals "" | verify-false
+    get-property "markers[\'2\'][0].text" | equals "" | verify-false
+    get-property "markers[\'2\'][0].column" | equals "" 
+        | verify-false
+    get-property "markers[\'5\'][0].line" | equals 4 | verify-false
+    get-property "markers[\'5\'][0].Type" | equals "org.eclipse.debug.core.breakpoint2" | verify-false
+    get-property "markers[\'5\'][0].text" | equals "Line Breakpoint: TestCase.test [line: 6]" | verify-false
+    get-property "markers[\'5\'][0].column" | equals "class org.eclipse.ui.internal.texteditor.AnnotationColumn2" 
+        | verify-false
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

@@ -315,13 +315,31 @@ public interface CommandsPackage extends EPackage {
 	int INVOKE_AUT__ARGS = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_AUT__PATH = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Vmargs</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INVOKE_AUT__VMARGS = CorePackage.COMMAND_FEATURE_COUNT + 2;
+	int INVOKE_AUT__VMARGS = CorePackage.COMMAND_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Inject</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_AUT__INJECT = CorePackage.COMMAND_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Invoke AUT</em>' class.
@@ -330,7 +348,7 @@ public interface CommandsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVOKE_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
+	int INVOKE_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.testing.commands.impl.FindContextsImpl <em>Find Contexts</em>}' class.
@@ -618,6 +636,61 @@ public interface CommandsPackage extends EPackage {
 	int CLEAN_SELF_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.testing.commands.impl.SiteInjectionImpl <em>Site Injection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.testing.commands.impl.SiteInjectionImpl
+	 * @see org.eclipse.rcptt.testing.commands.impl.CommandsPackageImpl#getSiteInjection()
+	 * @generated
+	 */
+	int SITE_INJECTION = 11;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE_INJECTION__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE_INJECTION__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE_INJECTION__URI = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE_INJECTION__UNIT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Site Injection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE_INJECTION_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '<em>Network Recorder</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -625,7 +698,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.testing.commands.impl.CommandsPackageImpl#getNetworkRecorder()
 	 * @generated
 	 */
-	int NETWORK_RECORDER = 11;
+	int NETWORK_RECORDER = 12;
 
 
 	/**
@@ -767,6 +840,17 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getInvokeAUT_Args();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Path</em>'.
+	 * @see org.eclipse.rcptt.testing.commands.InvokeAUT#getPath()
+	 * @see #getInvokeAUT()
+	 * @generated
+	 */
+	EAttribute getInvokeAUT_Path();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getVmargs <em>Vmargs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -776,6 +860,17 @@ public interface CommandsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInvokeAUT_Vmargs();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rcptt.testing.commands.InvokeAUT#getInject <em>Inject</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Inject</em>'.
+	 * @see org.eclipse.rcptt.testing.commands.InvokeAUT#getInject()
+	 * @see #getInvokeAUT()
+	 * @generated
+	 */
+	EReference getInvokeAUT_Inject();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.testing.commands.FindContexts <em>Find Contexts</em>}'.
@@ -913,6 +1008,38 @@ public interface CommandsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getCleanSelfAUT();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.testing.commands.SiteInjection <em>Site Injection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Site Injection</em>'.
+	 * @see org.eclipse.rcptt.testing.commands.SiteInjection
+	 * @generated
+	 */
+	EClass getSiteInjection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.testing.commands.SiteInjection#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.testing.commands.SiteInjection#getUri()
+	 * @see #getSiteInjection()
+	 * @generated
+	 */
+	EAttribute getSiteInjection_Uri();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.rcptt.testing.commands.SiteInjection#getUnit <em>Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Unit</em>'.
+	 * @see org.eclipse.rcptt.testing.commands.SiteInjection#getUnit()
+	 * @see #getSiteInjection()
+	 * @generated
+	 */
+	EAttribute getSiteInjection_Unit();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.rcptt.core.recording.NetworkRecorder <em>Network Recorder</em>}'.
@@ -1062,12 +1189,28 @@ public interface CommandsPackage extends EPackage {
 		EAttribute INVOKE_AUT__ARGS = eINSTANCE.getInvokeAUT_Args();
 
 		/**
+		 * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE_AUT__PATH = eINSTANCE.getInvokeAUT_Path();
+
+		/**
 		 * The meta object literal for the '<em><b>Vmargs</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute INVOKE_AUT__VMARGS = eINSTANCE.getInvokeAUT_Vmargs();
+
+		/**
+		 * The meta object literal for the '<em><b>Inject</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVOKE_AUT__INJECT = eINSTANCE.getInvokeAUT_Inject();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.testing.commands.impl.FindContextsImpl <em>Find Contexts</em>}' class.
@@ -1184,6 +1327,32 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CLEAN_SELF_AUT = eINSTANCE.getCleanSelfAUT();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.testing.commands.impl.SiteInjectionImpl <em>Site Injection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.testing.commands.impl.SiteInjectionImpl
+		 * @see org.eclipse.rcptt.testing.commands.impl.CommandsPackageImpl#getSiteInjection()
+		 * @generated
+		 */
+		EClass SITE_INJECTION = eINSTANCE.getSiteInjection();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SITE_INJECTION__URI = eINSTANCE.getSiteInjection_Uri();
+
+		/**
+		 * The meta object literal for the '<em><b>Unit</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SITE_INJECTION__UNIT = eINSTANCE.getSiteInjection_Unit();
 
 		/**
 		 * The meta object literal for the '<em>Network Recorder</em>' data type.

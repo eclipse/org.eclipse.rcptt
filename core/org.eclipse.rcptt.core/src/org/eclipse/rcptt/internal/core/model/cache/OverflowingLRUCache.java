@@ -41,7 +41,7 @@ public abstract class OverflowingLRUCache extends LRUCache {
 		return newCache;
 	}
 
-	protected abstract boolean close(LRUCacheEntry entry);
+	protected abstract boolean close(Object key, Object value);
 
 	@SuppressWarnings("rawtypes")
 	public Enumeration elements() {
@@ -170,7 +170,7 @@ public abstract class OverflowingLRUCache extends LRUCache {
 				fCurrentSpace -= entry._fSpace;
 				privateNotifyDeletionFromCache(entry);
 			} else {
-				if (!close(entry))
+				if (!close(entry._fKey, entry._fValue))
 					return;
 				// buffer close will recursively call #privateRemoveEntry with
 				// external==true
@@ -212,27 +212,12 @@ public abstract class OverflowingLRUCache extends LRUCache {
 		LRUCacheEntry entry = (LRUCacheEntry) fEntryTable.get(key);
 
 		if (entry != null) {
-
-			/**
-			 * Replace the entry in the cache if it would not overflow the
-			 * cache. Otherwise flush the entry and re-add it so as to keep
-			 * cache within budget
-			 */
-			int oldSpace = entry._fSpace;
-			int newTotal = fCurrentSpace - oldSpace + newSpace;
-			if (newTotal <= fSpaceLimit) {
-				updateTimestamp(entry);
-				entry._fValue = value;
-				entry._fSpace = newSpace;
-				fCurrentSpace = newTotal;
-				fOverflow = 0;
-				return value;
-			} else {
-				privateRemoveEntry(entry, false, false);
-			}
+			privateRemoveEntry(entry, false, false);
+//			close(key, value);
+//			return entry._fValue;
 		}
 
-		// attempt to make new space
+		// attempt to make new spaceG
 		makeSpace(newSpace);
 
 		// add without worring about space, it will

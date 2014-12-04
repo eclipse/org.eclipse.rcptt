@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -21,16 +24,20 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.internal.launching.IPDEConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
+import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.ui.IWorkbench;
-
+import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
+import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.ui.IWorkbench;
 
 @SuppressWarnings("restriction")
 public class NewAUTWizard extends Wizard {
@@ -64,29 +71,15 @@ public class NewAUTWizard extends Wizard {
 				workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
 						autArch.name());
 				OSArchitecture jvmArch = page.getJVMArch();
-				String vmArgs = target.getIniVMArgs();
-				if (vmArgs == null) {
-					// Lets use current runner vm arguments
-					vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
-							.trim();
-				} else {
-					vmArgs = vmArgs.trim();
-				}
+				List<String> vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
 				if (!autArch.equals(jvmArch)
 						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-					if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-						vmArgs += " " + ATTR_D32;
-					} else {
-						vmArgs = ATTR_D32;
-					}
+					UpdateVMArgs.addIfAbsent(vmArgs, ATTR_D32, "");
 				}
-				if (vmArgs != null && vmArgs.length() > 0) {
-					vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-									vmArgs);
-				}
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+								Q7LaunchDelegateUtils.joinCommandArgs(vmArgs));
 
 				IVMInstall install = page.getJVMInstall();
 				if (install != null) {
@@ -139,13 +132,14 @@ public class NewAUTWizard extends Wizard {
 				// config);
 				// }
 				// Disable console by default
-				workingCopy.setAttribute(
-						IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
-				workingCopy
-						.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
 
+				setDefaultsAttributes(workingCopy);
 				workingCopy.doSave();
-				Q7TargetPlatformManager.setHelper(target.getName(), target);
+
+				if (page.isLaunchNeeded()) {
+					LaunchUtils.launch(BaseAutManager.INSTANCE.getByName(workingCopy.getName()), getShell());
+				}
+
 				return true;
 			} catch (CoreException e) {
 				Q7UIPlugin.log(e);
@@ -153,6 +147,19 @@ public class NewAUTWizard extends Wizard {
 		}
 		target.delete();
 		return false;
+	}
+
+	private void setDefaultsAttributes(
+			ILaunchConfigurationWorkingCopy configurationWc) throws CoreException {
+
+		String log_directory = new Path(LaunchConfigurationHelper
+				.getConfigurationArea(configurationWc).getAbsolutePath())
+				.append("console.log").toOSString();
+
+		configurationWc.removeAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT);
+		configurationWc.setAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
+		configurationWc.setAttribute(IQ7Launch.ATTR_APPEND_TO_FILE, true);
+		configurationWc.setAttribute(IQ7Launch.ATTR_CAPTURE_IN_FILE, log_directory);
 	}
 
 	public static String getDefaultWorkspaceLocation(String uniqueName) {

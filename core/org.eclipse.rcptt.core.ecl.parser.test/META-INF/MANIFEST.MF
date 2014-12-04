@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Parser tests
+Bundle-Name: Parser tests (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.parser.test
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Fragment-Host: org.eclipse.rcptt.core.ecl.parser;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

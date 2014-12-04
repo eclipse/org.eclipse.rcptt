@@ -99,13 +99,22 @@ public aspect DisplayAspect {
 		Runnable newRunnable = run;
 		try {
 			if (AsyncEventManager.getDefault().getListeners().length > 0) {
+				boolean isCanceled = time < 0;
 				IAsyncEventListener[] listeners = AsyncEventManager.getDefault()
 						.getListeners();
 				for (IAsyncEventListener l : listeners) {
-					l.timerAdded(newRunnable);
+					if(isCanceled) {
+						l.timerCanceled(newRunnable);
+					} else {
+						l.timerAdded(newRunnable);
+					}
 				}
 				for (IAsyncEventListener l : listeners) {
-					newRunnable = l.processTimerProc(newRunnable);
+					if(isCanceled) {
+						newRunnable = l.cancelTimerProc(newRunnable);
+					} else {
+						newRunnable = l.processTimerProc(newRunnable);
+					}
 				}
 			}
 		} catch (Throwable e) {

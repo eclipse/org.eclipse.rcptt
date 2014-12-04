@@ -26,6 +26,12 @@ public class ProcDecl extends Declaration {
 
 	private Map<String, ArgDecl> args = new LinkedHashMap<String, ArgDecl>();
 
+	private String description;
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public ArgDecl[] getArgs() {
 		return args.values().toArray(new ArgDecl[args.size()]);
 	}
@@ -65,6 +71,9 @@ public class ProcDecl extends Declaration {
 
 		try {
 			dw.text(String.format("Procedure <b>%s</b>", name));
+			if (description != null && !description.isEmpty()) {
+				dw.text("<br />" + description);
+			}
 			ArgDecl input = getInputArg();
 			dw.dl();
 			if (input != null) {

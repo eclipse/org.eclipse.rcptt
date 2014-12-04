@@ -12,6 +12,8 @@ package org.eclipse.rcptt.ui.preferences;
 
 import org.eclipse.jface.layout.PixelConverter;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.rcptt.core.ecl.parser.model.OccurrencesSettings;
+import org.eclipse.rcptt.ui.editors.ecl.ECLEditorPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,9 +26,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import org.eclipse.rcptt.core.ecl.parser.model.OccurrencesSettings;
-import org.eclipse.rcptt.ui.editors.ecl.ECLEditorPlugin;
-
 public class ECLMarkOccurencesPage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private Button occurencesEnabled;
@@ -34,10 +33,6 @@ public class ECLMarkOccurencesPage extends PreferencePage implements IWorkbenchP
 	private Button markProcs;
 	private Button markGlobals;
 	private Button markLocals;
-
-	public boolean performCancel() {
-		return false;
-	}
 
 	@Override
 	public boolean performOk() {

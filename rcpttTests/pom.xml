@@ -7,10 +7,14 @@
   <parent>
     <groupId>org.eclipse.rcptt.tests</groupId>
     <artifactId>base</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>./pom-base.xml</relativePath>
   </parent>
 
+  <properties>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/latest/repository</rcpttRepo>
+  </properties>
+  
   <build>
     <plugins>
       <plugin>
@@ -20,8 +24,23 @@
 	<extensions>true</extensions>
 
 	<configuration>
-	    <aut>
-	      <explicit>${rcpttBaseUrl}</explicit>
+	  <aut>
+	    <explicit>${rcpttPath}</explicit>
+	    <args>
+	      <arg>-nosplash</arg>
+	      <arg>-consoleLog</arg>	      
+	    </args>
+<!--	      <groupId>org.eclipse</groupId>
+	      <artifactId>sdk</artifactId>
+	      <version>3.7.2</version>
+-->
+		<ignoreOtherInjections>true</ignoreOtherInjections>
+		<injections>
+			<injection>
+				<site>${runtimeRepository}</site>
+			</injection>
+		</injections>
+		
 	    </aut>
 	    <q7>
 	      <version>${q7-version}</version>

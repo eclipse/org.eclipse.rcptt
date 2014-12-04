@@ -18,6 +18,7 @@ import org.eclipse.rcptt.ecl.gen.ast.AstFactory;
 import org.eclipse.rcptt.ecl.gen.ast.AstPackage;
 import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.EMFConverterManager;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.IEMFConverter;
 
@@ -49,6 +50,7 @@ public class ScriptStatusConverter implements
 			throws CoreException {
 		ScriptProcessStatus ps = AstFactory.eINSTANCE
 				.createScriptProcessStatus();
+		ProcessStatusConverter.toEObject(status, ps);
 		ps.setResourceID(status.getResource());
 		ps.setLine(status.getLine());
 		ps.setColumn(status.getColumn());
@@ -60,10 +62,6 @@ public class ScriptStatusConverter implements
 			ps.setCause(cause);
 		}
 
-		ps.setCode(status.getCode());
-		ps.setMessage(status.getMessage());
-		ps.setPluginId(status.getPlugin());
-		ps.setSeverity(status.getSeverity());
 		return ps;
 	}
 

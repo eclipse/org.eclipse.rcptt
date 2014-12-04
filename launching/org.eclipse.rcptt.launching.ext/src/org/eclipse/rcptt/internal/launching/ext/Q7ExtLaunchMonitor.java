@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunch;
-
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
 import org.eclipse.rcptt.core.launching.events.AutEventStart;
 import org.eclipse.rcptt.core.launching.events.AutStartState;
@@ -146,8 +145,11 @@ public class Q7ExtLaunchMonitor {
 				}
 				try {
 					this.wait(1000);
+					if (monitor.isCanceled()) {
+						throw new CoreException(Status.CANCEL_STATUS);
+					}
 				} catch (InterruptedException e) {
-					Q7ExtLaunchingPlugin.log(Q7ExtLaunchingPlugin.status(e));
+					throw new CoreException(Status.CANCEL_STATUS);
 				}
 			}
 			monitor.worked(1);

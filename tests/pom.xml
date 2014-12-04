@@ -4,7 +4,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>../releng/core/pom.xml</relativePath>
   </parent>
   <modules>
@@ -12,7 +12,7 @@
     <module>org.eclipse.rcptt.core.tests</module>
   </modules>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <artifactId>rcptt.core.tests</artifactId>
   <packaging>pom</packaging>
 </project>

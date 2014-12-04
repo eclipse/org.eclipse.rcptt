@@ -29,6 +29,7 @@ import org.eclipse.rcptt.tesla.core.ui.Image;
 import org.eclipse.rcptt.tesla.core.ui.Item;
 import org.eclipse.rcptt.tesla.core.ui.Label;
 import org.eclipse.rcptt.tesla.core.ui.Link;
+import org.eclipse.rcptt.tesla.core.ui.Marker;
 import org.eclipse.rcptt.tesla.core.ui.MenuItem;
 import org.eclipse.rcptt.tesla.core.ui.Point;
 import org.eclipse.rcptt.tesla.core.ui.PropertyEntry;
@@ -366,6 +367,20 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 * @generated
 	 */
 	private EClass valuesMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass lineMarkersValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass markerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1068,6 +1083,15 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 */
 	public EReference getText_StyleAtCaret() {
 		return (EReference)textEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getText_Markers() {
+		return (EReference)textEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1858,6 +1882,15 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getEditor_Active() {
+		return (EAttribute)editorEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWindow() {
 		return windowEClass;
 	}
@@ -2173,6 +2206,78 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLineMarkersValue() {
+		return lineMarkersValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLineMarkersValue_Key() {
+		return (EAttribute)lineMarkersValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLineMarkersValue_Value() {
+		return (EReference)lineMarkersValueEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMarker() {
+		return markerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMarker_Line() {
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMarker_Type() {
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMarker_Text() {
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMarker_Column() {
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStyleRangeEntry() {
 		return styleRangeEntryEClass;
 	}
@@ -2475,6 +2580,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		createEReference(textEClass, TEXT__STYLES);
 		createEReference(textEClass, TEXT__CARET_POSITION);
 		createEReference(textEClass, TEXT__STYLE_AT_CARET);
+		createEReference(textEClass, TEXT__MARKERS);
 
 		textPositionEClass = createEClass(TEXT_POSITION);
 		createEAttribute(textPositionEClass, TEXT_POSITION__LINE);
@@ -2583,6 +2689,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		createEAttribute(editorEClass, EDITOR__TITLE);
 		createEAttribute(editorEClass, EDITOR__INPUT);
 		createEAttribute(editorEClass, EDITOR__DIRTY);
+		createEAttribute(editorEClass, EDITOR__ACTIVE);
 
 		windowEClass = createEClass(WINDOW);
 		createEAttribute(windowEClass, WINDOW__TITLE);
@@ -2627,6 +2734,16 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		valuesMapEClass = createEClass(VALUES_MAP);
 		createEAttribute(valuesMapEClass, VALUES_MAP__KEY);
 		createEAttribute(valuesMapEClass, VALUES_MAP__VALUE);
+
+		markerEClass = createEClass(MARKER);
+		createEAttribute(markerEClass, MARKER__LINE);
+		createEAttribute(markerEClass, MARKER__TYPE);
+		createEAttribute(markerEClass, MARKER__TEXT);
+		createEAttribute(markerEClass, MARKER__COLUMN);
+
+		lineMarkersValueEClass = createEClass(LINE_MARKERS_VALUE);
+		createEAttribute(lineMarkersValueEClass, LINE_MARKERS_VALUE__KEY);
+		createEReference(lineMarkersValueEClass, LINE_MARKERS_VALUE__VALUE);
 
 		// Create enums
 		buttonKindEEnum = createEEnum(BUTTON_KIND);
@@ -2697,6 +2814,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		dateTimeEClass.getESuperTypes().add(this.getControl());
 		sliderEClass.getESuperTypes().add(this.getControl());
 		formTextEClass.getESuperTypes().add(this.getControl());
+		markerEClass.getESuperTypes().add(this.getWidget());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(widgetEClass, Widget.class, "Widget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2798,6 +2916,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEReference(getText_Styles(), this.getStyleRangeEntry(), null, "styles", null, 0, -1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getText_CaretPosition(), this.getTextPosition(), null, "caretPosition", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getText_StyleAtCaret(), this.getStyleRangeEntry(), null, "styleAtCaret", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getText_Markers(), this.getLineMarkersValue(), null, "markers", null, 0, -1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(textPositionEClass, TextPosition.class, "TextPosition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTextPosition_Line(), ecorePackage.getEInt(), "line", null, 0, 1, TextPosition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2906,6 +3025,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEAttribute(getEditor_Title(), ecorePackage.getEString(), "title", null, 0, 1, Editor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEditor_Input(), ecorePackage.getEString(), "input", null, 0, 1, Editor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEditor_Dirty(), ecorePackage.getEBoolean(), "dirty", null, 0, 1, Editor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEditor_Active(), ecorePackage.getEBoolean(), "active", null, 1, 1, Editor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(windowEClass, Window.class, "Window", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWindow_Title(), ecorePackage.getEString(), "title", null, 0, 1, Window.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2950,6 +3070,16 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEClass(valuesMapEClass, Map.Entry.class, "ValuesMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getValuesMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValuesMap_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(markerEClass, Marker.class, "Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMarker_Line(), ecorePackage.getEInt(), "line", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMarker_Type(), ecorePackage.getEString(), "Type", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMarker_Text(), ecorePackage.getEString(), "text", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMarker_Column(), ecorePackage.getEString(), "column", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(lineMarkersValueEClass, Map.Entry.class, "LineMarkersValue", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLineMarkersValue_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLineMarkersValue_Value(), this.getMarker(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(buttonKindEEnum, ButtonKind.class, "ButtonKind");

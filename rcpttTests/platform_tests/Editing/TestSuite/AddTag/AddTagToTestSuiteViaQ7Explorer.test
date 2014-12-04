@@ -28,7 +28,7 @@ Contributors:
 
 Test Steps:
 1. Select test-suite in Q7 Explorer
-2. Choose "Q7/Add Tag..." from context menu
+2. Choose "RCPTT/Add Tag..." from context menu
 3. Enter tag and press "Ok" button
 4. Make sure that new tag is added in Tags view
 5. Make sure that tag is added in test-suite editor
@@ -37,7 +37,7 @@ Test Steps:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "RCPTT/Add Tag..." | click
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text "tag_suite"
     get-button OK | click
@@ -50,7 +50,7 @@ with [get-view Tags | get-tree] {
     get-item "tag_suite \\(1\\)" | get-property childCount | equals 1 | verify-true
     get-item "tag_suite \\(1\\)/TestSuite" | get-property caption | equals TestSuite | verify-true
 }
-get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "RCPTT/Add Tag..." | click
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text "new_suite"
     get-button OK | click

@@ -30,7 +30,7 @@ TEST STEPS
 
 1. Open test suite 
 2. Select this test suite in Q7 Explorer 
-3. Choose "Q7/Add Tag..." from context menu 
+3. Choose "RCPTT/Add Tag..." from context menu 
 4. Select tag and press "Ok" button 
 5. Make sure that this tag is displayed in the "Tags" field in the test editor
 6. Make sure that in the "Tags" view reference between tag and test-case is displayed
@@ -41,7 +41,7 @@ Entry-Name: .content
 
 with [get-view "Test Explorer" | get-tree] {
     select "q7project/TestSuite" | double-click
-    select "q7project/TestSuite" | get-menu "Q7/Add Tag..." | click
+    select "q7project/TestSuite" | get-menu "RCPTT/Add Tag..." | click
 }
 get-window "Select Tag(s) to Add" | get-tree | get-property itemCount | equals 3 | verify-true
 get-window "Select Tag(s) to Add" | get-tree | select "Tag2 \\(2 occurrences\\)" | double-click

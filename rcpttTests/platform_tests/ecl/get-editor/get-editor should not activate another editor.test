@@ -1,0 +1,26 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: __-YhkIaBEeC4JayVkWEegA
+Element-Name: get-editor should not activate another editor
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _V_t3sEO_EeSiytEvm-Mt7g
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/24/14 2:59 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Test Explorer" | get-tree] {
+    select "Q7Project/context" | double-click
+    select "Q7Project/scenario" | double-click
+}
+get-editor context | get-property active -raw | verify-false
+get-editor context | get-property active -raw | verify-false
+get-editor context | get-property active | equals false | verify-true
+get-editor context | get-property active | equals false | verify-true
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

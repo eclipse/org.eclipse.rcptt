@@ -36,7 +36,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-view "Test Explorer" | get-tree | select q7project | get-menu "Q7/Add Tag..." | click
+get-view "Test Explorer" | get-tree | select q7project | get-menu "RCPTT/Add Tag..." | click
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text newTag
     get-button OK | click

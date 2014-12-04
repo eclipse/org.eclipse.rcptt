@@ -4,13 +4,13 @@
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.runtime-repository</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>q7-base-pom</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <relativePath>../../pom-base.xml</relativePath>
   </parent>
 

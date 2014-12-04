@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL TCP Server UI
+Bundle-Name: ECL TCP Server UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.server.tcp.ui;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.internal.server.tcp.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

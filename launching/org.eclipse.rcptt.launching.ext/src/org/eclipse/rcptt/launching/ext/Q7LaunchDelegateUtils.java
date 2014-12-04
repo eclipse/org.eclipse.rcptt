@@ -28,19 +28,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
-
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.PDEUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 
 @SuppressWarnings("restriction")
 public class Q7LaunchDelegateUtils {
@@ -262,32 +266,20 @@ public class Q7LaunchDelegateUtils {
 				: Arrays.asList(args));
 	}
 
-	public static String getVMArgs(ITargetPlatformHelper aut, String[] userArgs) {
-		return getVMArgs(
-				aut,
-				userArgs == null ? Collections.<String> emptyList() : Arrays
-						.asList(userArgs));
+	public static String getJoinedVMArgs(ITargetPlatformHelper aut, Collection<String> userArgs) {
+		return joinCommandArgs(getVMArgs(aut, userArgs));
 	}
 
-	public static String getVMArgs(ITargetPlatformHelper aut,
-			Collection<String> userArgs) {
-		StringBuilder result = new StringBuilder();
+	public static List<String> getVMArgs(ITargetPlatformHelper aut, Collection<String> userArgs) {
 		String iniArgs = aut.getIniVMArgs();
 		if (iniArgs == null) {
-			iniArgs = LaunchArgumentsHelper.getInitialVMArguments();
+			iniArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
 		}
-		if (iniArgs == null) {
-			iniArgs = "";
-		}
-		result.append(iniArgs);
-
-		if (userArgs != null) {
-			for (String vmArg : userArgs) {
-				result.append(" ");
-				result.append(Q7LaunchDelegateUtils.escapeCommandArg(vmArg));
-			}
-		}
-		return UpdateVMArgs.updateAttr(result.toString().trim());
+		final String[] parsedIniArgs = DebugPlugin.parseArguments(Strings.nullToEmpty(iniArgs));
+		final List<String> args = Lists.newArrayList(parsedIniArgs);
+		if (userArgs != null)
+			args.addAll(userArgs);
+		return UpdateVMArgs.updateAttr(args);
 	}
 
 	public static String getAUTArgs(Collection<String> userArgs) {
@@ -302,25 +294,11 @@ public class Q7LaunchDelegateUtils {
 		if (args == null || args.isEmpty()) {
 			return "";
 		}
-
-		StringBuilder result = new StringBuilder();
-		for (String arg : args) {
-			result.append(escapeCommandArg(arg));
-			result.append(" ");
-		}
-		result.setLength(result.length() - 1); // trim last space
-		return result.toString();
+		return Joiner.on(' ').join(Collections2.transform(args, UpdateVMArgs.ESCAPE));
 	}
 
 	public static String escapeCommandArg(String arg) {
-		if (arg == null || arg.length() == 0) {
-			return "\"\""; // empty string encoded
-		}
-		// escape backslashes and quotes
-		if (!Platform.getOS().equals(Platform.OS_WIN32))
-			arg = arg.replace("\\", "\\\\");
-		arg = arg.replace("\"", "\\\"");
-		return arg.contains(" ") ? String.format("\"%s\"", arg) : arg;
+		return UpdateVMArgs.escapeCommandArg(arg);
 	}
 
 	public static String joinCommandArgs(String[] args) {

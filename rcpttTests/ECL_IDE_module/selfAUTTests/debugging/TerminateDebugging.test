@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _NggzMHM6EeGsLtfm1BUmHg
-Runtime-Version: 1.5.0.201407281253
-Save-Time: 7/29/14 11:17 AM
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/26/14 12:05 PM
 Tags: feature/debug, selfAUT
 Testcase-Type: ecl
 
@@ -48,6 +48,7 @@ with [get-view Debug] {
         | get-property caption | equals "get-window (CreateJavaProject: 2)" | verify-true
     get-tree | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/with \\(CreateJavaProject: 2\\)" 
         | get-property caption | equals "with (CreateJavaProject: 2)" | verify-true
+    wait 1000    
 	get-button "Terminate (M1+F2)" | click
     with [get-button "Resume.*"] {
         get-property enablement | equals false | verify-true

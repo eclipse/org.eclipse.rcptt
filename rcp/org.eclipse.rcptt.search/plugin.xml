@@ -9,7 +9,7 @@
             extensions="scenario:50,test:50"
             icon="icon/tsearch_obj.gif"
             id="org.eclipse.rcptt.search.Q7SearchPage"
-            label="Q7 Search"
+            label="RCPTT Search"
             showScopeSection="true"
             sizeHint="250,160"
             tabPosition="0">
@@ -102,7 +102,7 @@
          <menu
                icon="icon/q7.png"
                id="org.eclipse.rcptt.ui.q7menu"
-               label="Q7">
+               label="RCPTT">
             <visibleWhen>
                <and>
                   <with

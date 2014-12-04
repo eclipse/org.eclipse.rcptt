@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Debug Core
+Bundle-Name: ECL Debug Core (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.debug.core;singleton:=true
 Bundle-ClassPath: .
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,

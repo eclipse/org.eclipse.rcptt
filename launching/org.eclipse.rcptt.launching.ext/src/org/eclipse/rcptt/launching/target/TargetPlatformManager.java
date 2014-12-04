@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.target;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -22,9 +24,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
-import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.core.target.TargetPlatformService;
 import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
 import org.eclipse.pde.internal.core.target.provisional.ITargetDefinition;
@@ -43,22 +44,27 @@ import org.osgi.framework.Version;
  */
 @SuppressWarnings("restriction")
 public class TargetPlatformManager {
+	private static void throwOnError(IStatus status) throws CoreException {
+		if (status.matches(IStatus.ERROR))
+			throw new CoreException(status);
+		if (!status.isOK())
+			Q7ExtLaunchingPlugin.log(status);
+	}
 
 	/**
 	 * Creates new target platform based on specified AUT location
+	 * 
+	 * @throws CoreException
 	 * */
 	public static ITargetPlatformHelper createTargetPlatform(
-			final String location, IProgressMonitor monitor) {
-		final TargetPlatformHelper info = new TargetPlatformHelper();
+			final String location, IProgressMonitor monitor) throws CoreException {
+		boolean isOk = false;
+		final ITargetPlatformService service = PDEHelper.getTargetService();
+		final TargetPlatformHelper info = new TargetPlatformHelper(service.newTarget());
 		try {
-			ITargetPlatformService service = PDEHelper.getTargetService();
-			ITargetDefinition target = service.newTarget();
-			info.setTarget(target);
-
 			List<IBundleContainer> containers = new ArrayList<IBundleContainer>();
 			IBundleContainer installationContainer = service
 					.newProfileContainer(location, null);
-			info.setTargetContainer(installationContainer);
 			info.getQ7Target().setInstall(installationContainer);
 			containers.add(installationContainer);
 
@@ -72,25 +78,23 @@ public class TargetPlatformManager {
 				info.getQ7Target().pluginsDir = pluginsContainer;
 			}
 
-			target.setBundleContainers(containers
+			info.setBundleContainers(containers
 					.toArray(new IBundleContainer[containers.size()]));
-			target.resolve(monitor);
-
-		} catch (Throwable t) {
-			String message = t.getMessage();
-			if (t instanceof StackOverflowError) {
-				// StackOverflowError might happen in xerces
-				message = String.format("Invalid eclipse product location: %s",
-						location);
-			} else {
-				// unknown error, better log it
-				Q7ExtLaunchingPlugin.getDefault().log(t);
-			}
-
-			info.setErrorMessage(message);
-
+			throwOnError(info.resolve(monitor));
+			isOk = true;
+			return info;
+		} catch (StackOverflowError e) {
+			//StackOverflowError might happen in xerces
+			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, String.format("Invalid eclipse product location: %s",
+						location), e));
+		} catch (CoreException e) {
+			throw e;
+		} catch (Throwable e) {
+			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
+		} finally {
+			if (!isOk)
+				info.delete();
 		}
-		return info;
 	}
 
 	/**
@@ -100,44 +104,34 @@ public class TargetPlatformManager {
 	 * @return
 	 */
 	public static ITargetPlatformHelper getTargetPlatform(
-			final String requiredName, final IProgressMonitor monitor,
+			final String requiredName, final IProgressMonitor monitorArg,
 			final boolean needResolve) {
-		final TargetPlatformHelper info = new TargetPlatformHelper();
-		ITargetHandle[] targets = PDEHelper.getTargetService().getTargets(
-				monitor);
-		for (ITargetHandle handle : targets) {
-			if (monitor.isCanceled()) {
-				return null;
-			}
-			ITargetDefinition def;
+		SubMonitor monitor = SubMonitor.convert(monitorArg);
+		monitor.beginTask("Looking up " + requiredName, 2);
 
-			def = getTargetDefinition(handle);
-			String name = def.getName();
-			if (name != null && name.equals(requiredName)) {
-				info.setTarget(def);
-				IBundleContainer[] bundleContainers = def
-						.getBundleContainers();
-				// Locate default bundle container
-				for (IBundleContainer container : bundleContainers) {
-					if (monitor.isCanceled()) {
-						return null;
-					}
-					if (container instanceof ProfileBundleContainer) {
-						info.setTargetContainer(container);
-						info.getQ7Target().setInstall(container);
-					} else if (container instanceof DirectoryBundleContainer) {
-						info.getQ7Target().pluginsDir = container;
-					} else {
-						info.getQ7Target().addExtra(container);
-					}
+		try {
+			ITargetHandle[] targets = PDEHelper.getTargetService().getTargets(
+					monitor.newChild(1));
+			for (ITargetHandle handle : targets) {
+				if (monitor.isCanceled()) {
+					return null;
 				}
+				ITargetDefinition def;
+
+				def = getTargetDefinition(handle);
+				String name = def.getName();
+				if (name == null || !name.equals(requiredName))
+					continue;
+				final TargetPlatformHelper info = new TargetPlatformHelper(def);
 				if (needResolve) {
-					def.resolve(monitor);
+					info.resolve(monitor.newChild(1));
 				}
-				break;
+				return info;
 			}
+			return null;
+		} finally {
+			monitor.done();
 		}
-		return info;
 	}
 
 	/**
@@ -220,31 +214,27 @@ public class TargetPlatformManager {
 		try {
 			ITargetHandle handle = s.getWorkspaceTargetHandle();
 			if (handle != null) {
-				TargetPlatformHelper helper = new TargetPlatformHelper() {
+				TargetPlatformHelper helper = new TargetPlatformHelper(getTargetDefinition(handle)) {
 					@Override
 					public IStatus resolve(IProgressMonitor monitor) {
 						// Always resolved platform
 						return Status.OK_STATUS;
 					};
 				};
-				ITargetDefinition definition = getTargetDefinition(handle);
-				helper.setTarget(definition);
-				if (helper.isValid()
-						&& helper.getTargetPlatformProfilePath() != null) {
+				if (helper.getStatus().isOK() && helper.getTargetPlatformProfilePath() != null) {
 					return helper;
 				}
 			}
-			TargetPlatformHelper helper = new TargetPlatformHelper() {
+			ITargetDefinition selfAUT = s.newDefaultTargetDefinition();
+			selfAUT.setName("selfAUT_" + System.currentTimeMillis());
+			s.saveTargetDefinition(selfAUT);
+			TargetPlatformHelper helper = new TargetPlatformHelper(selfAUT) {
 				@Override
 				public IStatus resolve(IProgressMonitor monitor) {
 					// Always resolved platform
 					return Status.OK_STATUS;
 				};
 			};
-			ITargetDefinition selfAUT = s.newDefaultTargetDefinition();
-			selfAUT.setName("selfAUT_" + System.currentTimeMillis());
-			s.saveTargetDefinition(selfAUT);
-			helper.setTarget(selfAUT);
 			return helper;
 		} catch (CoreException e) {
 			RcpttPlugin.log(e);
@@ -261,7 +251,6 @@ public class TargetPlatformManager {
 		try {
 			ITargetHandle handle = s.getWorkspaceTargetHandle();
 			if (handle != null) {
-				TargetPlatformHelper helper = new TargetPlatformHelper();
 				ITargetDefinition targetCopy = s.newTarget();
 				ITargetDefinition targetSource = getTargetDefinition(handle);
 				if (targetSource == null) {
@@ -269,7 +258,7 @@ public class TargetPlatformManager {
 				}
 				s.copyTargetDefinition(targetSource, targetCopy);
 				targetCopy.setName(copyName);
-				helper.setTarget(targetCopy);
+				TargetPlatformHelper helper = new TargetPlatformHelper(targetCopy);
 				return helper;
 			}
 		} catch (CoreException e) {

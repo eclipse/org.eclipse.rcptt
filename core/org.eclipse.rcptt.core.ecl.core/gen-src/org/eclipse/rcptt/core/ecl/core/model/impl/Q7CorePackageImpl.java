@@ -393,6 +393,15 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQ7Information_WindowCount() {
+		return (EAttribute)q7InformationEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -812,6 +821,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		createEAttribute(q7InformationEClass, Q7_INFORMATION__TESLA_ACTIVE);
 		createEAttribute(q7InformationEClass, Q7_INFORMATION__TESLA_PORT);
 		createEAttribute(q7InformationEClass, Q7_INFORMATION__CLIENT_ACTIVE);
+		createEAttribute(q7InformationEClass, Q7_INFORMATION__WINDOW_COUNT);
 
 		setQ7FeaturesEClass = createEClass(SET_Q7_FEATURES);
 		createEAttribute(setQ7FeaturesEClass, SET_Q7_FEATURES__FEATURES);
@@ -953,6 +963,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		initEAttribute(getQ7Information_TeslaActive(), theEcorePackage.getEBoolean(), "teslaActive", null, 0, 1, Q7Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7Information_TeslaPort(), theEcorePackage.getEInt(), "teslaPort", null, 0, 1, Q7Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7Information_ClientActive(), theEcorePackage.getEBoolean(), "clientActive", null, 0, 1, Q7Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQ7Information_WindowCount(), theEcorePackage.getEInt(), "windowCount", null, 0, 1, Q7Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(setQ7FeaturesEClass, SetQ7Features.class, "SetQ7Features", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSetQ7Features_Features(), theEcorePackage.getEString(), "features", null, 0, -1, SetQ7Features.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1043,87 +1054,87 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";		
+		String source = "http://www.eclipse.org/ecl/internal";	
 		addAnnotation
 		  (enterContextEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (createContextEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (prepareEnvironmentEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (setCommandsDelayEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getQ7InformationEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (setQ7FeaturesEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getPerspectivesEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getViewsEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (createReportEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getReportEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (beginReportNodeEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (endReportNodeEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (reportAppendEClass, 
 		   source, 
 		   new String[] {
-		   });					
+		   });	
 		addAnnotation
 		  (execVerificationEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (resetVerificationsEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (createVerificationEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (terminateAutEClass, 
 		   source, 
@@ -1137,12 +1148,12 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";															
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getReportAppend_Objects(), 
 		   source, 
 		   new String[] {
-		   });						
+		   });
 	}
 
 	/**
@@ -1151,20 +1162,20 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";																
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (setQ7OptionEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Sets Q7 runtime option.",
 			 "example", "<code>set-q7-option eclExecutionDelay 0</code>"
-		   });		
+		   });	
 		addAnnotation
 		  (getSetQ7Option_Key(), 
 		   source, 
 		   new String[] {
 			 "description", "<br/>\r\nAvailable keys:\r\n<ul>\r\n    <li> <b>jobDebugjobTimeout</b> Eclipse job debug plugin jobs timeout (def: 300000 ms) </li>\r\n    <li> <b>jobSleepingStepTime</b> Step in step mode (def: 200 ms) </li>\r\n    <li> <b>jobSleepingStepTimeout</b> Stepping job timeout (def: 120000 ms) </li>\r\n    <li> <b>jobTreatAsSleepingTimeout</b> Enable Job step mode timeout (def: 10000 ms) </li>\r\n    <li> <b>jobHangTimeout</b> Job skip timeout (def: 30000 ms) </li>\r\n    <li> <b>jobScheduleDelayedMaxtime</b> Wait for jobs with delay less timeout (def: 600 ms) </li>\r\n    <li> <b>eclExecutionDelay</b> Wait for time between each ECL command (def: 0 ms) </li>\r\n    <li> <b>workspaceClearForceGc</b> Forces garbage collection on workspace cleanup (def: true) </li>\r\n</ul>"
-		   });				
+		   });
 	}
 
 } // Q7CorePackageImpl

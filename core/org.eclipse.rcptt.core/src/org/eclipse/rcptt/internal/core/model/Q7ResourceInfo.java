@@ -47,9 +47,9 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 		if (file != null) {
 			timestamp = file.getModificationStamp();
 		}
+		URI uri = URI.createPlatformResourceURI(file != null ? file
+				.getFullPath().toString() : "__uri__", true);
 		if (resource == null) {
-			URI uri = URI.createPlatformResourceURI(file != null ? file
-					.getFullPath().toString() : "__uri__", true);
 			createResource(uri);
 		}
 		model = getPersistenceModel();
@@ -77,7 +77,7 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 			EList<EObject> contents = resource.getContents();
 			resource.setModified(false);
 			if (contents.size() == 0 ) {
-				throw new RuntimeException("Empty resource " + file.getLocation());
+				throw new RuntimeException("Empty resource " + uri);
 			}
 			for (EObject eObject : contents) {
 				if (eObject instanceof NamedElement) {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.extensions.ecl.internal.GetProblemMessagesService"
+            name="GetProblemMessages"
+            namespace="http://org/eclipse/rcptt/extensions/ecl/model/comands.ecore">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.extensions.ecl.internal.ShowViewsService"
+            name="ShowViews"
+            namespace="http://org/eclipse/rcptt/extensions/ecl/model/comands.ecore">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.extensions.ecl.internal.ShowViewService"
+            name="ShowView"
+            namespace="http://org/eclipse/rcptt/extensions/ecl/model/comands.ecore">
+      </scriptlet>
+   </extension>
+
+</plugin>

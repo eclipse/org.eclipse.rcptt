@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Formatter
+Bundle-Name: ECL Formatter (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.formatter
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.formatter.internal.EclFormatterPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.core.runtime,

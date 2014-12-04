@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
+
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -18,7 +21,6 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.Observables;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -43,22 +45,10 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.PreferencesUtil;
-import org.eclipse.ui.progress.UIJob;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
+import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.ui.Activator;
 import org.eclipse.rcptt.internal.launching.ext.ui.SyncProgressMonitor;
@@ -73,6 +63,19 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.ui.commons.SWTFactory;
 import org.eclipse.rcptt.util.FileUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.ui.progress.UIJob;
 
 @SuppressWarnings("restriction")
 public class NewAUTPage extends WizardPage {
@@ -82,48 +85,60 @@ public class NewAUTPage extends WizardPage {
 
 	private WritableValue nameValue = new WritableValue("", String.class);
 	private WritableValue locationValue = new WritableValue("", String.class);
-	private WritableValue info = new WritableValue(null,
-			ITargetPlatformHelper.class);
-	private WritableValue platformArchitecture64 = new WritableValue(
-			Boolean.FALSE, Boolean.class);
-	private WritableValue platformArchitecture32 = new WritableValue(
-			Boolean.TRUE, Boolean.class);
+	private WritableValue info = new WritableValue(null, ITargetPlatformHelper.class);
+	private WritableValue platformArchitecture64 = new WritableValue(Boolean.FALSE, Boolean.class);
+	private WritableValue platformArchitecture32 = new WritableValue(Boolean.TRUE, Boolean.class);
+	private WritableValue architectureError = new WritableValue(Boolean.FALSE, Boolean.class);
+	private WritableValue archEnabled = new WritableValue(Boolean.TRUE, Boolean.class);
+	private WritableValue showAdvanced = new WritableValue(Boolean.FALSE, Boolean.class);
+	private WritableValue warningMessageValue = new WritableValue("", String.class);
+	private WritableValue autolaunchValue = new WritableValue(Boolean.FALSE, Boolean.class);
+	private WritableValue autolaunchLabel = new WritableValue("Launch AUT", String.class);
 
-	private WritableValue architectureError = new WritableValue(Boolean.FALSE,
-			Boolean.class);
-
-	private WritableValue archEnabled = new WritableValue(Boolean.TRUE,
-			Boolean.class);
-	private WritableValue showAdvanced = new WritableValue(Boolean.FALSE,
-			Boolean.class);
-
-	private WritableValue detailsValue = new WritableValue("", String.class);
-
-	private WritableValue warningMessageValue = new WritableValue("",
-			String.class);
 	private String JobFamily = "";
 	private OSArchitecture architecture;
 	private IVMInstall jvmInstall;
 	private OSArchitecture jvmArch;
 	private String currentName = null;
 	private Runnable advancedHandler;
-	private IObservableValue delayedName;
-	private ISWTObservableValue locationModifyObservable;
-	private ISWTObservableValue nameModifyObservable;
 
 	protected NewAUTPage(String pageName, String title,
 			ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
 	}
 
-	public void validate(boolean clean) {
-		setErrorMessage(null);
-		setMessage(null);
 
+	void setStatus(final IStatus status) {
+		if (!status.isOK() && !status.matches(IStatus.CANCEL)) {
+			log(status);
+		}
+		shell.getDisplay().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				if (status.isOK()) {
+					setErrorMessage(null);
+					setMessage(null);
+					setPageComplete(true);
+				} else if (status.matches(IStatus.ERROR)) {
+					setMessage(null);
+					setErrorMessage(status.getMessage());
+					setPageComplete(false);
+				} else {
+					setMessage(status.getMessage());
+					setErrorMessage(null);
+					setPageComplete(false);
+				}
+			}
+		});
+
+	}
+
+	public void validate(boolean clean) {
 		final String location = (String) locationValue.getValue();
 		if (location.trim().length() == 0) {
-			setErrorMessage("Please specify your Eclipse application installation directory.");
-			setPageComplete(false);
+			setStatus(new Status(IStatus.CANCEL, Q7ExtLaunchingPlugin.PLUGIN_ID,
+					"Please specify your Eclipse application installation directory."));
 			archEnabled.setValue(Boolean.FALSE);
 			return;
 		}
@@ -133,6 +148,7 @@ public class NewAUTPage extends WizardPage {
 		if (clean) {
 			if (helper != null) {
 				helper.delete();
+				info.setValue(null);
 			}
 			runInDialog(new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
@@ -141,14 +157,16 @@ public class NewAUTPage extends WizardPage {
 
 					TargetPlatformManager.clearTargets();
 
-					final ITargetPlatformHelper platform = Q7TargetPlatformManager
-							.createTargetPlatform(location, monitor, false);
-					if (!monitor.isCanceled()) {
+					try {
+					final ITargetPlatformHelper platform = Q7TargetPlatformManager.createTargetPlatform(location,
+							monitor);
 						shell.getDisplay().asyncExec(new Runnable() {
 							public void run() {
 								info.setValue(platform);
 							}
 						});
+					} catch (final CoreException e) {
+						setStatus(e.getStatus());
 					}
 				}
 			});
@@ -157,26 +175,24 @@ public class NewAUTPage extends WizardPage {
 		}
 	}
 
+	private void setError(String message) {
+		setStatus(new Status(IStatus.ERROR, PLUGIN_ID, message));
+	}
 	private void validatePlatform() {
 		ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
-
 		if (helper == null) {
 			archEnabled.setValue(Boolean.FALSE);
-			setErrorMessage("Please specify correct Application installation directory...");
-			setPageComplete(false);
+			setError("Please specify correct Application installation directory...");
 			return;
 		}
+		setStatus(helper.getStatus());
 
 		if (!helper.isValid()) {
 			archEnabled.setValue(Boolean.FALSE);
-			setErrorMessage(helper.getErrorMessage());
 			setPageComplete(false);
 			return;
 		}
 
-		setMessage(helper.getWarningMessage());
-		setErrorMessage(null);
-		// setPageComplete(true);
 		if (((String) nameValue.getValue()).trim().length() == 0) {
 			String defaultProduct = helper.getDefaultProduct();
 			if (defaultProduct != null) {
@@ -189,12 +205,8 @@ public class NewAUTPage extends WizardPage {
 				}
 			}
 		}
-		// Extract some details
 
-		StringBuilder builder = new StringBuilder();
 		architecture = helper.detectArchitecture(false, new StringBuilder());
-		builder.append("name:").append(architecture).append("\n");
-
 		switch (architecture) {
 		case Unknown:
 			archEnabled.setValue(Boolean.TRUE);
@@ -231,14 +243,12 @@ public class NewAUTPage extends WizardPage {
 
 		architectureError.setValue(!haveArch);
 		if (!haveArch) {
-			setPageComplete(false);
-			setErrorMessage("The selected AUT requires "
+			setError("The selected AUT requires "
 					+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit"
 							: "64 bit") + " Java VM which cannot be found.");
 			return;
 		}
 
-		detailsValue.setValue(builder.toString());
 		if (validateAUTName()) {
 			setPageComplete(true);
 		}
@@ -273,16 +283,14 @@ public class NewAUTPage extends WizardPage {
 	private boolean validateAUTName() {
 		String name = ((String) nameValue.getValue()).trim();
 		if (name.length() == 0) {
-			setErrorMessage("The name of Application Under Test (AUT) can not be empty.");
-			setPageComplete(false);
+			setError("The name of Application Under Test (AUT) can not be empty.");
 			archEnabled.setValue(Boolean.FALSE);
 			return false;
 		}
 		for (char c : name.toCharArray()) {
 			if (FileUtil.isInvalidFileNameChar(c)) {
-				setErrorMessage("Symbol \"" + c
+				setError("Symbol \"" + c
 						+ "\" is not acceptable in AUT name.");
-				setPageComplete(false);
 				archEnabled.setValue(Boolean.FALSE);
 				return false;
 			}
@@ -299,11 +307,10 @@ public class NewAUTPage extends WizardPage {
 					.getLaunchConfigurations(type);
 			for (ILaunchConfiguration iLaunchConfiguration : configurations) {
 				if (name.equals(iLaunchConfiguration.getName())) {
-					setErrorMessage(MessageFormat
+					setError(MessageFormat
 							.format("Application {0} already exists. Please specify a different name.",
 									name));
 					archEnabled.setValue(Boolean.FALSE);
-					setPageComplete(false);
 					return false;
 				}
 			}
@@ -353,8 +360,31 @@ public class NewAUTPage extends WizardPage {
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(parent);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(parent);
 
-		Label l = new Label(parent, SWT.NONE);
-		l.setText("Location:");
+		createControlLocation(parent);
+		createControlName(parent);
+		createControlArch(parent);
+		createControlAdvanced(parent);
+		createControlAutolaunch(parent);
+		createControlWarning(parent);
+
+		IChangeListener validatePlatformListener = new IChangeListener() {
+			public void handleChange(ChangeEvent event) {
+				validatePlatform();
+			}
+		};
+		info.addChangeListener(validatePlatformListener);
+		platformArchitecture32.addChangeListener(validatePlatformListener);
+		platformArchitecture64.addChangeListener(validatePlatformListener);
+
+		setControl(parent);
+		validate(info.getValue() == null);
+		Dialog.applyDialogFont(parent);
+	}
+
+	private void createControlLocation(Composite parent) {
+		// Label and Field
+		Label locationLabel = new Label(parent, SWT.NONE);
+		locationLabel.setText("Location:");
 
 		Text locationField = new Text(parent, SWT.BORDER);
 		GridDataFactory.swtDefaults().grab(true, false)
@@ -362,17 +392,24 @@ public class NewAUTPage extends WizardPage {
 				.hint(IDialogConstants.ENTRY_FIELD_WIDTH, SWT.DEFAULT)
 				.applyTo(locationField);
 
-		locationModifyObservable = SWTObservables.observeText(locationField,
-				SWT.Modify);
+		// On change sets page complete = false
+		ISWTObservableValue locationModifyObservable = SWTObservables.observeText(locationField, SWT.Modify);
 		locationModifyObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				setPageComplete(false);
 			}
 		});
 		dbc.bindValue(
-				Observables.observeDelayedValue(500, locationModifyObservable),
+				Observables.observeDelayedValue(FIELD_TIMEOUT, locationModifyObservable),
 				locationValue);
+		// ... and runs validation after delay
+		locationValue.addChangeListener(new IChangeListener() {
+			public void handleChange(ChangeEvent event) {
+				validate(true);
+			}
+		});
 
+		// Browse button
 		Button fileLocationButton = new Button(parent, SWT.PUSH);
 		fileLocationButton.setText("&Browse...");
 		fileLocationButton.addSelectionListener(new SelectionAdapter() {
@@ -381,36 +418,46 @@ public class NewAUTPage extends WizardPage {
 				handleSelectLocation();
 			}
 		});
-		GridDataFactory.fillDefaults().grab(false, false)
-				.applyTo(fileLocationButton);
+		GridDataFactory.fillDefaults().grab(false, false).applyTo(fileLocationButton);
 		SWTFactory.setButtonDimensionHint(fileLocationButton);
+	}
 
-		l = new Label(parent, SWT.NONE);
-		l.setText("Name:");
+	private void createControlName(Composite parent) {
+		// Label and Field
+		Label nameLabel = new Label(parent, SWT.NONE);
+		nameLabel.setText("Name:");
+
 		Text nameField = new Text(parent, SWT.BORDER);
 		GridDataFactory.swtDefaults().grab(true, false)
 				.align(SWT.FILL, SWT.CENTER)
 				.hint(IDialogConstants.ENTRY_FIELD_WIDTH, SWT.DEFAULT)
 				.span(2, 1).applyTo(nameField);
 
-		nameModifyObservable = SWTObservables
-				.observeText(nameField, SWT.Modify);
+		// On change sets page complete = false
+		ISWTObservableValue nameModifyObservable = SWTObservables.observeText(nameField, SWT.Modify);
 		nameModifyObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				setPageComplete(false);
 			}
 		});
-		delayedName = Observables.observeDelayedValue(FIELD_TIMEOUT,
-				nameModifyObservable);
-		dbc.bindValue(delayedName, nameValue);
+		dbc.bindValue(
+				Observables.observeDelayedValue(FIELD_TIMEOUT, nameModifyObservable),
+				nameValue);
+		// ... and runs validation after delay
+		nameValue.addChangeListener(new IChangeListener() {
+			public void handleChange(ChangeEvent event) {
+				validatePlatform();
+			}
+		});
+	}
 
-		l = new Label(parent, SWT.NONE);
-		l.setText("Architecture:");
+	private void createControlArch(final Composite parent) {
+		Label archLabel = new Label(parent, SWT.NONE);
+		archLabel.setText("Architecture:");
+
 		Composite archGroup = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2).equalWidth(true)
-				.applyTo(archGroup);
-		GridDataFactory.fillDefaults().span(1, 1).grab(true, false)
-				.applyTo(archGroup);
+		GridLayoutFactory.fillDefaults().numColumns(2).equalWidth(true).applyTo(archGroup);
+		GridDataFactory.fillDefaults().span(1, 1).grab(true, false).applyTo(archGroup);
 		Button b32 = new Button(archGroup, SWT.RADIO);
 		Button b64 = new Button(archGroup, SWT.RADIO);
 		b32.setText("32bit");
@@ -418,16 +465,13 @@ public class NewAUTPage extends WizardPage {
 
 		dbc.bindValue(SWTObservables.observeEnabled(b32), archEnabled);
 		dbc.bindValue(SWTObservables.observeEnabled(b64), archEnabled);
-		dbc.bindValue(SWTObservables.observeSelection(b64),
-				platformArchitecture64);
-		dbc.bindValue(SWTObservables.observeSelection(b32),
-				platformArchitecture32);
+		dbc.bindValue(SWTObservables.observeSelection(b64), platformArchitecture64);
+		dbc.bindValue(SWTObservables.observeSelection(b32), platformArchitecture32);
 
-		Link link = new Link(parent, SWT.UNDERLINE_LINK);
-		link.setText("There is no appropriate JVM configured. <a>Configure JVM...</a>");
-		GridDataFactory.fillDefaults().span(3, 1).grab(true, false)
-				.applyTo(link);
-		link.addSelectionListener(new SelectionAdapter() {
+		final Link archLink = new Link(parent, SWT.UNDERLINE_LINK);
+		archLink.setText("There is no appropriate JVM configured. <a>Configure JVM...</a>");
+		GridDataFactory.fillDefaults().span(3, 1).grab(true, false).applyTo(archLink);
+		archLink.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferenceDialog dialog = PreferencesUtil
@@ -438,10 +482,23 @@ public class NewAUTPage extends WizardPage {
 				}
 			}
 		});
-		Link advanced = new Link(parent, SWT.UNDERLINE_LINK);
+
+		ISWTObservableValue archLinkObservable = SWTObservables.observeVisible(archLink);
+		archLinkObservable.addChangeListener(new IChangeListener() {
+			public void handleChange(ChangeEvent event) {
+				// Hides container as well (like "display: none")
+				GridData data = (GridData) archLink.getLayoutData();
+				data.exclude = !archLink.getVisible();
+				parent.layout(false);
+			}
+		});
+		dbc.bindValue(archLinkObservable, architectureError);
+	}
+
+	private void createControlAdvanced(Composite parent) {
+		final Link advanced = new Link(parent, SWT.UNDERLINE_LINK);
 		advanced.setText("<a>Advanced...</a>");
-		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).span(3, 1)
-				.grab(true, false).applyTo(advanced);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).span(3, 1).grab(true, false).applyTo(advanced);
 		advanced.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -450,40 +507,34 @@ public class NewAUTPage extends WizardPage {
 				}
 			}
 		});
-		Label warning = new Label(parent, SWT.WRAP);
-		warning.setText("");
-		GridDataFactory.fillDefaults().span(3, 1).grab(true, false)
-				.applyTo(warning);
-
-		dbc.bindValue(SWTObservables.observeText(warning), warningMessageValue);
 
 		dbc.bindValue(SWTObservables.observeVisible(advanced), showAdvanced);
+	}
 
-		dbc.bindValue(SWTObservables.observeVisible(link), architectureError);
+	private void createControlAutolaunch(Composite parent) {
+		Button autolaunch = new Button(parent, SWT.CHECK);
+		GridDataFactory.fillDefaults().span(3, 1).grab(true, false).applyTo(autolaunch);
+		autolaunch.setText("to del");
+		autolaunch.setSelection(true);
 
-		// Label details = new Label(parent, SWT.NONE);
-		// GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
-		// .applyTo(details);
-		// dbc.bindValue(SWTObservables.observeText(details), detailsValue);
+		dbc.bindValue(SWTObservables.observeSelection(autolaunch), autolaunchValue);
+		dbc.bindValue(SWTObservables.observeText(autolaunch), autolaunchLabel);
+	}
 
-		locationValue.addChangeListener(new IChangeListener() {
+	private void createControlWarning(final Composite parent) {
+		Label warning = new Label(parent, SWT.WRAP);
+		warning.setText("");
+		GridDataFactory.fillDefaults().span(3, 1).grab(true, false).applyTo(warning);
+
+		ISWTObservableValue warningObservable = SWTObservables.observeText(warning);
+		warningObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				validate(true);
+				// Corrects size of the label
+				parent.layout(false);
 			}
 		});
-		IChangeListener validatePlatformListener = new IChangeListener() {
-			public void handleChange(ChangeEvent event) {
-				validatePlatform();
-			}
-		};
-		nameValue.addChangeListener(validatePlatformListener);
-		info.addChangeListener(validatePlatformListener);
-		platformArchitecture32.addChangeListener(validatePlatformListener);
-		platformArchitecture64.addChangeListener(validatePlatformListener);
 
-		setControl(parent);
-		validate(info.getValue() == null);
-		Dialog.applyDialogFont(parent);
+		dbc.bindValue(warningObservable, warningMessageValue);
 	}
 
 	protected void handleSelectLocation() {
@@ -513,6 +564,10 @@ public class NewAUTPage extends WizardPage {
 
 	public OSArchitecture getJVMArch() {
 		return jvmArch;
+	}
+
+	public Boolean isLaunchNeeded() {
+		return (Boolean) autolaunchValue.getValue();
 	}
 
 	public OSArchitecture getArchitecture() {
@@ -553,6 +608,7 @@ public class NewAUTPage extends WizardPage {
 		}
 		nameValue.setValue(configName);
 		locationValue.setValue(autLocation);
+		Boolean isAutLaunched = false;
 		if (configuration != null) {
 			Aut launch = AutManager.INSTANCE.getByLaunch(configuration);
 			if (launch != null) {
@@ -561,10 +617,17 @@ public class NewAUTPage extends WizardPage {
 					if (autLaunch.getState().equals(AutLaunchState.ACTIVE)) {
 						warningMessageValue
 								.setValue("Running AUT is detected.\nPlease restart AUT manually, after configuration update, if required.");
+						isAutLaunched = true;
 						break;
 					}
 				}
 			}
+		}
+
+		if (isAutLaunched) {
+			autolaunchLabel.setValue("Restart AUT");
+		} else {
+			autolaunchLabel.setValue("Launch AUT");
 		}
 	}
 

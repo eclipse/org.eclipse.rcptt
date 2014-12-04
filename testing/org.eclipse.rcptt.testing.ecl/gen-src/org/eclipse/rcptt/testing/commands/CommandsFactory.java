@@ -129,6 +129,15 @@ public interface CommandsFactory extends EFactory {
 	CleanSelfAUT createCleanSelfAUT();
 
 	/**
+	 * Returns a new object of class '<em>Site Injection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Site Injection</em>'.
+	 * @generated
+	 */
+	SiteInjection createSiteInjection();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

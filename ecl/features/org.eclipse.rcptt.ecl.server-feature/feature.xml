@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature 
 	id="org.eclipse.rcptt.ecl.server" 
-	label="ECL Server" 
-	version="1.5.1.qualifier"
+	label="ECL Server (Incubation)"
+	version="1.5.4.qualifier"
 	provider-name="%providerName%">
 	
 	<description>

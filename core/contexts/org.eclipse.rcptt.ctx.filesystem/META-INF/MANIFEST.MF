@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.filesystem;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-Localization: plugin
@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.ecl.core;visibility:=reexport,
  org.eclipse.rcptt.core.scenario;visibility:=reexport,
  org.eclipse.rcptt.core,
- org.eclipse.rcptt.util
+ org.eclipse.rcptt.util,
+ org.eclipse.core.variables;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.ctx.filesystem.FilesystemContextPlugin

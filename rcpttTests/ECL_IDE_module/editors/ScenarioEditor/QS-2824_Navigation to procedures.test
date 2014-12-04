@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,__ZTV8Au2EeOLiPM97zhEfw
 Element-Name: QS-2824_Navigation to procedures
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _gHuaUAu_EeOLiPM97zhEfw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/24/14 2:17 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -33,16 +32,20 @@ get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | double-click
 with [get-editor Dummy | get-section Script | get-text-viewer] {
     hover-text 1 9
     set-caret-pos 1 6
-    open-declaration
+    //open-declaration
+    get-menu "Open Declaration" | click
 }
-get-tab-folder -index 1 | get-property activePage | equals "New Java Class Procs" | verify-true
+get-editor "New Java Class Procs" | get-property active | equals true | verify-true
+//get-tab-folder -index 1 | get-property activePage | equals "New Java Class Procs" | verify-true
+
 get-editor "New Java Class Procs" | get-section Script | get-text-viewer | get-property "getSelectionText()" 
     | equals "create-java-class" | verify-true
 with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] {
     set-caret-pos 32 2
     hover-text 29 15 -with M1
     set-caret-pos 29 21
-    open-declaration
+    //open-declaration
+    get-menu "Open Declaration" | click
 }
 get-editor "New Java Class Procs" | get-section Script | get-text-viewer | get-property "getSelectionText()" 
     | equals "open-new-class-dialog" | verify-true

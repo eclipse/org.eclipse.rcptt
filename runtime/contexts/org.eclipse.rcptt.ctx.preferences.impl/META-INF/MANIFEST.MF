@@ -1,19 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Preferences Context Runtime
+Bundle-Name: RCPTT Preferences Context Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.preferences.impl;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.preferences.impl.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.rcptt.ctx.preferences;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.core;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.runtime.ui;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.ctx.preferences;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.runtime.ui;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.equinox.security;resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.ctx.preferences.aspects;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.ctx.preferences.aspects;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.core.resources;resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.1,1.6.0)",
- org.eclipse.rcptt.tesla.core;bundle-version="[1.5.1,1.6.0)"
+ org.eclipse.rcptt.tesla.swt;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.4,1.6.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

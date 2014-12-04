@@ -41,18 +41,6 @@ public interface ITargetPlatformHelper {
 	boolean isResolved();
 
 	/**
-	 * Return error message of previous target platform resolution.
-	 * 
-	 * @return
-	 */
-	String getErrorMessage();
-
-	/**
-	 * Return warning message of previous target platform resulution.
-	 */
-	String getWarningMessage();
-
-	/**
 	 * Set target platform name.
 	 * 
 	 * @param string
@@ -90,7 +78,7 @@ public interface ITargetPlatformHelper {
 	 * @param monitor
 	 * @return
 	 */
-	boolean validateBundles(IProgressMonitor monitor);
+	IStatus validateBundles(IProgressMonitor monitor);
 
 	/**
 	 * Return list of available applications to target platform. If platform is
@@ -132,7 +120,7 @@ public interface ITargetPlatformHelper {
 	 * @param configuration
 	 * @return
 	 */
-	boolean applyInjection(InjectionConfiguration configuration,
+	IStatus applyInjection(InjectionConfiguration configuration,
 			IProgressMonitor monitor);
 
 	/**
@@ -167,4 +155,6 @@ public interface ITargetPlatformHelper {
 	String getEquinoxStartupPath(String bundleEquinoxLauncher);
 
 	public abstract IPluginModelBase getWeavingHook();
+
+	IStatus getStatus();
 }

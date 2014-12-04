@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.watson"
-      label="Watson eclipse explore engine"
-      version="1.5.1.qualifier"
+      label="RCPTT Eclipse runtime information collectors (Incubation)"
+      version="1.5.4.qualifier"
       provider-name="Eclipse RCP Testing Tool Project">
 
    <description>
@@ -21,20 +21,20 @@
          id="org.eclipse.rcptt.watson.core"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jface"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jobs"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="1.5.4.qualifier"
          unpack="false"/>
 </feature>

@@ -30,7 +30,6 @@ import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.EclRefactoring;
 import org.eclipse.swt.dnd.DND;
-
 import org.eclipse.rcptt.util.Base64;
 import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor;
@@ -97,6 +96,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaScenario;
 import org.eclipse.rcptt.tesla.ecl.TeslaEclUtils;
 import org.eclipse.rcptt.tesla.ecl.TeslaScriptletFactory;
 import org.eclipse.rcptt.tesla.ecl.model.Button;
+import org.eclipse.rcptt.tesla.ecl.model.Decrypt;
 import org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions;
 import org.eclipse.rcptt.tesla.ecl.model.FromRawKey;
 import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
@@ -296,16 +296,29 @@ public class TeslaParser extends TeslaScriptletFactory {
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetText")
-	protected Command setText(SetText c) {
-		if (c.getElement().getKind().equals(ElementKind.DateTime.name())
-				|| c.getElement().getKind().equals(ElementKind.Slider.name())) {
-			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-					TeslaScriptletFactory.makeSetValue(c.getValue()));
+ 	protected Command setText(SetText c) {
+ 		if (c.getElement().getKind().equals(ElementKind.DateTime.name())
+ 				|| c.getElement().getKind().equals(ElementKind.Slider.name())) {
+ 			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+ 					TeslaScriptletFactory.makeSetValue(c.getValue()));
+ 		}
+		
+		org.eclipse.rcptt.tesla.ecl.model.SetText cmd = TeslaFactory.eINSTANCE.createSetText();
+		if (c.isHidden()) {
+			bind(cmd, TeslaPackage.eINSTANCE.getSetText_Text(), decrypt(c.getValue()));
+		} else {
+			cmd.setText(c.getValue());
 		}
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeSetText(c.getValue()));
+ 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				cmd);
 	}
-
+	
+	protected Command decrypt(String rawdata) {
+		Decrypt cmd = TeslaFactory.eINSTANCE.createDecrypt();
+		cmd.setValue(rawdata);
+		return cmd;
+ 	}
+ 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetTextSelection")
 	protected Command setTextSelection(SetTextSelection c) {
 		if (c.getEndline() != null && c.getEndoffset() != null) {

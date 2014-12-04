@@ -13,16 +13,16 @@ package org.eclipse.rcptt.internal.runtime.ui;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-
-import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
-import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.core.am.AspectManager;
 import org.eclipse.rcptt.tesla.core.server.TeslaServerManager;
+import org.eclipse.ui.PlatformUI;
 
 public class GetQ7InformationService implements ICommandService {
 
@@ -41,6 +41,8 @@ public class GetQ7InformationService implements ICommandService {
 		if (info.isTeslaActive()) {
 			info.setTeslaPort(TeslaServerManager.getServer().getPort());
 		}
+		info.setWindowCount(PlatformUI.getWorkbench().getWorkbenchWindowCount());
+
 		output.write(info);
 		return result;
 	}

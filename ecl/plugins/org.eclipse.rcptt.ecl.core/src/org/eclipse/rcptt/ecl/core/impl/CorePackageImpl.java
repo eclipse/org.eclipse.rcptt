@@ -726,6 +726,15 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessStatus_Children() {
+		return (EReference)processStatusEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1296,7 +1305,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	public EReference getCase_Condition() {
-		return (EReference)caseEClass.getEStructuralFeatures().get(1);
+		return (EReference)caseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1305,16 +1314,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	public EReference getCase_Then() {
-		return (EReference)caseEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCase_Input() {
-		return (EReference)caseEClass.getEStructuralFeatures().get(0);
+		return (EReference)caseEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1589,6 +1589,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		createEAttribute(processStatusEClass, PROCESS_STATUS__MESSAGE);
 		createEAttribute(processStatusEClass, PROCESS_STATUS__SEVERITY);
 		createEReference(processStatusEClass, PROCESS_STATUS__EXCEPTION);
+		createEReference(processStatusEClass, PROCESS_STATUS__CHILDREN);
 
 		convertedToEMFPipeEClass = createEClass(CONVERTED_TO_EMF_PIPE);
 		createEReference(convertedToEMFPipeEClass, CONVERTED_TO_EMF_PIPE__OBJECT);
@@ -1704,7 +1705,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		createEReference(eclMapEntryEClass, ECL_MAP_ENTRY__VALUE);
 
 		caseEClass = createEClass(CASE);
-		createEReference(caseEClass, CASE__INPUT);
 		createEReference(caseEClass, CASE__CONDITION);
 		createEReference(caseEClass, CASE__THEN);
 
@@ -1832,6 +1832,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEAttribute(getProcessStatus_Message(), ecorePackage.getEString(), "message", null, 0, 1, ProcessStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProcessStatus_Severity(), ecorePackage.getEInt(), "severity", null, 0, 1, ProcessStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProcessStatus_Exception(), this.getEclException(), null, "exception", null, 0, 1, ProcessStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessStatus_Children(), this.getProcessStatus(), null, "children", null, 0, -1, ProcessStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(convertedToEMFPipeEClass, ConvertedToEMFPipe.class, "ConvertedToEMFPipe", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConvertedToEMFPipe_Object(), theEcorePackage.getEObject(), null, "object", null, 0, 1, ConvertedToEMFPipe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1947,7 +1948,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEReference(getEclMapEntry_Value(), theEcorePackage.getEObject(), null, "value", null, 0, 1, EclMapEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(caseEClass, Case.class, "Case", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCase_Input(), theEcorePackage.getEObject(), null, "input", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCase_Condition(), theEcorePackage.getEObject(), null, "condition", null, 1, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCase_Then(), this.getCommand(), null, "then", null, 0, 1, Case.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2018,7 +2018,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		  (restoreStateEClass, 
 		   source, 
 		   new String[] {
-		   });															
+		   });													
 	}
 
 	/**
@@ -2037,12 +2037,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		  (getGet_Input(), 
 		   source, 
 		   new String[] {
-		   });						
-		addAnnotation
-		  (getCase_Input(), 
-		   source, 
-		   new String[] {
-		   });						
+		   });									
 		addAnnotation
 		  (getSwitch_Input(), 
 		   source, 
@@ -2223,12 +2218,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.",
 			 "returns", "An internal object describing the case.",
 			 "example", "list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]"
-		   });			
-		addAnnotation
-		  (getCase_Input(), 
-		   source, 
-		   new String[] {
-			 "description", "The input value to compare."
 		   });		
 		addAnnotation
 		  (getCase_Condition(), 
@@ -2248,7 +2237,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   new String[] {
 			 "description", "Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.",
 			 "returns", "An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.",
-			 "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true"
+			 "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n"
 		   });			
 		addAnnotation
 		  (getSwitch_Input(), 

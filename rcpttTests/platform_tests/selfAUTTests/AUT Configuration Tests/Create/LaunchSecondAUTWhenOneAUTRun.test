@@ -1,15 +1,14 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: LaunchSecondAUTWhenOneAUTRun
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-2318
 Id: _cdaRIHXUEeKildJqAz4YNg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
-Tags: AUTConfiguration, selfAUT, Create
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 10/27/14 4:52 PM
+Tags: AUTConfiguration, selfAUT, Create, skipExecution
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -47,9 +46,13 @@ with [get-window "Edit Application Under Test"] {
 get-view Applications | get-button "New..." | click
 with [get-window "New Application Under Test"] {
     get-editbox -after [get-label "Location:"] | key-type "M1+v"
+    get-editbox -after [get-label "Location:"] | click-text 5
+    get-editbox -after [get-label "Location:"] | key-type Space -times 2
+    get-editbox -after [get-label "Location:"] | key-type BackSpace -times 2
     get-editbox -after [get-label "Name:"] | set-text SecondAUT
     get-button Finish | click
 }
+
 get-view Applications | get-tree | get-property itemCount | equals 2 | verify-true
 with [get-view Applications] {
     get-tree | select SecondAUT

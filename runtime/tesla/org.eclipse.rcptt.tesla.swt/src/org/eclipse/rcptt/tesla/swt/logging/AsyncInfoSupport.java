@@ -11,10 +11,10 @@
 package org.eclipse.rcptt.tesla.swt.logging;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.jobs.Job;
-
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.aspects.asyncs.IAsyncEventListener;
 import org.eclipse.rcptt.sherlock.core.SherlockTimerRunnable;
@@ -37,13 +37,17 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		this.provider = jobsEventProvider;
 	}
 
+	public void timerCanceled(Runnable timer) {
+	}
+
 	public synchronized void timerAdded(Runnable async) {
 		async = getRunnable(async);
 		String timerClassName = async.getClass().getName();
 		boolean ignoredTimer = SWTUIPlayer.isTimerIgnored(timerClassName);
 		IReportBuilder[] builders = provider.getListeners();
 		for (IReportBuilder builder : builders) {
-			ReportHelper.updateWaitInfo(builder.getCurrent(), ignoredTimer ? "timer (ignored)" : "timer", timerClassName);
+			ReportHelper.updateWaitInfo(builder.getCurrent(), ignoredTimer ? "timer (ignored)" : "timer",
+					timerClassName);
 		}
 	}
 
@@ -54,13 +58,30 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 		return async;
 	}
 
+	public Runnable cancelTimerProc(Runnable runnable) {
+		if (!collectTimerExecs) {
+			return runnable;
+		}
+		synchronized (runnables) {
+			Iterator<SherlockTimerRunnable> iterator = runnables.iterator();
+			while (iterator.hasNext()) {
+				SherlockTimerRunnable r = iterator.next();
+				if (r.getDirectChild() == runnable) {
+					iterator.remove();
+					return r;
+				}
+			}
+		}
+		return runnable;
+	}
+
 	public Runnable processTimerProc(final Runnable newRunnable) {
 		if (!collectTimerExecs) {
 			return newRunnable;
 		}
 		synchronized (runnables) {
 			for (SherlockTimerRunnable r : runnables) {
-				if (r.getRunnable() == newRunnable) {
+				if (r.getDirectChild() == newRunnable) {
 					return r;
 				}
 			}
@@ -91,11 +112,13 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 			}
 
 			public void postExecute() {
-				preExecute();
-				synchronized (runnables) {
-					runnables.remove(this);
+				try {
+					preExecute();
+				} finally {
+					synchronized (runnables) {
+						runnables.remove(this);
+					}
 				}
-
 			}
 		};
 		synchronized (runnables) {

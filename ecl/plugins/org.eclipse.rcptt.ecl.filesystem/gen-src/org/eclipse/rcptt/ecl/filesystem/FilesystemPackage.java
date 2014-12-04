@@ -1,9 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2014 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.rcptt.ecl.filesystem;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -246,6 +251,53 @@ public interface FilesystemPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl <em>Delete File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl
+	 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getDeleteFile()
+	 * @generated
+	 */
+	int DELETE_FILE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DELETE_FILE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DELETE_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DELETE_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Delete File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DELETE_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.CopyFile <em>Copy File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -350,6 +402,27 @@ public interface FilesystemPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getFile_Uri();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.filesystem.DeleteFile <em>Delete File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Delete File</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.DeleteFile
+	 * @generated
+	 */
+	EClass getDeleteFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.filesystem.DeleteFile#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.ecl.filesystem.DeleteFile#getUri()
+	 * @see #getDeleteFile()
+	 * @generated
+	 */
+	EAttribute getDeleteFile_Uri();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -460,6 +533,24 @@ public interface FilesystemPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FILE__URI = eINSTANCE.getFile_Uri();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl <em>Delete File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.DeleteFileImpl
+		 * @see org.eclipse.rcptt.ecl.filesystem.impl.FilesystemPackageImpl#getDeleteFile()
+		 * @generated
+		 */
+		EClass DELETE_FILE = eINSTANCE.getDeleteFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DELETE_FILE__URI = eINSTANCE.getDeleteFile_Uri();
 
 	}
 

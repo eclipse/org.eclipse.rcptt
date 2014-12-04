@@ -1,6 +1,5 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.debug
 Debug-LaunchExceptions: selfQ7
 Debug-LaunchShortcutExceptions: selfQ7
@@ -11,8 +10,8 @@ Element-Name: NoLaunchesKeepSelfQ7
 Element-Type: context
 Element-Version: 2.0
 Id: _3QstcUKPEeKd6cDYW-3Z1w
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/18/14 4:08 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -32,9 +31,9 @@ Contributors:
 Content-Type: q7/binary
 Entry-Name: debug.launchtypes
 
-UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSzsa/IzVEoSy0qzszPs1Uy1DNQUkjN
+UEsDBBQACAAIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSzsa/IzVEoSy0qzszPs1Uy1DNQUkjN
 S85PycxLt1UKDXHTtVCyt+OyqcjNtIrw9VQA0XDVRiDVQP15xVZAcVuljJKSAit9/fLycr383HS9/KJ0
-faAeJX07LgBQSwcIFuttUloAAABnAAAAUEsBAhQAFAAICAgAAAAhABbrbVJaAAAAZwAAAAgAAAAAAAAA
+faAeJX07LgBQSwcIFuttUloAAABnAAAAUEsBAhQAFAAIAAgAAAAhABbrbVJaAAAAZwAAAAgAAAAAAAAA
 AAAAAAAAAAAAAC5jb250ZW50UEsFBgAAAAABAAEANgAAAJAAAAAAAA==
 ------=_debug.launchtypes-7159add4-14d7-36f5-abc2-a36dec1fc18e--
 ------=_debug.launches-be8ac185-ac72-3f40-ae87-94751ee91eea

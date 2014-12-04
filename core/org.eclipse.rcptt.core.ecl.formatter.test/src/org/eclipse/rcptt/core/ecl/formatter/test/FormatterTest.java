@@ -12,10 +12,9 @@ package org.eclipse.rcptt.core.ecl.formatter.test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
 import org.eclipse.rcptt.core.ecl.formatter.EclFormatter;
 import org.eclipse.rcptt.core.ecl.formatter.EclFormatterOptions;
+import org.junit.Test;
 
 public class FormatterTest {
 
@@ -33,7 +32,7 @@ public class FormatterTest {
 	public void testNoArgs() {
 		EclFormatter f = new EclFormatter(
 				new EclFormatterOptions().wrapAt(8));
-		assertEquals("cmd-a |\n\t\tcmd-b", f.format("cmd-a | cmd-b"));
+		assertEquals("cmd-a\n\t\t| cmd-b", f.format("cmd-a | cmd-b"));
 		assertEquals("a | b", f.format("a | b"));
 		assertEquals("a\nb", f.format("a\nb"));
 	}
@@ -42,7 +41,14 @@ public class FormatterTest {
 	public void testSmallWrap() {
 		EclFormatter f = new EclFormatter(
 				new EclFormatterOptions().wrapAt(2));
-		assertEquals("cmd-a |\n\t\tcmd-b", f.format("cmd-a | cmd-b"));
+		assertEquals("cmd-a\n\t\t| cmd-b", f.format("cmd-a | cmd-b"));
+	}
+
+	@Test()
+	public void testBigWrap() {
+		EclFormatter f = new EclFormatter(
+				new EclFormatterOptions().wrapAt(80));
+		assertEquals("cmd-a | cmd-b", f.format("cmd-a | cmd-b"));
 	}
 
 	@Test()
@@ -71,4 +77,19 @@ public class FormatterTest {
 				new EclFormatterOptions().wrapAt(8));
 		assertEquals("a | a", f.format("a|\na"));
 	}
+
+	@Test()
+	public void testSmallIndent() {
+		EclFormatter f2 = new EclFormatter(new EclFormatterOptions().wrapAt(8).indent(2).wrapIndent(2));
+		EclFormatter f4 = new EclFormatter(new EclFormatterOptions().wrapAt(8).indent(4).wrapIndent(4));
+		assertEquals("cmd-a\n  | cmd-b", f2.format("cmd-a | cmd-b"));
+		assertEquals("cmd-a\n\t| cmd-b", f4.format("cmd-a | cmd-b"));
+	}
+
+	@Test()
+	public void testBigIndent() {
+		EclFormatter f = new EclFormatter(new EclFormatterOptions().wrapAt(8).indent(16).wrapIndent(16));
+		assertEquals("cmd-a\n\t\t\t\t| cmd-b\n\t\t\t\t| cmd-c", f.format("cmd-a | cmd-b | cmd-c"));
+	}
+
 }

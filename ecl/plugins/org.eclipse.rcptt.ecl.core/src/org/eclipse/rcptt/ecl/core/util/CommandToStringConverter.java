@@ -162,7 +162,8 @@ public class CommandToStringConverter {
 				} else {
 					EReference ref = (EReference) feature;
 					EClass eclass = ref.getEReferenceType();
-					if (eclass.getClassifierID() == CorePackage.COMMAND) {
+					if (eclass.getEPackage() == CorePackage.eINSTANCE
+							&& eclass.getClassifierID() == CorePackage.COMMAND) {
 						boolean singleLine = !(val instanceof Sequence);
 						formatter.addAttrName(name, forced);
 						formatter.openGroup(singleLine);
@@ -224,7 +225,6 @@ public class CommandToStringConverter {
 				value = value.replace("\n", "\\n");
 				value = value.replace("\r", "\\r");
 				value = value.replace("\f", "\\f");
-				value = value.replace("'", "\\'");
 				value = value.replace("\"", "\\\"");
 				opening = "\"";
 				closing = "\"";

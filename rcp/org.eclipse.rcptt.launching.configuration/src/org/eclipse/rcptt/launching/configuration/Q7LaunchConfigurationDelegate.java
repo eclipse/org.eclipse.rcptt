@@ -38,7 +38,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
 import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
-
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
@@ -154,7 +153,9 @@ public class Q7LaunchConfigurationDelegate extends
 			helper = TargetPlatformManager
 					.getCurrentTargetPlatformCopy(targetName);
 			helper.resolve(monitor);
-			Q7TargetPlatformInitializer.initialize(helper, monitor, true);
+			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, monitor);
+			if (!rv.isOK())
+				Activator.getDefault().getLog().log(rv);
 			helper.save();
 			Q7TargetPlatformManager.setHelper(targetName, helper);
 		}

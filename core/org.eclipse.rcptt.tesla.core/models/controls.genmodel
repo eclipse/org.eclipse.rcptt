@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src"
-    modelPluginID="org.eclipse.rcptt.tesla.core" modelName="Controls" importerID="org.eclipse.emf.importer.java"
-    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5" language="">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src" modelPluginID="org.eclipse.rcptt.tesla.core"
+    modelName="Controls" importerID="org.eclipse.emf.importer.java" complianceLevel="5.0"
+    copyrightFields="false" runtimeVersion="2.5" language="">
   <foreignModel>@model</foreignModel>
   <genPackages prefix="Ui" basePackage="org.eclipse.rcptt.tesla.core" disposableProviderFactory="true"
       ecorePackage="ui.ecore#/">
@@ -15,14 +14,24 @@
       <genEnumLiterals ecoreEnumLiteral="ui.ecore#//ButtonKind/Arrow"/>
       <genEnumLiterals ecoreEnumLiteral="ui.ecore#//ButtonKind/Check"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ui.ecore#//PropertyNodeType">
+      <genEnumLiterals ecoreEnumLiteral="ui.ecore#//PropertyNodeType/Property"/>
+      <genEnumLiterals ecoreEnumLiteral="ui.ecore#//PropertyNodeType/Reference"/>
+    </genEnums>
     <genClasses ecoreClass="ui.ecore#//Widget"/>
     <genClasses ecoreClass="ui.ecore#//Control">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Control/className"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Control/enablement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Control/backgroundColor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Control/foregroundColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Control/containMenu"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Control/bounds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Control/borderWith"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ui.ecore#//Control/decorators"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//ControlDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//ControlDecorator/visible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//ControlDecorator/description"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//Button">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Button/caption"/>
@@ -30,6 +39,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Button/selected"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Button/grayed"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Button/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//ToolItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//ToolItem/index"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//Label">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Label/caption"/>
@@ -48,6 +60,25 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//MenuItem/accelerator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//MenuItem/cascade"/>
     </genClasses>
+    <genClasses ecoreClass="ui.ecore#//StyleRangeEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/fontStyle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/font"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/foregroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/backgroundColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/underline"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/underlineColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/strikeout"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/strikeoutColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/borderStyle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/borderColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/rise"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//StyleRangeEntry/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/startPos"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//StyleRangeEntry/endPos"/>
+    </genClasses>
     <genClasses ecoreClass="ui.ecore#//TreeItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TreeItem/selected"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TreeItem/checked"/>
@@ -56,6 +87,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TreeItem/bounds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TreeItem/childCount"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TreeItem/columns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TreeItem/columnsBackgroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TreeItem/columnsForegroundColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TreeItem/styleRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TreeItem/styles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TreeItem/values"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//TableItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TableItem/selected"/>
@@ -64,12 +100,27 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/foregroundColor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/bounds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TableItem/columns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/columnsBackgroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/columnsForegroundColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TableItem/styleRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/styles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//TableItem/values"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//Text">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/tooltip"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/readOnly"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/rawValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/styleRanges"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Text/text"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Text/styles"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ui.ecore#//Text/caretPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Text/styleAtCaret"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Text/markers"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//TextPosition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TextPosition/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//TextPosition/column"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//Color">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Color/red"/>
@@ -135,27 +186,36 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Selection/path"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//DiagramItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/tooltip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/itemAddress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/selected"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/height"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/tooltip"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/childrenCount"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DiagramItem/text"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//DiagramItem/backgroundColor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//DiagramItem/foregroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//DiagramItem/modelPropertyNodes"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//DiagramConnection">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//DiagramConnection/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//DiagramConnection/target"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//PropertyEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//PropertyEntry/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//PropertyEntry/value"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//PropertyMap">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//PropertyMap/__properties"/>
+      <genOperations ecoreOperation="ui.ecore#//PropertyMap/get__properties"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//PropertyWidget"/>
     <genClasses ecoreClass="ui.ecore#//Browser">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Browser/text"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Browser/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Browser/plainText"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//View">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//View/title"/>
@@ -164,6 +224,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Editor/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Editor/input"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Editor/dirty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Editor/active"/>
     </genClasses>
     <genClasses ecoreClass="ui.ecore#//Window">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Window/title"/>
@@ -183,6 +244,41 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DateTime/date"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DateTime/readOnly"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//DateTime/time"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//Slider">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Slider/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//PropertyNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//PropertyNode/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//PropertyNode/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//PropertyNode/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//PropertyNodeList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//PropertyNodeList/propertyNodes"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//FormText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//FormText/text"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//Image">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Image/path"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//Image/decorations"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//WithImage">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ui.ecore#//WithImage/image"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//ValuesMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//ValuesMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//ValuesMap/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//LineMarkersValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//LineMarkersValue/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ui.ecore#//LineMarkersValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ui.ecore#//Marker">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Marker/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Marker/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Marker/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ui.ecore#//Marker/column"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

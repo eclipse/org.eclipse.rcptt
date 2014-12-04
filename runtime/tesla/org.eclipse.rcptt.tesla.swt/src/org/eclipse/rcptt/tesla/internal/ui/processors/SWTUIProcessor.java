@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.processors;
 
-import static org.eclipse.rcptt.util.swt.Bounds.centerAbs;
-import static org.eclipse.rcptt.util.swt.Bounds.centerRel;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.replaceMultilines;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.safeMatches;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.unifyMultilines;
@@ -22,6 +20,8 @@ import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils.getMo
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils.isDisabled;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrap;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
+import static org.eclipse.rcptt.util.swt.Bounds.centerAbs;
+import static org.eclipse.rcptt.util.swt.Bounds.centerRel;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -49,49 +49,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.handlers.IHandlerService;
-
-import org.eclipse.rcptt.util.StringUtils;
-import org.eclipse.rcptt.util.swt.StringLines;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
@@ -214,13 +176,51 @@ import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
 import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
 import org.eclipse.rcptt.tesla.swt.dnd.LocalClipboard;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
-import org.eclipse.rcptt.tesla.swt.events.TeslaTimerExecManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager.IUnhandledNativeDialogHandler;
+import org.eclipse.rcptt.tesla.swt.events.TeslaTimerExecManager;
 import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 import org.eclipse.rcptt.tesla.ui.IImageAssertSupport;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 import org.eclipse.rcptt.tesla.ui.describers.IWidgetDescriber;
 import org.eclipse.rcptt.tesla.ui.describers.WidgetDescriber;
+import org.eclipse.rcptt.util.StringUtils;
+import org.eclipse.rcptt.util.swt.StringLines;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
+import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.handlers.IHandlerService;
 
 public class SWTUIProcessor implements ITeslaCommandProcessor,
 		IScreenshotFactory, IModelMapperHelper {
@@ -324,9 +324,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	public PreExecuteStatus preExecute(final Command command,
 			final PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof ElementCommand) {
-			final ElementCommand cmd = (ElementCommand) command;
-			if (!activateViewEditor(cmd.getElement(), false, info)) {
-				return new PreExecuteStatus(false);
+			if (!(command instanceof GetPropertyValue)) {
+				final ElementCommand cmd = (ElementCommand) command;
+				if (!activateViewEditor(cmd.getElement(), false, info)) {
+					return new PreExecuteStatus(false);
+				}
 			}
 		}
 		PreExecuteStatus resultStatus = preExecuteAssert(command,
@@ -524,9 +526,6 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			final PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof Assert) {
 			final Assert assertCmd = (Assert) command;
-			if (!activateViewEditor(assertCmd.getElement(), true, info)) {
-				return new PreExecuteStatus(false);
-			}
 			if (assertCmd.getElement().getKind()
 					.equalsIgnoreCase(ElementKind.Item.name())) {
 				final SWTUIElement element = getMapper().get(
@@ -1743,6 +1742,9 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	private static final Pattern stringIndexedAttr = Pattern
 			.compile("(.*)\\[\\'(.*)\\'\\]");
 
+	private static final Pattern stringAndNumIndexedAttr = Pattern
+			.compile("(.*)\\[\\'(.*)\\'\\]\\[(\\d+)\\]");
+
 	public static Object getAttrValue(EObject object, String attrName,
 			Integer index) {
 		int lastDotIndex = StringUtils.getAttrLastSplitterInd(attrName);
@@ -1756,15 +1758,23 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			attrName = attrName.substring(lastDotIndex + 1);
 		}
 		String stringKey = null;
-		Matcher matcher = indexedAttr.matcher(attrName);
+
+		Matcher matcher = stringAndNumIndexedAttr.matcher(attrName);
 		if (matcher.matches()) {
 			attrName = matcher.group(1);
-			index = Integer.parseInt(matcher.group(2));
+			stringKey = matcher.group(2);
+			index = Integer.parseInt(matcher.group(3));
 		} else {
-			Matcher stringMatcher = stringIndexedAttr.matcher(attrName);
-			if (stringMatcher.matches()) {
-				attrName = stringMatcher.group(1);
-				stringKey = stringMatcher.group(2);
+			matcher = indexedAttr.matcher(attrName);
+			if (matcher.matches()) {
+				attrName = matcher.group(1);
+				index = Integer.parseInt(matcher.group(2));
+			} else {
+				Matcher stringMatcher = stringIndexedAttr.matcher(attrName);
+				if (stringMatcher.matches()) {
+					attrName = stringMatcher.group(1);
+					stringKey = stringMatcher.group(2);
+				}
 			}
 		}
 
@@ -1777,18 +1787,33 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		Object value = object.eGet(feature);
 
-		if (value instanceof EList<?> && index != null) {
-			EList<?> list = (EList<?>) value;
-			if (index >= list.size()) {
+		if (value instanceof EMap<?, ?> && stringKey != null && index != null) {
+			EMap<?, ?> map = (EMap<?, ?>) value;
+			if (!map.containsKey(stringKey)) {
 				return null;
 			}
-			value = list.get(index);
+			value = map.get(stringKey);
+			if (value instanceof EList) {
+				EList<?> list = (EList<?>) value;
+				if (index >= list.size()) {
+					return null;
+				}
+				value = list.get(index);
+			} else {
+				return null;
+			}
 		} else if (value instanceof EMap<?, ?> && stringKey != null) {
 			EMap<?, ?> map = (EMap<?, ?>) value;
 			if (!map.containsKey(stringKey)) {
 				return null;
 			}
 			value = map.get(stringKey);
+		} else if (value instanceof EList<?> && index != null) {
+			EList<?> list = (EList<?>) value;
+			if (index >= list.size()) {
+				return null;
+			}
+			value = list.get(index);
 		}
 
 		return value == null ? "" : value;
@@ -1933,7 +1958,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			}
 			break;
 		case NOT_EMPTY:
-			result = value != null && strValue.length() >= 0;
+			result = value != null && strValue.length() > 0;
 			if (!result) {
 				message = NLS.bind(
 						TeslaSWTMessages.SWTUIProcessor_AssertNotEmptyFailed,
@@ -2814,6 +2839,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		if (!uiElement.getKind().is(ElementKind.Unknown)) {
 			nde = root.child(uiElement.getKind().name() + "("
 					+ (text != null ? text.trim() : "") + ")");
+			// Adds decorators
+			for (ControlDecoration decorator : uiElement.getDecorators()) {
+				if (decorator.isVisible())
+					nde.child("ControlDecoration(" + decorator.getDescriptionText() + ")");
+			}
 		}
 		try {
 			SWTUIElement[] children = getPlayer().children.collectFor(

@@ -12,10 +12,8 @@ package org.eclipse.rcptt.ecl.data.internal.commands;
 
 import static org.eclipse.rcptt.ecl.data.internal.EclDataPlugin.createErr;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -26,6 +24,8 @@ import org.eclipse.rcptt.ecl.data.commands.ReadCsvFile;
 import org.eclipse.rcptt.ecl.data.objects.ObjectsFactory;
 import org.eclipse.rcptt.ecl.data.objects.Row;
 import org.eclipse.rcptt.ecl.data.objects.Table;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
+import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 
@@ -40,12 +40,12 @@ public class ReadCsvFileService implements ICommandService {
 		}
 
 		ReadCsvFile readFile = (ReadCsvFile) command;
-		File file = FileResolver.resolve(readFile.getUri());
+		EclFile file = FileResolver.resolve(readFile.getUri());
 		CSVReader reader;
 		try {
-			reader = new CSVReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
-			return createErr("Cannot read file %s", file.getAbsolutePath());
+			reader = new CSVReader(new InputStreamReader(file.read()));
+		} catch (IOException e) {
+			return createErr("Cannot read file %s", file.toURI(), e);
 		}
 
 		Table result = ObjectsFactory.eINSTANCE.createTable();
@@ -53,7 +53,7 @@ public class ReadCsvFileService implements ICommandService {
 			String[] headers = reader.readNext();
 			if (headers.length == 0) {
 				return createErr("File %s does not contain any rows",
-						file.getAbsolutePath());
+						file.toURI());
 			}
 
 			boolean haveIndent = headers[0]
@@ -71,7 +71,7 @@ public class ReadCsvFileService implements ICommandService {
 				if (line.length != headers.length) {
 					return createErr(
 							"Value count in line %d differs from column counti in file %s ",
-							lineNum, file.getAbsolutePath());
+							lineNum, file.toURI());
 				}
 
 				int indent = haveIndent ? Integer.parseInt(line[0]) : 0;
@@ -88,7 +88,7 @@ public class ReadCsvFileService implements ICommandService {
 				if (indent != stack.size() && (indent - stack.size()) > 1) {
 					return createErr(
 							"Error on line %d - indent level too high, can't determine parent row in file %s",
-							lineNum, file.getAbsolutePath());
+							lineNum, file.toURI());
 				}
 
 				if (stack.size() > 0) {
@@ -100,7 +100,7 @@ public class ReadCsvFileService implements ICommandService {
 				stack.push(row);
 			}
 		} catch (IOException e) {
-			return createErr(e, "Error reading file %s", file.getAbsolutePath());
+			return createErr(e, "Error reading file %s", file.toURI());
 		} finally {
 			try {
 				reader.close();

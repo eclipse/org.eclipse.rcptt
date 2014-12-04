@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Parser
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.parser;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.ecl.core,
@@ -12,4 +12,4 @@ Export-Package: org.eclipse.rcptt.ecl.gen.ast,
  org.eclipse.rcptt.ecl.internal.parser;x-friends:="org.eclipse.rcptt.ecl.parser.test",
  org.eclipse.rcptt.ecl.parser
 Bundle-Activator: org.eclipse.rcptt.ecl.internal.parser.EclParserPlugin
-Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Vendor: %providerName

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.rcptt.extensions.runtime.feature_1.0.0.qualifier.jar" id="org.eclipse.rcptt.extensions.runtime.feature" version="1.0.0.qualifier">
+      <category name="org.eclipse.rcptt.extensions"/>
+   </feature>
+   <category-def name="org.eclipse.rcptt.extensions" label="RCPTT Extensions"/>
+</site>

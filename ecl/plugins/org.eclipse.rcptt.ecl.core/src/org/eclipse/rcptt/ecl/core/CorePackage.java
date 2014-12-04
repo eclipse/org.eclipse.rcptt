@@ -718,13 +718,22 @@ public interface CorePackage extends EPackage {
 	int PROCESS_STATUS__EXCEPTION = 4;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_STATUS__CHILDREN = 5;
+
+	/**
 	 * The number of structural features of the '<em>Process Status</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_STATUS_FEATURE_COUNT = 5;
+	int PROCESS_STATUS_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.ConvertedToEMFPipeImpl <em>Converted To EMF Pipe</em>}' class.
@@ -2019,22 +2028,13 @@ public interface CorePackage extends EPackage {
 	int CASE__BINDINGS = COMMAND__BINDINGS;
 
 	/**
-	 * The feature id for the '<em><b>Input</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CASE__INPUT = COMMAND_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Condition</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__CONDITION = COMMAND_FEATURE_COUNT + 1;
+	int CASE__CONDITION = COMMAND_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Then</b></em>' containment reference.
@@ -2043,7 +2043,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__THEN = COMMAND_FEATURE_COUNT + 2;
+	int CASE__THEN = COMMAND_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Case</em>' class.
@@ -2052,7 +2052,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
+	int CASE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.
@@ -2499,6 +2499,17 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getProcessStatus_Exception();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rcptt.ecl.core.ProcessStatus#getChildren <em>Children</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.ProcessStatus#getChildren()
+	 * @see #getProcessStatus()
+	 * @generated
+	 */
+	EReference getProcessStatus_Children();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.ConvertedToEMFPipe <em>Converted To EMF Pipe</em>}'.
@@ -3226,17 +3237,6 @@ public interface CorePackage extends EPackage {
 	EReference getCase_Then();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.Case#getInput <em>Input</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Input</em>'.
-	 * @see org.eclipse.rcptt.ecl.core.Case#getInput()
-	 * @see #getCase()
-	 * @generated
-	 */
-	EReference getCase_Input();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.Switch <em>Switch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3816,6 +3816,14 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROCESS_STATUS__EXCEPTION = eINSTANCE.getProcessStatus_Exception();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROCESS_STATUS__CHILDREN = eINSTANCE.getProcessStatus_Children();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.ConvertedToEMFPipeImpl <em>Converted To EMF Pipe</em>}' class.
@@ -4406,14 +4414,6 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CASE__THEN = eINSTANCE.getCase_Then();
-
-		/**
-		 * The meta object literal for the '<em><b>Input</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CASE__INPUT = eINSTANCE.getCase_Input();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl <em>Switch</em>}' class.

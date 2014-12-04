@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.ecl.data.internal.commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -22,6 +21,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.data.commands.ReadLines;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
+import org.eclipse.rcptt.ecl.filesystem.EclFile;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 
@@ -36,13 +37,12 @@ public class ReadLinesService implements ICommandService {
 		BufferedReader br = null;
 		try {
 			URI uri = new URI(((ReadLines) command).getUri());
-			File file = FileResolver.resolve(uri);
+			EclFile file = FileResolver.resolve(uri);
 
 			if (file != null) {
 				uri = file.toURI();
 			}
-			br = new BufferedReader(new InputStreamReader(uri.toURL()
-					.openStream()));
+			br = new BufferedReader(new InputStreamReader(file.read()));
 			String line = "";
 			while ((line = br.readLine()) != null) {
 				context.getOutput().write(line);

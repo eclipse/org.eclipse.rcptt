@@ -10,14 +10,49 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext;
 
+import static org.eclipse.rcptt.internal.launching.ext.AJConstants.OSGI_FRAMEWORK_EXTENSIONS;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 public class UpdateVMArgs {
+	public static String escapeCommandArg(String arg) {
+		if (arg == null || arg.length() == 0) {
+			return "\"\""; // empty string encoded
+		}
+		// escape backslashes and quotes
+		if (!Platform.getOS().equals(Platform.OS_WIN32))
+			arg = arg.replace("\\", "\\\\");
+		arg = arg.replace("\"", "\\\"");
+		return arg.contains(" ") ? String.format("\"%s\"", arg) : arg;
+	}
+
+	public static final Function<String, String> ESCAPE = new Function<String, String>() {
+
+		@Override
+		public String apply(String input) {
+			return escapeCommandArg(input);
+		}
+	};
 	public static void updateVMArgs(
 			ILaunchConfigurationWorkingCopy configuration) {
+
 		try {
 			String attribute = configuration.getAttribute(
 					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "");
@@ -32,24 +67,83 @@ public class UpdateVMArgs {
 		}
 	}
 
-	public static String updateAttr(String attribute) {
-		if (!attribute.contains("-Xmx")) {
-			attribute += " -Xmx512m";
+	static class StartsWith implements Predicate<String> {
+		private final String prefix;
+
+		public StartsWith(String prefix) {
+			this.prefix = prefix;
 		}
-		if (!attribute.contains("-XX:MaxPermSize")) {
-			attribute += " -XX:MaxPermSize=128m";
+
+		@Override
+		public boolean apply(String input) {
+			return input.startsWith(prefix);
 		}
+
+	}
+
+	public static void addIfAbsent(List<String> target, String prefix, String value) {
+		if (!Iterables.any(target, new StartsWith(prefix))) {
+			target.add(prefix + value);
+		}
+	}
+
+
+	public static String updateAttr(String arguments) {
+		return Joiner.on(" ").join(updateAttr(Arrays.asList(DebugPlugin.parseArguments(arguments))));
+	}
+
+	private static String addWeavingHook(String extensions, IPluginModelBase hook) {
+		Preconditions.checkNotNull(hook);
+
+		String ajref = String.format("reference:file:%s", hook.getInstallLocation());
+
+		if (extensions == null) {
+			return ajref;
+		}
+
+		// otherwise split and search for a duplicate AJ hook:
+		StringBuilder result = new StringBuilder();
+
+		for (String extension : extensions.split(",")) {
+			if (extensions.contains(AJConstants.HOOK)) {
+				continue;
+			}
+			if (!extension.isEmpty())
+				result.append(extension).append(',');
+		}
+		result.append(ajref).append(',');
+		result.setLength(result.length() - 1);
+		return result.toString();
+	}
+
+	public static List<String> addHook(List<String> vmArguments, IPluginModelBase hook, String defaultExtensions) {
+		List<String> result = Lists.newArrayList(vmArguments);
+		final String extensionsPrefix = "-D" + OSGI_FRAMEWORK_EXTENSIONS + "=";
+		String extensions = "";
+		Iterator<String> argIter = result.iterator();
+		while (argIter.hasNext()) {
+			String argument = argIter.next();
+			if (argument.startsWith(extensionsPrefix)) {
+				extensions = argument.substring(extensionsPrefix.length());
+				argIter.remove();
+			}
+		}
+		if (extensions.isEmpty())
+			extensions = Strings.nullToEmpty(defaultExtensions);
+		result.add(extensionsPrefix + addWeavingHook(extensions, hook));
+		return result;
+	}
+
+	public static List<String> updateAttr(List<String> attribute) {
+		List<String> result = Lists.newArrayList(attribute);
+		addIfAbsent(result, "-Xmx", "512m");
+		addIfAbsent(result, "-XX:MaxPermSize", "=128m");
 		// -XstartOnFirstThread
 		// -Dorg.eclipse.swt.internal.carbon.smallFonts
 		if (Platform.getOS().equals(Platform.OS_MACOSX)) {
-			if (!attribute.contains("-XstartOnFirstThread")) {
-				attribute += " -XstartOnFirstThread";
-			}
-			if (!attribute
-					.contains("-Dorg.eclipse.swt.internal.carbon.smallFonts")) {
-				attribute += " -Dorg.eclipse.swt.internal.carbon.smallFonts";
-			}
+			addIfAbsent(result, "-XstartOnFirstThread", "");
+			addIfAbsent(result, "-Dorg.eclipse.swt.internal.carbon.smallFonts", "");
 		}
-		return attribute;
+		return result;
 	}
 }

@@ -10,14 +10,18 @@
  *******************************************************************************/
 package org.eclipse.rcptt.testing.commands.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
-
+import org.eclipse.rcptt.launching.injection.Entry;
 import org.eclipse.rcptt.testing.commands.CommandsPackage;
 import org.eclipse.rcptt.testing.commands.InvokeAUT;
 
@@ -30,7 +34,9 @@ import org.eclipse.rcptt.testing.commands.InvokeAUT;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.testing.commands.impl.InvokeAUTImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.testing.commands.impl.InvokeAUTImpl#getArgs <em>Args</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.testing.commands.impl.InvokeAUTImpl#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.testing.commands.impl.InvokeAUTImpl#getVmargs <em>Vmargs</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.testing.commands.impl.InvokeAUTImpl#getInject <em>Inject</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +84,26 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 	protected String args = ARGS_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getPath() <em>Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PATH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPath() <em>Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected String path = PATH_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getVmargs() <em>Vmargs</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,6 +122,16 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 	 * @ordered
 	 */
 	protected String vmargs = VMARGS_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getInject() <em>Inject</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInject()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Entry> inject;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -163,6 +199,27 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPath() {
+		return path;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPath(String newPath) {
+		String oldPath = path;
+		path = newPath;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.INVOKE_AUT__PATH, oldPath, path));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getVmargs() {
 		return vmargs;
 	}
@@ -184,6 +241,32 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Entry> getInject() {
+		if (inject == null) {
+			inject = new EObjectContainmentEList<Entry>(Entry.class, this, CommandsPackage.INVOKE_AUT__INJECT);
+		}
+		return inject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case CommandsPackage.INVOKE_AUT__INJECT:
+				return ((InternalEList<?>)getInject()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -191,8 +274,12 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 				return getName();
 			case CommandsPackage.INVOKE_AUT__ARGS:
 				return getArgs();
+			case CommandsPackage.INVOKE_AUT__PATH:
+				return getPath();
 			case CommandsPackage.INVOKE_AUT__VMARGS:
 				return getVmargs();
+			case CommandsPackage.INVOKE_AUT__INJECT:
+				return getInject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,6 +289,7 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -211,8 +299,15 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 			case CommandsPackage.INVOKE_AUT__ARGS:
 				setArgs((String)newValue);
 				return;
+			case CommandsPackage.INVOKE_AUT__PATH:
+				setPath((String)newValue);
+				return;
 			case CommandsPackage.INVOKE_AUT__VMARGS:
 				setVmargs((String)newValue);
+				return;
+			case CommandsPackage.INVOKE_AUT__INJECT:
+				getInject().clear();
+				getInject().addAll((Collection<? extends Entry>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -232,8 +327,14 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 			case CommandsPackage.INVOKE_AUT__ARGS:
 				setArgs(ARGS_EDEFAULT);
 				return;
+			case CommandsPackage.INVOKE_AUT__PATH:
+				setPath(PATH_EDEFAULT);
+				return;
 			case CommandsPackage.INVOKE_AUT__VMARGS:
 				setVmargs(VMARGS_EDEFAULT);
+				return;
+			case CommandsPackage.INVOKE_AUT__INJECT:
+				getInject().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -251,8 +352,12 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case CommandsPackage.INVOKE_AUT__ARGS:
 				return ARGS_EDEFAULT == null ? args != null : !ARGS_EDEFAULT.equals(args);
+			case CommandsPackage.INVOKE_AUT__PATH:
+				return PATH_EDEFAULT == null ? path != null : !PATH_EDEFAULT.equals(path);
 			case CommandsPackage.INVOKE_AUT__VMARGS:
 				return VMARGS_EDEFAULT == null ? vmargs != null : !VMARGS_EDEFAULT.equals(vmargs);
+			case CommandsPackage.INVOKE_AUT__INJECT:
+				return inject != null && !inject.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -271,6 +376,8 @@ public class InvokeAUTImpl extends CommandImpl implements InvokeAUT {
 		result.append(name);
 		result.append(", args: ");
 		result.append(args);
+		result.append(", path: ");
+		result.append(path);
 		result.append(", vmargs: ");
 		result.append(vmargs);
 		result.append(')');

@@ -33,7 +33,7 @@
           </property>
           <property
                 name="aboutText"
-                value="RCP Testing Tool IDE&#x0D;&#x0A;&#x0D;&#x0A;Version: 1.5.1&#x0D;&#x0A;&#x0D;&#x0A;Visit http://eclipse.org/rcptt">
+                value="RCP Testing Tool IDE&#x0D;&#x0A;&#x0D;&#x0A;Version: 1.5.4&#x0D;&#x0A;&#x0D;&#x0A;Visit http://eclipse.org/rcptt">
           </property>
           <property
                 name="windowImages"

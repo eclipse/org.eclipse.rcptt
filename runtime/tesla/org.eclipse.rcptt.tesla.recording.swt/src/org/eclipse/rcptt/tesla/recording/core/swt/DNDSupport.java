@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.core.swt;
 
+import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.DragKind;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
+import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DropTarget;
@@ -19,13 +25,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
-import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.DragKind;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
-import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
-
 public class DNDSupport {
 	private TeslaRecorder recorder;
 
@@ -34,9 +33,15 @@ public class DNDSupport {
 	public DNDSupport() {
 	}
 
+	public void setRecorder(TeslaRecorder recorder) {
+		this.recorder = recorder;
+	}
+
 	public void processUniversalDND(Event event) {
-		if (recorder == null)
-			recorder = TeslaRecorder.getInstance();
+		if (recorder == null) {
+			return;
+		}
+
 		SWTWidgetLocator locator = SWTRecordingHelper.getHelper().getLocator();
 
 		String style = "";
@@ -66,8 +71,8 @@ public class DNDSupport {
 		} else if (event.widget instanceof DropTarget) {
 			DropTarget target = (DropTarget) event.widget;
 			Control widget = target.getControl();
-			
-			if( widget instanceof Shell) {
+
+			if (widget instanceof Shell) {
 				return;
 			}
 
@@ -102,7 +107,7 @@ public class DNDSupport {
 
 	public void processDND(Event event) {
 		if (recorder == null) {
-			recorder = TeslaRecorder.getInstance();
+			return;
 		}
 		Control realWidget = null;
 		if (event.widget instanceof DropTarget) {

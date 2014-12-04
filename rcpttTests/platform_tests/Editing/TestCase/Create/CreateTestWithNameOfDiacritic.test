@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_tlWZcGphEeCzId1Gnkds9A
 Element-Name: CreateTestWithNameOfDiacritic
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _dgzqkTthEeG8pezHWLcUvg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.3.201409120955
+Save-Time: 9/24/14 1:59 PM
 Tags: TestCase, Create
 Testcase-Type: ecl
 
@@ -40,7 +39,7 @@ with [get-window "New Test Case"] {
     get-editbox -after [get-label "Name:"] | set-text "ā á ǎ à a"
     get-button Finish | click
 }
-get-tab-folder | get-property activePage | equals "ā á ǎ à a" | verify-true
+get-editor "ā á ǎ à a"
 get-editor "ā á ǎ à a" | get-editbox -after [get-label "Name:"] | get-property text | equals "ā á ǎ à a" | verify-true
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/ā á ǎ à a" | get-property caption | equals "ā á ǎ à a" | verify-true
 get-view "Test Explorer" | get-tree | select TestQ7Prj | get-menu "New/Test Case" | click
@@ -48,7 +47,7 @@ with [get-window "New Test Case"] {
     get-editbox -after [get-label "Name:"] | set-text "ά ὰ ᾶ"
     get-button Finish | click
 }
-get-tab-folder | get-property activePage | equals "ά ὰ ᾶ" | verify-true
+get-editor "ά ὰ ᾶ" 
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/ά ὰ ᾶ" | get-property caption | equals "ά ὰ ᾶ" | verify-true
 get-editor "ά ὰ ᾶ" | get-editbox -after [get-label "Name:"] | get-property text | equals "ά ὰ ᾶ" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

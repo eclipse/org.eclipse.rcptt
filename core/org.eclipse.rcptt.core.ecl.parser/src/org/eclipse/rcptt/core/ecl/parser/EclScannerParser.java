@@ -88,13 +88,25 @@ public class EclScannerParser {
 		EclToken current = peek();
 
 		while (peek().type != terminal) {
-			consumeAll(Linebreak, Spacing);
+			consumeAll(Spacing);
 			current = peek();
 			if (current.type == Eof) {
 				break;
 			}
 			switch (current.type) {
+			case Linebreak:
+				// If last consumed is a Comment and next is a Identifier -> save Identifier position to Comment
+				// Needs on creating ProcDecl and to avoid different size of Linebreak
+				if (lastConsumed != null && (lastConsumed.type == SlComment || lastConsumed.type == MlComment)
+						&& peek(1).type == Identifier) {
+					Comment lastComment = commentStack.peek().get(commentStack.peek().size() - 1);
+					lastComment.nextCommandAt = peek(1).begin;
+				}
+				consume();
+				break;
 			case SlComment:
+				addComment(glueComments());
+				break;
 			case MlComment:
 				consume();
 				addComment(new Comment((String) current.value, current.begin, current.end));
@@ -201,6 +213,43 @@ public class EclScannerParser {
 			result.name = idFromToken(name);
 		}
 		return result;
+	}
+
+	/**
+	 * Combines several consecutive SlComments.
+	 * 
+	 * @return Comment
+	 */
+	private Comment glueComments() {
+		boolean isEnd = false;
+		int begin = 0;
+		int end = 0;
+		String text = "";
+		while (!isEnd) {
+			consumeAll(Spacing);
+			EclToken current = peek();
+			switch (current.type) {
+			case Linebreak:
+				if (peek(1).type == SlComment) {
+					consume();
+				} else {
+					isEnd = true;
+				}
+				break;
+			case SlComment:
+				consume();
+
+				text += (String) current.value;
+				if (begin == 0)
+					begin = current.begin;
+				end = current.end;
+				break;
+			default:
+				isEnd = true;
+			}
+		}
+
+		return new Comment(text, begin, end);
 	}
 
 	private Pipeline pipeline() {

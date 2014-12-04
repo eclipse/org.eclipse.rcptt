@@ -10,10 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.runtime.ui;
 
+import static org.eclipse.rcptt.internal.runtime.ui.Activator.PLUGIN_ID;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
@@ -27,14 +32,13 @@ import org.eclipse.ui.PlatformUI;
 
 public class Utils {
 
-	public static void closeDialogs() {
-		doCloseDialogs();
+	public static IStatus closeDialogs() {
+		return doCloseDialogs();
 	}
 
-	private static boolean doCloseDialogs() {
+	private static IStatus doCloseDialogs() {
 		SWTDialogManager.setCancelMessageBoxesDisplay(true);
 		try {
-			boolean closed = false;
 			final IWorkbench workbench = PlatformUI.getWorkbench();
 			final Display display = workbench.getDisplay();
 
@@ -58,6 +62,7 @@ public class Utils {
 				}
 			}
 
+			MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Failed to close dialogs", null);
 			Shell[] shells = display.getShells();
 			for (int i = shells.length - 1; i >= 0; i--) {
 				Shell shell = shells[i];
@@ -87,10 +92,13 @@ public class Utils {
 					} else {
 						shell.close();
 					}
-					closed = true;
+					if (!shell.isDisposed() && shell.isVisible())
+						status.add(new Status(IStatus.ERROR, PLUGIN_ID, shell.getText()));
 				}
 			}
-			return closed;
+			if (status.isOK())
+				return Status.OK_STATUS;
+			return status;
 		} finally {
 			SWTDialogManager.setCancelMessageBoxesDisplay(false);
 		}

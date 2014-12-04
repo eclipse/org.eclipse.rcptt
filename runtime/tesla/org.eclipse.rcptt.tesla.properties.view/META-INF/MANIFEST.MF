@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Properties View Support
+Bundle-Name: Properties View Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.properties.view;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.properties.view.PropertiesViewPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.core.runtime,
@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.rcptt.tesla.recording.core,
  org.eclipse.rcptt.tesla.recording.aspects.swt,
- org.eclipse.rcptt.tesla.recording.swt
+ org.eclipse.rcptt.tesla.recording.swt,
+ org.eclipse.rcptt.tesla.swt.aspects;bundle-version="[1.5.4,1.6.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

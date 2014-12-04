@@ -21,30 +21,6 @@ import java.util.List;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.ui.IWorkbenchPartReference;
-
-import org.eclipse.rcptt.util.JSoupUtil;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.rcptt.tesla.core.ui.Button;
 import org.eclipse.rcptt.tesla.core.ui.ButtonKind;
 import org.eclipse.rcptt.tesla.core.ui.Combo;
@@ -81,6 +57,29 @@ import org.eclipse.rcptt.tesla.jface.ImageSources.CompositeSource;
 import org.eclipse.rcptt.tesla.jface.ImageSources.ImageSource;
 import org.eclipse.rcptt.tesla.jface.ImageSources.ResourceSource;
 import org.eclipse.rcptt.tesla.swt.reflection.JavaMembersHelper;
+import org.eclipse.rcptt.util.JSoupUtil;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 public class SWTModelMapper {
 
@@ -269,6 +268,7 @@ public class SWTModelMapper {
 					.getReference();
 			editor.setTitle(unify(reference.getPartName()));
 			editor.setDirty(reference.isDirty());
+			editor.setActive(reference.getPage().getActivePartReference() == reference);
 			fillControl(editor,
 					((org.eclipse.swt.widgets.Control) element.unwrap()));
 
@@ -745,7 +745,7 @@ public class SWTModelMapper {
 						text = value.toString();
 					}
 				}
-				tItem.getValues().put(((TableColumn) columns[i]).getText(), text);
+				tItem.getValues().put(getTextOrToolTip((TableColumn) columns[i]), text);
 				tItem.getColumns().add(text);
 				tItem.getColumnsBackgroundColor().add(
 						makeColor(wItem.getBackground(i)));
@@ -830,7 +830,7 @@ public class SWTModelMapper {
 						text = value.toString();
 					}
 				}
-				tItem.getValues().put(((TreeColumn) columns[i]).getText(), text);
+				tItem.getValues().put(getTextOrToolTip((TreeColumn) columns[i]), text);
 				tItem.getColumns().add(text);
 				tItem.getColumnsBackgroundColor().add(
 						makeColor(wItem.getBackground(i)));
@@ -891,6 +891,22 @@ public class SWTModelMapper {
 		}
 
 		return tItem;
+	}
+
+	private static String getTextOrToolTip(TreeColumn column) {
+		if (!column.getText().isEmpty()) {
+			return column.getText();
+		} else {
+			return column.getToolTipText();
+		}
+	}
+
+	private static String getTextOrToolTip(TableColumn column) {
+		if (!column.getText().isEmpty()) {
+			return column.getText();
+		} else {
+			return column.getToolTipText();
+		}
 	}
 
 	private static Object getColumnValue(org.eclipse.swt.widgets.Widget widget,
@@ -1080,11 +1096,13 @@ public class SWTModelMapper {
 			}
 			org.eclipse.rcptt.tesla.core.ui.Image result = mapSource(composite.children
 					.get(0));
-			for (int i = 1; i < composite.children.size(); i++) {
-				org.eclipse.rcptt.tesla.core.ui.Image decoration = mapSource(composite.children
-						.get(i));
-				if (decoration != null) {
-					result.getDecorations().add(decoration);
+			if (result != null) {
+				for (int i = 1; i < composite.children.size(); i++) {
+					org.eclipse.rcptt.tesla.core.ui.Image decoration = mapSource(composite.children
+							.get(i));
+					if (decoration != null) {
+						result.getDecorations().add(decoration);
+					}
 				}
 			}
 			return result;

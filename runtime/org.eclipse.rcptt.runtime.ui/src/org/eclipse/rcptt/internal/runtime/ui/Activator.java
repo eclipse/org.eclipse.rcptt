@@ -118,7 +118,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	public static void err(Throwable cause, String message, Object... args) {
-		log(new Status(IStatus.ERROR, PLUGIN_ID, String.format(message, args)));
+		log(new Status(IStatus.ERROR, PLUGIN_ID, String.format(message, args), cause));
 	}
 
 	public static IStatus createStatus(Throwable t) {

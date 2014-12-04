@@ -25,7 +25,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.IStatusHandler;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
@@ -123,8 +122,16 @@ public class TestSuiteUtils {
 		}
 	}
 
-	public static Report generateFailedReport(ITestCase element,
-			String errorMessage) throws ModelException {
+	public static Report generateFailedReport(ITestCase element, String errorMessage) throws ModelException {
+		return generateReport(element, ResultStatus.FAIL, errorMessage);
+	}
+
+	public static Report generateSkippedReport(ITestCase element, String errorMessage) throws ModelException {
+		return generateReport(element, ResultStatus.SKIPPED, errorMessage);
+	}
+
+	public static Report generateReport(ITestCase element, ResultStatus status, String errorMessage)
+			throws ModelException {
 		Report report = ReportFactory.eINSTANCE.createReport();
 		Node root = ReportFactory.eINSTANCE.createNode();
 		root.setName(element.getID());
@@ -132,7 +139,7 @@ public class TestSuiteUtils {
 		Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
 		q7info.setId(element.getID());
 		q7info.setMessage(errorMessage);
-		q7info.setResult(ResultStatus.FAIL);
+		q7info.setResult(status);
 		q7info.setType(ItemKind.TESTCASE);
 		root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 		root.setName(element.getElementName());

@@ -134,7 +134,7 @@ public class P2Utils {
 	}
 
 	public static IMetadataRepository safeLoadRepository(URI uri,
-			IProgressMonitor monitor, IProvisioningAgent agent) {
+			IProgressMonitor monitor, IProvisioningAgent agent) throws CoreException {
 		try {
 			// Be sure to read freash repository each time
 			IMetadataRepositoryManager rm = getRepositoryManager(agent);
@@ -145,13 +145,14 @@ public class P2Utils {
 				// Ignore, this is ok, need to clean badRepo variable.
 			}
 			return rm.loadRepository(uri, monitor);
-		} catch (Throwable e) {
+		} catch (RuntimeException e) {
 			if (e instanceof OperationCanceledException || monitor.isCanceled()) {
-				return null;
+				throw new CoreException(new Status(IStatus.CANCEL, Q7P2UtilsActivator.PLUGIN_ID,
+						"Repository load cancelled", e));
+			} else {
+				throw e;
 			}
-			Q7P2UtilsActivator.getDefault().log(e);
 		}
-		return null;
 	}
 
 	public static IArtifactRepository safeLoadArtifactRepository(URI uri,

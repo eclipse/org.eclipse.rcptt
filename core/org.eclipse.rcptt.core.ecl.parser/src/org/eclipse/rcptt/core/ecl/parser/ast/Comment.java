@@ -15,4 +15,10 @@ public class Comment extends Node {
 		super(text, begin, end);
 	}
 
+	/**
+	 * Uses to remember next command position because
+	 * line break can be "\n" or "\n\r".
+	 */
+	public int nextCommandAt;
+
 }

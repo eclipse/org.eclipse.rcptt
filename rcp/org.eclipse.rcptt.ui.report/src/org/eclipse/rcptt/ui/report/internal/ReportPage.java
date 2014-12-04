@@ -13,27 +13,23 @@ package org.eclipse.rcptt.ui.report.internal;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -42,12 +38,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.internal.forms.widgets.FormImages;
-
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
-import org.eclipse.rcptt.ui.report.ReportWizard;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
 @SuppressWarnings("restriction")
 public class ReportPage extends FormPage {
@@ -197,34 +187,4 @@ public class ReportPage extends FormPage {
 		return textControl;
 	}
 
-	protected Button createSaveButton(Composite composite, FormToolkit toolkit) {
-		Button button = toolkit.createButton(composite, "Save as...", SWT.PUSH);
-		button.setImage(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_ETOOL_SAVE_EDIT)
-				.createImage());
-		button.setBackground(null);
-		GridDataFactory.fillDefaults().applyTo(button);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ReportWizard wizard = new ReportWizard(new Q7ReportIterator(
-						getReportEditor().getReportList().getReportFile()),
-						new Path(getEditorInput().getName())
-								.removeFileExtension().toString());
-				wizard.setDisabledReports("report");
-				wizard.setInitialWorkspaceLocation(getReportEditor()
-						.getInitialWorkspaceLocation());
-				wizard.setNeedsProgressMonitor(true);
-				WizardDialog dialog = new WizardDialog(nameLabel.getShell(),
-						wizard);
-				dialog.open();
-			}
-
-		});
-		return button;
-	}
-
-	private RcpttReportEditor getReportEditor() {
-		return ((RcpttReportEditor) getEditor());
-	}
 }

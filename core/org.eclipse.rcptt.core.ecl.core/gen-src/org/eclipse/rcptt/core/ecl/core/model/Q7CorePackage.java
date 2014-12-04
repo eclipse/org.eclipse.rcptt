@@ -334,13 +334,22 @@ public interface Q7CorePackage extends EPackage {
 	int Q7_INFORMATION__CLIENT_ACTIVE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Window Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int Q7_INFORMATION__WINDOW_COUNT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Q7 Information</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFORMATION_FEATURE_COUNT = 4;
+	int Q7_INFORMATION_FEATURE_COUNT = 5;
 
 
 	/**
@@ -1329,6 +1338,17 @@ public interface Q7CorePackage extends EPackage {
 	EAttribute getQ7Information_ClientActive();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getWindowCount <em>Window Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Window Count</em>'.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7Information#getWindowCount()
+	 * @see #getQ7Information()
+	 * @generated
+	 */
+	EAttribute getQ7Information_WindowCount();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.ecl.core.model.SetQ7Features <em>Set Q7 Features</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1960,6 +1980,14 @@ public interface Q7CorePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute Q7_INFORMATION__CLIENT_ACTIVE = eINSTANCE.getQ7Information_ClientActive();
+
+		/**
+		 * The meta object literal for the '<em><b>Window Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute Q7_INFORMATION__WINDOW_COUNT = eINSTANCE.getQ7Information_WindowCount();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.core.ecl.core.model.impl.SetQ7FeaturesImpl <em>Set Q7 Features</em>}' class.

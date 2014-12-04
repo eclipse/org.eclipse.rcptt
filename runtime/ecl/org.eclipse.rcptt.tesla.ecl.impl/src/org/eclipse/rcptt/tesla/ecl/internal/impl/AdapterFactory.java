@@ -11,14 +11,22 @@
 package org.eclipse.rcptt.tesla.ecl.internal.impl;
 
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.rcptt.tesla.core.utils.Cryptography;
+import org.eclipse.rcptt.tesla.ecl.model.DecryptResult;
 
 public class AdapterFactory implements IAdapterFactory {
 
-	private static final Class<?>[] adapters = new Class[]{String.class};
+	private static final Class<?>[] adapters = new Class[] { String.class };
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override	
+	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adaptableObject instanceof DecryptResult) {
+			if (adapterType.isAssignableFrom(String.class)) {
+				return Cryptography.INSTANCE.decrypt(((DecryptResult) adaptableObject).getValue());
+			}
+		}
+
 		return null;
 	}
 

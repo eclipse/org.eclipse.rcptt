@@ -177,6 +177,7 @@ public class EclScanner {
 
 		eat();
 
+		boolean skipNextAsterisk = true;
 		while (true) {
 			if (c0 == EOF) {
 				message = "Unterminated multiline comment.";
@@ -187,10 +188,23 @@ public class EclScanner {
 					eat();
 					break;
 				}
-				else
-					valueBuilder.append('*');
-			} else
+				else {
+					if (skipNextAsterisk) {
+						skipNextAsterisk = false;
+					} else {
+						valueBuilder.append('*');
+					}
+				}
+			} else {
+				if (c0 == '\n' || c0 == '\r') {
+					// Starting from new line we skips next *
+					skipNextAsterisk = true;
+				} else if (c0 != ' ' && c0 != '\t' && skipNextAsterisk == true) {
+					// If detected non space char before skipping -> we don't skip next *
+					skipNextAsterisk = false;
+				}
 				valueBuilder.append(eat());
+			}
 		}
 
 		value = valueBuilder.toString();

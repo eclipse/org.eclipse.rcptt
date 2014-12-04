@@ -16,12 +16,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.rcptt.core.IContextProcessor;
+import org.eclipse.rcptt.core.scenario.Context;
+import org.eclipse.rcptt.core.scenario.ScenarioFactory;
+import org.eclipse.rcptt.core.scenario.WorkbenchContext;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
+import org.eclipse.rcptt.internal.runtime.ui.Utils;
+import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -36,16 +46,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroManager;
 import org.eclipse.ui.intro.IIntroPart;
 import org.osgi.framework.Bundle;
-
-import org.eclipse.rcptt.core.IContextProcessor;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.scenario.ScenarioFactory;
-import org.eclipse.rcptt.core.scenario.WorkbenchContext;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
-import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
-import org.eclipse.rcptt.internal.runtime.ui.Utils;
-import org.eclipse.rcptt.tesla.core.TeslaLimits;
-import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 
 public class WorkbenchContextProcessor implements IContextProcessor {
 	public boolean isApplied(final Context context) {
@@ -73,11 +73,14 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 		return true;
 	}
 
-	private UIRunnable<Object> closeModalDialogs = new UIRunnable<Object>() {
+	private UIRunnable<IStatus> closeModalDialogs = new UIRunnable<IStatus>() {
 		@Override
-		public Object run() throws CoreException {
-			Utils.closeDialogs();
-			return null;
+		public IStatus run() throws CoreException {
+			try {
+				return Utils.closeDialogs();
+			} catch (Throwable e) {
+				return RcpttPlugin.createStatus(e);
+			}
 		}
 	};
 	private Runnable closeModalDialogsAsync = new Runnable() {
@@ -131,6 +134,9 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 				UIRunnable.exec(closeModalDialogs);
 				PlatformUI.getWorkbench().getDisplay()
 						.asyncExec(closeModalDialogsAsync);
+				IStatus status = UIRunnable.exec(closeModalDialogs);
+				if (!status.isOK())
+					throw new CoreException(status);
 			}
 			UIRunnable.exec(closeIntro);
 			final IWorkbenchPage page = UIRunnable

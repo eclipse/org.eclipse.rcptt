@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Q7 Runtime GMF Recording Support
+Bundle-Name: RCPTT Runtime GMF Recording Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.aspects.gmf;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.gef,
- org.eclipse.rcptt.tesla.gef.aspects;bundle-version="[1.5.1,1.6.0)",
+ org.eclipse.rcptt.tesla.gef.aspects;bundle-version="[1.5.4,1.6.0)",
  org.eclipse.jface,
  org.eclipse.gmf.runtime.diagram.ui,
- org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.1,1.6.0)"
+ org.eclipse.rcptt.tesla.core.am;bundle-version="[1.5.4,1.6.0)"
 onEnvironment: JavaSE-1.6
 Import-Package: org.osgi.framework
 Eclipse-SupplementBundle: org.eclipse.gmf.runtime.diagram.ui

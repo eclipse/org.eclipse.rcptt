@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>watson</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
   </parent>
 
   <groupId>org.eclipse.rcptt.features</groupId>
   <artifactId>org.eclipse.rcptt.watson</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 </project>

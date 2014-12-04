@@ -26,8 +26,9 @@ public class ElementCache extends OverflowingLRUCache {
 	}
 
 	@Override
-	protected boolean close(LRUCacheEntry entry) {
-		Openable element = (Openable) entry._fKey;
+	protected boolean close(Object key, Object value) {
+		// System.out.println("ElementCache.close(" + key + ", " + value + ")");
+		Openable element = (Openable) key;
 		try {
 			if (!element.canBeRemovedFromCache()) {
 				return false;
@@ -62,6 +63,12 @@ public class ElementCache extends OverflowingLRUCache {
 			setSpaceLimit(defaultLimit);
 			this.spaceLimitParent = null;
 		}
+	}
+
+	@Override
+	public Object put(Object key, Object value) {
+		// System.out.println("ElementCache.put(" + key + ", " + value + ")");
+		return super.put(key, value);
 	}
 
 }

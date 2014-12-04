@@ -208,6 +208,7 @@ public abstract class BasicAUTComposite {
 						}
 					};
 					((IAUTConfigWizard) configWizard).setWizardDialog(dialog);
+					dialog.setHelpAvailable(false);
 					dialog.open();
 				} else {
 					// use default launch configuration configure wizard
@@ -286,6 +287,7 @@ public abstract class BasicAUTComposite {
 						.createImage());
 			}
 		};
+		dialog.setHelpAvailable(false);
 		dialog.open();
 		shell.forceActive();
 	}

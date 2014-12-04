@@ -13,6 +13,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
+import org.eclipse.rcptt.tesla.core.utils.Cryptography;
 
 public class TextUIElement extends ControlUIElement {
 
@@ -30,7 +31,7 @@ public class TextUIElement extends ControlUIElement {
 	public void setText(String text, boolean select, boolean hide) {
 		SetText cmd = factory.createSetText();
 		cmd.setElement(getElement());
-		cmd.setValue(text);
+		cmd.setValue(hide ? Cryptography.INSTANCE.encrypt(text) : text);
 		cmd.setSelect(select);
 		cmd.setHidden(hide);
 		player.safeExecuteCommand(cmd);

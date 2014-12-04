@@ -44,7 +44,45 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.rcptt.core.ContextType;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.internal.core.model.Q7Context;
+import org.eclipse.rcptt.internal.launching.EclStackTrace;
+import org.eclipse.rcptt.internal.launching.ExecutionStatus;
+import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.IExecutionSession;
+import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
+import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
+import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
+import org.eclipse.rcptt.ui.actions.CollapseAllAction;
+import org.eclipse.rcptt.ui.actions.LockSelectionAction;
+import org.eclipse.rcptt.ui.actions.Q7ExecutionViewAction;
+import org.eclipse.rcptt.ui.actions.RunFailedAction;
+import org.eclipse.rcptt.ui.actions.RunSelectedAction;
+import org.eclipse.rcptt.ui.actions.StopAction;
+import org.eclipse.rcptt.ui.actions.StopOnFirstFailAction;
+import org.eclipse.rcptt.ui.editors.context.ContextEditor;
+import org.eclipse.rcptt.ui.editors.ecl.EclEditor;
+import org.eclipse.rcptt.ui.editors.verification.VerificationEditor;
+import org.eclipse.rcptt.ui.editors.verification.VerificationEditorPage;
+import org.eclipse.rcptt.ui.history.ViewHistory;
+import org.eclipse.rcptt.ui.report.ReportAction;
+import org.eclipse.rcptt.ui.utils.Executables;
+import org.eclipse.rcptt.ui.utils.RangeUtils;
+import org.eclipse.rcptt.verifications.runtime.StyledMessage;
+import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
+import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
+import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
@@ -72,45 +110,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.part.ViewPart;
-
-import org.eclipse.rcptt.verifications.status.VerificationStatusData;
-import org.eclipse.rcptt.core.ContextType;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ITestCase;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.internal.core.model.Q7Context;
-import org.eclipse.rcptt.internal.launching.EclStackTrace;
-import org.eclipse.rcptt.internal.launching.ExecutionStatus;
-import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.launching.IExecutable;
-import org.eclipse.rcptt.launching.IExecutionSession;
-import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
-import org.eclipse.rcptt.launching.Q7Launcher;
-import org.eclipse.rcptt.ui.actions.CollapseAllAction;
-import org.eclipse.rcptt.ui.actions.LockSelectionAction;
-import org.eclipse.rcptt.ui.actions.Q7ExecutionViewAction;
-import org.eclipse.rcptt.ui.actions.RunFailedAction;
-import org.eclipse.rcptt.ui.actions.RunSelectedAction;
-import org.eclipse.rcptt.ui.actions.StopAction;
-import org.eclipse.rcptt.ui.actions.StopOnFirstFailAction;
-import org.eclipse.rcptt.ui.editors.context.ContextEditor;
-import org.eclipse.rcptt.ui.editors.ecl.EclEditor;
-import org.eclipse.rcptt.ui.editors.verification.VerificationEditor;
-import org.eclipse.rcptt.ui.editors.verification.VerificationEditorPage;
-import org.eclipse.rcptt.ui.history.ViewHistory;
-import org.eclipse.rcptt.ui.report.ReportAction;
-import org.eclipse.rcptt.ui.utils.Executables;
-import org.eclipse.rcptt.ui.utils.RangeUtils;
-import org.eclipse.rcptt.verifications.runtime.StyledMessage;
-import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
-import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
-import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 
 public class ExecutionView extends ViewPart implements IExecutionSessionListener {
 
@@ -476,11 +475,27 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 	private void setMessage(IQ7NamedElement namedElement, IStatus status,
 			int level) {
 		StringBuilder buffer = new StringBuilder();
+		List<StyleRange> ranges = print(status, level, buffer);
+
+		buffer.append(LINE_SEPARATOR);
+
+		Throwable t = status.getException();
+		if (t != null) {
+			processThrowableMsg(level, buffer, t);
+		}
+
+		failureTrace.setText(buffer.toString());
+		failureTrace.setStyleRanges(ranges.toArray(new StyleRange[ranges.size()]));
+		failureTrace.removeListener(SWT.MouseUp, mouseUp);
+		failureTrace.addListener(SWT.MouseUp, mouseUp);
+	}
+
+	private List<StyleRange> print(IStatus status, int level, StringBuilder buffer) {
 		String message = status.getMessage();
+		appendTabs(buffer, level);
 		if (message == null || message.length() == 0) {
 			message = Messages.ExecutionView_ExecutionFailedMsg;
 		}
-		appendTabs(buffer, level);
 
 		List<StyleRange> ranges = new ArrayList<StyleRange>();
 
@@ -510,27 +525,23 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 					ranges.add(makeMessageStyleRange(style.getKey(), style.getValue()));
 				}
 			} else {
-				if (cause != null) {
-					append(buffer, cause.getMessage());
+				if (cause != null && message.equals(cause.getMessage()) && status.getChildren().length == 0) {
+					print(cause, level, buffer);
 				} else {
 					buffer.append(message);
+					buffer.append(LINE_SEPARATOR);
+					if (cause != null)
+						print(cause, level + 1, buffer);
 				}
 			}
 		} else {
 			buffer.append(message);
+			buffer.append(LINE_SEPARATOR);
 		}
-
-		buffer.append(LINE_SEPARATOR);
-
-		Throwable t = status.getException();
-		if (t != null) {
-			processThrowableMsg(level, buffer, t);
+		for (IStatus child : status.getChildren()) {
+			print(child, level + 1, buffer);
 		}
-
-		failureTrace.setText(buffer.toString());
-		failureTrace.setStyleRanges(ranges.toArray(new StyleRange[ranges.size()]));
-		failureTrace.removeListener(SWT.MouseUp, mouseUp);
-		failureTrace.addListener(SWT.MouseUp, mouseUp);
+		return ranges;
 	}
 
 	private StyleRange makeMessageStyleRange(StyleRangeEntry entry, Object data) {

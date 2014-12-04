@@ -17,6 +17,9 @@ import org.eclipse.jdt.debug.ui.launchConfigurations.JavaArgumentsTab;
 import org.eclipse.jdt.internal.debug.ui.launcher.VMArgumentsBlock;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
+import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -25,10 +28,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
-import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
-import org.eclipse.rcptt.launching.IQ7Launch;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 @SuppressWarnings("restriction")
 public class AUTArgumentsTab extends JavaArgumentsTab implements IAUTListener {

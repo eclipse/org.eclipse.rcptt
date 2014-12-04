@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Parser Tests
+Bundle-Name: ECL Parser Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.parser.test;singleton:=true
-Bundle-Version: 1.5.1.qualifier
+Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.junit,
  org.eclipse.core.runtime,
@@ -10,6 +10,7 @@ Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.parser,
  org.eclipse.rcptt.ecl.core,
  org.antlr.runtime;bundle-version="3.2.0",
- org.eclipse.rcptt.ecl.operations
+ org.eclipse.rcptt.ecl.operations,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.ecl.parser.test

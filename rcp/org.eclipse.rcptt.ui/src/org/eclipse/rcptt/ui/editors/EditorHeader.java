@@ -11,8 +11,8 @@
 package org.eclipse.rcptt.ui.editors;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
-import static org.eclipse.rcptt.ui.launching.LaunchUtils.runResource;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.eclipse.rcptt.ui.launching.LaunchUtils.runResource;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,7 +24,6 @@ import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.ui.DebugUITools;
@@ -40,6 +39,22 @@ import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.window.Window;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.core.scenario.ScenarioPackage;
+import org.eclipse.rcptt.core.tags.Tag;
+import org.eclipse.rcptt.core.utils.TagsUtil;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.ILaunchListener;
+import org.eclipse.rcptt.launching.LaunchAdapter;
+import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.ui.commons.OneSelectionListener;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.tags.SelectTagDialog;
+import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.DisposeEvent;
@@ -60,23 +75,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.internal.forms.widgets.FormImages;
-
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-import org.eclipse.rcptt.core.tags.Tag;
-import org.eclipse.rcptt.core.utils.TagsUtil;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.launching.IExecutable;
-import org.eclipse.rcptt.launching.ILaunchListener;
-import org.eclipse.rcptt.launching.LaunchAdapter;
-import org.eclipse.rcptt.launching.Q7Launcher;
-import org.eclipse.rcptt.ui.commons.OneSelectionListener;
-import org.eclipse.rcptt.ui.launching.LaunchUtils;
-import org.eclipse.rcptt.ui.tags.SelectTagDialog;
-import org.eclipse.rcptt.util.StringUtils;
 
 @SuppressWarnings("restriction")
 public abstract class EditorHeader {
@@ -180,12 +178,12 @@ public abstract class EditorHeader {
 		c2.setBackground(toolkit.getColors().getColor(
 				IFormColors.H_BOTTOM_KEYLINE2));
 
-		if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
-			// We need to simulate transparent background for labels
-			composite.layout();
-			setBackgroundToHeaderLabel(nameLabel, gradientImage);
-			setBackgroundToHeaderLabel(tagsLabel, gradientImage);
-		}
+		// if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
+		// // We need to simulate transparent background for labels
+		// composite.layout();
+		// setBackgroundToHeaderLabel(nameLabel, gradientImage);
+		// setBackgroundToHeaderLabel(tagsLabel, gradientImage);
+		// }
 	}
 
 	protected int getTotalColumns() {

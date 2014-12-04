@@ -10,16 +10,17 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.core;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.osgi.framework.BundleContext;
-
 import org.eclipse.rcptt.internal.core.model.ModelManager;
 import org.eclipse.rcptt.util.NetworkUtils;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -93,10 +94,20 @@ public class RcpttPlugin extends Plugin {
 	}
 
 	public static IStatus createStatus(Throwable t) {
-		return createStatus(t.getMessage(), t);
+		if (t instanceof CoreException)
+			return ((CoreException) t).getStatus();
+		return new Status(Status.ERROR, PLUGIN_ID, t.getMessage(), t);
 	}
 
 	public static IStatus createStatus(String message, Throwable t) {
+		if (t != null) {
+			if (message == null || message.equals(t.getMessage())) {
+				return createStatus(t);
+			}
+		}
+		if (t instanceof CoreException) {
+			return new MultiStatus(((CoreException) t).getStatus().getPlugin(), 0, new IStatus[] { createStatus(t) }, message, null);
+		}
 		return new Status(Status.ERROR, PLUGIN_ID, message, t);
 	}
 
