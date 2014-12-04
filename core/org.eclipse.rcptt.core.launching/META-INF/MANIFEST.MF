@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.core.launching;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.launching.Activator
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.rcptt.tesla.core;bundle-version="[1.5.4,1.6.0)",

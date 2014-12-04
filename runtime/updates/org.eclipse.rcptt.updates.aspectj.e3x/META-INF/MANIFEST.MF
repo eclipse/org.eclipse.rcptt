@@ -4,4 +4,5 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.updates.aspectj.e3x;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Eclipse-BundleShape: dir

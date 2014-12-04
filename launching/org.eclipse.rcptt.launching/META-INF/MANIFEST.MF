@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.launching;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.rcptt.ecl.client.tcp;bundle-version="1.1.0",

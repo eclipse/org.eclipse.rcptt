@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.operations.tests
 Bundle-Version: 1.5.4.qualifier
+Bundle-Localization: plugin
 Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.core,
  org.eclipse.equinox.common,
@@ -10,3 +11,4 @@ Require-Bundle: org.junit,
  org.eclipse.rcptt.ecl.parser,
  org.eclipse.rcptt.ecl.parser.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse RCP Testing Tool Project

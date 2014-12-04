@@ -4,6 +4,7 @@ Bundle-Name: RCPTT Win32 fragment (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.swt.win32;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCPT Testing Tool Project
+Bundle-Localization: plugin
 Fragment-Host: org.eclipse.rcptt.tesla.swt;bundle-version="1.5.4"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-PlatformFilter: (&(osgi.ws=win32) (osgi.arch=x86))

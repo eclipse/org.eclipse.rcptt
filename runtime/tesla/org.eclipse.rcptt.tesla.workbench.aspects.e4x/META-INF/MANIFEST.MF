@@ -4,6 +4,7 @@ Bundle-Name: RCPTT Runtime Workbench Support Aspects (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.workbench.aspects.e4x;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
 Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.swt,
  org.eclipse.core.runtime,

@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.verifications.time;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-Activator: org.eclipse.rcptt.verifications.time.Activator
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

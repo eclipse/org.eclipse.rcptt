@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.ecl.platform;singleton:=true
 Bundle-Version: 1.5.4.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.ecl.platform.util,
  org.eclipse.rcptt.ecl.platform.commands,
