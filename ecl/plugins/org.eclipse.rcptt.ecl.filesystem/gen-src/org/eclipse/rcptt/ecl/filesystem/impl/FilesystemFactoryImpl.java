@@ -36,7 +36,7 @@ public class FilesystemFactoryImpl extends EFactoryImpl implements FilesystemFac
 	 */
 	public static FilesystemFactory init() {
 		try {
-			FilesystemFactory theFilesystemFactory = (FilesystemFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/filesystem.ecore"); 
+			FilesystemFactory theFilesystemFactory = (FilesystemFactory)EPackage.Registry.INSTANCE.getEFactory(FilesystemPackage.eNS_URI);
 			if (theFilesystemFactory != null) {
 				return theFilesystemFactory;
 			}

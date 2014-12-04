@@ -5,8 +5,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.preferences;
 
 import org.eclipse.emf.common.util.EList;

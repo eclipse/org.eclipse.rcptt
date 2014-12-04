@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.rcptt.ecl.core_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.core" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.server_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.server" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.server.ui_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.server.ui" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.shell_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.shell" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.platform_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.platform" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.platform.ui_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.platform.ui" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <feature url="features/org.eclipse.rcptt.ecl.ide_1.5.4.qualifier.jar" id="org.eclipse.rcptt.ecl.ide" version="1.5.4.qualifier">
+      <category name="ecl"/>
+   </feature>
+   <category-def name="ecl" label="Eclipse Command Language"/>
+</site>
