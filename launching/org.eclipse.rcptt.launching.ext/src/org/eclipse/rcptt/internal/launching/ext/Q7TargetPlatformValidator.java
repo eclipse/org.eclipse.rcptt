@@ -15,10 +15,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer.Q7Info;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
@@ -45,9 +44,9 @@ public class Q7TargetPlatformValidator {
 
 		Set<URI> curURIs = new HashSet<URI>();
 		// Collect current uris
-		IBundleContainer[] containers = ((TargetPlatformHelper) platform)
+		ITargetLocation[] containers = ((TargetPlatformHelper) platform)
 				.getBundleContainers();
-		for (IBundleContainer iBundleContainer : containers) {
+		for (ITargetLocation iBundleContainer : containers) {
 			if (iBundleContainer instanceof ProfileBundleContainer) {
 				continue; // Skip profile container.
 			}

@@ -25,12 +25,12 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.pde.core.target.ITargetDefinition;
+import org.eclipse.pde.core.target.ITargetHandle;
+import org.eclipse.pde.core.target.ITargetLocation;
+import org.eclipse.pde.core.target.ITargetPlatformService;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
 import org.eclipse.pde.internal.core.target.TargetPlatformService;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.ITargetDefinition;
-import org.eclipse.pde.internal.core.target.provisional.ITargetHandle;
-import org.eclipse.pde.internal.core.target.provisional.ITargetPlatformService;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
@@ -62,9 +62,9 @@ public class TargetPlatformManager {
 		final ITargetPlatformService service = PDEHelper.getTargetService();
 		final TargetPlatformHelper info = new TargetPlatformHelper(service.newTarget());
 		try {
-			List<IBundleContainer> containers = new ArrayList<IBundleContainer>();
-			IBundleContainer installationContainer = service
-					.newProfileContainer(location, null);
+			List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
+			ITargetLocation installationContainer = service
+					.newProfileLocation(location, null);
 			info.getQ7Target().setInstall(installationContainer);
 			containers.add(installationContainer);
 
@@ -72,14 +72,13 @@ public class TargetPlatformManager {
 			File pluginsDir = new File(pluginsPath.toOSString());
 			if (pluginsDir.exists() && pluginsDir.isDirectory()
 					&& pluginsDir.canRead()) {
-				IBundleContainer pluginsContainer = service
-						.newDirectoryContainer(pluginsPath.toOSString());
+				ITargetLocation pluginsContainer = service
+						.newDirectoryLocation(pluginsPath.toOSString());
 				containers.add(pluginsContainer);
 				info.getQ7Target().pluginsDir = pluginsContainer;
 			}
-
 			info.setBundleContainers(containers
-					.toArray(new IBundleContainer[containers.size()]));
+					.toArray(new ITargetLocation[containers.size()]));
 			throwOnError(info.resolve(monitor));
 			isOk = true;
 			return info;
@@ -225,7 +224,7 @@ public class TargetPlatformManager {
 					return helper;
 				}
 			}
-			ITargetDefinition selfAUT = s.newDefaultTargetDefinition();
+			ITargetDefinition selfAUT = s.newDefaultTarget();
 			selfAUT.setName("selfAUT_" + System.currentTimeMillis());
 			s.saveTargetDefinition(selfAUT);
 			TargetPlatformHelper helper = new TargetPlatformHelper(selfAUT) {

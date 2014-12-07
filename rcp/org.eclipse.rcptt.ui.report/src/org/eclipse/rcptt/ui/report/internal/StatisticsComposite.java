@@ -64,8 +64,6 @@ public class StatisticsComposite extends AbstractEmbeddedComposite {
 			updateStatistics(statistics);
 			return Status.OK_STATUS;
 		}
-
-
 	};
 
 	private void updateStatistics(Q7Statistics statistics) {

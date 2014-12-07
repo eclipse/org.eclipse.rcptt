@@ -263,7 +263,12 @@ public class NewAUTPage extends WizardPage {
 			for (IVMInstallType ivmInstallType : types) {
 				IVMInstall[] installs = ivmInstallType.getVMInstalls();
 				for (IVMInstall ivmInstall : installs) {
-					jvmArch = JDTUtils.detect(ivmInstall);
+					try {
+						jvmArch = JDTUtils.detect(ivmInstall);
+					} catch (CoreException e) {
+						RcpttPlugin.log(e);
+						continue;
+					}
 					if (jvmArch != null
 							&& (jvmArch.equals(architecture) || (jvmArch
 									.equals(OSArchitecture.x86_64) && JDTUtils

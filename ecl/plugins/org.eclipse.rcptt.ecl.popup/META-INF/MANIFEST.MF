@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECL Console Code Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.popup
-Bundle-Version: 1.5.4.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.popup.EclPopupPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,

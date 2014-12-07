@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.configuration;
 
-import static org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate.isQ7BundleContainer;
-import static org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils.setDelegateFields;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,11 +32,10 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
+import org.eclipse.pde.core.target.ITargetLocation;
+import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
-import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.IBundlePoolConstansts;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchMonitor;
@@ -51,8 +47,6 @@ import org.eclipse.rcptt.launching.events.AutEventManager;
 import org.eclipse.rcptt.launching.ext.BundleStart;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate;
-import org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate.BundlesToLaunch;
-import org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate.BundlesToLaunchCollector;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
@@ -128,7 +122,7 @@ public class Q7LaunchConfigurationDelegate extends
 					"Failed to wait for bundle pool clear job", e1);
 		}
 
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		String targetName = configuration.getName() + " with RCPTT";
 		ITargetPlatformHelper helper = Q7TargetPlatformManager
@@ -169,7 +163,7 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	public String[] getVMArguments(ILaunchConfiguration config)
 			throws CoreException {
-		CachedInfo info = LaunchInfoCache.getInfo(config);
+		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(config);
 		List<String> args = new ArrayList<String>(Arrays.asList(super
 				.getVMArguments(config)));
 
@@ -192,7 +186,7 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	public String[] getProgramArguments(ILaunchConfiguration configuration)
 			throws CoreException {
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(configuration);
 		if (info.programArgs != null) {
 			return info.programArgs;
 		}
@@ -248,30 +242,30 @@ public class Q7LaunchConfigurationDelegate extends
 		if (monitor.isCanceled()) {
 			return;
 		}
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		TargetPlatformHelper target = (TargetPlatformHelper) info.target;
 
-		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
+		Q7ExternalLaunchDelegate.BundlesToLaunchCollector collector = new Q7ExternalLaunchDelegate.BundlesToLaunchCollector();
 
 		for (Entry<IPluginModelBase, String> entry : Q7LaunchDelegateUtils
 				.getEclipseApplicationModels(this).entrySet()) {
 			collector.addInstallationBundle(entry.getKey(),
 					BundleStart.fromModelString(entry.getValue()));
 		}
-		for (IBundleContainer extra : target.getQ7Target().getExtras()) {
-			if (!isQ7BundleContainer(extra)) {
+		for (ITargetLocation extra : target.getQ7Target().getExtras()) {
+			if (!Q7ExternalLaunchDelegate.isQ7BundleContainer(extra)) {
 				continue;
 			}
-			for (IResolvedBundle bundle : extra.getBundles()) {
+			for (TargetBundle bundle : extra.getBundles()) {
 				collector.addExtraBundle(bundle);
 			}
 		}
 
-		BundlesToLaunch bundles = collector.getResult();
+		Q7ExternalLaunchDelegate.BundlesToLaunch bundles = collector.getResult();
 
 		Q7ExternalLaunchDelegate.setBundlesToLaunch(info, bundles);
 
-		setDelegateFields(this, bundles.fModels, bundles.fAllBundles);
+		Q7LaunchDelegateUtils.setDelegateFields(this, bundles.fModels, bundles.fAllBundles);
 	}
 }

@@ -154,7 +154,6 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 	};
 	private TableViewer viewer;
 
-
 	@Override
 	protected void fillActions(IToolBarManager manager) {
 		manager.add(runAction);

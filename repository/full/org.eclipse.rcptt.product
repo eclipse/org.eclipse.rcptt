@@ -22,12 +22,15 @@ Apache Software Foundation http://www.apache.org/
    </configIni>
 
    <launcherArgs>
-      <programArgs>-showsplash org.eclipse.rcptt.platform</programArgs>
+      <programArgs>-showsplash org.eclipse.rcptt.platform
+      </programArgs>
       <vmArgs>-Xms128m
 -Xmx768m
 -XX:PermSize=128M
--XX:MaxPermSize=192M</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:MaxPermSize=192M
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/org.eclipse.rcptt.platform/icons/logo-16.png" i32="/org.eclipse.rcptt.platform/icons/logo-32.png" i48="/org.eclipse.rcptt.platform/icons/logo-48.png" i64="/org.eclipse.rcptt.platform/icons/logo-64.png" i128="/org.eclipse.rcptt.platform/icons/logo-128.png"/>
@@ -47,21 +50,22 @@ Apache Software Foundation http://www.apache.org/
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
    <license>
         <url>http://www.eclipse.org/legal/epl-v10.html</url>
         <text>
-	  Eclipse Public License - v 1.0
+   Eclipse Public License - v 1.0
 
    THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE
-   PUBLIC LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF
-   THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+   PUBLIC LICENSE (&quot;AGREEMENT&quot;). ANY USE, REPRODUCTION OR DISTRIBUTION OF
+   THE PROGRAM CONSTITUTES RECIPIENT&apos;S ACCEPTANCE OF THIS AGREEMENT.
 
    1. DEFINITIONS
 
-   "Contribution" means:
+   &quot;Contribution&quot; means:
 
    a) in the case of the initial Contributor, the initial code and
    documentation distributed under this Agreement, and
@@ -74,23 +78,23 @@ Apache Software Foundation http://www.apache.org/
 
    where such changes and/or additions to the Program originate from and
    are distributed by that particular Contributor. A Contribution
-   'originates' from a Contributor if it was added to the Program by such
-   Contributor itself or anyone acting on such Contributor's behalf.
+   &apos;originates&apos; from a Contributor if it was added to the Program by such
+   Contributor itself or anyone acting on such Contributor&apos;s behalf.
    Contributions do not include additions to the Program which: (i) are
    separate modules of software distributed in conjunction with the
    Program under their own license agreement, and (ii) are not derivative
    works of the Program.
 
-   "Contributor" means any person or entity that distributes the Program.
+   &quot;Contributor&quot; means any person or entity that distributes the Program.
 
-   "Licensed Patents" mean patent claims licensable by a Contributor which
+   &quot;Licensed Patents&quot; mean patent claims licensable by a Contributor which
    are necessarily infringed by the use or sale of its Contribution alone
    or when combined with the Program.
 
-   "Program" means the Contributions distributed in accordance with this
+   &quot;Program&quot; means the Contributions distributed in accordance with this
    Agreement.
 
-   "Recipient" means anyone who receives the Program under this Agreement,
+   &quot;Recipient&quot; means anyone who receives the Program under this Agreement,
    including all Contributors.
 
    2. GRANT OF RIGHTS
@@ -124,7 +128,7 @@ Apache Software Foundation http://www.apache.org/
    granted hereunder, each Recipient hereby assumes sole responsibility to
    secure any other intellectual property rights needed, if any. For
    example, if a third party patent license is required to allow Recipient
-   to distribute the Program, it is Recipient's responsibility to acquire
+   to distribute the Program, it is Recipient&apos;s responsibility to acquire
    that license before distributing the Program.
 
    d) Each Contributor represents that to its knowledge it has sufficient
@@ -179,9 +183,9 @@ Apache Software Foundation http://www.apache.org/
    offering should do so in a manner which does not create potential
    liability for other Contributors. Therefore, if a Contributor includes
    the Program in a commercial product offering, such Contributor
-   ("Commercial Contributor") hereby agrees to defend and indemnify every
-   other Contributor ("Indemnified Contributor") against any losses,
-   damages and costs (collectively "Losses") arising from claims, lawsuits
+   (&quot;Commercial Contributor&quot;) hereby agrees to defend and indemnify every
+   other Contributor (&quot;Indemnified Contributor&quot;) against any losses,
+   damages and costs (collectively &quot;Losses&quot;) arising from claims, lawsuits
    and other legal actions brought by a third party against the
    Indemnified Contributor to the extent caused by the acts or omissions
    of such Commercial Contributor in connection with its distribution of
@@ -199,7 +203,7 @@ Apache Software Foundation http://www.apache.org/
    product offering, Product X. That Contributor is then a Commercial
    Contributor. If that Commercial Contributor then makes performance
    claims, or offers warranties related to Product X, those performance
-   claims and warranties are such Commercial Contributor's responsibility
+   claims and warranties are such Commercial Contributor&apos;s responsibility
    alone. Under this section, the Commercial Contributor would have to
    defend claims against the other Contributors related to those
    performance claims and warranties, and if a court requires any other
@@ -209,7 +213,7 @@ Apache Software Foundation http://www.apache.org/
    5. NO WARRANTY
 
    EXCEPT AS EXPRESSLY SET FORTH IN THIS AGREEMENT, THE PROGRAM IS
-   PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   PROVIDED ON AN &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
    KIND, EITHER EXPRESS OR IMPLIED INCLUDING, WITHOUT LIMITATION, ANY
    WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY OR
    FITNESS FOR A PARTICULAR PURPOSE. Each Recipient is solely responsible
@@ -242,17 +246,17 @@ Apache Software Foundation http://www.apache.org/
    If Recipient institutes patent litigation against any entity (including
    a cross-claim or counterclaim in a lawsuit) alleging that the Program
    itself (excluding combinations of the Program with other software or
-   hardware) infringes such Recipient's patent(s), then such Recipient's
+   hardware) infringes such Recipient&apos;s patent(s), then such Recipient&apos;s
    rights granted under Section 2(b) shall terminate as of the date such
    litigation is filed.
 
-   All Recipient's rights under this Agreement shall terminate if it fails
+   All Recipient&apos;s rights under this Agreement shall terminate if it fails
    to comply with any of the material terms or conditions of this
    Agreement and does not cure such failure in a reasonable period of time
-   after becoming aware of such noncompliance. If all Recipient's rights
+   after becoming aware of such noncompliance. If all Recipient&apos;s rights
    under this Agreement terminate, Recipient agrees to cease use and
    distribution of the Program as soon as reasonably practicable. However,
-   Recipient's obligations under this Agreement and any licenses granted
+   Recipient&apos;s obligations under this Agreement and any licenses granted
    by Recipient relating to the Program shall continue and survive.
 
    Everyone is permitted to copy and distribute copies of this Agreement,
@@ -288,37 +292,46 @@ Apache Software Foundation http://www.apache.org/
 
    <features>
       <feature id="org.eclipse.rcptt.platform"/>
-      <feature id="org.eclipse.rcptt.updates"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.rcptt.ecl.platform"/>
+      <feature id="org.eclipse.pde"/>
+      <feature id="org.eclipse.rcptt.ecl.ide"/>
+      <feature id="org.eclipse.rcptt.core"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.rcptt.launching"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.rcptt.ecl.platform.ui"/>
+      <feature id="org.eclipse.rcptt.watson"/>
+      <feature id="org.eclipse.rcptt.tesla"/>
+      <feature id="org.eclipse.emf.workspace"/>
       <feature id="org.eclipse.rcptt.ecl.server"/>
       <feature id="org.eclipse.rcptt.tesla.ecl"/>
-      <feature id="org.eclipse.rcptt.ecl.core"/>
-      <feature id="org.eclipse.rcptt.ecl.ide"/>
-      <feature id="org.eclipse.rcptt.ecl.platform"/>
-      <feature id="org.eclipse.rcptt.ecl.platform.ui"/>
-      <feature id="org.eclipse.rcptt.tesla"/>
-      <feature id="org.eclipse.rcptt.watson"/>
-      <feature id="org.eclipse.pde"/>
-      <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.eclipse.emf.workspace"/>
-      <feature id="org.eclipse.jdt"/>
-      <feature id="org.eclipse.platform"/>
-      <feature id="org.eclipse.emf.common"/>
-      <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.databinding"/>
-      <feature id="org.eclipse.emf.transaction"/>
-      <feature id="org.eclipse.emf.edit.ui"/>
-      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.rcptt.module.nebula"/>
       <feature id="org.eclipse.emf.validation"/>
-      <feature id="org.eclipse.cvs"/>
-      <feature id="org.eclipse.epp.mpc"/>
-      <feature id="org.eclipse.equinox.p2.discovery.feature"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.transaction"/>
+      <feature id="org.eclipse.rcptt.updates"/>
+      <feature id="org.eclipse.rcptt.ecl.core"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
       <feature id="org.eclipse.egit"/>
       <feature id="org.eclipse.jgit"/>
-      <feature id="org.eclipse.equinox.p2.core.feature"/>
-      <feature id="org.eclipse.equinox.p2.extras.feature"/>
-      <feature id="org.eclipse.equinox.p2.user.ui"/>
-      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
-      <feature id="org.eclipse.rcptt.module.nebula"/>
+      <feature id="org.eclipse.equinox.p2.discovery.feature"/>
    </features>
 
    <configurations>

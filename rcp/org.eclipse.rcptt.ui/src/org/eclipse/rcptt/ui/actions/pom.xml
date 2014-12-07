@@ -5,7 +5,7 @@
   <artifactId>q7tests</artifactId>
   <!-- Set group id based on application under test name -->
   <groupId>projectName</groupId>
-  <version>1.5.4-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <!-- Q7 Maven Plugin provides this packaging type -->
   <packaging>q7test</packaging>
 

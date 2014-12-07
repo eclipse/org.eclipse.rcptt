@@ -63,18 +63,18 @@ import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 import org.eclipse.osgi.service.resolver.ResolverError;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.target.ITargetDefinition;
+import org.eclipse.pde.core.target.ITargetLocation;
+import org.eclipse.pde.core.target.ITargetPlatformService;
+import org.eclipse.pde.core.target.TargetBundle;
+import org.eclipse.pde.core.target.TargetFeature;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.PDEExtensionRegistry;
 import org.eclipse.pde.internal.core.PDEState;
-import org.eclipse.pde.internal.core.ifeature.IFeatureModel;
 import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
-import org.eclipse.pde.internal.core.target.provisional.ITargetDefinition;
-import org.eclipse.pde.internal.core.target.provisional.ITargetPlatformService;
 import org.eclipse.pde.internal.launching.launcher.LaunchValidationOperation;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
@@ -92,6 +92,7 @@ import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.util.FileUtil;
 import org.osgi.framework.Version;
 
+import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
@@ -105,7 +106,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private static final String SC_BUNDLES_PATH = "configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"; //$NON-NLS-1$
 	private IStatus status = Status.OK_STATUS;
 	private final ITargetDefinition target;
-	private final ArrayList<IBundleContainer> extra = new ArrayList<IBundleContainer>();
+	private final ArrayList<ITargetLocation> extra = new ArrayList<ITargetLocation>();
 	private IPluginModelBase[] models;
 	private PDEExtensionRegistry registry;
 
@@ -160,7 +161,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public IStatus getBundleStatus() {
-		IBundleContainer[] containers = getBundleContainers();
+		ITargetLocation[] containers = getBundleContainers();
 		if (containers != null) {
 			// Check if the containers have any resolution problems
 			MultiStatus result = new MultiStatus(
@@ -169,7 +170,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					org.eclipse.pde.internal.core.target.Messages.TargetDefinition_5,
 					null);
 			for (int i = 0; i < containers.length; i++) {
-				IBundleContainer container = containers[i];
+				ITargetLocation container = containers[i];
 				IStatus containerStatus = container.getStatus();
 				if (containerStatus != null && !containerStatus.isOK()) {
 					result.add(containerStatus);
@@ -181,9 +182,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 			// Check if any of the included bundles have problems
 			// build status from bundle list
-			IResolvedBundle[] bundles = target.getBundles();
+			TargetBundle[] bundles = target.getBundles();
 			for (int i = 0; i < bundles.length; i++) {
-				IResolvedBundle bundle = bundles[i];
+				TargetBundle bundle = bundles[i];
 				if (!bundle.getStatus().isOK()) {
 					BundleInfo info = bundle.getBundleInfo();
 					URI uri = info.getLocation();
@@ -216,7 +217,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public IStatus getBundleWarningStatus() {
-		IBundleContainer[] containers = getBundleContainers();
+		ITargetLocation[] containers = getBundleContainers();
 		if (containers != null) {
 			// Check if the containers have any resolution problems
 			MultiStatus result = new MultiStatus(
@@ -227,9 +228,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 			// Check if any of the included bundles have problems
 			// build status from bundle list
-			IResolvedBundle[] bundles = target.getBundles();
+			TargetBundle[] bundles = target.getBundles();
 			for (int i = 0; i < bundles.length; i++) {
-				IResolvedBundle bundle = bundles[i];
+				TargetBundle bundle = bundles[i];
 				IStatus status = bundle.getStatus();
 				if (!status.isOK()) {
 					BundleInfo info = bundle.getBundleInfo();
@@ -281,9 +282,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private void initialize() {
 		extra.clear();
 		q7target = new Q7Target();
-		if (this.target != null && this.target.getBundleContainers() != null) {
-			IBundleContainer[] containers = this.target.getBundleContainers();
-			for (IBundleContainer iUBundleContainer : containers) {
+		if (this.target != null && this.target.getTargetLocations() != null) {
+			ITargetLocation[] containers = this.target.getTargetLocations();
+			for (ITargetLocation iUBundleContainer : containers) {
 				if (iUBundleContainer instanceof ProfileBundleContainer) {
 					getQ7Target().setInstall(iUBundleContainer);
 				} else if (iUBundleContainer instanceof DirectoryBundleContainer) {
@@ -349,14 +350,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public void update() {
-		List<IBundleContainer> newContainers = new ArrayList<IBundleContainer>();
-		newContainers.addAll(Arrays.asList(target.getBundleContainers()));
+		List<ITargetLocation> newContainers = new ArrayList<ITargetLocation>();
+		newContainers.addAll(Arrays.asList(target.getTargetLocations()));
 
 		if (extra != null) {
 			newContainers.addAll(extra);
 		}
-		target.setBundleContainers(newContainers
-				.toArray(new IBundleContainer[newContainers.size()]));
+		target.setTargetLocations(newContainers
+				.toArray(new ITargetLocation[newContainers.size()]));
 		models = null;
 		registry = null;
 	}
@@ -381,12 +382,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private List<IPluginModelBase> sumBundles() {
-		IResolvedBundle[] bundles = getTarget().getAllBundles();
+		TargetBundle[] bundles = getTarget().getAllBundles();
 		if (bundles == null) {
 			return new ArrayList<IPluginModelBase>();
 		}
 		List<URL> urls = new ArrayList<URL>();
-		for (IResolvedBundle bundle : bundles) {
+		for (TargetBundle bundle : bundles) {
 			try {
 				urls.add(new URL("file://"
 						+ bundle.getBundleInfo().getLocation().getPath()));
@@ -395,7 +396,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 		}
 
-		PDEState state = new PDEState(new URL[0], urls.toArray(new URL[urls
+		PDEState state = new PDEState(urls.toArray(new URL[urls
 				.size()]), true, true, new NullProgressMonitor());
 		return new ArrayList<IPluginModelBase>(Arrays.asList(state
 				.getTargetModels()));
@@ -466,6 +467,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 			if (b.length() > 0) {
 				return new Status(IStatus.ERROR, PLUGIN_ID, "Bundle validation failed: " + b.toString());
+			}
+			if (getWeavingHook() == null) {
+				return new Status(IStatus.ERROR, PLUGIN_ID, "No " + AJConstants.HOOK + " plugin");
 			}
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
@@ -642,27 +646,27 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
-	public IBundleContainer[] getBundleContainers() {
+	public ITargetLocation[] getBundleContainers() {
 		if (target == null) {
-			return new IBundleContainer[0];
+			return new ITargetLocation[0];
 		}
-		IBundleContainer[] bundleContainers = target.getBundleContainers();
+		ITargetLocation[] bundleContainers = target.getTargetLocations();
 		if (bundleContainers == null) {
-			return new IBundleContainer[0];
+			return new ITargetLocation[0];
 		}
 		return bundleContainers;
 	}
 
-	public IResolvedBundle[] getAllBundles() {
+	public TargetBundle[] getAllBundles() {
 		if (target == null) {
-			return new IResolvedBundle[0];
+			return new TargetBundle[0];
 		}
 		return target.getAllBundles();
 	}
 
-	public IFeatureModel[] getAllFeatures() {
+	public TargetFeature[] getAllFeatures() {
 		if (target == null) {
-			return new IFeatureModel[0];
+			return new TargetFeature[0];
 		}
 		return target.getAllFeatures();
 	}
@@ -682,12 +686,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		injectConfig = configuration;
 		// remove the "host" from bundles, it is handled in a separate, special
 		// way
-		for (int i = 0; i < extra.size(); ++i) {
-			if (extra.get(i) == getInstanceContainer()) {
-				extra.remove(i);
-				break;
-			}
-		}
+		Iterables.removeAll(extra, Arrays.asList(getInstanceContainer()));
 
 		EList<Entry> entries = configuration.getEntries();
 		monitor.beginTask("Apply injection plugins", 20 + entries.size() * 20);
@@ -703,7 +702,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			} else if (entry instanceof Directory) {
 				result = processDirectory(mon, (Directory) entry);
 			}
-			if (result.matches(IStatus.ERROR)) {
+			if (result.matches(IStatus.ERROR |IStatus.CANCEL)) {
 				return result;
 			}
 		}
@@ -730,8 +729,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				rv.add(new Status(IStatus.WARNING, PLUGIN_ID, e.getMessage(), e));
 			}
 		}
-		IBundleContainer container = PDEHelper.getTargetService()
-				.newDirectoryContainer(path);
+		ITargetLocation container = PDEHelper.getTargetService()
+				.newDirectoryLocation(path);
 		q7target.addExtra(container);
 		extra.add(container);
 		return Status.OK_STATUS;
@@ -749,6 +748,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private IStatus processUpdateSite(IProgressMonitor monitor, UpdateSite site) {
+
 		try {
 			URI uri = URI.create(site.getUri());
 			IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
@@ -790,8 +790,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 						.toArray(new IInstallableUnit[unitsToInstall.size()]);
 				URI[] uriArray = new URI[] { uri };
 
-				IBundleContainer container = PDEHelper.getTargetService()
-						.newIUContainer(unitsAsArray, uriArray,
+				ITargetLocation container = PDEHelper.getTargetService()
+						.newIULocation(unitsAsArray, uriArray,
 								IUBundleContainer.INCLUDE_ALL_ENVIRONMENTS);
 
 				extra.add(container);
@@ -1032,8 +1032,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 		}
 		if (!has32 && !has64) {
-			IResolvedBundle[] bundles = target.getAllBundles();
-			for (IResolvedBundle b : bundles) {
+			TargetBundle[] bundles = target.getAllBundles();
+			for (TargetBundle b : bundles) {
 				BundleInfo info = b.getBundleInfo();
 				String name = info.getSymbolicName();
 				if (name.startsWith("org.eclipse.equinox.launcher")) {
@@ -1122,7 +1122,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private Map<String, String> getRunlevelsFromSimpleConfigurator() {
 		Map<String, String> result = new HashMap<String, String>();
 		if (getTargetPlatformProfilePath() == null) {
@@ -1175,7 +1174,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return result;
 	}
 
-	public ArrayList<IBundleContainer> getExtra() {
+	public ArrayList<ITargetLocation> getExtra() {
 		return extra;
 	}
 
@@ -1197,11 +1196,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private Version getBundleVersion(String name) {
 		if (target != null && target.isResolved()) {
-			IBundleContainer[] containers = target.getBundleContainers();
-			for (IBundleContainer iBundleContainer : containers) {
-				IResolvedBundle[] bundles = iBundleContainer.getBundles();
+			ITargetLocation[] containers = target.getTargetLocations();
+			for (ITargetLocation iBundleContainer : containers) {
+				TargetBundle[] bundles = iBundleContainer.getBundles();
 				if (bundles != null) {
-					for (IResolvedBundle iResolvedBundle : bundles) {
+					for (TargetBundle iResolvedBundle : bundles) {
 						if (iResolvedBundle.getBundleInfo().getSymbolicName()
 								.equals(name)) {
 							return new Version(iResolvedBundle.getBundleInfo()
@@ -1254,9 +1253,16 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return getQ7Target().getInstall().container;
 	}
 
-	public void setBundleContainers(IBundleContainer[] containers) {
-		target.setBundleContainers(containers);
+	public void setBundleContainers(ITargetLocation[] containers) {
+		target.setTargetLocations(containers);
 		initialize();
 	}
 
+
+	@Override
+	public String toString() {
+		return (getName() == null ? "No name" : getName()) + " " + getTargetPlatformProfilePath();
+	}
+
+	
 }

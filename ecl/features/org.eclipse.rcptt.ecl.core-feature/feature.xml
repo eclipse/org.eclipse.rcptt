@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.ecl.core"
       label="ECL Core (Incubation)"
-      version="1.5.4.qualifier"
+      version="2.0.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -16,6 +16,11 @@
    <license url="%licenseURL">
       %license
    </license>
+
+   <requires>
+      <import feature="org.eclipse.emf.ecore" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common"/>
+   </requires>
 
    <plugin
          id="org.eclipse.rcptt.ecl.core"
@@ -93,7 +98,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.rcptt.ecl.dispatch"
          download-size="0"
@@ -102,4 +107,3 @@
          unpack="false"/>
 
 </feature>
-

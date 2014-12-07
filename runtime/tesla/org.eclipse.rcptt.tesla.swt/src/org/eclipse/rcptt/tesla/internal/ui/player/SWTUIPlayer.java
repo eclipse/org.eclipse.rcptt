@@ -145,7 +145,6 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.decorators.DecorationScheduler;
 import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.internal.registry.EditorRegistry;
-import org.eclipse.ui.presentations.IStackPresentationSite;
 
 @SuppressWarnings("restriction")
 public final class SWTUIPlayer {
@@ -2697,7 +2696,7 @@ public final class SWTUIPlayer {
 		exec("minimize", new Runnable() {
 			public void run() {
 				processTabFolderButton(widget,
-						IStackPresentationSite.STATE_MINIMIZED);
+						IWorkbenchPage.STATE_MINIMIZED);
 			}
 		});
 	}
@@ -2712,7 +2711,7 @@ public final class SWTUIPlayer {
 					((Shell) widget).forceActive();
 				}
 				processTabFolderButton(widget,
-						IStackPresentationSite.STATE_MAXIMIZED);
+						IWorkbenchPage.STATE_MAXIMIZED);
 			}
 		});
 	}
@@ -2722,7 +2721,7 @@ public final class SWTUIPlayer {
 		exec("restore", new Runnable() {
 			public void run() {
 				processTabFolderButton(widget,
-						IStackPresentationSite.STATE_RESTORED);
+						IWorkbenchPage.STATE_RESTORED);
 			}
 		});
 	}

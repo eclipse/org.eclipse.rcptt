@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.launching"
       label="RCPTT launching components (Incubation)"
-      version="1.5.4.qualifier"
+      version="2.0.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -16,6 +16,13 @@
    <license url="%licenseURL">
       %license
    </license>
+
+   <requires>
+      <import plugin="com.google.guava"/>
+      <import feature="org.eclipse.rcptt.ecl.platform" version="1.5.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.rcptt.updates" version="2.0.0" match="compatible"/>
+      <import feature="org.eclipse.rcptt.ecl.server" version="2.0.0" match="compatible"/>
+   </requires>
 
    <plugin
          id="org.eclipse.rcptt.launching"
@@ -82,6 +89,13 @@
 
    <plugin
          id="org.eclipse.rcptt.ecl.debug.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.google.gson"
          download-size="0"
          install-size="0"
          version="0.0.0"

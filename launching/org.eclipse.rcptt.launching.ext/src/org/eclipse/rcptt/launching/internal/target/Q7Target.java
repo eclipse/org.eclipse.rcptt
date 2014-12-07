@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.pde.core.target.ITargetLocation;
+import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
 import org.eclipse.rcptt.launching.ext.BundleStart;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 
@@ -63,7 +63,7 @@ public class Q7Target {
 		return result;
 	}
 
-	public void setInstall(IBundleContainer installation) {
+	public void setInstall(ITargetLocation installation) {
 		if (!(installation instanceof ProfileBundleContainer)) {
 			log(status(format(
 					"%s is set as an installation container, but ProfileBundleContainer expected",
@@ -76,23 +76,23 @@ public class Q7Target {
 	/**
 	 * Plugins directory, may be <code>null</code>
 	 */
-	public IBundleContainer pluginsDir;
+	public ITargetLocation pluginsDir;
 	/**
 	 * Q7 Runtime, Q7 runtime dependencies, other injections
 	 */
-	private List<IBundleContainer> extras = new ArrayList<IBundleContainer>();
+	private List<ITargetLocation> extras = new ArrayList<ITargetLocation>();
 
-	public void addExtra(IBundleContainer container) {
+	public void addExtra(ITargetLocation container) {
 		if (!contains(container)) {
 			extras.add(container);
 		}
 	}
 
-	public Iterable<IBundleContainer> getExtras() {
+	public Iterable<ITargetLocation> getExtras() {
 		return extras;
 	}
 
-	private boolean contains(IBundleContainer container) {
+	private boolean contains(ITargetLocation container) {
 		if (extras.contains(container)) {
 			return true;
 		}
@@ -127,7 +127,7 @@ public class Q7Target {
 
 		}
 
-		public IResolvedBundle[] getBundles() {
+		public TargetBundle[] getBundles() {
 			return container.getBundles();
 		}
 

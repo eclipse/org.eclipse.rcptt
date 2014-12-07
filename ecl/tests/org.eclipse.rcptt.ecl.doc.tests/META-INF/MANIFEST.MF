@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: ECL Documentation Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.doc.tests;singleton:=true
-Bundle-Version: 1.5.4.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.doc.tests.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.junit,

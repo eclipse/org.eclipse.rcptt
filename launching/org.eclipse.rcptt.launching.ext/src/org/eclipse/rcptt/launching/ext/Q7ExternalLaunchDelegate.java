@@ -62,11 +62,11 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.target.ITargetLocation;
+import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.core.PDEState;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IBundleContainer;
-import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
 import org.eclipse.pde.internal.launching.PDEMessages;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
@@ -205,7 +205,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		info.target = target;
-		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "target platform initialization for "
+		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "Target platform initialization failed  for "
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
 		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
@@ -638,7 +638,7 @@ public class Q7ExternalLaunchDelegate extends
 	}
 
 	public static class BundlesToLaunchCollector {
-		private void addInstallationBundle(IResolvedBundle bundle,
+		private void addInstallationBundle(TargetBundle bundle,
 				BundleStart hint) {
 			for (IPluginModelBase base : getModels(bundle)) {
 				addInstallationBundle(base, hint);
@@ -652,7 +652,7 @@ public class Q7ExternalLaunchDelegate extends
 			put(base, getStartInfo(base, hint));
 		}
 
-		private void addPluginBundle(IResolvedBundle bundle) {
+		private void addPluginBundle(TargetBundle bundle) {
 			for (IPluginModelBase base : getModels(bundle)) {
 				String id = id(base);
 
@@ -663,7 +663,7 @@ public class Q7ExternalLaunchDelegate extends
 			}
 		}
 
-		public void addExtraBundle(IResolvedBundle bundle) {
+		public void addExtraBundle(TargetBundle bundle) {
 			for (IPluginModelBase base : getModels(bundle)) {
 				put(base, getStartInfo(base, BundleStart.DEFAULT));
 			}
@@ -714,7 +714,7 @@ public class Q7ExternalLaunchDelegate extends
 		private final Map<String, IPluginModelBase> latestVersions = new HashMap<String, IPluginModelBase>();
 	}
 
-	public static boolean isQ7BundleContainer(IBundleContainer container) {
+	public static boolean isQ7BundleContainer(ITargetLocation container) {
 		if (!(container instanceof IUBundleContainer))
 			return false;
 		URI[] uris = ((IUBundleContainer) container).getRepositories();
@@ -732,7 +732,7 @@ public class Q7ExternalLaunchDelegate extends
 		if (target.getInstall() != null) {
 			Map<String, BundleStart> bundlesFromConfig = target.getInstall()
 					.configIniBundles();
-			for (IResolvedBundle bundle : target.getInstall().getBundles()) {
+			for (TargetBundle bundle : target.getInstall().getBundles()) {
 				BundleStart hint = firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
@@ -741,13 +741,13 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		if (target.pluginsDir != null) {
-			for (IResolvedBundle bundle : target.pluginsDir.getBundles()) {
+			for (TargetBundle bundle : target.pluginsDir.getBundles()) {
 				collector.addPluginBundle(bundle);
 			}
 		}
 
-		for (IBundleContainer extra : target.getExtras()) {
-			for (IResolvedBundle bundle : extra.getBundles()) {
+		for (ITargetLocation extra : target.getExtras()) {
+			for (TargetBundle bundle : extra.getBundles()) {
 				collector.addExtraBundle(bundle);
 			}
 		}
@@ -802,10 +802,10 @@ public class Q7ExternalLaunchDelegate extends
 		return (BundlesToLaunch) info.data.get(KEY_BUNDLES_TO_LAUNCH);
 	}
 
-	private static IPluginModelBase[] getModels(IResolvedBundle bundle) {
+	private static IPluginModelBase[] getModels(TargetBundle bundle) {
 		try {
 			return new PDEState(new URL[] { new URL(String.format("file://%s",
-					bundle.getBundleInfo().getLocation().getPath())) }, true,
+					bundle.getBundleInfo().getLocation().getPath())) }, true, true,
 					new NullProgressMonitor()).getTargetModels();
 		} catch (MalformedURLException e) {
 			log(status("Problem in resolving AUT bundle " + bundle, e));

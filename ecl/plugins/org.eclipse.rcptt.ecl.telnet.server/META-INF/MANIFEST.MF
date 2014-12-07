@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECL Telnet Server (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.telnet.server;singleton:=true
-Bundle-Version: 1.5.4.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.telnet.server.EclTelnetServerPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.ecl.shell

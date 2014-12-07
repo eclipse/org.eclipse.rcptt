@@ -36,6 +36,15 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rcptt.core.persistence.IPersistenceModel;
+import org.eclipse.rcptt.core.persistence.PersistenceManager;
+import org.eclipse.rcptt.ctx.resources.ImportUtils;
+import org.eclipse.rcptt.ctx.resources.WSUtils;
+import org.eclipse.rcptt.ui.utils.MinimizedFileSystemElement;
+import org.eclipse.rcptt.util.FileUtil;
+import org.eclipse.rcptt.workspace.WSContainer;
+import org.eclipse.rcptt.workspace.WSFile;
+import org.eclipse.rcptt.workspace.WSFolder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.FocusEvent;
@@ -62,20 +71,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FileSystemElement;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.dialogs.TypeFilteringDialog;
+import org.eclipse.ui.ide.dialogs.ResourceTreeAndListGroup;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.model.WorkbenchViewerComparator;
 import org.eclipse.ui.wizards.datatransfer.IImportStructureProvider;
-
-import org.eclipse.rcptt.core.persistence.IPersistenceModel;
-import org.eclipse.rcptt.core.persistence.PersistenceManager;
-import org.eclipse.rcptt.ctx.resources.ImportUtils;
-import org.eclipse.rcptt.ctx.resources.WSUtils;
-import org.eclipse.rcptt.ui.utils.MinimizedFileSystemElement;
-import org.eclipse.rcptt.util.FileUtil;
-import org.eclipse.rcptt.workspace.WSContainer;
-import org.eclipse.rcptt.workspace.WSFile;
-import org.eclipse.rcptt.workspace.WSFolder;
 
 @SuppressWarnings({ "rawtypes", "restriction" })
 public class WizardFileSystemResourceImportPage1 extends WizardPage implements
@@ -107,7 +107,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardPage implements
 	 * private modifier. Subclasses should not access this field directly.
 	 */
 
-	protected org.eclipse.ui.internal.ide.dialogs.ResourceTreeAndListGroup selectionGroup;
+	protected ResourceTreeAndListGroup selectionGroup;
 
 	// A boolean to indicate if the user has typed anything
 	private boolean entryChanged = false;
@@ -569,7 +569,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardPage implements
 	protected void createFileSelectionGroup(Composite parent) {
 
 		// Just create with a dummy root.
-		this.selectionGroup = new org.eclipse.ui.internal.ide.dialogs.ResourceTreeAndListGroup(
+		this.selectionGroup = new org.eclipse.ui.ide.dialogs.ResourceTreeAndListGroup(
 				parent,
 				new FileSystemElement("Dummy", null, true),//$NON-NLS-1$
 				getFolderProvider(), new WorkbenchLabelProvider(),

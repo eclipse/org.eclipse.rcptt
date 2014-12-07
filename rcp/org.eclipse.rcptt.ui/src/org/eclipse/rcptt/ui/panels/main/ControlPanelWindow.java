@@ -29,7 +29,7 @@ import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.SWTKeySupport;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -41,42 +41,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BlockTextSelection;
 import org.eclipse.jface.text.IBlockTextSelection;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.internal.preferences.PreferenceStoreAdapter;
-import org.eclipse.ui.internal.preferences.ThemeManagerAdapter;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultSimpleTabListener;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabFolder;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabItem;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultThemeListener;
-import org.eclipse.ui.internal.presentations.util.AbstractTabItem;
-import org.eclipse.ui.internal.presentations.util.PartInfo;
-import org.eclipse.ui.internal.presentations.util.TabFolderEvent;
-import org.eclipse.ui.internal.presentations.util.TabFolderListener;
-import org.eclipse.ui.internal.util.PrefUtil;
-
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -99,7 +63,7 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.ui.controls.ContextsTable;
 import org.eclipse.rcptt.ui.controls.DescriptionComposite;
-import org.eclipse.rcptt.ui.controls.IEmbeddedComposite;
+import org.eclipse.rcptt.ui.controls.EmbeddedTabFolder;
 import org.eclipse.rcptt.ui.controls.OptionsComposite;
 import org.eclipse.rcptt.ui.controls.ScriptComposite;
 import org.eclipse.rcptt.ui.controls.StatusBarComposite;
@@ -113,6 +77,30 @@ import org.eclipse.rcptt.ui.recording.RecordingContextManager;
 import org.eclipse.rcptt.ui.recording.RecordingSupport;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 
 @SuppressWarnings("restriction")
 public class ControlPanelWindow extends Dialog {
@@ -128,7 +116,7 @@ public class ControlPanelWindow extends Dialog {
 			ITestCase.class);
 
 	private AssertionPanelWindow assertionWindow;
-	private DefaultTabFolder tabFolder;
+	private EmbeddedTabFolder tabFolder;
 	private CoolBar coolBar;
 	private StatusBarComposite statusBar;
 	private ContextsTable contextsTable;
@@ -227,7 +215,7 @@ public class ControlPanelWindow extends Dialog {
 			}
 		};
 		dbc.bindValue(scriptPart.observeRecordingMode(), recordingMode);
-		script = initTabFromPart(scriptPart);
+		script = tabFolder.addTab(scriptPart);
 		try {
 			contextsTable = new ContextsTable(internalModel);
 		} catch (ModelException e) {
@@ -235,7 +223,7 @@ public class ControlPanelWindow extends Dialog {
 		}
 		contextsTable.setProject(getSavedProject());
 		dbc.bindValue(contextsTable.observeRecordingMode(), recordingMode);
-		initTabFromPart(contextsTable);
+		tabFolder.addTab(contextsTable);
 
 		try {
 			verificationsTable = new VerificationsTable(internalModel);
@@ -244,13 +232,13 @@ public class ControlPanelWindow extends Dialog {
 		}
 		verificationsTable.setProject(getSavedProject());
 		dbc.bindValue(verificationsTable.observeRecordingMode(), recordingMode);
-		initTabFromPart(verificationsTable);
+		tabFolder.addTab(verificationsTable);
 
 		DescriptionComposite descPart = new DescriptionComposite(scenario);
 		dbc.bindValue(descPart.observeRecordingMode(), recordingMode);
-		initTabFromPart(descPart);
+		tabFolder.addTab(descPart);
 		OptionsComposite optionsComposite = new OptionsComposite();
-		initTabFromPart(optionsComposite);
+		tabFolder.addTab(optionsComposite);
 		optionsComposite.setOptionChangeCallback(new Runnable() {
 			public void run() {
 				if (recordingSupport.getMode() == RecordingMode.Recording) {
@@ -293,7 +281,7 @@ public class ControlPanelWindow extends Dialog {
 		};
 		statusBar.createControl(parent);
 		// statusBar.getControl().addKeyListener(keyListener);
-		dbc.bindValue(SWTObservables.observeText(getShell()),
+		dbc.bindValue(WidgetProperties.text().observe(getShell()),
 				new ComputedValue() {
 					@Override
 					protected Object calculate() {
@@ -333,14 +321,16 @@ public class ControlPanelWindow extends Dialog {
 						case WaitingForAUTRestart:
 							text.append(Messages.ControlPanelWindow_StatusWaitingAUTToRestart);
 							break;
+						default:
+							break;
 						}
 						return text.toString();
 					}
 				});
 
-		tabFolder.getControl().setFocus();
+		tabFolder.setFocus();
 
-		return tabFolder.getControl();
+		return tabFolder;
 	}
 
 	private void displayExecutionFailure(final ExecutionStatus status) {
@@ -358,23 +348,15 @@ public class ControlPanelWindow extends Dialog {
 		}
 	}
 
-	private DefaultTabFolder createTabFolder(Composite parent) {
+	private CTabFolder createTabFolder(Composite parent) {
 		final Composite body = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().spacing(0, 0).margins(0, 0)
 				.applyTo(body);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(body);
 
-		int viewTabPosition = PlatformUI.getPreferenceStore().getInt(
-				IWorkbenchPreferenceConstants.VIEW_TAB_POSITION);
-		tabFolder = new DefaultTabFolder(body, viewTabPosition | SWT.BORDER,
-				false, false);
-		getShell().addListener(SWT.Resize, new Listener() {
-			public void handleEvent(Event event) {
-				tabFolder.layout(true);
-			}
-		});
+		tabFolder = new EmbeddedTabFolder(body, SWT.BORDER);
 		GridDataFactory.fillDefaults().grab(true, true)
-				.applyTo(tabFolder.getControl());
+				.applyTo(tabFolder);
 
 		IPreferenceStore store = PlatformUI.getPreferenceStore();
 		int minimumCharacters = store
@@ -386,21 +368,21 @@ public class ControlPanelWindow extends Dialog {
 		tabFolder.setUnselectedCloseVisible(false);
 		tabFolder.setUnselectedImageVisible(true);
 
-		ThemeManagerAdapter themePreferences = new ThemeManagerAdapter(
-				PlatformUI.getWorkbench().getThemeManager());
-
-		DefaultThemeListener themeListener = new DefaultThemeListener(
-				tabFolder, themePreferences);
-		themePreferences.addListener(themeListener);
-		PreferenceStoreAdapter apiPreferences = new PreferenceStoreAdapter(
-				PrefUtil.getAPIPreferenceStore());
-		new DefaultSimpleTabListener(apiPreferences,
-				IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS,
-				tabFolder);
+		// ThemeManagerAdapter themePreferences = new ThemeManagerAdapter(
+		// PlatformUI.getWorkbench().getThemeManager());
+		//
+		// DefaultThemeListener themeListener = new DefaultThemeListener(
+		// tabFolder, themePreferences);
+		// themePreferences.addListener(themeListener);
+		// PreferenceStoreAdapter apiPreferences = new PreferenceStoreAdapter(
+		// PrefUtil.getAPIPreferenceStore());
+		// new DefaultSimpleTabListener(apiPreferences,
+		// IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS,
+		// tabFolder);
 
 		final Color c1 = new Color(Display.getCurrent(), 232, 238, 244);
 		final Color c2 = new Color(Display.getCurrent(), 153, 180, 209);
-		CTabFolder control = (CTabFolder) tabFolder.getControl();
+		CTabFolder control = (CTabFolder) tabFolder;
 		control.setSelectionBackground(new Color[] { c1, c2 },
 				new int[] { 100 }, true);
 		control.addDisposeListener(new DisposeListener() {
@@ -410,18 +392,6 @@ public class ControlPanelWindow extends Dialog {
 			}
 		});
 
-		tabFolder.addListener(new TabFolderListener() {
-			@Override
-			public void handleEvent(TabFolderEvent e) {
-				switch (e.type) {
-				case TabFolderEvent.EVENT_TAB_SELECTED: {
-					handleTabSelection(e.tab);
-					tabFolder.layout(true);
-					break;
-				}
-				}
-			}
-		});
 		// tabFolder.getControl().addKeyListener(keyListener);
 		return tabFolder;
 	}
@@ -639,7 +609,7 @@ public class ControlPanelWindow extends Dialog {
 		}
 	};
 
-	private DefaultTabItem script;
+	private CTabItem script;
 
 	private ScriptComposite scriptPart;
 
@@ -868,43 +838,11 @@ public class ControlPanelWindow extends Dialog {
 		}
 	}
 
-	private void selectTab(AbstractTabItem tab) {
+	private void selectTab(CTabItem tab) {
 		tabFolder.setSelection(tab);
-		handleTabSelection(tab);
 	}
 
-	private void handleTabSelection(AbstractTabItem tab) {
-		IEmbeddedComposite part = (IEmbeddedComposite) tab.getData();
-		Control last = tabFolder.getToolbar();
-		if (last != null)
-			last.setVisible(false);
-		ToolBar toolBar = part.getToolBar();
-		tabFolder.setToolbar(null);
-		if (toolBar != null) {
-			toolBar.setVisible(true);
-			tabFolder.setToolbar(toolBar);
-		}
-		tabFolder.setContent(part.getControl());
-	}
 
-	private DefaultTabItem initTabFromPart(IEmbeddedComposite part) {
-		DefaultTabItem item = (DefaultTabItem) tabFolder.add(
-				tabFolder.getItemCount(), SWT.NONE);
-		item.setData(part);
-		PartInfo info = new PartInfo();
-		info.name = part.getName();
-		info.title = part.getName();
-		info.image = part.getImage();
-		info.dirty = false;
-		item.setInfo(info);
-		part.createControl(tabFolder.getContentParent());
-		part.createToolBar((Composite) tabFolder.getControl());
-		ToolBar toolBar = part.getToolBar();
-		if (toolBar != null) {
-			toolBar.setVisible(false);
-		}
-		return item;
-	}
 
 	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
@@ -1175,6 +1113,12 @@ public class ControlPanelWindow extends Dialog {
 							}
 						}
 					}
+					break;
+				case Connecting:
+				case ImageRecognition:
+				case Replaying:
+				case WaitingForAUTRestart:
+				default:
 					break;
 				}
 

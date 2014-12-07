@@ -16,14 +16,12 @@ import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
-import org.eclipse.pde.internal.core.ifeature.IFeature;
-import org.eclipse.pde.internal.core.ifeature.IFeatureModel;
-import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
+import org.eclipse.pde.core.target.TargetBundle;
+import org.eclipse.pde.core.target.TargetFeature;
 import org.eclipse.pde.internal.core.util.VersionUtil;
-import org.osgi.framework.Version;
-
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.osgi.framework.Version;
 
 @SuppressWarnings("restriction")
 public class AUTInformation {
@@ -66,10 +64,10 @@ public class AUTInformation {
 		// Obtain some information values based on target definition
 		if (target.getBundleContainers().length > 0) {
 			// Calculate target platform version
-			IResolvedBundle[] allBundles = target.getAllBundles();
+			TargetBundle[] allBundles = target.getAllBundles();
 			Map<String, BundleInfo > resolvedBundles = new HashMap<String, BundleInfo>();
 			
-			for (IResolvedBundle bundle : allBundles) {
+			for (TargetBundle bundle : allBundles) {
 				BundleInfo bundleInfo = bundle.getBundleInfo();
 				String bundleName = bundleInfo.getSymbolicName();
 				resolvedBundles.put(bundleName, bundleInfo);
@@ -108,41 +106,40 @@ public class AUTInformation {
 			
 			
 
-			IFeatureModel[] features = target.getAllFeatures();
-			for (IFeatureModel feature : features) {
-				IFeature iFeature = feature.getFeature();
-				if (iFeature.getId().equals("org.eclipse.platform")) {
-					values.put(PLATFORM, iFeature.getVersion());
+			TargetFeature[] features = target.getAllFeatures();
+			for (TargetFeature feature : features) {
+				if (feature.getId().equals("org.eclipse.platform")) {
+					values.put(PLATFORM, feature.getVersion());
 				}
-				if (iFeature.getId().equals(EMF_FEATURE)) {
-					values.put(EMF, iFeature.getVersion());
+				if (feature.getId().equals(EMF_FEATURE)) {
+					values.put(EMF, feature.getVersion());
 				}
-				if (iFeature.getId().equals(JDT_PLUGIN)) {
-					values.put(JDT, iFeature.getVersion());
+				if (feature.getId().equals(JDT_PLUGIN)) {
+					values.put(JDT, feature.getVersion());
 				}
-				if (iFeature.getId().equals(GEF_PLUGIN)) {
-					values.put(GEF, iFeature.getVersion());
+				if (feature.getId().equals(GEF_PLUGIN)) {
+					values.put(GEF, feature.getVersion());
 				}
-				if (iFeature.getId().equals(GMF_PLUGIN)) {
-					values.put(GMF, iFeature.getVersion());
+				if (feature.getId().equals(GMF_PLUGIN)) {
+					values.put(GMF, feature.getVersion());
 				}
-				if (iFeature.getId().equals(EMF_TRANSACTION_PLUGIN)) {
-					values.put(EMF_TRANSACTION, iFeature.getVersion());
+				if (feature.getId().equals(EMF_TRANSACTION_PLUGIN)) {
+					values.put(EMF_TRANSACTION, feature.getVersion());
 				}
-				if (iFeature.getId().equals(EMF_VALIDATION_PLUGIN)) {
-					values.put(EMF_VALIDATION, iFeature.getVersion());
+				if (feature.getId().equals(EMF_VALIDATION_PLUGIN)) {
+					values.put(EMF_VALIDATION, feature.getVersion());
 				}
-				if (iFeature.getId().equals(PDE_PLUGIN)) {
-					values.put(PDE, iFeature.getVersion());
+				if (feature.getId().equals(PDE_PLUGIN)) {
+					values.put(PDE, feature.getVersion());
 				}
-				if (iFeature.getId().equals(Q7_PLUGIN)) {
-					values.put("Q7", iFeature.getVersion());
+				if (feature.getId().equals(Q7_PLUGIN)) {
+					values.put("Q7", feature.getVersion());
 				}
-				if (iFeature.getId().equals(TESLA_PLUGIN)) {
-					values.put("Tesla", iFeature.getVersion());
+				if (feature.getId().equals(TESLA_PLUGIN)) {
+					values.put("Tesla", feature.getVersion());
 				}
-				if (iFeature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
-					values.put(EMF_WORKSPACE, iFeature.getVersion());
+				if (feature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
+					values.put(EMF_WORKSPACE, feature.getVersion());
 				}
 			}
 		}

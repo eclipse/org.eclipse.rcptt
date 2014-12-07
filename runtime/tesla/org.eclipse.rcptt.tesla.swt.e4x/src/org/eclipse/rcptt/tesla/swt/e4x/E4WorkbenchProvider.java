@@ -53,7 +53,6 @@ import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.internal.e4.compatibility.ActionBars;
 import org.eclipse.ui.internal.e4.compatibility.SelectionService;
 import org.eclipse.ui.internal.quickaccess.SearchField;
-import org.eclipse.ui.presentations.IStackPresentationSite;
 import org.osgi.framework.Version;
 
 import org.eclipse.rcptt.util.ReflectionUtil;
@@ -193,26 +192,26 @@ public class E4WorkbenchProvider implements IEclipseWorkbenchProvider {
 		}
 
 		if (maxItem == null
-				|| (minItem == null && buttonId == IStackPresentationSite.STATE_MINIMIZED))
+				|| (minItem == null && buttonId == IWorkbenchPage.STATE_MINIMIZED))
 			return;
 
 		Event e = new Event();
 		switch (buttonId) {
-		case IStackPresentationSite.STATE_MAXIMIZED:
+		case IWorkbenchPage.STATE_MAXIMIZED:
 			if (tabFolder.getMaximized())
 				return;
 			e.widget = maxItem;
 			e.type = SWT.Selection;
 			maxItem.notifyListeners(SWT.Selection, e);
 			break;
-		case IStackPresentationSite.STATE_MINIMIZED:
+		case IWorkbenchPage.STATE_MINIMIZED:
 			if (tabFolder.getMinimized())
 				return;
 			e.widget = minItem;
 			e.type = SWT.Selection;
 			minItem.notifyListeners(SWT.Selection, e);
 			break;
-		case IStackPresentationSite.STATE_RESTORED:
+		case IWorkbenchPage.STATE_RESTORED:
 			if (!tabFolder.getMinimized() && !tabFolder.getMaximized())
 				return;
 			e.widget = maxItem;

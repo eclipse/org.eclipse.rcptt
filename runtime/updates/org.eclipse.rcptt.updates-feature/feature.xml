@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.updates"
       label="RCPTT Runtime Sites (Incubation)"
-      version="1.5.4.qualifier"
+      version="2.0.0.qualifier"
       provider-name="%providerName">
 
    <description>

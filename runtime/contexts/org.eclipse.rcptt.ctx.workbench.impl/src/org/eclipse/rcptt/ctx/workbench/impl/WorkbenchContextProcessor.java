@@ -76,11 +76,7 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 	private UIRunnable<IStatus> closeModalDialogs = new UIRunnable<IStatus>() {
 		@Override
 		public IStatus run() throws CoreException {
-			try {
-				return Utils.closeDialogs();
-			} catch (Throwable e) {
-				return RcpttPlugin.createStatus(e);
-			}
+			return Utils.closeDialogs();
 		}
 	};
 	private Runnable closeModalDialogsAsync = new Runnable() {
@@ -131,7 +127,6 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 			if (ctx.isNoModalDialogs()) {
 				PlatformUI.getWorkbench().getDisplay()
 						.asyncExec(closeModalDialogsAsync);
-				UIRunnable.exec(closeModalDialogs);
 				PlatformUI.getWorkbench().getDisplay()
 						.asyncExec(closeModalDialogsAsync);
 				IStatus status = UIRunnable.exec(closeModalDialogs);

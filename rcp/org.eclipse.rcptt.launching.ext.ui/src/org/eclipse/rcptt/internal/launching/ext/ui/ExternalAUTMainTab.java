@@ -137,7 +137,11 @@ public class ExternalAUTMainTab extends MainTab {
 					IVMInstall install = getSelectedJVM();
 					OSArchitecture jvmArch = null;
 					if (install != null) {
-						jvmArch = JDTUtils.detect(install);
+						try {
+							jvmArch = JDTUtils.detect(install);
+						} catch (CoreException e) {
+							return e.getMessage();
+						}
 						if (jvmArch.equals(architecture)
 								|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
 										.canRun32bit(install))) {

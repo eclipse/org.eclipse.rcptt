@@ -4,13 +4,13 @@
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>watson</artifactId>
-  <version>1.5.4-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <parent>
     <artifactId>core</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.4-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <relativePath>../releng/core/pom.xml</relativePath>
   </parent>
 
