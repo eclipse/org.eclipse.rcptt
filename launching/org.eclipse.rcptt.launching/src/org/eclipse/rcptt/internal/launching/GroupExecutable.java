@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
@@ -102,10 +101,10 @@ public class GroupExecutable extends Executable {
 		return total;
 	}
 
-	public int getStatus() {
-		int status = 0;
+	public State getStatus() {
+		State status = State.PASSED;
 		for (IExecutable child : kids) {
-			status = Math.max(status, child.getStatus());
+			status = max(status, child.getStatus());
 		}
 		return status;
 	}

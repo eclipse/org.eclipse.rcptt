@@ -26,7 +26,7 @@ public abstract class Executable implements IExecutable {
 
 	public abstract void terminate(boolean user);
 
-	public abstract IStatus execute() throws InterruptedException;
+	protected abstract IStatus execute() throws InterruptedException;
 
 	private Executable parent;
 	private final ExecutionPhase phase;
@@ -75,5 +75,9 @@ public abstract class Executable implements IExecutable {
 
 	public ExecutionPhase getPhase() {
 		return phase;
+	}
+
+	public static State max(State a, State b) {
+		return a.ordinal() >= b.ordinal() ? a : b;
 	}
 }

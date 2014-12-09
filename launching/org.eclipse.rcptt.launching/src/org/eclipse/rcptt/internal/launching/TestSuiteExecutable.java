@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -79,10 +78,10 @@ public class TestSuiteExecutable extends Executable {
 		return false;
 	}
 
-	public int getStatus() {
-		int status = 0;
+	public State getStatus() {
+		State status = State.PASSED;
 		for (IExecutable child : kids) {
-			status = Math.max(status, child.getStatus());
+			status = max(status, child.getStatus());
 		}
 		return status;
 	}

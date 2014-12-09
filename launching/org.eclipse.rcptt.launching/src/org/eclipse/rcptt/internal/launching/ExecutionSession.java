@@ -126,11 +126,12 @@ public class ExecutionSession implements IExecutionSession {
 		int status = OK;
 		for (IExecutable executable : executables) {
 			switch (executable.getStatus()) {
-			case IExecutable.FAILED:
+			case FAILED:
 				return FAIL;
-			case IExecutable.PASSED:
+			case PASSED:
 				continue;
-			default:
+			case LAUNCHING:
+			case WAITING:
 				return UNKNOWN;
 			}
 		}

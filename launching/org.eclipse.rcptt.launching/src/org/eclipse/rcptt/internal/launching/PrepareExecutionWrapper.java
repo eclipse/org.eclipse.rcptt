@@ -229,9 +229,9 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.getChildren();
 	}
 
-	public int getStatus() {
+	public State getStatus() {
 		if (failed)
-			return FAILED;
+			return State.FAILED;
 		return executable.getStatus();
 	}
 
@@ -289,12 +289,12 @@ public class PrepareExecutionWrapper extends Executable {
 
 			Q7Info rootInfo = ReportHelper.getInfo(root);
 			switch (getStatus()) {
-			case IExecutable.WAITING:
-			case IExecutable.FAILED:
-			case IExecutable.LAUNCHING:
+			case WAITING:
+			case FAILED:
+			case LAUNCHING:
 				rootInfo.setResult(ResultStatus.FAIL);
 				break;
-			case IExecutable.PASSED:
+			case PASSED:
 				rootInfo.setResult(ResultStatus.PASS);
 				break;
 			}

@@ -11,21 +11,18 @@
 package org.eclipse.rcptt.launching;
 
 import org.eclipse.core.runtime.IStatus;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
 public interface IExecutable {
-
-	public static final int WAITING = 1;
-
-	public static final int LAUNCHING = 2;
-
-	public static final int PASSED = 0;
-
-	public static final int FAILED = 3;
-
+	enum State {
+		PASSED,
+		WAITING,
+		LAUNCHING,
+		FAILED
+	}
+	
 	public static final int TYPE_SCENARIO = 0;
 
 	public static final int TYPE_CONTEXT = 1;
@@ -50,7 +47,7 @@ public interface IExecutable {
 
 	public boolean isTerminated();
 
-	public int getStatus();
+	public State getStatus();
 
 	public int getType();
 

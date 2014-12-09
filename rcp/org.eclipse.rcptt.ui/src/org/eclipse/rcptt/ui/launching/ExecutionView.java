@@ -639,8 +639,8 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		int i = 0;
 		for (IExecutable executable : executables) {
 			i++;
-			if (IExecutable.PASSED == executable.getStatus()
-					|| IExecutable.FAILED == executable.getStatus()) {
+			if (IExecutable.State.PASSED == executable.getStatus()
+					|| IExecutable.State.FAILED == executable.getStatus()) {
 				if (activeSession != null) {
 					statisticPanel.update(activeSession.getTotalCount(),
 							activeSession.getFinishedCount(),
@@ -664,17 +664,17 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 			if (!scrollState && i == executables.length) {
 				viewer.setSelection(new StructuredSelection(executable), true);
 			}
-			if ((IExecutable.PASSED == executable.getStatus())) {
+			if ((IExecutable.State.PASSED == executable.getStatus())) {
 				// Collapse item if passed
 				viewer.collapseToLevel(executable, TreeViewer.ALL_LEVELS);
-			} else if (IExecutable.LAUNCHING == executable.getStatus()) {
+			} else if (IExecutable.State.LAUNCHING == executable.getStatus()) {
 				viewer.expandToLevel(executable, 1);
 			}
 			viewer.refresh(executable);
 
 			runSelectedAction.updateEnablement(activeSession);
 			runFailedAction.updateEnablement(activeSession);
-			if (IExecutable.FAILED == executable.getStatus()
+			if (IExecutable.State.FAILED == executable.getStatus()
 					&& stopOnFirstFailAction.getValue()) {
 				Q7Launcher.getInstance().stop();
 				viewer.refresh(executable);

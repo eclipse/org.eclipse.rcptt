@@ -99,7 +99,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 			ReportMaker.endReportNode(true, null, launch);
 			// }
 		} catch (CoreException e) {
-			updateStatus(FAILED);
+			updateStatus(State.FAILED);
 			RcpttPlugin.log(e);
 		}
 	}

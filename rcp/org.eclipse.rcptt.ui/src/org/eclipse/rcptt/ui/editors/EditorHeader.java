@@ -88,9 +88,6 @@ public abstract class EditorHeader {
 	private Button recordButton;
 	private Button replayButton;
 
-	private Label nameLabel;
-	private Label tagsLabel;
-
 	private IQ7NamedElement model;
 	private NamedElement element;
 	private Binding nameBinding;
@@ -195,7 +192,7 @@ public abstract class EditorHeader {
 	}
 
 	protected void createNameControl(Composite parent, FormToolkit toolkit) {
-		nameLabel = createLabel(parent, toolkit,
+		createLabel(parent, toolkit,
 				Messages.NamedElementEditorPage_NameLabel);
 		nameText = createWrappedText(parent, toolkit, element.getName(), 2);
 		nameText.setBackground(null);
@@ -269,7 +266,7 @@ public abstract class EditorHeader {
 	}
 
 	protected void createTagControl(Composite parent, FormToolkit toolkit) {
-		tagsLabel = createLabel(parent, toolkit,
+		createLabel(parent, toolkit,
 				Messages.NamedElementEditorPage_TagsLabel);
 		Composite tags = toolkit.createComposite(parent, SWT.NONE);
 		tags.setBackground(null);
@@ -460,7 +457,7 @@ public abstract class EditorHeader {
 
 			public void launchStatusChanged(IExecutable... executable) {
 				for (IExecutable e : executable) {
-					if (e.getStatus() == IExecutable.FAILED) {
+					if (e.getStatus() == IExecutable.State.FAILED) {
 						countAtom.set(0);
 					}
 				}

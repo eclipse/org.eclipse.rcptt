@@ -118,11 +118,7 @@ public class Q7LaunchManager {
 						if (!st.isOK()) {
 							if (executable.isTerminated()) {
 								// continue execution
-								try {
-									Thread.sleep(1);
-								} catch (final Exception exc) {
-									// collect interruptions
-								}
+								Thread.sleep(1);
 							}
 						}
 					} catch (final Exception e) {
@@ -131,12 +127,7 @@ public class Q7LaunchManager {
 							throw new InterruptedException();
 						}
 						if (executable.isTerminated()) {
-							// continue execution
-							try {
-								Thread.sleep(1);
-							} catch (final Exception exc) {
-								// collect interruptions
-							}
+							Thread.sleep(1);
 						} else {
 							// break execution
 							throw e;
@@ -699,7 +690,7 @@ public class Q7LaunchManager {
 
 	private void updateSessionCounters(final ExecutionSession session,
 			final IExecutable executable) {
-		if (IExecutable.FAILED == executable.getStatus()) {
+		if (IExecutable.State.FAILED == executable.getStatus()) {
 			session.oneFailed();
 		} else {
 			session.oneFinished();
@@ -769,9 +760,9 @@ public class Q7LaunchManager {
 		public void stop() {
 			final Executable executable = session.getActive();
 			if (executable != null) {
-				int status = executable.getStatus();
-				if (status != IExecutable.FAILED
-						&& status != IExecutable.PASSED) {
+				IExecutable.State status = executable.getStatus();
+				if (status != IExecutable.State.FAILED
+						&& status != IExecutable.State.PASSED) {
 					if (!executable.isTerminated()) {
 						executable.terminate(true);
 					}
@@ -779,9 +770,9 @@ public class Q7LaunchManager {
 			}
 			Executable[] executables = session.getExecutables();
 			for (Executable e : executables) {
-				int status = e.getStatus();
-				if (status != IExecutable.FAILED
-						&& status != IExecutable.PASSED) {
+				IExecutable.State status = e.getStatus();
+				if (status != IExecutable.State.FAILED
+						&& status != IExecutable.State.PASSED) {
 					if (!e.isTerminated()) {
 						e.terminate(true);
 					}

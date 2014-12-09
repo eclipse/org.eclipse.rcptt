@@ -29,7 +29,7 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 	public void launchStatusChanged(IExecutable... executables) {
 		cancel();
 		for (IExecutable executable : executables) {
-			if (executable.getStatus() == IExecutable.LAUNCHING
+			if (executable.getStatus() == IExecutable.State.LAUNCHING
 					&& !executable.isDebug()) {
 				timer = new Timer(true);
 				timer.schedule(new StopTask((Executable) executable),

@@ -29,7 +29,7 @@ public abstract class DataExecutable extends Executable {
 
 	private boolean terminated;
 
-	protected int status = WAITING;
+	protected State status = State.WAITING;
 	protected AutLaunch launch;
 	protected boolean terminateUser = false;
 	protected NullProgressMonitor executionMonitor;
@@ -89,13 +89,13 @@ public abstract class DataExecutable extends Executable {
 		return EMPTY;
 	}
 
-	public int getStatus() {
+	public State getStatus() {
 		return status;
 	}
 
 	@Override
 	public void startLaunching() {
-		status = LAUNCHING;
+		status = State.LAUNCHING;
 	}
 
 	@Override
@@ -111,8 +111,8 @@ public abstract class DataExecutable extends Executable {
 			resultStatus = Q7LaunchingPlugin.createStatus(e.getMessage(), e);
 		} finally {
 			time = System.currentTimeMillis() - startTime;
-			status = resultStatus.getSeverity() == IStatus.OK ? PASSED
-					: FAILED;
+			status = resultStatus.getSeverity() == IStatus.OK ? State.PASSED
+					: State.FAILED;
 		}
 		return resultStatus;
 	}
@@ -149,7 +149,7 @@ public abstract class DataExecutable extends Executable {
 		return element;
 	}
 
-	public void updateStatus(int newStatus) {
+	public void updateStatus(State newStatus) {
 		status = newStatus;
 	}
 
