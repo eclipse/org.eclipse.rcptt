@@ -70,8 +70,7 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 					public void run() {
 						try {
 							shell.setLayoutDeferred(true);
-							IContributionItem[] items = coolBarManager
-									.getItems();
+							IContributionItem[] items = coolBarManager.getItems();
 							coolBarManager.setItems(new IContributionItem[0]);
 							coolBarManager.setItems(items);
 						} finally {

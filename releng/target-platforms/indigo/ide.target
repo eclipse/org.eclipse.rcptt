@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="ide-indigo" sequenceNumber="73">
+<?pde version="3.8"?><target includeMode="feature" name="ide-indigo" sequenceNumber="74">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="epp.package.java" version="1.4.2.20120213-0813"/>
@@ -13,6 +13,7 @@
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.7.2.v20120130-0943"/>
 <unit id="org.eclipse.draw2d.sdk.feature.group" version="3.7.2.v20110927-2020-7A7I38yF6F19G9K5A7H558C58x42"/>
 <unit id="org.eclipse.emf.edit.ui.source.feature.group" version="2.7.0.v20120130-0943"/>
+<unit id="org.eclipse.pde.feature.group" version="3.7.2.v20120120-1420-7b7rFUOFEx2Xnqafnpz0E--0"/>
 <repository location="http://download.eclipse.org/releases/indigo/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
