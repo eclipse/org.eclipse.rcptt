@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.launching.remote;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.launching.remote.Q7RemoteLaunchingPlugin
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.launching;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.core;bundle-version="[2.0.0,3.0.0)",

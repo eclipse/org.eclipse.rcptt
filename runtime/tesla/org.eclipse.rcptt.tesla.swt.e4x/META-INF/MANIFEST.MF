@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.tesla.swt.e4x;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.swt.e4x.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="3.103.0",
  org.eclipse.core.runtime,
  org.eclipse.rcptt.tesla.swt;bundle-version="1.1.0",

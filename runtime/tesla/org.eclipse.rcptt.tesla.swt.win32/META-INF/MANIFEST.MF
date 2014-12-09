@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.tesla.swt.win32;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCPT Testing Tool Project
 Fragment-Host: org.eclipse.rcptt.tesla.swt;bundle-version="2.0.0"
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-PlatformFilter: (&(osgi.ws=win32) (osgi.arch=x86))
 Export-Package: org.eclipse.rcptt.tesla.swt

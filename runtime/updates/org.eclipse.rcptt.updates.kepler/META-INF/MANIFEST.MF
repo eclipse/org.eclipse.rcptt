@@ -4,3 +4,4 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.updates.kepler;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
