@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.watson"
       label="RCPTT Eclipse runtime information collectors (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="Eclipse RCP Testing Tool Project">
+      provider-name="Eclipse RCP Testing Tool Project"
+      plugin="org.eclipse.rcptt.watson.core">
 
    <description>
       Set of plugins for gathering information about Eclipse installation
@@ -37,4 +38,5 @@
          install-size="0"
          version="1.5.4.qualifier"
          unpack="false"/>
+
 </feature>

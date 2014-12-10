@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.tesla.runtime"
       label="RCPTT Runtime Eclipse 4.x (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.tesla.core.am">
 
    <description>
       Low-level framework for RCPTT Runtime

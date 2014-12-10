@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.updates"
       label="RCPTT Runtime Sites (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.updates.runtime">
 
    <description>
       Prepared update sites with RCPTT Runtime and RCPTT Runtime prerequsites for helios..luna

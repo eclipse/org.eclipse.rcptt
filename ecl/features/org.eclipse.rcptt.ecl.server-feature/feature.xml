@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature 
-	id="org.eclipse.rcptt.ecl.server" 
-	label="ECL Server (Incubation)"
-	version="1.5.4.qualifier"
-	provider-name="%providerName%">
-	
-	<description>
-		TCP Server for remote execution of ECL commands
-	</description>
-	
-	<copyright url="%copyrightURL">
-		%copyright
-	</copyright>
-	
-	<license url="%licenseURL">
-		%license
-	</license>
-	
-	<plugin id="org.eclipse.rcptt.ecl.server.tcp" unpack="false" version="0.0.0"/>
+<feature
+      id="org.eclipse.rcptt.ecl.server"
+      label="ECL Server (Incubation)"
+      version="1.5.4.qualifier"
+      provider-name="%providerName%"
+      plugin="org.eclipse.rcptt.ecl.server.tcp">
+
+   <description>
+      TCP Server for remote execution of ECL commands
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="org.eclipse.rcptt.ecl.server.tcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature 
-	id="org.eclipse.rcptt.ecl.server.ui" 
-	label="ECL Server UI (Incubation)"
-	version="1.5.4.qualifier"
-	provider-name="%providerName%">
-	
-	<description>
-      Automatic start-up of ECL TCP Server after workbench startup
-	</description>
-	
-	<copyright url="%copyrightURL">
-		%copyright
-	</copyright>
-	
-	<license url="%licenseURL">
-		%license
-	</license>
-	
-	<plugin id="org.eclipse.rcptt.ecl.server.tcp.ui" unpack="false" version="0.0.0"/>
+<feature
+      id="org.eclipse.rcptt.ecl.server.ui"
+      label="ECL Server UI (Incubation)"
+      version="1.5.4.qualifier"
+      provider-name="%providerName%"
+      plugin="org.eclipse.rcptt.ecl.server.tcp.ui">
 
-    <requires>
+   <description>
+      Automatic start-up of ECL TCP Server after workbench startup
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
       <import feature="org.eclipse.rcptt.ecl.server" version="1.5.4.qualifier"/>
-    </requires>
-    
+   </requires>
+
+   <plugin
+         id="org.eclipse.rcptt.ecl.server.tcp.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

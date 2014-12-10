@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.ecl.core"
       label="ECL Core (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.ecl.core">
 
    <description>
       Eclipse Command Language
@@ -93,7 +94,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.rcptt.ecl.dispatch"
          download-size="0"
@@ -102,4 +103,3 @@
          unpack="false"/>
 
 </feature>
-

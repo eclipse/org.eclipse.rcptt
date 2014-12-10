@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.runtime"
       label="RCPTT Runtime Core (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.runtime.ui">
 
    <description>
       Runtime bundles for RCPTT record/replay functionality
@@ -76,12 +77,13 @@
          install-size="0"
          version="1.5.4.qualifier"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.rcptt.core.launching"
          download-size="0"
          install-size="0"
          version="1.5.4.qualifier"
-         unpack="false"/>         
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.debug"
@@ -313,5 +315,5 @@
          install-size="0"
          version="1.5.4.qualifier"
          unpack="false"/>
-   
+
 </feature>

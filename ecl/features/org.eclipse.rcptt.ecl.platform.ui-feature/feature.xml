@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.ecl.platform.ui"
       label="ECL Platform UI (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.ecl.platform.ui">
 
    <description>
       ECL Commands for Eclipse Platform UI
