@@ -15,6 +15,7 @@
     <aspectj_version>1.4</aspectj_version>
     <aspectj_dep>1.7.0</aspectj_dep>
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>    
+    <signExcludeInnerJars>true</signExcludeInnerJars>
   </properties>
 
   <build>
@@ -153,6 +154,9 @@
                 </goals>
               </execution>
             </executions>
+	    <configuration>
+	      <excludeInnerJars>${signExcludeInnerJars}</excludeInnerJars>
+	    </configuration>
           </plugin>
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
