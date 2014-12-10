@@ -4,7 +4,7 @@
       label="ECL IDE support (Incubation)"
       version="1.5.4.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.rcptt.ecl.core">
+      plugin="org.eclipse.rcptt.ecl.debug.ui">
 
    <description>
       ECL IDE
