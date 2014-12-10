@@ -20,6 +20,7 @@
 		<module>org.eclipse.rcptt.tesla.recording.core.ecl</module>
 		<!-- Q7 core modules -->
 		<module>org.eclipse.rcptt.core</module>
+		<module>org.eclipse.rcptt.core.search</module>
 		<module>org.eclipse.rcptt.core.builder</module>
 		<module>org.eclipse.rcptt.core.scenario</module>
 		<module>org.eclipse.rcptt.core.launching</module>

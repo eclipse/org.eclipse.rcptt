@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.tags;
 
-import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.MultiList;
-import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,7 +17,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EObjectObservableList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -29,18 +24,19 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -48,7 +44,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.UIJob;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.tags.TagsPackage;
@@ -60,14 +55,14 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.actions.RenameAction;
 import org.eclipse.rcptt.ui.actions.edit.DeleteAction;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
-import org.eclipse.rcptt.ui.utils.ModelUtils;
 
 public class TagsView extends ViewPart {
 
-	private IObservableList tags;
 	private EContentAdapter tagsLabelListener;
 
+	private TagsFilterComposite tagsComposite;
 	private TreeViewer tagsViewer;
+	private TableViewer listViewer;
 
 	private RenameAction renameAction;
 	private DeleteAction deleteAction;
@@ -76,94 +71,45 @@ public class TagsView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		final Composite panel = new Composite(parent, SWT.NONE);
-		panel.setLayout(new FillLayout());
+		// Creates controls
+		Composite panel = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(3).equalWidth(true).margins(0, 0).applyTo(panel);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(panel);
 
-		tagsViewer = new TreeViewer(panel);
+		tagsComposite = new TagsFilterComposite(panel, true);
+		tagsViewer = tagsComposite.getTagsViewer();
+		listViewer = tagsComposite.getListViewer();
+		
+		// Adds listeners
 		tagsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
 			public void selectionChanged(SelectionChangedEvent event) {
+				listViewer.setSelection(null);
 				updateSelection((IStructuredSelection) event.getSelection());
 			}
 		});
-
-		ObservableListTreeContentProvider contentProvider = new ObservableListTreeContentProvider(
-				new IObservableFactory() {
-
-					public IObservable createObservable(Object target) {
-						if (target instanceof IObservable) {
-							return (IObservable) target;
-						} else if (target instanceof Tag) {
-							final Tag tag = (Tag) target;
-							final IObservableList tags = new EObjectObservableList(
-									tag, TagsPackage.Literals.TAG__TAGS);
-							final IObservableList refs = new EObjectObservableList(
-									tag, TagsPackage.Literals.TAG__REFS);
-							return new MultiList(new IObservableList[] { tags,
-									refs });
-						} else {
-							return null;
-						}
-					}
-				}, null);
-		tagsViewer.setContentProvider(contentProvider);
-
-		createActions();
-
-		tagsViewer.setLabelProvider(new LabelProvider() {
-
+		tagsViewer.getControl().addFocusListener(new FocusListener() {
 			@Override
-			public Image getImage(Object element) {
-				if (element instanceof Tag) {
-					return Images.getImage(Images.TAG);
-				} else if (element instanceof IQ7NamedElement) {
-					return ModelUtils.getImage((IQ7NamedElement) element);
+			public void focusGained(FocusEvent e) {
+				IStructuredSelection selection = (IStructuredSelection) tagsViewer.getSelection();
+				if (!selection.isEmpty()) {
+					updateSelection(selection);
 				}
-				return null;
 			}
 
 			@Override
-			public String getText(Object element) {
-				if (element instanceof Tag) {
-					final Tag tag = (Tag) element;
-					final String value = tag.getValue().trim();
-					if (value.length() == 0) {
-						return Messages.bind(
-								Messages.TagsView_UntaggedLabelFormat,
-								TagsUtil.getDistinctTagRefsCount(tag));
-					} else {
-						return Messages.bind(Messages.TagsView_TagLabelFormat,
-								value, TagsUtil.getDistinctTagRefsCount(tag));
-					}
-				} else if (element instanceof IQ7NamedElement) {
-					return ModelUtils.getText((IQ7NamedElement) element);
-				} else {
-					return element != null ? element.toString() : "null"; //$NON-NLS-1$
-				}
+			public void focusLost(FocusEvent e) {
 			}
 		});
-
-		MenuManager menuManager = new MenuManager();
-		fillMenu(menuManager);
-		tagsViewer.getControl().setMenu(
-				menuManager.createContextMenu(tagsViewer.getControl()));
-
-		fillToolbar(getViewSite().getActionBars().getToolBarManager());
-
-		tagsViewer.addDoubleClickListener(new IDoubleClickListener() {
-
+		listViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				final IStructuredSelection iss = (IStructuredSelection) tagsViewer
-						.getSelection();
+				final IStructuredSelection iss = (IStructuredSelection) listViewer.getSelection();
 				final Object element = iss.getFirstElement();
 				if (element instanceof IQ7NamedElement) {
 					IQ7NamedElement q7Element = (IQ7NamedElement) element;
-					final IWorkbenchPage activePage = PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage();
+					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					if (activePage != null) {
 						try {
-							IDE.openEditor(activePage,
-									(IFile) q7Element.getResource());
+							IDE.openEditor(activePage, (IFile) q7Element.getResource());
 						} catch (PartInitException e) {
 							Q7UIPlugin.log(e);
 						}
@@ -171,12 +117,43 @@ public class TagsView extends ViewPart {
 				}
 			}
 		});
-		Job setInputJob = new UIJob(tagsViewer.getControl().getDisplay(),
-				"Initialize tags view") {
+		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateSelection((IStructuredSelection) event.getSelection());
+			}
+		});
+		listViewer.getControl().addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				IStructuredSelection selection = (IStructuredSelection) listViewer.getSelection();
+				if (!selection.isEmpty()) {
+					updateSelection(selection);
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+		});
+		
+		// Adds actions and menus
+		createActions();
+		
+		MenuManager menuTagsManager = new MenuManager();
+		fillTagsMenu(menuTagsManager);
+		tagsViewer.getControl().setMenu(menuTagsManager.createContextMenu(tagsViewer.getControl()));
+		
+		MenuManager menuListManager = new MenuManager();
+		fillListMenu(menuListManager);
+		listViewer.getControl().setMenu(menuListManager.createContextMenu(listViewer.getControl()));
+		
+		fillToolbar(getViewSite().getActionBars().getToolBarManager());
+		
+		// Initializes tags
+		Job setInputJob = new UIJob(tagsViewer.getControl().getDisplay(), "Initialize tags view") {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
-				final TagsRegistry tagsRegistry = Q7UIPlugin.getDefault()
-						.getTags();
+				final TagsRegistry tagsRegistry = Q7UIPlugin.getDefault().getTags();
 				tagsLabelListener = new EContentAdapter() {
 					@Override
 					public void notifyChanged(final Notification notification) {
@@ -187,13 +164,13 @@ public class TagsView extends ViewPart {
 							Q7UIPlugin.asyncExec(new Runnable() {
 								public void run() {
 									if (!tagsViewer.getControl().isDisposed()) {
-										Object parent = notification
-												.getNotifier();
+										Object parent = notification.getNotifier();
 										while (parent instanceof Tag) {
 											tagsViewer.refresh(parent, true);
-											parent = TagsUtil
-													.getParentTag((Tag) parent);
+											parent = TagsUtil.getParentTag((Tag) parent);
 										}
+										
+										tagsComposite.updateList();
 									}
 								}
 							});
@@ -204,16 +181,15 @@ public class TagsView extends ViewPart {
 					tagsRegistry.eAdapters().add(tagsLabelListener);
 				}
 
-				tagsViewer.setSorter(new ViewerSorter());
-				tags = EMFObservables.observeList(tagsRegistry,
-						TagsPackage.Literals.TAGS_REGISTRY__TAGS);
-				tagsViewer.setInput(tags);
+				tagsComposite.tags = EMFObservables.observeList(tagsRegistry, TagsPackage.Literals.TAGS_REGISTRY__TAGS);
+				tagsViewer.setInput(tagsComposite.tags);
+				updateSelection(StructuredSelection.EMPTY);
 				return Status.OK_STATUS;
 			}
 		};
 		setInputJob.schedule();
 	}
-
+	
 	private void updateSelection(IStructuredSelection selection) {
 		if (renameAction != null)
 			renameAction.selectionChanged(selection);
@@ -222,30 +198,38 @@ public class TagsView extends ViewPart {
 	}
 
 	private void createActions() {
-		replayAction = new Action(Messages.TagsView_ReplayActionName,
-				Images.getImageDescriptor(Images.PLAY)) {
+		replayAction = new Action(Messages.TagsView_ReplayActionName, Images.getImageDescriptor(Images.PLAY)) {
 			@Override
 			public void run() {
-				LaunchUtils.launchContext(
-						LaunchUtils.getContext(tagsViewer.getSelection()),
-						"run"); //$NON-NLS-1$
+				// Try to get selection by focus, if empty then another
+				IStructuredSelection selection;
+				if (tagsViewer.getControl().isFocusControl()) {
+					selection = (IStructuredSelection) tagsViewer.getSelection();
+					if (selection.isEmpty())
+						selection = (IStructuredSelection) listViewer.getSelection();
+				} else {
+					selection = (IStructuredSelection) listViewer.getSelection();
+					if (selection.isEmpty())
+						selection = (IStructuredSelection) tagsViewer.getSelection();
+				}
+				
+				LaunchUtils.launchContext(LaunchUtils.getContext(selection), "run"); //$NON-NLS-1$
 			}
 		};
 		renameAction = new RenameAction(getSite(), tagsViewer.getTree());
 		deleteAction = new DeleteAction(getSite());
 
-		refreshAction = new Action(Messages.TagsView_RefreshActionName,
-				Images.getImageDescriptor(Images.REFRESH)) {
+		refreshAction = new Action(Messages.TagsView_RefreshActionName, Images.getImageDescriptor(Images.REFRESH)) {
 			@Override
 			public void run() {
-				final Object element = ((IStructuredSelection) tagsViewer
-						.getSelection()).getFirstElement();
+				final Object element = ((IStructuredSelection) tagsViewer.getSelection()).getFirstElement();
 				tagsViewer.refresh(element, true);
+				tagsComposite.updateList();
 			}
 		};
 	}
 
-	private void fillMenu(IMenuManager manager) {
+	private void fillTagsMenu(IMenuManager manager) {
 		manager.add(replayAction);
 		manager.add(new Separator());
 		manager.add(renameAction);
@@ -254,6 +238,10 @@ public class TagsView extends ViewPart {
 		manager.add(refreshAction);
 	}
 
+	private void fillListMenu(IMenuManager manager) {
+		manager.add(replayAction);
+	}
+	
 	private void fillToolbar(IToolBarManager manager) {
 		manager.add(replayAction);
 		manager.add(deleteAction);
@@ -262,7 +250,11 @@ public class TagsView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		tagsViewer.getControl().setFocus();
+		if (listViewer.getSelection().isEmpty()) {
+			tagsViewer.getControl().setFocus();
+		} else {
+			listViewer.getControl().setFocus();
+		}
 	}
 
 	@Override
@@ -272,8 +264,8 @@ public class TagsView extends ViewPart {
 		synchronized (registry) {
 			registry.eAdapters().remove(tagsLabelListener);
 		}
-		if (tags != null) {
-			tags.dispose();
+		if (tagsComposite != null && tagsComposite.tags != null) {
+			tagsComposite.tags.dispose();
 		}
 	}
 }

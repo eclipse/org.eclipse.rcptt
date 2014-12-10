@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -50,7 +49,7 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.commons.TestSuiteTableViewer;
 import org.eclipse.rcptt.ui.controls.SectionWithComposite;
 import org.eclipse.rcptt.ui.controls.TestSuiteButtonsPanel;
-import org.eclipse.rcptt.ui.tags.SelectTagDialog;
+import org.eclipse.rcptt.ui.tags.SelectTagsFilterDialog;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 
 public class TestSuiteEditorPage extends NamedElementEditorPage {
@@ -288,12 +287,13 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 	private void addTagged() {
 		try {
 			needCheckReferences = false;
-			SelectTagDialog tags = new SelectTagDialog(
-					WorkbenchUtils.getShell(), new ArrayList<String>());
-			int result = tags.open();
-			if (result == SelectTagDialog.OK) {
-				testCasesviewer.addTags(tags.getResult());
+			SelectTagsFilterDialog dialog = new SelectTagsFilterDialog(WorkbenchUtils.getShell());
+			int result = dialog.open();
+			if (result == SelectTagsFilterDialog.OK) {
+				testCasesviewer.addTags(dialog.getSelectedTags());
+				testCasesviewer.addItems(dialog.getSelectedItems());
 			}
+			
 		} finally {
 			needCheckReferences = true;
 		}

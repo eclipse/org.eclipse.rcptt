@@ -28,6 +28,13 @@ Not used in runtime.
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.rcptt.core.search"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.rcptt.core.builder"
          download-size="0"
          install-size="0"
