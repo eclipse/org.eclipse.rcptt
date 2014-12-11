@@ -743,15 +743,18 @@ public class Q7LaunchManager {
 				protected IStatus run(IProgressMonitor monitor) {
 					thread.start();
 					monitor.beginTask(getName(), -1);
-					while (!complete) {
-						if (monitor.isCanceled()) {
-							stop();
-						}
-						try {
+					try {
+						while (!complete) {
+							if (monitor.isCanceled()) {
+								return Status.CANCEL_STATUS;
+							}
 							Thread.sleep(100);
-						} catch (InterruptedException e) {
+							monitor.worked(-1);
 						}
-						monitor.worked(-1);
+					} catch (InterruptedException e) {
+						return Status.CANCEL_STATUS;
+					} finally {
+						stop();
 					}
 					return Status.OK_STATUS;
 				}

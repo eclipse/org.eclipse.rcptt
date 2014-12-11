@@ -538,6 +538,12 @@ public class TestSuiteTableViewer extends TableViewer implements IContentNamer,
 	public void addItem(IQ7NamedElement q7NamedElement) {
 		addItem(q7NamedElement, -1);
 	}
+	
+	public void addItems(List<IQ7NamedElement> items) {
+		for (IQ7NamedElement item : items) {
+			addItem(item);
+		}
+	}
 
 	public void addTags(List<Tag> tags) {
 		for (Tag tag : tags) {

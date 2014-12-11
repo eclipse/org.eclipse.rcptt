@@ -56,7 +56,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.106.100",
  org.eclipse.rcptt.core.ecl.formatter,
  org.eclipse.rcptt.core.ecl.highlighter,
  org.eclipse.rcptt.core.launching,
- org.eclipse.debug.core
+ org.eclipse.debug.core,
+ org.eclipse.rcptt.core.search;bundle-version="[2.0.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.ui,

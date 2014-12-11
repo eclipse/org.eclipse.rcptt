@@ -1,0 +1,1 @@
+java -cp antlr-3.5.2.jar org.antlr.Tool Tags.g

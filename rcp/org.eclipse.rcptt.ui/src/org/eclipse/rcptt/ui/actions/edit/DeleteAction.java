@@ -27,7 +27,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.DeleteResourceAction;
-
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.Q7ProjectMetadata;
@@ -133,12 +132,14 @@ public class DeleteAction extends DeleteResourceAction {
 	}
 
 	private boolean containsOnlyTags(IStructuredSelection selection) {
+		int count = 0;
 		for (Object o : selection.toArray()) {
 			if (!(o instanceof Tag)) {
 				return false;
 			}
+			count++;
 		}
-		return true;
+		return count == 1;
 	}
 
 	private List<Tag> getSelectedTags() {

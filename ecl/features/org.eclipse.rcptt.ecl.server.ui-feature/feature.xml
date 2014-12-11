@@ -7,17 +7,15 @@
 	
 	<description>
       Automatic start-up of ECL TCP Server after workbench startup
-	</description>
-	
-	<copyright url="%copyrightURL">
-		%copyright
-	</copyright>
-	
-	<license url="%licenseURL">
-		%license
-	</license>
-	
-	<plugin id="org.eclipse.rcptt.ecl.server.tcp.ui" unpack="false" version="0.0.0"/>
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
 
     <requires>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.0.0.qualifier"/>

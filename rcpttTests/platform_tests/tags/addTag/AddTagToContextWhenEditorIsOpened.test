@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _26DoAYUyEeG5as36MMnjSw,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: AddTagToContextWhenEditorIsOpened
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1830
 Id: _fS43gIU0EeG5as36MMnjSw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.201412101538
+Save-Time: 12/11/14 2:47 PM
 Tags: Tags, Context
 Testcase-Type: ecl
 
@@ -51,9 +50,10 @@ get-editor context | get-editbox -after [get-label "Tags:"] | get-property text
     | equals "Tag1,Tag2,     Tag3/t31/t32/t33, Tag3" | verify-true
 get-view Tags | click
 with [get-view Tags | get-tree] {
-    get-item "Tag3 \\(4\\)" | get-property childCount | equals 3 | verify-true
-    get-item "Tag3 \\(4\\)/context" | get-property caption | equals context | verify-true
+    select "Tag3 \\(4\\)" 
+    
 }
+get-view Tags | get-table | get-item "context" 
 get-editor context | close
 get-view Tags | click
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

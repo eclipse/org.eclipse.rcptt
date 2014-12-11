@@ -76,6 +76,7 @@
          install-size="0"
          version="2.0.0.qualifier"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.rcptt.core.launching"
          download-size="0"
@@ -313,5 +314,5 @@
          install-size="0"
          version="2.0.0.qualifier"
          unpack="false"/>
-   
+
 </feature>

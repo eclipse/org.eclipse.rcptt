@@ -2,5 +2,17 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.eclipse.rcptt.ecl.doc" name="Ecl Docs" schema="schema/org.eclipse.rcptt.ecl.doc.exsd"/>
+   <extension
+         id="org.eclipse.rcptt.ecl.doc.generator"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.rcptt.ecl.doc.GenerateDocApp">
+         </run>
+      </application>
+   </extension>
 
 </plugin>
