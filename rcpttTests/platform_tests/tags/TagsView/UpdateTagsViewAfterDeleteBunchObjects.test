@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_UQDtMKPdEeCEMaDRGDaqpQ
 Element-Name: UpdateTagsViewAfterDeleteBunchObjects
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-964
 Id: _2qEvoMlTEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.201412101538
+Save-Time: 12/11/14 3:16 PM
 Tags: TagsView, Delete
 Testcase-Type: ecl
 
@@ -47,21 +46,18 @@ with [get-view "Test Explorer" | get-tree] {
     verify-error { get-item "Q7Project/test1" }
     verify-error { get-item "Q7Project/test2" }
 }
-with [get-view Tags | get-tree] {
-    get-item "t1 \\(1\\)" | get-property caption | equals "t1 (1)" | verify-true
-    get-item "t1 \\(1\\)" | get-property childCount | equals 1 | verify-true
-    get-item "t1 \\(1\\)/context" | get-property caption | equals context | verify-true
-    get-item "t2 \\(1\\)" | get-property caption | equals "t2 (1)" | verify-true
-    get-item "t2 \\(1\\)" | get-property childCount | equals 1 | verify-true
-    get-item "t2 \\(1\\)/context" | get-property caption | equals context | verify-true
-    get-item "t3 \\(1\\)" | get-property caption | equals "t3 (1)" | verify-true
-    get-item "t3 \\(1\\)" | get-property childCount | equals 1 | verify-true
+with [get-view Tags] {
+    get-tree | select "t1 \\(1\\)"
+    get-table | get-item "context"
+    get-tree | select "t2 \\(1\\)" 
+    get-table | get-item "context"
+    get-tree | select "t3 \\(1\\)"
+    get-table | get-property itemCount | equals 0 | verify-true 
 }
-with [get-view Tags | get-tree] {
-    get-item "t3 \\(1\\)/t31 \\(1\\)/t32 \\(1\\)/t33 \\(1\\)" | get-property caption | equals "t33 (1)" | verify-true
-    get-item "t3 \\(1\\)/t31 \\(1\\)/t32 \\(1\\)/t33 \\(1\\)" | get-property childCount | equals 1 | verify-true
-    get-item "t3 \\(1\\)/t31 \\(1\\)/t32 \\(1\\)/t33 \\(1\\)/context" | get-property caption | equals context 
-        | verify-true
+with [get-view Tags] {
+    get-tree | select "t3 \\(1\\)/t31 \\(1\\)/t32 \\(1\\)/t33 \\(1\\)" 
+    get-table | get-item "context"
+        
 }
 get-view "Test Explorer" | get-tree | get-item "Q7Project/context" | get-property caption | equals context | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

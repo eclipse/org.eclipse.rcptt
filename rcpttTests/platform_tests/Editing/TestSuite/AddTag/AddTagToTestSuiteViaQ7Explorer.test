@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_32KiIEsiEeGa1LZu9UJdCw
 Element-Name: AddTagToTestSuiteViaQ7Explorer
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1830
 Id: _eB3TQHTHEeGlmsBsPCBi2g
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.4.201412101538
+Save-Time: 12/11/14 2:57 PM
 Tags: TestSuite, Tags
 Testcase-Type: ecl
 
@@ -47,9 +46,14 @@ get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | double-clic
 get-editor TestSuite | get-editbox -after [get-label "Tags:"] | get-property text | equals "tag_suite" | verify-true
 with [get-view Tags | get-tree] {
     get-property itemCount | equals 1 | verify-true
-    get-item "tag_suite \\(1\\)" | get-property childCount | equals 1 | verify-true
-    get-item "tag_suite \\(1\\)/TestSuite" | get-property caption | equals TestSuite | verify-true
+    select "tag_suite \\(1\\)"
+    
 }
+with [get-view Tags | get-table] {    
+	get-item "TestSuite" 
+    
+ }
+
 get-view "Test Explorer" | get-tree | select "MyProject/TestSuite" | get-menu "RCPTT/Add Tag..." | click
 with [get-window "Select Tag(s) to Add"] {
     get-editbox | set-text "new_suite"
