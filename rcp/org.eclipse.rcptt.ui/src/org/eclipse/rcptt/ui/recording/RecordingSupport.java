@@ -809,7 +809,7 @@ public class RecordingSupport {
 							return Status.CANCEL_STATUS;
 						}
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							return Status.CANCEL_STATUS;
 						}
