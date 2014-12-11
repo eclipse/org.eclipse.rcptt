@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
@@ -48,7 +47,7 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.ui.actions.Q7ElementLabelProvider;
 import org.eclipse.rcptt.ui.commons.ModernElementListSelectionDialog;
-import org.eclipse.rcptt.ui.tags.SelectTagDialog;
+import org.eclipse.rcptt.ui.tags.SelectTagsFilterDialog;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 
 public class TestSuiteButtonsPanel extends Composite {
@@ -171,20 +170,21 @@ public class TestSuiteButtonsPanel extends Composite {
 	public static IQ7NamedElement[] selectTags(ISearchScope scope,
 			List<IQ7NamedElement> excludedElements, boolean includeTestSuites) {
 		Set<IQ7NamedElement> allElements = new HashSet<IQ7NamedElement>();
-		SelectTagDialog tagsSelectionDialog = new SelectTagDialog(
-				WorkbenchUtils.getShell(), new ArrayList<String>());
-		int result = tagsSelectionDialog.open();
-		if (result == SelectTagDialog.OK) {
-			List<Tag> tags = tagsSelectionDialog.getResult();
+		SelectTagsFilterDialog dialog = new SelectTagsFilterDialog(WorkbenchUtils.getShell());
+
+		int result = dialog.open();
+		if (result == SelectTagsFilterDialog.OK) {
+			List<Tag> tags = dialog.getSelectedTags();
+			List<IQ7NamedElement> elements = dialog.getSelectedItems();
 			IQ7NamedElement[] all = Q7SearchCore.findAllElements(scope);
 			List<String> tagsValues = extractValues(tags);
 			for (IQ7NamedElement iq7NamedElement : all) {
 				try {
 					if ((iq7NamedElement instanceof ITestCase || (iq7NamedElement instanceof ITestSuite && includeTestSuites))
-							&& (excludedElements == null || !excludedElements
-									.contains(iq7NamedElement))
-							&& TagsUtil.hasAny(iq7NamedElement, tagsValues)) {
-						allElements.add(iq7NamedElement);
+							&& (excludedElements == null || !excludedElements.contains(iq7NamedElement))) {
+						if (TagsUtil.hasAny(iq7NamedElement, tagsValues) || elements.contains(iq7NamedElement)) {
+							allElements.add(iq7NamedElement);
+						}
 					}
 				} catch (ModelException e) {
 					e.printStackTrace();
@@ -199,7 +199,7 @@ public class TestSuiteButtonsPanel extends Composite {
 		List<String> values = new ArrayList<String>();
 
 		for (Tag tag : tags) {
-			values.add(tag.getValue());
+			values.add(tag.getPath());
 		}
 
 		return values;

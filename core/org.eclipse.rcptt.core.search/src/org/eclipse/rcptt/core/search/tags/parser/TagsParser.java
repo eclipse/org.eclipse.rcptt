@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 Tags.g 2014-12-10 15:23:08
+// $ANTLR 3.5.2 Tags.g 2014-12-15 16:08:03
 
 package org.eclipse.rcptt.core.search.tags.parser;
 
@@ -14,16 +14,17 @@ import org.antlr.runtime.tree.*;
 @SuppressWarnings("all")
 public class TagsParser extends Parser {
 	public static final String[] tokenNames = new String[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "AND", "LPAREN", "NAME", "OR", 
-		"RPAREN", "WS"
+		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "AND", "LPAREN", "NAME", "NOT", 
+		"OR", "RPAREN", "WS"
 	};
 	public static final int EOF=-1;
 	public static final int AND=4;
 	public static final int LPAREN=5;
 	public static final int NAME=6;
-	public static final int OR=7;
-	public static final int RPAREN=8;
-	public static final int WS=9;
+	public static final int NOT=7;
+	public static final int OR=8;
+	public static final int RPAREN=9;
+	public static final int WS=10;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -52,8 +53,19 @@ public class TagsParser extends Parser {
 	@Override public String getGrammarFileName() { return "Tags.g"; }
 
 
-	// Override
-	public void reportError(RecognitionException e) {}
+	private List<RecognitionException> errors = new ArrayList<RecognitionException>();
+
+	public List<RecognitionException> getAllErrors() {
+		return new ArrayList<RecognitionException>(errors);
+	}
+
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+
+	public void reportError(RecognitionException e) {
+		errors.add(e);
+	}
 
 
 	public static class expression_return extends ParserRuleReturnScope {
@@ -64,7 +76,7 @@ public class TagsParser extends Parser {
 
 
 	// $ANTLR start "expression"
-	// Tags.g:31:1: expression : orexpression ;
+	// Tags.g:60:1: expression : orexpression ;
 	public final TagsParser.expression_return expression() throws RecognitionException {
 		TagsParser.expression_return retval = new TagsParser.expression_return();
 		retval.start = input.LT(1);
@@ -75,13 +87,13 @@ public class TagsParser extends Parser {
 
 
 		try {
-			// Tags.g:31:12: ( orexpression )
-			// Tags.g:31:14: orexpression
+			// Tags.g:60:12: ( orexpression )
+			// Tags.g:60:14: orexpression
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			pushFollow(FOLLOW_orexpression_in_expression184);
+			pushFollow(FOLLOW_orexpression_in_expression212);
 			orexpression1=orexpression();
 			state._fsp--;
 
@@ -116,7 +128,7 @@ public class TagsParser extends Parser {
 
 
 	// $ANTLR start "orexpression"
-	// Tags.g:32:1: orexpression : andexpression ( OR ^ andexpression )* ;
+	// Tags.g:61:1: orexpression : andexpression ( OR ^ andexpression )* ;
 	public final TagsParser.orexpression_return orexpression() throws RecognitionException {
 		TagsParser.orexpression_return retval = new TagsParser.orexpression_return();
 		retval.start = input.LT(1);
@@ -130,19 +142,19 @@ public class TagsParser extends Parser {
 		Object OR3_tree=null;
 
 		try {
-			// Tags.g:32:14: ( andexpression ( OR ^ andexpression )* )
-			// Tags.g:32:16: andexpression ( OR ^ andexpression )*
+			// Tags.g:61:14: ( andexpression ( OR ^ andexpression )* )
+			// Tags.g:61:16: andexpression ( OR ^ andexpression )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			pushFollow(FOLLOW_andexpression_in_orexpression191);
+			pushFollow(FOLLOW_andexpression_in_orexpression219);
 			andexpression2=andexpression();
 			state._fsp--;
 
 			adaptor.addChild(root_0, andexpression2.getTree());
 
-			// Tags.g:32:30: ( OR ^ andexpression )*
+			// Tags.g:61:30: ( OR ^ andexpression )*
 			loop1:
 			while (true) {
 				int alt1=2;
@@ -153,13 +165,13 @@ public class TagsParser extends Parser {
 
 				switch (alt1) {
 				case 1 :
-					// Tags.g:32:31: OR ^ andexpression
+					// Tags.g:61:31: OR ^ andexpression
 					{
-					OR3=(Token)match(input,OR,FOLLOW_OR_in_orexpression194); 
+					OR3=(Token)match(input,OR,FOLLOW_OR_in_orexpression222); 
 					OR3_tree = (Object)adaptor.create(OR3);
 					root_0 = (Object)adaptor.becomeRoot(OR3_tree, root_0);
 
-					pushFollow(FOLLOW_andexpression_in_orexpression197);
+					pushFollow(FOLLOW_andexpression_in_orexpression225);
 					andexpression4=andexpression();
 					state._fsp--;
 
@@ -202,7 +214,7 @@ public class TagsParser extends Parser {
 
 
 	// $ANTLR start "andexpression"
-	// Tags.g:33:1: andexpression : atom ( AND ^ atom )* ;
+	// Tags.g:62:1: andexpression : notexpression ( AND ^ notexpression )* ;
 	public final TagsParser.andexpression_return andexpression() throws RecognitionException {
 		TagsParser.andexpression_return retval = new TagsParser.andexpression_return();
 		retval.start = input.LT(1);
@@ -210,25 +222,25 @@ public class TagsParser extends Parser {
 		Object root_0 = null;
 
 		Token AND6=null;
-		ParserRuleReturnScope atom5 =null;
-		ParserRuleReturnScope atom7 =null;
+		ParserRuleReturnScope notexpression5 =null;
+		ParserRuleReturnScope notexpression7 =null;
 
 		Object AND6_tree=null;
 
 		try {
-			// Tags.g:33:15: ( atom ( AND ^ atom )* )
-			// Tags.g:33:17: atom ( AND ^ atom )*
+			// Tags.g:62:15: ( notexpression ( AND ^ notexpression )* )
+			// Tags.g:62:17: notexpression ( AND ^ notexpression )*
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			pushFollow(FOLLOW_atom_in_andexpression206);
-			atom5=atom();
+			pushFollow(FOLLOW_notexpression_in_andexpression234);
+			notexpression5=notexpression();
 			state._fsp--;
 
-			adaptor.addChild(root_0, atom5.getTree());
+			adaptor.addChild(root_0, notexpression5.getTree());
 
-			// Tags.g:33:22: ( AND ^ atom )*
+			// Tags.g:62:31: ( AND ^ notexpression )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -239,17 +251,17 @@ public class TagsParser extends Parser {
 
 				switch (alt2) {
 				case 1 :
-					// Tags.g:33:23: AND ^ atom
+					// Tags.g:62:32: AND ^ notexpression
 					{
-					AND6=(Token)match(input,AND,FOLLOW_AND_in_andexpression209); 
+					AND6=(Token)match(input,AND,FOLLOW_AND_in_andexpression237); 
 					AND6_tree = (Object)adaptor.create(AND6);
 					root_0 = (Object)adaptor.becomeRoot(AND6_tree, root_0);
 
-					pushFollow(FOLLOW_atom_in_andexpression212);
-					atom7=atom();
+					pushFollow(FOLLOW_notexpression_in_andexpression240);
+					notexpression7=notexpression();
 					state._fsp--;
 
-					adaptor.addChild(root_0, atom7.getTree());
+					adaptor.addChild(root_0, notexpression7.getTree());
 
 					}
 					break;
@@ -280,38 +292,35 @@ public class TagsParser extends Parser {
 	// $ANTLR end "andexpression"
 
 
-	public static class atom_return extends ParserRuleReturnScope {
+	public static class notexpression_return extends ParserRuleReturnScope {
 		Object tree;
 		@Override
 		public Object getTree() { return tree; }
 	};
 
 
-	// $ANTLR start "atom"
-	// Tags.g:34:1: atom : ( NAME | LPAREN ! orexpression RPAREN !);
-	public final TagsParser.atom_return atom() throws RecognitionException {
-		TagsParser.atom_return retval = new TagsParser.atom_return();
+	// $ANTLR start "notexpression"
+	// Tags.g:63:1: notexpression : ( NOT ^ atom | atom );
+	public final TagsParser.notexpression_return notexpression() throws RecognitionException {
+		TagsParser.notexpression_return retval = new TagsParser.notexpression_return();
 		retval.start = input.LT(1);
 
 		Object root_0 = null;
 
-		Token NAME8=null;
-		Token LPAREN9=null;
-		Token RPAREN11=null;
-		ParserRuleReturnScope orexpression10 =null;
+		Token NOT8=null;
+		ParserRuleReturnScope atom9 =null;
+		ParserRuleReturnScope atom10 =null;
 
-		Object NAME8_tree=null;
-		Object LPAREN9_tree=null;
-		Object RPAREN11_tree=null;
+		Object NOT8_tree=null;
 
 		try {
-			// Tags.g:34:6: ( NAME | LPAREN ! orexpression RPAREN !)
+			// Tags.g:63:15: ( NOT ^ atom | atom )
 			int alt3=2;
 			int LA3_0 = input.LA(1);
-			if ( (LA3_0==NAME) ) {
+			if ( (LA3_0==NOT) ) {
 				alt3=1;
 			}
-			else if ( (LA3_0==LPAREN) ) {
+			else if ( ((LA3_0 >= LPAREN && LA3_0 <= NAME)) ) {
 				alt3=2;
 			}
 
@@ -323,31 +332,126 @@ public class TagsParser extends Parser {
 
 			switch (alt3) {
 				case 1 :
-					// Tags.g:34:8: NAME
+					// Tags.g:63:17: NOT ^ atom
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					NAME8=(Token)match(input,NAME,FOLLOW_NAME_in_atom221); 
-					NAME8_tree = (Object)adaptor.create(NAME8);
-					adaptor.addChild(root_0, NAME8_tree);
+					NOT8=(Token)match(input,NOT,FOLLOW_NOT_in_notexpression249); 
+					NOT8_tree = (Object)adaptor.create(NOT8);
+					root_0 = (Object)adaptor.becomeRoot(NOT8_tree, root_0);
+
+					pushFollow(FOLLOW_atom_in_notexpression252);
+					atom9=atom();
+					state._fsp--;
+
+					adaptor.addChild(root_0, atom9.getTree());
 
 					}
 					break;
 				case 2 :
-					// Tags.g:34:15: LPAREN ! orexpression RPAREN !
+					// Tags.g:63:29: atom
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					LPAREN9=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_atom225); 
-					pushFollow(FOLLOW_orexpression_in_atom228);
-					orexpression10=orexpression();
+					pushFollow(FOLLOW_atom_in_notexpression256);
+					atom10=atom();
 					state._fsp--;
 
-					adaptor.addChild(root_0, orexpression10.getTree());
+					adaptor.addChild(root_0, atom10.getTree());
 
-					RPAREN11=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_atom230); 
+					}
+					break;
+
+			}
+			retval.stop = input.LT(-1);
+
+			retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+			adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+			retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		return retval;
+	}
+	// $ANTLR end "notexpression"
+
+
+	public static class atom_return extends ParserRuleReturnScope {
+		Object tree;
+		@Override
+		public Object getTree() { return tree; }
+	};
+
+
+	// $ANTLR start "atom"
+	// Tags.g:64:1: atom : ( NAME | LPAREN ! orexpression RPAREN !);
+	public final TagsParser.atom_return atom() throws RecognitionException {
+		TagsParser.atom_return retval = new TagsParser.atom_return();
+		retval.start = input.LT(1);
+
+		Object root_0 = null;
+
+		Token NAME11=null;
+		Token LPAREN12=null;
+		Token RPAREN14=null;
+		ParserRuleReturnScope orexpression13 =null;
+
+		Object NAME11_tree=null;
+		Object LPAREN12_tree=null;
+		Object RPAREN14_tree=null;
+
+		try {
+			// Tags.g:64:6: ( NAME | LPAREN ! orexpression RPAREN !)
+			int alt4=2;
+			int LA4_0 = input.LA(1);
+			if ( (LA4_0==NAME) ) {
+				alt4=1;
+			}
+			else if ( (LA4_0==LPAREN) ) {
+				alt4=2;
+			}
+
+			else {
+				NoViableAltException nvae =
+					new NoViableAltException("", 4, 0, input);
+				throw nvae;
+			}
+
+			switch (alt4) {
+				case 1 :
+					// Tags.g:64:8: NAME
+					{
+					root_0 = (Object)adaptor.nil();
+
+
+					NAME11=(Token)match(input,NAME,FOLLOW_NAME_in_atom263); 
+					NAME11_tree = (Object)adaptor.create(NAME11);
+					adaptor.addChild(root_0, NAME11_tree);
+
+					}
+					break;
+				case 2 :
+					// Tags.g:64:15: LPAREN ! orexpression RPAREN !
+					{
+					root_0 = (Object)adaptor.nil();
+
+
+					LPAREN12=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_atom267); 
+					pushFollow(FOLLOW_orexpression_in_atom270);
+					orexpression13=orexpression();
+					state._fsp--;
+
+					adaptor.addChild(root_0, orexpression13.getTree());
+
+					RPAREN14=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_atom272); 
 					}
 					break;
 
@@ -374,15 +478,18 @@ public class TagsParser extends Parser {
 
 
 
-	public static final BitSet FOLLOW_orexpression_in_expression184 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_andexpression_in_orexpression191 = new BitSet(new long[]{0x0000000000000082L});
-	public static final BitSet FOLLOW_OR_in_orexpression194 = new BitSet(new long[]{0x0000000000000060L});
-	public static final BitSet FOLLOW_andexpression_in_orexpression197 = new BitSet(new long[]{0x0000000000000082L});
-	public static final BitSet FOLLOW_atom_in_andexpression206 = new BitSet(new long[]{0x0000000000000012L});
-	public static final BitSet FOLLOW_AND_in_andexpression209 = new BitSet(new long[]{0x0000000000000060L});
-	public static final BitSet FOLLOW_atom_in_andexpression212 = new BitSet(new long[]{0x0000000000000012L});
-	public static final BitSet FOLLOW_NAME_in_atom221 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LPAREN_in_atom225 = new BitSet(new long[]{0x0000000000000060L});
-	public static final BitSet FOLLOW_orexpression_in_atom228 = new BitSet(new long[]{0x0000000000000100L});
-	public static final BitSet FOLLOW_RPAREN_in_atom230 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_orexpression_in_expression212 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_andexpression_in_orexpression219 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_OR_in_orexpression222 = new BitSet(new long[]{0x00000000000000E0L});
+	public static final BitSet FOLLOW_andexpression_in_orexpression225 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_notexpression_in_andexpression234 = new BitSet(new long[]{0x0000000000000012L});
+	public static final BitSet FOLLOW_AND_in_andexpression237 = new BitSet(new long[]{0x00000000000000E0L});
+	public static final BitSet FOLLOW_notexpression_in_andexpression240 = new BitSet(new long[]{0x0000000000000012L});
+	public static final BitSet FOLLOW_NOT_in_notexpression249 = new BitSet(new long[]{0x0000000000000060L});
+	public static final BitSet FOLLOW_atom_in_notexpression252 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_notexpression256 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_atom263 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LPAREN_in_atom267 = new BitSet(new long[]{0x00000000000000E0L});
+	public static final BitSet FOLLOW_orexpression_in_atom270 = new BitSet(new long[]{0x0000000000000200L});
+	public static final BitSet FOLLOW_RPAREN_in_atom272 = new BitSet(new long[]{0x0000000000000002L});
 }

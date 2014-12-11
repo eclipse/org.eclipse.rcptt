@@ -13,11 +13,13 @@ import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.emf.databinding.EObjectObservableList;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -49,7 +51,19 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 
+/**
+ * Creates a control with filtering RCPTT items by their tags.
+ * 
+ * Contains tags tree view + item list view + filter control + autocomplete.
+ * Filter works with and/AND/&, or/OR/| and parentheses. E.g.: tag1 AND ("tag with space" OR tag2)
+ */
 public class TagsFilterComposite {
+	
+	private static final String OPERATOR_OR = "OR";
+	private static final String OPERATOR_AND = "AND";
+	private static final String REGEX_LAST_SEGMENT = "^.*(\\(| or | OR | \\| | and | AND | & | not | NOT |!)(.*)$";
+	private static final String REGEX_SPEC_CHARS = ".*[ ()!].*";
+	private static final String TOOLTIP_FILTER = "Feel free to use AND, OR and parentheses";
 	
 	public IObservableList tags;
 	
@@ -62,8 +76,19 @@ public class TagsFilterComposite {
 	private boolean autocompleteOff = false;
 	private boolean isHorizontal;
 
-	public TagsFilterComposite(Composite panel, boolean isHorizontal) {
+	public TagsFilterComposite(Composite parent, boolean isHorizontal) {
 		this.isHorizontal = isHorizontal;
+		
+		Composite panel;
+		if (isHorizontal) {
+			panel = new Composite(parent, SWT.NONE);
+			GridLayoutFactory.fillDefaults().numColumns(3).equalWidth(true).margins(0, 0).applyTo(panel);
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(panel);
+		} else {
+			panel = new Composite(parent, SWT.NONE);
+			GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(panel);
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(panel);
+		}
 		
 		createFilterControl(panel);
 		createTreeControl(panel);
@@ -78,9 +103,13 @@ public class TagsFilterComposite {
 		return listViewer;
 	}
 	
+ 	/**
+	 * Updates RCPTT item list depending on current filter value.
+	 */
 	public void updateList() {
 		String string = searchControl.getFilterString();
-		if (string == null) string = "";
+		if (string == null)
+			string = "";
 		string = string.trim();
 		
 		if (string.isEmpty()) {
@@ -91,7 +120,8 @@ public class TagsFilterComposite {
 	}
 	
 	public void hidePopup() {
-		popupShell.setVisible(false);
+		if (!popupShell.isDisposed())
+			popupShell.setVisible(false);
 	}
 	
 	private void createFilterControl(Composite panel) {
@@ -99,59 +129,9 @@ public class TagsFilterComposite {
 		final Shell shell = panel.getShell();
 		
 		// Autocomplete popup
-		popupShell = new Shell(display, SWT.ON_TOP);
+		popupShell = new Shell(shell, SWT.ON_TOP);
 		popupShell.setLayout(new FillLayout());
 		popupTable = new Table(popupShell, SWT.SINGLE);
-		
-		// Filter control
-		searchControl = new SearchControl(panel);
-		if (isHorizontal) {
-			GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(searchControl);			
-		} else {
-			GridDataFactory.fillDefaults().grab(true, false).applyTo(searchControl);
-		}
-		
-		searchControl.setInitialText("Tag name");
-		searchControl.getFilterControl().setToolTipText("Feel free to use 'and', 'or' and parentheses");
-		searchControl.getFilterControl().addListener(SWT.KeyDown, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				switch (event.keyCode) {
-				case SWT.ARROW_DOWN:
-					int index = (popupTable.getSelectionIndex() + 1) % popupTable.getItemCount();
-					popupTable.setSelection(index);
-					event.doit = false;
-					break;
-				case SWT.ARROW_UP:
-					index = popupTable.getSelectionIndex() - 1;
-					if (index < 0)
-						index = popupTable.getItemCount() - 1;
-					popupTable.setSelection(index);
-					event.doit = false;
-					break;
-				case SWT.ESC:
-					popupShell.setVisible(false);
-					break;
-				case SWT.SPACE:
-					if ((event.stateMask & SWT.CTRL) == SWT.CTRL) {
-						showAutocomplete();
-						event.doit = false;
-					}
-					break;
-				case SWT.CR:
-					if (popupShell.isVisible() && popupTable.getSelectionIndex() != -1) {
-						String selected = popupTable.getSelection()[0].getText();
-						searchControl.getFilterControl().setText(selected);
-						searchControl.getFilterControl().setSelection(selected.length(), selected.length());
-					}
-					popupShell.setVisible(false);
-					
-					updateList();
-					tagsViewer.setSelection(null);
-					break;
-				}
-			}
-		});
 		popupTable.addListener(SWT.KeyDown, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -180,6 +160,47 @@ public class TagsFilterComposite {
 			}
 		});
 		
+		// Filter control
+		searchControl = new SearchControl(panel);
+		if (isHorizontal) {
+			GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(searchControl);
+		} else {
+			GridDataFactory.fillDefaults().grab(true, false).applyTo(searchControl);
+		}
+		
+		searchControl.setInitialText("Tag name");
+		searchControl.getFilterControl().setToolTipText(TOOLTIP_FILTER);
+		searchControl.getFilterControl().addListener(SWT.KeyDown, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				switch (event.keyCode) {
+				case SWT.ARROW_DOWN:
+					int index = (popupTable.getSelectionIndex() + 1) % popupTable.getItemCount();
+					popupTable.setSelection(index);
+					event.doit = false;
+					break;
+				case SWT.ARROW_UP:
+					index = popupTable.getSelectionIndex() - 1;
+					if (index < 0)
+						index = popupTable.getItemCount() - 1;
+					popupTable.setSelection(index);
+					event.doit = false;
+					break;
+				case SWT.ESC:
+					popupShell.setVisible(false);
+					break;
+				case SWT.SPACE:
+					if ((event.stateMask & SWT.CTRL) == SWT.CTRL) {
+						showAutocomplete();
+						event.doit = false;
+					}
+					break;
+				case SWT.CR:
+					selectAutocompleteOffer();
+					break;
+				}
+			}
+		});
 		searchControl.getFilterControl().addListener(SWT.Modify, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -187,6 +208,7 @@ public class TagsFilterComposite {
 			}
 		});
 
+		// Close popup staff
 		Listener focusOutListener = new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -219,7 +241,6 @@ public class TagsFilterComposite {
 				popupShell.setVisible(false);
 			}
 		});
-		
 	}
 	
 	private void showAutocomplete() {
@@ -229,7 +250,7 @@ public class TagsFilterComposite {
 		if (search.trim().length() == 0) {
 			popupShell.setVisible(false);
 		} else {
-			ArrayList<String> results = getAutocompleteOffers(search); 
+			ArrayList<String> results = getAutocompleteOffers(search);
 			if (results.size() > 0) {
 				TableItem[] items = popupTable.getItems();
 				if (results.size() > items.length) {
@@ -267,6 +288,14 @@ public class TagsFilterComposite {
 		
 		updateList();
 		tagsViewer.setSelection(null);
+		
+		// Selects all RCPTT items
+		int index = listViewer.getTable().getItemCount();
+		List<Object> toSelect = new ArrayList<Object>();
+		while (--index >= 0) {
+			toSelect.add(listViewer.getElementAt(index));
+		}
+		listViewer.setSelection(new StructuredSelection(toSelect), true);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -277,21 +306,21 @@ public class TagsFilterComposite {
 		if (search.endsWith(" ")) {
 			if (last.get("operator") == null) { // tagName<space>
 				findAllTags(search, "", results, tags);
-				results.add(search + "AND");
-				results.add(search + "OR");
+				results.add(search + OPERATOR_OR);
+				results.add(search + OPERATOR_AND);
 			} else if (!last.get("segment").trim().isEmpty()) { // ..<or|and|(> tagName<space>
 				String prefix = search.substring(0, search.length() - last.get("segment").length());
 				findAllTags(last.get("segment"), prefix, results, tags);
-				results.add(search + "AND");
-				results.add(search + "OR");
+				results.add(search + OPERATOR_OR);
+				results.add(search + OPERATOR_AND);
 			} else { // ..<or|and><space>
 				getAllRootTags(search, results, tags);
 			}
-		} else if (search.endsWith(" (")) { // ..(
+		} else if (search.endsWith("(") || search.endsWith("!")) { // ..( or ..!
 			getAllRootTags(search, results, tags);
 		} else {
 			if (last.get("operator") == null) { // tagNa..
-				findAllTags(search.replaceAll("^\\s+",""), "", results, tags);				
+				findAllTags(search.replaceAll("^\\s+",""), "", results, tags);
 			} else if (!last.get("segment").trim().isEmpty()) { // ..<or|and|(> tagNa..
 				String prefix = search.substring(0, search.length() - last.get("segment").length());
 				findAllTags(last.get("segment").replaceAll("^\\s+",""), prefix, results, tags);
@@ -302,7 +331,7 @@ public class TagsFilterComposite {
 	}
 	
 	private static Map<String, String> getLastSegment(String text) {
-		Pattern pattern = Pattern.compile("^.*(\\(| or | OR | and | AND | & | \\| )(.*)$");
+		Pattern pattern = Pattern.compile(REGEX_LAST_SEGMENT);
 		Matcher matcher = pattern.matcher(text);
 		Map<String, String> result = new HashMap<String, String>();
 		if (matcher.find()) {
@@ -319,7 +348,7 @@ public class TagsFilterComposite {
 	private void getAllRootTags(String prefix, ArrayList<String> results, List<Tag> tags) {
 		if (tags != null) {
 			for (Tag tag : tags) {
-				if (tag.getPath().matches(".*[ ()].*")) {
+				if (tag.getPath().matches(REGEX_SPEC_CHARS)) {
 					results.add(prefix + "\"" + tag.getPath() + "\"");
 				} else {
 					results.add(prefix + tag.getPath());
@@ -332,7 +361,7 @@ public class TagsFilterComposite {
 		if (tags != null) {
 			for (Tag tag : tags) {
 				if (tag.getPath().toLowerCase().startsWith(search.toLowerCase())) {
-					if (tag.getPath().matches(".*[ ()].*")) {
+					if (tag.getPath().matches(REGEX_SPEC_CHARS)) {
 						results.add(prefix + "\"" + tag.getPath() + "\"");
 					} else {
 						results.add(prefix + tag.getPath());
@@ -345,10 +374,15 @@ public class TagsFilterComposite {
 	
 	private void createTreeControl(Composite panel) {
 		Tree tree = new Tree(panel, SWT.BORDER | SWT.MULTI);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tree);
+		if (isHorizontal) {
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(tree);
+		} else {
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).hint(SWT.DEFAULT, 220).applyTo(tree);
+		}
 		
 		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
 				new IObservableFactory() {
+					@Override
 					public IObservable createObservable(Object target) {
 						if (target instanceof IObservable) {
 							return (IObservable) target;
@@ -387,6 +421,7 @@ public class TagsFilterComposite {
 		tagsViewer.setLabelProvider(treeLabelProvider);
 		tagsViewer.setSorter(new ViewerSorter());
 		tagsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateFilterControl((IStructuredSelection) event.getSelection());
 			}
@@ -456,7 +491,7 @@ public class TagsFilterComposite {
 			for (Object o : selection.toArray()) {
 				if (o instanceof Tag) {
 					String tagName = ((Tag) o).getPath();
-					if (tagName.matches(".*[ ()].*")) {
+					if (tagName.matches(REGEX_SPEC_CHARS)) {
 						tags.add("\"" + tagName + "\"");
 					} else {
 						tags.add(tagName);
@@ -465,7 +500,7 @@ public class TagsFilterComposite {
 			}
 			
 			autocompleteOff = true;
-			searchControl.getFilterControl().setText(StringUtils.join(" or ", tags));
+			searchControl.getFilterControl().setText(StringUtils.join(" " + OPERATOR_OR + " ", tags));
 			autocompleteOff = false;
 			if (selection.size() == 1) {
 				listViewer.setInput(selection.getFirstElement()); // Don't run searching if only one tag is selected
