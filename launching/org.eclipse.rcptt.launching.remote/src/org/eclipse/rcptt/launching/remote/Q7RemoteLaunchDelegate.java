@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate2;
-
 import org.eclipse.rcptt.core.launching.events.AutReconnect;
 import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
@@ -40,7 +39,7 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 				IQ7Launch.DEFAULT_HOST);
 
 		BaseAutLaunch aut = BaseAutManager.INSTANCE.getByLaunch(launch);
-		aut.activate(host, ecl, tesla);
+		aut.activate(host, ecl, tesla, 2, monitor);
 
 		AutReconnect reconnect = EventsFactory.eINSTANCE.createAutReconnect();
 		reconnect.setQ7EclPort(AutEventManager.INSTANCE.getPort());

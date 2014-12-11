@@ -118,12 +118,12 @@ public class Q7ExternalLaunchDelegate extends
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 
 		this.launch = launch;
-		monitor.beginTask("", 2); //$NON-NLS-1$
+		SubMonitor subm = SubMonitor.convert(monitor, 2000);
 		Q7ExtLaunchMonitor waiter = new Q7ExtLaunchMonitor(launch);
 
 		try {
-			super.launch(configuration, mode, launch, SubMonitor.convert(monitor, 1));
-			waiter.wait(monitor, TeslaLimits.getAUTStartupTimeout() / 1000);
+			super.launch(configuration, mode, launch, subm.newChild(1000));
+			waiter.wait(subm.newChild(1000), TeslaLimits.getAUTStartupTimeout() / 1000);
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
@@ -617,7 +617,8 @@ public class Q7ExternalLaunchDelegate extends
 	@Override
 	protected void preLaunchCheck(final ILaunchConfiguration configuration,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		super.preLaunchCheck(configuration, launch, monitor);
+		SubMonitor subm = SubMonitor.convert(monitor, 100);
+		super.preLaunchCheck(configuration, launch, subm.newChild(50));
 		if (monitor.isCanceled()) {
 			return;
 		}
@@ -625,7 +626,7 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		BundlesToLaunch bundlesToLaunch = collectBundles(((ITargetPlatformHelper) info.target)
-				.getQ7Target());
+				.getQ7Target(), subm.newChild(50));
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
@@ -635,6 +636,7 @@ public class Q7ExternalLaunchDelegate extends
 		// Copy all additional configuration area folders into PDE new
 		// configuration location.
 		copyConfiguratonFiles(configuration, info);
+		monitor.done();
 	}
 
 	public static class BundlesToLaunchCollector {
@@ -727,30 +729,44 @@ public class Q7ExternalLaunchDelegate extends
 		return true;
 	}
 
-	public static BundlesToLaunch collectBundles(Q7Target target) {
+	public static BundlesToLaunch collectBundles(Q7Target target, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
+		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
+		SubMonitor install = subm.newChild(1000);
 		if (target.getInstall() != null) {
-			Map<String, BundleStart> bundlesFromConfig = target.getInstall()
-					.configIniBundles();
-			for (IResolvedBundle bundle : target.getInstall().getBundles()) {
+			Map<String, BundleStart> bundlesFromConfig = target.getInstall().configIniBundles();
+			IResolvedBundle[] installationBundles = target.getInstall().getBundles();
+			install.beginTask("Scanning " + target.getInstall().getInstallLocation(), installationBundles.length);
+			for (IResolvedBundle bundle : installationBundles) {
 				BundleStart hint = firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
 				collector.addInstallationBundle(bundle, hint);
+				install.worked(1);
 			}
 		}
+		install.done();
 
+		SubMonitor pluginsDirMonitor = subm.newChild(1000);
 		if (target.pluginsDir != null) {
-			for (IResolvedBundle bundle : target.pluginsDir.getBundles()) {
+			IResolvedBundle[] bundles = target.pluginsDir.getBundles();
+			pluginsDirMonitor.beginTask("Scanning " + target.pluginsDir, bundles.length);
+			for (IResolvedBundle bundle : bundles) {
 				collector.addPluginBundle(bundle);
+				pluginsDirMonitor.worked(1);
 			}
 		}
+		pluginsDirMonitor.done();
 
+		SubMonitor extrasMonitor = subm.newChild(1000);
+		extrasMonitor.beginTask("Injecting RCPTT runtime", 1);
 		for (IBundleContainer extra : target.getExtras()) {
 			for (IResolvedBundle bundle : extra.getBundles()) {
 				collector.addExtraBundle(bundle);
 			}
+			extrasMonitor.worked(1);
 		}
+		extrasMonitor.done();
 
 		return new BundlesToLaunch(collector.rejectedBundles,
 				collector.plugins, collector.latestVersions);

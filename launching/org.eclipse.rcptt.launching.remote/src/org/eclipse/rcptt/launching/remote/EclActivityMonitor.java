@@ -94,7 +94,7 @@ public final class EclActivityMonitor implements IProcess {
 		}
 	}
 
-	private boolean isActive() {
+	private boolean isActive() throws InterruptedException {
 		try {
 			aut.ping();
 			return true;

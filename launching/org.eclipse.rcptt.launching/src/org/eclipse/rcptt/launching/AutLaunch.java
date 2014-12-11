@@ -13,12 +13,11 @@ package org.eclipse.rcptt.launching;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.ecl.core.Script;
-
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.launching.events.AutEvent;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.Script;
 
 /**
  * This interface represents launched {@link Aut application under test} and
@@ -167,8 +166,9 @@ public interface AutLaunch {
 	 * 
 	 * @throws CoreException
 	 *             if AUT is not available
+	 * @throws InterruptedException
 	 */
-	void ping() throws CoreException;
+	void ping() throws CoreException, InterruptedException;
 
 	/**
 	 * Wait for AUT restart. This method can be called even if AUT still active

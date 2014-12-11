@@ -392,19 +392,12 @@ public class LaunchUtils {
 				}
 			});
 		} catch (InvocationTargetException e1) {
-			status.set(new Status(IStatus.ERROR, RcpttPlugin.PLUGIN_ID, "Failed to launch " + aut.getName(), e1));
+			status.set(RcpttPlugin.createStatus("Failed to launch " + aut.getName(), e1.getCause()));
 		} catch (InterruptedException e1) {
 			return;
 		}
-		while (status.get() == null) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// Ignore
-			}
-		}
 		IStatus s = status.get();
-		if (s.getSeverity() == IStatus.CANCEL) {
+		if (s.matches(IStatus.CANCEL)) {
 			return;
 		}
 		if (!s.isOK()) {
