@@ -3,7 +3,8 @@
       id="org.eclipse.rcptt.module.nebula"
       label="RCPTT Nebula Widgets Support (Incubation)"
       version="1.5.4.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.rcptt.module.nebula.updates">
 
    <description>
       Extra commands for better recording/replaying support of Nebula widgets
