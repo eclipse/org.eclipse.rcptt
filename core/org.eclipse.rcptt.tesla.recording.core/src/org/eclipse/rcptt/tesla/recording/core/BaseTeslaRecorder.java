@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.protocol.ApplyCellEditor;
@@ -51,6 +50,7 @@ import org.eclipse.rcptt.tesla.core.protocol.SetTextSelection2;
 import org.eclipse.rcptt.tesla.core.protocol.Type;
 import org.eclipse.rcptt.tesla.core.protocol.TypeText;
 import org.eclipse.rcptt.tesla.core.protocol.UIPlayer;
+import org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand;
 import org.eclipse.rcptt.tesla.core.protocol.WaitForRestart;
 import org.eclipse.rcptt.tesla.core.protocol.WaitForState;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.ActivateDirectEdit;
@@ -78,6 +78,8 @@ public class BaseTeslaRecorder extends UIPlayer {
 	private String[] startRecordShortcuts;
 	private String[] stopRecordShortcuts;
 	private String[] replayShortcuts;
+	private int replaceIndex = 0;
+	private boolean skipNext = false;
 
 	public BaseTeslaRecorder() {
 	}
@@ -154,42 +156,6 @@ public class BaseTeslaRecorder extends UIPlayer {
 
 	@Override
 	public synchronized Response executeCommand(Command command) {
-		CommandTransferKind transferKind = CommandTransferKind.DEFAULT;
-		int replaceIndex = 0;
-		if (!container.isEmpty() && isReplacable(command)) {
-			Command last = container.getLastCommand();
-			boolean skipNext = false;
-			if (command instanceof FigureMouseCommand) {
-				FigureMouseCommand newCmd = (FigureMouseCommand) command;
-				// Look into previous drag command and correct down event.
-				if (newCmd.getKind().equals(MouseCommandKind.DOWN)) {
-					int skip = 0;
-					while (container.size() - (1 + skip) >= 0) {
-						Command ncmd = container.getLastCommand(1 + skip);
-						if (ncmd instanceof FigureMouseCommand
-								&& ((FigureMouseCommand) ncmd).getKind()
-										.equals(MouseCommandKind.DRAG)) {
-							skip++;
-						} else {
-							break;
-						}
-					}
-					if (skip > 0) {
-						skipNext = true;
-						transferKind = CommandTransferKind.INSERT_BEFORE;
-						replaceIndex = skip;
-					}
-				}
-			}
-			if (isReplacable(last, command) && !skipNext) {
-				// Replace old command
-				transferKind = CommandTransferKind.REPLACE_PREVIOUS;
-			}
-		}
-		if (command instanceof SetStatusDialogMode
-				&& ((SetStatusDialogMode) command).isEnabled()) {
-			transferKind = CommandTransferKind.INSERT_BEFORE_ESSENTIAL_COMMAND;
-		}
 		List<Element> elements = new ArrayList<Element>();
 		Response response = null;
 		if (command instanceof SelectCommand) {
@@ -221,9 +187,9 @@ public class BaseTeslaRecorder extends UIPlayer {
 					.createGetStateResponse();
 			getStateResponse.setState(element);
 			response = getStateResponse;
-		} else if (command instanceof SetSWTDialogInfo) {
-			transferKind = CommandTransferKind.INSERT_BEFORE_ESSENTIAL_COMMAND;
 		}
+
+		CommandTransferKind transferKind = getTransferKind(command);
 		container.processTransfer(command, elements, transferKind, controls,
 				replaceIndex, rawEvents);
 
@@ -232,6 +198,73 @@ public class BaseTeslaRecorder extends UIPlayer {
 		controls = null;
 		rawEvents.clear();
 		return response;
+	}
+
+	private CommandTransferKind getTransferKind(Command command) {
+		CommandTransferKind transferKind = CommandTransferKind.DEFAULT;
+		replaceIndex = 0;
+		if (!container.isEmpty() && isReplacable(command)) {
+			Command last = container.getLastCommand();
+			skipNext = false;
+			if (command instanceof FigureMouseCommand) {
+				transferKind = getKindForFigureMouseCommand((FigureMouseCommand) command, transferKind);
+			} else if (command instanceof SelectCommand) {
+				transferKind = getKindForSelectCommand(command, last, transferKind);
+			}
+			if (isReplacable(last, command) && !skipNext) {
+				// Replace old command
+				transferKind = CommandTransferKind.REPLACE_PREVIOUS;
+			}
+		}
+		if ((command instanceof SetStatusDialogMode
+				&& ((SetStatusDialogMode) command).isEnabled())
+				|| command instanceof SetSWTDialogInfo) {
+			transferKind = CommandTransferKind.INSERT_BEFORE_ESSENTIAL_COMMAND;
+		} else if (command instanceof UpdateControlCommand) {
+			transferKind = CommandTransferKind.REMOVE;
+		}
+		return transferKind;
+	}
+
+	private CommandTransferKind getKindForSelectCommand(Command command, Command last, CommandTransferKind transferKind) {
+		if (last instanceof SelectCommand) {
+			if (EcoreUtil.equals(command, last)) {
+				transferKind = CommandTransferKind.REMOVE;
+			}
+		} else {
+			List<Command> commands = container.getCommands();
+			if (commands.size() > 1) {
+				Command beforeLast = commands.get((commands.size() - 2));
+				if (EcoreUtil.equals(command, beforeLast)) {
+					transferKind = CommandTransferKind.REMOVE;
+				}
+			}
+		}
+		return transferKind;
+	}
+
+	private CommandTransferKind getKindForFigureMouseCommand(FigureMouseCommand command,
+			CommandTransferKind transferKind) {
+		// Look into previous drag command and correct down event.
+		if (command.getKind().equals(MouseCommandKind.DOWN)) {
+			int skip = 0;
+			while (container.size() - (1 + skip) >= 0) {
+				Command ncmd = container.getLastCommand(1 + skip);
+				if (ncmd instanceof FigureMouseCommand
+						&& ((FigureMouseCommand) ncmd).getKind()
+								.equals(MouseCommandKind.DRAG)) {
+					skip++;
+				} else {
+					break;
+				}
+			}
+			if (skip > 0) {
+				skipNext = true;
+				transferKind = CommandTransferKind.INSERT_BEFORE;
+				replaceIndex = skip;
+			}
+		}
+		return transferKind;
 	}
 
 	public synchronized void setControls(Widget... controls) {
@@ -250,29 +283,31 @@ public class BaseTeslaRecorder extends UIPlayer {
 		return result;
 	}
 
-	private boolean isReplacable(Command last) {
-		return (last instanceof SetSelection && !TeslaFeatures.getInstance()
+	private boolean isReplacable(Command current) {
+		return (current instanceof SetSelection && !TeslaFeatures.getInstance()
 				.isTrue(TeslaFeatures.RECORD_ALL_SELECTIONS))
-				|| last instanceof SetText
-				|| last instanceof MouseCommand
-				|| last instanceof DragCommand
-				|| last instanceof CheckItem
-				|| last instanceof Close
-				|| last instanceof TypeText
-				|| last instanceof FigureMouseCommand
-				|| last instanceof ApplyCellEditor
-				|| last instanceof SetTextOffset
-				|| last instanceof SetCaretPosition
-				|| last instanceof SetCursorOffset
-				|| last instanceof DragCommand
-				|| last instanceof DoubleClick
-				|| last instanceof WaitForRestart
-				|| last instanceof SetTextSelection
-				|| last instanceof SetTextSelection2
-				|| last instanceof HoverAtText
-				|| last instanceof HoverAtTextOffset
-				|| last instanceof Type
-				|| last instanceof ClickText || last instanceof SetFocus;
+				|| current instanceof SetText
+				|| current instanceof MouseCommand
+				|| current instanceof DragCommand
+				|| current instanceof CheckItem
+				|| current instanceof Close
+				|| current instanceof TypeText
+				|| current instanceof FigureMouseCommand
+				|| current instanceof ApplyCellEditor
+				|| current instanceof SetTextOffset
+				|| current instanceof SetCaretPosition
+				|| current instanceof SetCursorOffset
+				|| current instanceof DragCommand
+				|| current instanceof DoubleClick
+				|| current instanceof WaitForRestart
+				|| current instanceof SetTextSelection
+				|| current instanceof SetTextSelection2
+				|| current instanceof HoverAtText
+				|| current instanceof HoverAtTextOffset
+				|| current instanceof Type
+				|| current instanceof ClickText
+				|| current instanceof SetFocus
+				|| current instanceof SelectCommand;
 	}
 
 	private synchronized boolean isReplacable(Command last, Command newCommand) {
@@ -397,6 +432,7 @@ public class BaseTeslaRecorder extends UIPlayer {
 			}
 			return false;
 		}
+
 		return isReplacable(last) && isReplacable(newCommand) && equals
 				&& ecoreEquals;
 	}

@@ -898,6 +898,13 @@ public class ProtocolSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ProtocolPackage.UPDATE_CONTROL_COMMAND: {
+				UpdateControlCommand updateControlCommand = (UpdateControlCommand)theEObject;
+				T result = caseUpdateControlCommand(updateControlCommand);
+				if (result == null) result = caseCommand(updateControlCommand);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -2474,6 +2481,21 @@ public class ProtocolSwitch<T> {
 	 * @generated
 	 */
 	public T caseSetPosition(SetPosition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Update Control Command</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Update Control Command</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUpdateControlCommand(UpdateControlCommand object) {
 		return null;
 	}
 

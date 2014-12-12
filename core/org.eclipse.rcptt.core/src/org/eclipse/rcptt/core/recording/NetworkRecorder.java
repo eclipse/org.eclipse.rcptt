@@ -11,17 +11,24 @@
 package org.eclipse.rcptt.core.recording;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.protocol.Assert;
 import org.eclipse.rcptt.tesla.core.protocol.RecordingModeRequest;
 import org.eclipse.rcptt.tesla.core.protocol.Type;
+import org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand;
 import org.eclipse.rcptt.tesla.core.protocol.raw.AssertionFocus;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
+import org.eclipse.rcptt.tesla.core.protocol.raw.CommandToElementEntry;
 import org.eclipse.rcptt.tesla.core.protocol.raw.CommandTransfer;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetFeature;
 import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaMode;
+import org.eclipse.rcptt.tesla.core.ui.Widget;
 import org.eclipse.rcptt.tesla.internal.core.network.DataSerializer;
 import org.eclipse.rcptt.tesla.recording.core.TeslaNetworkRecorder;
 
@@ -90,6 +97,9 @@ public class NetworkRecorder extends TeslaNetworkRecorder {
 				}
 				return;
 			}
+		} else if (transfer.getCommand() instanceof UpdateControlCommand) {
+			updateControl(transfer, (UpdateControlCommand) transfer.getCommand());
+			return;
 		}
 		if (assertMode) {
 			assertContainer.processTransfer(transfer.getCommand(),
@@ -111,6 +121,43 @@ public class NetworkRecorder extends TeslaNetworkRecorder {
 			super.processTransfer(transfer);
 		}
 
+	}
+
+	private void updateControl(CommandTransfer transfer, UpdateControlCommand command) {
+		Element element = command.getElements();
+		if (element != null) {
+			Command cmd = getCommand(element, assertContainer);
+			if (cmd == null) {
+				return;
+			}
+			EList<CommandToElementEntry> elementMapping = assertContainer.getScenario()
+					.getElementMapping();
+			for (CommandToElementEntry commandToElementEntry : elementMapping) {
+				if (commandToElementEntry.getCommand().equals(cmd)) {
+					commandToElementEntry.getControls().clear();
+					commandToElementEntry.getControls().addAll(transfer.getControls());
+				}
+			}
+		}
+	}
+	
+	private Command getCommand(Element element,
+			TeslaScenarioContainer container) {
+		if (element == null || element.getId() == null)
+			return null;
+		List<Command> commands = container.getCommands();
+		for (int i = commands.size() - 1; i >= 0; i--) {
+			Command cmd = commands.get(i);
+			List<Element> elements = container.getElements(cmd);
+			if (elements != null) {
+				for (Element elementToCheck : elements) {
+					if (element.getId().equals(elementToCheck.getId())) {
+						return cmd;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	protected boolean isAssertModeRequest(Type command) {
