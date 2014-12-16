@@ -31,20 +31,8 @@ public class GroupExecutable extends Executable {
 		this.kids = group.toArray(new Executable[group.size()]);
 	}
 
-	public boolean isTerminated() {
-		for (IExecutable child : kids) {
-			if (child.isTerminated())
-				return true;
-		}
-		return false;
-	}
-
 	public AutLaunch getAut() {
 		return getRoot().getAut();
-	}
-
-	@Override
-	public void terminate(boolean user) {
 	}
 
 	@Override
@@ -79,16 +67,6 @@ public class GroupExecutable extends Executable {
 		return getRoot().getName();
 	}
 
-	public IStatus getResultStatus() {
-		for (IExecutable child : kids) {
-			IStatus status = child.getResultStatus();
-			if (status != null && !status.isOK()) {
-				return status;
-			}
-		}
-		return Status.OK_STATUS;
-	}
-
 	public int getType() {
 		return getRoot().getType();
 	}
@@ -99,18 +77,6 @@ public class GroupExecutable extends Executable {
 			total += child.getTime();
 		}
 		return total;
-	}
-
-	public State getStatus() {
-		State status = State.PASSED;
-		for (IExecutable child : kids) {
-			status = max(status, child.getStatus());
-		}
-		return status;
-	}
-
-	@Override
-	public void postExecute() {
 	}
 
 	@Override

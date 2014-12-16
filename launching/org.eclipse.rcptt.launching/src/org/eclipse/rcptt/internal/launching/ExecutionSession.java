@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
-
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
@@ -172,9 +172,8 @@ public class ExecutionSession implements IExecutionSession {
 	public int getStoppedCount() {
 		int count = 0;
 		for (IExecutable executable : executables) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL))
 				count++;
-			}
 		}
 		return count;
 	}

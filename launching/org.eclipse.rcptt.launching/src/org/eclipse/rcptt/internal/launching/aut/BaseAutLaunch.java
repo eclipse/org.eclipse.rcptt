@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.aut;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
+
 import java.io.EOFException;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -26,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
@@ -234,9 +237,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
-			if (wrapped instanceof CoreException) 
-				throw (CoreException)wrapped; 
-			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, "Wrapped error", wrapped));
+			String message = "Failed to execute command " + command;
+			if (wrapped instanceof CoreException) {
+				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
+						new IStatus[] { ((CoreException) wrapped).getStatus() }, message, null));
+			}
+			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, message, wrapped));
 		}
 
 		return result[0];

@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.scenario.Scenario;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ScenarioExecutable;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -76,42 +75,25 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 		} catch (CoreException e) {
 			resultStatus = e.getStatus();
 		}
-		if (resultStatus.getSeverity() == IStatus.CANCEL) {
-			// Cancel is called, lets collect correct message
-			String message = "Testcase execution is terminated";
-			if (isTerminated() && isTerminateUser()) {
-				message = "Testcase execution is terminated by user request";
-			} else if (isTerminated()) {
-				message = "Timeout during testcase execution";
-			}
-			resultStatus = ExecAdvancedInfoUtil.askForAdvancedInfo(launch,
-					message);
-		}
-
 		return resultStatus;
 	}
 
 	@Override
-	public void postExecute() {
+	public IStatus postExecute(Listener listener, IStatus status) {
 		// Take all snapshots
 		try {
 			// if (!isTerminated()) {
 			ReportMaker.endReportNode(true, null, launch);
 			// }
 		} catch (CoreException e) {
-			updateStatus(State.FAILED);
-			RcpttPlugin.log(e);
+			return e.getStatus();
 		}
+		return super.postExecute(listener, status);
 	}
 
 	protected void doExecuteTest(IProgressMonitor monitor) throws CoreException {
 		launch.run(getActualElement(), Q7Launcher.getLaunchTimeout() * 1000,
 				monitor, getPhase());
-	}
-
-	@Override
-	public void terminate(boolean user) {
-		super.terminate(user);
 	}
 
 	public void setVariantName(List<String> variantName) {

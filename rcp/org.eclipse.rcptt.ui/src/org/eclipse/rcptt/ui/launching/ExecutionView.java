@@ -54,6 +54,7 @@ import org.eclipse.rcptt.internal.core.model.Q7Context;
 import org.eclipse.rcptt.internal.launching.EclStackTrace;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
+import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
@@ -436,7 +437,8 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	private boolean isConnectionTerminatedStatus(IExecutable exec) {
 		IStatus status = exec.getResultStatus();
-		if (exec.isTerminated() && status != null) {
+		
+		if (Q7LaunchManager.isConnectionException(status)) {
 			if (Messages.ExecutionView_ConnectionResetMsg.equals(status
 					.getMessage())
 					|| Messages.ExecutionView_ConnectionRefusedMsg

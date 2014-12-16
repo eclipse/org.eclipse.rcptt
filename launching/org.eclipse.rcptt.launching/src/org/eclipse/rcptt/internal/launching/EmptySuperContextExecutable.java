@@ -43,7 +43,6 @@ public class EmptySuperContextExecutable extends ContextExecutable {
 
 		ReportMaker.beginReportNode(getName(), props, launch);
 		ReportMaker.endReportNode(false, null, launch);
-		updateStatus(State.FAILED);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Super Context contains no elements: " + getName());
 	}

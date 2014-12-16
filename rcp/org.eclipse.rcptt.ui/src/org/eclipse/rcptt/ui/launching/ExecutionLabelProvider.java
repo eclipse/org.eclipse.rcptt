@@ -13,12 +13,14 @@ package org.eclipse.rcptt.ui.launching;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 
 import com.google.common.base.Joiner;
+
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
@@ -36,7 +38,7 @@ public class ExecutionLabelProvider extends LabelProvider implements
 	public Image getImage(Object element) {
 		IExecutable executable = cast(element);
 		if (executable.getType() == IExecutable.TYPE_SCENARIO) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.SCENARIO_STOP);
 			}
 			switch (executable.getStatus()) {
@@ -50,7 +52,7 @@ public class ExecutionLabelProvider extends LabelProvider implements
 				return Images.getImage(Images.SCENARIO_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_CONTEXT) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.CONTEXT_STOP);
 			}
 			switch (executable.getStatus()) {
@@ -64,7 +66,7 @@ public class ExecutionLabelProvider extends LabelProvider implements
 				return Images.getImage(Images.CONTEXT_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_VERIFICATION) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.VERIFICATION_STOP);
 			}
 			switch (executable.getStatus()) {
@@ -78,7 +80,7 @@ public class ExecutionLabelProvider extends LabelProvider implements
 				return Images.getImage(Images.VERIFICATION_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_TESTSUITE) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.EXECUTION_SESSION_STOP);
 			}
 			switch (executable.getStatus()) {

@@ -45,7 +45,6 @@ public class UnresolvedContextExecutable extends ContextExecutable {
 
 		ReportMaker.beginReportNode(getName(), props, launch);
 		ReportMaker.endReportNode(false, null, launch);
-		updateStatus(State.FAILED);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Context could not be resolved:" + getName());
 	}

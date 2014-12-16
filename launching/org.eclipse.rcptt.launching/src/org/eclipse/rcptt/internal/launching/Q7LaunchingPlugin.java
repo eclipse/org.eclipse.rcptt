@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.BundleContext;
-
 import org.eclipse.rcptt.util.FileUtil;
 
 /**
@@ -133,6 +132,13 @@ public class Q7LaunchingPlugin extends Plugin {
 	public static IStatus createStatus(String message, Throwable t) {
 		return new Status(Status.ERROR, PLUGIN_ID, message, t);
 	}
+	
+	public static IStatus createStatus(Throwable t) {
+		if (t instanceof CoreException)
+			return ((CoreException) t).getStatus();
+		return new Status(Status.ERROR, PLUGIN_ID, t.getMessage(), t);
+	}
+
 
 	public static IStatus createStatus(int state, String message, Throwable t) {
 		return new Status(state, PLUGIN_ID, message, t);

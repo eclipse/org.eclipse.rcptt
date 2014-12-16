@@ -59,33 +59,7 @@ public class TestSuiteExecutable extends Executable {
 	public IQ7NamedElement getActualElement() {
 		return testSuite;
 	}
-
-	public IStatus getResultStatus() {
-		for (IExecutable child : kids) {
-			IStatus status = child.getResultStatus();
-			if (status != null && !status.isOK()) {
-				return status;
-			}
-		}
-		return Status.OK_STATUS;
-	}
-
-	public boolean isTerminated() {
-		for (IExecutable child : kids) {
-			if (child.isTerminated())
-				return true;
-		}
-		return false;
-	}
-
-	public State getStatus() {
-		State status = State.PASSED;
-		for (IExecutable child : kids) {
-			status = max(status, child.getStatus());
-		}
-		return status;
-	}
-
+	
 	public int getType() {
 		return TYPE_TESTSUITE;
 	}
@@ -111,16 +85,13 @@ public class TestSuiteExecutable extends Executable {
 	}
 
 	@Override
-	public void terminate(boolean user) {
-	}
-
-	@Override
 	public IStatus execute() throws InterruptedException {
 		return Status.OK_STATUS;
 	}
 
 	@Override
-	public void postExecute() {
+	protected boolean handleChildResult(IStatus resultStatus) {
+		return true;
 	}
 
 }

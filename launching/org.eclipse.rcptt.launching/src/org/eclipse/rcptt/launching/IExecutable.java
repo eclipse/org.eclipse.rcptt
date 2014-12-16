@@ -45,8 +45,6 @@ public interface IExecutable {
 
 	public Report getResultReport();
 
-	public boolean isTerminated();
-
 	public State getStatus();
 
 	public int getType();
