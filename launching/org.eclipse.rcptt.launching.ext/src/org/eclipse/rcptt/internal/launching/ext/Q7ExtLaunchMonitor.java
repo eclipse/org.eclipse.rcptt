@@ -92,7 +92,8 @@ public class Q7ExtLaunchMonitor {
 		long start = currentTimeMillis();
 		AutEventStart startup = doWait(new SubProgressMonitor(monitor, 1), seconds);
 		aut.activate(IQ7Launch.DEFAULT_HOST, startup.getEclPort(),
-				startup.getTeslaPort(), (start - currentTimeMillis()) / 1000, new SubProgressMonitor(monitor, 1));
+				startup.getTeslaPort(), (start - currentTimeMillis()) / 1000 + seconds, new SubProgressMonitor(monitor,
+						1));
 		monitor.done();
 
 		status = Status.OK_STATUS;

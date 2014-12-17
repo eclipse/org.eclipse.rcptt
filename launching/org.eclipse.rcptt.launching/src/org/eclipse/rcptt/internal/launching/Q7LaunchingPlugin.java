@@ -15,13 +15,14 @@ import java.io.File;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.osgi.framework.BundleContext;
 import org.eclipse.rcptt.util.FileUtil;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -130,6 +131,9 @@ public class Q7LaunchingPlugin extends Plugin {
 	}
 
 	public static IStatus createStatus(String message, Throwable t) {
+		if (t instanceof CoreException) {
+			return new MultiStatus(PLUGIN_ID, 0, new IStatus[] { ((CoreException) t).getStatus() }, message, null);
+		}
 		return new Status(Status.ERROR, PLUGIN_ID, message, t);
 	}
 	

@@ -303,6 +303,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					}
 					try {
 						ping();
+						break;
 					} catch (CoreException e) {
 						// ignore while there is still time left
 					}
@@ -314,8 +315,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			} finally {
 				monitor.done();
 			}
-
-			ping();
+			try {
+				ping();
+			} catch (CoreException e) {
+				throw new CoreException(Q7LaunchingPlugin
+						.createStatus("AUT connection has been failing for " + seconds + " seconds", e));
+			}
 			monitor.done();
 		} catch (InterruptedException e) {
 			throw new CoreException(Status.CANCEL_STATUS);
