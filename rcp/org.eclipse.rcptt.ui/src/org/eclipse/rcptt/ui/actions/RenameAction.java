@@ -14,24 +14,27 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IWorkbenchCommandConstants;
-import org.eclipse.ui.actions.RenameResourceAction;
-
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.Q7ProjectMetadata;
 import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.rcptt.ui.refactoring.rename.Q7RenameResourceWizard;
 import org.eclipse.rcptt.ui.refactoring.rename.RenameTagWizard;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IWorkbenchCommandConstants;
+import org.eclipse.ui.actions.RenameResourceAction;
 
 public class RenameAction extends RenameResourceAction {
 
@@ -51,6 +54,14 @@ public class RenameAction extends RenameResourceAction {
 
 	@Override
 	public void run() {
+		try {
+			if (!makeResourceWritable(provider.getShell())) {
+				return;
+			}
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
+			return;
+		}
 		if (LaunchUtils.hasLaunchedTestCases()) {
 			MessageDialog.openWarning(provider.getShell(),
 					Messages.RenameAction_ErrorDialogTitle,
@@ -72,6 +83,16 @@ public class RenameAction extends RenameResourceAction {
 				run(wizard, provider.getShell());
 			}
 		}
+	}
+
+	private boolean makeResourceWritable(Shell shell) throws CoreException {
+		WriteAccessChecker writeAccessChecker = new WriteAccessChecker(shell);
+		Object selection = getStructuredSelection().getFirstElement();
+		if (selection instanceof Tag) {
+			IQ7NamedElement[] elements = (IQ7NamedElement[]) ((Tag) selection).getRefs().toArray();
+			return writeAccessChecker.makeResourceWritable(elements);
+		}
+		return true;
 	}
 
 	public void run(RefactoringWizard wizard, Shell parent) {

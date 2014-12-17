@@ -129,6 +129,7 @@ import org.eclipse.rcptt.ui.editors.ecl.actions.SmartLineStartAction;
 import org.eclipse.rcptt.ui.editors.ecl.actions.ToggleCommentAction;
 import org.eclipse.rcptt.ui.panels.main.ControlPanelWindow;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineBackgroundEvent;
 import org.eclipse.swt.custom.LineBackgroundListener;
@@ -138,6 +139,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -297,7 +299,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 			IDocument document = viewer.getDocument();
 			if (document != null) {
 				ISelectionProvider selectionProvider = getSelectionProvider();
-	
+
 				if (selectionProvider != null) {
 					// selectionProvider.removeSelectionChangedListener(occurrencesSelectionChangeListener);
 					this.getEditorSite().getWorkbenchWindow().getSelectionService()
@@ -607,8 +609,11 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 
 		try {
 			RcpttCore.removeElementChangedListener(this);
+			Shell shell = getSite().getShell();
+			WriteAccessChecker writeAccessChecker = new WriteAccessChecker(shell);
+			if (!writeAccessChecker.makeResourceWritable(model))
+				return;
 			normalizeDelimeters(viewer.getDocument());
-
 			model.commitWorkingCopy(true, monitor);
 			setPartName(element.getName());
 			firePropertyChange(PROP_DIRTY);
@@ -1533,7 +1538,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 
 	public void preferenceChange(PreferenceChangeEvent event) {
 		EnhancedSourceViewer enhancedSourceview = (EnhancedSourceViewer) getSourceViewer();
-		if( enhancedSourceview == null) {
+		if (enhancedSourceview == null) {
 			return;
 		}
 		ContentAssistant currentContentAssistant = (ContentAssistant) enhancedSourceview.getContentAssistant();

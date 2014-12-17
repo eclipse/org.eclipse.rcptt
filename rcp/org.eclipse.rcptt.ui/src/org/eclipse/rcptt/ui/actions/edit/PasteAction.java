@@ -33,20 +33,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.FileTransfer;
-import org.eclipse.swt.dnd.TransferData;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.CopyFilesAndFoldersOperation;
-import org.eclipse.ui.actions.CopyProjectOperation;
-import org.eclipse.ui.actions.SelectionListenerAction;
-import org.eclipse.ui.ide.undo.CopyResourcesOperation;
-import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
-import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
-import org.eclipse.ui.part.ResourceTransfer;
-
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
@@ -60,6 +46,20 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.actions.RenameDialog;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.RefactoringSaveHelper;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.FileTransfer;
+import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.CopyFilesAndFoldersOperation;
+import org.eclipse.ui.actions.CopyProjectOperation;
+import org.eclipse.ui.actions.SelectionListenerAction;
+import org.eclipse.ui.ide.undo.CopyResourcesOperation;
+import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
+import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
+import org.eclipse.ui.part.ResourceTransfer;
 
 @SuppressWarnings("restriction")
 public class PasteAction extends SelectionListenerAction {
@@ -209,6 +209,15 @@ public class PasteAction extends SelectionListenerAction {
 				// enablement should ensure that we always have access to a
 				// container
 				IContainer container = getContainer();
+
+				try {
+					WriteAccessChecker writeAccessChecker = new WriteAccessChecker(this.shell);
+					if (!writeAccessChecker.makeResourceWritable(container)) {
+						return;
+					}
+				} catch (CoreException e) {
+					Q7UIPlugin.log(e);
+				}
 
 				final List<IQ7NamedElement> namedElements = new ArrayList<IQ7NamedElement>();
 				List<IResource> normalResources = new ArrayList<IResource>();
@@ -376,8 +385,8 @@ public class PasteAction extends SelectionListenerAction {
 	}
 
 	/**
-	 * The <code>PasteAction</code> implementation of this
-	 * <code>SelectionListenerAction</code> method enables this action if a
+	 * The <code>PasteAction</code> implementation of this <code>SelectionListenerAction</code> method enables this
+	 * action if a
 	 * resource compatible with what is on the clipboard is selected.
 	 * 
 	 * -Clipboard must have IResource or java.io.File -Projects can always be

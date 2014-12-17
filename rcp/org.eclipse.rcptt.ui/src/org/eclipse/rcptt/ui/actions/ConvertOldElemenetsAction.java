@@ -20,8 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.ui.handlers.HandlerUtil;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
@@ -32,6 +30,8 @@ import org.eclipse.rcptt.internal.core.model.Q7NamedElement;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 public class ConvertOldElemenetsAction extends AbstractHandler {
 
@@ -66,8 +66,11 @@ public class ConvertOldElemenetsAction extends AbstractHandler {
 													persistenceModel);
 									((Q7NamedElement) copy)
 											.updatePersistenceModel(newModel);
-									copy.commitWorkingCopy(true,
-											new NullProgressMonitor());
+									WriteAccessChecker writeAccessChecker = new WriteAccessChecker();
+									if (writeAccessChecker.makeResourceWritable(copy)) {
+										copy.commitWorkingCopy(true,
+												new NullProgressMonitor());
+									}
 								}
 							} catch (ModelException e) {
 								Q7UIPlugin.log(e);

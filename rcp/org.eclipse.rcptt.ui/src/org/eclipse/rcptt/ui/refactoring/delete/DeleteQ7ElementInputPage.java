@@ -23,6 +23,11 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.actions.Q7ElementLabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -36,12 +41,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Hyperlink;
-
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.ui.actions.Q7ElementLabelProvider;
 
 public class DeleteQ7ElementInputPage extends UserInputWizardPage {
 
@@ -95,7 +94,11 @@ public class DeleteQ7ElementInputPage extends UserInputWizardPage {
 		try {
 			if (resource instanceof IFile) {
 				IQ7NamedElement element = (IQ7NamedElement) RcpttCore.create(resource);
-				return element.getElementName();
+				if (element != null) {
+					return element.getElementName();
+				} else {
+					return resource.getName();
+				}
 			}
 		} catch (Exception e) {
 			Q7UIPlugin.log(e);

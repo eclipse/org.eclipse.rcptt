@@ -41,42 +41,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BlockTextSelection;
 import org.eclipse.jface.text.IBlockTextSelection;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.internal.preferences.PreferenceStoreAdapter;
-import org.eclipse.ui.internal.preferences.ThemeManagerAdapter;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultSimpleTabListener;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabFolder;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabItem;
-import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultThemeListener;
-import org.eclipse.ui.internal.presentations.util.AbstractTabItem;
-import org.eclipse.ui.internal.presentations.util.PartInfo;
-import org.eclipse.ui.internal.presentations.util.TabFolderEvent;
-import org.eclipse.ui.internal.presentations.util.TabFolderListener;
-import org.eclipse.ui.internal.util.PrefUtil;
-
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -113,6 +77,42 @@ import org.eclipse.rcptt.ui.recording.RecordingContextManager;
 import org.eclipse.rcptt.ui.recording.RecordingSupport;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.preferences.PreferenceStoreAdapter;
+import org.eclipse.ui.internal.preferences.ThemeManagerAdapter;
+import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultSimpleTabListener;
+import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabFolder;
+import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabItem;
+import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultThemeListener;
+import org.eclipse.ui.internal.presentations.util.AbstractTabItem;
+import org.eclipse.ui.internal.presentations.util.PartInfo;
+import org.eclipse.ui.internal.presentations.util.TabFolderEvent;
+import org.eclipse.ui.internal.presentations.util.TabFolderListener;
+import org.eclipse.ui.internal.util.PrefUtil;
 
 @SuppressWarnings("restriction")
 public class ControlPanelWindow extends Dialog {
@@ -799,8 +799,15 @@ public class ControlPanelWindow extends Dialog {
 			if (model.exists()) {
 				model = (ITestCase) model.getWorkingCopy(monitor);
 				copyContent(scenario, (Scenario) model.getNamedElement());
+				WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+
 				try {
+					if (!writeAccessChecker.makeResourceWritable(model)) {
+						return;
+					}
 					model.commitWorkingCopy(true, monitor);
+				} catch (CoreException e) {
+					Q7UIPlugin.log(e);
 				} finally {
 					model.discardWorkingCopy();
 				}

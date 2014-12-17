@@ -27,14 +27,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.forms.editor.FormEditor;
-import org.eclipse.ui.part.FileEditorInput;
-
 import org.eclipse.rcptt.core.model.IElementChangedListener;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7ElementDelta;
@@ -45,13 +37,22 @@ import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.Q7ElementChangedEvent;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.builder.NamedElementReferencesResolver;
 import org.eclipse.rcptt.ui.dialogs.AddProjectReferencesDialog;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class NamedElementEditor extends FormEditor implements
 		IElementChangedListener, INamedElementEditor {
@@ -192,6 +193,11 @@ public abstract class NamedElementEditor extends FormEditor implements
 		if (resourceTracking) {
 			try {
 				RcpttCore.removeElementChangedListener(this);
+				Shell shell = getSite().getShell();
+				WriteAccessChecker writeAccessChecker = new WriteAccessChecker(shell);
+				if (!writeAccessChecker.makeResourceWritable(model)) {
+					return;
+				}
 				model.commitWorkingCopy(true, monitor);
 				updateEditorTitle();
 				for (Object p : pages) {
@@ -260,7 +266,7 @@ public abstract class NamedElementEditor extends FormEditor implements
 		if (adapter.isInstance(model)) {
 			return model;
 		}
-		
+
 		return super.getAdapter(adapter);
 	}
 

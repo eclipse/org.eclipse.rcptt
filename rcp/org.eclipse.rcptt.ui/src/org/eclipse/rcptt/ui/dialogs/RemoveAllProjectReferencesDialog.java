@@ -25,9 +25,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
@@ -36,6 +33,9 @@ import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.preferences.IPreferenceKeys;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
 
 public class RemoveAllProjectReferencesDialog extends MessageDialogWithToggle {
 
@@ -117,17 +117,18 @@ public class RemoveAllProjectReferencesDialog extends MessageDialogWithToggle {
 		Job job = new Job("Fix project references") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
+				final IStatus[] status = { Status.OK_STATUS };
 				try {
 					monitor.beginTask("Remove project context/verification references",
 							references.size() * 2);
 					IQ7ProjectMetadata metadata = project.getMetadata();
 					if (metadata == null || !metadata.exists()) {
-						return Status.OK_STATUS;
+						return status[0];
 					}
 					String[] defaultContexts = metadata.getContexts();
 					String[] defaultVerifications = metadata.getVerifications();
 					if (defaultContexts.length == 0 && defaultVerifications.length == 0) {
-						return Status.OK_STATUS;
+						return status[0];
 					}
 					final List<String> contextsToRemove = Arrays.asList(defaultContexts);
 					final List<String> verificationsToRemove = Arrays.asList(defaultVerifications);
@@ -135,6 +136,12 @@ public class RemoveAllProjectReferencesDialog extends MessageDialogWithToggle {
 							new IWorkspaceRunnable() {
 								public void run(IProgressMonitor monitor)
 										throws CoreException {
+									WriteAccessChecker writeAccessChecker = new WriteAccessChecker(instance.getShell());
+									if (!writeAccessChecker.makeResourceWritable(references
+											.toArray(new IQ7NamedElement[0]))) {
+										status[0] = Status.CANCEL_STATUS;
+										return;
+									}
 									for (IQ7NamedElement e : references) {
 										IQ7NamedElement copy = e.getWorkingCopy(new SubProgressMonitor(
 												monitor, 1));
@@ -168,7 +175,7 @@ public class RemoveAllProjectReferencesDialog extends MessageDialogWithToggle {
 				} catch (CoreException e) {
 					return e.getStatus();
 				}
-				return Status.OK_STATUS;
+				return status[0];
 			}
 		};
 		job.setUser(true);
