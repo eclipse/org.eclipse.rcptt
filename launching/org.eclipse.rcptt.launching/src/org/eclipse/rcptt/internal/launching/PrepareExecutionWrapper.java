@@ -310,4 +310,10 @@ public class PrepareExecutionWrapper extends Executable {
 		}
 		return Collections.emptyList();
 	}
+
+	@Override
+	public String toString() {
+		return executable.toString();
+	}
+
 }

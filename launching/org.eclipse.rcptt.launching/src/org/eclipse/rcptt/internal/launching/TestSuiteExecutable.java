@@ -90,8 +90,22 @@ public class TestSuiteExecutable extends Executable {
 	}
 
 	@Override
-	protected boolean handleChildResult(IStatus resultStatus) {
-		return true;
+	protected IStatus handleChildResult(IStatus resultStatus) {
+		if (resultStatus.matches(IStatus.CANCEL))
+			return resultStatus;
+		return Status.OK_STATUS;
+	}
+
+	@Override
+	protected IStatus postExecute(Listener listener, IStatus result) {
+		for (IExecutable child : getChildren()) {
+			IStatus status = child.getResultStatus();
+			if (status != null && !status.isOK()) {
+				result = status;
+				break;
+			}
+		}
+		return result;
 	}
 
 }

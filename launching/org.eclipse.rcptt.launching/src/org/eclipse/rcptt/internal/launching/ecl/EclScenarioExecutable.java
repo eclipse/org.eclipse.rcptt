@@ -105,4 +105,10 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	public List<String> getVariantName() {
 		return variantName;
 	}
+
+	@Override
+	public String toString() {
+		return "ECL: " + getActualElement().getName();
+	}
+
 }

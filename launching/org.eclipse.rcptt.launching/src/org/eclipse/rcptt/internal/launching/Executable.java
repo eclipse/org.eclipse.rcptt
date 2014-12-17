@@ -66,11 +66,9 @@ public abstract class Executable implements IExecutable {
 					child.cancel(listener, cancelReason);
 				} else {
 					child.executeAndRememberResult(listener);
-					IStatus rv = child.getResultStatus();
-					if (rv.matches(IStatus.CANCEL)) {
+					IStatus rv = handleChildResult(child.getResultStatus());
+					if (!rv.isOK()) {
 						result = rv;
-						cancelReason = rv;
-					} else if (!handleChildResult(rv)) {
 						cancelReason = cancelledForPreviousFailures;
 					}
 				}
@@ -114,9 +112,9 @@ public abstract class Executable implements IExecutable {
 		}
 	}
 
-	/** @return false if children execution should be terminated */
-	protected boolean handleChildResult(IStatus resultStatus) {
-		return resultStatus.isOK();
+	/** @return OK status if execution should continue, resulting parent status otherwise */
+	protected IStatus handleChildResult(IStatus resultStatus) {
+		return resultStatus;
 	}
 
 	/** Should only be called from org.eclipse.rcptt.internal.launching.Executable.executeAndRememberResult() */
@@ -166,13 +164,6 @@ public abstract class Executable implements IExecutable {
 	 * @param result
 	 */
 	protected IStatus postExecute(Listener listener, IStatus result) {
-		for (IExecutable child : getChildren()) {
-			IStatus status = child.getResultStatus();
-			if (status != null && !status.isOK()) {
-				result = status;
-				break;
-			}
-		}
 		return result;
 	}
 
