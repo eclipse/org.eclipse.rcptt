@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.utils;
 
+import java.io.EOFException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -54,6 +57,40 @@ public class TestSuiteUtils {
 		e.printStackTrace(printWriter);
 		printWriter.close();
 		return writer.toString();
+	}
+
+	static IStatus getRootCause(IStatus status) {
+		if (status == null)
+			return null;
+		IStatus[] children = status.getChildren();
+		for (int i = children.length - 1; i >= 0; i--) {
+			IStatus child = children[i];
+			IStatus rv = getRootCause(child);
+			if (rv != null && rv.matches(IStatus.CANCEL | IStatus.ERROR))
+				return rv;
+		}
+		return status;
+	}
+
+	public static Throwable getRootCause(Throwable e) {
+		if (e == null)
+			return null;
+		Throwable rootCause = e;
+		while (rootCause.getCause() != null) {
+			rootCause = rootCause.getCause();
+		}
+		if (rootCause instanceof CoreException) {
+			IStatus status = getRootCause(((CoreException) rootCause).getStatus());
+			if (status != null && status.getException() != null) {
+				return getRootCause(status.getException());
+			}
+		}
+		return rootCause;
+	}
+
+	public static boolean isConnectionProblem(Throwable e) {
+		e = getRootCause(e);
+		return e instanceof EOFException || e instanceof SocketException;
 	}
 
 	public static IQ7NamedElement[] getElements(ILaunchConfiguration config) throws CoreException {

@@ -12,9 +12,7 @@ package org.eclipse.rcptt.internal.launching.aut;
 
 import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
-import java.io.EOFException;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,6 +93,7 @@ import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.Q7TeslaProblemInformer;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
+import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.network.TeslaNetworkReplayer;
@@ -791,14 +790,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE.createShutdownAut();
 			unsafeExecute(shutdownCmd, launchTimeout * 1000, new NullProgressMonitor());
 		} catch (Exception e) {
-			Throwable rootCause = e;
-			while (rootCause instanceof CoreException) {
-				rootCause = rootCause.getCause();
-			}
-			if (!(rootCause instanceof EOFException || rootCause instanceof SocketException)) {
-				if (e instanceof CoreException) {
-					throw (CoreException) e;
-				}
+			if (!TestSuiteUtils.isConnectionProblem(e)) {
 				throw new CoreException(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 						"Error during graceful shutdown", e));
 			}
