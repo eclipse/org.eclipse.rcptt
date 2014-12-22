@@ -29,6 +29,7 @@ import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.reporting.core.ReportManager;
+import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogFactory;
@@ -108,10 +109,23 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 	}
 
 	@Override
-	synchronized public void finish(Verification verification, Object data, IProcess process)
+	public void finish(Verification verification, Object data, IProcess process)
 			throws CoreException {
-		currentState = currentState.onFinish();
-		ErrorLogVerification logVerification = (ErrorLogVerification) verification;
+		synchronized (process) {
+			currentState = currentState.onFinish();
+		}
+		final ErrorLogVerification logVerification = (ErrorLogVerification) verification;
+		ErrorList errors = UIRunnable.exec(new UIRunnable<ErrorList>() {
+			@Override
+			public ErrorList run() throws CoreException {
+				return findErrors(logVerification);
+			}
+		});
+		errors.throwIfAny(String.format("Error log verification '%s' failed:", verification.getName()), this.getClass()
+				.getPackage().getName(), verification.getId());
+	}
+
+	private ErrorList findErrors(ErrorLogVerification logVerification) {
 		ErrorList errors = new ErrorList();
 		for (IStatus status: testLog) {
 			if (isWhiteListed(status))
@@ -130,8 +144,7 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 				errors.add("Required \n%s\nnot found", describe(predicate));
 			}
 		}
-		errors.throwIfAny(String.format("Error log verification '%s' failed:", verification.getName()), this.getClass()
-				.getPackage().getName(), verification.getId());
+		return errors;
 	}
 
 	@Override

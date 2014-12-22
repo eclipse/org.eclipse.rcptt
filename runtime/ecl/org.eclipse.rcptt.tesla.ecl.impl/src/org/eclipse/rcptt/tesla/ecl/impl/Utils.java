@@ -8,9 +8,9 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.internal.runtime.ui;
+package org.eclipse.rcptt.tesla.ecl.impl;
 
-import static org.eclipse.rcptt.internal.runtime.ui.Activator.PLUGIN_ID;
+import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.PLUGIN_ID;
 
 import java.util.HashSet;
 import java.util.Map;
