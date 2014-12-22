@@ -5,13 +5,13 @@
   <parent>
 	<artifactId>rcptt-module-nebula</artifactId>
 	<groupId>org.eclipse.rcptt</groupId>
-	<version>1.5.4-SNAPSHOT</version>
+	<version>1.5.5-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.module.nebula-runtime-site</artifactId>
-  <version>1.5.4-SNAPSHOT</version>
+  <version>1.5.5-SNAPSHOT</version>
   <packaging>eclipse-update-site</packaging>
 
 </project>

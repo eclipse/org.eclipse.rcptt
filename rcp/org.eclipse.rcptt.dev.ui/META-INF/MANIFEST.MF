@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCPTT Developer UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.dev.ui;singleton:=true
-Bundle-Version: 1.5.4.qualifier
+Bundle-Version: 1.5.5.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.rcptt.core;bundle-version="[1.5.4,1.6.0)",
- org.eclipse.rcptt.ui;bundle-version="[1.5.4,1.6.0)",
- org.eclipse.rcptt.tesla.core;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.core;bundle-version="[1.5.5,1.6.0)",
+ org.eclipse.rcptt.ui;bundle-version="[1.5.5,1.6.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[1.5.5,1.6.0)",
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
@@ -18,10 +18,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
  org.eclipse.ui.forms,
- org.eclipse.rcptt.tesla.recording.core;bundle-version="[1.5.4,1.6.0)",
- org.eclipse.rcptt.launching;bundle-version="[1.5.4,1.6.0)",
+ org.eclipse.rcptt.tesla.recording.core;bundle-version="[1.5.5,1.6.0)",
+ org.eclipse.rcptt.launching;bundle-version="[1.5.5,1.6.0)",
  org.eclipse.ui.views,
- org.eclipse.rcptt.tesla.ecl;bundle-version="[1.5.4,1.6.0)",
- org.eclipse.rcptt.ctx.resources;bundle-version="[1.5.4,1.6.0)"
+ org.eclipse.rcptt.tesla.ecl;bundle-version="[1.5.5,1.6.0)",
+ org.eclipse.rcptt.ctx.resources;bundle-version="[1.5.5,1.6.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

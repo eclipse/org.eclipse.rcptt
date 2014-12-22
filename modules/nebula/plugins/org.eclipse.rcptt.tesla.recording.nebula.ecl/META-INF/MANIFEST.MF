@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCPTT Recording Nebula ECL Support (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.nebula.ecl;singleton:=true
-Bundle-Version: 1.5.4.qualifier
+Bundle-Version: 1.5.5.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.rcptt.tesla.recording.core.ecl,

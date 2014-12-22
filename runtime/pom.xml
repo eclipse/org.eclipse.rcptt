@@ -5,7 +5,7 @@
   <parent>
     <artifactId>runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.4-SNAPSHOT</version>
+    <version>1.5.5-SNAPSHOT</version>
     <relativePath>../releng/runtime/pom.xml</relativePath>
   </parent>
   <!-- profiles>
@@ -47,7 +47,7 @@
        </profile>
        </profiles-->
   <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.4-SNAPSHOT</version>
+  <version>1.5.5-SNAPSHOT</version>
   <artifactId>rcptt.runtime</artifactId>
   <packaging>pom</packaging>
 

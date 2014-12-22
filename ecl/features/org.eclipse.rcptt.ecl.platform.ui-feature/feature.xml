@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.ecl.platform.ui"
       label="ECL Platform UI (Incubation)"
-      version="1.5.4.qualifier"
+      version="1.5.5.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.rcptt.ecl.platform.ui">
 
@@ -19,7 +19,7 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.4.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.5.qualifier"/>
    </requires>
 
    <plugin

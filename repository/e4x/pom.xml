@@ -4,7 +4,7 @@
   <parent>
     <artifactId>runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.4-SNAPSHOT</version>
+    <version>1.5.5-SNAPSHOT</version>
     <relativePath>../../releng/runtime/pom.xml</relativePath>
   </parent>
   <artifactId>e4x</artifactId>
