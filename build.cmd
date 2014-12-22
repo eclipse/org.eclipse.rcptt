@@ -1,4 +1,4 @@
-set MAVEN_OPTS="-Xms512m -Xmx756m -XX:MaxPermSize=256m"
+set MAVEN_OPTS=-Xms512m -Xmx756m -XX:MaxPermSize=256m
 set PWD=%CD:\=/%
 
 set TARGETS=clean verify
