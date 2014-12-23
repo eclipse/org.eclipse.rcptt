@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,6 +56,8 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
+import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
 
 public class PrepareExecutionWrapper extends Executable {
 
@@ -266,17 +270,19 @@ public class PrepareExecutionWrapper extends Executable {
 				}
 			}
 
-			if (!status.isOK()) {
+			if (!status.isOK() && !isNullOrEmpty(rootInfo.getMessage())) {
 				if (status instanceof ExecutionStatus) {
 					IStatus cause = ((ExecutionStatus) status).getCause(true);
 					if (cause == null && status.getSeverity() == IStatus.CANCEL) {
 						rootInfo.setMessage(status.getMessage());
-					}
-					if (cause instanceof ScriptErrorStatus) {
+					} else if (cause instanceof VerificationStatus) {
+						VerificationStatus verStatus = (VerificationStatus) cause;
+						String msg = VerificationReporter.getStyledMessage(verStatus).getMessage();
+						rootInfo.setMessage(msg);
+					} else if (cause instanceof ScriptErrorStatus) {
 						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) status).print());
 					} else {
-						// do nothing -- contexts and verifications populate
-						// errors correctly
+						rootInfo.setMessage(status.getMessage());
 					}
 				} else {
 					rootInfo.setMessage(status.getMessage());
@@ -313,7 +319,7 @@ public class PrepareExecutionWrapper extends Executable {
 
 	@Override
 	public String toString() {
-		return executable.toString();
+		return "Prepare: " + executable.toString();
 	}
 
 }
