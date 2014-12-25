@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>q7contexts.shared</artifactId>
-	<packaging>q7test</packaging>
+	<packaging>rcpttTest</packaging>
 
 	<parent>
 		<groupId>org.eclipse.rcptt.tests</groupId>

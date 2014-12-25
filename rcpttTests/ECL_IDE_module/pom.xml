@@ -4,14 +4,14 @@
 
 	<artifactId>q7-module-ide-tests</artifactId>
 	<version>1.5.3-SNAPSHOT</version>
-	<packaging>q7test</packaging>
+	<packaging>rcpttTest</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.xored.q7</groupId>
 			<artifactId>q7contexts.shared</artifactId>
 			<version>1.5.3-SNAPSHOT</version>
-			<type>q7test</type>
+			<type>rcpttTest</type>
 		</dependency>
 	</dependencies>
 
@@ -25,9 +25,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>${q7-maven-group}</groupId>
-				<artifactId>q7-maven-plugin</artifactId>
-				<version>${q7-maven-version}</version>
+				<groupId>${ci-maven-group}</groupId>
+				<artifactId>${ci-maven-plugin}</artifactId>
+				<version>${ci-maven-version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<aut>
@@ -81,9 +81,9 @@
 							<arg>http://licensing.xored.com/pool/04fb850c-d95d-eec0-76f9-12313b043cf6</arg>
 						</args>
 					</aut>
-					<q7>
-						<version>${q7-version}</version>
-					</q7>
+					<runner>
+						<version>${runner-version}</version>
+					</runner>
 					<testOptions>
 						<execTimeout>3600</execTimeout>
 					</testOptions>

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>tests</artifactId>
-  <packaging>q7test</packaging>
+  <packaging>rcpttTest</packaging>
 
   <parent>
     <groupId>org.eclipse.rcptt.tests</groupId>
@@ -18,9 +18,9 @@
   <build>
     <plugins>
       <plugin>
-	<groupId>${q7-maven-group}</groupId>
-	<artifactId>q7-maven-plugin</artifactId>
-	<version>${q7-maven-version}</version>
+	<groupId>${ci-maven-group}</groupId>
+	<artifactId>${ci-maven-plugin}</artifactId>
+	<version>${ci-maven-version}</version>
 	<extensions>true</extensions>
 
 	<configuration>
@@ -42,9 +42,9 @@
 		</injections>
 		
 	    </aut>
-	    <q7>
-	      <version>${q7-version}</version>
-	    </q7>
+	    <runner>
+	      <version>${runner-version}</version>
+	    </runner>
 	    <skipTags>
 	      <tag>skipExecution</tag>
 	    </skipTags>
@@ -63,9 +63,9 @@
       <build>
 	<plugins>
 	  <plugin>
-	    <groupId>${q7-maven-group}</groupId>
-	    <artifactId>q7-maven-plugin</artifactId>
-	    <version>${q7-maven-version}</version>
+	    <groupId>${ci-maven-group}</groupId>
+	    <artifactId>${ci-maven-plugin}</artifactId>
+	    <version>${ci-maven-version}</version>
 	    <extensions>true</extensions>
 	    <configuration>
 	      <skipTags combine.children="append">
