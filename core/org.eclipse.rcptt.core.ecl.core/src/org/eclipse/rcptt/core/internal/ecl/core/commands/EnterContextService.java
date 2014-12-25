@@ -32,7 +32,6 @@ import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.internal.core.TeslaProcessorManager;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
-import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
 import org.eclipse.swt.widgets.Display;
 
 public class EnterContextService implements ICommandService {
@@ -72,15 +71,11 @@ public class EnterContextService implements ICommandService {
 			if (!processed) {
 				final AdvancedInformation information = InfoFactory.eINSTANCE
 						.createAdvancedInformation();
-				final ITeslaCommandProcessor[] processors = new TeslaProcessorManager()
-						.getProcessors();
 				try {
 					final boolean infoCollected[] = { false };
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							for (ITeslaCommandProcessor processor : processors) {
-								processor.collectInformation(information, null);
-							}
+							new TeslaProcessorManager().collectInformation(information, null);
 							infoCollected[0] = true;
 						}
 					});

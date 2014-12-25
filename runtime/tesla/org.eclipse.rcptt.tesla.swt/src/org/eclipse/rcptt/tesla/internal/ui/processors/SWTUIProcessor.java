@@ -149,7 +149,6 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
 import org.eclipse.rcptt.tesla.core.utils.TeslaUtils;
 import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
-import org.eclipse.rcptt.tesla.internal.core.IScreenshotFactory;
 import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.core.info.InfoUtils;
@@ -223,7 +222,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 
 public class SWTUIProcessor implements ITeslaCommandProcessor,
-		IScreenshotFactory, IModelMapperHelper {
+		IModelMapperHelper {
 	private static final ElementKind[] allSelectors = { ElementKind.Window,
 			ElementKind.Menu, ElementKind.Button, ElementKind.Tree,
 			ElementKind.List, ElementKind.Label, ElementKind.Table,
@@ -3305,21 +3304,6 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	public void notifyUI() {
 		getPlayer().wakeup();
 
-	}
-
-	public void makeScreenshot(String msg, boolean postExecute) {
-		if (!postExecute)
-			return;
-		// if
-		// (TeslaFeatures.getInstance().isTrue(TeslaFeatures.CAPTURE_EXECUTION))
-		// {
-		// Snaphot snaphot = ReportScreenshotProvider
-		// .takeScreenshot(getPlayer().getDisplay());
-		// if (snaphot != null) {
-		// Screenshot sc = (Screenshot) snaphot.getData();
-		// sc.setPostExecute(postExecute);
-		// }
-		// }
 	}
 
 	public EObject getElementModel(Element element) {

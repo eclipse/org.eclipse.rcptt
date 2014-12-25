@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -46,6 +45,7 @@ import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
 import org.eclipse.rcptt.tesla.internal.core.processing.ElementGenerator;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor.PreExecuteStatus;
+import org.eclipse.rcptt.util.Exceptions;
 
 public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	private boolean processing = false;
@@ -53,7 +53,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	protected final List<Command> localQueue = new ArrayList<Command>();
 	private Map<String, Set<ITeslaCommandProcessor>> elementProcessors = new HashMap<String, Set<ITeslaCommandProcessor>>();
 	private final Map<Command, ITeslaCommandProcessor.PreExecuteStatus> preStatuses = new HashMap<Command, ITeslaCommandProcessor.PreExecuteStatus>();
-	private ITeslaCommandProcessor[] processors;
+	private final TeslaProcessorManager processors = new TeslaProcessorManager();
 	private Context currentContext;
 
 	private final String id;
@@ -63,10 +63,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	public AbstractTeslaClient(String id) {
 		super();
 		this.id = id;
-		processors = new TeslaProcessorManager().getProcessors();
-		for (ITeslaCommandProcessor processor : processors) {
-			processor.initialize(this, id);
-		}
+		processors.initializeProcessors(this, id);
 	}
 
 	public ElementGenerator getGenerator() {
@@ -78,10 +75,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	}
 
 	public void shutdown() {
-		for (ITeslaCommandProcessor processor : processors) {
-			processor.terminate();
-		}
-		processors = null;
+		processors.terminate();
 		elementProcessors = null;
 	}
 
@@ -96,14 +90,12 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	public void map(Element element, ITeslaCommandProcessor processor) {
 		if (element != null && processor != null) {
 			putProcessor(element, processor);
-			for (ITeslaCommandProcessor proc : processors) {
-				proc.postSelect(element, new IElementProcessorMapper() {
-					public void map(Element element,
-							ITeslaCommandProcessor processor) {
-						putProcessor(element, processor);
-					}
-				});
-			}
+			processors.postSelect(element, new IElementProcessorMapper() {
+				public void map(Element element,
+						ITeslaCommandProcessor processor) {
+					putProcessor(element, processor);
+				}
+			});
 		}
 	}
 
@@ -126,33 +118,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		try {
 			// Check for extensions first
 			String kind = cmd.getData().getKind();
-			ITeslaCommandProcessor lastProcessor = null;
-			SelectResponse response = null;
-			for (ITeslaCommandProcessor processor : processors) {
-				if (processor.isSelectorSupported(kind)) {
-					try {
-						response = processor.select(cmd, generator, this);
-						lastProcessor = processor;
-					} catch (Throwable t) {
-						TeslaCore.log(t);
-						if (response == null) {
-							response = ProtocolFactory.eINSTANCE
-									.createSelectResponse();
-						}
-						response.setStatus(ResponseStatus.FAILED);
-						response.setMessage(t.getMessage());
-					}
-					if (response != null && !response.getElements().isEmpty()) {
-						for (Element uiElement : response.getElements()) {
-							map(uiElement, processor);
-						}
-						break;
-					}
-				}
-				if (response != null && !response.getElements().isEmpty()) {
-					break;
-				}
-			}
+			SelectResponse response = processors.select(cmd, generator, this);
 			if (response == null) {
 				response = ProtocolFactory.eINSTANCE.createSelectResponse();
 				response.setStatus(ResponseStatus.FAILED);
@@ -160,7 +126,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 						+ " is available for selection...");
 			}
 			if (response.getStatus().equals(ResponseStatus.FAILED)) {
-				handleFailedResponse(cmd, response, lastProcessor);
+				handleFailedResponse(cmd, response);
 			}
 			stream().writeResponse(response);
 		} catch (Throwable e) {
@@ -174,13 +140,12 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 
 	protected void handleAssert(Assert cmd) throws IOException {
 		// Check for extensions first
-		for (ITeslaCommandProcessor processor : processors) {
-			Response response = processor.executeCommand(cmd, this);
+		{
+			Response response = processors.executeCommand(cmd, this, true);
 			if (response != null) {
 				stream().writeResponse(response);
 				return;
 			}
-
 		}
 		BooleanResponse response = ProtocolFactory.eINSTANCE
 				.createBooleanResponse();
@@ -217,13 +182,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 
 	protected boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		hasEvents.set(0);
-		boolean result = true;
-		for (ITeslaCommandProcessor processor : processors) {
-			boolean proceed = processor.canProceed(context, info);
-			if (!proceed) {
-				result = false;
-			}
-		}
+		boolean result = processors.canProceed(context, info);
 		if (hasEvents.get() > 0) {
 			return false;
 		}
@@ -232,9 +191,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 
 	public void clean() {
 		lastFailureInformation = null;
-		for (ITeslaCommandProcessor processor : processors) {
-			processor.clean();
-		}
+		processors.clean();
 		for (PreExecuteStatus status : preStatuses.values()) {
 			status.clean();
 		}
@@ -272,19 +229,10 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 				}
 			}
 		} else {
-			for (ITeslaCommandProcessor processor : processors) {
-				try {
-					PreExecuteStatus status = processor.preExecute(command,
-							preStatuses.get(command), info);
-					if (status != null) {
-						if (!status.canExecute) {
-							preStatuses.put(command, status);
-							return false;
-						}
-					}
-				} catch (Throwable e) {
-					TeslaCore.log(e);
-				}
+			PreExecuteStatus status = processors.preExecute(command, preStatuses.get(command), info);
+			if (status != null && !status.canExecute) {
+				preStatuses.put(command, status);
+				return false;
 			}
 		}
 		return true;
@@ -296,9 +244,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	}
 
 	public void notifyUI() {
-		for (ITeslaCommandProcessor processor : processors) {
-			processor.notifyUI();
-		}
+		processors.notifyUI();
 	}
 
 	private boolean doOneCommand(Context context, Q7WaitInfoRoot info) {
@@ -327,9 +273,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 				}
 				return false;
 			}
-			preExecute(command);
 			execute(command);
-			postExecute(command);
 		} finally {
 			synchronized (this) {
 				processing = false;
@@ -337,33 +281,6 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 			currentContext = null;
 		}
 		return true;
-	}
-
-	protected void postExecute(Command command) {
-		if (processors == null) {
-			return;
-		}
-		for (ITeslaCommandProcessor processor : processors) {
-			if (processor instanceof IScreenshotFactory) {
-				((IScreenshotFactory) processor).makeScreenshot(
-						"post execute: " + command.getClass().getName(), true);
-				break;
-			}
-		}
-	}
-
-	protected void preExecute(Command command) {
-		if (command instanceof SelectCommand || command instanceof Nop
-				|| command instanceof Assert) {
-			return;
-		}
-		for (ITeslaCommandProcessor processor : processors) {
-			if (processor instanceof IScreenshotFactory) {
-				((IScreenshotFactory) processor).makeScreenshot(
-						"pre execute: " + command.getClass().getName(), false);
-				break;
-			}
-		}
 	}
 
 	protected void execute(final Command command) {
@@ -389,7 +306,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 										if (response.getStatus().equals(
 												ResponseStatus.FAILED)) {
 											handleFailedResponse(command,
-													response, processor);
+													response);
 										}
 										stream().writeResponse(response);
 										return;
@@ -405,26 +322,19 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 					}
 				}
 			} else {
-				for (ITeslaCommandProcessor processor : processors) {
-					if (processor.isCommandSupported(command)) {
-						try {
-							Response response = processor.executeCommand(
-									command, this);
-							if (response != null) {
-								if (response.getStatus().equals(
-										ResponseStatus.FAILED)) {
-									handleFailedResponse(command, response,
-											processor);
-								}
-								stream().writeResponse(response);
-								return;
-							}
-						} catch (Exception e) {
-							TeslaCore.log(e);
-							sendErrorResponse(e);
-							return;
+				try {
+					Response response = processors.executeCommand(command, this, true);
+					if (response != null) {
+						if (response.getStatus().equals(ResponseStatus.FAILED)) {
+							handleFailedResponse(command, response);
 						}
+						stream().writeResponse(response);
+						return;
 					}
+				} catch (Exception e) {
+					TeslaCore.log(e);
+					sendErrorResponse(e);
+					return;
 				}
 			}
 			if (command.eClass().getEPackage()
@@ -476,7 +386,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 			return;
 		} catch (Throwable t) {
 			logException(t);
-			handleFailedResponse(command, null, null);
+			handleFailedResponse(command, null);
 		}
 	}
 
@@ -484,8 +394,8 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		try {
 			Response errorResponse = RawFactory.eINSTANCE.createResponse();
 			errorResponse.setStatus(ResponseStatus.FAILED);
-			errorResponse.setMessage("Exception happened: "
-					+ e.toString()); // not only class name, but also its
+			errorResponse.setMessage("Exception happened:\n"
+					+ Exceptions.toString(e)); // not only class name, but also its
 										// message
 			stream().writeResponse(errorResponse);
 		} catch (Throwable e2) {
@@ -501,8 +411,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		lastFailureInformation = null;
 	}
 
-	protected void handleFailedResponse(Command command, Response response,
-			ITeslaCommandProcessor processor) {
+	protected void handleFailedResponse(Command command, Response response) {
 		if (response != null) {
 			// Collect advanced information for this error
 			AdvancedInformation information = getAdvancedInformation(command);
@@ -514,13 +423,8 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 
 	public AdvancedInformation getAdvancedInformation(Command command) {
 		// Collect advanced information
-		AdvancedInformation information = InfoFactory.eINSTANCE
-				.createAdvancedInformation();
-		if (processors != null) {
-			for (ITeslaCommandProcessor commandProcessor : processors) {
-				commandProcessor.collectInformation(information, command);
-			}
-		}
+		AdvancedInformation information = InfoFactory.eINSTANCE.createAdvancedInformation();
+		processors.collectInformation(information, command);
 		GeneralInformationCollector.collectInformation(information);
 
 		return information;
@@ -536,22 +440,11 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	public abstract boolean hasCommand();
 
 	public <T> T getProcessor(Class<T> clazz$) {
-		for (ITeslaCommandProcessor processor : processors) {
-			if (clazz$ == processor.getClass()) {
-				return clazz$.cast(processor);
-			}
-		}
-		return null;
+		return processors.getProcessor(clazz$);
 	}
 
 	public <T> List<T> getProcessors(Class<T> clazz$) {
-		List<T> result = new ArrayList<T>();
-		for (ITeslaCommandProcessor processor : processors) {
-			if (clazz$.isInstance(processor)) {
-				result.add(clazz$.cast(processor));
-			}
-		}
-		return result;
+		return processors.getProcessors(clazz$);
 	}
 
 }
