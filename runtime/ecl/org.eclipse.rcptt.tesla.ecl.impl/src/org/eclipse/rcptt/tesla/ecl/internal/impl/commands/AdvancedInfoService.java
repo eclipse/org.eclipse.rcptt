@@ -21,7 +21,6 @@ import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
-import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
 import org.eclipse.ui.PlatformUI;
 

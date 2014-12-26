@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.core;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
@@ -18,15 +20,10 @@ import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
-
-import java.util.Map;
-
-import org.eclipse.emf.ecore.EObject;
 
 public class ReportHelper {
 
@@ -114,6 +111,7 @@ public class ReportHelper {
 			@Override
 			public void apply(Node arg) {
 				Q7Info info = getInfo(arg);
+
 				info.setResult(status);
 				info.setMessage(message);
 			}
@@ -125,4 +123,5 @@ public class ReportHelper {
 		snapshot.setData(data);
 		node.addSnapshot(snapshot);
 	}
+
 }

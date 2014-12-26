@@ -19,7 +19,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 
 public class TeslaQPlayer extends UIPlayer {
-	private TeslaStream qStream = null;
+	private final TeslaStream qStream;
 
 	public TeslaQPlayer(TeslaQClient client) throws UnknownHostException,
 			IOException {

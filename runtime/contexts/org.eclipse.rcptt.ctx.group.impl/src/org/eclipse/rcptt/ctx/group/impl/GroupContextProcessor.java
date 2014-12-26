@@ -12,46 +12,22 @@ package org.eclipse.rcptt.ctx.group.impl;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.IEclAwareProcessor;
+import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.ecl.runtime.ISession;
-import org.eclipse.rcptt.reporting.ItemKind;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
-import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 
 public class GroupContextProcessor implements IContextProcessor, IEclAwareProcessor {
 	public void apply(Context context, ISession session) throws CoreException {
 		GroupContext groupContext = (GroupContext) context;
-
-		ContextTypeManager typeManager = ContextTypeManager.getInstance();
 		for (Context refContext : groupContext.getContexts()) {
-			final INodeBuilder nde = ReportManager.getCurrentReportNode().beginTask(refContext.getName());
-			final Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
-			info.setType(ItemKind.CONTEXT);
-			try {
-				typeManager.apply(refContext, session);
-				if (nde != null) {
-					info.setResult(ResultStatus.PASS);
-				}
-			} catch (CoreException e) {
-				if (nde != null) {
-					info.setResult(ResultStatus.FAIL);
-					info.setMessage(e.getMessage());
-				}
-				throw e;
-			} finally {
-				ReportHelper.setInfo(nde, info);
-				nde.endTask();
-			}
+			EnterContext childCommand = Q7CoreFactory.eINSTANCE.createEnterContext();
+			childCommand.setData(refContext);
+			session.execute(childCommand);
 		}
-
 	}
 
 	public void apply(Context context) throws CoreException {
