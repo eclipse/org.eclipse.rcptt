@@ -28,6 +28,6 @@ mkdir -p $buildDestination
 productsDir=$WORKSPACE/repository/full/target/products
 
 
-$productsDir/org.eclipse.rcptt.platform.product/$QUALIFIER/rcptt/rcptt \
+$JAVA_HOME/bin/java -jar $productsDir/org.eclipse.rcptt.platform.product/$QUALIFIER/rcptt/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar \
     -application org.eclipse.rcptt.ecl.doc.generator \
     -output $buildDestination/ecl.html
