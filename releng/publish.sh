@@ -72,7 +72,7 @@ cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQu
 
 
 DOC_DIR=$WORKSPACE/releng/doc/target
-if [ -d "$DOC_DIR"]; then
+if [ -d "$DOC_DIR" ]; then
     cp -r $DOC_DIR/doc $buildDestination
     cp -r $DOC_DIR/doc $latest
 fi
