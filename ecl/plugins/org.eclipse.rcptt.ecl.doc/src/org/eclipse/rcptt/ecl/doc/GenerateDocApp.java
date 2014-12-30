@@ -47,7 +47,7 @@ public class GenerateDocApp implements IApplication {
 			outputFile = new File(outputFile, DEFAULT_OUTPUT);
 		}
 
-		if (!outputFile.getParentFile().exists() && !outputFile.mkdirs()) {
+		if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
 			return printErrUsageAndGetExitCode("Cannot create parent folder for output");
 		}
 

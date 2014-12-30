@@ -71,3 +71,8 @@ cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQu
 cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-win32.win32.x86_64.zip  $latest/ide/rcptt.ide-incubation-$productVersion-$type-win32.win32.x86_64.zip
 
 
+DOC_DIR=$WORKSPACE/releng/doc/target
+if [ -d "$DOC_DIR"]; then
+    cp -r $DOC_DIR/doc $buildDestination
+    cp -r $DOC_DIR/doc $latest
+fi
