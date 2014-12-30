@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -20,12 +22,12 @@ import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.ecl.core.model.CreateWidgetVerificationParam;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
 import org.eclipse.rcptt.tesla.core.utils.WidgetModels.StyleDiff;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.rcptt.verifications.runtime.ErrorList;
 import org.eclipse.rcptt.verifications.status.StatusFactory;
 import org.eclipse.rcptt.verifications.status.TreeItemStyleVerificationError;
@@ -33,8 +35,10 @@ import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
 import org.eclipse.rcptt.verifications.tree.CaptureTreeVerificationData;
 import org.eclipse.rcptt.verifications.tree.Cell;
 import org.eclipse.rcptt.verifications.tree.Column;
+import org.eclipse.rcptt.verifications.tree.ModelTreeNodeAdapter;
 import org.eclipse.rcptt.verifications.tree.Row;
 import org.eclipse.rcptt.verifications.tree.Tree;
+import org.eclipse.rcptt.verifications.tree.TreeComparison;
 import org.eclipse.rcptt.verifications.tree.TreeFactory;
 import org.eclipse.rcptt.verifications.tree.TreeVerificationUtils;
 import org.eclipse.rcptt.verifications.tree.VerifyStyleType;
@@ -57,28 +61,35 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 		final Widget widget = swtuiElement.widget;
 		final ErrorList errors = new ErrorList();
 
+		final Throwable error[] = new Throwable[1];
 		widget.getDisplay().syncExec(new Runnable() {
 			@Override
 			public void run() {
-				Tree expectedTree = treeVerification.getTree();
-				Tree actualTree = TreeVerificationModeller.getTreeData(widget, false);
+				try {
+					Tree expectedTree = treeVerification.getTree();
+					Tree actualTree = TreeVerificationModeller.getTreeData(widget, false);
 
-				compareTrees(widget,
-						errors, expectedTree, actualTree,
-						treeVerification.isAllowUncapturedChildren(),
-						treeVerification.isAllowExtraColumns(),
-						treeVerification.isAllowMissingColumns(),
-						treeVerification.isVerifyIcons(),
-						treeVerification.getVerifyStyle());
+					compareTrees(widget,
+							errors, expectedTree, actualTree,
+							treeVerification.isAllowUncapturedChildren(),
+							treeVerification.isAllowExtraColumns(),
+							treeVerification.isAllowMissingColumns(),
+							treeVerification.isVerifyIcons(),
+							treeVerification.getVerifyStyle());
+				} catch (Throwable e) {
+					error[0] = e;
+				}
 			}
 		});
+		if (error[0] != null)
+			throw new CoreException(RcpttPlugin.createStatus(error[0]));
 		errors.throwIfAny(String.format("Tree widget verification '%s' failed:", verification.getName()),
 				this.getClass().getPackage().getName(), verification.getId());
 	}
 
 	private void compareTrees(final Widget widget,
 			final ErrorList errors,
-			Tree expectedTree, Tree actualTree,
+			final Tree expectedTree, Tree actualTree,
 			final boolean allowUnverifiedChildren,
 			final boolean allowExtra, final boolean allowMissing,
 			final boolean verifyIcons, final VerifyStyleType verifyStyle) {
@@ -87,7 +98,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 			return;
 		}
 
-		EList<Column> expectingColumns = expectedTree.getColumns();
+		final EList<Column> expectingColumns = expectedTree.getColumns();
 		EList<Column> actualColumns = actualTree.getColumns();
 		final int[] mappedInds = (expectingColumns.size() > 0)
 				? new int[expectingColumns.size()]
@@ -149,57 +160,44 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				}
 			}
 
-			TreeIterator actIter = new TreeIterator(widget);
-			TreeVerificationModelIterator expIter = new TreeVerificationModelIterator(expectedTree);
-			int columnCount = TableTreeUtil.getColumnCount(widget);
-
-			if (expIter.getItemsCount() != actIter.getItemsCount()) {
-				errors.add("Different rows amount, expected %d, but was %d", expIter.getItemsCount(),
-						actIter.getItemsCount());
-			} else {
-				while (!expIter.isEnd()) {
-					Row expRow = expIter.getItem();
-					Row actRow = TreeVerificationModeller.getRow(actIter.getItem(), columnCount, false);
-					List<Integer> itemIndPath = expIter.getItemIndexPath();
-
-					boolean equal = compareRows(errors, expRow, actRow, widget.getDisplay(), verifyStyle, verifyIcons,
-							expIter.getItemIndex(), expectingColumns, mappedInds, itemIndPath,
-							expIter.getNonBlankItemPath());
-					if (equal) {
-						expIter.nextInto();
-						actIter.nextInto();
-					} else {
-						if (expIter.nextOver() == null) {
-							expIter.stepReturn();
-						}
-						if (actIter.nextOver() == null) {
-							actIter.stepReturn();
-						}
-					}
-					if (expIter.getNestingLevel() < actIter.getNestingLevel()) {
-						if (!allowUnverifiedChildren) {
-							TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
-							error.setMessage(
-									String.format("Different row children amount, expected %d, but was %d",
-											0, actIter.getItemsCount()));
-							error.getItemIndexPath().addAll(itemIndPath);
-							error.setItemPath(actIter.getNonBlankPath());
-							errors.add(error);
-						}
-						actIter.stepReturn();
-					} else if (expIter.getNestingLevel() > actIter.getNestingLevel()) {
-						TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
-						error.setMessage(
-								String.format("Different row children amount, expected %d, but was %d",
-										expIter.getItemsCount(), 0));
-						error.getItemIndexPath().addAll(itemIndPath);
-						error.setItemPath(expIter.getNonBlankPath());
-						errors.add(error);
-						expIter.stepReturn();
-					}
+			TreeComparison<Row> comparison = new TreeComparison<Row>(allowUnverifiedChildren) {
+				@Override
+				public List<TreeItemVerificationError> compare(Row row1, Row row2) {
+					List<TreeItemVerificationError> rv = new ArrayList<TreeItemVerificationError>();
+					boolean equal = compareRows(rv, row1, row2, widget.getDisplay(), verifyStyle, verifyIcons,
+							expectingColumns, mappedInds);
+					Assert.isTrue(equal == rv.isEmpty());
+					return rv;
 				}
+
+				@Override
+				public String getName(Row payload) {
+					if (payload == null)
+						return "";
+					return getNonBlankItemText(expectedTree, payload);
+				}
+			};
+			
+			List<TreeItemVerificationError> treeResults = comparison.compare(new ModelTreeNodeAdapter(expectedTree), new WidgetTreeNodeAdapter(widget));
+			for (TreeItemVerificationError treeItemVerificationError : treeResults) {
+				errors.add(treeItemVerificationError);
+			}
+
+		}
+	}
+
+	private static String getNonBlankItemText(Tree tree, Row item) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < item.getValues().size(); i++) {
+			if (!item.getValues().get(i).getData().getText().equals("")) {
+				sb.append(item.getValues().get(i).getData().getText());
+				if (i != 0) {
+					sb.append(String.format("(column \"%s\")", tree.getColumns().get(i).getName()));
+				}
+				break;
 			}
 		}
+		return sb.toString();
 	}
 
 	private boolean isEqualStrings(String left, String right) {
@@ -207,13 +205,21 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 		|| (left != null && !left.equals(right)));
 	}
 
-	private boolean compareRows(ErrorList errors,
+	private boolean compareRows(List<TreeItemVerificationError> errors,
 			Row expectedRow, Row actualRow,
 			Display display, VerifyStyleType verifyStyle,
-			boolean verifyIcons, int rowsInd,
+			boolean verifyIcons,
 			List<Column> columns,
-			int[] mappedInds, List<Integer> itemIndPath, String fullItemPath) {
+			int[] mappedInds) {
 		boolean equal = true;
+		if (expectedRow == actualRow)
+			return true;
+		if (expectedRow == null || actualRow == null) {
+			TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
+			error.setMessage("Row undefined");
+			errors.add(error);
+		}
+
 		if (expectedRow.isChecked() != actualRow.isChecked()) {
 			equal = false;
 			TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
@@ -221,8 +227,6 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 					String.format("Expected to be %s, but actual row is %s",
 							expectedRow.isChecked() ? "checked" : "unchecked",
 							actualRow.isChecked() ? "checked" : "unchecked"));
-			error.getItemIndexPath().addAll(itemIndPath);
-			error.setItemPath(fullItemPath);
 			errors.add(error);
 		}
 		for (int j = 0; j < mappedInds.length; j++) {
@@ -242,11 +246,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 								String.format("Expected %s, but was %s",
 										(expImg == null) ? "no icon" : String.format("icon \"%s\"", expImg),
 										(actImg == null) ? "no icon" : String.format("\"%s\"", actImg)));
-						error.getItemIndexPath().addAll(itemIndPath);
 						if (columns.size() > j) {
 							error.setColumn(columns.get(j).getName());
 						}
-						error.setItemPath(fullItemPath);
 						errors.add(error);
 					}
 				}
@@ -265,11 +267,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 					error.setMessage(
 							String.format("Expected \"%s\", but was \"%s\"",
 									expVal.getData().getText(), actVal.getData().getText()));
-					error.getItemIndexPath().addAll(itemIndPath);
 					if (columns.size() > j) {
 						error.setColumn(columns.get(j).getName());
 					}
-					error.setItemPath(fullItemPath);
 					errors.add(error);
 				} else if (verifyStyle == VerifyStyleType.ALL) {
 					StyleDiff diff = WidgetModels.getDiff(0, expText.length(), expectedStyles, actualStyles);
@@ -282,8 +282,6 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 						if (columns.size() > j) {
 							error.setColumn(columns.get(j).getName());
 						}
-						error.getItemIndexPath().addAll(itemIndPath);
-						error.setItemPath(fullItemPath);
 						error.setExpectedStyle(diff.expected);
 						error.setActualStyle(diff.actual);
 						errors.add(error);

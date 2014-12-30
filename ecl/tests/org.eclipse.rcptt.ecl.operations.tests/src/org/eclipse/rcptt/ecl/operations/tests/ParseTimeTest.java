@@ -20,8 +20,13 @@ import org.junit.Test;
 public class ParseTimeTest extends TestWithSession {
 
 	@Test
-	public void testNormal() throws InterruptedException, CoreException {
+	public void testDate() throws InterruptedException, CoreException {
 		assertEquals(1325437320000L, runScript("parse-time \"2012-02-02 +0700\" -format \"yyyy-mm-dd Z\""));
+	}
+
+	@Test
+	public void testTime() throws InterruptedException, CoreException {
+		assertEquals(1325491200000L, runScript("parse-time \"2012-02-02 15:00 +0700\" -format \"yyyy-mm-dd HH:mm Z\""));
 	}
 
 	@Test
