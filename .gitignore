@@ -2,6 +2,7 @@ runtime/updates/org.eclipse.rcptt.updates.runtime/q7/
 runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7/
 runtime/updates/org.eclipse.rcptt.updates.rap.runtime/q7/
 runtime/updates/org.eclipse.rcptt.updates.helios/dependencies
+
 runtime/updates/org.eclipse.rcptt.updates.kepler/dependencies
 runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x/dependencies
 runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x/dependencies
