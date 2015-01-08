@@ -73,7 +73,6 @@ import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
@@ -184,28 +183,24 @@ public class Q7ExternalLaunchDelegate extends
 
 		waitForClearBundlePool(monitor);
 
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		final CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		if (info.target != null) {
 			monitor.done();
 			return true;
 		}
 
-		ITargetPlatformHelper target = null;
-		info = LaunchInfoCache.getInfo(configuration);
-		try {
-			target = Q7TargetPlatformManager.getTarget(configuration,
-					SubMonitor.convert(monitor, 2));
-		} catch (Exception e) {
-			monitor.setCanceled(true);
-		}
+		final ITargetPlatformHelper target = Q7TargetPlatformManager.getTarget(configuration,
+				SubMonitor.convert(monitor, 2));
+
 		if (monitor.isCanceled()) {
 			removeTargetPlatform(configuration);
 			return false;
 		}
 
 		info.target = target;
-		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "Target platform initialization failed  for "
+		final MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0,
+				"Target platform initialization failed  for "
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
 		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
@@ -233,47 +228,43 @@ public class Q7ExternalLaunchDelegate extends
 						+ ": Detected AUT architecture is "
 						+ architecture.name() + "." + detectMsg.toString());
 
-		try {
-			IVMInstall install = VMHelper.getVMInstall(configuration);
+		IVMInstall install = VMHelper.getVMInstall(configuration);
 
-			OSArchitecture jvmArch = JDTUtils.detect(install);
+		OSArchitecture jvmArch = JDTUtils.detect(install);
 
-			Q7ExtLaunchingPlugin.getDefault().info(
-					Q7_LAUNCHING_AUT + configuration.getName()
-							+ ": Selected JVM is "
-							+ install.getInstallLocation().toString()
-							+ " detected architecture is " + jvmArch.name());
+		Q7ExtLaunchingPlugin.getDefault().info(
+				Q7_LAUNCHING_AUT + configuration.getName()
+						+ ": Selected JVM is "
+						+ install.getInstallLocation().toString()
+						+ " detected architecture is " + jvmArch.name());
 
-			boolean canRun32bit = false;
-			if (jvmArch.equals(architecture)
-					|| (jvmArch.equals(OSArchitecture.x86_64) && (canRun32bit = JDTUtils
-							.canRun32bit(install)))) {
-				haveAUT = true;
-			}
+		boolean canRun32bit = false;
+		if (jvmArch.equals(architecture)
+				|| (jvmArch.equals(OSArchitecture.x86_64) && (canRun32bit = JDTUtils
+						.canRun32bit(install)))) {
+			haveAUT = true;
+		}
 
-			if (!haveAUT
-					&& architecture != OSArchitecture.Unknown
-					&& target.detectArchitecture(false, new StringBuilder()) == OSArchitecture.Unknown) {
-				Q7ExtLaunchingPlugin
-						.getDefault()
-						.info("Cannot determine AUT architecture, sticking to architecture of selected JVM, which is "
-								+ jvmArch.name());
-				haveAUT = true;
-			}
-
+		if (!haveAUT
+				&& architecture != OSArchitecture.Unknown
+				&& target.detectArchitecture(false, new StringBuilder()) == OSArchitecture.Unknown) {
 			Q7ExtLaunchingPlugin
 					.getDefault()
-					.info(Q7_LAUNCHING_AUT
-							+ configuration.getName()
-							+ ": JVM and AUT architectures are compatible: "
-							+ haveAUT
-							+ "."
-							+ (jvmArch.equals(OSArchitecture.x86_64) ? " JVM is 64bit and support running 32bit: "
-									+ canRun32bit
-									: ""));
-		} catch (Throwable e) {
-			RcpttPlugin.log(e);
+					.info("Cannot determine AUT architecture, sticking to architecture of selected JVM, which is "
+							+ jvmArch.name());
+			haveAUT = true;
 		}
+
+		Q7ExtLaunchingPlugin
+				.getDefault()
+				.info(Q7_LAUNCHING_AUT
+						+ configuration.getName()
+						+ ": JVM and AUT architectures are compatible: "
+						+ haveAUT
+						+ "."
+						+ (jvmArch.equals(OSArchitecture.x86_64) ? " JVM is 64bit and support running 32bit: "
+								+ canRun32bit
+								: ""));
 		if (!haveAUT) {
 			// Let's search for configuration and update JVM if possible.
 			haveAUT = updateJVM(configuration, architecture,
@@ -281,30 +272,19 @@ public class Q7ExternalLaunchDelegate extends
 
 			if (!haveAUT) {
 				// try to register current JVM, it may help
-				try {
-					JDTUtils.registerCurrentJVM();
-					haveAUT = updateJVM(configuration, architecture,
-							((ITargetPlatformHelper) info.target));
-				} catch (CoreException e) {
-					// no special actions, error message will be set by
-					// lines below
-					Q7ExtLaunchingPlugin.getDefault().log(e);
-				}
+				JDTUtils.registerCurrentJVM();
+				haveAUT = updateJVM(configuration, architecture,
+						((ITargetPlatformHelper) info.target));
 			}
 
 			if (haveAUT) {
-				try {
-					Q7ExtLaunchingPlugin
-							.getDefault()
-							.info(Q7_LAUNCHING_AUT
-									+ configuration.getName()
-									+ "JVM configuration is updated to compatible one: "
-									+ VMHelper.getVMInstall(configuration)
-											.getInstallLocation());
-				} catch (Throwable e) {
-					// in case of error
-					Q7ExtLaunchingPlugin.getDefault().log(e.getMessage(), e);
-				}
+				Q7ExtLaunchingPlugin
+						.getDefault()
+						.info(Q7_LAUNCHING_AUT
+								+ configuration.getName()
+								+ "JVM configuration is updated to compatible one: "
+								+ VMHelper.getVMInstall(configuration)
+										.getInstallLocation());
 			}
 
 		}
@@ -326,8 +306,7 @@ public class Q7ExternalLaunchDelegate extends
 
 	private void removeTargetPlatform(ILaunchConfiguration configuration)
 			throws CoreException {
-		String targetPlatformName = configuration.getAttribute(
-				IQ7Launch.TARGET_PLATFORM, "");
+		String targetPlatformName = Q7TargetPlatformManager.getTargetPlatformName(configuration);
 		Q7TargetPlatformManager.delete(targetPlatformName);
 		LaunchInfoCache.remove(configuration);
 		TargetPlatformManager.deleteTargetPlatform(targetPlatformName);
@@ -351,8 +330,7 @@ public class Q7ExternalLaunchDelegate extends
 	}
 
 	private static boolean updateJVM(ILaunchConfiguration configuration,
-			OSArchitecture architecture, ITargetPlatformHelper target) {
-		try {
+			OSArchitecture architecture, ITargetPlatformHelper target) throws CoreException {
 			IVMInstall jvmInstall = null;
 			OSArchitecture jvmArch = OSArchitecture.Unknown;
 			IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
@@ -450,9 +428,6 @@ public class Q7ExternalLaunchDelegate extends
 				workingCopy.doSave();
 				return true;
 			}
-		} catch (Throwable e) {
-			RcpttPlugin.log(e);
-		}
 		return false;
 	}
 
