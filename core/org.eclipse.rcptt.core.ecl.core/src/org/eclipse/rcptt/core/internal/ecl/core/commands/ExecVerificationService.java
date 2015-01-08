@@ -59,17 +59,15 @@ public class ExecVerificationService implements ICommandService {
 				info.setResult(ResultStatus.PASS);
 			}
 		} catch (Throwable e) {
-			if (node != null) {
-				info.setResult(ResultStatus.FAIL);
-				if (e instanceof CoreException
-						&& ((CoreException) e).getStatus() instanceof VerificationStatus) {
-					VerificationStatus st = (VerificationStatus) ((CoreException) e).getStatus();
-					info.setMessage(VerificationReporter.getStyledMessage(st).getMessage());
-				} else {
-					info.setMessage(e.getMessage());
-				}
-				info.setDescription(verification.getDescription());
+			info.setResult(ResultStatus.FAIL);
+			if (e instanceof CoreException
+					&& ((CoreException) e).getStatus() instanceof VerificationStatus) {
+				VerificationStatus st = (VerificationStatus) ((CoreException) e).getStatus();
+				info.setMessage(VerificationReporter.getStyledMessage(st).getMessage());
+			} else {
+				info.setMessage(e.getMessage());
 			}
+			info.setDescription(verification.getDescription());
 			boolean processed = false;
 			if (e instanceof CoreException
 					&& ((CoreException) e).getStatus() instanceof ScriptErrorStatus) {
