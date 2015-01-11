@@ -13,10 +13,8 @@ public class ModelTreeNodeAdapter implements TreeNode<Row> {
 
 	private static class RowNodeAdapter implements TreeNode<Row> {
 		private final Row model;
-		private final TreeNode<Row> parent;
 
-		public RowNodeAdapter(Row item, TreeNode<Row> parent) {
-			this.parent = parent;
+		public RowNodeAdapter(Row item) {
 			if (item == null)
 				throw new NullPointerException();
 			model = item;
@@ -24,25 +22,19 @@ public class ModelTreeNodeAdapter implements TreeNode<Row> {
 
 		@Override
 		public Collection<? extends TreeNode<Row>> getChildren() {
-			return convert(model.getChildren(), this);
+			return convert(model.getChildren());
 		}
 
 		@Override
 		public Row payload() {
 			return model;
 		}
-
-		@Override
-		public TreeNode<Row> getParent() {
-			return parent;
-		}
-
 	}
 
-	private static List<RowNodeAdapter> convert(List<Row> children, TreeNode<Row> parent) {
+	private static List<RowNodeAdapter> convert(List<Row> children) {
 		List<RowNodeAdapter> rv = new ArrayList<RowNodeAdapter>(children.size());
 		for (Row item : children) {
-			rv.add(new RowNodeAdapter(item, parent));
+			rv.add(new RowNodeAdapter(item));
 		}
 		return rv;
 	}
@@ -54,12 +46,6 @@ public class ModelTreeNodeAdapter implements TreeNode<Row> {
 
 	@Override
 	public Collection<? extends TreeNode<Row>> getChildren() {
-		return convert(model.getRows(), this);
+		return convert(model.getRows());
 	}
-
-	@Override
-	public TreeNode<Row> getParent() {
-		return null;
-	}
-
 }

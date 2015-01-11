@@ -1,6 +1,7 @@
 package org.eclipse.rcptt.verifications.tree;
 
 import static java.lang.String.format;
+import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,10 +17,9 @@ public abstract class TreeComparison<T> {
 
 	public TreeComparison(boolean allowUnmatched) {
 		this.allowUnmatched = allowUnmatched;
-
 	}
 
-	public List<TreeItemVerificationError> compare(TreeNode<T> expected, TreeNode<T> actual) {
+	public List<TreeItemVerificationError> assertNode(TreeNode<T> expected, TreeNode<T> actual) {
 		List<TreeItemVerificationError> res = compare(expected.payload(), actual.payload());
 		String name = getName(expected.payload());
 		if (!res.isEmpty()) {
@@ -28,7 +28,7 @@ public abstract class TreeComparison<T> {
 		}
 		Collection<? extends TreeNode<T>> childrenE = expected.getChildren();
 		List<TreeNode<T>> childrenA = new ArrayList<TreeNode<T>>(actual.getChildren());
-		return compare(childrenE, childrenA, Collections.<Integer> emptyList(), name);
+		return assertChildren(childrenE, childrenA, Collections.<Integer> emptyList(), name);
 	}
 
 	private boolean isChildrenCountValid(int expected, int actual) {
@@ -38,18 +38,19 @@ public abstract class TreeComparison<T> {
 			return false;
 		return actual > expected;
 	}
-	List<TreeItemVerificationError> compare(Collection<? extends TreeNode<T>> childrenE,
-			Collection<? extends TreeNode<T>> childrenA, List<Integer> itemIndPath, String fullItemPath) {
-		if (!isChildrenCountValid(childrenE.size(), childrenA.size())) {
-			return Collections.singletonList(createError(
-					format("Different row children amount, expected %d, but was %d", childrenE.size(),
-							childrenA.size()),
+
+	public List<TreeItemVerificationError> assertChildren(Collection<? extends TreeNode<T>> childrenExpected,
+			Collection<? extends TreeNode<T>> childrenActual, List<Integer> itemIndPath, String fullItemPath) {
+		if (!isChildrenCountValid(childrenExpected.size(), childrenActual.size())) {
+			return singletonList(createError(
+					format("Different row children amount, expected %d, but was %d", childrenExpected.size(),
+							childrenActual.size()),
 					itemIndPath, fullItemPath));
 		}
-		Iterator<? extends TreeNode<T>> actualIter = childrenA.iterator();
+		Iterator<? extends TreeNode<T>> actualIter = childrenActual.iterator();
 		List<TreeItemVerificationError> rv = new ArrayList<TreeItemVerificationError>();
 		int i = 0;
-		for (TreeNode<T> expectedChild : childrenE) {
+		for (TreeNode<T> expectedChild : childrenExpected) {
 			List<TreeItemVerificationError> firstDifference = null;
 			TreeNode<T> next = null;
 			ArrayList<Integer> indPath = new ArrayList<Integer>(itemIndPath.size() + 1);
@@ -74,8 +75,13 @@ public abstract class TreeComparison<T> {
 				rv.addAll(firstDifference);
 				break;
 			}
+			if (next == null) {
+				return singletonList(createError(
+						format("Expected %s, but no more elements left", getName(expectedChild.payload())),
+						indPath, fullPath));
+			}
 			Collection<? extends TreeNode<T>> exchildren = expectedChild.getChildren();
-			rv.addAll(compare(exchildren, next.getChildren(), indPath, fullPath));
+			rv.addAll(assertChildren(exchildren, next.getChildren(), indPath, fullPath));
 			i++;
 		}
 		return rv;
@@ -98,6 +104,6 @@ public abstract class TreeComparison<T> {
 
 	public abstract String getName(T payload);
 
-	public abstract List<TreeItemVerificationError> compare(T row1, T row2);
+	public abstract List<TreeItemVerificationError> compare(T expected, T actual);
 
 }

@@ -17,10 +17,8 @@ public class WidgetTreeNodeAdapter implements TreeNode<Row> {
 
 	private static class TreeItemNodeAdapter implements TreeNode<Row> {
 		private final Item widget;
-		private TreeNode<Row> parent;
 
-		public TreeItemNodeAdapter(Item item, TreeNode<Row> parent) {
-			this.parent = parent;
+		public TreeItemNodeAdapter(Item item) {
 			if (item == null)
 				throw new NullPointerException();
 			widget = item;
@@ -39,11 +37,6 @@ public class WidgetTreeNodeAdapter implements TreeNode<Row> {
 			return TreeVerificationModeller.getRow(widget, TableTreeUtil.getColumnCount(widget), false);
 		}
 
-		@Override
-		public TreeNode<Row> getParent() {
-			return parent;
-		}
-
 	}
 
 	public WidgetTreeNodeAdapter(Widget tree) {
@@ -58,18 +51,13 @@ public class WidgetTreeNodeAdapter implements TreeNode<Row> {
 	private static List<TreeItemNodeAdapter> convert(Item[] items, TreeNode<Row> parent) {
 		List<TreeItemNodeAdapter> rv = new ArrayList<TreeItemNodeAdapter>(items.length);
 		for (Item item : items) {
-			rv.add(new TreeItemNodeAdapter(item, parent));
+			rv.add(new TreeItemNodeAdapter(item));
 		}
 		return rv;
 	}
 
 	@Override
 	public Row payload() {
-		return null;
-	}
-
-	@Override
-	public TreeNode<Row> getParent() {
 		return null;
 	}
 

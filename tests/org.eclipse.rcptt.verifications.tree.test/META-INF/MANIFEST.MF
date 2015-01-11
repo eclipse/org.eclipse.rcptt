@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tree verification tests (Incubation)
+Bundle-SymbolicName: org.eclipse.rcptt.verifications.tree.test
+Bundle-Version: 1.5.5.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Fragment-Host: org.eclipse.rcptt.verifications.tree;bundle-version="1.5.5"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit;bundle-version="4.8.2",
+ com.google.guava;bundle-version="12.0.0"

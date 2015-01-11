@@ -178,7 +178,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				}
 			};
 			
-			List<TreeItemVerificationError> treeResults = comparison.compare(new ModelTreeNodeAdapter(expectedTree), new WidgetTreeNodeAdapter(widget));
+			List<TreeItemVerificationError> treeResults = comparison.assertNode(new ModelTreeNodeAdapter(expectedTree), new WidgetTreeNodeAdapter(widget));
 			for (TreeItemVerificationError treeItemVerificationError : treeResults) {
 				errors.add(treeItemVerificationError);
 			}
