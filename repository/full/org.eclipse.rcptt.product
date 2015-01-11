@@ -22,12 +22,19 @@ Apache Software Foundation http://www.apache.org/
    </configIni>
 
    <launcherArgs>
-      <programArgs>-showsplash org.eclipse.rcptt.platform</programArgs>
+      <programArgs>-showsplash org.eclipse.rcptt.platform
+      </programArgs>
+      <programArgsLin>-nosplash
+      </programArgsLin>
       <vmArgs>-Xms128m
 -Xmx768m
 -XX:PermSize=128M
--XX:MaxPermSize=192M</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:MaxPermSize=192M
+      </vmArgs>
+      <vmArgsLin>-Dorg.eclipse.swt.browser.DefaultType=mozilla
+      </vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/org.eclipse.rcptt.platform/icons/logo-16.png" i32="/org.eclipse.rcptt.platform/icons/logo-32.png" i48="/org.eclipse.rcptt.platform/icons/logo-48.png" i64="/org.eclipse.rcptt.platform/icons/logo-64.png" i128="/org.eclipse.rcptt.platform/icons/logo-128.png"/>
