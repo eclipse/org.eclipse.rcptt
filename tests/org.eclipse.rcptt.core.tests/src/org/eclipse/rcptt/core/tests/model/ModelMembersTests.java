@@ -16,7 +16,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.Path;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Folder;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -24,15 +23,15 @@ import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.tests.CoreTestsPlugin;
 
-public class ModelMembersTests_ extends AbstractModelTestbase {
+public class ModelMembersTests extends AbstractModelTestbase {
 	private static final String PRJ_NAME = "ModelMembersq";
 
-	public ModelMembersTests_(String name) {
+	public ModelMembersTests(String name) {
 		super(CoreTestsPlugin.PLUGIN_ID, name);
 	}
 
 	public static Test suite() {
-		return new Suite(ModelMembersTests_.class);
+		return new Suite(ModelMembersTests.class);
 	}
 
 	public void setUpSuite() throws Exception {
@@ -65,7 +64,7 @@ public class ModelMembersTests_ extends AbstractModelTestbase {
 		TestCase.assertEquals("workspace", element.getElementName());
 		TestCase.assertTrue(element instanceof IContext);
 		IContext ctx = (IContext) element;
-		TestCase.assertEquals("org.eclipse.rcptt.workspace.context", ctx.getType()
+		TestCase.assertEquals("org.eclipse.rcptt.ctx.workspace", ctx.getType()
 				.getId());
 	}
 

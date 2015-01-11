@@ -10,9 +10,9 @@
   <modules>
     <!-- Tesla plugins -->
     <module>org.eclipse.rcptt.core.tests</module>
+    <module>org.eclipse.rcptt.core.ecl.formatter.test</module>
+    <module>org.eclipse.rcptt.core.ecl.parser.test</module>
   </modules>
-  <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.5-SNAPSHOT</version>
   <artifactId>rcptt.core.tests</artifactId>
   <packaging>pom</packaging>
 </project>

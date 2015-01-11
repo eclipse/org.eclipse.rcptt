@@ -34,15 +34,15 @@ import org.eclipse.rcptt.internal.core.model.index.Index;
 import org.eclipse.rcptt.internal.core.model.index.ProjectIndexerManager;
 import org.eclipse.rcptt.util.FileUtil;
 
-public class BuilderIndexerTest extends AbstractModelTestbase {
+public class BuilderIndexerTests extends AbstractModelTestbase {
 	private static final String PRJ_NAME = "ModelMembers_builder";
 
-	public BuilderIndexerTest(String name) {
+	public BuilderIndexerTests(String name) {
 		super(CoreTestsPlugin.PLUGIN_ID, name);
 	}
 
 	public static Test suite() {
-		return new Suite(BuilderIndexerTest.class);
+		return new Suite(BuilderIndexerTests.class);
 	}
 
 	public void setUpSuite() throws Exception {

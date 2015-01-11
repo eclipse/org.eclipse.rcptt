@@ -6,9 +6,7 @@
     	<groupId>org.eclipse.rcptt</groupId>
     	<version>1.5.5-SNAPSHOT</version>
   </parent>
-  <groupId>org.eclipse.rcptt</groupId>
   <artifactId>org.eclipse.rcptt.core.tests</artifactId>
-  <version>1.5.5-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>
@@ -20,8 +18,6 @@
 					<includes>
 						<include>**/*Tests.java</include>
 					</includes>
-					<failIfNoTests>false</failIfNoTests>
-					<testIgnoreFailure>true</testIgnoreFailure>
 					<useUIHarness>false</useUIHarness>
 					<dependencies>
 						<dependency>
