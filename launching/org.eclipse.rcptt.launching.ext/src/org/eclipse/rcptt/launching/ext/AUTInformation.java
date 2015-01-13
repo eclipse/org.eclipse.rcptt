@@ -10,27 +10,39 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.ext;
 
+import static org.eclipse.equinox.p2.metadata.Version.create;
+import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
+import org.eclipse.equinox.internal.p2.metadata.OSGiVersion;
+import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.pde.internal.core.ifeature.IFeature;
 import org.eclipse.pde.internal.core.ifeature.IFeatureModel;
 import org.eclipse.pde.internal.core.target.provisional.IResolvedBundle;
 import org.eclipse.pde.internal.core.util.VersionUtil;
-import org.osgi.framework.Version;
-
+import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
+import com.google.common.base.Objects;
+
 @SuppressWarnings("restriction")
 public class AUTInformation {
+	private static final String OSGI_PLUGIN = "org.eclipse.osgi";
+	private static final String SWT_PLUGIN = "org.eclipse.swt";
 	public static final String VERSION = "Version";
 	public static final String EMF_WORKSPACE = "EMF Workspace";
 	public static final String EMF_TRANSACTION = "EMF Transaction";
 	public static final String EMF_VALIDATION = "EMF Validation";
+	public static final String OSGI = "OSGI";
 	public static final String PDE = "PDE";
 	public static final String EMF = "EMF";
 	public static final String GMF = "GMF";
@@ -45,112 +57,127 @@ public class AUTInformation {
 	private static final String EMF_VALIDATION_PLUGIN = "org.eclipse.emf.validation";
 	private static final String EMF_TRANSACTION_PLUGIN = "org.eclipse.emf.transaction";
 	private static final String EMF_FEATURE = "org.eclipse.emf";
-	private static final String GMF_PLUGIN = "org.eclipse.gmf";
-	private static final String GMF2_PLUGIN = "org.eclipse.gmf.runtime.diagram.ui";
+	private static final String GMF_FEATURE = "org.eclipse.gmf";
+	private static final String GMF_PLUGIN = "org.eclipse.gmf.runtime.diagram.ui";
 	private static final String GEF_PLUGIN = "org.eclipse.gef";
 	private static final String JDT_PLUGIN = "org.eclipse.jdt";
+
+	@SuppressWarnings("serial")
+	static class VersionMap extends TreeMap<String, Version> {
+		public Version put(String key, String value) {
+			return super.put(key, create(value));
+		}
+
+		public void putPluginVersion(String key, BundleInfo plugin) {
+			if (plugin == null)
+				return;
+			put(key, create(plugin.getVersion()));
+		}
+
+		public void putFeatureVersion(String key, IFeature feature) {
+			if (feature == null)
+				return;
+			put(key, create(feature.getVersion()));
+		}
+	}
 
 	/**
 	 * Return information properties map. Constants could be used to check
 	 * plugin versions available.
 	 * 
 	 * @return
+	 * @throws CoreException
 	 */
-	public static Map<String, String> getInformationMap(
-			ITargetPlatformHelper platform) {
+	public static Map<String, Version> getInformationMap(
+			ITargetPlatformHelper platform) throws CoreException {
 		TargetPlatformHelper target = (TargetPlatformHelper) platform;
-		Map<String, String> values = new TreeMap<String, String>();
+		VersionMap values = new VersionMap();
 		if (!platform.isValid()) {
 			return values;
 		}
-		// Obtain some information values based on target definition
-		if (target.getBundleContainers().length > 0) {
-			// Calculate target platform version
-			IResolvedBundle[] allBundles = target.getAllBundles();
-			Map<String, BundleInfo > resolvedBundles = new HashMap<String, BundleInfo>();
-			
-			for (IResolvedBundle bundle : allBundles) {
-				BundleInfo bundleInfo = bundle.getBundleInfo();
-				String bundleName = bundleInfo.getSymbolicName();
-				resolvedBundles.put(bundleName, bundleInfo);
-				if (bundleName.equals("org.eclipse.swt")) {
-					String version = bundleInfo.getVersion();
-					if (VersionUtil.validateVersion(version).getSeverity() == IStatus.OK) {
-						Version vid = new Version(version);
-						putVersion(values, vid.getMajor(), vid.getMinor());
-					}
-					break;
-				}
-				if (bundleName.equals(GEF_PLUGIN)) {
-					values.put(GEF, bundle.getBundleInfo().getVersion());
-				}
-				if (bundleName.equals(GMF2_PLUGIN)) {
-					values.put(GMF, bundle.getBundleInfo().getVersion());
-				}
+		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0, "Detected potential problems in target platform "
+				+ platform, null);
+		if (target.getBundleContainers().length <= 0)
+			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
+		// Calculate target platform version
+		IResolvedBundle[] allBundles = target.getAllBundles();
+		Map<String, BundleInfo> resolvedBundles = new HashMap<String, BundleInfo>();
+		for (IResolvedBundle bundle : allBundles) {
+			BundleInfo bundleInfo = bundle.getBundleInfo();
+			String bundleName = bundleInfo.getSymbolicName();
+			BundleInfo oldValue = resolvedBundles.get(bundleName);
+			if (oldValue != null && !Objects.equal(oldValue.getVersion(), bundleInfo.getVersion())) {
+				warnings.add(createWarning("Multiple versions of bundle " + oldValue.getLocation() + " and "
+						+ bundleInfo.getLocation()));
 			}
-			// Correct version based on OSGiv version for Eclipse 4.4x
-			BundleInfo osgiBundle = resolvedBundles.get("org.eclipse.osgi");
-			if( osgiBundle != null) {
-				String version = osgiBundle.getVersion();
-				if (VersionUtil.validateVersion(version).getSeverity() == IStatus.OK) {
-					Version vid = new Version(version);
-					putVersionOSGI(values, vid.getMajor(), vid.getMinor());
-				}
-			}
-			BundleInfo platformBundle = resolvedBundles.get("org.eclipse.platform");
-			if( platformBundle != null) {
-				String version = platformBundle.getVersion();
-				if (VersionUtil.validateVersion(version).getSeverity() == IStatus.OK) {
-					Version vid = new Version(version);
-					putVersionPlatform(values, vid.getMajor(), vid.getMinor());
-				}
-			}
-			
-			
-
-			IFeatureModel[] features = target.getAllFeatures();
-			for (IFeatureModel feature : features) {
-				IFeature iFeature = feature.getFeature();
-				if (iFeature.getId().equals("org.eclipse.platform")) {
-					values.put(PLATFORM, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(EMF_FEATURE)) {
-					values.put(EMF, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(JDT_PLUGIN)) {
-					values.put(JDT, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(GEF_PLUGIN)) {
-					values.put(GEF, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(GMF_PLUGIN)) {
-					values.put(GMF, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(EMF_TRANSACTION_PLUGIN)) {
-					values.put(EMF_TRANSACTION, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(EMF_VALIDATION_PLUGIN)) {
-					values.put(EMF_VALIDATION, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(PDE_PLUGIN)) {
-					values.put(PDE, iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(Q7_PLUGIN)) {
-					values.put("Q7", iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(TESLA_PLUGIN)) {
-					values.put("Tesla", iFeature.getVersion());
-				}
-				if (iFeature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
-					values.put(EMF_WORKSPACE, iFeature.getVersion());
-				}
+			resolvedBundles.put(bundleName, bundleInfo);
+		}
+		BundleInfo bundleInfo = resolvedBundles.get(SWT_PLUGIN);
+		if (bundleInfo != null) {
+			putSwtVersion(values, create(bundleInfo.getVersion()));
+		}
+		values.putPluginVersion(GEF, resolvedBundles.get(GEF_PLUGIN));
+		values.putPluginVersion(GMF, resolvedBundles.get(GMF_PLUGIN));
+		values.putPluginVersion(OSGI, resolvedBundles.get(OSGI_PLUGIN));
+		BundleInfo platformBundle = resolvedBundles.get("org.eclipse.platform");
+		if (platformBundle != null) {
+			String version = platformBundle.getVersion();
+			if (VersionUtil.validateVersion(version).getSeverity() == IStatus.OK) {
+				putVersionPlatform(values, create(version));
 			}
 		}
+
+		IFeatureModel[] features = target.getAllFeatures();
+		for (IFeatureModel feature : features) {
+			IFeature iFeature = feature.getFeature();
+			if (iFeature.getId().equals("org.eclipse.platform")) {
+				values.put(PLATFORM, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(EMF_FEATURE)) {
+				values.put(EMF, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(JDT_PLUGIN)) {
+				values.put(JDT, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(GEF_PLUGIN)) {
+				values.put(GEF, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(GMF_FEATURE)) {
+				values.put(GMF, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(EMF_TRANSACTION_PLUGIN)) {
+				values.put(EMF_TRANSACTION, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(EMF_VALIDATION_PLUGIN)) {
+				values.put(EMF_VALIDATION, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(PDE_PLUGIN)) {
+				values.put(PDE, iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(Q7_PLUGIN)) {
+				values.put("Q7", iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(TESLA_PLUGIN)) {
+				values.put("Tesla", iFeature.getVersion());
+			}
+			if (iFeature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
+				values.put(EMF_WORKSPACE, iFeature.getVersion());
+			}
+		}
+		if (!warnings.isOK())
+			Q7LaunchingPlugin.log(warnings);
 		return values;
 	}
 
-	private static void putVersion(Map<String, String> values, int major,
-			int minor) {
+	private static IStatus createWarning(String string) {
+		return new Status(IStatus.WARNING, PLUGIN_ID, string);
+	}
+
+	private static void putSwtVersion(VersionMap values, Version swtVersion) {
+		if (!(swtVersion instanceof OSGiVersion))
+			return;
+		int major = ((OSGiVersion) swtVersion).getMajor();
+		int minor = ((OSGiVersion) swtVersion).getMinor();
 		if (major == 3 && minor == 0) {
 			values.put(VERSION, "3.0");
 		} else if (major == 3 && minor == 1) {
@@ -175,16 +202,13 @@ public class AUTInformation {
 			values.put(VERSION, "4.3");
 		}
 	}
-	private static void putVersionOSGI(Map<String, String> values, int major,
-			int minor) {
-		if (major == 3 && minor == 10) {
+
+	private static void putVersionPlatform(VersionMap values, Version version) {
+		if (!(version instanceof OSGiVersion))
+			return;
+		int major = ((OSGiVersion) version).getMajor();
+		int minor = ((OSGiVersion) version).getMinor();
+		if (major == 4 && minor == 4)
 			values.put(VERSION, "4.4");
-		}
-	}
-	private static void putVersionPlatform(Map<String, String> values, int major,
-			int minor) {
-		if (major == 4 && minor == 4) {
-			values.put(VERSION, "4.4");
-		}
 	}
 }

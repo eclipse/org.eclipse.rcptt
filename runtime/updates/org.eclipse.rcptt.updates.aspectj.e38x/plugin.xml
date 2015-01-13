@@ -6,7 +6,7 @@
       <q7runtime
             kind="aspectj"
             path="platform:///plugin/org.eclipse.rcptt.updates.aspectj.e38x/dependencies/"
-            version="[3.8,4.4)">
+            version="[3.8,3.10)">
       </q7runtime>
    </extension>
 </plugin>
