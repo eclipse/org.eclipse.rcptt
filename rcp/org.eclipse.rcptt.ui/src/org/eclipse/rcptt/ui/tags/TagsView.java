@@ -268,8 +268,5 @@ public class TagsView extends ViewPart {
 		synchronized (registry) {
 			registry.eAdapters().remove(tagsLabelListener);
 		}
-		if (tagsComposite != null && tagsComposite.tags != null) {
-			tagsComposite.tags.dispose();
-		}
 	}
 }

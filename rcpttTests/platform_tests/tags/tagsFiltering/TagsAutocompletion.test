@@ -1,13 +1,14 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
 Contexts: _I0eNYIUFEeS44uQ7y9L3Dw
-Element-Name: AddWithTag_OR
+Element-Name: TagsAutocompletion
 Element-Type: testcase
 Element-Version: 3.0
-External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=454740
-Id: _D4VfAIUPEeS44uQ7y9L3Dw
+External-Reference: 
+Id: _mbumAJyGEeSAkPuFEA-OOw
 Runtime-Version: 1.5.5.qualifier
-Save-Time: 1/15/15 2:10 PM
+Save-Time: 1/15/15 2:28 PM
+Tags: skipExecution
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -24,25 +25,52 @@ Contributors:
     Xored Software Inc - initial creation and/or initial documentation
 --------------------------------------------------------------------------------
 
-1. In a Test Suite press "Add wth tag" button;
-2. Type tag2 or tag3;
-3. Press OK button;
-4. Make sure that the tests having either tag2 or tag3 are added;
-5. In a Test Suite press "Remove All" then "Add wth tag" button;
-6. Type tag1 | tag with spaces
+Note: skipExecution because of RCPTT-250
+
+1. In a Tags View filter field type 'tag1 and tag';
+2. Choose 'tag1 and tag2' in autocompletion window;
+3. Make sure that the corresponding test is shown;
+
+4.  In a Test Suite press "Add wth tag" button;
+5. Type 'tag2 or tag';
+6. Choose 'tag2 or tag3';
 7. Press OK button;
-8. Make sure that the tests having either tag1 or "tag with spaces" are added;
+8. Make sure that the tests having either tag2 or tag3 are added.
+
+
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
+// Tags View
+with [get-view Tags] {
+    click
+    with [get-editbox] {
+       set-text "tag1 and tag"
+       key-type "M1+SPACE"
+    }
+}
+with [get-window -class ContentProposalPopup | get-table] {
+    get-item "tag1 and tag2" | click
+    select "tag1 and tag2" | double-click
+}
+with [get-view Tags | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "TC_tag1_tag2" | get-property caption | equals "TC_tag1_tag2" | verify-true
+}
+
+// Test Suite
 get-view "Test Explorer" | get-tree | select "MyProject/TestSuite_tag1" | double-click
 get-editor "TestSuite_tag1" | get-section "Test Cases" | get-button "Add with Tag" | click
 with [get-window "Select Tag(s) to Add"] {
     with [get-editbox] {
-        set-text "tag2 or tag3"
-        key-type Enter
+        set-text "tag2 or tag"
+        key-type "M1+SPACE"
+    }
+    with [get-window -class ContentProposalPopup | get-table] {
+        get-item "tag2 or tag3" | click
+        select "tag2 or tag3" | double-click
     }
     get-button OK | click
 }
@@ -53,24 +81,5 @@ with [get-editor "TestSuite_tag1" | get-section "Test Cases" | get-table] {
     get-item "TC_tag2_tag3 \\(MyProject\\)" | get-property caption | equals "TC_tag2_tag3 (MyProject)" | verify-true
     get-item "TC_tag3 \\(MyProject\\)" | get-property caption | equals "TC_tag3 (MyProject)" | verify-true
 }
-get-editor "TestSuite_tag1" | get-section "Test Cases" | get-button "Remove All" | click
-get-editor "TestSuite_tag1" | get-section "Test Cases" | get-button "Add with Tag" | click
 
-with [get-window "Select Tag(s) to Add"] {
-    with [get-editbox] {
-        set-text "tag1 | \"tag with spaces\""
-        key-type Enter
-    }
-    get-button OK | click
-}
-with [get-editor "TestSuite_tag1" | get-section "Test Cases" | get-table] {
-    get-property itemCount | equals 5 | verify-true
-    get-item "Ctxt_tag1 \\(MyProject\\)" | get-property caption | equals "Ctxt_tag1 (MyProject)" | verify-true
-    get-item "TC_tag1 \\(MyProject\\)" | get-property caption | equals "TC_tag1 (MyProject)" | verify-true
-    get-item "TC_tag1_tag2 \\(MyProject\\)" | get-property caption | equals "TC_tag1_tag2 (MyProject)" | verify-true
-    get-item "TC_tag_with_spaces \\(MyProject\\)" | get-property caption | equals "TC_tag_with_spaces (MyProject)" 
-        | verify-true
-    get-item "Verification_tag1 \\(MyProject\\)" | get-property caption | equals "Verification_tag1 (MyProject)" 
-        | verify-true
-}
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

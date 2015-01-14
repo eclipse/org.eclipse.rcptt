@@ -22,7 +22,7 @@ public class TagsSearch {
 	/**
 	 * Finds IQ7Elements by tags expression.
 	 * 
-	 * E.g.: tag1 OR tag2 AND "tag 3"
+	 * E.g.: tag1 OR ("tag 2" AND !tag3)
 	 * 
 	 * @param expression
 	 * @return

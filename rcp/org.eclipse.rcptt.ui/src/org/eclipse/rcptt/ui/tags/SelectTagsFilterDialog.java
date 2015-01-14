@@ -149,12 +149,6 @@ public class SelectTagsFilterDialog extends TrayDialog {
 	}
 	
 	@Override
-	public boolean close() {
-		tagsComposite.hidePopup();
-		return super.close();
-	}
-
-	@Override
 	protected void configureShell(final Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(Messages.SelectTagDialog_Title);
