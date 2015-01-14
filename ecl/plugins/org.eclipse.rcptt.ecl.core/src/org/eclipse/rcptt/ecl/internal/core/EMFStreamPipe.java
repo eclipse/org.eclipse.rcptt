@@ -18,7 +18,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -146,17 +145,9 @@ public class EMFStreamPipe implements IPipe, IMarkeredPipe {
 			out.writeByte(OBJECT_ID);
 			out.writeInt(bout.size());
 			bout.writeTo(out);
-		} catch (Throwable e) {
-			if (e instanceof SocketException) {
-				if (e.getMessage().contains(
-						"Connection reset by peer: socket write error")) {
-					throw new CoreException(new Status(IStatus.ERROR,
-							CorePlugin.PLUGIN_ID, e.getMessage() + "  ---- "
-									+ object));
-				}
-			}
+		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR,
-					CorePlugin.PLUGIN_ID, e.getMessage() + "  ---- " + object,
+					CorePlugin.PLUGIN_ID, "Failed to write " + object,
 					e));
 		}
 		return this;

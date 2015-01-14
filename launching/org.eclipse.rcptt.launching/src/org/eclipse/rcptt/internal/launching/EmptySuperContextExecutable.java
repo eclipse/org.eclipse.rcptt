@@ -33,6 +33,7 @@ public class EmptySuperContextExecutable extends ContextExecutable {
 
 	@Override
 	protected IStatus doExecute() throws CoreException, InterruptedException {
+
 		Map<String, EObject> props = new HashMap<String, EObject>();
 
 		Q7Info info = ReportHelper.createInfo();
@@ -42,7 +43,7 @@ public class EmptySuperContextExecutable extends ContextExecutable {
 		props.put(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);
-		ReportMaker.endReportNode(false, null, launch);
+		ReportMaker.endReportNode(false, launch);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Super Context contains no elements: " + getName());
 	}

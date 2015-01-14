@@ -114,7 +114,4 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		}
 		node.endTask();
 	}
-
-	public void storeSnapshot(IReportBuilder builder, String type) {
-	}
 }

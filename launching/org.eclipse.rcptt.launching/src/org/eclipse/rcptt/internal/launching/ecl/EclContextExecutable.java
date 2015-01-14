@@ -100,7 +100,7 @@ public class EclContextExecutable extends ContextExecutable {
 	public IStatus postExecute(Listener listener, IStatus status) {
 		try {
 			if (isEcl) {
-				ReportMaker.endReportNode(true, null, launch);
+				ReportMaker.endReportNode(true, launch);
 			}
 			return super.postExecute(listener, status);
 		} catch (CoreException e) {

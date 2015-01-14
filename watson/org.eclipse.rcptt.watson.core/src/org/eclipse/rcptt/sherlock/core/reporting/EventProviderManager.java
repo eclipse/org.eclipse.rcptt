@@ -16,7 +16,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.SherlockCore;
 
 public class EventProviderManager {
@@ -96,13 +96,10 @@ public class EventProviderManager {
 	 * @param reportBuilder
 	 * @param id
 	 */
-	public void takeSnapshot(ReportBuilder reportBuilder, String id,
-			String type) {
+	public void takeSnapshot(INodeBuilder node) {
 		initialize();
 		for (Map.Entry<String, IEventProvider> provider : managers.entrySet()) {
-			if (id == null || provider.getKey().startsWith(id)) {
-				provider.getValue().storeSnapshot(reportBuilder, type);
-			}
+			provider.getValue().storeSnapshot(node);
 		}
 	}
 }

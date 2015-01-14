@@ -193,18 +193,6 @@ public class ReportBuilder implements IReportBuilder {
 		return System.currentTimeMillis();
 	}
 
-	@Override
-	public void takeSnapshot(String type, String... id) {
-		if (id.length == 0) {
-			EventProviderManager.getInstance().takeSnapshot(this, null, type);
-		} else {
-			for (String lid : id) {
-				EventProviderManager.getInstance()
-						.takeSnapshot(this, lid, type);
-			}
-		}
-	}
-
 	public void registerProviders(String... id) {
 		if (id.length == 0) {
 			EventProviderManager.getInstance().register(this, null);

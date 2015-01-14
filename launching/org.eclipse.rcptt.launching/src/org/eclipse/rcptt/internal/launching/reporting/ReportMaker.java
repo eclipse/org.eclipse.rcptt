@@ -10,14 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.reporting;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.rcptt.core.ecl.core.model.BeginReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.EndReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
@@ -60,15 +58,11 @@ public class ReportMaker implements IQ7ReportConstants {
 	 * If snaphots contains elements, then only items will be used, overwize all
 	 * snaphots will be taken
 	 */
-	public static void endReportNode(boolean takeSnaphots,
-			List<String> snaphosts, AutLaunch launch)
+	public static void endReportNode(boolean takeSnaphots, AutLaunch launch)
 			throws CoreException {
 		EndReportNode reportNode = Q7CoreFactory.eINSTANCE
 				.createEndReportNode();
 		reportNode.setTakeSnaphots(takeSnaphots);
-		if (takeSnaphots && snaphosts != null) {
-			reportNode.getSnaphots().addAll(snaphosts);
-		}
 		try {
 			launch.execute(reportNode);
 		} catch (InterruptedException e) {

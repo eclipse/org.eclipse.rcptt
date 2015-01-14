@@ -17,9 +17,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.reporting.ItemKind;
@@ -46,7 +45,7 @@ public class UnresolvedVerificationExecutable extends VerificationExecutable {
 		props.put(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);
-		ReportMaker.endReportNode(false, null, launch);
+		ReportMaker.endReportNode(false, launch);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Verification could not be resolved:" + getName());
 	}

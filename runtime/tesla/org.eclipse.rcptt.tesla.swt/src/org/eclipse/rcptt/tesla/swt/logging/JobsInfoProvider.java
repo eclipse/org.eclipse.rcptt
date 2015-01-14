@@ -12,6 +12,7 @@ package org.eclipse.rcptt.tesla.swt.logging;
 
 import org.eclipse.rcptt.sherlock.aspects.asyncs.AsyncEventManager;
 import org.eclipse.rcptt.sherlock.aspects.jobs.internal.JobsEventManager;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 
@@ -27,7 +28,7 @@ public class JobsInfoProvider extends AbstractEventProvider {
 	public JobsInfoProvider() {
 	}
 
-	public void storeSnapshot(IReportBuilder builder, String type) {
+	public void storeSnapshot(INodeBuilder builder, String type) {
 	}
 
 	@Override

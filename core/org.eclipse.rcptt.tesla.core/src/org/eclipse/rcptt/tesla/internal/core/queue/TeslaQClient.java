@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.core.queue;
 
-import java.io.IOException;
-
 import org.eclipse.rcptt.tesla.core.protocol.TeslaStream;
 import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
@@ -25,7 +23,7 @@ public class TeslaQClient extends AbstractTeslaClient {
 		return qStream;
 	}
 
-	public TeslaQClient() throws IOException {
+	public TeslaQClient() {
 		super("myid:" + System.currentTimeMillis());
 	}
 

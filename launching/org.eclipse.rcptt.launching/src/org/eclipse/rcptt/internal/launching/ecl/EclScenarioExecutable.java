@@ -82,9 +82,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	public IStatus postExecute(Listener listener, IStatus status) {
 		// Take all snapshots
 		try {
-			// if (!isTerminated()) {
-			ReportMaker.endReportNode(true, null, launch);
-			// }
+			ReportMaker.endReportNode(true, launch);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}

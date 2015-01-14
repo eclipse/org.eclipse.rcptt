@@ -81,17 +81,7 @@ public class ReportService implements ICommandService {
 				} else if (command instanceof EndReportNode) {
 					INodeBuilder nde = builder.getCurrent();
 					final EndReportNode node = (EndReportNode) command;
-//					ReportHelper.putProperties(nde, node.getProperties().map());
-					if (node.isTakeSnaphots()) {
-						EList<String> sn = node.getSnaphots();
-						if (sn.isEmpty()) {
-							builder.takeSnapshot("",
-									ReportManager.eventProviders);
-						} else {
-							builder.takeSnapshot("",
-									sn.toArray(new String[sn.size()]));
-						}
-					}
+					ReportHelper.takeSnapshot(nde);
 					nde.endTask();
 				} else if (command instanceof ReportAppend) {
 					ReportAppend cmd = (ReportAppend) command;

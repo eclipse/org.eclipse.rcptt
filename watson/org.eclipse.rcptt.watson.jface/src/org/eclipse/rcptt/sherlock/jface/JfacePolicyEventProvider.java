@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.util.ILogger;
 import org.eclipse.jface.util.Policy;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.SherlockCore;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
@@ -33,7 +34,7 @@ public class JfacePolicyEventProvider extends AbstractEventProvider implements
 		fJFaceLogger = new SherlockJfaceLogger(this);
 	}
 
-	public void storeSnapshot(IReportBuilder builder, String type) {
+	public void storeSnapshot(INodeBuilder builder, String type) {
 	}
 
 	public void logging(IStatus status, String plugin) {

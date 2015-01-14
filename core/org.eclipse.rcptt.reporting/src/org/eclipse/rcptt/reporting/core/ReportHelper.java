@@ -20,6 +20,7 @@ import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
+import org.eclipse.rcptt.sherlock.core.reporting.EventProviderManager;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
@@ -124,4 +125,7 @@ public class ReportHelper {
 		node.addSnapshot(snapshot);
 	}
 
+	public static void takeSnapshot(INodeBuilder node) {
+		EventProviderManager.getInstance().takeSnapshot(node);
+	}
 }

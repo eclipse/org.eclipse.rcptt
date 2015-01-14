@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting;
 
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
+
 /**
  * Interface to provide events to Report
  */
@@ -27,5 +29,5 @@ public interface IEventProvider {
 	/**
 	 * Store specified information snapshot (static data) into report
 	 */
-	void storeSnapshot(IReportBuilder builder, String type);
+	void storeSnapshot(INodeBuilder builder);
 }

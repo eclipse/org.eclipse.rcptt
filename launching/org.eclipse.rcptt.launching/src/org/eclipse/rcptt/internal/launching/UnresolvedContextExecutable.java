@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -44,7 +43,7 @@ public class UnresolvedContextExecutable extends ContextExecutable {
 		props.put(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);
-		ReportMaker.endReportNode(false, null, launch);
+		ReportMaker.endReportNode(false, launch);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Context could not be resolved:" + getName());
 	}
