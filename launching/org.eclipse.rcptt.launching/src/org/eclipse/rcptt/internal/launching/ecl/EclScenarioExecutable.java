@@ -79,14 +79,14 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	}
 
 	@Override
-	public IStatus postExecute(Listener listener, IStatus status) {
+	public IStatus postExecute(IStatus status) {
 		// Take all snapshots
 		try {
 			ReportMaker.endReportNode(true, launch);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
-		return super.postExecute(listener, status);
+		return super.postExecute(status);
 	}
 
 	protected void doExecuteTest(IProgressMonitor monitor) throws CoreException {

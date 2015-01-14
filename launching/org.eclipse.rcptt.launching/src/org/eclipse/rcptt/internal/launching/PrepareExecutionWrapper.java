@@ -248,7 +248,7 @@ public class PrepareExecutionWrapper extends Executable {
 	}
 
 	@Override
-	public IStatus postExecute(Listener listener, IStatus status) {
+	public IStatus postExecute(IStatus status) {
 		// Take report
 		try {
 			Report resultReport = getReport();
@@ -292,14 +292,14 @@ public class PrepareExecutionWrapper extends Executable {
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}
-			status = super.postExecute(listener, status);
+			status = super.postExecute(status);
 			return status;
 		} catch (CoreException e) {
 			return e.getStatus();
 		} catch (InterruptedException e) {
 			return Status.CANCEL_STATUS;
 		} finally {
-			listener.updateSessionCounters(this, status);
+			listeners.updateSessionCounters(this, status);
 		}
 	}
 

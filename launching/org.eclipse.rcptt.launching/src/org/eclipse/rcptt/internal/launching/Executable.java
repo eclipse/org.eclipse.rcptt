@@ -12,6 +12,10 @@ package org.eclipse.rcptt.internal.launching;
 
 import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
@@ -19,12 +23,14 @@ import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 
 public abstract class Executable implements IExecutable {
 
 	protected static final Executable[] EMPTY = new Executable[0];
 	private static final IStatus cancelledForPreviousFailures = new Status(IStatus.CANCEL, PLUGIN_ID,
 			"Execution was canceled due to previous failures");
+	protected Listener.Composite listeners = new Listener.Composite();
 
 	public abstract Executable[] getChildren();
 
@@ -42,71 +48,119 @@ public abstract class Executable implements IExecutable {
 			public void updateSessionCounters(Executable executable, IStatus status) {
 			}
 		}
+
+		static class Composite implements Listener {
+			private List<Listener> listeners = Collections.synchronizedList(new ArrayList<Listener>(2));
+
+			public void add(Listener listener) {
+				listeners.add(listener);
+			}
+
+			public void remove(Listener listener) {
+				listeners.remove(listener);
+			}
+
+			private Listener[] copy() {
+				synchronized (listeners) {
+					return Iterables.toArray(listeners, Listener.class);
+				}
+			}
+
+			@Override
+			public void onStatusChange(Executable executable) {
+				for (Listener listener : copy()) {
+					listener.onStatusChange(executable);
+				}
+			}
+
+			@Override
+			public void updateSessionCounters(Executable executable, IStatus status) {
+				for (Listener listener : copy()) {
+					listener.updateSessionCounters(executable, status);
+				}
+			}
+		}
 	}
 
-	final void executeAndRememberResult(Listener listener) throws InterruptedException {
+	public void addListener(Listener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(Listener listener) {
+		listeners.remove(listener);
+	}
+
+	final void executeAndRememberResult() throws InterruptedException {
 		if (state != State.WAITING)
 			throw new IllegalStateException("Can't start in " + state + " state");
 		state = State.LAUNCHING;
 		long startTime = System.currentTimeMillis();
 		try {
 			startLaunching();
-			listener.onStatusChange(this);
+			listeners.onStatusChange(this);
 			result = execute();
 			if (result == null)
 				throw new NullPointerException("Null result");
-			if (overridingResult != null)
-				result = overridingResult;
 			if (!result.isOK()) {
 				return;
 			}
 			for (final Executable child : getChildren()) {
 				if (!result.isOK()) {
-					child.cancel(listener, cancelledForPreviousFailures);
+					child.cancel(cancelledForPreviousFailures);
 					continue;
 				}
-				child.executeAndRememberResult(listener);
-				IStatus rv = handleChildResult(child.getResultStatus());
-				if (!rv.isOK()) {
-					result = rv;
+				child.addListener(listeners);
+				try {
+					child.executeAndRememberResult();
+					IStatus rv = handleChildResult(child.getResultStatus());
+					if (!rv.isOK()) {
+						result = rv;
+					}
+				} finally {
+					child.removeListener(listeners);
 				}
 			}
 		} catch (InterruptedException e) {
-			state = State.FAILED;
 			result = Status.CANCEL_STATUS;
+			state = State.FAILED;
 			throw e;
 		} catch (Throwable e) {
-			state = State.FAILED;
 			result = Q7LaunchingPlugin.createStatus(e);
+			state = State.FAILED;
 		} finally {
 			time = System.currentTimeMillis() - startTime;
 			try {
 				Preconditions.checkNotNull(result);
 				try {
-					result = postExecute(listener, result);
+					result = postExecute(result);
 				} catch (Throwable e) {
 					result = Q7LaunchingPlugin.createStatus(e);
 				}
 			} finally {
 				state = (result != null && result.isOK()) ? State.PASSED : State.FAILED;
-				listener.onStatusChange(this);
+				listeners.onStatusChange(this);
 			}
 		}
 	}
 
-	public void cancel(Listener listener, IStatus status) {
+	public void cancel(IStatus status) {
 		switch (state) {
 		case LAUNCHING:
-			state = State.FAILED;
 		case WAITING:
 			result = status;
-			listener.onStatusChange(this);
+			state = State.FAILED;
+			listeners.onStatusChange(this);
 		case PASSED:
 		case FAILED:
 			break;
 		}
 		for (final Executable child : getChildren()) {
-			child.cancel(listener, status);
+			child.addListener(listeners);
+			try {
+				child.cancel(status);
+			} finally {
+				child.removeListener(listeners);
+			}
 		}
 	}
 
@@ -147,6 +201,7 @@ public abstract class Executable implements IExecutable {
 	}
 
 	public void dispose() {
+		cancel(new Status(IStatus.ERROR, PLUGIN_ID, "Disposed"));
 		Executable[] childs = getChildren();
 		if (childs != null) {
 			for (Executable child : childs) {
@@ -157,11 +212,9 @@ public abstract class Executable implements IExecutable {
 
 	/**
 	 * Should only be called from org.eclipse.rcptt.internal.launching.Executable.postExecuteAndRememberResult()
-	 * 
-	 * @param listener
 	 * @param result
 	 */
-	protected IStatus postExecute(Listener listener, IStatus result) {
+	protected IStatus postExecute(IStatus result) {
 		return result;
 	}
 
@@ -174,7 +227,6 @@ public abstract class Executable implements IExecutable {
 	}
 
 	private final boolean debug;
-	private IStatus overridingResult = null;
 
 	public ExecutionPhase getPhase() {
 		return phase;
@@ -213,13 +265,5 @@ public abstract class Executable implements IExecutable {
 	@Override
 	public long getTime() {
 		return time;
-	}
-
-	public void terminateWithResult(IStatus status) {
-		Preconditions.checkState(overridingResult == null);
-		for (Executable child : getChildren()) {
-			child.terminateWithResult(status);
-		}
-		overridingResult = status;
 	}
 }

@@ -59,6 +59,7 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.IExecutable.State;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
 import org.eclipse.rcptt.launching.Q7Launcher;
@@ -643,8 +644,9 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		int i = 0;
 		for (IExecutable executable : executables) {
 			i++;
-			if (IExecutable.State.PASSED == executable.getStatus()
-					|| IExecutable.State.FAILED == executable.getStatus()) {
+			State state = executable.getStatus();
+			if (IExecutable.State.PASSED == state
+					|| IExecutable.State.FAILED == state) {
 				if (activeSession != null) {
 					statisticPanel.update(activeSession.getTotalCount(),
 							activeSession.getFinishedCount(),
@@ -665,20 +667,20 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 				}
 			}
 			// scroll only to last element
-			if (!scrollState && i == executables.length) {
+			if (!scrollState && i == executables.length && !executable.getResultStatus().matches(IStatus.CANCEL)) {
 				viewer.setSelection(new StructuredSelection(executable), true);
 			}
-			if ((IExecutable.State.PASSED == executable.getStatus())) {
+			if ((IExecutable.State.PASSED == state)) {
 				// Collapse item if passed
 				viewer.collapseToLevel(executable, TreeViewer.ALL_LEVELS);
-			} else if (IExecutable.State.LAUNCHING == executable.getStatus()) {
+			} else if (IExecutable.State.LAUNCHING == state) {
 				viewer.expandToLevel(executable, 1);
 			}
 			viewer.refresh(executable);
 
 			runSelectedAction.updateEnablement(activeSession);
 			runFailedAction.updateEnablement(activeSession);
-			if (IExecutable.State.FAILED == executable.getStatus()
+			if (IExecutable.State.FAILED == state
 					&& stopOnFirstFailAction.getValue()) {
 				Q7Launcher.getInstance().stop();
 				viewer.refresh(executable);

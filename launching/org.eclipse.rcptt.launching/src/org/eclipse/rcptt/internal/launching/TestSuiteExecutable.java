@@ -97,7 +97,7 @@ public class TestSuiteExecutable extends Executable {
 	}
 
 	@Override
-	protected IStatus postExecute(Listener listener, IStatus result) {
+	protected IStatus postExecute(IStatus result) {
 		for (IExecutable child : getChildren()) {
 			IStatus status = child.getResultStatus();
 			if (status != null && !status.isOK()) {
