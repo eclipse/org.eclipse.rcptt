@@ -10,96 +10,128 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.metadata.VersionRange;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.osgi.framework.Bundle;
 
-public class Q7UpdateSiteExtensions {
-	private static Q7UpdateSiteExtensions instance;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
+public enum Q7UpdateSiteExtensions {
+	instance;
 
 	public static class Q7RuntimeInfo {
-		public String kind;
-		public String path;
-		public String bundle;
+		public final String kind;
+		public final URI path;
+		public final Bundle bundle;
+		public final VersionRange version;
+
+		public Q7RuntimeInfo(String kind, URI path, Bundle bundle, VersionRange version) {
+			checkArgument(bundle != null);
+			checkArgument(version != null);
+			checkArgument(!isNullOrEmpty(kind));
+			checkArgument(path != null);
+			this.kind = kind;
+			this.path = path;
+			this.bundle = bundle;
+			this.version = version;
+		}
 
 		@Override
 		public String toString() {
-			return bundle;
+			return bundle.toString();
 		}
 	}
 
-	private Map<String, List<Q7RuntimeInfo>> versionToBundles = new HashMap<String, List<Q7RuntimeInfo>>();
+	private final Collection<Q7RuntimeInfo> bundles;
 
-	public Q7UpdateSiteExtensions() {
-		inializeProcessors();
+	Q7UpdateSiteExtensions() {
+		bundles = inializeProcessors();
 	}
 
-	private void inializeProcessors() {
+	private static URI pathToUri(String path, Bundle bundle) {
+		checkArgument(!isNullOrEmpty(path));
+		checkArgument(!path.trim().isEmpty());
+		checkArgument(bundle != null);
+		URL url = bundle.getEntry(new Path(path).toString());
+		try {
+			if (url != null)
+				return url.toURI();
+			// Try to resolve as URI entry.
+			return new URI(path);
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	private static Collection<Q7RuntimeInfo> inializeProcessors() {
 		IConfigurationElement[] configurationElements = Platform
 				.getExtensionRegistry().getConfigurationElementsFor(
 						Q7ExtLaunchingPlugin.PLUGIN_ID + ".q7runtime");
+		Builder<Q7RuntimeInfo> builder = ImmutableList.builder();
 		for (IConfigurationElement config : configurationElements) {
-			String version = config.getAttribute("version");
 			IContributor contributor = config.getContributor();
-			Q7RuntimeInfo info = new Q7RuntimeInfo();
-			info.bundle = contributor.getName();
-			info.kind = config.getAttribute("kind");
-			info.path = config.getAttribute("path");
-			if (info.path == null) {
+			final Q7RuntimeInfo info;
+			try {
+				final VersionRange version = new VersionRange(config.getAttribute("version"));
+				Bundle bundle = Platform.getBundle(contributor.getName());
+				URI path = pathToUri(config.getAttribute("path"), bundle);
+				info = new Q7RuntimeInfo(
+						config.getAttribute("kind"),
+						path,
+						bundle,
+						version);
+			} catch (IllegalArgumentException e) {
 				Q7ExtLaunchingPlugin
 						.getDefault()
 						.log("Plugin "
-								+ info.bundle
+								+ contributor.getName()
 								+ " provides incorrect q7runtime extension point",
-								null);
+								e);
+				continue;
 			}
-			if (!versionToBundles.containsKey(version)) {
-				versionToBundles.put(version,
-						new ArrayList<Q7UpdateSiteExtensions.Q7RuntimeInfo>());
-			}
-			List<Q7RuntimeInfo> list = versionToBundles.get(version);
-			list.add(info);
+			builder.add(info);
 		}
+		return builder.build();
 	}
 
-	public synchronized static Q7UpdateSiteExtensions getDefault() {
-		if (instance == null) {
-			instance = new Q7UpdateSiteExtensions();
-		}
+	public static Q7UpdateSiteExtensions getDefault() {
 		return instance;
 	}
 
-	public List<Q7RuntimeInfo> getRuntimes(String version) {
-		List<Q7RuntimeInfo> result = new ArrayList<Q7UpdateSiteExtensions.Q7RuntimeInfo>();
-		Set<String> keySet = versionToBundles.keySet();
-		Version versionValue = Version.create(version);
-		for (String key : keySet) {
-			if (key.equals(version)) {
-				result.addAll(versionToBundles.get(key));
-			} else {
-				try {
-					VersionRange range = new VersionRange(key);
-					if (range.isIncluded(versionValue)) {
-						result.addAll(versionToBundles.get(key));
-					}
-				} catch (IllegalArgumentException e) {
-					RcpttPlugin.log(e);
-				}
-			}
-		}
-		return result;
-	}
-	
-	public Map<String, List<Q7RuntimeInfo>> getAllKnownVersions() {
-		return versionToBundles; 
+	public Collection<Q7RuntimeInfo> getRuntimes() {
+		if (bundles.isEmpty())
+			throw new RuntimeException(
+					"No injection providers found. Make sure org.eclipse.rcptt.updates.* plugins are loaded");
+		return bundles;
+		// List<Q7RuntimeInfo> result = new ArrayList<Q7UpdateSiteExtensions.Q7RuntimeInfo>();
+		// Set<String> keySet = versionToBundles.keySet();
+		// Version versionValue = Version.create(version);
+		// for (String key : keySet) {
+		// if (key.equals(version)) {
+		// result.addAll(versionToBundles.get(key));
+		// } else {
+		// try {
+		// VersionRange range = new VersionRange(key);
+		// if (range.isIncluded(versionValue)) {
+		// result.addAll(versionToBundles.get(key));
+		// }
+		// } catch (IllegalArgumentException e) {
+		// RcpttPlugin.log(e);
+		// }
+		// }
+		// }
+		// return result;
 	}
 }

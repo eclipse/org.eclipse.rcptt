@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.rcptt.launching.ext.AUTInformation;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
-
-import org.eclipse.rcptt.launching.ext.AUTInformation;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 public class AUTInformationViewer {
 	private TableViewer informationViewer;
@@ -44,7 +44,7 @@ public class AUTInformationViewer {
 		informationViewer.setLabelProvider(new MapLabelProvider());
 	}
 
-	public void updateInfo(ITargetPlatformHelper info) {
+	public void updateInfo(ITargetPlatformHelper info) throws CoreException {
 		// Initialize viewer with status
 		informationViewer.setInput(AUTInformation.getInformationMap(info)
 				.entrySet());

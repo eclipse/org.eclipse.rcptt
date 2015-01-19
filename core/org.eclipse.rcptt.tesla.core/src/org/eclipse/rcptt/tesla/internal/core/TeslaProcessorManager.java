@@ -16,19 +16,24 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-
+import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
+import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
+import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
+import org.eclipse.rcptt.tesla.core.protocol.IElementProcessorMapper;
+import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
+import org.eclipse.rcptt.tesla.core.protocol.SelectResponse;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
+import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
+import org.eclipse.rcptt.tesla.internal.core.processing.ElementGenerator;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
+import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor.PreExecuteStatus;
 
 public class TeslaProcessorManager {
-	private List<ITeslaCommandProcessor> processors = null;
+	private final List<ITeslaCommandProcessor> processors;
 
 	public TeslaProcessorManager() {
-	}
-
-	private synchronized void initialize() {
-		if (processors != null) {
-			return;
-		}
 		processors = new ArrayList<ITeslaCommandProcessor>();
 
 		IConfigurationElement[] elements = Platform
@@ -46,9 +51,110 @@ public class TeslaProcessorManager {
 		}
 	}
 
-	public ITeslaCommandProcessor[] getProcessors() {
-		initialize();
-		return processors
-				.toArray(new ITeslaCommandProcessor[processors.size()]);
+	public void collectInformation(AdvancedInformation collector, Command command) {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.collectInformation(collector, command);
+		}
+	}
+	
+	public void initializeProcessors(AbstractTeslaClient client, String clientId) {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.initialize(client, clientId);
+		}
+	}
+
+	public void terminate() {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.terminate();
+		}
+	}
+
+	public void postSelect(Element element, IElementProcessorMapper mapper) {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.postSelect(element, mapper);
+		}
+	}
+
+	public SelectResponse select(SelectCommand command, ElementGenerator generator, IElementProcessorMapper mapper) {
+		final String kind = command.getData().getKind();
+		for (ITeslaCommandProcessor processor : processors) {
+			if (processor.isSelectorSupported(kind)) {
+				SelectResponse response = processor.select(command, generator, mapper);
+				if (response == null)
+					continue;
+				if (response.getStatus().equals(ResponseStatus.FAILED))
+					return response;
+				if (!response.getElements().isEmpty()) {
+					for (Element uiElement : response.getElements()) {
+						mapper.map(uiElement, processor);
+					}
+					return response;
+				}
+			}
+		}
+		return null;
+	}
+
+	public Response executeCommand(Command command, IElementProcessorMapper abstractTeslaClient, boolean returnOnFirstResult) {
+		for (ITeslaCommandProcessor processor : processors) {
+			if (!processor.isCommandSupported(command))
+				continue;
+			Response response = processor.executeCommand(command, abstractTeslaClient);
+			if (response == null)
+				continue;
+			if (response.getStatus().equals(ResponseStatus.FAILED))
+				return response;
+			if (returnOnFirstResult)
+				return response;
+		}
+		return null;
+	}
+
+	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
+		for (ITeslaCommandProcessor processor : processors) {
+			if (!processor.canProceed(context, info))
+				return false;
+		}
+		return true;
+	}
+
+	public void clean() {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.clean();
+		}
+	}
+
+	public PreExecuteStatus preExecute(Command command, PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
+		for (ITeslaCommandProcessor processor : processors) {
+			PreExecuteStatus rv = processor.preExecute(command, previousStatus, info);
+			if (rv != null)
+				return rv;
+		}
+		return null;
+	}
+
+	public <T> T getProcessor(Class<T> clazz$) {
+		for (ITeslaCommandProcessor processor : processors) {
+			if (clazz$ == processor.getClass()) {
+				return clazz$.cast(processor);
+			}
+		}
+		return null;
+	}
+
+	public <T> List<T> getProcessors(Class<T> clazz$) {
+		List<T> result = new ArrayList<T>();
+		for (ITeslaCommandProcessor processor : processors) {
+			if (clazz$.isInstance(processor)) {
+				result.add(clazz$.cast(processor));
+			}
+		}
+		return result;
+	}
+
+	public void notifyUI() {
+		for (ITeslaCommandProcessor processor : processors) {
+			processor.notifyUI();
+		}
 	}
 }

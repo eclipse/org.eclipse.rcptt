@@ -1122,6 +1122,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<String, String> getRunlevelsFromSimpleConfigurator() {
 		Map<String, String> result = new HashMap<String, String>();
 		if (getTargetPlatformProfilePath() == null) {

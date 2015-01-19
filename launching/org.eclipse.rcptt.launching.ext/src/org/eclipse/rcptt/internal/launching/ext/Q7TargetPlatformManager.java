@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationListener;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
@@ -40,8 +41,7 @@ public class Q7TargetPlatformManager {
 			return null;
 		}
 
-		String targetPlatform = config.getAttribute(IQ7Launch.TARGET_PLATFORM,
-				"");
+		String targetPlatform = getTargetPlatformName(config);
 
 		ITargetPlatformHelper cached = cachedHelpers.get(targetPlatform);
 		if (cached != null) {
@@ -85,24 +85,24 @@ public class Q7TargetPlatformManager {
 			return newTargetPlatform(config, monitor, location);
 		}
 
-		String targetPlatform = config.getAttribute(IQ7Launch.TARGET_PLATFORM,
-				"");
+		String targetPlatformName = getTargetPlatformName(config);
 
 		monitor.beginTask("Initialize target platform...", 2);
 		ITargetPlatformHelper info = TargetPlatformManager.getTargetPlatform(
-				targetPlatform, new SubProgressMonitor(monitor, 1), true);
+				targetPlatformName, new SubProgressMonitor(monitor, 1), true);
 
 		if (info == null || !info.isValid()) {
 			// Update runtime version
 			if (info != null)
 				info.delete();
-			info = newTargetPlatform(config,
-					new SubProgressMonitor(monitor, 1), location);
+			info = newTargetPlatform(config, new SubProgressMonitor(monitor, 1), location);
+			assert info != null;
 		} else {
 			monitor.worked(1);
 		}
+		assert info != null;
 		monitor.done();
-		cachedHelpers.put(targetPlatform, info);
+		cachedHelpers.put(targetPlatformName, info);
 		return info;
 	}
 
@@ -112,7 +112,8 @@ public class Q7TargetPlatformManager {
 
 		ITargetPlatformHelper info = Q7TargetPlatformManager
 				.createTargetPlatform(location, monitor);
-		if (info != null && info.isValid()) {
+		assert info != null;
+		if (info.isValid()) {
 			info.setTargetName(getTargetPlatformName(config));
 			info.save();
 			cachedHelpers.put(info.getName(), info);
@@ -160,13 +161,20 @@ public class Q7TargetPlatformManager {
 
 	/**
 	 * Return target platform name. This method will by default use launch
-	 * configuratio name.
+	 * configuration name.
 	 * 
 	 * @param config
 	 * @return
+	 * @throws CoreException
 	 */
 	public static String getTargetPlatformName(ILaunchConfiguration config) {
-		return "AUT " + config.getName() + " (Target Platform)";
+		String defValue = getTargetPlatformName(config.getName());
+		try {
+			return config.getAttribute(IQ7Launch.TARGET_PLATFORM, defValue);
+		} catch (CoreException e) {
+			RcpttPlugin.log(e);
+			return defValue;
+		}
 	}
 
 	public static String getTargetPlatformName(String name) {

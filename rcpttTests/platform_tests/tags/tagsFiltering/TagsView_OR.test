@@ -6,8 +6,9 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=454740
 Id: __bRXcIUGEeS44uQ7y9L3Dw
-Runtime-Version: 1.5.4.201412160632
-Save-Time: 12/18/14 11:22 AM
+Runtime-Version: 1.5.4.201412021526
+Save-Time: 1/8/15 10:07 AM
+Tags: skipExecution
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa

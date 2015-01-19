@@ -227,4 +227,10 @@ public class UISelector<T extends BasicUIElement> {
 		}
 		return null;
 	}
+	
+	public void update(Element element) {
+		UpdateControlCommand cmd = ProtocolFactory.eINSTANCE.createUpdateControlCommand();
+		cmd.setElements(element);
+		player.safeExecuteCommand(cmd);
+	}
 }

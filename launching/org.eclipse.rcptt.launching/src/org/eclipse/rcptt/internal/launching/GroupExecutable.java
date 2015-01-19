@@ -87,4 +87,10 @@ public class GroupExecutable extends Executable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "Group: " + root.toString();
+	}
+
 }

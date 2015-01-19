@@ -499,6 +499,10 @@ public class ProtocolAdapterFactory extends AdapterFactoryImpl {
 				return createSetPositionAdapter();
 			}
 			@Override
+			public Adapter caseUpdateControlCommand(UpdateControlCommand object) {
+				return createUpdateControlCommandAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -1993,6 +1997,20 @@ public class ProtocolAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSetPositionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand <em>Update Control Command</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand
+	 * @generated
+	 */
+	public Adapter createUpdateControlCommandAdapter() {
 		return null;
 	}
 

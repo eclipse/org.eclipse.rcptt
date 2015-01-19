@@ -36,7 +36,6 @@ import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 import org.eclipse.rcptt.tesla.internal.core.TeslaProcessorManager;
 import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
-import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
 import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
 import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
 import org.eclipse.swt.widgets.Display;
@@ -60,17 +59,15 @@ public class ExecVerificationService implements ICommandService {
 				info.setResult(ResultStatus.PASS);
 			}
 		} catch (Throwable e) {
-			if (node != null) {
-				info.setResult(ResultStatus.FAIL);
-				if (e instanceof CoreException
-						&& ((CoreException) e).getStatus() instanceof VerificationStatus) {
-					VerificationStatus st = (VerificationStatus) ((CoreException) e).getStatus();
-					info.setMessage(VerificationReporter.getStyledMessage(st).getMessage());
-				} else {
-					info.setMessage(e.getMessage());
-				}
-				info.setDescription(verification.getDescription());
+			info.setResult(ResultStatus.FAIL);
+			if (e instanceof CoreException
+					&& ((CoreException) e).getStatus() instanceof VerificationStatus) {
+				VerificationStatus st = (VerificationStatus) ((CoreException) e).getStatus();
+				info.setMessage(VerificationReporter.getStyledMessage(st).getMessage());
+			} else {
+				info.setMessage(e.getMessage());
 			}
+			info.setDescription(verification.getDescription());
 			boolean processed = false;
 			if (e instanceof CoreException
 					&& ((CoreException) e).getStatus() instanceof ScriptErrorStatus) {
@@ -88,15 +85,11 @@ public class ExecVerificationService implements ICommandService {
 			if (!processed) {
 				final AdvancedInformation information = InfoFactory.eINSTANCE
 						.createAdvancedInformation();
-				final ITeslaCommandProcessor[] processors = new TeslaProcessorManager()
-						.getProcessors();
 				try {
 					final boolean infoCollected[] = { false };
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							for (ITeslaCommandProcessor processor : processors) {
-								processor.collectInformation(information, null);
-							}
+							new TeslaProcessorManager().collectInformation(information, null);
 							infoCollected[0] = true;
 						}
 					});

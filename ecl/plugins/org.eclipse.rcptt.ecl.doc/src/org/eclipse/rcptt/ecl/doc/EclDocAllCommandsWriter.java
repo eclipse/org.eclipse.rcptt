@@ -32,8 +32,7 @@ public class EclDocAllCommandsWriter {
 
 			w.open("body");
 			{
-				w.anchor("top");
-				w.tag("h2", "Commands");
+				w.open("h2").attr("id", "top").text("Commands").close();
 				w.open("ul");
 				{
 					for (EclDocCommand c : EclDocCommand.getAllPublicCommands()) {

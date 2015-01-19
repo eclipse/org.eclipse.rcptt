@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.verifications.status.StatusFactory;
 import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 
@@ -39,5 +38,9 @@ public class ErrorList {
 			data.setResourceId(resourceId);
 		}
 		throw new CoreException(new VerificationStatus(Status.ERROR, pluginId, message, resourceId, errors));
+	}
+
+	public boolean isEmpty() {
+		return errors.isEmpty();
 	}
 }

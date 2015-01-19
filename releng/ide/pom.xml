@@ -21,6 +21,7 @@
     <module>../../testing</module>
 
     <module>../../runtime/updates/org.eclipse.rcptt.updates.helios</module>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.galileo</module>    
     <module>../../runtime/updates/org.eclipse.rcptt.updates.kepler</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x</module>

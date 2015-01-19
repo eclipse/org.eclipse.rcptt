@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>server-mars</artifactId>
-	<packaging>q7test</packaging>
+	<packaging>rcpttTest</packaging>
 
 	<properties>
 		<q7Server>http://192.168.2.64:8902</q7Server>
@@ -22,9 +22,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>${q7-maven-group}</groupId>
-				<artifactId>q7-server-maven-plugin</artifactId>
-				<version>${q7-maven-version}</version>
+				<groupId>${ci-maven-group}</groupId>
+				<artifactId>${ci-server-maven-plugin}</artifactId>
+				<version>${ci-maven-version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<classifiers>
@@ -68,12 +68,12 @@
 			</snapshots>
 			<id>xored</id>
 			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+			<url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-snapshots/</url>
 		</pluginRepository>
 		<pluginRepository>
 			<id>xored-releases</id>
 			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+			<url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
 

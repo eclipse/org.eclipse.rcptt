@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.internal.core;
 
+import static org.eclipse.rcptt.ecl.internal.core.CorePlugin.err;
+import static org.eclipse.rcptt.ecl.internal.core.CorePlugin.log;
+
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -83,16 +86,14 @@ public abstract class AbstractSession implements ISession {
 			s = svc.service(scriptlet, process);
 		} catch (CoreException e) {
 			s = e.getStatus();
-			CorePlugin.err(e.getMessage(), e);
 		} catch (InterruptedException ie) {
 			s = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
 					ie.getMessage(), ie);
-			CorePlugin.err(ie.getMessage(), ie);
+			log(err(ie.getMessage(), ie));
 		} catch (Throwable t) {
 			s = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, t.getMessage(),
 					t);
-			CorePlugin.getDefault().getLog()
-					.log(CorePlugin.err(t.getMessage(), t));
+			log(err(t.getMessage(), t));
 		} finally {
 			SessionListenerManager.endCommand(scriptlet, s);
 			CommandStack.fireExit(stack);

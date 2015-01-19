@@ -100,7 +100,7 @@ public class TargetPlatformManager {
 	 * Restore target platform from existing configuration
 	 * 
 	 * @param attribute
-	 * @return
+	 * @return null if no target platform is found. Helper object otherwise.
 	 */
 	public static ITargetPlatformHelper getTargetPlatform(
 			final String requiredName, final IProgressMonitor monitorArg,

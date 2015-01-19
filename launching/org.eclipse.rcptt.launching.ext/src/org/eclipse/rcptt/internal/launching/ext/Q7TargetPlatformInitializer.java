@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
+import static org.eclipse.rcptt.launching.ext.AUTInformation.getInformationMap;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +26,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
+import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
@@ -41,7 +41,9 @@ import org.eclipse.rcptt.launching.injection.UpdateSite;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
-import org.osgi.framework.Bundle;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 public class Q7TargetPlatformInitializer {
 
@@ -56,10 +58,19 @@ public class Q7TargetPlatformInitializer {
 	public static final String P2_CATEGORY_FEATURE = "org.eclipse.equinox.p2.type.category";
 
 	public static class Q7Info {
-		public URI q7;
-		public URI aspectj;
-		public URI deps;
-		public List<URI> extra = new ArrayList<URI>();
+		public final URI q7;
+		public final URI aspectj;
+		public final URI deps;
+		public final List<URI> extra;
+		public Q7Info(URI q7, URI aspectj, URI deps, List<URI> extra) {
+			checkArgument(q7 != null);
+			checkArgument(aspectj != null);
+			checkArgument(deps != null);
+			this.q7 = q7;
+			this.aspectj = aspectj;
+			this.deps = deps;
+			this.extra = extra == null ? Collections.<URI> emptyList() : extra;
+		}
 	}
 
 	private static final IStatus createError(String message) {
@@ -74,7 +85,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static IStatus initialize(ITargetPlatformHelper iinfo,
-			IProgressMonitor monitor) {
+			IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Initialize AUT configuration", 100);
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
@@ -86,23 +97,9 @@ public class Q7TargetPlatformInitializer {
 		}
 
 		TargetPlatformHelper info = (TargetPlatformHelper) iinfo;
-		Map<String, String> map = AUTInformation.getInformationMap(iinfo);
+		Map<String, Version> map = getInformationMap(iinfo);
 
-		String version = map.get(AUTInformation.VERSION);
-		if (version == null)
-			return createError("Invalid eclipse product location: " + iinfo.getTargetPlatformProfilePath());
-
-		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions.getDefault()
-				.getRuntimes(version);
-		if (updates.size() == 0) {
-			return createError("Eclipse platform version " + version
-					+ " is not supported");
-		}
-		Q7Info q7Info = collectQ7Information(updates);
-		if (q7Info.q7 == null || q7Info.deps == null || q7Info.aspectj == null) {
-			return createError("Eclipse platform version " + version
-					+ " is not supported");
-		}
+		Q7Info q7Info = getInfo(iinfo, map);
 		monitor.worked(20);
 
 		try {
@@ -133,7 +130,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static InjectionConfiguration createInjectionConfiguration(
-			IProgressMonitor monitor, Q7Info q7Info, Map<String, String> map,
+			IProgressMonitor monitor, Q7Info q7Info, Map<String, Version> map,
 			IMetadataRepository repository) {
 		boolean hasEMF = map.containsKey(AUTInformation.EMF);
 		boolean hasEMFWorkspace = map.containsKey(AUTInformation.EMF_WORKSPACE);
@@ -235,65 +232,55 @@ public class Q7TargetPlatformInitializer {
 		Q7ExtLaunchingPlugin.log(new MultiStatus(PLUGIN_ID, 0, new IStatus[]{info.getStatus()}, "Target platform initialization error", null));
 	}
 
-	public static Q7Info getInfo(ITargetPlatformHelper info) {
-		Map<String, String> map = AUTInformation.getInformationMap(info);
-		String version = map.get(AUTInformation.VERSION);
-		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions.getDefault()
-				.getRuntimes(version);
-		if (updates.size() == 0) {
-			return null;
-		}
-		return collectQ7Information(updates);
+	public static Q7Info getInfo(ITargetPlatformHelper target, Map<String, Version> versions) throws CoreException {
+		Map<String, Version> map = versions;
+		MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Invalid eclipse product location: " + target.getTargetPlatformProfilePath(), null);
+		Version platform = map.get(AUTInformation.VERSION);
+		Version osgi = map.get(AUTInformation.OSGI);
+		if (platform == null)
+			status.add(createError("Failed to detect platform version"));
+		if (osgi == null)
+			status.add(createError("Failed to detect OSGI version"));
+		if (!status.isOK())
+			throw new CoreException(status);
+		return collectQ7Information(platform, osgi);
 	}
 
-	public static Q7Info collectQ7Information(List<Q7RuntimeInfo> updates) {
-		Q7Info q7Info = new Q7Info();
+	public static Q7Info collectQ7Information(Version platform, Version osgi) {
+		Collection<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions.getDefault().getRuntimes();
+		URI q7 = null, aspectj = null, deps = null;
+		Builder<URI> extra = ImmutableList.builder();
+
 		// Initialize updates
 		for (Q7RuntimeInfo q7RuntimeInfo : updates) {
-			Bundle bundleItem = Platform.getBundle(q7RuntimeInfo.bundle);
-			URL entry = null;
-			if (q7RuntimeInfo.path != null
-					&& q7RuntimeInfo.path.trim().length() > 0) {
-				entry = bundleItem.getEntry(new Path(q7RuntimeInfo.path)
-						.toString());
-			}
-			if (entry == null) {
-				// Try to resolve as URI entry.
-				try {
-					entry = new URL(q7RuntimeInfo.path);
-				} catch (MalformedURLException e) {
-					Q7ExtLaunchingPlugin.getDefault().log(e);
+			boolean platformValid = q7RuntimeInfo.version.isIncluded(platform);
+			boolean osgiValid = q7RuntimeInfo.version.isIncluded(osgi);
+			if (platformValid) {
+				if ("runtime".equals(q7RuntimeInfo.kind)) {
+					if (q7 != null)
+						throw new IllegalStateException("Multiple runtime providers for platform " + platform);
+					q7 = q7RuntimeInfo.path;
+				} else if ("dependency".equals(q7RuntimeInfo.kind)) {
+					if (deps != null)
+						throw new IllegalStateException("Multiple dependencies providers for platform " + platform);
+					deps = q7RuntimeInfo.path;
+				} else if ("extra".equals(q7RuntimeInfo.kind)) {
+					extra.add(q7RuntimeInfo.path);
 				}
 			}
-			if (entry == null) {
-				Q7ExtLaunchingPlugin.getDefault().log(
-						"Failed to locate entry for Q7Runtime:"
-								+ bundleItem.getBundleId() + " path:"
-								+ q7RuntimeInfo.path, null);
-				continue;
-			}
-			if ("runtime".equals(q7RuntimeInfo.kind)) {
-				q7Info.q7 = safeToURI(entry);
-			} else if ("dependency".equals(q7RuntimeInfo.kind)) {
-				q7Info.deps = safeToURI(entry);
-			} else if ("extra".equals(q7RuntimeInfo.kind)) {
-				q7Info.extra.add(safeToURI(entry));
-			}
-			else if ("aspectj".equals(q7RuntimeInfo.kind)) {
-				q7Info.aspectj =safeToURI(entry);
+			if (osgiValid) {
+				if ("aspectj".equals(q7RuntimeInfo.kind)) {
+					aspectj = q7RuntimeInfo.path;
+				}
 			}
 		}
-		return q7Info;
-	}
-
-	private static URI safeToURI(URL q7Entry) {
-		URI q7 = null;
-		try {
-			q7 = q7Entry.toURI();
-		} catch (URISyntaxException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
-		}
-		return q7;
+		if (q7 == null)
+			throw new NullPointerException("Can't find runtime for platform " + platform);
+		if (deps == null)
+			throw new NullPointerException("Can't find dependencies for platform " + platform);
+		if (aspectj == null)
+			throw new NullPointerException("Can't find aspectj for osgi " + osgi);
+		return new Q7Info(q7, aspectj, deps, extra.build());
 	}
 
 	public static boolean hasProperty(IInstallableUnit unit, String prop,
@@ -307,24 +294,13 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static InjectionConfiguration getAspectJInjection(ITargetPlatformHelper targetPlatform,
-			IProgressMonitor progressMonitor) {
-		Map<String, String> map = AUTInformation
-				.getInformationMap(targetPlatform);
-		String version = map.get(AUTInformation.VERSION);
-		List<Q7RuntimeInfo> updates = Q7UpdateSiteExtensions
-				.getDefault().getRuntimes(version);
-		if (updates.isEmpty())
-			throw new RuntimeException("Failed to find built-in injections for " + version);
-		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE
-				.createInjectionConfiguration();
-		if (updates != null) {
-			Q7Info q7Info = Q7TargetPlatformInitializer
-					.collectQ7Information(updates);
-			if (q7Info != null) {
-				UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
-				aspectsSite.setUri(q7Info.aspectj.toString());
-				injectionConfiguration.getEntries().add(aspectsSite);
-			}
+			IProgressMonitor progressMonitor) throws CoreException {
+		Q7Info q7Info = getInfo(targetPlatform, getInformationMap(targetPlatform));
+		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
+		if (q7Info != null) {
+			UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
+			aspectsSite.setUri(q7Info.aspectj.toString());
+			injectionConfiguration.getEntries().add(aspectsSite);
 		}
 		return injectionConfiguration;
 	}

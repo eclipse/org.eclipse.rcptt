@@ -23,17 +23,13 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
-
-import com.google.common.base.Joiner;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -46,6 +42,8 @@ import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.Q7TestLaunch;
+
+import com.google.common.base.Joiner;
 
 public class Q7Launcher {
 
@@ -94,21 +92,17 @@ public class Q7Launcher {
 	public IExecutionSession execute(final IQ7NamedElement[] elements, Aut aut,
 			final String name, final IWorkspaceFinder finder)
 			throws CoreException {
+		ILaunchConfiguration config = getLaunchConfiguration(elements, aut);
+		LaunchData data = new LaunchData();
+		data.elements = elements;
+		data.finder = finder;
+		launchData.put(config, data);
 		try {
-			ILaunchConfiguration config = getLaunchConfiguration(elements, aut);
-			LaunchData data = new LaunchData();
-			data.elements = elements;
-			data.finder = finder;
-			launchData.put(config, data);
 			Q7TestLaunch launch = (Q7TestLaunch) config.launch(
 					ILaunchManager.RUN_MODE, new NullProgressMonitor());
-			launchData.remove(config);
 			return launch.getClearSession();
-		} catch (final Exception e) {
-			throw new CoreException(new Status(IStatus.ERROR,
-					Q7LaunchingPlugin.PLUGIN_ID,
-					"Failed to execute ECL. Connection could not be established..."
-							+ e.getMessage(), e));
+		} finally {
+			launchData.remove(config);
 		}
 	}
 

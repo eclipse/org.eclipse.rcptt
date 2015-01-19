@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.core.swt;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
@@ -70,19 +72,26 @@ import org.eclipse.ui.internal.PerspectiveBarContributionItem;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.part.WorkbenchPart;
-
 import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.IMLSelectData;
 import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
 import org.eclipse.rcptt.tesla.core.protocol.ItemUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
+import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
+import org.eclipse.rcptt.tesla.core.protocol.SelectData;
+import org.eclipse.rcptt.tesla.core.protocol.SelectResponse;
+import org.eclipse.rcptt.tesla.core.protocol.UIPlayer;
 import org.eclipse.rcptt.tesla.core.protocol.UISelector;
 import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
+import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
@@ -103,6 +112,7 @@ import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 @SuppressWarnings("restriction")
 public final class SWTWidgetLocator {
 
+	private static final String ELEMENT_TEXT = "element_text";
 	private static final String ATTR_TEXT = "text";
 
 	private final SWTUIPlayer player;
@@ -180,9 +190,8 @@ public final class SWTWidgetLocator {
 	 * There is also a convenience method receiving a {@link Widget} instance:
 	 * {@link #findElement(Widget, boolean, boolean, boolean)}
 	 * <p>
-	 * See
-	 * {@link IWidgetLocatorExtension#findElement(SWTUIPlayer, SWTUIElement, boolean, boolean, boolean)}
-	 * for notes about the extensibility.
+	 * See {@link IWidgetLocatorExtension#findElement(SWTUIPlayer, SWTUIElement, boolean, boolean, boolean)} for notes
+	 * about the extensibility.
 	 */
 	public FindResult findElement(SWTUIElement widget, boolean unknownAllowed,
 			boolean alwaysFindLeaf, boolean supportEclipseWorkbench) {
@@ -273,7 +282,12 @@ public final class SWTWidgetLocator {
 					unknownAllowed, alwaysFindLeaf, supportEclipseWorkbench);
 
 			if (element != null && !alwaysFindLeaf) {
-				return new FindResult(uiElement, element.getElement());
+				FindResult result = new FindResult(uiElement, element.getElement());
+				if (isElementTextFieldChange(uiElement, element)) {
+					element.set(ELEMENT_TEXT, PlayerTextUtils.getText(uiElement));
+					updateControl(result, widget);
+				}
+				return result;
 			}
 			GenericElementKind kind = SWTUIPlayer.getKind(control);
 
@@ -318,6 +332,15 @@ public final class SWTWidgetLocator {
 		}
 
 		return null;
+	}
+
+	private void updateControl(FindResult result, SWTUIElement widget) {
+		Control control = (Control) widget.unwrap();
+		recorder.setControls(SWTModelMapper.map(player.wrap(control)));
+		GenericElementKind kind = SWTUIPlayer.getKind(control);
+		UISelector<BasicUIElement> selector = new UISelector<BasicUIElement>(
+				kind, recorder, BasicUIElement.class).parent(result.element);
+		selector.update(result.element);
 	}
 
 	private FindResult findTableColumn(Widget widget, boolean alwaysFindLeaf,
@@ -669,70 +692,93 @@ public final class SWTWidgetLocator {
 		if (widgetIndex == -1) {
 			return null;
 		}
-		// Select required element to be focused.
 		if (realElement != null && realElement.getKind() != null) {
-			int absIndex = calculateIndex(realElement, null);
-			ElementEntry after = null;
-			if (absIndex == 0 && kind.skipFirstAfter()) {
-				/*
-				 * after are not required in this case
-				 */
-				realAfter = null;
-			}
-			// See "QS-1382 At the reproducing the test value is inserted in
-			// another field"
-			// else {
-			// Check if realAfter are between this control and previous one.
-			// Otherwise it is not necessary to use after
-			// if (realAfter != null
-			// && !isAfterBetween(realElement, realAfter)) {
-			// realAfter = null;
-			// }
-			// }
-			if (realAfter != null) {
-				after = getLabel(realAfter, parentElement);
-			}
-			ElementEntry result = null;
-			String text = realElement.getText();
-			UISelector<BasicUIElement> selector = new UISelector<BasicUIElement>(
-					kind, recorder, BasicUIElement.class).parent(parentElement);
-			if (after != null) {
-				selector = selector.after(after.getElement());
-			}
-			Set<ElementKind> indexKinds = genIndexKinds();
-
-			recorder.setControls(realElement.getModel());
-			if (!indexKinds.contains(kind.kind)
-					&& (text == null || text.trim().length() != 0)) {
-				int i = calculateIndex(realElement, realAfter);
-				if (i == -1 || i == 0) {
-					result = new ElementEntry(selector.find(text).getElement());
-				} else {
-					result = new ElementEntry(selector.find(text, i)
-							.getElement());
-				}
-				result.set(ATTR_TEXT, text);
-			} else {
-				if (widgetIndex == 0) {
-					result = new ElementEntry(selector.find().getElement());
-				} else {
-					result = new ElementEntry(selector.find(widgetIndex)
-							.getElement());
-				}
-			}
-			if (after != null) {
-				result.set("after", realAfter);
-			}
-
-			if (widget instanceof Text
-					&& widget == EclipseWorkbenchProvider.getProvider()
-							.getQuickAccess())
-				result.getElement().setDescription("quick-access");
-
-			SWTRecordingHelper.getHelper().put(realElement, result);
-			return new FindResult(realElement, result.getElement());
+			return selectRequiredElementToBeFocused(realElement, widget, kind, realAfter,
+					parentElement, widgetIndex);
 		}
 		return null;
+	}
+
+	private FindResult selectRequiredElementToBeFocused(SWTUIElement realElement, Widget widget,
+			GenericElementKind kind, SWTUIElement realAfter, Element parentElement,
+			int widgetIndex) {
+
+		int absIndex = calculateIndex(realElement, null);
+		ElementEntry after = null;
+		if (absIndex == 0 && kind.skipFirstAfter()) {
+			/*
+			 * after are not required in this case
+			 */
+			realAfter = null;
+		}
+		// See "QS-1382 At the reproducing the test value is inserted in
+		// another field"
+		// else {
+		// Check if realAfter are between this control and previous one.
+		// Otherwise it is not necessary to use after
+		// if (realAfter != null
+		// && !isAfterBetween(realElement, realAfter)) {
+		// realAfter = null;
+		// }
+		// }
+		if (realAfter != null) {
+			after = getLabel(realAfter, parentElement);
+		}
+		String text = realElement.getText();
+		UISelector<BasicUIElement> selector = new UISelector<BasicUIElement>(
+				kind, recorder, BasicUIElement.class).parent(parentElement);
+		recorder.setControls(realElement.getModel());
+
+		if (after != null) {
+			selector = selector.after(after.getElement());
+		}
+		Set<ElementKind> indexKinds = genIndexKinds();
+		ElementEntry result = createElementEntry(indexKinds, selector, text, kind,
+				realElement, widgetIndex, realAfter);
+
+		if (after != null) {
+			result.set("after", realAfter);
+		} else {
+			result.set("after", realElement);
+		}
+		if (text != null) {
+			result.set(ELEMENT_TEXT, text);
+		}
+
+		if (widget instanceof Text
+				&& widget == EclipseWorkbenchProvider.getProvider()
+						.getQuickAccess())
+			result.getElement().setDescription("quick-access");
+
+		SWTRecordingHelper.getHelper().put(realElement, result);
+		return new FindResult(realElement, result.getElement());
+	}
+
+	private ElementEntry createElementEntry(Set<ElementKind> indexKinds, UISelector<BasicUIElement> selector,
+			String text, GenericElementKind kind, SWTUIElement realElement, int widgetIndex,
+			SWTUIElement realAfter) {
+
+		ElementEntry result = null;
+		if (!indexKinds.contains(kind.kind) && text != null) {
+			int i = calculateIndex(realElement, realAfter);
+			if (i == -1 || i == 0) {
+				result = new ElementEntry(selector.find(text).getElement());
+			} else {
+				result = new ElementEntry(selector.find(text, i)
+						.getElement());
+			}
+			if (text != null) {
+				result.set(ATTR_TEXT, text);
+			}
+		} else {
+			if (widgetIndex == 0) {
+				result = new ElementEntry(selector.find().getElement());
+			} else {
+				result = new ElementEntry(selector.find(widgetIndex)
+						.getElement());
+			}
+		}
+		return result;
 	}
 
 	private boolean couldBeAfterItem(String text) {
@@ -1224,6 +1270,20 @@ public final class SWTWidgetLocator {
 			}
 		}
 		return element;
+	}
+
+	private boolean isElementTextFieldChange(SWTUIElement uiElement,
+			ElementEntry element) {
+		if (element != null) {
+			String text = element.get(ELEMENT_TEXT);
+			if (text != null) {
+				String pattern = PlayerTextUtils.getText(uiElement);
+				if (pattern != null && !pattern.equals(text)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public PartUIElement findPartElement(IWorkbenchPart part,

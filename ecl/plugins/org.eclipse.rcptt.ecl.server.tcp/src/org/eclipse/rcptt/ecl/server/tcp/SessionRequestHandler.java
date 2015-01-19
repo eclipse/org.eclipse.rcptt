@@ -51,9 +51,14 @@ final class SessionRequestHandler implements Runnable {
 					if (!(object instanceof Command))
 						break;
 					Command command = (Command) object;
-					IPipe input = readInput(pipe);
-					IProcess process = session.execute(command, input, null);
-					IStatus status = writeOutput(pipe, process);
+					IStatus status;
+					try {
+						IPipe input = readInput(pipe);
+						IProcess process = session.execute(command, input, null);
+						status = writeOutput(pipe, process);
+					} catch (CoreException e) {
+						status = e.getStatus();
+					}
 					pipe.write(status);
 					pipe.close(status);
 				} catch (Exception e) {
@@ -67,7 +72,7 @@ final class SessionRequestHandler implements Runnable {
 						try {
 							socket.close();
 						} catch (Throwable e2) {
-							// Ignore
+
 						}
 						break;
 					}

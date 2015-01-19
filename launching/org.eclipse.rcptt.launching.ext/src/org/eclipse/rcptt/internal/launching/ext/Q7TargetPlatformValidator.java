@@ -15,17 +15,19 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer.Q7Info;
+import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 @SuppressWarnings("restriction")
 public class Q7TargetPlatformValidator {
 	public static boolean validateUpdates(String location,
-			ITargetPlatformHelper platform) {
+			ITargetPlatformHelper platform) throws CoreException {
 		if (!platform.isValid()) {
 			return false;
 		}
@@ -33,7 +35,7 @@ public class Q7TargetPlatformValidator {
 		if (!location.equals(path)) {
 			return false;
 		}
-		Q7Info info = Q7TargetPlatformInitializer.getInfo(platform);
+		Q7Info info = Q7TargetPlatformInitializer.getInfo(platform, AUTInformation.getInformationMap(platform));
 		if (info == null) {
 			return false;
 		}

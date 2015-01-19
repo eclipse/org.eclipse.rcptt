@@ -119,6 +119,7 @@ import org.eclipse.rcptt.tesla.core.protocol.TextSelectionResponse;
 import org.eclipse.rcptt.tesla.core.protocol.Type;
 import org.eclipse.rcptt.tesla.core.protocol.TypeAction;
 import org.eclipse.rcptt.tesla.core.protocol.TypeText;
+import org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand;
 import org.eclipse.rcptt.tesla.core.protocol.WaitForRestart;
 import org.eclipse.rcptt.tesla.core.protocol.WaitForState;
 
@@ -874,6 +875,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * @generated
 	 */
 	private EClass setPositionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass updateControlCommandEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -3367,6 +3375,24 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getUpdateControlCommand() {
+		return updateControlCommandEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUpdateControlCommand_Elements() {
+		return (EReference)updateControlCommandEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSWTDialogKind() {
 		return swtDialogKindEEnum;
 	}
@@ -3797,6 +3823,9 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		setPositionEClass = createEClass(SET_POSITION);
 		createEAttribute(setPositionEClass, SET_POSITION__INDEX);
 
+		updateControlCommandEClass = createEClass(UPDATE_CONTROL_COMMAND);
+		createEReference(updateControlCommandEClass, UPDATE_CONTROL_COMMAND__ELEMENTS);
+
 		// Create enums
 		swtDialogKindEEnum = createEEnum(SWT_DIALOG_KIND);
 		assertKindEEnum = createEEnum(ASSERT_KIND);
@@ -3937,6 +3966,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		doubleClickTextEClass.getESuperTypes().add(this.getElementCommand());
 		setWidthEClass.getESuperTypes().add(this.getElementCommand());
 		setPositionEClass.getESuperTypes().add(this.getElementCommand());
+		updateControlCommandEClass.getESuperTypes().add(theRawPackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(selectDataEClass, SelectData.class, "SelectData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -4309,6 +4339,9 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 
 		initEClass(setPositionEClass, SetPosition.class, "SetPosition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSetPosition_Index(), theEcorePackage.getEInt(), "index", null, 1, 1, SetPosition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(updateControlCommandEClass, UpdateControlCommand.class, "UpdateControlCommand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUpdateControlCommand_Elements(), theRawPackage.getElement(), null, "elements", null, 0, 1, UpdateControlCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(swtDialogKindEEnum, SWTDialogKind.class, "SWTDialogKind");

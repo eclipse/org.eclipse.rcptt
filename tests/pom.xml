@@ -10,9 +10,10 @@
   <modules>
     <!-- Tesla plugins -->
     <module>org.eclipse.rcptt.core.tests</module>
+    <module>org.eclipse.rcptt.core.ecl.formatter.test</module>
+    <module>org.eclipse.rcptt.core.ecl.parser.test</module>
+    <module>org.eclipse.rcptt.verifications.tree.test</module>
   </modules>
-  <groupId>org.eclipse.rcptt</groupId>
-  <version>2.0.0-SNAPSHOT</version>
   <artifactId>rcptt.core.tests</artifactId>
   <packaging>pom</packaging>
 </project>

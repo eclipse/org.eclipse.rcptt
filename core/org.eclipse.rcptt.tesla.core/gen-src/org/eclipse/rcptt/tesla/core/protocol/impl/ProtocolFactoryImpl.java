@@ -167,6 +167,7 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 			case ProtocolPackage.DOUBLE_CLICK_TEXT: return createDoubleClickText();
 			case ProtocolPackage.SET_WIDTH: return createSetWidth();
 			case ProtocolPackage.SET_POSITION: return createSetPosition();
+			case ProtocolPackage.UPDATE_CONTROL_COMMAND: return createUpdateControlCommand();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -1252,6 +1253,16 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	public SetPosition createSetPosition() {
 		SetPositionImpl setPosition = new SetPositionImpl();
 		return setPosition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UpdateControlCommand createUpdateControlCommand() {
+		UpdateControlCommandImpl updateControlCommand = new UpdateControlCommandImpl();
+		return updateControlCommand;
 	}
 
 	/**

@@ -77,8 +77,7 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 			String configName = this.configuration.getName();
 			String autLocation = this.configuration.getAttribute(
 					IQ7Launch.AUT_LOCATION, "");
-			String targetName = this.configuration.getAttribute(
-					IQ7Launch.TARGET_PLATFORM, "");
+			String targetName = Q7TargetPlatformManager.getTargetPlatformName(this.configuration);
 
 			page.initializeExisting(configName, autLocation, targetName,
 					this.configuration);

@@ -78,7 +78,7 @@ public class EclDocWriter {
 	}
 
 	public void anchor(String anchor) throws IOException {
-		open("a").attr("name", anchor).close();
+		open("a").attr("id", anchor).text("").close();
 	}
 
 	public EclDocWriter text(String text) throws IOException {

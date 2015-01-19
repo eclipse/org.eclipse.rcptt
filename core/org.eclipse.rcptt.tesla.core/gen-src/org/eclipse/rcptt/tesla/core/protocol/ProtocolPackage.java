@@ -5383,6 +5383,43 @@ public interface ProtocolPackage extends EPackage {
 	int SET_POSITION_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.UpdateControlCommandImpl <em>Update Control Command</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.UpdateControlCommandImpl
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getUpdateControlCommand()
+	 * @generated
+	 */
+	int UPDATE_CONTROL_COMMAND = 105;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPDATE_CONTROL_COMMAND__ID = RawPackage.COMMAND__ID;
+
+	/**
+	 * The feature id for the '<em><b>Elements</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPDATE_CONTROL_COMMAND__ELEMENTS = RawPackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Update Control Command</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPDATE_CONTROL_COMMAND_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5390,7 +5427,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getSWTDialogKind()
 	 * @generated
 	 */
-	int SWT_DIALOG_KIND = 105;
+	int SWT_DIALOG_KIND = 106;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.AssertKind <em>Assert Kind</em>}' enum.
@@ -5400,7 +5437,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getAssertKind()
 	 * @generated
 	 */
-	int ASSERT_KIND = 106;
+	int ASSERT_KIND = 107;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.DragKind <em>Drag Kind</em>}' enum.
@@ -5410,7 +5447,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getDragKind()
 	 * @generated
 	 */
-	int DRAG_KIND = 107;
+	int DRAG_KIND = 108;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.MouseEventKind <em>Mouse Event Kind</em>}' enum.
@@ -5420,7 +5457,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getMouseEventKind()
 	 * @generated
 	 */
-	int MOUSE_EVENT_KIND = 108;
+	int MOUSE_EVENT_KIND = 109;
 
 
 	/**
@@ -8245,6 +8282,27 @@ public interface ProtocolPackage extends EPackage {
 	EAttribute getSetPosition_Index();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand <em>Update Control Command</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Update Control Command</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand
+	 * @generated
+	 */
+	EClass getUpdateControlCommand();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand#getElements <em>Elements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Elements</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand#getElements()
+	 * @see #getUpdateControlCommand()
+	 * @generated
+	 */
+	EReference getUpdateControlCommand_Elements();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10643,6 +10701,24 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SET_POSITION__INDEX = eINSTANCE.getSetPosition_Index();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.UpdateControlCommandImpl <em>Update Control Command</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.UpdateControlCommandImpl
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getUpdateControlCommand()
+		 * @generated
+		 */
+		EClass UPDATE_CONTROL_COMMAND = eINSTANCE.getUpdateControlCommand();
+
+		/**
+		 * The meta object literal for the '<em><b>Elements</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UPDATE_CONTROL_COMMAND__ELEMENTS = eINSTANCE.getUpdateControlCommand_Elements();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
