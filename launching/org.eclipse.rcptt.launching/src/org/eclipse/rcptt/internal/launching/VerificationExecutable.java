@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.launching.AutLaunch;
 
 public abstract class VerificationExecutable extends DataExecutable {
@@ -29,4 +29,10 @@ public abstract class VerificationExecutable extends DataExecutable {
 	public int getType() {
 		return TYPE_VERIFICATION;
 	}
+
+	@Override
+	public String toString() {
+		return "Verification: " + getActualElement().getName();
+	}
+
 }

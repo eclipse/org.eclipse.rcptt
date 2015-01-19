@@ -212,7 +212,7 @@ public abstract class NamedElementEditorPage extends FormPage implements
 
 				public void launchStatusChanged(IExecutable... executable) {
 					for (IExecutable e : executable) {
-						if (e.getStatus() == IExecutable.FAILED) {
+						if (e.getStatus() == IExecutable.State.FAILED) {
 							count[0] = 0;
 						}
 					}

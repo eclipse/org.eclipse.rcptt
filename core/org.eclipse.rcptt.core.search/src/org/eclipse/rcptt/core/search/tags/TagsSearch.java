@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.MismatchedTokenException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTree;
@@ -16,11 +17,13 @@ import org.eclipse.rcptt.core.search.tags.parser.TagsParser;
 
 public class TagsSearch {
 	
+	private static List<RecognitionException> errors = new ArrayList<RecognitionException>();
+
 	/**
 	 * Finds IQ7Elements by tags expression.
 	 * 
 	 * E.g.: tag1 OR tag2 AND "tag 3"
-	 *  
+	 * 
 	 * @param expression
 	 * @return
 	 */
@@ -49,19 +52,51 @@ public class TagsSearch {
 	 */
 	private static CommonTree createTree(String expression) {
 		CommonTree ast = null;
+		errors.clear();
 		try {
 			ANTLRStringStream input = new ANTLRStringStream(expression);
-			TokenStream tokens = new CommonTokenStream(new TagsLexer(input));
+			TagsLexer lexer = new TagsLexer(input);
+			TokenStream tokens = new CommonTokenStream(lexer);
 			
 			TagsParser parser = new TagsParser(tokens);
 			TagsParser.expression_return ret = parser.expression();
 			ast = (CommonTree) ret.getTree();
+
+			if (lexer.hasErrors())
+				errors.addAll(lexer.getAllErrors());
+			if (parser.hasErrors())
+				errors.addAll(parser.getAllErrors());
 		} catch (RecognitionException e) {
 		}
 		
 		return ast;
 	}
 	
+	/**
+	 * @return All errors found during last run.
+	 */
+	public static List<RecognitionException> getAllErrors() {
+		return errors;
+	}
+
+	/**
+	 * Checks if parentheses are not correct during last run.
+	 * 
+	 * @return
+	 */
+	public static boolean isParenthesesMissed() {
+		for (RecognitionException e : getAllErrors()) {
+			if (e instanceof MismatchedTokenException) {
+				MismatchedTokenException mte = (MismatchedTokenException) e;
+				if (mte.expecting == TagsParser.LPAREN || mte.expecting == TagsParser.RPAREN) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Evaluates boolean AST.
 	 * 
@@ -79,38 +114,67 @@ public class TagsSearch {
 				}
 			}
 			
-			if (tree.getType() == TagsParser.AND) {
-				if (tree.getChildren() == null) {
-					return false;
-				} else {
-					boolean result = true;
-					for (Object subtree : tree.getChildren()) {
-						if (eval((CommonTree) subtree, tags) == false) {
-							result = false;
-							break;
-						}
-					}
-					return result;
-				}
+			if (tree.getType() == TagsParser.NOT && tree.getChildren() != null) {
+				return !eval((CommonTree) tree.getChild(0), tags);
 			}
 			
-			if (tree.getType() == TagsParser.OR) {
-				if (tree.getChildren() == null) {
-					return false;
-				} else {
-					boolean result = false;
-					for (Object subtree : tree.getChildren()) {
-						if (eval((CommonTree) subtree, tags) == true) {
-							result = true;
-							break;
-						}
+			if (tree.getType() == TagsParser.AND && tree.getChildren() != null) {
+				boolean result = true;
+				for (Object subtree : tree.getChildren()) {
+					if (eval((CommonTree) subtree, tags) == false) {
+						result = false;
+						break;
 					}
-					return result;
 				}
+				return result;
+			}
+			
+			if (tree.getType() == TagsParser.OR && tree.getChildren() != null) {
+				boolean result = false;
+				for (Object subtree : tree.getChildren()) {
+					if (eval((CommonTree) subtree, tags) == true) {
+						result = true;
+						break;
+					}
+				}
+				return result;
 			}
 		}
 		
 		return false;
+	}
+
+	/**
+	 * For debug purposes.
+	 * 
+	 * @param ast
+	 */
+	private static void printTree(CommonTree ast) {
+		print(ast, 0);
+	}
+
+	/**
+	 * For debug purposes.
+	 * 
+	 * @param tree
+	 * @param level
+	 */
+	private static void print(CommonTree tree, int level) {
+		for (int i = 0; i < level; i++)
+			System.out.print("--");
+
+		if (tree == null) {
+			System.out.println(" null tree");
+			return ;
+		}
+
+		System.out.println(" " + tree.getType() + " " + tree.getText());
+		
+		if (tree.getChildren() != null) {
+			for (Object ie : tree.getChildren()) {
+				print((CommonTree) ie, level + 1);
+			}
+		}
 	}
 	
 }

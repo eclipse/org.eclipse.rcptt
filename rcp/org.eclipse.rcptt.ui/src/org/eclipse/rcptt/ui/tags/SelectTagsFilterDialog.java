@@ -24,21 +24,20 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.tags.Tag;
+import org.eclipse.rcptt.core.tags.TagsPackage;
+import org.eclipse.rcptt.core.tags.TagsRegistry;
+import org.eclipse.rcptt.internal.ui.IQ7HelpContextIds;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.rcptt.internal.ui.IQ7HelpContextIds;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.tags.Tag;
-import org.eclipse.rcptt.core.tags.TagsPackage;
-import org.eclipse.rcptt.core.tags.TagsRegistry;
 
 public class SelectTagsFilterDialog extends TrayDialog {
 	
@@ -57,7 +56,6 @@ public class SelectTagsFilterDialog extends TrayDialog {
 		setShellStyle(SWT.CLOSE | SWT.MIN | SWT.MAX | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
-	
 	@Override
 	protected Control createDialogArea(final Composite parent) {
 		final Composite panel = (Composite) super.createDialogArea(parent);
@@ -67,6 +65,7 @@ public class SelectTagsFilterDialog extends TrayDialog {
 		listViewer = tagsComposite.getListViewer();
 		
 		tagsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
 				final IStructuredSelection iss = (IStructuredSelection) event.getSelection();
 				clearResult();
@@ -78,6 +77,7 @@ public class SelectTagsFilterDialog extends TrayDialog {
 			}
 		});
 		tagsViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(final DoubleClickEvent event) {
 				setReturnCode(OK);
 				selectedTags.clear();
@@ -87,6 +87,7 @@ public class SelectTagsFilterDialog extends TrayDialog {
 		});
 		
 		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				final IStructuredSelection iss = (IStructuredSelection) event.getSelection();
 				clearResult();
@@ -98,6 +99,7 @@ public class SelectTagsFilterDialog extends TrayDialog {
 			}
 		});
 		listViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(final DoubleClickEvent event) {
 				setReturnCode(OK);
 				selectedItems.clear();
@@ -174,18 +176,6 @@ public class SelectTagsFilterDialog extends TrayDialog {
 			section = root.addNewSection(SETTINGS_KEY);
 		}
 		return section;
-	}
-
-	@Override
-	protected Point getInitialSize() {
-		final Point calculatedSize = super.getInitialSize();
-		if (calculatedSize.x < 500) {
-			calculatedSize.x = 500;
-		}
-		if (calculatedSize.y < 400) {
-			calculatedSize.y = 400;
-		}
-		return calculatedSize;
 	}
 
 }

@@ -24,8 +24,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -34,16 +32,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.progress.UIJob;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.tags.TagsPackage;
@@ -55,6 +43,15 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.actions.RenameAction;
 import org.eclipse.rcptt.ui.actions.edit.DeleteAction;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.progress.UIJob;
 
 public class TagsView extends ViewPart {
 
@@ -72,16 +69,13 @@ public class TagsView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		// Creates controls
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(3).equalWidth(true).margins(0, 0).applyTo(panel);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(panel);
-
-		tagsComposite = new TagsFilterComposite(panel, true);
+		tagsComposite = new TagsFilterComposite(parent, true);
 		tagsViewer = tagsComposite.getTagsViewer();
 		listViewer = tagsComposite.getListViewer();
 		
 		// Adds listeners
 		tagsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				listViewer.setSelection(null);
 				updateSelection((IStructuredSelection) event.getSelection());
@@ -101,6 +95,7 @@ public class TagsView extends ViewPart {
 			}
 		});
 		listViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				final IStructuredSelection iss = (IStructuredSelection) listViewer.getSelection();
 				final Object element = iss.getFirstElement();
@@ -118,6 +113,7 @@ public class TagsView extends ViewPart {
 			}
 		});
 		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateSelection((IStructuredSelection) event.getSelection());
 			}
@@ -162,6 +158,7 @@ public class TagsView extends ViewPart {
 								|| notification.getFeature() == TagsPackage.Literals.TAG__VALUE
 								|| notification.getFeature() == TagsPackage.Literals.TAG__TAGS) {
 							Q7UIPlugin.asyncExec(new Runnable() {
+								@Override
 								public void run() {
 									if (!tagsViewer.getControl().isDisposed()) {
 										Object parent = notification.getNotifier();
@@ -195,6 +192,13 @@ public class TagsView extends ViewPart {
 			renameAction.selectionChanged(selection);
 		if (deleteAction != null)
 			deleteAction.selectionChanged(selection);
+		if (replayAction != null) {
+			if (tagsViewer.getSelection().isEmpty() && listViewer.getSelection().isEmpty()) {
+				replayAction.setEnabled(false);
+			} else {
+				replayAction.setEnabled(true);
+			}
+		}
 	}
 
 	private void createActions() {

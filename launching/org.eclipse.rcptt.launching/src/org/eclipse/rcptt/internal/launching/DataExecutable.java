@@ -24,12 +24,6 @@ public abstract class DataExecutable extends Executable {
 
 	protected IQ7NamedElement element;
 
-	private long time;
-	private IStatus resultStatus;
-
-	private boolean terminated;
-
-	protected int status = WAITING;
 	protected AutLaunch launch;
 	protected boolean terminateUser = false;
 	protected NullProgressMonitor executionMonitor;
@@ -89,45 +83,14 @@ public abstract class DataExecutable extends Executable {
 		return EMPTY;
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	@Override
-	public void startLaunching() {
-		status = LAUNCHING;
-	}
-
+	
 	@Override
 	public IStatus execute() throws InterruptedException {
-		long startTime = System.currentTimeMillis();
 		try {
-			resultStatus = doExecute();
-		} catch (CoreException ce) {
-			resultStatus = ce.getStatus();
-		} catch (Exception e) {
-			resultStatus = Q7LaunchingPlugin.createStatus(e.getMessage(), e);
-		} catch (Throwable e) {
-			resultStatus = Q7LaunchingPlugin.createStatus(e.getMessage(), e);
-		} finally {
-			time = System.currentTimeMillis() - startTime;
-			status = resultStatus.getSeverity() == IStatus.OK ? PASSED
-					: FAILED;
+			return doExecute();
+		} catch (CoreException e) {
+			return e.getStatus();
 		}
-		return resultStatus;
-	}
-
-	@Override
-	public void terminate(boolean user) {
-		terminated = true;
-		terminateUser = user;
-		if (executionMonitor != null) {
-			executionMonitor.setCanceled(true);
-		}
-	}
-
-	public boolean isTerminated() {
-		return terminated;
 	}
 
 	public boolean isTerminateUser() {
@@ -137,23 +100,7 @@ public abstract class DataExecutable extends Executable {
 	protected abstract IStatus doExecute() throws CoreException,
 			InterruptedException;
 
-	public IStatus getResultStatus() {
-		return resultStatus;
-	}
-
-	public long getTime() {
-		return time;
-	}
-
 	public IQ7NamedElement getActualElement() {
 		return element;
-	}
-
-	public void updateStatus(int newStatus) {
-		status = newStatus;
-	}
-
-	@Override
-	public void postExecute() {
 	}
 }

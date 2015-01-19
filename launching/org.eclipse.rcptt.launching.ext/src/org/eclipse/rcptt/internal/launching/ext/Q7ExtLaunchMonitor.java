@@ -10,12 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext;
 
+import static java.lang.System.currentTimeMillis;
+
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
 import org.eclipse.rcptt.core.launching.events.AutEventStart;
@@ -49,7 +52,7 @@ public class Q7ExtLaunchMonitor {
 
 	public void wait(IProgressMonitor monitor, int seconds)
 			throws CoreException {
-
+		monitor.beginTask("Waiting for AUT", 2);
 		aut.addListener(new AutLaunchListener() {
 			public void stateChanged(AutLaunch launch, AutLaunchState state) {
 				if (state.equals(AutLaunchState.TERMINATE)) {
@@ -86,9 +89,12 @@ public class Q7ExtLaunchMonitor {
 				}
 			}
 		});
-		AutEventStart startup = doWait(monitor, seconds);
+		long start = currentTimeMillis();
+		AutEventStart startup = doWait(new SubProgressMonitor(monitor, 1), seconds);
 		aut.activate(IQ7Launch.DEFAULT_HOST, startup.getEclPort(),
-				startup.getTeslaPort());
+				startup.getTeslaPort(), (start - currentTimeMillis()) / 1000 + seconds, new SubProgressMonitor(monitor,
+						1));
+		monitor.done();
 
 		status = Status.OK_STATUS;
 	}

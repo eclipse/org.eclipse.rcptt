@@ -1,0 +1,68 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _I0eNYIUFEeS44uQ7y9L3Dw
+Element-Name: TagsView_AND
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=454740
+Id: _WX-OoIUFEeS44uQ7y9L3Dw
+Runtime-Version: 1.5.4.201412160632
+Save-Time: 12/16/14 4:36 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+1. In a Tags View filter field type tag1 and tag2;
+2. Make sure that the test TC_tag1_tag2 is fitered;
+3. Type tag1 & tag2;
+4. Make sure that the test TC_tag1_tag2 is fitered;
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view Tags] {
+    click
+    with [get-editbox] {
+       set-text "tag1 and tag2"
+    }
+}
+with [get-window -from "TagsFilterComposite.createFilterControl()" | get-table] {
+    get-item "tag1 and tag2" | click
+    select "tag1 and tag2" | double-click
+    get-item "tag1 and tag2" | click
+}
+with [get-view Tags | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "TC_tag1_tag2" | get-property caption | equals "TC_tag1_tag2" | verify-true
+}
+get-view Tags | get-editbox | set-text "tag1 & tag2"
+with [get-window -from "TagsFilterComposite.createFilterControl()" | get-table] {
+    get-item "tag1 & tag2" | click
+    select "tag1 & tag2" | double-click
+    get-item "tag1 & tag2" | click
+}
+with [get-view Tags | get-table] {
+    get-property itemCount | equals 1 | verify-true
+    get-item "TC_tag1_tag2" | get-property caption | equals "TC_tag1_tag2" | verify-true
+}
+get-view Tags | get-editbox | set-text "tag1 & tag3"
+with [get-window -from "TagsFilterComposite.createFilterControl()" | get-table] {
+    get-item "tag1 & tag3" | click
+    select "tag1 & tag3" | double-click
+    get-item "tag1 & tag3" | click
+}
+get-view Tags | get-table | get-property itemCount | equals 0 | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

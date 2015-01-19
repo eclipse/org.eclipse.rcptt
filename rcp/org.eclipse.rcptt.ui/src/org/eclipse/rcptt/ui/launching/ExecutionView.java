@@ -54,6 +54,7 @@ import org.eclipse.rcptt.internal.core.model.Q7Context;
 import org.eclipse.rcptt.internal.launching.EclStackTrace;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
+import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
@@ -436,7 +437,8 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	private boolean isConnectionTerminatedStatus(IExecutable exec) {
 		IStatus status = exec.getResultStatus();
-		if (exec.isTerminated() && status != null) {
+		
+		if (Q7LaunchManager.isConnectionException(status)) {
 			if (Messages.ExecutionView_ConnectionResetMsg.equals(status
 					.getMessage())
 					|| Messages.ExecutionView_ConnectionRefusedMsg
@@ -639,8 +641,8 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		int i = 0;
 		for (IExecutable executable : executables) {
 			i++;
-			if (IExecutable.PASSED == executable.getStatus()
-					|| IExecutable.FAILED == executable.getStatus()) {
+			if (IExecutable.State.PASSED == executable.getStatus()
+					|| IExecutable.State.FAILED == executable.getStatus()) {
 				if (activeSession != null) {
 					statisticPanel.update(activeSession.getTotalCount(),
 							activeSession.getFinishedCount(),
@@ -664,17 +666,17 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 			if (!scrollState && i == executables.length) {
 				viewer.setSelection(new StructuredSelection(executable), true);
 			}
-			if ((IExecutable.PASSED == executable.getStatus())) {
+			if ((IExecutable.State.PASSED == executable.getStatus())) {
 				// Collapse item if passed
 				viewer.collapseToLevel(executable, TreeViewer.ALL_LEVELS);
-			} else if (IExecutable.LAUNCHING == executable.getStatus()) {
+			} else if (IExecutable.State.LAUNCHING == executable.getStatus()) {
 				viewer.expandToLevel(executable, 1);
 			}
 			viewer.refresh(executable);
 
 			runSelectedAction.updateEnablement(activeSession);
 			runFailedAction.updateEnablement(activeSession);
-			if (IExecutable.FAILED == executable.getStatus()
+			if (IExecutable.State.FAILED == executable.getStatus()
 					&& stopOnFirstFailAction.getValue()) {
 				Q7Launcher.getInstance().stop();
 				viewer.refresh(executable);

@@ -13,12 +13,14 @@ package org.eclipse.rcptt.ui.launching;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 
 import com.google.common.base.Joiner;
+
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
@@ -36,59 +38,59 @@ public class ExecutionLabelProvider extends LabelProvider implements
 	public Image getImage(Object element) {
 		IExecutable executable = cast(element);
 		if (executable.getType() == IExecutable.TYPE_SCENARIO) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.SCENARIO_STOP);
 			}
 			switch (executable.getStatus()) {
-			case IExecutable.WAITING:
+			case WAITING:
 				return Images.getImage(Images.SCENARIO_WAIT);
-			case IExecutable.LAUNCHING:
+			case LAUNCHING:
 				return Images.getImage(Images.SCENARIO_RUN);
-			case IExecutable.PASSED:
+			case PASSED:
 				return Images.getImage(Images.SCENARIO_PASS);
-			case IExecutable.FAILED:
+			case FAILED:
 				return Images.getImage(Images.SCENARIO_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_CONTEXT) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.CONTEXT_STOP);
 			}
 			switch (executable.getStatus()) {
-			case IExecutable.WAITING:
+			case WAITING:
 				return Images.getImage(Images.CONTEXT_WAIT);
-			case IExecutable.LAUNCHING:
+			case LAUNCHING:
 				return Images.getImage(Images.CONTEXT_RUN);
-			case IExecutable.PASSED:
+			case PASSED:
 				return Images.getImage(Images.CONTEXT_PASS);
-			case IExecutable.FAILED:
+			case FAILED:
 				return Images.getImage(Images.CONTEXT_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_VERIFICATION) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.VERIFICATION_STOP);
 			}
 			switch (executable.getStatus()) {
-			case IExecutable.WAITING:
+			case WAITING:
 				return Images.getImage(Images.VERIFICATION_WAIT);
-			case IExecutable.LAUNCHING:
+			case LAUNCHING:
 				return Images.getImage(Images.VERIFICATION_RUN);
-			case IExecutable.PASSED:
+			case PASSED:
 				return Images.getImage(Images.VERIFICATION_PASS);
-			case IExecutable.FAILED:
+			case FAILED:
 				return Images.getImage(Images.VERIFICATION_FAIL);
 			}
 		} else if (executable.getType() == IExecutable.TYPE_TESTSUITE) {
-			if (executable.isTerminated()) {
+			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
 				return Images.getImage(Images.EXECUTION_SESSION_STOP);
 			}
 			switch (executable.getStatus()) {
-			case IExecutable.WAITING:
+			case WAITING:
 				return Images.getImage(Images.EXECUTION_SESSION);
-			case IExecutable.LAUNCHING:
+			case LAUNCHING:
 				return Images.getImage(Images.EXECUTION_SESSION_RUN);
-			case IExecutable.PASSED:
+			case PASSED:
 				return Images.getImage(Images.EXECUTION_SESSION_OK);
-			case IExecutable.FAILED:
+			case FAILED:
 				return Images.getImage(Images.EXECUTION_SESSION_FAIL);
 			}
 		}
@@ -113,8 +115,8 @@ public class ExecutionLabelProvider extends LabelProvider implements
 					append(executable.getPhase().toString(), StyledString.DECORATIONS_STYLER);
 		}
 
-		if (executable.getStatus() == IExecutable.PASSED
-				|| executable.getStatus() == IExecutable.FAILED) {
+		if (executable.getStatus() == IExecutable.State.PASSED
+				|| executable.getStatus() == IExecutable.State.FAILED) {
 			styledString.append(" (", StyledString.COUNTER_STYLER); //$NON-NLS-1$
 			long time = executable.getTime();
 			styledString.append(TimeFormatHelper.format(time),

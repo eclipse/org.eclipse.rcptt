@@ -47,7 +47,6 @@ public class UnresolvedVerificationExecutable extends VerificationExecutable {
 
 		ReportMaker.beginReportNode(getName(), props, launch);
 		ReportMaker.endReportNode(false, null, launch);
-		updateStatus(FAILED);
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Verification could not be resolved:" + getName());
 	}

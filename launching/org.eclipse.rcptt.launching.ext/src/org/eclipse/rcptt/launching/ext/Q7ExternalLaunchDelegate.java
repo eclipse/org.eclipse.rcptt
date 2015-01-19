@@ -73,7 +73,6 @@ import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache.CachedInfo;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
@@ -118,12 +117,12 @@ public class Q7ExternalLaunchDelegate extends
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 
 		this.launch = launch;
-		monitor.beginTask("", 2); //$NON-NLS-1$
+		SubMonitor subm = SubMonitor.convert(monitor, 2000);
 		Q7ExtLaunchMonitor waiter = new Q7ExtLaunchMonitor(launch);
 
 		try {
-			super.launch(configuration, mode, launch, SubMonitor.convert(monitor, 1));
-			waiter.wait(monitor, TeslaLimits.getAUTStartupTimeout() / 1000);
+			super.launch(configuration, mode, launch, subm.newChild(1000));
+			waiter.wait(subm.newChild(1000), TeslaLimits.getAUTStartupTimeout() / 1000);
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
@@ -184,33 +183,29 @@ public class Q7ExternalLaunchDelegate extends
 
 		waitForClearBundlePool(monitor);
 
-		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		final CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		if (info.target != null) {
 			monitor.done();
 			return true;
 		}
 
-		ITargetPlatformHelper target = null;
-		info = LaunchInfoCache.getInfo(configuration);
-		try {
-			target = Q7TargetPlatformManager.getTarget(configuration,
-					SubMonitor.convert(monitor, 2));
-		} catch (Exception e) {
-			monitor.setCanceled(true);
-		}
+		final ITargetPlatformHelper target = Q7TargetPlatformManager.getTarget(configuration,
+				SubMonitor.convert(monitor, 2));
+
 		if (monitor.isCanceled()) {
 			removeTargetPlatform(configuration);
 			return false;
 		}
 
 		info.target = target;
-		MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0, "Target platform initialization failed  for "
+		final MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0,
+				"Target platform initialization failed  for "
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
 		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
-		
-		if (!error.isOK()) { 
+
+		if (!error.isOK()) {
 			if (monitor.isCanceled()) {
 				removeTargetPlatform(configuration);
 				return false;
@@ -233,47 +228,43 @@ public class Q7ExternalLaunchDelegate extends
 						+ ": Detected AUT architecture is "
 						+ architecture.name() + "." + detectMsg.toString());
 
-		try {
-			IVMInstall install = VMHelper.getVMInstall(configuration);
+		IVMInstall install = VMHelper.getVMInstall(configuration);
 
-			OSArchitecture jvmArch = JDTUtils.detect(install);
+		OSArchitecture jvmArch = JDTUtils.detect(install);
 
-			Q7ExtLaunchingPlugin.getDefault().info(
-					Q7_LAUNCHING_AUT + configuration.getName()
-							+ ": Selected JVM is "
-							+ install.getInstallLocation().toString()
-							+ " detected architecture is " + jvmArch.name());
+		Q7ExtLaunchingPlugin.getDefault().info(
+				Q7_LAUNCHING_AUT + configuration.getName()
+						+ ": Selected JVM is "
+						+ install.getInstallLocation().toString()
+						+ " detected architecture is " + jvmArch.name());
 
-			boolean canRun32bit = false;
-			if (jvmArch.equals(architecture)
-					|| (jvmArch.equals(OSArchitecture.x86_64) && (canRun32bit = JDTUtils
-							.canRun32bit(install)))) {
-				haveAUT = true;
-			}
+		boolean canRun32bit = false;
+		if (jvmArch.equals(architecture)
+				|| (jvmArch.equals(OSArchitecture.x86_64) && (canRun32bit = JDTUtils
+						.canRun32bit(install)))) {
+			haveAUT = true;
+		}
 
-			if (!haveAUT
-					&& architecture != OSArchitecture.Unknown
-					&& target.detectArchitecture(false, new StringBuilder()) == OSArchitecture.Unknown) {
-				Q7ExtLaunchingPlugin
-						.getDefault()
-						.info("Cannot determine AUT architecture, sticking to architecture of selected JVM, which is "
-								+ jvmArch.name());
-				haveAUT = true;
-			}
-
+		if (!haveAUT
+				&& architecture != OSArchitecture.Unknown
+				&& target.detectArchitecture(false, new StringBuilder()) == OSArchitecture.Unknown) {
 			Q7ExtLaunchingPlugin
 					.getDefault()
-					.info(Q7_LAUNCHING_AUT
-							+ configuration.getName()
-							+ ": JVM and AUT architectures are compatible: "
-							+ haveAUT
-							+ "."
-							+ (jvmArch.equals(OSArchitecture.x86_64) ? " JVM is 64bit and support running 32bit: "
-									+ canRun32bit
-									: ""));
-		} catch (Throwable e) {
-			RcpttPlugin.log(e);
+					.info("Cannot determine AUT architecture, sticking to architecture of selected JVM, which is "
+							+ jvmArch.name());
+			haveAUT = true;
 		}
+
+		Q7ExtLaunchingPlugin
+				.getDefault()
+				.info(Q7_LAUNCHING_AUT
+						+ configuration.getName()
+						+ ": JVM and AUT architectures are compatible: "
+						+ haveAUT
+						+ "."
+						+ (jvmArch.equals(OSArchitecture.x86_64) ? " JVM is 64bit and support running 32bit: "
+								+ canRun32bit
+								: ""));
 		if (!haveAUT) {
 			// Let's search for configuration and update JVM if possible.
 			haveAUT = updateJVM(configuration, architecture,
@@ -281,30 +272,19 @@ public class Q7ExternalLaunchDelegate extends
 
 			if (!haveAUT) {
 				// try to register current JVM, it may help
-				try {
-					JDTUtils.registerCurrentJVM();
-					haveAUT = updateJVM(configuration, architecture,
-							((ITargetPlatformHelper) info.target));
-				} catch (CoreException e) {
-					// no special actions, error message will be set by
-					// lines below
-					Q7ExtLaunchingPlugin.getDefault().log(e);
-				}
+				JDTUtils.registerCurrentJVM();
+				haveAUT = updateJVM(configuration, architecture,
+						((ITargetPlatformHelper) info.target));
 			}
 
 			if (haveAUT) {
-				try {
-					Q7ExtLaunchingPlugin
-							.getDefault()
-							.info(Q7_LAUNCHING_AUT
-									+ configuration.getName()
-									+ "JVM configuration is updated to compatible one: "
-									+ VMHelper.getVMInstall(configuration)
-											.getInstallLocation());
-				} catch (Throwable e) {
-					// in case of error
-					Q7ExtLaunchingPlugin.getDefault().log(e.getMessage(), e);
-				}
+				Q7ExtLaunchingPlugin
+						.getDefault()
+						.info(Q7_LAUNCHING_AUT
+								+ configuration.getName()
+								+ "JVM configuration is updated to compatible one: "
+								+ VMHelper.getVMInstall(configuration)
+										.getInstallLocation());
 			}
 
 		}
@@ -326,8 +306,7 @@ public class Q7ExternalLaunchDelegate extends
 
 	private void removeTargetPlatform(ILaunchConfiguration configuration)
 			throws CoreException {
-		String targetPlatformName = configuration.getAttribute(
-				IQ7Launch.TARGET_PLATFORM, "");
+		String targetPlatformName = Q7TargetPlatformManager.getTargetPlatformName(configuration);
 		Q7TargetPlatformManager.delete(targetPlatformName);
 		LaunchInfoCache.remove(configuration);
 		TargetPlatformManager.deleteTargetPlatform(targetPlatformName);
@@ -351,8 +330,7 @@ public class Q7ExternalLaunchDelegate extends
 	}
 
 	private static boolean updateJVM(ILaunchConfiguration configuration,
-			OSArchitecture architecture, ITargetPlatformHelper target) {
-		try {
+			OSArchitecture architecture, ITargetPlatformHelper target) throws CoreException {
 			IVMInstall jvmInstall = null;
 			OSArchitecture jvmArch = OSArchitecture.Unknown;
 			IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
@@ -450,9 +428,6 @@ public class Q7ExternalLaunchDelegate extends
 				workingCopy.doSave();
 				return true;
 			}
-		} catch (Throwable e) {
-			RcpttPlugin.log(e);
-		}
 		return false;
 	}
 
@@ -617,7 +592,8 @@ public class Q7ExternalLaunchDelegate extends
 	@Override
 	protected void preLaunchCheck(final ILaunchConfiguration configuration,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		super.preLaunchCheck(configuration, launch, monitor);
+		SubMonitor subm = SubMonitor.convert(monitor, 100);
+		super.preLaunchCheck(configuration, launch, subm.newChild(50));
 		if (monitor.isCanceled()) {
 			return;
 		}
@@ -625,9 +601,12 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
 		BundlesToLaunch bundlesToLaunch = collectBundles(((ITargetPlatformHelper) info.target)
-				.getQ7Target());
+				.getQ7Target(), subm.newChild(50));
 
 		setBundlesToLaunch(info, bundlesToLaunch);
+
+		removeDuplicatedModels(bundlesToLaunch.fModels, ((ITargetPlatformHelper) info.target)
+				.getQ7Target());
 
 		setDelegateFields(this, bundlesToLaunch.fModels,
 				bundlesToLaunch.fAllBundles);
@@ -635,6 +614,33 @@ public class Q7ExternalLaunchDelegate extends
 		// Copy all additional configuration area folders into PDE new
 		// configuration location.
 		copyConfiguratonFiles(configuration, info);
+		monitor.done();
+	}
+
+	private void removeDuplicatedModels(Map<IPluginModelBase, String> fModels, Q7Target target) {
+
+		String path = target.getInstallLocation().getAbsolutePath();
+		List<IPluginModelBase> keysForRemove = new ArrayList<IPluginModelBase>();
+		Map<UniquePluginModel, IPluginModelBase> cache = new HashMap<UniquePluginModel,
+				IPluginModelBase>();
+
+		for (Entry<IPluginModelBase, String> entry : fModels.entrySet()) {
+			IPluginModelBase model = entry.getKey();
+			UniquePluginModel uniqueModel = new UniquePluginModel(model);
+			IPluginModelBase secondModel = cache.get(uniqueModel);
+			if (secondModel != null) {
+				if (secondModel.getInstallLocation().contains(path)) {
+					keysForRemove.add(secondModel);
+				} else {
+					keysForRemove.add(model);
+				}
+			} else {
+				cache.put(uniqueModel, model);
+			}
+		}
+		for (IPluginModelBase key : keysForRemove) {
+			fModels.remove(key);
+		}
 	}
 
 	public static class BundlesToLaunchCollector {
@@ -727,30 +733,44 @@ public class Q7ExternalLaunchDelegate extends
 		return true;
 	}
 
-	public static BundlesToLaunch collectBundles(Q7Target target) {
+	public static BundlesToLaunch collectBundles(Q7Target target, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
+		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
+		SubMonitor install = subm.newChild(1000);
 		if (target.getInstall() != null) {
-			Map<String, BundleStart> bundlesFromConfig = target.getInstall()
-					.configIniBundles();
+			Map<String, BundleStart> bundlesFromConfig = target.getInstall().configIniBundles();
+			TargetBundle[] installationBundles = target.getInstall().getBundles();
+			install.beginTask("Scanning " + target.getInstall().getInstallLocation(), installationBundles.length);
 			for (TargetBundle bundle : target.getInstall().getBundles()) {
 				BundleStart hint = firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
 				collector.addInstallationBundle(bundle, hint);
+				install.worked(1);
 			}
 		}
+		install.done();
 
+		SubMonitor pluginsDirMonitor = subm.newChild(1000);
 		if (target.pluginsDir != null) {
-			for (TargetBundle bundle : target.pluginsDir.getBundles()) {
+			TargetBundle[] bundles = target.pluginsDir.getBundles();
+			pluginsDirMonitor.beginTask("Scanning " + target.pluginsDir, bundles.length);
+			for (TargetBundle bundle : bundles) {
 				collector.addPluginBundle(bundle);
+				pluginsDirMonitor.worked(1);
 			}
 		}
+		pluginsDirMonitor.done();
 
+		SubMonitor extrasMonitor = subm.newChild(1000);
+		extrasMonitor.beginTask("Injecting RCPTT runtime", 1);
 		for (ITargetLocation extra : target.getExtras()) {
 			for (TargetBundle bundle : extra.getBundles()) {
 				collector.addExtraBundle(bundle);
 			}
+			extrasMonitor.worked(1);
 		}
+		extrasMonitor.done();
 
 		return new BundlesToLaunch(collector.rejectedBundles,
 				collector.plugins, collector.latestVersions);
@@ -777,7 +797,7 @@ public class Q7ExternalLaunchDelegate extends
 					});
 
 			fAllBundles = new HashMap<String, Object>(latestVersions);
-			fModels = new HashMap<Object, String>(Maps.transformValues(
+			fModels = new HashMap<IPluginModelBase, String>(Maps.transformValues(
 					resolvedBundles, new Function<BundleStart, String>() {
 						public String apply(BundleStart input) {
 							return input.toModelString();
@@ -787,7 +807,7 @@ public class Q7ExternalLaunchDelegate extends
 
 		public final Map<IPluginModelBase, BundleStart> resolvedBundles;
 		public final Map<IPluginModelBase, BundleStart> latestVersionsOnly;
-		public final Map<Object, String> fModels;
+		public final Map<IPluginModelBase, String> fModels;
 		public final Map<String, Object> fAllBundles;
 	}
 
@@ -853,6 +873,42 @@ public class Q7ExternalLaunchDelegate extends
 					FileUtil.copyFiles(file, target);
 				}
 			}
+		}
+	}
+
+	public class UniquePluginModel {
+
+		private String name;
+		private Version version;
+
+		public UniquePluginModel(IPluginModelBase model) {
+			version = model.getBundleDescription().getVersion();
+			name = model.getBundleDescription().getName();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int hashCode = 1;
+			hashCode = prime * hashCode + (name == null ? 0 : name.hashCode());
+			hashCode = prime * hashCode + (version == null ? 0 : version.hashCode());
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (object == null)
+				return false;
+			if (object == this)
+				return true;
+			if (!(object instanceof UniquePluginModel))
+				return false;
+			UniquePluginModel uniquePluginModel = (UniquePluginModel) object;
+			if (uniquePluginModel.name.equals(this.name)
+					&& uniquePluginModel.version.equals(this.version)) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

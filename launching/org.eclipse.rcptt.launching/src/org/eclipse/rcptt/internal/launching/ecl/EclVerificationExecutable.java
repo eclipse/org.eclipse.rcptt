@@ -14,10 +14,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
-
-import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.model.IVerification;
+import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.VerificationExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -58,21 +57,13 @@ public class EclVerificationExecutable extends VerificationExecutable {
 				}
 				return es;
 			}
-
-			if (status != null && status.getSeverity() == IStatus.CANCEL) {
-				// Cancel is called, lets collect correct message
-				String message = "Verification execution is terminated";
-				if (isTerminated() && isTerminateUser()) {
-					message = "Verification is terminated by user request";
-				} else if (isTerminated()) {
-					message = "Timeout during verification execution";
-				}
-				status = ExecAdvancedInfoUtil.askForAdvancedInfo(launch,
-						message);
-				throw new CoreException(status);
-			}
-			throw e;
+			return status;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Verification: " + getActualElement();
 	}
 
 }

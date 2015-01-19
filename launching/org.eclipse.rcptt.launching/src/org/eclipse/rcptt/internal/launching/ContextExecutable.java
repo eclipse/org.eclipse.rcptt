@@ -27,4 +27,9 @@ public abstract class ContextExecutable extends DataExecutable {
 	public int getType() {
 		return TYPE_CONTEXT;
 	}
+
+	@Override
+	public String toString() {
+		return "Context: " + getActualElement();
+	}
 }

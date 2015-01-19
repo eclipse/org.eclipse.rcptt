@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
@@ -32,20 +31,8 @@ public class GroupExecutable extends Executable {
 		this.kids = group.toArray(new Executable[group.size()]);
 	}
 
-	public boolean isTerminated() {
-		for (IExecutable child : kids) {
-			if (child.isTerminated())
-				return true;
-		}
-		return false;
-	}
-
 	public AutLaunch getAut() {
 		return getRoot().getAut();
-	}
-
-	@Override
-	public void terminate(boolean user) {
 	}
 
 	@Override
@@ -80,16 +67,6 @@ public class GroupExecutable extends Executable {
 		return getRoot().getName();
 	}
 
-	public IStatus getResultStatus() {
-		for (IExecutable child : kids) {
-			IStatus status = child.getResultStatus();
-			if (status != null && !status.isOK()) {
-				return status;
-			}
-		}
-		return Status.OK_STATUS;
-	}
-
 	public int getType() {
 		return getRoot().getType();
 	}
@@ -100,18 +77,6 @@ public class GroupExecutable extends Executable {
 			total += child.getTime();
 		}
 		return total;
-	}
-
-	public int getStatus() {
-		int status = 0;
-		for (IExecutable child : kids) {
-			status = Math.max(status, child.getStatus());
-		}
-		return status;
-	}
-
-	@Override
-	public void postExecute() {
 	}
 
 	@Override

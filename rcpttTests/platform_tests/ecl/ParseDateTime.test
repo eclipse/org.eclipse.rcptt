@@ -5,16 +5,17 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _AwgYAFhEEeSM061eZZFBnw
-Runtime-Version: 1.5.4.201410231434
-Save-Time: 10/30/14 1:30 PM
+Runtime-Version: 1.5.4.201412160632
+Save-Time: 12/16/14 5:14 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
 Entry-Name: .content
 
-echo "01.12.2013 10:37:46 +0700" | parse-time "dd.MM.yyyy HH:mm:ss Z" | equals 1385869066000 |verify-true
-echo "01.12.2013 10:37:46 +0700" | parse-time "dd.MM.yyyy HH:mm:ss Z" |  format-time "yyyy/MM/dd HH:mm:ss" | equals "2013/12/01 10:37:46" | verify-true
-
+let [val t -value [echo "01.12.2012 10:37:46 +0700" | parse-time "dd.MM.yyyy HH:mm:ss Z"]] [val tt -value [echo "01.12.2012 10:37:46 +0700" | parse-time "dd.MM.yyyy HH:mm:ss Z" |  format-time "yyyy/MM/dd HH:mm:ss"]]{
+$t | equals 1354333066000 | assert-true -message [concat "Should be 1354333066000 but was " $t]
+$tt | equals "2012/12/01 10:37:46" | assert-true -message [concat "Should be 2012/12/01 10:37:46 but was " $tt]
+}
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

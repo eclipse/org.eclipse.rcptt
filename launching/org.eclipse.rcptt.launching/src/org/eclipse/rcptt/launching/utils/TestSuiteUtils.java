@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +48,13 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 
 public class TestSuiteUtils {
+	public static String toString(Throwable e) {
+		StringWriter writer = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(writer, false);
+		e.printStackTrace(printWriter);
+		printWriter.close();
+		return writer.toString();
+	}
 
 	public static IQ7NamedElement[] getElements(ILaunchConfiguration config) throws CoreException {
 		return getElements(config, false);
@@ -122,35 +131,56 @@ public class TestSuiteUtils {
 		}
 	}
 
-	public static Report generateFailedReport(ITestCase element, String errorMessage) throws ModelException {
+	public static Report generateFailedReport(ITestCase element, String errorMessage) {
 		return generateReport(element, ResultStatus.FAIL, errorMessage);
 	}
 
-	public static Report generateSkippedReport(ITestCase element, String errorMessage) throws ModelException {
+	public static Report generateSkippedReport(ITestCase element, String errorMessage) {
 		return generateReport(element, ResultStatus.SKIPPED, errorMessage);
 	}
 
-	public static Report generateReport(ITestCase element, ResultStatus status, String errorMessage)
-			throws ModelException {
-		Report report = ReportFactory.eINSTANCE.createReport();
-		Node root = ReportFactory.eINSTANCE.createNode();
-		root.setName(element.getID());
-		report.setRoot(root);
-		Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
-		q7info.setId(element.getID());
-		q7info.setMessage(errorMessage);
-		q7info.setResult(status);
-		q7info.setType(ItemKind.TESTCASE);
-		root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
-		root.setName(element.getElementName());
-		Q7Info scenario = EcoreUtil.copy(q7info);
-		scenario.setType(ItemKind.SCRIPT);
-		Node scenarioNode = ReportFactory.eINSTANCE.createNode();
-		scenarioNode.setName(root.getName());
-		scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
-		root.getChildren().add(scenarioNode);
+	public static Report generateReport(ITestCase element, ResultStatus status, String errorMessage) {
+		try {
+			Report report = ReportFactory.eINSTANCE.createReport();
+			Node root = ReportFactory.eINSTANCE.createNode();
+			root.setName(element.getID());
+			report.setRoot(root);
+			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
+			q7info.setId(element.getID());
+			q7info.setMessage(errorMessage);
+			q7info.setResult(status);
+			q7info.setType(ItemKind.TESTCASE);
+			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
+			root.setName(element.getElementName());
+			Q7Info scenario = EcoreUtil.copy(q7info);
+			scenario.setType(ItemKind.SCRIPT);
+			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
+			scenarioNode.setName(root.getName());
+			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
+			root.getChildren().add(scenarioNode);
+			return report;
+		} catch(ModelException e) {
+			Q7LaunchingPlugin.log(e);
+			Report report = ReportFactory.eINSTANCE.createReport();
+			Node root = ReportFactory.eINSTANCE.createNode();
+			root.setName(element.getPath().toString());
+			report.setRoot(root);
+			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
+			q7info.setId(element.getPath().toString());
+			q7info.setMessage(toString(e));
+			q7info.setResult(status);
+			q7info.setType(ItemKind.TESTCASE);
+			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
+			root.setName(element.getPath().toString());
+			Q7Info scenario = EcoreUtil.copy(q7info);
+			scenario.setType(ItemKind.SCRIPT);
+			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
+			scenarioNode.setName(root.getName());
+			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
+			root.getChildren().add(scenarioNode);
+			return report;
+		}
 
-		return report;
 	}
 
 	public static AutLaunch SelectAUT() throws CoreException {

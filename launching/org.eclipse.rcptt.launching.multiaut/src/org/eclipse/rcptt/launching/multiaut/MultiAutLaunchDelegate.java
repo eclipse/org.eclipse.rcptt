@@ -257,7 +257,7 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 			launch.execute(script, timeout, monitor);
 		}
 
-		public void ping() throws CoreException {
+		public void ping() throws CoreException, InterruptedException {
 			launch.ping();
 		}
 

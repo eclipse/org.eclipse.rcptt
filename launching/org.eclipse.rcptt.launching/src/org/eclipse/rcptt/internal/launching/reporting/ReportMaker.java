@@ -124,14 +124,14 @@ public class ReportMaker implements IQ7ReportConstants {
 			break;
 		}
 		switch (iExecutable.getStatus()) {
-		case IExecutable.WAITING:
-		case IExecutable.LAUNCHING:
+		case WAITING:
+		case LAUNCHING:
 			info.setResult(ResultStatus.SKIPPED);
 			break;
-		case IExecutable.FAILED:
+		case FAILED:
 			info.setResult(ResultStatus.FAIL);
 			break;
-		case IExecutable.PASSED:
+		case PASSED:
 			info.setResult(ResultStatus.PASS);
 			break;
 		}

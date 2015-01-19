@@ -13,6 +13,8 @@ package org.eclipse.rcptt.internal.launching;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.ILaunchListener;
@@ -29,11 +31,12 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 	public void launchStatusChanged(IExecutable... executables) {
 		cancel();
 		for (IExecutable executable : executables) {
-			if (executable.getStatus() == IExecutable.LAUNCHING
+			if (executable.getStatus() == IExecutable.State.LAUNCHING
 					&& !executable.isDebug()) {
 				timer = new Timer(true);
-				timer.schedule(new StopTask((Executable) executable),
-						Q7Launcher.getLaunchTimeout() * 1000);
+				int timeout = Q7Launcher.getLaunchTimeout();
+				timer.schedule(new StopTask((Executable) executable, timeout),
+						timeout * 1000);
 			}
 		}
 	}
@@ -51,14 +54,16 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 	private static class StopTask extends TimerTask {
 
 		private Executable executable;
+		private int timeout;
 
-		public StopTask(Executable executable) {
+		public StopTask(Executable executable, int timeout) {
 			this.executable = executable;
+			this.timeout = timeout;
 		}
 
 		@Override
 		public void run() {
-			executable.terminate(false);
+			executable.terminateWithResult(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Execution timed out after " + timeout + " seconds"));
 		}
 
 	}

@@ -19,6 +19,7 @@ import java.util.zip.ZipInputStream;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.rcptt.core.Q7;
@@ -58,10 +59,6 @@ public class PrepareExecutionWrapper extends Executable {
 
 	private final AutLaunch launch;
 	private final Executable executable;
-	private IStatus resultStatus;
-	private boolean terminated;
-	private boolean failed;
-	private long time;
 	private SherlockReportSession reportSession;
 
 	private String resultReportID;
@@ -109,29 +106,21 @@ public class PrepareExecutionWrapper extends Executable {
 		Q7Features.getInstance().storeValues(setQ7Features.getFeatures());
 		Sequence command = ScriptletFactory.seq(prepareEnvironment, commandsDelay,
 				setQ7Features);
-
-		long startTime = System.currentTimeMillis();
-		failed = false;
 		try {
 			launch.execute(command);
 			resetParams();
 			resetVerifications();
 		} catch (CoreException e) {
-			resultStatus = e.getStatus();
+			return e.getStatus();
 		} catch (Exception e) {
-			resultStatus = Q7LaunchingPlugin.createStatus(e.getMessage(), e);
-		} finally {
-			time = System.currentTimeMillis() - startTime;
-		}
-		if (resultStatus != null) {
-			failed = true;
+			return Q7LaunchingPlugin.createStatus(e);
 		}
 		try {
 			createReport();
 		} catch (CoreException e) {
 			return e.getStatus();
-		}
-		return executable.execute();
+		}		
+		return executable.execute(); 
 	}
 
 	private Report getReport() throws CoreException, InterruptedException {
@@ -229,24 +218,6 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.getChildren();
 	}
 
-	public int getStatus() {
-		if (failed)
-			return FAILED;
-		return executable.getStatus();
-	}
-
-	public boolean isTerminated() {
-		if (terminated)
-			return true;
-		return executable.isTerminated();
-	}
-
-	@Override
-	public void terminate(boolean user) {
-		terminated = true;
-		executable.terminate(user);
-	}
-
 	public IQ7NamedElement getActualElement() {
 		return executable.getActualElement();
 	}
@@ -255,14 +226,8 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.getName();
 	}
 
-	public IStatus getResultStatus() {
-		if (resultStatus != null)
-			return resultStatus;
-		return executable.getResultStatus();
-	}
-
 	public long getTime() {
-		return time + executable.getTime();
+		return super.getTime() + executable.getTime();
 	}
 
 	public int getType() {
@@ -279,7 +244,7 @@ public class PrepareExecutionWrapper extends Executable {
 	}
 
 	@Override
-	public void postExecute() {
+	public IStatus postExecute(Listener listener, IStatus status) {
 		// Take report
 		try {
 			Report resultReport = getReport();
@@ -288,16 +253,12 @@ public class PrepareExecutionWrapper extends Executable {
 			closeAllNodes(root.getStartTime() + getTime(), root);
 
 			Q7Info rootInfo = ReportHelper.getInfo(root);
-			switch (getStatus()) {
-			case IExecutable.WAITING:
-			case IExecutable.FAILED:
-			case IExecutable.LAUNCHING:
-				rootInfo.setResult(ResultStatus.FAIL);
-				break;
-			case IExecutable.PASSED:
+			if (status.isOK()) {
 				rootInfo.setResult(ResultStatus.PASS);
-				break;
+			} else {
+				rootInfo.setResult(ResultStatus.FAIL);
 			}
+
 			for (IExecutable ch : getChildren()) {
 				if (ch instanceof ScenarioExecutable) {
 					rootInfo.setId(ch.getId());
@@ -305,32 +266,34 @@ public class PrepareExecutionWrapper extends Executable {
 				}
 			}
 
-			IStatus rs = getResultStatus();
-			if (!rs.isOK()) {
-				if (rs instanceof ExecutionStatus) {
-					IStatus cause = ((ExecutionStatus) rs).getCause(true);
-					if (cause == null && rs.getSeverity() == IStatus.CANCEL) {
-						rootInfo.setMessage(rs.getMessage());
+			if (!status.isOK()) {
+				if (status instanceof ExecutionStatus) {
+					IStatus cause = ((ExecutionStatus) status).getCause(true);
+					if (cause == null && status.getSeverity() == IStatus.CANCEL) {
+						rootInfo.setMessage(status.getMessage());
 					}
 					if (cause instanceof ScriptErrorStatus) {
-						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) rs).print());
+						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) status).print());
 					} else {
 						// do nothing -- contexts and verifications populate
 						// errors correctly
 					}
 				} else {
-					rootInfo.setMessage(rs.getMessage());
+					rootInfo.setMessage(status.getMessage());
 				}
 			}
 
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}
-
+			status = super.postExecute(listener, status);
+			return status;
 		} catch (CoreException e) {
-			resultStatus = e.getStatus();
+			return e.getStatus();
 		} catch (InterruptedException e) {
-			resultStatus = Q7LaunchingPlugin.createStatus(e.getMessage(), e);
+			return Status.CANCEL_STATUS;
+		} finally {
+			listener.updateSessionCounters(this, status);
 		}
 	}
 
@@ -347,4 +310,10 @@ public class PrepareExecutionWrapper extends Executable {
 		}
 		return Collections.emptyList();
 	}
+
+	@Override
+	public String toString() {
+		return executable.toString();
+	}
+
 }

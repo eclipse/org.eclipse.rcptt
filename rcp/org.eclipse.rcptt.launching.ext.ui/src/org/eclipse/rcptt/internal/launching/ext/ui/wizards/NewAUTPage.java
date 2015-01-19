@@ -13,6 +13,7 @@ package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -23,10 +24,14 @@ import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.Observables;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -107,9 +112,12 @@ public class NewAUTPage extends WizardPage {
 		super(pageName, title, titleImage);
 	}
 
-
 	void setStatus(final IStatus status) {
-		if (!status.isOK() && !status.matches(IStatus.CANCEL)) {
+		setStatus(status, true);
+	}
+
+	void setStatus(final IStatus status, boolean logging) {
+		if (!status.isOK() && !status.matches(IStatus.CANCEL) && logging) {
 			log(status);
 		}
 		shell.getDisplay().asyncExec(new Runnable() {
@@ -156,17 +164,22 @@ public class NewAUTPage extends WizardPage {
 					monitor.beginTask("Validate AUT", 100);
 
 					TargetPlatformManager.clearTargets();
+					IStatus status = checkLocationExists(location);
+					if (!status.isOK()) {
+						setStatus(status, false);
+						return;
+					}
 
 					try {
-					final ITargetPlatformHelper platform = Q7TargetPlatformManager.createTargetPlatform(location,
-							monitor);
+						final ITargetPlatformHelper platform = Q7TargetPlatformManager.createTargetPlatform(location,
+								monitor);
 						shell.getDisplay().asyncExec(new Runnable() {
 							public void run() {
 								info.setValue(platform);
 							}
 						});
 					} catch (final CoreException e) {
-						setStatus(e.getStatus());
+						setStatus(e.getStatus(), true);
 					}
 				}
 			});
@@ -175,9 +188,35 @@ public class NewAUTPage extends WizardPage {
 		}
 	}
 
+	protected IStatus checkLocationExists(String location) {
+		IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
+		try {
+			location = manager.performStringSubstitution(location);
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
+		IPath pluginsPath = new Path(location).append("plugins");
+		location = pluginsPath.toOSString();
+		File pluginsDir = new File(pluginsPath.toOSString());
+		if (pluginsDir.exists() && pluginsDir.isDirectory()
+				&& pluginsDir.canRead()) {
+			return Status.OK_STATUS;
+		} else if (!pluginsDir.exists()) {
+			return new Status(IStatus.ERROR, PLUGIN_ID,
+					"Directory \"" + location + "\" does not exist");
+		} else if (!pluginsDir.isDirectory()) {
+			return new Status(IStatus.ERROR, PLUGIN_ID,
+					"The specified path \"" + location + "\" is not a directory");
+		} else {
+			return new Status(IStatus.ERROR, PLUGIN_ID,
+					"Cannot read directory \"" + location + "\": Permission denied");
+		}
+	}
+
 	private void setError(String message) {
 		setStatus(new Status(IStatus.ERROR, PLUGIN_ID, message));
 	}
+
 	private void validatePlatform() {
 		ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
 		if (helper == null) {

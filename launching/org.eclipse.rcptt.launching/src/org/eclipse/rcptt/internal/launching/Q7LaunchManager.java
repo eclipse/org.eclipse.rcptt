@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -106,41 +108,32 @@ public class Q7LaunchManager {
 			Q7LaunchManager.getInstance().fireStarted(session);
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
+				final Executable.Listener listener = new Executable.Listener() {
+					@Override
+					public void onStatusChange(Executable executable) {
+						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
+						session.setActive(executable);
+					}
+
+					@Override
+					public void updateSessionCounters(Executable executable, IStatus status) {
+						Q7LaunchManager.getInstance().updateSessionCounters(session, executable, status);
+					}
+				};
 				for (final Executable executable : executables) {
+					if (!session.isRunning()) {
+						// break full execution
+						massUpdateOnTerminate.add(executable);
+						// fireLaunchStatusChanged(executable);
+						executable.cancel(listener, new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+						continue;
+					}
+					
 					try {
-						if (!session.isRunning()) {
-							// break full execution
-							massUpdateOnTerminate.add(executable);
-							// fireLaunchStatusChanged(executable);
-							continue;
-						}
-						IStatus st = execute(session, executable);
-						if (!st.isOK()) {
-							if (executable.isTerminated()) {
-								// continue execution
-								try {
-									Thread.sleep(1);
-								} catch (final Exception exc) {
-									// collect interruptions
-								}
-							}
-						}
-					} catch (final Exception e) {
-						if (!session.isRunning()) {
-							// break full execution
-							throw new InterruptedException();
-						}
-						if (executable.isTerminated()) {
-							// continue execution
-							try {
-								Thread.sleep(1);
-							} catch (final Exception exc) {
-								// collect interruptions
-							}
-						} else {
-							// break execution
-							throw e;
-						}
+						executable.executeAndRememberResult(listener);
+					} finally {
+						session.setActive(null);
+						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 					}
 					Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 				}
@@ -168,59 +161,9 @@ public class Q7LaunchManager {
 				}
 			}
 		}
-
-		private IStatus execute(final ExecutionSession session,
-				final Executable executable) throws InterruptedException {
-			if (executable.isTerminated())
-				throw new InterruptedException();
-
-			executable.startLaunching();
-			Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-			session.setActive(executable);
-			try {
-				try {
-					IStatus st = executable.execute();
-
-					if (Q7LaunchManager.getInstance().isConnectionException(st)) {
-						// connection lost break execution
-						executable.terminate(false);
-						session.stop();
-					} else if (!st.isOK()) {
-						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-						return st;
-					}
-				} finally {
-					session.setActive(null);
-					Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-				}
-				if (executable.isTerminated()) {
-					throw new InterruptedException();
-				}
-				final Executable[] kids = executable.getChildren();
-				for (final Executable child : kids) {
-					IStatus st;
-					st = execute(session, child);
-
-					if (!st.isOK()) {
-						Q7LaunchManager.getInstance().fireLaunchStatusChanged(child);
-						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-						if (!(executable instanceof TestSuiteExecutable)) {
-							return st;
-						}
-					}
-				}
-			} finally {
-				executable.postExecute();
-				if (executable instanceof PrepareExecutionWrapper) {
-					Q7LaunchManager.getInstance().updateSessionCounters(session, executable);
-				}
-			}
-			Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-			return Status.OK_STATUS;
-		}
 	}
 
-	private boolean isConnectionException(IStatus status) {
+	public static boolean isConnectionException(IStatus status) {
 		if (status.getMessage().equals("Connection reset")
 				|| status.getMessage().equals("Connection refused: connect")) {
 			return true;
@@ -698,8 +641,8 @@ public class Q7LaunchManager {
 	}
 
 	private void updateSessionCounters(final ExecutionSession session,
-			final IExecutable executable) {
-		if (IExecutable.FAILED == executable.getStatus()) {
+			final IExecutable executable, IStatus status) {
+		if (!status.isOK()) {
 			session.oneFailed();
 		} else {
 			session.oneFinished();
@@ -767,27 +710,6 @@ public class Q7LaunchManager {
 		}
 
 		public void stop() {
-			final Executable executable = session.getActive();
-			if (executable != null) {
-				int status = executable.getStatus();
-				if (status != IExecutable.FAILED
-						&& status != IExecutable.PASSED) {
-					if (!executable.isTerminated()) {
-						executable.terminate(true);
-					}
-				}
-			}
-			Executable[] executables = session.getExecutables();
-			for (Executable e : executables) {
-				int status = e.getStatus();
-				if (status != IExecutable.FAILED
-						&& status != IExecutable.PASSED) {
-					if (!e.isTerminated()) {
-						e.terminate(true);
-					}
-				}
-			}
-
 			session.stop();
 			// thread.interrupt();
 			job.cancel();

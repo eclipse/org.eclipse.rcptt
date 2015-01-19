@@ -22,7 +22,6 @@ import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ContextExecutable;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -86,9 +85,9 @@ public class EclContextExecutable extends ContextExecutable {
 		if (resultStatus.getSeverity() == IStatus.CANCEL) {
 			// Cancel is called, lets collect correct message
 			String message = "Context execution is terminated";
-			if (isTerminated() && isTerminateUser()) {
+			if (getResultStatus().matches(IStatus.CANCEL)) {
 				message = "Context is terminated by user request";
-			} else if (isTerminated()) {
+			} else if (!getResultStatus().isOK()) {
 				message = "Timeout during context execution";
 			}
 			resultStatus = ExecAdvancedInfoUtil.askForAdvancedInfo(launch,
@@ -98,14 +97,14 @@ public class EclContextExecutable extends ContextExecutable {
 	}
 
 	@Override
-	public void postExecute() {
+	public IStatus postExecute(Listener listener, IStatus status) {
 		try {
 			if (isEcl) {
 				ReportMaker.endReportNode(true, null, launch);
 			}
+			return super.postExecute(listener, status);
 		} catch (CoreException e) {
-			updateStatus(FAILED);
-			RcpttPlugin.log(e);
+			return e.getStatus();
 		}
 	}
 }

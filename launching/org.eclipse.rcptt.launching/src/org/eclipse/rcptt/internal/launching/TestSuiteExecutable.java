@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -60,33 +59,7 @@ public class TestSuiteExecutable extends Executable {
 	public IQ7NamedElement getActualElement() {
 		return testSuite;
 	}
-
-	public IStatus getResultStatus() {
-		for (IExecutable child : kids) {
-			IStatus status = child.getResultStatus();
-			if (status != null && !status.isOK()) {
-				return status;
-			}
-		}
-		return Status.OK_STATUS;
-	}
-
-	public boolean isTerminated() {
-		for (IExecutable child : kids) {
-			if (child.isTerminated())
-				return true;
-		}
-		return false;
-	}
-
-	public int getStatus() {
-		int status = 0;
-		for (IExecutable child : kids) {
-			status = Math.max(status, child.getStatus());
-		}
-		return status;
-	}
-
+	
 	public int getType() {
 		return TYPE_TESTSUITE;
 	}
@@ -112,16 +85,27 @@ public class TestSuiteExecutable extends Executable {
 	}
 
 	@Override
-	public void terminate(boolean user) {
-	}
-
-	@Override
 	public IStatus execute() throws InterruptedException {
 		return Status.OK_STATUS;
 	}
 
 	@Override
-	public void postExecute() {
+	protected IStatus handleChildResult(IStatus resultStatus) {
+		if (resultStatus.matches(IStatus.CANCEL))
+			return resultStatus;
+		return Status.OK_STATUS;
+	}
+
+	@Override
+	protected IStatus postExecute(Listener listener, IStatus result) {
+		for (IExecutable child : getChildren()) {
+			IStatus status = child.getResultStatus();
+			if (status != null && !status.isOK()) {
+				result = status;
+				break;
+			}
+		}
+		return result;
 	}
 
 }

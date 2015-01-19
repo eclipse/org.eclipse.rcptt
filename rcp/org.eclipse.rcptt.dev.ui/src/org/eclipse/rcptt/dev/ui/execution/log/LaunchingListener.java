@@ -35,11 +35,11 @@ public class LaunchingListener implements ILaunchListener {
 		if (TeslaFeatures.getInstance().isTrue(TeslaFeatures.ACTIVITY_LOGS)) {
 			for (IExecutable executable : executables) {
 				if (executable instanceof PrepareExecutionWrapper
-						&& executable.getStatus() == IExecutable.WAITING
+						&& executable.getStatus() == IExecutable.State.WAITING
 						&& executable.getTime() == 0) {
 					addLogFile(executable, "Before Contexts");
 				} else if (executable instanceof ScenarioExecutable
-						&& executable.getStatus() == IExecutable.LAUNCHING) {
+						&& executable.getStatus() == IExecutable.State.LAUNCHING) {
 					addLogFile(executable, "Before Execution");
 				}
 			}

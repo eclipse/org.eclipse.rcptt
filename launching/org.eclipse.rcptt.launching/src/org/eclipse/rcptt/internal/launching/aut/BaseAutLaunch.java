@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.aut;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
+
 import java.io.EOFException;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -26,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
@@ -234,9 +237,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
-			if (wrapped instanceof CoreException) 
-				throw (CoreException)wrapped; 
-			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, "Wrapped error", wrapped));
+			String message = "Failed to execute command " + command;
+			if (wrapped instanceof CoreException) {
+				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
+						new IStatus[] { ((CoreException) wrapped).getStatus() }, message, null));
+			}
+			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, message, wrapped));
 		}
 
 		return result[0];
@@ -278,8 +284,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	public void activate(String host, int ecl, int tesla) throws CoreException {
+	public void activate(String host, int ecl, int tesla, float seconds, IProgressMonitor monitor) throws CoreException {
 		Q7LaunchingPlugin.logInfo("Activating AUT at host %s. ECL port: %d. Tesla port: %d", host, ecl, tesla);
+		monitor.beginTask("AUT pinging", (int) seconds);
 		synchronized (launch) {
 			launch.setAttribute(IQ7Launch.ATTR_HOST, host);
 			launch.setAttribute(IQ7Launch.ATTR_ECL_PORT, Integer.toString(ecl));
@@ -287,12 +294,42 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					Integer.toString(tesla));
 		}
 		// make sure connection available
-		ping();
+		long start = System.currentTimeMillis();
+		try {
+			try {
+				while (true) {
+					if (System.currentTimeMillis() - start > seconds * 1000) {
+						break;
+					}
+					try {
+						ping();
+						break;
+					} catch (CoreException e) {
+						// ignore while there is still time left
+					}
+					Thread.sleep(1000);
+					monitor.worked(1);
+				}
+			} catch (InterruptedException e) {
+				throw new CoreException(Status.CANCEL_STATUS);
+			} finally {
+				monitor.done();
+			}
+			try {
+				ping();
+			} catch (CoreException e) {
+				throw new CoreException(Q7LaunchingPlugin
+						.createStatus("AUT connection has been failing for " + seconds + " seconds", e));
+			}
+			monitor.done();
+		} catch (InterruptedException e) {
+			throw new CoreException(Status.CANCEL_STATUS);
+		}
 		setState(AutLaunchState.ACTIVE);
 		this.lastActivateID = UUID.randomUUID().toString();
 	}
 
-	public void ping() throws CoreException {
+	public void ping() throws CoreException, InterruptedException {
 		try {
 			Object object = unsafeExecute(
 					Q7CoreFactory.eINSTANCE.createGetQ7Information(),
@@ -316,7 +353,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 								.createStatus("Expect Q7Information but found: "
 										+ object));
 			}
-		} catch (Exception e) {
+		} catch (CoreException e) {
 			throw new CoreException(Q7LaunchingPlugin.createStatus(
 					"Couldn't connect to AUT: " + e.getMessage(), e));
 		}
