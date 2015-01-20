@@ -113,7 +113,7 @@ public class Q7TargetPlatformInitializer {
 			}
 
 			InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
-					new NullProgressMonitor(), q7Info, map, repository);
+					new NullProgressMonitor(), q7Info, map);
 			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + iinfo, null);
 			if (injectionConfiguration != null) {
 				rv.add(info.applyInjection(injectionConfiguration, new SubProgressMonitor(
@@ -130,8 +130,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static InjectionConfiguration createInjectionConfiguration(
-			IProgressMonitor monitor, Q7Info q7Info, Map<String, Version> map,
-			IMetadataRepository repository) {
+			IProgressMonitor monitor, Q7Info q7Info, Map<String, Version> map) {
 		boolean hasEMF = map.containsKey(AUTInformation.EMF);
 		boolean hasEMFWorkspace = map.containsKey(AUTInformation.EMF_WORKSPACE);
 		boolean hasEMFTransaction = map
@@ -144,12 +143,8 @@ public class Q7TargetPlatformInitializer {
 				.createInjectionConfiguration();
 
 		// Add Q7 plugins
-		// List<String> q7Units = collectQ7InstallIDs(monitor, hasGEF, hasGMF,
-		// repository);
 		UpdateSite q7Site = InjectionFactory.eINSTANCE.createUpdateSite();
 		q7Site.setUri(q7Info.q7.toString());
-		// Include all Q7 units to install
-		// q7Site.getUnits().addAll(q7Units);
 		injectionConfiguration.getEntries().add(q7Site);
 		
 		// Add aspectj plugins
@@ -188,6 +183,7 @@ public class Q7TargetPlatformInitializer {
 			site.setAllUnits(true);
 			injectionConfiguration.getEntries().add(site);
 		}
+
 		return injectionConfiguration;
 	}
 
