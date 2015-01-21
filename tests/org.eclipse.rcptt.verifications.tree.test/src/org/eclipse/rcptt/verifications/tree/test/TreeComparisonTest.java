@@ -15,6 +15,7 @@ import org.eclipse.rcptt.verifications.status.StatusFactory;
 import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
 import org.eclipse.rcptt.verifications.tree.TreeComparison;
 import org.eclipse.rcptt.verifications.tree.TreeNode;
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.base.Function;
@@ -26,18 +27,19 @@ public class TreeComparisonTest {
 	static class NumberNode implements TreeNode<Integer> {
 		private final NumberNode[] children;
 		private final Integer payload;
+		private final boolean expanded;
 
-		public NumberNode(Integer payload, NumberNode... children) {
-			if (payload == null)
-				throw new NullPointerException();
+		public NumberNode(int payload, NumberNode... children) {
 			if (children == null)
 				throw new NullPointerException();
 			this.children = children;
 			this.payload = payload;
+			this.expanded = payload > 0;
 		}
 
 		@Override
 		public Collection<? extends TreeNode<Integer>> getChildren() {
+			Assert.assertTrue("getChildren() should only be called if isExpanded() returns true", expanded);
 			return asList(children);
 		}
 
@@ -80,6 +82,11 @@ public class TreeComparisonTest {
 			error.setMessage(format("Expected to be %d, but actual is %d", expected, actual));
 			return singletonList(error);
 		}
+
+		@Override
+		public boolean isChildrenVerificationRequired(Integer expectedChild) {
+			return expectedChild > 0;
+		}
 	}
 
 	private static NumberNode create(int payload, int... children) {
@@ -95,6 +102,21 @@ public class TreeComparisonTest {
 	}
 
 	private final List<Integer> emptyIntegerList = Collections.<Integer> emptyList();
+
+	@Test
+	public void testChildrenAllowedForUnexpanded() {
+		NumberTreeComparison comparison = new NumberTreeComparison(false);
+		List<NumberNode> expected = asList(new NumberNode(-1));
+		List<NumberNode> actual = asList(create(-1, 2));
+		List<TreeItemVerificationError> result = comparison.assertChildren(expected, actual, emptyIntegerList, "");
+		assertEquals(0, result.size());
+		expected = asList(new NumberNode(1));
+		actual = asList(create(1, 2));
+		result = comparison.assertChildren(expected, actual, emptyIntegerList, "");
+		assertEquals(1, result.size());
+		assertEquals("Different row children amount, expected 0, but was 1", result.get(0).getMessage());
+		assertEquals(asList(0), result.get(0).getItemIndexPath());
+	}
 
 	@Test
 	public void testDescent() {
