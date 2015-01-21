@@ -324,15 +324,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public String getTargetPlatformProfilePath() {
-		if (getInstanceContainer() != null) {
-			try {
-				return ((ProfileBundleContainer) getInstanceContainer())
-						.getLocation(true).toString();
-			} catch (CoreException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
+		ProfileBundleContainer container = (ProfileBundleContainer) getInstanceContainer();
+		try {
+			return container.getLocation(true).toString();
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	public void delete() {
@@ -624,26 +621,27 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public String getDefaultProduct() {
 		Set<String> values = new HashSet<String>(Arrays.asList(getProducts()));
-		String product = getConfigIniProperty(PRODUCT_PROPERTY);
-		if (isValidId(product, values)) {
-			return product;
+		String product = null;
+		String productProperty = getConfigIniProperty(PRODUCT_PROPERTY);
+		if (isValidId(productProperty, values)) {
+			product = productProperty;
 		}
 
 		// Try to load .eclipseproduct file
-		product = getEclipseProductFileProperty(ID_PROPERTY);
-		if (isValidId(product, values)) {
-			return product;
+		productProperty = getEclipseProductFileProperty(ID_PROPERTY);
+		if (isValidId(productProperty, values)) {
+			product = productProperty;
 		}
 
 		// Try to load from application ini file
 		List<File> iniFiles = getAppIniFiles();
 		for (File file : iniFiles) {
-			product = readProductFromIniFile(file);
-			if (product != null) {
-				return product;
+			productProperty = readProductFromIniFile(file);
+			if (isValidId(productProperty, values)) {
+				product = productProperty;
 			}
 		}
-		return null;
+		return product;
 	}
 
 	public IBundleContainer[] getBundleContainers() {

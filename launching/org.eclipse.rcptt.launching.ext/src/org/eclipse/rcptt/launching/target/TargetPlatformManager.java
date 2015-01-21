@@ -60,7 +60,8 @@ public class TargetPlatformManager {
 			final String location, IProgressMonitor monitor) throws CoreException {
 		boolean isOk = false;
 		final ITargetPlatformService service = PDEHelper.getTargetService();
-		final TargetPlatformHelper info = new TargetPlatformHelper(service.newTarget());
+		final ITargetDefinition target = service.newTarget();
+		final TargetPlatformHelper info = new TargetPlatformHelper(target);
 		try {
 			List<IBundleContainer> containers = new ArrayList<IBundleContainer>();
 			IBundleContainer installationContainer = service
