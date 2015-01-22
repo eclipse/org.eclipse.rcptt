@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -92,6 +93,10 @@ public class StatusAdapterFactory extends AdapterFactoryImpl {
 				return createTreeItemStyleVerificationErrorAdapter();
 			}
 			@Override
+			public Adapter caseProcessStatus(ProcessStatus object) {
+				return createProcessStatusAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -164,6 +169,20 @@ public class StatusAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTreeItemStyleVerificationErrorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.core.ProcessStatus <em>Process Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.core.ProcessStatus
+	 * @generated
+	 */
+	public Adapter createProcessStatusAdapter() {
 		return null;
 	}
 

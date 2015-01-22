@@ -42,7 +42,7 @@ public class Utils {
 				}
 			}
 			ReportHelper.takeSnapshot(nde);
-			throw new CoreException(RcpttPlugin.createStatus(title + " failed", e));
+			throw new CoreException(RcpttPlugin.createStatus(e));
 		} finally {
 			ReportHelper.setInfo(nde, info);
 			nde.endTask();

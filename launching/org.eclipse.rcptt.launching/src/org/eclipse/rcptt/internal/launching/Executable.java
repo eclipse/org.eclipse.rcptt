@@ -60,17 +60,15 @@ public abstract class Executable implements IExecutable {
 			if (!result.isOK()) {
 				return;
 			}
-			IStatus cancelReason = null;
 			for (final Executable child : getChildren()) {
-				if (cancelReason != null) {
-					child.cancel(listener, cancelReason);
-				} else {
-					child.executeAndRememberResult(listener);
-					IStatus rv = handleChildResult(child.getResultStatus());
-					if (!rv.isOK()) {
-						result = rv;
-						cancelReason = cancelledForPreviousFailures;
-					}
+				if (!result.isOK()) {
+					child.cancel(listener, cancelledForPreviousFailures);
+					continue;
+				}
+				child.executeAndRememberResult(listener);
+				IStatus rv = handleChildResult(child.getResultStatus());
+				if (!rv.isOK()) {
+					result = rv;
 				}
 			}
 		} catch (InterruptedException e) {

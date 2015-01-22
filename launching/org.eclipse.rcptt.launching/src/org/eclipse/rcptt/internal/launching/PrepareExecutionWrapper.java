@@ -270,7 +270,7 @@ public class PrepareExecutionWrapper extends Executable {
 				}
 			}
 
-			if (!status.isOK() && !isNullOrEmpty(rootInfo.getMessage())) {
+			if (!status.isOK() && isNullOrEmpty(rootInfo.getMessage())) {
 				if (status instanceof ExecutionStatus) {
 					IStatus cause = ((ExecutionStatus) status).getCause(true);
 					if (cause == null && status.getSeverity() == IStatus.CANCEL) {

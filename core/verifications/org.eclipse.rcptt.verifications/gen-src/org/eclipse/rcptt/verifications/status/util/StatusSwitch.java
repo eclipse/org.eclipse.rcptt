@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -94,6 +95,7 @@ public class StatusSwitch<T> {
 			case StatusPackage.EVERIFICATION_STATUS: {
 				EVerificationStatus eVerificationStatus = (EVerificationStatus)theEObject;
 				T result = caseEVerificationStatus(eVerificationStatus);
+				if (result == null) result = caseProcessStatus(eVerificationStatus);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,6 +181,21 @@ public class StatusSwitch<T> {
 	 * @generated
 	 */
 	public T caseTreeItemStyleVerificationError(TreeItemStyleVerificationError object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Process Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Process Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProcessStatus(ProcessStatus object) {
 		return null;
 	}
 

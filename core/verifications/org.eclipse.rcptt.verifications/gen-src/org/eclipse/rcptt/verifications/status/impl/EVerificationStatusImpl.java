@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl;
 import org.eclipse.rcptt.verifications.status.EVerificationStatus;
 import org.eclipse.rcptt.verifications.status.StatusPackage;
 import org.eclipse.rcptt.verifications.status.VerificationStatusData;
@@ -34,15 +35,12 @@ import org.eclipse.rcptt.verifications.status.VerificationStatusData;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.status.impl.EVerificationStatusImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.status.impl.EVerificationStatusImpl#getData <em>Data</em>}</li>
- *   <li>{@link org.eclipse.rcptt.verifications.status.impl.EVerificationStatusImpl#getMessage <em>Message</em>}</li>
- *   <li>{@link org.eclipse.rcptt.verifications.status.impl.EVerificationStatusImpl#getPluginId <em>Plugin Id</em>}</li>
- *   <li>{@link org.eclipse.rcptt.verifications.status.impl.EVerificationStatusImpl#getSeverity <em>Severity</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EVerificationStatusImpl extends EObjectImpl implements EVerificationStatus {
+public class EVerificationStatusImpl extends ProcessStatusImpl implements EVerificationStatus {
 	/**
 	 * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,60 +67,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 	 * @ordered
 	 */
 	protected EList<VerificationStatusData> data;
-
-	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getMessage()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String MESSAGE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getMessage()
-	 * @generated
-	 * @ordered
-	 */
-	protected String message = MESSAGE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getPluginId() <em>Plugin Id</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getPluginId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PLUGIN_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getPluginId() <em>Plugin Id</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getPluginId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String pluginId = PLUGIN_ID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getSeverity()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int SEVERITY_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getSeverity()
-	 * @generated
-	 * @ordered
-	 */
-	protected int severity = SEVERITY_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -175,63 +119,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMessage(String newMessage) {
-		String oldMessage = message;
-		message = newMessage;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StatusPackage.EVERIFICATION_STATUS__MESSAGE, oldMessage, message));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getPluginId() {
-		return pluginId;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPluginId(String newPluginId) {
-		String oldPluginId = pluginId;
-		pluginId = newPluginId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StatusPackage.EVERIFICATION_STATUS__PLUGIN_ID, oldPluginId, pluginId));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getSeverity() {
-		return severity;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSeverity(int newSeverity) {
-		int oldSeverity = severity;
-		severity = newSeverity;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StatusPackage.EVERIFICATION_STATUS__SEVERITY, oldSeverity, severity));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -252,12 +139,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 				return getResource();
 			case StatusPackage.EVERIFICATION_STATUS__DATA:
 				return getData();
-			case StatusPackage.EVERIFICATION_STATUS__MESSAGE:
-				return getMessage();
-			case StatusPackage.EVERIFICATION_STATUS__PLUGIN_ID:
-				return getPluginId();
-			case StatusPackage.EVERIFICATION_STATUS__SEVERITY:
-				return getSeverity();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -277,15 +158,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 				getData().clear();
 				getData().addAll((Collection<? extends VerificationStatusData>)newValue);
 				return;
-			case StatusPackage.EVERIFICATION_STATUS__MESSAGE:
-				setMessage((String)newValue);
-				return;
-			case StatusPackage.EVERIFICATION_STATUS__PLUGIN_ID:
-				setPluginId((String)newValue);
-				return;
-			case StatusPackage.EVERIFICATION_STATUS__SEVERITY:
-				setSeverity((Integer)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -303,15 +175,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 			case StatusPackage.EVERIFICATION_STATUS__DATA:
 				getData().clear();
 				return;
-			case StatusPackage.EVERIFICATION_STATUS__MESSAGE:
-				setMessage(MESSAGE_EDEFAULT);
-				return;
-			case StatusPackage.EVERIFICATION_STATUS__PLUGIN_ID:
-				setPluginId(PLUGIN_ID_EDEFAULT);
-				return;
-			case StatusPackage.EVERIFICATION_STATUS__SEVERITY:
-				setSeverity(SEVERITY_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -327,12 +190,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
 			case StatusPackage.EVERIFICATION_STATUS__DATA:
 				return data != null && !data.isEmpty();
-			case StatusPackage.EVERIFICATION_STATUS__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
-			case StatusPackage.EVERIFICATION_STATUS__PLUGIN_ID:
-				return PLUGIN_ID_EDEFAULT == null ? pluginId != null : !PLUGIN_ID_EDEFAULT.equals(pluginId);
-			case StatusPackage.EVERIFICATION_STATUS__SEVERITY:
-				return severity != SEVERITY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -348,12 +205,6 @@ public class EVerificationStatusImpl extends EObjectImpl implements EVerificatio
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (resource: ");
 		result.append(resource);
-		result.append(", message: ");
-		result.append(message);
-		result.append(", pluginId: ");
-		result.append(pluginId);
-		result.append(", severity: ");
-		result.append(severity);
 		result.append(')');
 		return result.toString();
 	}

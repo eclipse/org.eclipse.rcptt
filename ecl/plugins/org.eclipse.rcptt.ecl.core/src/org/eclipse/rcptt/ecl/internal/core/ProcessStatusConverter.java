@@ -46,7 +46,15 @@ public class ProcessStatusConverter implements
 		if (!ps.getChildren().isEmpty()) {
 			ArrayList<IStatus> children = new ArrayList<IStatus>(ps.getChildren().size());
 			for (ProcessStatus child: ps.getChildren()) {
-				children.add(fromEObject(child));
+				try {
+					children.add((IStatus) EMFConverterManager.INSTANCE.fromEObject(child));
+				} catch (CoreException e) {
+					CorePlugin.log(e.getStatus());
+					children.add(e.getStatus());
+				} catch (ClassCastException e) {
+					CorePlugin.log(e);
+					children.add(CorePlugin.err(e));
+				}
 			}
 			return new MultiStatus(ps.getPluginId(), ps.getCode(), children.toArray(new IStatus[children.size()]),
 					ps.getMessage(), th);
@@ -131,8 +139,14 @@ public class ProcessStatusConverter implements
 		}
 		if (status.isMultiStatus()) {
 			for (IStatus child : status.getChildren()) {
-				ps.getChildren().add((ProcessStatus) EMFConverterManager.INSTANCE
-						.toEObject(child));
+				ProcessStatus s;
+				try {
+					s = (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(child);
+				} catch (ClassCastException e) {
+					s = CoreFactory.eINSTANCE.createProcessStatus();
+					toEObject(CorePlugin.err(e), s);
+				}
+				ps.getChildren().add(s);
 			}
 		}
 	}
@@ -161,5 +175,4 @@ public class ProcessStatusConverter implements
 		}
 		return ex;
 	}
-
 }

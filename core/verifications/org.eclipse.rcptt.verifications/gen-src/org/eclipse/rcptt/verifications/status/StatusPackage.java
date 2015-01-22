@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.rcptt.ecl.core.CorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,22 +75,22 @@ public interface StatusPackage extends EPackage {
 	int EVERIFICATION_STATUS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * The feature id for the '<em><b>Plugin Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVERIFICATION_STATUS__RESOURCE = 0;
+	int EVERIFICATION_STATUS__PLUGIN_ID = CorePackage.PROCESS_STATUS__PLUGIN_ID;
 
 	/**
-	 * The feature id for the '<em><b>Data</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Code</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVERIFICATION_STATUS__DATA = 1;
+	int EVERIFICATION_STATUS__CODE = CorePackage.PROCESS_STATUS__CODE;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -98,16 +99,7 @@ public interface StatusPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVERIFICATION_STATUS__MESSAGE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Plugin Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EVERIFICATION_STATUS__PLUGIN_ID = 3;
+	int EVERIFICATION_STATUS__MESSAGE = CorePackage.PROCESS_STATUS__MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -116,7 +108,43 @@ public interface StatusPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVERIFICATION_STATUS__SEVERITY = 4;
+	int EVERIFICATION_STATUS__SEVERITY = CorePackage.PROCESS_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Exception</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVERIFICATION_STATUS__EXCEPTION = CorePackage.PROCESS_STATUS__EXCEPTION;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVERIFICATION_STATUS__CHILDREN = CorePackage.PROCESS_STATUS__CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVERIFICATION_STATUS__RESOURCE = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVERIFICATION_STATUS__DATA = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>EVerification Status</em>' class.
@@ -125,7 +153,7 @@ public interface StatusPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EVERIFICATION_STATUS_FEATURE_COUNT = 5;
+	int EVERIFICATION_STATUS_FEATURE_COUNT = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.verifications.status.impl.VerificationStatusDataImpl <em>Verification Status Data</em>}' class.
@@ -343,39 +371,6 @@ public interface StatusPackage extends EPackage {
 	EReference getEVerificationStatus_Data();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.verifications.status.EVerificationStatus#getMessage <em>Message</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Message</em>'.
-	 * @see org.eclipse.rcptt.verifications.status.EVerificationStatus#getMessage()
-	 * @see #getEVerificationStatus()
-	 * @generated
-	 */
-	EAttribute getEVerificationStatus_Message();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.verifications.status.EVerificationStatus#getPluginId <em>Plugin Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Plugin Id</em>'.
-	 * @see org.eclipse.rcptt.verifications.status.EVerificationStatus#getPluginId()
-	 * @see #getEVerificationStatus()
-	 * @generated
-	 */
-	EAttribute getEVerificationStatus_PluginId();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.verifications.status.EVerificationStatus#getSeverity <em>Severity</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Severity</em>'.
-	 * @see org.eclipse.rcptt.verifications.status.EVerificationStatus#getSeverity()
-	 * @see #getEVerificationStatus()
-	 * @generated
-	 */
-	EAttribute getEVerificationStatus_Severity();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.verifications.status.VerificationStatusData <em>Verification Status Data</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -529,30 +524,6 @@ public interface StatusPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVERIFICATION_STATUS__DATA = eINSTANCE.getEVerificationStatus_Data();
-
-		/**
-		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EVERIFICATION_STATUS__MESSAGE = eINSTANCE.getEVerificationStatus_Message();
-
-		/**
-		 * The meta object literal for the '<em><b>Plugin Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EVERIFICATION_STATUS__PLUGIN_ID = eINSTANCE.getEVerificationStatus_PluginId();
-
-		/**
-		 * The meta object literal for the '<em><b>Severity</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EVERIFICATION_STATUS__SEVERITY = eINSTANCE.getEVerificationStatus_Severity();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.verifications.status.impl.VerificationStatusDataImpl <em>Verification Status Data</em>}' class.

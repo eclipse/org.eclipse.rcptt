@@ -494,47 +494,49 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	private List<StyleRange> print(IStatus status, int level, StringBuilder buffer) {
 		String message = status.getMessage();
-		appendTabs(buffer, level);
 		if (message == null || message.length() == 0) {
 			message = Messages.ExecutionView_ExecutionFailedMsg;
 		}
-
 		List<StyleRange> ranges = new ArrayList<StyleRange>();
-
+		
 		if (status instanceof ExecutionStatus) {
 			final ExecutionStatus ses = (ExecutionStatus) status;
 			IStatus cause = ses.getCause(true);
-			if (cause instanceof ScriptErrorStatus) {
-				EclStackTrace trace = EclStackTrace.fromExecStatus(ses);
-
-				append(buffer, trace.getDisplayMessage());
-				if (trace.frames.length != 0) {
-					append(buffer, LINE_SEPARATOR);
-				}
-				for (ScriptErrorStatus frame : trace.frames) {
-					append(buffer, "\tat ");
-					ranges.add(bold(append(buffer, frame.getMessage())));
-					append(buffer, " (");
-					ranges.add(link(append(buffer, EclStackTrace.getLocation(frame)), frame));
-					append(buffer, ")\n");
-				}
-			} else if (cause instanceof VerificationStatus) {
-				VerificationStatus verStatus = (VerificationStatus) cause;
-				StyledMessage styledMsg = VerificationReporter.getStyledMessage(verStatus);
-
-				buffer.append(styledMsg.getMessage());
-				for (Entry<StyleRangeEntry, Object> style : styledMsg.getStyles().entrySet()) {
-					ranges.add(makeMessageStyleRange(style.getKey(), style.getValue()));
-				}
-			} else {
-				if (cause != null && message.equals(cause.getMessage()) && status.getChildren().length == 0) {
-					print(cause, level, buffer);
+			if (cause != null) {
+				if (message.equals(cause.getMessage()) && status.getChildren().length == 0) {
+					ranges.addAll(print(cause, level, buffer));
 				} else {
 					buffer.append(message);
 					buffer.append(LINE_SEPARATOR);
-					if (cause != null)
-						print(cause, level + 1, buffer);
+					ranges.addAll(print(cause, level + 1, buffer));
 				}
+				return ranges;
+			}
+		}
+		
+		appendTabs(buffer, level);
+
+
+		if (status instanceof ScriptErrorStatus) {
+			EclStackTrace trace = EclStackTrace.fromScriptStatus(status);
+			append(buffer, trace.getDisplayMessage());
+			if (trace.frames.length != 0) {
+				append(buffer, LINE_SEPARATOR);
+			}
+			for (ScriptErrorStatus frame : trace.frames) {
+				append(buffer, "\tat ");
+				ranges.add(bold(append(buffer, frame.getMessage())));
+				append(buffer, " (");
+				ranges.add(link(append(buffer, EclStackTrace.getLocation(frame)), frame));
+				append(buffer, ")\n");
+			}
+		} else if (status instanceof VerificationStatus) {
+			VerificationStatus verStatus = (VerificationStatus) status;
+			StyledMessage styledMsg = VerificationReporter.getStyledMessage(verStatus);
+
+			buffer.append(styledMsg.getMessage());
+			for (Entry<StyleRangeEntry, Object> style : styledMsg.getStyles().entrySet()) {
+				ranges.add(makeMessageStyleRange(style.getKey(), style.getValue()));
 			}
 		} else {
 			buffer.append(message);

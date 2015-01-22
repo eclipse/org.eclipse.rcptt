@@ -8,4 +8,12 @@
       </serializer>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated status -->
+      <package
+            uri="http://eclipse.org/rcptt/verifications/status"
+            class="org.eclipse.rcptt.verifications.status.StatusPackage"
+            genModel="models/status.genmodel"/>
+   </extension>
+
 </plugin>
