@@ -20,12 +20,11 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.rcptt.tesla.swt.images.ImageDataMapping;
+import org.eclipse.rcptt.util.WeakIdentityHashMap;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.osgi.framework.Bundle;
-
-import org.eclipse.rcptt.util.WeakIdentityHashMap;
-import org.eclipse.rcptt.tesla.swt.images.ImageDataMapping;
 
 public enum ImageSources {
 	INSTANCE;
@@ -99,6 +98,8 @@ public enum ImageSources {
 	public static class ResourceSource extends ImageSource {
 		private static Pattern bundleUrlDescriptor = Pattern
 				.compile("URLImageDescriptor\\(((bundleentry|bundleresource).*)\\)");
+		private static Pattern platformUrlDescriptor = Pattern
+				.compile("URLImageDescriptor\\(platform:/plugin/(.*)\\)");
 		private static Pattern fileClassDescriptor = Pattern
 				.compile("FileImageDescriptor\\(location=class (.*), name=(.*)\\)");
 
@@ -132,6 +133,12 @@ public enum ImageSources {
 				String bundleName = imageBundle == null ? "unknownBundle" : imageBundle.getSymbolicName();
 				return String.format("%s%s", bundleName, bundleUri.getPath());
 			}
+
+			Matcher platformMatcher = platformUrlDescriptor.matcher(str);
+			if (platformMatcher.matches()) {
+				return platformMatcher.group(1);
+			}
+
 			Matcher fileMatcher = fileClassDescriptor.matcher(str);
 			if (fileMatcher.matches()) {
 				return String.format("%s%s", fileMatcher.group(1),
@@ -145,9 +152,10 @@ public enum ImageSources {
 		public static boolean isValidSource(ImageDescriptor source) {
 			String str = source.toString();
 			Matcher urlMatcher = bundleUrlDescriptor.matcher(str);
+			Matcher platformMatcher = platformUrlDescriptor.matcher(str);
 			Matcher fileMatcher = fileClassDescriptor.matcher(str);
 
-			return (urlMatcher.matches() || fileMatcher.matches());
+			return (urlMatcher.matches() || platformMatcher.matches() || fileMatcher.matches());
 		}
 
 		public ResourceSource(ImageDescriptor source) {
