@@ -202,13 +202,13 @@ named_command returns[Exec cmd=null;]:
 ;
 
 subcommand returns[Parameter param=null;]:
-  (NEWLINE? LBRACK
+  (NEWLINE? LBRACK NEWLINE?
     c=open_expr_list {
     	ExecutableParameter p = factory.createExecutableParameter();
   		p.setCommand(c);
 	  	param = p;
     }
-  RBRACK) | '$' name=command_name {
+  NEWLINE? RBRACK) | '$' name=command_name {
     ExecutableParameter p = factory.createExecutableParameter();
     GetVal cmd = CoreFactory.eINSTANCE.createGetVal();
     cmd.setName(name);
