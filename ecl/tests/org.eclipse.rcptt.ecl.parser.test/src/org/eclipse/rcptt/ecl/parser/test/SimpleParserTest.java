@@ -310,6 +310,10 @@ public class SimpleParserTest extends TestCase {
 		check("command\n[\nsubcommand\n]", "command [subcommand]");
 	}
 	
+	public void testSubCommandWithEverything() throws Throwable {
+		check("command //simple comment\n \t\n [\t\n\t/*comment*/ subcommand\n \t ]", "command [subcommand]");
+	}
+
 	public void testNewLineWithSpacesAfterCommand() throws Throwable {
 		check("command\n   \n", "command");
 	}
