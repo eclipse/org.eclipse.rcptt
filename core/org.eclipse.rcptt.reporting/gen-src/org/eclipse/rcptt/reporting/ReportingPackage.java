@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -92,31 +93,13 @@ public interface ReportingPackage extends EPackage {
 	int Q7_INFO__TYPE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Result</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int Q7_INFO__RESULT = 2;
-
-	/**
-	 * The feature id for the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int Q7_INFO__MESSAGE = 3;
-
-	/**
 	 * The feature id for the '<em><b>Line</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__LINE = 4;
+	int Q7_INFO__LINE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Tags</b></em>' attribute.
@@ -125,7 +108,7 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__TAGS = 5;
+	int Q7_INFO__TAGS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -134,7 +117,7 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__DESCRIPTION = 6;
+	int Q7_INFO__DESCRIPTION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Subtype</b></em>' attribute.
@@ -143,7 +126,7 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__SUBTYPE = 7;
+	int Q7_INFO__SUBTYPE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Variant</b></em>' attribute list.
@@ -152,7 +135,7 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__VARIANT = 8;
+	int Q7_INFO__VARIANT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Phase</b></em>' attribute.
@@ -161,7 +144,16 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO__PHASE = 9;
+	int Q7_INFO__PHASE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Result</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int Q7_INFO__RESULT = 8;
 
 	/**
 	 * The number of structural features of the '<em>Q7 Info</em>' class.
@@ -170,7 +162,7 @@ public interface ReportingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_INFO_FEATURE_COUNT = 10;
+	int Q7_INFO_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.reporting.impl.Q7StatisticsImpl <em>Q7 Statistics</em>}' class.
@@ -247,17 +239,6 @@ public interface ReportingPackage extends EPackage {
 	int ITEM_KIND = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.reporting.ResultStatus <em>Result Status</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.reporting.ResultStatus
-	 * @see org.eclipse.rcptt.reporting.impl.ReportingPackageImpl#getResultStatus()
-	 * @generated
-	 */
-	int RESULT_STATUS = 3;
-
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.reporting.Q7Info <em>Q7 Info</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -290,26 +271,15 @@ public interface ReportingPackage extends EPackage {
 	EAttribute getQ7Info_Type();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Result</em>'.
+	 * @return the meta object for the reference '<em>Result</em>'.
 	 * @see org.eclipse.rcptt.reporting.Q7Info#getResult()
 	 * @see #getQ7Info()
 	 * @generated
 	 */
-	EAttribute getQ7Info_Result();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.reporting.Q7Info#getMessage <em>Message</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Message</em>'.
-	 * @see org.eclipse.rcptt.reporting.Q7Info#getMessage()
-	 * @see #getQ7Info()
-	 * @generated
-	 */
-	EAttribute getQ7Info_Message();
+	EReference getQ7Info_Result();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.reporting.Q7Info#getLine <em>Line</em>}'.
@@ -453,16 +423,6 @@ public interface ReportingPackage extends EPackage {
 	EEnum getItemKind();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.rcptt.reporting.ResultStatus <em>Result Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Result Status</em>'.
-	 * @see org.eclipse.rcptt.reporting.ResultStatus
-	 * @generated
-	 */
-	EEnum getResultStatus();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -511,20 +471,12 @@ public interface ReportingPackage extends EPackage {
 		EAttribute Q7_INFO__TYPE = eINSTANCE.getQ7Info_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Result</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Result</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute Q7_INFO__RESULT = eINSTANCE.getQ7Info_Result();
-
-		/**
-		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute Q7_INFO__MESSAGE = eINSTANCE.getQ7Info_Message();
+		EReference Q7_INFO__RESULT = eINSTANCE.getQ7Info_Result();
 
 		/**
 		 * The meta object literal for the '<em><b>Line</b></em>' attribute feature.
@@ -633,16 +585,6 @@ public interface ReportingPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum ITEM_KIND = eINSTANCE.getItemKind();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.reporting.ResultStatus <em>Result Status</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.reporting.ResultStatus
-		 * @see org.eclipse.rcptt.reporting.impl.ReportingPackageImpl#getResultStatus()
-		 * @generated
-		 */
-		EEnum RESULT_STATUS = eINSTANCE.getResultStatus();
 
 	}
 

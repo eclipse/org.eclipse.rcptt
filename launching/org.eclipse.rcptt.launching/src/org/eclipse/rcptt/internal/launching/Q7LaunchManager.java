@@ -488,8 +488,7 @@ public class Q7LaunchManager {
 				throws ModelException {
 			boolean debug = debugger != null;
 			if (verification.getNamedElement() instanceof UnresolvedVerification) {
-				return new UnresolvedVerificationExecutable(launch,
-						verification, debug, phase);
+				return new UnresolvedVerificationExecutable(launch, verification, debug, phase);
 			} else {
 				return !debug ?
 						new EclVerificationExecutable(launch, verification, debug, phase)

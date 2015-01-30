@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -29,6 +30,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.rcptt.ecl.internal.core.EMFConverterManager;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
@@ -216,20 +218,23 @@ public class RcpttReportEditor extends FormEditor {
 			if (getContainer() instanceof CTabFolder) {
 				CTabItem tabItem = ((CTabFolder) getContainer()).getItem(item);
 				tabItem.setShowClose(true);
-				switch (info.getResult()) {
-				case FAIL:
-					tabItem.setImage(Images.getImageDescriptor(
-							Images.SCENARIO_FAIL).createImage());
-					break;
-				case PASS:
+				IStatus status;
+				try {
+					status = (IStatus) EMFConverterManager.INSTANCE.fromEObject(info.getResult());
+				} catch (ClassCastException e) {
+					status = new Status(IStatus.ERROR, Q7UIReportPlugin.PLUGIN_ID, "Invalid test result", e);
+				} catch (CoreException e) {
+					status = e.getStatus();
+				}
+				if (status.isOK()) {
 					tabItem.setImage(Images.getImageDescriptor(
 							Images.SCENARIO_PASS).createImage());
-					break;
-				case SKIPPED:
-				case WARN:
+				} else if (status.matches(IStatus.ERROR)) {
+					tabItem.setImage(Images.getImageDescriptor(
+							Images.SCENARIO_FAIL).createImage());
+				} else {
 					tabItem.setImage(Images.getImageDescriptor(Images.SCENARIO)
 							.createImage());
-					break;
 				}
 			}
 			setActivePage(item);

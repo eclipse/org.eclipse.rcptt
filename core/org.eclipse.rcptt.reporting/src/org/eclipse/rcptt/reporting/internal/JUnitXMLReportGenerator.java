@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.internal;
 
-import static org.eclipse.rcptt.reporting.internal.ReportUtils.getFailMessage;
-
 import java.io.OutputStream;
 import java.util.Iterator;
 
@@ -20,11 +18,10 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
@@ -95,32 +92,34 @@ public class JUnitXMLReportGenerator {
 		writer.writeAttribute("name", name);
 		writer.writeAttribute("time", formatTime(item));
 
-		if (info != null && !info.getResult().equals(ResultStatus.PASS)) {
-			if (info.getResult().equals(ResultStatus.SKIPPED)) {
-				writer.writeAttribute("incomplete", "true");
-			} else {
-				writer.writeStartElement("failure");
+		SimpleSeverity severity = SimpleSeverity.create(info);
+		switch (severity) {
+		case OK:
+			break;
+		case CANCEL:
+			writer.writeAttribute("incomplete", "true");
+			break;
+		case ERROR:
+			writer.writeStartElement("failure");
 
-				writer.writeAttribute("type", "testcase");
-				writer.writeAttribute("message", getFailMessage(item));
+			writer.writeAttribute("type", "testcase");
+			writer.writeAttribute("message", info.getResult().getMessage());
 
-				String data = ReportUtils.getDetails(item).trim();
-				if (data != null && !data.trim().isEmpty()) {
-					writer.writeCData(data);
-				}
-
-				writer.writeEndElement();
+			String data = ReportUtils.getDetails(item).trim();
+			if (data != null && !data.trim().isEmpty()) {
+				writer.writeCData(data);
 			}
-		}
 
+			writer.writeEndElement();
+			break;
+		}
 		writer.writeEndElement();
 	}
 
 	public static void collectFailures(Node item, StringBuilder result) {
-		Q7Info info = (Q7Info) item.getProperties()
-				.get(IQ7ReportConstants.ROOT);
-		if (info != null && info.getResult().equals(ResultStatus.FAIL)) {
-			String msg = info.getMessage();
+		Q7Info info = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (info != null && info.getResult().getSeverity() != 0) {
+			String msg = info.getResult().getMessage();
 			if (msg.contains("]]>")) {
 				msg = msg.replace("]]>", "]] >");
 			}

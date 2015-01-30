@@ -10,20 +10,19 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.impl;
 
-import org.eclipse.rcptt.reporting.ItemKind;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ReportingPackage;
-import org.eclipse.rcptt.reporting.ResultStatus;
-
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.reporting.ItemKind;
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.ReportingPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,14 +33,13 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getResult <em>Result</em>}</li>
- *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getTags <em>Tags</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getSubtype <em>Subtype</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getVariant <em>Variant</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getPhase <em>Phase</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.reporting.impl.Q7InfoImpl#getResult <em>Result</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,46 +85,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * @ordered
 	 */
 	protected ItemKind type = TYPE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getResult() <em>Result</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResult()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ResultStatus RESULT_EDEFAULT = ResultStatus.PASS;
-
-	/**
-	 * The cached value of the '{@link #getResult() <em>Result</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResult()
-	 * @generated
-	 * @ordered
-	 */
-	protected ResultStatus result = RESULT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMessage()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String MESSAGE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMessage()
-	 * @generated
-	 * @ordered
-	 */
-	protected String message = MESSAGE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getLine() <em>Line</em>}' attribute.
@@ -239,6 +197,16 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	protected String phase = PHASE_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getResult() <em>Result</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResult()
+	 * @generated
+	 * @ordered
+	 */
+	protected ProcessStatus result;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -304,7 +272,15 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ResultStatus getResult() {
+	public ProcessStatus getResult() {
+		if (result != null && result.eIsProxy()) {
+			InternalEObject oldResult = (InternalEObject)result;
+			result = (ProcessStatus)eResolveProxy(oldResult);
+			if (result != oldResult) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ReportingPackage.Q7_INFO__RESULT, oldResult, result));
+			}
+		}
 		return result;
 	}
 
@@ -313,32 +289,20 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setResult(ResultStatus newResult) {
-		ResultStatus oldResult = result;
-		result = newResult == null ? RESULT_EDEFAULT : newResult;
+	public ProcessStatus basicGetResult() {
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResult(ProcessStatus newResult) {
+		ProcessStatus oldResult = result;
+		result = newResult;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ReportingPackage.Q7_INFO__RESULT, oldResult, result));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMessage(String newMessage) {
-		String oldMessage = message;
-		message = newMessage;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ReportingPackage.Q7_INFO__MESSAGE, oldMessage, message));
 	}
 
 	/**
@@ -470,10 +434,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return getId();
 			case ReportingPackage.Q7_INFO__TYPE:
 				return getType();
-			case ReportingPackage.Q7_INFO__RESULT:
-				return getResult();
-			case ReportingPackage.Q7_INFO__MESSAGE:
-				return getMessage();
 			case ReportingPackage.Q7_INFO__LINE:
 				return getLine();
 			case ReportingPackage.Q7_INFO__TAGS:
@@ -486,6 +446,9 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return getVariant();
 			case ReportingPackage.Q7_INFO__PHASE:
 				return getPhase();
+			case ReportingPackage.Q7_INFO__RESULT:
+				if (resolve) return getResult();
+				return basicGetResult();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -504,12 +467,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return;
 			case ReportingPackage.Q7_INFO__TYPE:
 				setType((ItemKind)newValue);
-				return;
-			case ReportingPackage.Q7_INFO__RESULT:
-				setResult((ResultStatus)newValue);
-				return;
-			case ReportingPackage.Q7_INFO__MESSAGE:
-				setMessage((String)newValue);
 				return;
 			case ReportingPackage.Q7_INFO__LINE:
 				setLine((Integer)newValue);
@@ -530,6 +487,9 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 			case ReportingPackage.Q7_INFO__PHASE:
 				setPhase((String)newValue);
 				return;
+			case ReportingPackage.Q7_INFO__RESULT:
+				setResult((ProcessStatus)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -547,12 +507,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return;
 			case ReportingPackage.Q7_INFO__TYPE:
 				setType(TYPE_EDEFAULT);
-				return;
-			case ReportingPackage.Q7_INFO__RESULT:
-				setResult(RESULT_EDEFAULT);
-				return;
-			case ReportingPackage.Q7_INFO__MESSAGE:
-				setMessage(MESSAGE_EDEFAULT);
 				return;
 			case ReportingPackage.Q7_INFO__LINE:
 				setLine(LINE_EDEFAULT);
@@ -572,6 +526,9 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 			case ReportingPackage.Q7_INFO__PHASE:
 				setPhase(PHASE_EDEFAULT);
 				return;
+			case ReportingPackage.Q7_INFO__RESULT:
+				setResult((ProcessStatus)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -588,10 +545,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case ReportingPackage.Q7_INFO__TYPE:
 				return type != TYPE_EDEFAULT;
-			case ReportingPackage.Q7_INFO__RESULT:
-				return result != RESULT_EDEFAULT;
-			case ReportingPackage.Q7_INFO__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
 			case ReportingPackage.Q7_INFO__LINE:
 				return line != LINE_EDEFAULT;
 			case ReportingPackage.Q7_INFO__TAGS:
@@ -604,6 +557,8 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 				return variant != null && !variant.isEmpty();
 			case ReportingPackage.Q7_INFO__PHASE:
 				return PHASE_EDEFAULT == null ? phase != null : !PHASE_EDEFAULT.equals(phase);
+			case ReportingPackage.Q7_INFO__RESULT:
+				return result != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -622,10 +577,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 		result.append(id);
 		result.append(", type: ");
 		result.append(type);
-		result.append(", result: ");
-		result.append(result);
-		result.append(", message: ");
-		result.append(message);
 		result.append(", line: ");
 		result.append(line);
 		result.append(", tags: ");

@@ -106,7 +106,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
@@ -647,25 +646,8 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 			State state = executable.getStatus();
 			if (IExecutable.State.PASSED == state
 					|| IExecutable.State.FAILED == state) {
-				if (activeSession != null) {
-					statisticPanel.update(activeSession.getTotalCount(),
-							activeSession.getFinishedCount(),
-							activeSession.getFailedCount(),
-							activeSession.getStoppedCount(),
-							activeSession.getTotalTime());
-				} else {
-					return;
-				}
 			}
 
-			viewer.refresh(executable);
-			TreeItem item = (TreeItem) viewer.testFindItem(executable);
-			if (item != null && item.getParentItem() != null) {
-				item = item.getParentItem();
-				if (item.getData() != null) {
-					viewer.refresh(item.getData());
-				}
-			}
 			// scroll only to last element
 			if (!scrollState && i == executables.length && !executable.getResultStatus().matches(IStatus.CANCEL)) {
 				viewer.setSelection(new StructuredSelection(executable), true);
@@ -676,16 +658,22 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 			} else if (IExecutable.State.LAUNCHING == state) {
 				viewer.expandToLevel(executable, 1);
 			}
-			viewer.refresh(executable);
 
-			runSelectedAction.updateEnablement(activeSession);
-			runFailedAction.updateEnablement(activeSession);
 			if (IExecutable.State.FAILED == state
 					&& stopOnFirstFailAction.getValue()) {
 				Q7Launcher.getInstance().stop();
-				viewer.refresh(executable);
 			}
+			viewer.refresh(executable);
 		}
+		if (activeSession != null) {
+			statisticPanel.update(activeSession.getTotalCount(),
+					activeSession.getFinishedCount(),
+					activeSession.getFailedCount(),
+					activeSession.getStoppedCount(),
+					activeSession.getTotalTime());
+		}
+		runSelectedAction.updateEnablement(activeSession);
+		runFailedAction.updateEnablement(activeSession);
 	}
 
 	@Override

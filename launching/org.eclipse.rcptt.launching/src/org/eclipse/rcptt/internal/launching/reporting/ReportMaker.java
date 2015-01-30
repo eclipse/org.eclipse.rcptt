@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.ecl.core.model.BeginReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.EndReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
@@ -84,17 +84,7 @@ public class ReportMaker implements IQ7ReportConstants {
 			if (report == null) {
 				// Generate minimal report
 				report = ReportFactory.eINSTANCE.createReport();
-				Node nde = ReportFactory.eINSTANCE.createNode();
-				report.setRoot(nde);
-				nde.setName(iExecutable.getName());
-				nde.setStartTime(0);
-				nde.setEndTime(iExecutable.getTime());
-				Q7Info info = ReportHelper.getInfo(nde);
-				setProperties(iExecutable, nde);
-				info.setMessage("Skipped or not started");
-				info.setResult(ResultStatus.SKIPPED);
-				info.setType(ItemKind.TESTCASE);
-				processChildren(report, nde, iExecutable);
+				report.setRoot(minimalReport(iExecutable));
 				stream.write(report);
 			} else {
 				stream.write(EcoreUtil.copy(report));
@@ -104,8 +94,7 @@ public class ReportMaker implements IQ7ReportConstants {
 		monitor.done();
 	}
 
-	private void setProperties(IExecutable iExecutable, Node nde) {
-		Q7Info info = ReportHelper.getInfo(nde);
+	private void setProperties(IExecutable iExecutable, Q7Info info) {
 		switch (iExecutable.getType()) {
 		case IExecutable.TYPE_CONTEXT:
 			info.setType(ItemKind.CONTEXT);
@@ -117,33 +106,25 @@ public class ReportMaker implements IQ7ReportConstants {
 			info.setType(ItemKind.SCRIPT);
 			break;
 		}
-		switch (iExecutable.getStatus()) {
-		case WAITING:
-		case LAUNCHING:
-			info.setResult(ResultStatus.SKIPPED);
-			break;
-		case FAILED:
-			info.setResult(ResultStatus.FAIL);
-			break;
-		case PASSED:
-			info.setResult(ResultStatus.PASS);
-			break;
-		}
+		info.setResult(ProcessStatusConverter.toProcessStatus(iExecutable.getResultStatus()));
 	}
 
-	private void processChildren(Report report, Node rnde,
-			IExecutable iExecutable) {
-		IExecutable[] children = iExecutable.getChildren();
-		for (IExecutable iExecutable2 : children) {
-			Node nde = ReportFactory.eINSTANCE.createNode();
-			rnde.getChildren().add(nde);
-			nde.setName(iExecutable2.getName());
-			Q7Info info = ReportHelper.getInfo(nde);
-			info.setResult(ResultStatus.FAIL);
-			nde.setStartTime(0);
-			nde.setEndTime(iExecutable2.getTime());
-			setProperties(iExecutable2, nde);
-			processChildren(report, nde, iExecutable2);
+	private Node minimalReport(IExecutable iExecutable) {
+		Report report = iExecutable.getResultReport();
+		if (report != null) {
+			return EcoreUtil.copy(report.getRoot());
 		}
+		Node nde = ReportFactory.eINSTANCE.createNode();
+		nde.setName(iExecutable.getName());
+		nde.setStartTime(0);
+		nde.setEndTime(iExecutable.getTime());
+		Q7Info info = ReportHelper.getInfo(nde);
+		setProperties(iExecutable, info);
+		assert info.getType() != null;
+		for (IExecutable iExecutable2 : iExecutable.getChildren()) {
+			nde.getChildren().add(minimalReport(iExecutable2));
+		}
+		return nde;
+
 	}
 }

@@ -35,7 +35,6 @@ import org.eclipse.rcptt.ecl.gen.ast.AstExec;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
@@ -79,7 +78,6 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 			}
 			INodeBuilder node = builder.getCurrent().beginTask(cmdName);
 			Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
-			info.setResult(ResultStatus.PASS);
 			info.setType(ItemKind.ECL_COMMAND);
 			ReportHelper.setInfo(node, info);
 		}
@@ -106,12 +104,11 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 
 	public void endCommand(Command command, final IStatus status) {
 		if (isIgnoredCommand(command)) {
+
 			return;
 		}
 		INodeBuilder node = ReportManager.getCurrentReportNode();
-		if (!status.isOK()) {
-			ReportHelper.setResult(node, ResultStatus.FAIL, status.getMessage());
-		}
+		ReportHelper.setResult(node, status);
 		node.endTask();
 	}
 }

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -33,8 +34,8 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
@@ -61,62 +62,34 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 			Q7Info object = (Q7Info) entry.getProperties().get(
 					IQ7ReportConstants.ROOT);
 			if (object != null) {
-				ResultStatus status = object.getResult();
+				int status = object.getResult().getSeverity();
 				switch (object.getType()) {
 				case SCRIPT:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.SCENARIO_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
-						return Images.getImage(Images.SCENARIO_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
-						return Images.getImage(Images.SCENARIO);
-					}
-					return Images.getImage(Images.SCENARIO);
 				case TESTCASE:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.SCENARIO_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
+					if (status == 0)
 						return Images.getImage(Images.SCENARIO_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if ((status & IStatus.CANCEL) != 0)
 						return Images.getImage(Images.SCENARIO);
-					}
-					return Images.getImage(Images.SCENARIO);
+					return Images.getImage(Images.SCENARIO_FAIL);
 				case CONTEXT:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.CONTEXT_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
+					if (status == 0)
 						return Images.getImage(Images.CONTEXT_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if ((status & IStatus.CANCEL) != 0)
 						return Images.getImage(Images.CONTEXT);
-					}
-					return Images.getImage(Images.CONTEXT);
+					return Images.getImage(Images.CONTEXT_FAIL);
 				case VERIFICATION:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.CONTEXT_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
-						return Images.getImage(Images.CONTEXT_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
-						return Images.getImage(Images.CONTEXT);
-					}
-					return Images.getImage(Images.CONTEXT);
+					if (status == 0)
+						return Images.getImage(Images.VERIFICATION_PASS);
+					if ((status & IStatus.CANCEL) != 0)
+						return Images.getImage(Images.VERIFICATION);
+					return Images.getImage(Images.VERIFICATION_FAIL);
 				case ECL_COMMAND:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getOverlayImageBottomLeft(
-								Images.ECL_COMMAND, Images.OVERLAY_ERROR);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if (status == 0)
+						return Images.getImage(Images.ECL_COMMAND);
+					if ((status & IStatus.CANCEL) != 0)
 						return Images.getOverlayImageBottomLeft(
 								Images.ECL_COMMAND, Images.OVERLAY_WARNING);
-					}
-					return Images.getImage(Images.ECL_COMMAND);
+					return Images.getOverlayImageBottomLeft(Images.ECL_COMMAND, Images.OVERLAY_ERROR);
 				}
 			}
 			return null;
@@ -131,7 +104,7 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 				return entry.getName();
 			case 1:// status
 				if (object != null) {
-					return object.getResult().getLiteral();
+					return SimpleSeverity.create(object.getResult()).name();
 				}
 				return "";
 			case 2:// time

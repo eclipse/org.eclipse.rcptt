@@ -128,6 +128,40 @@ public class ProcessStatusConverter implements
 		return rv;
 	}
 
+	public static ProcessStatus toProcessStatus(IStatus status) {
+		try {
+			if (status == null)
+				return null;
+			return (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(status);
+		} catch (CoreException e) {
+			try {
+				return (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(e.getStatus());
+			} catch (CoreException e1) {
+				CorePlugin.log(e1.getStatus());
+				ProcessStatus ps = CoreFactory.eINSTANCE.createProcessStatus();
+				ps.setSeverity(IStatus.ERROR);
+				ps.setMessage("Failed to convert result status " + status.getClass().getName() + ". See AUT's log");
+				ps.setPluginId(CorePlugin.PLUGIN_ID);
+				return ps;
+			}
+		} catch (ClassCastException e) {
+			return toProcessStatus(CorePlugin.err(e));
+		}
+	}
+
+	public static IStatus toIStatus(ProcessStatus status) {
+		try {
+			return (IStatus) EMFConverterManager.INSTANCE.fromEObject(status);
+		} catch (CoreException e) {
+			try {
+				return (IStatus) EMFConverterManager.INSTANCE.toEObject(e.getStatus());
+			} catch (CoreException e1) {
+				CorePlugin.log(e1.getStatus());
+				return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, "Failed to convert result status. See IDE's log");
+			}
+		}
+	}
+
 	public static void toEObject(IStatus status, ProcessStatus ps) throws CoreException {
 		ps.setCode(status.getCode());
 		ps.setMessage(status.getMessage());

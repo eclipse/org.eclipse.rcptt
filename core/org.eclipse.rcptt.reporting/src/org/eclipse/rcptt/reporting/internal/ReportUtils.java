@@ -27,9 +27,9 @@ import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
@@ -73,19 +73,18 @@ public class ReportUtils {
 
 			Q7Info q7info = (Q7Info) localRoot.getProperties().get(
 					IQ7ReportConstants.ROOT);
-			switch (q7info.getResult()) {
-			case FAIL:
-			case WARN:
-				failed++;
-				break;
-			case PASS:
-				passed++;
-				break;
-			case SKIPPED:
+			SimpleSeverity severity = SimpleSeverity.create(q7info);
+			switch (severity) {
+			case CANCEL:
 				skipped++;
 				break;
+			case ERROR:
+				failed++;
+				break;
+			case OK:
+				passed++;
+				break;
 			}
-
 			startTime = Math.min(startTime, localRoot.getStartTime());
 			endTime = Math.max(endTime, localRoot.getEndTime());
 			totalTime += (localRoot.getEndTime() - localRoot.getStartTime());
@@ -258,34 +257,10 @@ public class ReportUtils {
 			collectScreenshots(child, acc);
 		}
 	}
-
+	
 	public static String getFailMessage(Node item) {
-		StringBuilder result = new StringBuilder();
-		EList<Node> children = item.getChildren();
 		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
-		if (current != null && current.getResult().equals(ResultStatus.FAIL)) {
-			if (current.getMessage() != null) {
-				return current.getMessage();
-			}
-		}
-		for (Node node : children) {
-			String message = getFailMessage(node);
-			if (message != null && !message.isEmpty()) {
-				return message;
-			}
-		}
-		return result.toString();
-	}
-
-	public static String getSkipMessage(Node item) {
-		StringBuilder result = new StringBuilder();
-		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
-		if (current != null && current.getResult().equals(ResultStatus.SKIPPED)) {
-			if (current.getMessage() != null) {
-				result.append(current.getMessage());
-			}
-		}
-		return result.toString();
+		return current.getResult().getMessage();
 	}
 
 	public static String replaceHtmlEntities(String string) {
@@ -300,21 +275,6 @@ public class ReportUtils {
 		string = string.replace("\n", "<br />");
 		string = string.replace("\r", "<br />");
 		return string;
-	}
-
-	private static void collectFailures(Node item, StringBuilder result) {
-		Q7Info info = (Q7Info) item.getProperties()
-				.get(IQ7ReportConstants.ROOT);
-		if (info != null && info.getResult().equals(ResultStatus.FAIL)) {
-			String msg = info.getMessage();
-			if (msg != null) {
-				result.append(msg).append("\n");
-			}
-		}
-		EList<Node> children = item.getChildren();
-		for (Node node : children) {
-			collectFailures(node, result);
-		}
 	}
 
 	public static String getDetails(Node item) {

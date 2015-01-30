@@ -14,6 +14,7 @@ Export-Package: org.eclipse.rcptt.reporting,
  org.eclipse.rcptt.reporting.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
  org.eclipse.rcptt.watson.core;bundle-version="[1.5.5,1.6.0)",
  org.eclipse.emf.ecore.xmi,
  org.eclipse.rcptt.tesla.core;bundle-version="[1.5.5,1.6.0)",

@@ -36,6 +36,9 @@ import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ecl.core.CoreFactory;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.AutStatusConstants;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
@@ -44,7 +47,6 @@ import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
@@ -168,15 +170,15 @@ public class TestSuiteUtils {
 		}
 	}
 
-	public static Report generateFailedReport(ITestCase element, String errorMessage) {
-		return generateReport(element, ResultStatus.FAIL, errorMessage);
+	public static Report generateFailedReport(IQ7NamedElement element, String errorMessage) {
+		return generateReport(element, RcpttPlugin.createStatus(errorMessage));
 	}
 
-	public static Report generateSkippedReport(ITestCase element, String errorMessage) {
-		return generateReport(element, ResultStatus.SKIPPED, errorMessage);
+	public static Report generateSkippedReport(IQ7NamedElement iq7NamedElement, String errorMessage) {
+		return generateReport(iq7NamedElement, new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, errorMessage));
 	}
 
-	public static Report generateReport(ITestCase element, ResultStatus status, String errorMessage) {
+	public static Report generateReport(IQ7NamedElement element, IStatus status) {
 		try {
 			Report report = ReportFactory.eINSTANCE.createReport();
 			Node root = ReportFactory.eINSTANCE.createNode();
@@ -184,8 +186,7 @@ public class TestSuiteUtils {
 			report.setRoot(root);
 			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
 			q7info.setId(element.getID());
-			q7info.setMessage(errorMessage);
-			q7info.setResult(status);
+			q7info.setResult(ProcessStatusConverter.toProcessStatus(status));
 			q7info.setType(ItemKind.TESTCASE);
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getElementName());
@@ -204,8 +205,11 @@ public class TestSuiteUtils {
 			report.setRoot(root);
 			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
 			q7info.setId(element.getPath().toString());
-			q7info.setMessage(toString(e));
-			q7info.setResult(status);
+			ProcessStatus pstatus = CoreFactory.eINSTANCE.createProcessStatus();
+			pstatus.setSeverity(IStatus.ERROR);
+			pstatus.setPluginId(RcpttPlugin.PLUGIN_ID);
+			pstatus.setMessage(e.getMessage());
+			q7info.setResult(pstatus);
 			q7info.setType(ItemKind.TESTCASE);
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getPath().toString());

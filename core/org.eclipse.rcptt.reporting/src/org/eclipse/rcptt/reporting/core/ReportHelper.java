@@ -12,10 +12,13 @@ package org.eclipse.rcptt.reporting.core;
 
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.internal.core.EMFConverterManager;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
@@ -107,14 +110,17 @@ public class ReportHelper {
 		return waitInfo[0]; //Might be null at this point if no report is active
 	}
 	
-	public static void setResult(INodeBuilder node, final ResultStatus status, final String message) {
+	public static void setResult(INodeBuilder node, final IStatus status) {
 		node.update(new Procedure1<Node>() {
 			@Override
 			public void apply(Node arg) {
 				Q7Info info = getInfo(arg);
 
-				info.setResult(status);
-				info.setMessage(message);
+				try {
+					info.setResult((ProcessStatus) EMFConverterManager.INSTANCE.toEObject(status));
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		});
 	}

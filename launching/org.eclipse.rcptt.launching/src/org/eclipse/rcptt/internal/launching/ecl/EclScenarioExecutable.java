@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.core.internal.ecl.core.Utils;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.internal.launching.ScenarioExecutable;
@@ -28,7 +29,6 @@ import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 
@@ -56,7 +56,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 		{
 			Q7Info info = ReportHelper.createInfo();
 			info.setType(ItemKind.SCRIPT);
-			info.setResult(ResultStatus.PASS);
+			info.setResult(Utils.createStatus(IStatus.ERROR, "ECL script execution status is unknown."));
 			info.setTags(scenario.getTags());
 			info.setId(scenario.getId());
 			if (getVariantName() != null) {

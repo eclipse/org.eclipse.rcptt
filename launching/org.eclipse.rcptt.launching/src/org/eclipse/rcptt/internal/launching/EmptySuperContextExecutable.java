@@ -17,12 +17,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.core.internal.ecl.core.Utils;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 
@@ -37,9 +37,8 @@ public class EmptySuperContextExecutable extends ContextExecutable {
 		Map<String, EObject> props = new HashMap<String, EObject>();
 
 		Q7Info info = ReportHelper.createInfo();
-		info.setResult(ResultStatus.FAIL);
+		info.setResult(Utils.createStatus(IStatus.ERROR, "Super Context contains no elements"));
 		info.setType(ItemKind.CONTEXT);
-		info.setMessage("Super Context contains no elements");
 		props.put(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);

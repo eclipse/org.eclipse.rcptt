@@ -16,6 +16,7 @@ import static com.google.common.collect.Iterables.transform;
 import static java.util.Arrays.asList;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -31,8 +32,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.ui.actions.AbstractRunAction;
 import org.eclipse.rcptt.ui.actions.AbstractRunFailedAction;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
@@ -49,6 +50,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 
@@ -60,18 +62,16 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		public Image getColumnImage(Object element, int columnIndex) {
 			ReportEntry entry = (ReportEntry) element;
 			if (columnIndex == 0) {
-				if (entry.status.equals(ResultStatus.FAIL.getLiteral())) {
-					return Images.getImage(Images.SCENARIO_FAIL);
-				}
-				if (entry.status.equals(ResultStatus.PASS.getLiteral())) {
+				if (entry.status.getSeverity() == IStatus.OK) {
 					return Images.getImage(Images.SCENARIO_PASS);
-				}
-				if (entry.status.equals(ResultStatus.SKIPPED.getLiteral())) {
+				} else if ((entry.status.getSeverity() & IStatus.CANCEL) != 0) {
 					return Images.getImage(Images.SCENARIO);
+				} else {
+					return Images.getImage(Images.SCENARIO_FAIL);
 				}
 			}
 			if (columnIndex == 3) {
-				if (entry.warning) {
+				if ((entry.status.getSeverity() & IStatus.WARNING) != 0) {
 					return PlatformUI.getWorkbench().getSharedImages()
 							.getImage(ISharedImages.IMG_OBJS_WARN_TSK);
 				}
@@ -86,7 +86,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 			case 0:// name
 				return entry.name;
 			case 1:// status
-				return entry.status.getLiteral();
+				return SimpleSeverity.create(entry.status).name();
 			case 2:// time
 				return TimeFormatHelper.format(entry.time);
 				// case 3:// location
@@ -103,10 +103,10 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		}
 	};
 
-	private final static Function<ReportEntry, ResultStatus> reportToStatus = new Function<ReportEntry, ResultStatus>() {
+	private final static Function<ReportEntry, Integer> reportToStatus = new Function<ReportEntry, Integer>() {
 		@Override
-		public ResultStatus apply(ReportEntry input) {
-			return input.status;
+		public Integer apply(ReportEntry input) {
+			return input.status.getSeverity();
 		}
 	};
 
@@ -137,6 +137,17 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		}
 
 	};
+
+	Predicate<Integer> matches(final int mask) {
+		return new Predicate<Integer>() {
+
+			@Override
+			public boolean apply(Integer input) {
+				return (input & mask) != 0;
+			}
+		};
+
+	}
 	private final BaseSelectionListenerAction runFailedAction = new AbstractRunFailedAction() {
 
 		@Override
@@ -144,7 +155,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 			Object[] data = ((IStructuredContentProvider) viewer.getContentProvider()).getElements(viewer.getInput());
 			final Iterable<ReportEntry> reports = filter(
 					filter(asList(data), ReportEntry.class),
-					Predicates.and(notNull(), Predicates.compose(Predicates.equalTo(ResultStatus.FAIL), reportToStatus)));
+					Predicates.and(notNull(), Predicates.compose(matches(IStatus.ERROR), reportToStatus)));
 			final Iterable<String> ids = filter(transform(reports, toId), notNull());
 			final Iterable<IQ7NamedElement> elements = filter(transform(ids, elementById), notNull());
 			final Iterable<IResource> resources = transform(elements, resourceFromElement);
@@ -224,7 +235,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 						.getSelection();
 				ReportEntry element = (ReportEntry) selection.getFirstElement();
 				if (element != null) {
-					doSelection(element.id, element.name, element.message);
+					doSelection(element.id, element.name, element.getMessage());
 				}
 			}
 		});

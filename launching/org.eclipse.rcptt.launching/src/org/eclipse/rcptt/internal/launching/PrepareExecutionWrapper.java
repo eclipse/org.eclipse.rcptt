@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,25 +37,24 @@ import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
-import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.Q7LaunchUtils;
+import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.parameters.ParametersFactory;
 import org.eclipse.rcptt.parameters.ResetParams;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
-import org.eclipse.rcptt.verifications.runtime.VerificationReporter;
-import org.eclipse.rcptt.verifications.runtime.VerificationStatus;
 
 public class PrepareExecutionWrapper extends Executable {
 
@@ -127,31 +124,36 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.execute(); 
 	}
 
-	private Report getReport() throws CoreException, InterruptedException {
-		GetReport getReport = Q7CoreFactory.eINSTANCE.createGetReport();
-		Object object = launch.execute(getReport);
+	private Report getReport() throws InterruptedException {
 		Report resultReport = null;
-		if (object instanceof Report) {
-			resultReport = (Report) object;
-		} else if (object instanceof ReportContainer) {
-			ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(
-					((ReportContainer) object).getContent()));
-			try {
-				// position the stream at the beginning of the entry data
-				zin.getNextEntry();
-				Resource res = new ECLBinaryResourceImpl();
-				res.load(zin, null);
-				EObject object2 = res.getContents().get(0);
-				if (object2 instanceof Report) {
-					resultReport = (Report) object2;
-				} else {
-					throw invalidObjectStatus(object2);
+		try {
+			GetReport getReport = Q7CoreFactory.eINSTANCE.createGetReport();
+			Object object = launch.execute(getReport);
+			if (object instanceof Report) {
+				resultReport = (Report) object;
+			} else if (object instanceof ReportContainer) {
+				ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(
+						((ReportContainer) object).getContent()));
+				try {
+					// position the stream at the beginning of the entry data
+					zin.getNextEntry();
+					Resource res = new ECLBinaryResourceImpl();
+					res.load(zin, null);
+					EObject object2 = res.getContents().get(0);
+					if (object2 instanceof Report) {
+						resultReport = (Report) object2;
+					} else {
+						throw invalidObjectStatus(object2);
+					}
+				} catch (Exception e) {
+					throw new CoreException(Q7LaunchingPlugin.createStatus(e.getMessage(), e));
 				}
-			} catch (Exception e) {
-				throw new CoreException(Q7LaunchingPlugin.createStatus(e.getMessage(), e));
+			} else {
+				throw invalidObjectStatus(object);
 			}
-		} else {
-			throw invalidObjectStatus(object);
+		} catch (CoreException e) {
+			IQ7NamedElement element = executable.getActualElement();
+			resultReport = TestSuiteUtils.generateReport(element, e.getStatus());
 		}
 		if (resultReport != null) {
 			Q7Info info = ReportHelper.getInfoOnly(resultReport.getRoot());
@@ -249,18 +251,20 @@ public class PrepareExecutionWrapper extends Executable {
 
 	@Override
 	public IStatus postExecute(IStatus status) {
+		IQ7NamedElement element = executable.getActualElement();
 		// Take report
+		// TODO: remove dummy report, introduce AUT's log acquisition
+		Report resultReport = TestSuiteUtils.generateFailedReport(element,
+				"Failed to get report. Check IDE's error log.");
 		try {
-			Report resultReport = getReport();
+			resultReport = getReport();
 
 			Node root = resultReport.getRoot();
 			closeAllNodes(root.getStartTime() + getTime(), root);
 
 			Q7Info rootInfo = ReportHelper.getInfo(root);
-			if (status.isOK()) {
-				rootInfo.setResult(ResultStatus.PASS);
-			} else {
-				rootInfo.setResult(ResultStatus.FAIL);
+			if (!status.isOK()) {
+				rootInfo.setResult(ProcessStatusConverter.toProcessStatus(status));
 			}
 
 			for (IExecutable ch : getChildren()) {
@@ -270,35 +274,20 @@ public class PrepareExecutionWrapper extends Executable {
 				}
 			}
 
-			if (!status.isOK() && isNullOrEmpty(rootInfo.getMessage())) {
-				if (status instanceof ExecutionStatus) {
-					IStatus cause = ((ExecutionStatus) status).getCause(true);
-					if (cause == null && status.getSeverity() == IStatus.CANCEL) {
-						rootInfo.setMessage(status.getMessage());
-					} else if (cause instanceof VerificationStatus) {
-						VerificationStatus verStatus = (VerificationStatus) cause;
-						String msg = VerificationReporter.getStyledMessage(verStatus).getMessage();
-						rootInfo.setMessage(msg);
-					} else if (cause instanceof ScriptErrorStatus) {
-						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) status).print());
-					} else {
-						rootInfo.setMessage(status.getMessage());
-					}
-				} else {
-					rootInfo.setMessage(status.getMessage());
-				}
-			}
-
+			status = super.postExecute(status);
+			return status;
+		} catch (InterruptedException e) {
+			resultReport = TestSuiteUtils.generateReport(element,
+					RcpttPlugin.createStatus("Interrupted during report acquisition", e));
+			return Status.CANCEL_STATUS;
+		} catch (Throwable e) {
+			IStatus rv = RcpttPlugin.createStatus(e);
+			resultReport = TestSuiteUtils.generateReport(element, rv);
+			return rv;
+		} finally {
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}
-			status = super.postExecute(status);
-			return status;
-		} catch (CoreException e) {
-			return e.getStatus();
-		} catch (InterruptedException e) {
-			return Status.CANCEL_STATUS;
-		} finally {
 			listeners.updateSessionCounters(this, status);
 		}
 	}

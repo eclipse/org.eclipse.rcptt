@@ -53,25 +53,19 @@ public class Process implements IProcess {
 		return status;
 	}
 
-	public synchronized IStatus waitFor(long timeout, IProgressMonitor monitor) {
+	public synchronized IStatus waitFor(long timeout, IProgressMonitor monitor) throws InterruptedException {
 		long start = System.currentTimeMillis();
 		while (status == null) {
 			long cur = System.currentTimeMillis();
 			if (timeout != 0 && (cur - start) > timeout) {
-				status = new Status(IStatus.CANCEL, CorePlugin.PLUGIN_ID,
+				return status = new Status(IStatus.CANCEL, CorePlugin.PLUGIN_ID,
 						"Execution is canceled by timeout: " + timeout, null);
-				break;
 			}
 			if (monitor.isCanceled()) {
-				status = new Status(IStatus.CANCEL, CorePlugin.PLUGIN_ID,
+				return status = new Status(IStatus.CANCEL, CorePlugin.PLUGIN_ID,
 						"Execution is canceled.", null);
-				break;
 			}
-			try {
-				wait(100);
-			} catch (InterruptedException e) {
-				break;
-			}
+			wait(100);
 		}
 		return status;
 	}
