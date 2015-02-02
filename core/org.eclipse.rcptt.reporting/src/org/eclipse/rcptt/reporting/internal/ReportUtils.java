@@ -28,7 +28,6 @@ import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
@@ -44,7 +43,7 @@ import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
 
 public class ReportUtils {
 
-	public static Q7Statistics calculateStatistics(Q7ReportIterator iterator) {
+	public static Q7Statistics calculateStatistics(Iterable<Report> iterator) {
 		return calculateStatistics(iterator.iterator());
 	}
 
@@ -63,7 +62,7 @@ public class ReportUtils {
 		while (iterator.hasNext()) {
 			Report report = iterator.next();
 			if (report == null) {
-				return null;
+				continue;
 			}
 			total += 1;
 			Node localRoot = report.getRoot();
@@ -105,14 +104,14 @@ public class ReportUtils {
 	 * @param session
 	 * @return
 	 */
-	public static Report combineReports(Q7ReportIterator iterator, int len,
+	public static Report combineReports(Iterable<Report> reports, int len,
 			IProgressMonitor monitor) {
 
 		monitor.beginTask("Combine Q7 testcase reports", len * 10);
 		Report report = ReportFactory.eINSTANCE.createReport();
 		Node rootNode = ReportFactory.eINSTANCE.createNode();
 		report.setRoot(rootNode);
-		iterator.reset();
+		Iterator<Report> iterator = reports.iterator();
 		while (iterator.hasNext()) {
 			Report copy = iterator.next();
 

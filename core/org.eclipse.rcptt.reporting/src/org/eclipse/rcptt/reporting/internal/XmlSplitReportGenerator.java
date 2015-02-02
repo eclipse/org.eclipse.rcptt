@@ -14,24 +14,23 @@ import static org.eclipse.rcptt.util.FileUtil.escapeFileName;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.reporting.core.IReportRenderer;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class XmlSplitReportGenerator implements IReportRenderer {
 
 	public IStatus generateReport(IContentFactory factory, String reportName,
-			Q7ReportIterator report) {
+			Iterable<Report> reports) {
 		try {
 			factory.removeFileOrFolder(reportName);
 			factory = factory.createFolder(reportName);
-			report.reset();
+			Iterator<Report> report = reports.iterator();
 			while (report.hasNext()) {
 				Report test = report.next();
 				writeContents(factory.createFileStream(getFileName(test.getRoot()

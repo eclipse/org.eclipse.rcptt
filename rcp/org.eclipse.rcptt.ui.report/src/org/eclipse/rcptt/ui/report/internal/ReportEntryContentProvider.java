@@ -12,19 +12,18 @@ package org.eclipse.rcptt.ui.report.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
@@ -52,17 +51,17 @@ class ReportEntryContentProvider implements
 	}
 
 	private class UpdateJob extends Job {
-		private final Q7ReportIterator iterator;
+		private final Iterable<Report> reports;
 
 		@Override
 		public boolean belongsTo(Object family) {
 			return ReportEntryContentProvider.this == family;
 		}
 
-		public UpdateJob(Q7ReportIterator iterator) {
+		public UpdateJob(Iterable<Report> reports) {
 			super("Building test list for report");
-			Preconditions.checkNotNull(iterator);
-			this.iterator = iterator;
+			this.reports = reports;
+			Preconditions.checkNotNull(reports);
 		}
 
 		@Override
@@ -70,32 +69,29 @@ class ReportEntryContentProvider implements
 			final List<ReportEntry> entries = new ArrayList<ReportEntry>();
 			if (monitor.isCanceled())
 				return Status.CANCEL_STATUS;
-			synchronized (iterator) {
+			synchronized (reports) {
 				if (monitor.isCanceled())
 					return Status.CANCEL_STATUS;
-				iterator.reset();
+				Iterator<Report> iterator = reports.iterator();
 				int failCount = 0;
-				while (this.iterator.hasNext()) {
+				while (iterator.hasNext()) {
 					if (monitor.isCanceled())
 						return Status.CANCEL_STATUS;
-					Report next = this.iterator.next();
+					Report next = iterator.next();
 					if (next == null) {
 						break;
 					}
 					Node root = next.getRoot();
-					EMap<String, EObject> properties = root.getProperties();
-					Q7Info info = (Q7Info) properties.get(IQ7ReportConstants.ROOT);
-
-					if (info != null) {
-						String message = "Too many errors";					
-						if (info.getResult().getSeverity() != 0) {
-							failCount++;
-							if (failCount < 100) {
-								message = new SimpleReportGenerator().generateContent(next);
-							}
+					Q7Info info = ReportHelper.getInfo(root);
+					String message = "Too many errors";
+					if (info.getResult().getSeverity() != 0) {
+						failCount++;
+						if (failCount < 100) {
+							message = new SimpleReportGenerator().generateContent(next);
 						}
-						entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root.getStartTime()), info.getResult(), message));
 					}
+					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root
+							.getStartTime()), info.getResult(), message));
 				}
 			}
 			ReportEntryContentProvider.this.entries = entries;

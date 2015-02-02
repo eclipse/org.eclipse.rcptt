@@ -21,7 +21,9 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
@@ -53,9 +55,14 @@ public class SimpleReportGenerator {
 						- infoNode.getStartTime()));
 		stream.append(" {").append(LINE_SEPARATOR);
 
+		Q7Info info = ReportHelper.getInfoOnly(infoNode);
+		printInfo(info, stream, tabs);
+
 		EMap<String, EObject> list = infoNode.getProperties();
 		for (String key : list.keySet()) {
 			EObject value = list.get(key);
+			if (IQ7ReportConstants.ROOT.equals(key))
+				continue;
 			if (value instanceof Q7WaitInfoRoot) {
 				if (includeWaitDetails) {
 					printWaitInfo(stream, tabs, key, (Q7WaitInfoRoot) value);
@@ -68,9 +75,8 @@ public class SimpleReportGenerator {
 				}
 			}
 		}
-		for (Node child : infoNode.getChildren()) {
-			printNode(child, stream, tabs + 2, includeWaitDetails);
-		}
+		
+		printChildren(infoNode.getChildren(), stream, tabs, includeWaitDetails);
 
 		if (!includeWaitDetails) {
 			for (Snaphot child : infoNode.getSnapshots()) {
@@ -80,6 +86,15 @@ public class SimpleReportGenerator {
 		appendTabs(stream, tabs).append("}").append(LINE_SEPARATOR);
 	}
 
+	protected void printChildren(List<Node> children, StringBuilder stream, int tabs, boolean includeWaitDetails) {
+		for (Node child : children) {
+			printNode(child, stream, tabs + 2, includeWaitDetails);
+		}
+	}
+
+	public void printInfo(Q7Info info, StringBuilder stream, int tabs) {
+
+	}
 	public void printWaitInfo(StringBuilder stream, int tabs, String key, Q7WaitInfoRoot value) {
 		Q7WaitInfoRoot info = (Q7WaitInfoRoot) value;
 		List<Q7WaitInfo> infos = new ArrayList<Q7WaitInfo>(info.getInfos());

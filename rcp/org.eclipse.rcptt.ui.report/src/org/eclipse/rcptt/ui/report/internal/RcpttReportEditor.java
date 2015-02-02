@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Iterator;
 
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.CoreException;
@@ -170,10 +171,10 @@ public class RcpttReportEditor extends FormEditor {
 						throws InvocationTargetException, InterruptedException {
 					monitor.beginTask("Opening report...",
 							IProgressMonitor.UNKNOWN);
-					reportList.reset();
-					while (reportList.hasNext()) {
+					Iterator<Report> iterator = reportList.iterator();
+					while (iterator.hasNext()) {
 						monitor.worked(1);
-						final Report next = reportList.next();
+						final Report next = iterator.next();
 						Node root = next.getRoot();
 						EMap<String, EObject> properties = root.getProperties();
 						final Q7Info info = (Q7Info) properties

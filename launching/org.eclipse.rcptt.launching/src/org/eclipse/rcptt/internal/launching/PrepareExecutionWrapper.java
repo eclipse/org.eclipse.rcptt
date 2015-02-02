@@ -263,9 +263,7 @@ public class PrepareExecutionWrapper extends Executable {
 			closeAllNodes(root.getStartTime() + getTime(), root);
 
 			Q7Info rootInfo = ReportHelper.getInfo(root);
-			if (!status.isOK()) {
-				rootInfo.setResult(ProcessStatusConverter.toProcessStatus(status));
-			}
+			rootInfo.setResult(ProcessStatusConverter.toProcessStatus(status));
 
 			for (IExecutable ch : getChildren()) {
 				if (ch instanceof ScenarioExecutable) {

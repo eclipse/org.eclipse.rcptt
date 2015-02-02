@@ -1,11 +1,8 @@
 package org.eclipse.rcptt.core.internal.ecl.core;
 
-import static org.eclipse.rcptt.core.internal.ecl.core.Activator.PLUGIN_ID;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -35,11 +32,7 @@ public class Utils {
 	}
 
 	public static ProcessStatus createStatus(int severity, String message) {
-		ProcessStatus status = CoreFactory.eINSTANCE.createProcessStatus();
-		status.setSeverity(severity);
-		status.setPluginId(PLUGIN_ID);
-		status.setMessage(message);
-		return status;
+		return RcpttPlugin.createProcessStatus(severity, message);
 	}
 
 }

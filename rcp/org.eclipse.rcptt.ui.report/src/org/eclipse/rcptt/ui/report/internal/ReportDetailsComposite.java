@@ -60,7 +60,11 @@ public class ReportDetailsComposite extends AbstractEmbeddedComposite {
 	}
 
 	public void update(List<Node> nodes2) {
-		SimpleReportGenerator generator = new SimpleReportGenerator();
+		SimpleReportGenerator generator = new SimpleReportGenerator() {
+			@Override
+			protected void printChildren(List<Node> children, StringBuilder stream, int tabs, boolean includeWaitDetails) {
+			}
+		};
 		StringBuilder b = new StringBuilder();
 		for (Node node : nodes2) {
 			generator.printNode(node, b, 0, false);
