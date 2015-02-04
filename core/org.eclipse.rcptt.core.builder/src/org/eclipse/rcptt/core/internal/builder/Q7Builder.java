@@ -76,6 +76,7 @@ public class Q7Builder extends IncrementalProjectBuilder {
 	class Q7DeltaVisitor implements IResourceDeltaVisitor {
 		private List<IQ7NamedElement> elements;
 		private List<IPath> removed = new ArrayList<IPath>();
+		private Set<IPath> changedResources = new HashSet<IPath>();
 
 		public Q7DeltaVisitor(List<IQ7NamedElement> elements) {
 			this.elements = elements;
@@ -83,6 +84,15 @@ public class Q7Builder extends IncrementalProjectBuilder {
 
 		public List<IPath> getRemoved() {
 			return removed;
+		}
+
+		/**
+		 * Get changed resource files from provided delta. Required to find contexts linked with resource
+		 * 
+		 * @return
+		 */
+		public Set<IPath> getChangedResources() {
+			return changedResources;
 		}
 
 		public boolean visit(IResourceDelta delta) throws CoreException {
@@ -101,6 +111,13 @@ public class Q7Builder extends IncrementalProjectBuilder {
 				addResource(resource, elements);
 				break;
 			}
+
+			// search for direct modifications of resources
+			IResourceDelta[] affectedChildren = delta.getAffectedChildren();
+			if (affectedChildren.length == 0) {
+				changedResources.add(resource.getFullPath());
+			}
+
 			// return true to continue visiting children.
 			return true;
 		}
@@ -300,9 +317,10 @@ public class Q7Builder extends IncrementalProjectBuilder {
 		Q7DeltaVisitor visitor = new Q7DeltaVisitor(elements);
 		delta.accept(visitor);
 		List<IPath> removed = visitor.getRemoved();
+		Set<IPath> changedResources = visitor.getChangedResources();
 		@SuppressWarnings("unused")
 		long start = System.currentTimeMillis();
-		elements = calculateExtraDependencies(elements, removed,
+		elements = calculateExtraDependencies(elements, removed, changedResources,
 				new SubProgressMonitor(monitor, 10));
 		// System.out.println("Calculate extra deps:"
 		// + Long.toString(System.currentTimeMillis() - start));
@@ -438,7 +456,7 @@ public class Q7Builder extends IncrementalProjectBuilder {
 	}
 
 	private List<IQ7NamedElement> calculateExtraDependencies(
-			List<IQ7NamedElement> elements, List<IPath> removed,
+			List<IQ7NamedElement> elements, List<IPath> removed, Set<IPath> changedResources,
 			IProgressMonitor monitor) throws CoreException {
 		Set<IQ7NamedElement> result = new HashSet<IQ7NamedElement>();
 		result.addAll(elements);
@@ -515,14 +533,15 @@ public class Q7Builder extends IncrementalProjectBuilder {
 			}
 		}
 
-		// simply rebuild all contexts with links each time
-		// TODO: Add more complex checks here, based on real set of modified
-		// resources.
-		IContext[] contexts = Q7SearchCore.findContextsWithLinks(
-				new BackReferencesProjectScope(getQ7Project()), monitor);
-		for (IContext c : contexts) {
-			result.add(c);
+		// search for contexts linked with changed resources
+		if (changedResources != null && changedResources.size() > 0) {
+			IContext[] contexts = Q7SearchCore.findContextsWithLinks(
+					new BackReferencesProjectScope(getQ7Project()), changedResources, monitor);
+			for (IContext c : contexts) {
+				result.add(c);
+			}
 		}
+
 
 		// TODO: Add check for contexts with unresolved dependencies.
 		monitor.done();
