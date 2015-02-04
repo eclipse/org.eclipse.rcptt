@@ -35,6 +35,7 @@ import org.eclipse.rcptt.core.ecl.core.model.SetCommandsDelay;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
@@ -44,6 +45,7 @@ import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.Q7LaunchUtils;
+import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.parameters.ParametersFactory;
 import org.eclipse.rcptt.parameters.ResetParams;
 import org.eclipse.rcptt.reporting.ItemKind;
@@ -51,6 +53,7 @@ import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
@@ -123,8 +126,8 @@ public class PrepareExecutionWrapper extends Executable {
 			createReport();
 		} catch (CoreException e) {
 			return e.getStatus();
-		}		
-		return executable.execute(); 
+		}
+		return executable.execute();
 	}
 
 	private Report getReport() throws CoreException, InterruptedException {
@@ -250,57 +253,70 @@ public class PrepareExecutionWrapper extends Executable {
 	@Override
 	public IStatus postExecute(IStatus status) {
 		// Take report
+		Report resultReport = null;
 		try {
-			Report resultReport = getReport();
+			resultReport = getReport();
+		} catch (CoreException e) {
+			status = e.getStatus();
+		} catch (InterruptedException e) {
+			status = Status.CANCEL_STATUS;
+		}
 
-			Node root = resultReport.getRoot();
-			closeAllNodes(root.getStartTime() + getTime(), root);
+		if (resultReport == null) {
+			resultReport = generateFailedReport(status);
+		}
 
-			Q7Info rootInfo = ReportHelper.getInfo(root);
-			if (status.isOK()) {
-				rootInfo.setResult(ResultStatus.PASS);
-			} else {
-				rootInfo.setResult(ResultStatus.FAIL);
+		Node root = resultReport.getRoot();
+		closeAllNodes(root.getStartTime() + getTime(), root);
+
+		Q7Info rootInfo = ReportHelper.getInfo(root);
+		if (status.isOK()) {
+			rootInfo.setResult(ResultStatus.PASS);
+		} else {
+			rootInfo.setResult(ResultStatus.FAIL);
+		}
+
+		for (IExecutable ch : getChildren()) {
+			if (ch instanceof ScenarioExecutable) {
+				rootInfo.setId(ch.getId());
+				break;
 			}
+		}
 
-			for (IExecutable ch : getChildren()) {
-				if (ch instanceof ScenarioExecutable) {
-					rootInfo.setId(ch.getId());
-					break;
-				}
-			}
-
-			if (!status.isOK() && isNullOrEmpty(rootInfo.getMessage())) {
-				if (status instanceof ExecutionStatus) {
-					IStatus cause = ((ExecutionStatus) status).getCause(true);
-					if (cause == null && status.getSeverity() == IStatus.CANCEL) {
-						rootInfo.setMessage(status.getMessage());
-					} else if (cause instanceof VerificationStatus) {
-						VerificationStatus verStatus = (VerificationStatus) cause;
-						String msg = VerificationReporter.getStyledMessage(verStatus).getMessage();
-						rootInfo.setMessage(msg);
-					} else if (cause instanceof ScriptErrorStatus) {
-						rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) status).print());
-					} else {
-						rootInfo.setMessage(status.getMessage());
-					}
+		if (!status.isOK() && isNullOrEmpty(rootInfo.getMessage())) {
+			if (status instanceof ExecutionStatus) {
+				IStatus cause = ((ExecutionStatus) status).getCause(true);
+				if (cause == null && status.getSeverity() == IStatus.CANCEL) {
+					rootInfo.setMessage(status.getMessage());
+				} else if (cause instanceof VerificationStatus) {
+					VerificationStatus verStatus = (VerificationStatus) cause;
+					String msg = VerificationReporter.getStyledMessage(verStatus).getMessage();
+					rootInfo.setMessage(msg);
+				} else if (cause instanceof ScriptErrorStatus) {
+					rootInfo.setMessage(EclStackTrace.fromExecStatus((ExecutionStatus) status).print());
 				} else {
 					rootInfo.setMessage(status.getMessage());
 				}
+			} else {
+				rootInfo.setMessage(status.getMessage());
 			}
-
-			if (this.reportSession != null) {
-				resultReportID = this.reportSession.write(resultReport);
-			}
-			status = super.postExecute(status);
-			return status;
-		} catch (CoreException e) {
-			return e.getStatus();
-		} catch (InterruptedException e) {
-			return Status.CANCEL_STATUS;
-		} finally {
-			listeners.updateSessionCounters(this, status);
 		}
+
+		if (this.reportSession != null) {
+			resultReportID = this.reportSession.write(resultReport);
+		}
+		status = super.postExecute(status);
+		listeners.updateSessionCounters(this, status);
+		return status;
+	}
+
+	private Report generateFailedReport(IStatus status) {
+		String reason = "AUT is terminated";
+		Report report = TestSuiteUtils.generateFailedReport((ITestCase) getActualElement(), reason);
+		Node root = report.getRoot();
+		root.setEndTime(root.getStartTime() + getTime());
+		ReportHelper.appendLog(root, LoggingCategory.NORMAL, testListener.getLog());
+		return report;
 	}
 
 	public void setReportSession(SherlockReportSession reportSession) {
