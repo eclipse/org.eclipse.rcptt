@@ -12,11 +12,10 @@ package org.eclipse.rcptt.reporting.core;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
-import org.eclipse.rcptt.ecl.internal.core.EMFConverterManager;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
@@ -45,7 +44,7 @@ public class ReportHelper {
 
 	public static void setInfo(INodeBuilder node, Q7Info info) {
 		assert info.getType() != null;
-		assert info.getResult() != null;
+		assert info.getResult() == null;
 		node.setProperty(IQ7ReportConstants.ROOT, info);
 	}
 	
@@ -111,16 +110,21 @@ public class ReportHelper {
 	}
 	
 	public static void setResult(INodeBuilder node, final IStatus status) {
+		setResult(node, ProcessStatusConverter.toProcessStatus(status));
+	}
+
+	public static void setResult(INodeBuilder node, final ProcessStatus status) {
+		if (status == null)
+			throw new NullPointerException("Status can't be null");
+		if (node == null)
+			throw new NullPointerException("Node can't be null");
 		node.update(new Procedure1<Node>() {
 			@Override
 			public void apply(Node arg) {
 				Q7Info info = getInfo(arg);
-
-				try {
-					info.setResult((ProcessStatus) EMFConverterManager.INSTANCE.toEObject(status));
-				} catch (CoreException e) {
-					throw new RuntimeException(e);
-				}
+				if (info.getResult() != null)
+					throw new IllegalStateException("Result is already set");
+				info.setResult(status);
 			}
 		});
 	}

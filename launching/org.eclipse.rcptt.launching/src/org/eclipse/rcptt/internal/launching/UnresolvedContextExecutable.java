@@ -17,8 +17,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.core.internal.ecl.core.Utils;
 import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.reporting.ItemKind;
@@ -37,12 +37,12 @@ public class UnresolvedContextExecutable extends ContextExecutable {
 		Map<String, EObject> props = new HashMap<String, EObject>();
 
 		Q7Info info = ReportHelper.createInfo();
-		info.setResult(Utils.createStatus(IStatus.ERROR, "Context is unresolved"));
 		info.setType(ItemKind.CONTEXT);
 		props.put(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);
-		ReportMaker.endReportNode(false, launch);
+		ReportMaker.endReportNode(false, launch,
+				RcpttPlugin.createProcessStatus(IStatus.ERROR, "Context is unresolved"));
 		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Context could not be resolved:" + getName());
 	}

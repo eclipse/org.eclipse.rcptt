@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.createStatus;
+
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.eclipse.core.runtime.CoreException;
@@ -31,9 +31,9 @@ import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
 import org.eclipse.rcptt.core.ecl.core.model.ResetVerifications;
 import org.eclipse.rcptt.core.ecl.core.model.SetCommandsDelay;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
-import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
@@ -46,15 +46,17 @@ import org.eclipse.rcptt.launching.Q7LaunchUtils;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.parameters.ParametersFactory;
 import org.eclipse.rcptt.parameters.ResetParams;
-import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 public class PrepareExecutionWrapper extends Executable {
 
@@ -88,7 +90,7 @@ public class PrepareExecutionWrapper extends Executable {
 		if (resultReportID != null && reportSession != null) {
 			return reportSession.getReport(resultReportID);
 		}
-		return null;
+		return TestSuiteUtils.generateReport(getActualElement(), getResultStatus());
 	}
 
 	@Override
@@ -124,8 +126,10 @@ public class PrepareExecutionWrapper extends Executable {
 		return executable.execute(); 
 	}
 
-	private Report getReport() throws InterruptedException {
+	private Report getReport() throws InterruptedException, ModelException {
 		Report resultReport = null;
+		final String id = getActualElement().getID();
+		Preconditions.checkNotNull(id);
 		try {
 			GetReport getReport = Q7CoreFactory.eINSTANCE.createGetReport();
 			Object object = launch.execute(getReport);
@@ -148,26 +152,30 @@ public class PrepareExecutionWrapper extends Executable {
 				} catch (Exception e) {
 					throw new CoreException(Q7LaunchingPlugin.createStatus(e.getMessage(), e));
 				}
+			} else if (object == null) {
+				throw invalidObjectStatus(object);
 			} else {
 				throw invalidObjectStatus(object);
+			}
+			String reportId = ReportHelper.getInfo(resultReport.getRoot()).getId();
+			if (!id.equals(reportId)) {
+				throw new CoreException(createStatus("Expected item id: " + id + ", actual report id: " + reportId));
 			}
 		} catch (CoreException e) {
 			IQ7NamedElement element = executable.getActualElement();
 			resultReport = TestSuiteUtils.generateReport(element, e.getStatus());
 		}
-		if (resultReport != null) {
-			Q7Info info = ReportHelper.getInfoOnly(resultReport.getRoot());
-			if (info != null) {
-				info.getVariant().clear();
-				info.getVariant().addAll(getVariantName());
-			}
+		Q7Info info = ReportHelper.getInfoOnly(resultReport.getRoot());
+		if (info != null) {
+			info.getVariant().clear();
+			info.getVariant().addAll(getVariantName());
 		}
 		return resultReport;
 	}
 
 	private CoreException invalidObjectStatus(Object o) {
-		return new CoreException(
-				Q7LaunchingPlugin.createStatus("Expect Report object, but found: " + o));
+		String clazz = o == null ? "null" : o.getClass().getName();
+		return new CoreException(createStatus("Expected: Report object, found: " + clazz));
 	}
 
 	private void resetParams() throws CoreException, InterruptedException {
@@ -193,31 +201,11 @@ public class PrepareExecutionWrapper extends Executable {
 		launch.execute(createReport);
 	}
 
-	public static Q7Info getQ7Info(Executable executable) {
+	private static Q7Info getQ7Info(Executable executable) throws ModelException {
 		IQ7NamedElement element = executable.getActualElement();
-		return getQ7Info(element);
+		return TestSuiteUtils.getQ7Info(element);
 	}
 
-	public static Q7Info getQ7Info(IQ7NamedElement element) {
-		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
-		info.setType(typeMapping.get(element.getElementType()));
-		try {
-			info.setDescription(element.getDescription());
-			info.setId(element.getID());
-			info.setTags(element.getTags());
-		} catch (ModelException e) {
-			Q7LaunchingPlugin.log("Error getting RCPTT information", e);
-		}
-		return info;
-	}
-
-	private static final Map<HandleType, ItemKind> typeMapping = new HashMap<HandleType, ItemKind>();
-	static {
-		typeMapping.put(HandleType.Context, ItemKind.CONTEXT);
-		typeMapping.put(HandleType.TestCase, ItemKind.TESTCASE);
-		typeMapping.put(HandleType.TestSuite, ItemKind.TEST_SUITE);
-		typeMapping.put(HandleType.Verification, ItemKind.VERIFICATION);
-	}
 
 	@Override
 	public Executable[] getChildren() {
@@ -244,8 +232,17 @@ public class PrepareExecutionWrapper extends Executable {
 		if (node.getEndTime() == 0) {
 			node.setEndTime(endTime);
 		}
+		Q7Info info = ReportHelper.getInfo(node);
 		for (Node child : node.getChildren()) {
 			closeAllNodes(endTime, child);
+			Q7Info childInfo = ReportHelper.getInfo(child);
+			if (childInfo.getResult() == null) {
+				ProcessStatus childStatus = RcpttPlugin.createProcessStatus(IStatus.ERROR, "" + child.getName()
+						+ " result is not set");
+				childInfo.setResult(childStatus);
+				if (SimpleSeverity.create(info) == SimpleSeverity.OK)
+					info.setResult(childStatus);
+			}
 		}
 	}
 
@@ -257,21 +254,29 @@ public class PrepareExecutionWrapper extends Executable {
 		Report resultReport = TestSuiteUtils.generateFailedReport(element,
 				"Failed to get report. Check IDE's error log.");
 		try {
-			resultReport = getReport();
-
-			Node root = resultReport.getRoot();
-			closeAllNodes(root.getStartTime() + getTime(), root);
-
-			Q7Info rootInfo = ReportHelper.getInfo(root);
-			rootInfo.setResult(ProcessStatusConverter.toProcessStatus(status));
-
-			for (IExecutable ch : getChildren()) {
-				if (ch instanceof ScenarioExecutable) {
-					rootInfo.setId(ch.getId());
-					break;
+			if (status.matches(IStatus.CANCEL)) {
+				resultReport = TestSuiteUtils.generateReport(element, status);
+			} else {
+				resultReport = getReport();
+				Node root = resultReport.getRoot();
+				Q7Info rootInfo = ReportHelper.getInfo(root);
+				assert rootInfo.getResult() == null;
+				rootInfo.setResult(ProcessStatusConverter.toProcessStatus(status));
+				closeAllNodes(root.getStartTime() + getTime(), root);
+				if (status.isOK() && SimpleSeverity.create(rootInfo) != SimpleSeverity.OK) {
+					status = ProcessStatusConverter.toIStatus(rootInfo.getResult());
 				}
-			}
 
+
+				for (IExecutable ch : getChildren()) {
+					if (ch instanceof ScenarioExecutable) {
+						rootInfo.setId(ch.getId());
+						break;
+					}
+				}
+				assert Objects.equal(rootInfo.getId(), getActualElement().getID());
+
+			}
 			status = super.postExecute(status);
 			return status;
 		} catch (InterruptedException e) {
@@ -283,6 +288,7 @@ public class PrepareExecutionWrapper extends Executable {
 			resultReport = TestSuiteUtils.generateReport(element, rv);
 			return rv;
 		} finally {
+			Preconditions.checkNotNull(resultReport);
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,9 +22,6 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
@@ -47,6 +45,10 @@ public class SimpleReportGenerator {
 		return builder.toString();
 	}
 
+	protected boolean printRawProperty(String key) {
+		return true;
+	}
+
 	public void printNode(Node infoNode, StringBuilder stream, int tabs, boolean includeWaitDetails) {
 		appendTabs(stream, tabs);
 		stream.append(infoNode.getName())
@@ -55,14 +57,11 @@ public class SimpleReportGenerator {
 						- infoNode.getStartTime()));
 		stream.append(" {").append(LINE_SEPARATOR);
 
-		Q7Info info = ReportHelper.getInfoOnly(infoNode);
-		printInfo(info, stream, tabs);
-
 		EMap<String, EObject> list = infoNode.getProperties();
 		for (String key : list.keySet()) {
-			EObject value = list.get(key);
-			if (IQ7ReportConstants.ROOT.equals(key))
+			if (!printRawProperty(key))
 				continue;
+			EObject value = list.get(key);
 			if (value instanceof Q7WaitInfoRoot) {
 				if (includeWaitDetails) {
 					printWaitInfo(stream, tabs, key, (Q7WaitInfoRoot) value);
@@ -92,9 +91,6 @@ public class SimpleReportGenerator {
 		}
 	}
 
-	public void printInfo(Q7Info info, StringBuilder stream, int tabs) {
-
-	}
 	public void printWaitInfo(StringBuilder stream, int tabs, String key, Q7WaitInfoRoot value) {
 		Q7WaitInfoRoot info = (Q7WaitInfoRoot) value;
 		List<Q7WaitInfo> infos = new ArrayList<Q7WaitInfo>(info.getInfos());
@@ -175,9 +171,13 @@ public class SimpleReportGenerator {
 		appendTabs(stream, tabs).append("%").append(LINE_SEPARATOR);
 	}
 
-	protected StringBuilder appendTabs(StringBuilder stream, int tabs) {
+	protected <T extends Appendable> T appendTabs(T stream, int tabs) {
 		for (int i = 0; i < tabs; ++i) {
-			stream.append("  ");
+			try {
+				stream.append("  ");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return stream;
 	}

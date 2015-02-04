@@ -17,6 +17,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -29,7 +30,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.IStatusHandler;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
@@ -51,6 +52,10 @@ import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 
 public class TestSuiteUtils {
 	public static String toString(Throwable e) {
@@ -178,24 +183,32 @@ public class TestSuiteUtils {
 		return generateReport(iq7NamedElement, new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, errorMessage));
 	}
 
+	private static final Map<HandleType, ItemKind> typeMapping;
+	static {
+		Builder<HandleType, ItemKind> b = ImmutableMap.builder();
+		b.put(HandleType.Context, ItemKind.CONTEXT);
+		b.put(HandleType.TestCase, ItemKind.TESTCASE);
+		b.put(HandleType.TestSuite, ItemKind.TEST_SUITE);
+		b.put(HandleType.Verification, ItemKind.VERIFICATION);
+		typeMapping = b.build();
+	}
+
+	public static ItemKind toItemKind(HandleType type) {
+		ItemKind rv = typeMapping.get(type);
+		Preconditions.checkArgument(rv != null, "Can't convert item type " + type + " to report type");
+		return rv;
+	}
+
 	public static Report generateReport(IQ7NamedElement element, IStatus status) {
 		try {
 			Report report = ReportFactory.eINSTANCE.createReport();
 			Node root = ReportFactory.eINSTANCE.createNode();
 			root.setName(element.getID());
 			report.setRoot(root);
-			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
-			q7info.setId(element.getID());
+			Q7Info q7info = getQ7Info(element);
 			q7info.setResult(ProcessStatusConverter.toProcessStatus(status));
-			q7info.setType(ItemKind.TESTCASE);
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getElementName());
-			Q7Info scenario = EcoreUtil.copy(q7info);
-			scenario.setType(ItemKind.SCRIPT);
-			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
-			scenarioNode.setName(root.getName());
-			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
-			root.getChildren().add(scenarioNode);
 			return report;
 		} catch(ModelException e) {
 			Q7LaunchingPlugin.log(e);
@@ -208,17 +221,11 @@ public class TestSuiteUtils {
 			ProcessStatus pstatus = CoreFactory.eINSTANCE.createProcessStatus();
 			pstatus.setSeverity(IStatus.ERROR);
 			pstatus.setPluginId(RcpttPlugin.PLUGIN_ID);
-			pstatus.setMessage(e.getMessage());
+			pstatus.setMessage("Failed to generate simple report: " + e.getMessage());
 			q7info.setResult(pstatus);
 			q7info.setType(ItemKind.TESTCASE);
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getPath().toString());
-			Q7Info scenario = EcoreUtil.copy(q7info);
-			scenario.setType(ItemKind.SCRIPT);
-			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
-			scenarioNode.setName(root.getName());
-			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
-			root.getChildren().add(scenarioNode);
 			return report;
 		}
 
@@ -233,5 +240,15 @@ public class TestSuiteUtils {
 			return (AutLaunch) handler.handleStatus(status, null);
 		else
 			return null;
+	}
+
+	public static Q7Info getQ7Info(IQ7NamedElement element) throws ModelException {
+		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+		info.setType(toItemKind(element.getElementType()));
+		Preconditions.checkNotNull(info.getType());
+		info.setDescription(element.getDescription());
+		info.setId(element.getID());
+		info.setTags(element.getTags());
+		return info;
 	}
 }

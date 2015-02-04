@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getSnaphots <em>Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#isTakeSnaphots <em>Take Snaphots</em>}</li>
- *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getProperties <em>Properties</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getResult <em>Result</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,20 +79,29 @@ public interface EndReportNode extends Command {
 	void setTakeSnaphots(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Properties</b></em>' map.
-	 * The key is of type {@link java.lang.String},
-	 * and the value is of type {@link org.eclipse.emf.ecore.EObject},
+	 * Returns the value of the '<em><b>Result</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Properties</em>' map isn't clear,
+	 * If the meaning of the '<em>Result</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Properties</em>' map.
-	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getEndReportNode_Properties()
-	 * @model mapType="org.eclipse.rcptt.sherlock.core.model.sherlock.report.PropertyMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EObject>"
+	 * @return the value of the '<em>Result</em>' containment reference.
+	 * @see #setResult(ProcessStatus)
+	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getEndReportNode_Result()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EMap<String, EObject> getProperties();
+	ProcessStatus getResult();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getResult <em>Result</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Result</em>' containment reference.
+	 * @see #getResult()
+	 * @generated
+	 */
+	void setResult(ProcessStatus value);
 
 } // EndReportNode

@@ -259,7 +259,6 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		CorePackage.eINSTANCE.eClass();
 		ScenarioPackage.eINSTANCE.eClass();
 		ReportPackage.eINSTANCE.eClass();
 		ReportingPackage.eINSTANCE.eClass();
@@ -634,10 +633,11 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEndReportNode_Properties() {
+	public EReference getEndReportNode_Result() {
 		return (EReference)endReportNodeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -862,7 +862,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		endReportNodeEClass = createEClass(END_REPORT_NODE);
 		createEAttribute(endReportNodeEClass, END_REPORT_NODE__SNAPHOTS);
 		createEAttribute(endReportNodeEClass, END_REPORT_NODE__TAKE_SNAPHOTS);
-		createEReference(endReportNodeEClass, END_REPORT_NODE__PROPERTIES);
+		createEReference(endReportNodeEClass, END_REPORT_NODE__RESULT);
 
 		reportAppendEClass = createEClass(REPORT_APPEND);
 		createEReference(reportAppendEClass, REPORT_APPEND__OBJECTS);
@@ -1004,7 +1004,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		initEClass(endReportNodeEClass, EndReportNode.class, "EndReportNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEndReportNode_Snaphots(), theEcorePackage.getEString(), "snaphots", null, 0, -1, EndReportNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEndReportNode_TakeSnaphots(), theEcorePackage.getEBoolean(), "takeSnaphots", null, 0, 1, EndReportNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEndReportNode_Properties(), theReportPackage.getPropertyMap(), null, "properties", null, 0, -1, EndReportNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndReportNode_Result(), theCorePackage.getProcessStatus(), null, "result", null, 1, 1, EndReportNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(reportAppendEClass, ReportAppend.class, "ReportAppend", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReportAppend_Objects(), theEcorePackage.getEObject(), null, "objects", null, 0, -1, ReportAppend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

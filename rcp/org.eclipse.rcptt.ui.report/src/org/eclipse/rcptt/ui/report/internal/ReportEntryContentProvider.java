@@ -22,16 +22,19 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.ImageEntry;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 
 import com.google.common.base.Preconditions;
 
 class ReportEntryContentProvider implements
 		IStructuredContentProvider {
+	private static final String LINE_SEPARATOR = System
+			.getProperty("line.separator");
 	public void dispose() {
 		Job.getJobManager().cancel(this);
 	}
@@ -87,7 +90,7 @@ class ReportEntryContentProvider implements
 					if (info.getResult().getSeverity() != 0) {
 						failCount++;
 						if (failCount < 100) {
-							message = new SimpleReportGenerator().generateContent(next);
+							message = new RcpttReportGenerator(next, LINE_SEPARATOR, new ArrayList<ImageEntry>()).generateContent(next);
 						}
 					}
 					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root

@@ -846,13 +846,13 @@ public interface Q7CorePackage extends EPackage {
 	int END_REPORT_NODE__TAKE_SNAPHOTS = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Properties</b></em>' map.
+	 * The feature id for the '<em><b>Result</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int END_REPORT_NODE__PROPERTIES = CorePackage.COMMAND_FEATURE_COUNT + 2;
+	int END_REPORT_NODE__RESULT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>End Report Node</em>' class.
@@ -1657,15 +1657,15 @@ public interface Q7CorePackage extends EPackage {
 	EAttribute getEndReportNode_TakeSnaphots();
 
 	/**
-	 * Returns the meta object for the map '{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getProperties <em>Properties</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getResult <em>Result</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Properties</em>'.
-	 * @see org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getProperties()
+	 * @return the meta object for the containment reference '<em>Result</em>'.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getResult()
 	 * @see #getEndReportNode()
 	 * @generated
 	 */
-	EReference getEndReportNode_Properties();
+	EReference getEndReportNode_Result();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.ecl.core.model.ReportAppend <em>Report Append</em>}'.
@@ -2244,12 +2244,12 @@ public interface Q7CorePackage extends EPackage {
 		EAttribute END_REPORT_NODE__TAKE_SNAPHOTS = eINSTANCE.getEndReportNode_TakeSnaphots();
 
 		/**
-		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
+		 * The meta object literal for the '<em><b>Result</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference END_REPORT_NODE__PROPERTIES = eINSTANCE.getEndReportNode_Properties();
+		EReference END_REPORT_NODE__RESULT = eINSTANCE.getEndReportNode_Result();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.core.ecl.core.model.impl.ReportAppendImpl <em>Report Append</em>}' class.

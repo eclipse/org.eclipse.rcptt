@@ -81,8 +81,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="snaphots" upperBound="-1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="takeSnaphots" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.rcptt.watson.core/model/report.ecore#//PropertyMap"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReportAppend" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.launching;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +65,7 @@ import org.eclipse.rcptt.launching.IExecutable.State;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
 import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.reporting.core.IndentedWriter;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
@@ -111,6 +114,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.part.ViewPart;
+
+import com.google.common.io.CharStreams;
 
 public class ExecutionView extends ViewPart implements IExecutionSessionListener {
 
@@ -435,6 +440,7 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	}
 
+
 	private boolean isConnectionTerminatedStatus(IExecutable exec) {
 		IStatus status = exec.getResultStatus();
 		
@@ -570,25 +576,39 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		}
 	}
 
-	private void processThrowableMsg(int level, StringBuilder buffer,
+	private void processThrowableMsg(final int level, StringBuilder buffer,
 			Throwable t) {
-		StackTraceElement[] trace = t.getStackTrace();
-		for (int i = 0; i < trace.length; i++) {
-			appendTabs(buffer, level + 1);
-			buffer.append("at "); //$NON-NLS-1$
-			buffer.append(trace[i]);
-			buffer.append(LINE_SEPARATOR);
-		}
-		if (t.getCause() != null) {
-			buffer.append("Caused by: " + t.getCause().getMessage()).append(
-					"\n");
-			processThrowableMsg(level + 1, buffer, t.getCause());
-		}
+		PrintWriter printWriter = new IndentedWriter(CharStreams.asWriter(buffer)) {
+			@Override
+			public void writeIndent() {
+				appendTabs(this, level + 1);
+			}
+		};
+		
+		t.printStackTrace(printWriter);
+		printWriter.close();
+
+		// StackTraceElement[] trace = t.getStackTrace();
+		// for (int i = 0; i < trace.length; i++) {
+		// appendTabs(buffer, level + 1);
+		//			buffer.append("at "); //$NON-NLS-1$
+		// buffer.append(trace[i]);
+		// buffer.append(LINE_SEPARATOR);
+		// }
+		// if (t.getCause() != null) {
+		// buffer.append("Caused by: " + t.getCause().getMessage()).append(
+		// "\n");
+		// processThrowableMsg(level + 1, buffer, t.getCause());
+		// }
 	}
 
-	private StringBuilder appendTabs(StringBuilder stream, int tabs) {
+	private static <T extends Appendable> T appendTabs(T stream, int tabs) {
 		for (int i = 0; i < tabs; ++i) {
-			stream.append("  "); //$NON-NLS-1$
+			try {
+				stream.append("  ");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return stream;
 	}

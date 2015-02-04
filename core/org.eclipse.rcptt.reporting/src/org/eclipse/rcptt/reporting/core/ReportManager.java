@@ -186,7 +186,9 @@ public class ReportManager implements IQ7ReportConstants {
 		clear();
 		initializeBuilder(title, null);
 		INodeBuilder root = builder.getCurrent();
-		ReportHelper.setInfo(root, q7info);
+		assert q7info.getType() != null;
+		assert q7info.getResult() == null;
+		root.setProperty(IQ7ReportConstants.ROOT, q7info);
 		return root;
 	}
 }

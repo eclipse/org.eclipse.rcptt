@@ -28,8 +28,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
 
 import org.eclipse.rcptt.core.ecl.core.model.EndReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.PropertyMapImpl;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +39,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.PropertyMapImp
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#getSnaphots <em>Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#isTakeSnaphots <em>Take Snaphots</em>}</li>
- *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#getProperties <em>Properties</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#getResult <em>Result</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,14 +77,14 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 	protected boolean takeSnaphots = TAKE_SNAPHOTS_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' map.
+	 * The cached value of the '{@link #getResult() <em>Result</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getProperties()
+	 * @see #getResult()
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap<String, EObject> properties;
+	protected ProcessStatus result;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,11 +143,42 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap<String, EObject> getProperties() {
-		if (properties == null) {
-			properties = new EcoreEMap<String,EObject>(ReportPackage.Literals.PROPERTY_MAP, PropertyMapImpl.class, this, Q7CorePackage.END_REPORT_NODE__PROPERTIES);
+	public ProcessStatus getResult() {
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetResult(ProcessStatus newResult, NotificationChain msgs) {
+		ProcessStatus oldResult = result;
+		result = newResult;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Q7CorePackage.END_REPORT_NODE__RESULT, oldResult, newResult);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
-		return properties;
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResult(ProcessStatus newResult) {
+		if (newResult != result) {
+			NotificationChain msgs = null;
+			if (result != null)
+				msgs = ((InternalEObject)result).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - Q7CorePackage.END_REPORT_NODE__RESULT, null, msgs);
+			if (newResult != null)
+				msgs = ((InternalEObject)newResult).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - Q7CorePackage.END_REPORT_NODE__RESULT, null, msgs);
+			msgs = basicSetResult(newResult, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.END_REPORT_NODE__RESULT, newResult, newResult));
 	}
 
 	/**
@@ -159,8 +189,8 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case Q7CorePackage.END_REPORT_NODE__PROPERTIES:
-				return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+			case Q7CorePackage.END_REPORT_NODE__RESULT:
+				return basicSetResult(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -177,9 +207,8 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 				return getSnaphots();
 			case Q7CorePackage.END_REPORT_NODE__TAKE_SNAPHOTS:
 				return isTakeSnaphots();
-			case Q7CorePackage.END_REPORT_NODE__PROPERTIES:
-				if (coreType) return getProperties();
-				else return getProperties().map();
+			case Q7CorePackage.END_REPORT_NODE__RESULT:
+				return getResult();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -200,8 +229,8 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 			case Q7CorePackage.END_REPORT_NODE__TAKE_SNAPHOTS:
 				setTakeSnaphots((Boolean)newValue);
 				return;
-			case Q7CorePackage.END_REPORT_NODE__PROPERTIES:
-				((EStructuralFeature.Setting)getProperties()).set(newValue);
+			case Q7CorePackage.END_REPORT_NODE__RESULT:
+				setResult((ProcessStatus)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -221,8 +250,8 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 			case Q7CorePackage.END_REPORT_NODE__TAKE_SNAPHOTS:
 				setTakeSnaphots(TAKE_SNAPHOTS_EDEFAULT);
 				return;
-			case Q7CorePackage.END_REPORT_NODE__PROPERTIES:
-				getProperties().clear();
+			case Q7CorePackage.END_REPORT_NODE__RESULT:
+				setResult((ProcessStatus)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -240,8 +269,8 @@ public class EndReportNodeImpl extends CommandImpl implements EndReportNode {
 				return snaphots != null && !snaphots.isEmpty();
 			case Q7CorePackage.END_REPORT_NODE__TAKE_SNAPHOTS:
 				return takeSnaphots != TAKE_SNAPHOTS_EDEFAULT;
-			case Q7CorePackage.END_REPORT_NODE__PROPERTIES:
-				return properties != null && !properties.isEmpty();
+			case Q7CorePackage.END_REPORT_NODE__RESULT:
+				return result != null;
 		}
 		return super.eIsSet(featureID);
 	}

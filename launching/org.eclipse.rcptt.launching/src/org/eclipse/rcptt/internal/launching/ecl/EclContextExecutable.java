@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.core.internal.ecl.core.Utils;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -66,7 +65,6 @@ public class EclContextExecutable extends ContextExecutable {
 			description = context.getDescription();
 			props = new HashMap<String, EObject>();
 			info.setType(ItemKind.CONTEXT);
-			info.setResult(Utils.createStatus(TYPE_CONTEXT, "Context execution status is unknown"));
 			info.setTags(context.getTags());
 			info.setId(context.getId());
 			info.setDescription(description);
@@ -100,7 +98,7 @@ public class EclContextExecutable extends ContextExecutable {
 	public IStatus postExecute(IStatus status) {
 		try {
 			if (isEcl) {
-				ReportMaker.endReportNode(true, launch);
+				ReportMaker.endReportNode(true, launch, status);
 			}
 			return super.postExecute(status);
 		} catch (CoreException e) {

@@ -14,11 +14,13 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.ecl.core.model.BeginReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.EndReportNode;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -33,6 +35,9 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportOutputStream;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
 /**
  * Creates cumulative sherlock report from IExecutionSession
  */
@@ -40,29 +45,32 @@ public class ReportMaker implements IQ7ReportConstants {
 
 	public static void beginReportNode(String node,
 			Map<String, EObject> properties, AutLaunch launch)
-			throws CoreException {
+			throws CoreException, InterruptedException {
 		BeginReportNode reportNode = Q7CoreFactory.eINSTANCE
 				.createBeginReportNode();
 		reportNode.setName(node);
 		if (properties != null) {
+			Q7Info info = (Q7Info) properties.get(IQ7ReportConstants.ROOT);
+			Preconditions.checkArgument(!Strings.isNullOrEmpty(info.getId()), "Id can't be empty");
+			Preconditions.checkArgument(info.getResult() == null, "Can't create report with a preset  result");
 			reportNode.getProperties().putAll(properties);
 		}
-		try {
-			launch.execute(reportNode);
-		} catch (InterruptedException e) {
-			RcpttPlugin.log(e);
-		}
+		launch.execute(reportNode);
 	}
 
+	public static void endReportNode(boolean takeSnaphots, AutLaunch launch, IStatus result) throws CoreException {
+		endReportNode(takeSnaphots, launch, ProcessStatusConverter.toProcessStatus(result));
+	}
 	/**
 	 * If snaphots contains elements, then only items will be used, overwize all
 	 * snaphots will be taken
 	 */
-	public static void endReportNode(boolean takeSnaphots, AutLaunch launch)
+	public static void endReportNode(boolean takeSnaphots, AutLaunch launch, ProcessStatus result)
 			throws CoreException {
 		EndReportNode reportNode = Q7CoreFactory.eINSTANCE
 				.createEndReportNode();
 		reportNode.setTakeSnaphots(takeSnaphots);
+		reportNode.setResult(result);
 		try {
 			launch.execute(reportNode);
 		} catch (InterruptedException e) {
@@ -112,6 +120,7 @@ public class ReportMaker implements IQ7ReportConstants {
 	private Node minimalReport(IExecutable iExecutable) {
 		Report report = iExecutable.getResultReport();
 		if (report != null) {
+			assert ReportHelper.getInfo(report.getRoot()).getId() != null;
 			return EcoreUtil.copy(report.getRoot());
 		}
 		Node nde = ReportFactory.eINSTANCE.createNode();

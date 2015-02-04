@@ -64,7 +64,7 @@ public class ProcessStatusConverter implements
 		}
 	}
 
-	private Throwable getThrowable(EclException exception) {
+	public static Throwable getThrowable(EclException exception) {
 		Throwable th = null;
 		try {
 			// Try to restore stored exception.
@@ -111,7 +111,7 @@ public class ProcessStatusConverter implements
 		return th;
 	}
 
-	private StackTraceElement[] constructStack(EList<EclStackTraceEntry> list) {
+	private static StackTraceElement[] constructStack(EList<EclStackTraceEntry> list) {
 		StackTraceElement[] stack = new StackTraceElement[list.size()];
 		for (int i = 0; i < list.size(); i++) {
 			EclStackTraceEntry entry = list.get(i);

@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.core.internal.ecl.core.Utils;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.internal.launching.ScenarioExecutable;
@@ -48,7 +47,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	}
 
 	@Override
-	public IStatus doExecute() throws CoreException {
+	public IStatus doExecute() throws CoreException, InterruptedException {
 		Scenario scenario = (Scenario) getActualElement()
 				.getModifiedNamedElement();
 
@@ -56,7 +55,6 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 		{
 			Q7Info info = ReportHelper.createInfo();
 			info.setType(ItemKind.SCRIPT);
-			info.setResult(Utils.createStatus(IStatus.ERROR, "ECL script execution status is unknown."));
 			info.setTags(scenario.getTags());
 			info.setId(scenario.getId());
 			if (getVariantName() != null) {
@@ -82,7 +80,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	public IStatus postExecute(IStatus status) {
 		// Take all snapshots
 		try {
-			ReportMaker.endReportNode(true, launch);
+			ReportMaker.endReportNode(true, launch, status);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}

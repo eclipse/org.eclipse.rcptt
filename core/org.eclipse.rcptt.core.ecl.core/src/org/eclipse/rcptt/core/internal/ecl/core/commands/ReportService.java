@@ -49,7 +49,6 @@ public class ReportService implements ICommandService {
 			ReportManager.createReport(cr.getName(), cr.getQ7info());
 		} else if (command instanceof GetReport) {
 			Report reportCopy = ReportManager.getReportCopy();
-
 			ReportManager.clear();
 			ECLBinaryResourceImpl res = new ECLBinaryResourceImpl();
 			if (reportCopy != null) {
@@ -80,8 +79,8 @@ public class ReportService implements ICommandService {
 					ReportHelper.putProperties(nde, node.getProperties().map());
 				} else if (command instanceof EndReportNode) {
 					INodeBuilder nde = builder.getCurrent();
-					final EndReportNode node = (EndReportNode) command;
 					ReportHelper.takeSnapshot(nde);
+					ReportHelper.setResult(nde, ((EndReportNode) command).getResult());
 					nde.endTask();
 				} else if (command instanceof ReportAppend) {
 					ReportAppend cmd = (ReportAppend) command;

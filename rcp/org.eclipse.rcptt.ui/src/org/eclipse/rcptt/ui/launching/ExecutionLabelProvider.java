@@ -26,6 +26,7 @@ import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
 import org.eclipse.swt.graphics.Image;
 
 import com.google.common.base.Joiner;
