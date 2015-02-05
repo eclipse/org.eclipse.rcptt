@@ -10,37 +10,38 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import java.util.Arrays;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.ecl.TeslaErrorStatus;
 
-public class ExecutionStatus extends Status {
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
+public class ExecutionStatus extends MultiStatus {
 	private int line = -1;
 	private int column = -1;
 	private int length = -1;
-
-	private IStatus cause;
 
 	private IQ7NamedElement element;
 
 	private AdvancedInformation info;
 
 	public ExecutionStatus(IStatus status) {
-		super(status.getSeverity(), status.getPlugin(), status.getCode(),
+		super(status.getPlugin(), status.getCode(), new IStatus[]{status},
 				status.getMessage(), status.getException());
-		cause = status;
-		if (cause instanceof ScriptErrorStatus) {
-			ScriptErrorStatus ss = (ScriptErrorStatus) cause;
+		if (status instanceof ScriptErrorStatus) {
+			ScriptErrorStatus ss = (ScriptErrorStatus) status;
 			line = ss.getLine();
 			column = ss.getColumn();
 			length = ss.getLength();
 		}
-		if (cause instanceof ExecutionStatus) {
-			ExecutionStatus ss = (ExecutionStatus) cause;
+		if (status instanceof ExecutionStatus) {
+			ExecutionStatus ss = (ExecutionStatus) status;
 			line = ss.getLine();
 			column = ss.getColumn();
 			length = ss.getLength();
@@ -48,18 +49,15 @@ public class ExecutionStatus extends Status {
 	}
 
 	public ExecutionStatus(int severity, String pluginId, String message) {
-		super(severity, pluginId, message);
-	}
-
-	public ExecutionStatus(int severity, String pluginId, String message,
-			Throwable exception) {
-		super(severity, pluginId, message, exception);
+		super(pluginId, 0, message, null);
+		setSeverity(severity);
 	}
 
 	public ExecutionStatus(int severity, String pluginId, int line, int column,
 			int length) {
-		super(severity, pluginId, String.format(
-				"Execution failed on line %d at column %d", line, column));
+		super(pluginId, 0, String.format(
+				"Execution failed on line %d at column %d", line, column), null);
+		setSeverity(severity);
 		this.line = line;
 		this.column = column;
 		this.length = length;
@@ -112,15 +110,19 @@ public class ExecutionStatus extends Status {
 		return getCause(false);
 	}
 
+	private static final Predicate<IStatus> IS_FAILED = new Predicate<IStatus>() {
+
+		@Override
+		public boolean apply(IStatus input) {
+			return !input.isOK();
+		}
+	};
 	public IStatus getCause(boolean flatten) {
+		IStatus cause = Iterables.tryFind(Arrays.asList(getChildren()), IS_FAILED).orNull();
 		if (flatten && cause instanceof ExecutionStatus) {
 			return ((ExecutionStatus) cause).getCause(flatten);
 		}
 		return cause;
-	}
-
-	public void setCause(IStatus cause) {
-		this.cause = cause;
 	}
 
 	public void setAdvancedInfo(AdvancedInformation info) {

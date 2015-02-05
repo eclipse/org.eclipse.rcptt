@@ -79,7 +79,7 @@ public class ReportPage extends FormPage {
 		new SectionWithToolbar(new TestCaseComposite(report) {
 			@Override
 			protected void doNodesSelection(List<Node> nodes) {
-				detailsComposite.update(nodes);
+				detailsComposite.update(report, nodes);
 			}
 		}, Section.TITLE_BAR).create(composite2, toolkit);
 

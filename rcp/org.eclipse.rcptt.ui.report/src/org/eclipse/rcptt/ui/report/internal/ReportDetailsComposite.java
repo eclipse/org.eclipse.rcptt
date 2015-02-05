@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
@@ -59,8 +60,8 @@ public class ReportDetailsComposite extends AbstractEmbeddedComposite {
 		return control;
 	}
 
-	public void update(List<Node> nodes2) {
-		SimpleReportGenerator generator = new SimpleReportGenerator() {
+	public void update(Report report, List<Node> nodes2) {
+		SimpleReportGenerator generator = new RcpttReportGenerator(report) {
 			@Override
 			protected void printChildren(List<Node> children, StringBuilder stream, int tabs, boolean includeWaitDetails) {
 			}

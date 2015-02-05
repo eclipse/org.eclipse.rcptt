@@ -33,8 +33,7 @@ import com.google.common.base.Preconditions;
 
 class ReportEntryContentProvider implements
 		IStructuredContentProvider {
-	private static final String LINE_SEPARATOR = System
-			.getProperty("line.separator");
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	public void dispose() {
 		Job.getJobManager().cancel(this);
 	}

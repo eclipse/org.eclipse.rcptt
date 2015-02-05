@@ -49,7 +49,7 @@ public class EclVerificationExecutable extends VerificationExecutable {
 				es.setElement(element);
 				IStatus cause = ses.getCause();
 				if (cause != null) {
-					es.setCause(cause);
+					es.add(cause);
 					if (cause instanceof TeslaErrorStatus) {
 						TeslaErrorStatus tes = (TeslaErrorStatus) cause;
 						es.setAdvancedInfo(tes.getInfo());

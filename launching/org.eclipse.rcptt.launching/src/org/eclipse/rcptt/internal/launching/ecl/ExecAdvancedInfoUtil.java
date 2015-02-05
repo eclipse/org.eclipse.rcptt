@@ -11,7 +11,7 @@
 package org.eclipse.rcptt.internal.launching.ecl;
 
 import org.eclipse.core.runtime.IStatus;
-
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -30,7 +30,7 @@ public class ExecAdvancedInfoUtil {
 			if (obj instanceof AdvancedInformation)
 				info = (AdvancedInformation) obj;
 		} catch (Exception e) {
-			Q7LaunchingPlugin.log(e);
+			return RcpttPlugin.createStatus(e);
 		}
 		ExecutionStatus resultStatus = new ExecutionStatus(IStatus.CANCEL,
 				Q7LaunchingPlugin.PLUGIN_ID, err);

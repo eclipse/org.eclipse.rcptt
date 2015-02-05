@@ -1,6 +1,7 @@
 package org.eclipse.rcptt.reporting.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.rcptt.ecl.core.EclException;
@@ -17,9 +18,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
-import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
-import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
 
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
@@ -28,6 +27,11 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 	private final List<ImageEntry> images;
 	private final Report report;
 	private final String lineSeparator;
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+	public RcpttReportGenerator(Report report) {
+		this(report, LINE_SEPARATOR, new ArrayList<ImageEntry>());
+	}
 
 	public RcpttReportGenerator(Report report, String lineSeparator, List<ImageEntry> images) {
 		this.report = report;
@@ -35,19 +39,19 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 		this.images = images;
 	}
 
-	@Override
-	public StringBuilder toString(StringBuilder builder,
-			int tabs, org.eclipse.emf.ecore.EObject obj,
-			String... ignores) {
-		if (obj instanceof AdvancedInformation) {
-			String content = new AdvancedInformationGenerator()
-					.generateContent((AdvancedInformation) obj);
-			builder.append(content);
-			return builder;
-		}
-		return super.toString(builder, tabs, obj, ignores);
-	};
-
+	// @Override
+	// public StringBuilder toString(StringBuilder builder,
+	// int tabs, org.eclipse.emf.ecore.EObject obj,
+	// String... ignores) {
+	// if (obj instanceof AdvancedInformation) {
+	// String content = new AdvancedInformationGenerator()
+	// .generateContent((AdvancedInformation) obj);
+	// builder.append(content);
+	// return builder;
+	// }
+	// return super.toString(builder, tabs, obj, ignores);
+	// };
+	//
 	@Override
 	public void printNode(
 			org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node infoNode,
