@@ -63,7 +63,8 @@ public class ReportDetailsComposite extends AbstractEmbeddedComposite {
 	public void update(Report report, List<Node> nodes2) {
 		SimpleReportGenerator generator = new RcpttReportGenerator(report) {
 			@Override
-			protected void printChildren(List<Node> children, StringBuilder stream, int tabs, boolean includeWaitDetails) {
+			protected void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode,
+					boolean includeWaitDetails) {
 			}
 		};
 		StringBuilder b = new StringBuilder();

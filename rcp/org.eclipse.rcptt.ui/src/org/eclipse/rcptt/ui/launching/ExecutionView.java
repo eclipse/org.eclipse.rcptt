@@ -506,18 +506,10 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		List<StyleRange> ranges = new ArrayList<StyleRange>();
 		
 		if (status instanceof ExecutionStatus) {
-			final ExecutionStatus ses = (ExecutionStatus) status;
-			IStatus cause = ses.getCause(true);
-			if (cause != null) {
-				if (message.equals(cause.getMessage()) && status.getChildren().length == 0) {
-					ranges.addAll(print(cause, level, buffer));
-				} else {
-					buffer.append(message);
-					buffer.append(LINE_SEPARATOR);
-					ranges.addAll(print(cause, level + 1, buffer));
-				}
-				return ranges;
+			for (IStatus child : status.getChildren()) {
+				ranges.addAll(print(child, level, buffer));
 			}
+			return ranges;
 		}
 		
 		appendTabs(buffer, level);
@@ -536,6 +528,7 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 				ranges.add(link(append(buffer, EclStackTrace.getLocation(frame)), frame));
 				append(buffer, ")\n");
 			}
+			return ranges;
 		} else if (status instanceof VerificationStatus) {
 			VerificationStatus verStatus = (VerificationStatus) status;
 			StyledMessage styledMsg = VerificationReporter.getStyledMessage(verStatus);

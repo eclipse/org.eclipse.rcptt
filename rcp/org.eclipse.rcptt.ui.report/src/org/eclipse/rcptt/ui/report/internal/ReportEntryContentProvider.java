@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -75,7 +76,6 @@ class ReportEntryContentProvider implements
 				if (monitor.isCanceled())
 					return Status.CANCEL_STATUS;
 				Iterator<Report> iterator = reports.iterator();
-				int failCount = 0;
 				while (iterator.hasNext()) {
 					if (monitor.isCanceled())
 						return Status.CANCEL_STATUS;
@@ -85,15 +85,11 @@ class ReportEntryContentProvider implements
 					}
 					Node root = next.getRoot();
 					Q7Info info = ReportHelper.getInfo(root);
-					String message = "Too many errors";
-					if (info.getResult().getSeverity() != 0) {
-						failCount++;
-						if (failCount < 100) {
-							message = new RcpttReportGenerator(next, LINE_SEPARATOR, new ArrayList<ImageEntry>()).generateContent(next);
-						}
-					}
+					StringWriter writer = new StringWriter();
+					new RcpttReportGenerator(next, LINE_SEPARATOR, new ArrayList<ImageEntry>()).writeResult(
+							writer, 0, info.getResult());
 					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root
-							.getStartTime()), info.getResult(), message));
+							.getStartTime()), info.getResult(), writer.toString()));
 				}
 			}
 			ReportEntryContentProvider.this.entries = entries;

@@ -36,6 +36,6 @@ class ReportEntry {
 	}
 
 	public String getMessage() {
-		return status.getMessage();
+		return message;
 	}
 }

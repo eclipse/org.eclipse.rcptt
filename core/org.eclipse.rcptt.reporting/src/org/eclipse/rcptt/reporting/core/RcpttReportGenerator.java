@@ -94,7 +94,7 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 		}
 	}
 
-	private void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode, boolean includeWaitDetails) {
+	protected void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode, boolean includeWaitDetails) {
 		for (Node child : infoNode.getChildren()) {
 			printNode(child, stringBuilder, tabs + 4, includeWaitDetails);
 		}
@@ -139,7 +139,7 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 		}
 	}
 
-	private void writeResult(Appendable stream, int tabs, ProcessStatus result) {
+	public void writeResult(Appendable stream, int tabs, ProcessStatus result) {
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
 		appendTabs(stream, tabs);
