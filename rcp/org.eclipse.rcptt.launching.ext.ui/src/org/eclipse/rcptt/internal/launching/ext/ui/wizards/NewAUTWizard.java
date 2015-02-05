@@ -10,11 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.IDebugUIConstants;
@@ -120,7 +124,7 @@ public class NewAUTWizard extends Wizard {
 				workingCopy.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
 				workingCopy.setAttribute(IPDEConstants.DOCLEARLOG, false);
 				workingCopy.setAttribute(IPDELauncherConstants.LOCATION,
-						getDefaultWorkspaceLocation(workingCopy.getName()));
+						getUnoccupiedWorkspaceLocation(workingCopy.getName()));
 
 				// String config = target.getTemplateConfigLocation();
 				// if (config != null) {
@@ -165,4 +169,34 @@ public class NewAUTWizard extends Wizard {
 	public static String getDefaultWorkspaceLocation(String uniqueName) {
 		return "${workspace_loc}/../aut-" + uniqueName.replaceAll("\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
+
+	private String getUnoccupiedWorkspaceLocation(String name) {
+		String stringPath = getDefaultWorkspaceLocation(name);
+		try {
+			if (isLocationExists(stringPath)) { // a new location for a new AUT
+				int i = 1;
+				String newStringPath;
+				do {
+					i++;
+					newStringPath = getDefaultWorkspaceLocation(name + "-" + i);
+				} while (isLocationExists(newStringPath));
+				stringPath = newStringPath;
+			}
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
+		}
+		return stringPath;
+	}
+
+	private boolean isLocationExists(String location) throws CoreException {
+		IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
+		location = manager.performStringSubstitution(location);
+		IPath autPath = new Path(location);
+		File autDir = new File(autPath.toOSString());
+		if (autDir.exists() && autDir.isDirectory()) {
+			return true;
+		}
+		return false;
+	}
+
 }
