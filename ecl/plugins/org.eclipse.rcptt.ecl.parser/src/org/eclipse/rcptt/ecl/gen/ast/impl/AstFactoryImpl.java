@@ -35,7 +35,7 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 */
 	public static AstFactory init() {
 		try {
-			AstFactory theAstFactory = (AstFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/ast.ecore"); 
+			AstFactory theAstFactory = (AstFactory)EPackage.Registry.INSTANCE.getEFactory(AstPackage.eNS_URI);
 			if (theAstFactory != null) {
 				return theAstFactory;
 			}

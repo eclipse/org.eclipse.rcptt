@@ -358,6 +358,15 @@ public interface AstPackage extends EPackage {
 	int SCRIPT_PROCESS_STATUS__EXCEPTION = CorePackage.PROCESS_STATUS__EXCEPTION;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCRIPT_PROCESS_STATUS__CHILDREN = CorePackage.PROCESS_STATUS__CHILDREN;
+
+	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -394,22 +403,13 @@ public interface AstPackage extends EPackage {
 	int SCRIPT_PROCESS_STATUS__RESOURCE_ID = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Cause</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCRIPT_PROCESS_STATUS__CAUSE = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 4;
-
-	/**
 	 * The number of structural features of the '<em>Script Process Status</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCRIPT_PROCESS_STATUS_FEATURE_COUNT = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 5;
+	int SCRIPT_PROCESS_STATUS_FEATURE_COUNT = CorePackage.PROCESS_STATUS_FEATURE_COUNT + 4;
 
 
 	/**
@@ -495,17 +495,6 @@ public interface AstPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getScriptProcessStatus();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus#getCause <em>Cause</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Cause</em>'.
-	 * @see org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus#getCause()
-	 * @see #getScriptProcessStatus()
-	 * @generated
-	 */
-	EReference getScriptProcessStatus_Cause();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -600,14 +589,6 @@ public interface AstPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SCRIPT_PROCESS_STATUS = eINSTANCE.getScriptProcessStatus();
-
-		/**
-		 * The meta object literal for the '<em><b>Cause</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SCRIPT_PROCESS_STATUS__CAUSE = eINSTANCE.getScriptProcessStatus_Cause();
 
 	}
 

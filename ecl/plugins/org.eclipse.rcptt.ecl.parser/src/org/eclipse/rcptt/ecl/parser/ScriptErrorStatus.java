@@ -11,22 +11,20 @@
 package org.eclipse.rcptt.ecl.parser;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.MultiStatus;
 
-public class ScriptErrorStatus extends Status {
+public class ScriptErrorStatus extends MultiStatus {
 	private final int line;
 	private final int column;
 	private final int length;
 	private final String resource;
-	final private IStatus cause;
 
-	public ScriptErrorStatus(int severity, String pluginId, String message,
-			String resource, int line, int column, int length, IStatus cause) {
-		super(severity, pluginId, message);
+	public ScriptErrorStatus(String pluginId, String message,
+			String resource, int line, int column, int length) {
+		super(pluginId, 0, message, null);
 		this.line = line;
 		this.column = column;
 		this.length = length;
-		this.cause = cause;
 		this.resource = resource;
 	}
 
@@ -47,7 +45,12 @@ public class ScriptErrorStatus extends Status {
 	}
 
 	public IStatus getCause() {
-		return cause;
+		IStatus[] children = getChildren();
+		if (children.length > 0) {
+			return children[0];
+		}
+		return null;
 	}
+
 
 }

@@ -11,13 +11,11 @@
 package org.eclipse.rcptt.ecl.internal.parser;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.gen.ast.AstFactory;
 import org.eclipse.rcptt.ecl.gen.ast.AstPackage;
 import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
-import org.eclipse.rcptt.ecl.internal.core.EMFConverterManager;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.IEMFConverter;
@@ -35,15 +33,13 @@ public class ScriptStatusConverter implements
 
 	public ScriptErrorStatus fromEObject(ScriptProcessStatus ps)
 			throws CoreException {
-		if (ps.getCause() != null) {
-			IStatus cause = (IStatus) EMFConverterManager.INSTANCE
-					.fromEObject(ps.getCause());
-			return new ScriptErrorStatus(ps.getSeverity(), ps.getPluginId(),
-					ps.getMessage(), ps.getResourceID(), ps.getLine(), ps.getColumn(),
-					ps.getLength(), cause);
+		ScriptErrorStatus rv = new ScriptErrorStatus(ps.getPluginId(),
+				ps.getMessage(), ps.getResourceID(), ps.getLine(), ps.getColumn(),
+				ps.getLength());
+		for (ProcessStatus child : ps.getChildren()) {
+			rv.add(ProcessStatusConverter.toIStatus(child));
 		}
-		return new ScriptErrorStatus(ps.getSeverity(), ps.getPluginId(),
-				ps.getMessage(), ps.getResourceID(), ps.getLine(), ps.getColumn(), ps.getLength(), null);
+		return rv;
 	}
 
 	public ScriptProcessStatus toEObject(ScriptErrorStatus status)
@@ -55,12 +51,6 @@ public class ScriptStatusConverter implements
 		ps.setLine(status.getLine());
 		ps.setColumn(status.getColumn());
 		ps.setLength(status.getLength());
-
-		if (status.getCause() != null) {
-			ProcessStatus cause = (ProcessStatus) EMFConverterManager.INSTANCE
-					.toEObject(status.getCause());
-			ps.setCause(cause);
-		}
 
 		return ps;
 	}

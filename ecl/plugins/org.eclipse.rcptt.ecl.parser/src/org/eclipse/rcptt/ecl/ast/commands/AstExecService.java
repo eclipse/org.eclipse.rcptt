@@ -31,8 +31,10 @@ public class AstExecService implements ICommandService {
 		if (!s.isOK() && !(s instanceof ScriptErrorStatus)) {
 			IStatus cause = s instanceof ProcErrorStatus ? ((ProcErrorStatus) s).getStatus() : s;
 
-			return new ScriptErrorStatus(IStatus.ERROR, CorePlugin.PLUGIN_ID, exec.getName(), exec.getResourceID(),
-					exec.getLine(), exec.getColumn(), exec.getLength(), cause);
+			ScriptErrorStatus rv = new ScriptErrorStatus(CorePlugin.PLUGIN_ID, exec.getName(), exec.getResourceID(),
+					exec.getLine(), exec.getColumn(), exec.getLength());
+			rv.add(cause);
+			return rv;
 		}
 
 		return s;
