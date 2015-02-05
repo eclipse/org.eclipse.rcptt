@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.internal.launching.aut.ConsoleOutputTestListener;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
@@ -31,6 +32,7 @@ public abstract class Executable implements IExecutable {
 	private static final IStatus cancelledForPreviousFailures = new Status(IStatus.CANCEL, PLUGIN_ID,
 			"Execution was canceled due to previous failures");
 	protected Listener.Composite listeners = new Listener.Composite();
+	protected final ConsoleOutputTestListener testListener = new ConsoleOutputTestListener();
 
 	public abstract Executable[] getChildren();
 
@@ -93,6 +95,7 @@ public abstract class Executable implements IExecutable {
 	final void executeAndRememberResult() throws InterruptedException {
 		if (state != State.WAITING)
 			throw new IllegalStateException("Can't start in " + state + " state");
+		testListener.startLogging(getAut());
 		state = State.LAUNCHING;
 		long startTime = System.currentTimeMillis();
 		try {
@@ -140,6 +143,7 @@ public abstract class Executable implements IExecutable {
 				state = (result != null && result.isOK()) ? State.PASSED : State.FAILED;
 				listeners.onStatusChange(this);
 			}
+			testListener.stopLogging();
 		}
 	}
 

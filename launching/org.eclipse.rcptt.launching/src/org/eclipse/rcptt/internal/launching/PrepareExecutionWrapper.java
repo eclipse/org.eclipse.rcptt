@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.createStatus;
+import static org.eclipse.rcptt.internal.core.RcpttPlugin.createStatus;
 
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
@@ -122,8 +122,8 @@ public class PrepareExecutionWrapper extends Executable {
 			createReport();
 		} catch (CoreException e) {
 			return e.getStatus();
-		}		
-		return executable.execute(); 
+		}
+		return executable.execute();
 	}
 
 	private Report getReport() throws InterruptedException, ModelException {
@@ -248,15 +248,12 @@ public class PrepareExecutionWrapper extends Executable {
 
 	@Override
 	public IStatus postExecute(IStatus status) {
-		IQ7NamedElement element = executable.getActualElement();
-		// Take report
-		// TODO: remove dummy report, introduce AUT's log acquisition
-		Report resultReport = TestSuiteUtils.generateFailedReport(element,
-				"Failed to get report. Check IDE's error log.");
+		Report resultReport = null;
 		try {
 			if (status.matches(IStatus.CANCEL)) {
-				resultReport = TestSuiteUtils.generateReport(element, status);
+				resultReport = generateReport(status);
 			} else {
+				// Take report from AUT
 				resultReport = getReport();
 				Node root = resultReport.getRoot();
 				Q7Info rootInfo = ReportHelper.getInfo(root);
@@ -267,7 +264,6 @@ public class PrepareExecutionWrapper extends Executable {
 					status = ProcessStatusConverter.toIStatus(rootInfo.getResult());
 				}
 
-
 				for (IExecutable ch : getChildren()) {
 					if (ch instanceof ScenarioExecutable) {
 						rootInfo.setId(ch.getId());
@@ -275,17 +271,15 @@ public class PrepareExecutionWrapper extends Executable {
 					}
 				}
 				assert Objects.equal(rootInfo.getId(), getActualElement().getID());
-
 			}
-			status = super.postExecute(status);
-			return status;
+			return super.postExecute(status);
 		} catch (InterruptedException e) {
-			resultReport = TestSuiteUtils.generateReport(element,
-					RcpttPlugin.createStatus("Interrupted during report acquisition", e));
+			resultReport = generateReport(createStatus("Interrupted during report acquisition", e));
 			return Status.CANCEL_STATUS;
 		} catch (Throwable e) {
+			RcpttPlugin.log(e);
 			IStatus rv = RcpttPlugin.createStatus(e);
-			resultReport = TestSuiteUtils.generateReport(element, rv);
+			resultReport = generateReport(rv);
 			return rv;
 		} finally {
 			Preconditions.checkNotNull(resultReport);
@@ -294,6 +288,13 @@ public class PrepareExecutionWrapper extends Executable {
 			}
 			listeners.updateSessionCounters(this, status);
 		}
+	}
+
+	private Report generateReport(IStatus status) {
+		Report report = TestSuiteUtils.generateReport(getActualElement(), status);
+		Node root = report.getRoot();
+		root.setEndTime(root.getStartTime() + getTime());
+		return report;
 	}
 
 	public void setReportSession(SherlockReportSession reportSession) {

@@ -1,48 +1,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- Set artifact id according to a Q7 project name  -->
-  <artifactId>q7tests</artifactId>
+  <!-- Set artifact id according to a RCPTT project name  -->
+  <artifactId>productTests</artifactId>
   <!-- Set group id based on application under test name -->
   <groupId>projectName</groupId>
   <version>1.5.5-SNAPSHOT</version>
-  <!-- Q7 Maven Plugin provides this packaging type -->
-  <packaging>q7test</packaging>
+  <!-- RCPTT Maven Plugin provides this packaging type -->
+  <packaging>rcpttTest</packaging>
 
-  <!-- Q7 Maven Plugin and Q7 Runner are hosted in this repository -->
+  <!-- RCPTT Maven Plugin and RCPTT Runner are hosted in this repository -->
   <pluginRepositories>
     <pluginRepository>
-      <id>q7-releases</id>
-      <name>Xored Q7</name>
-      <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+      <id>xored</id>
+        <name>Xored Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
     </pluginRepository>
   </pluginRepositories>
 
   <!-- 
-       If Q7 tests are planned to be run on an update site, 
-       Q7 Maven Plugin can download Eclipse SDK of required version
+       If RCPTT tests are planned to be run on an update site, 
+       RCPTT Maven Plugin can download Eclipse SDK of required version
        for current platform from repository below (to see 
        an up-to-date list of available versions visit this link:
-       http://maven.xored.com/nexus/content/repositories/q7-releases/org/eclipse/sdk/
+       http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/org/eclipse/sdk/
   -->
+  <properties>
+    <ci4rcptt-maven-version>1.5.4</ci4rcptt-maven-version>
+  </properties>
 
-  <!--
-  <repositories>
-    <repository>
-      <id>q7-releases</id>
-      <name>Xored Q7</name>
-      <url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
-    </repository>
-  </repositories>
-  -->
-  
-  <!-- The main part of Q7 Maven plugin -->
+  <!-- The main part of RCPTT Maven plugin -->
   <build>
     <plugins>
       <plugin>
-        <groupId>org.eclipse.rcptt</groupId>
-        <artifactId>q7-maven-plugin</artifactId>
-        <version>1.3.11</version>
+        <groupId>com.xored.ci4rcptt</groupId>
+        <artifactId>ci4rcptt-maven-plugin</artifactId>
+        <version>${ci4rcptt-maven-version}</version>
         <extensions>true</extensions>
         <configuration>
 
@@ -60,7 +53,7 @@
 
             <!-- Or specify a path to AUT folder -->
             <!--
-            <explicit>/Users/q7user/path/to/aut</explicit>
+            <explicit>/Users/RCPTTuser/path/to/aut</explicit>
             -->
 
             <!-- As well AUT can be downloaded from HTTP -->
@@ -70,8 +63,8 @@
             
             <!-- AUT can be downloaded automatically from Maven repository -->
             <!-- 
-            <groupId>org.eclipse</groupId>
-            <artifactId>sdk</artifactId>
+            <groupId>com.company.product</groupId>
+            <artifactId>com.company.product.rcp</artifactId>
             <version>3.7.2</version>
             -->
 
@@ -84,7 +77,7 @@
             -->
 
             <!-- Optionally it is possible to specify extra features to 
-                 be installed into AUT, this is useful when Q7 tests
+                 be installed into AUT, this is useful when RCPTT tests
                  need to be executed using a repository assembled as 
                  part of current Maven build.
 
@@ -94,7 +87,7 @@
                  feature.group suffix is required by p2,
                  otherwise it searches for a plugin with given id
 
-                 Currently Q7 Runner does not install requirements automatically,
+                 Currently RCPTT Runner does not install requirements automatically,
                  so the full list of features to install must be explicitly set
             -->
 
@@ -135,32 +128,44 @@
 			 <vmArg>-XX:MaxPermSize=256m</vmArg>
 		   </vmArgs>
            -->
+           
+           <!-- By default AUT's workspace is recreated each time AUT hangs and is 
+               forcefully restarted. This is done to prevent workspace corruption from 
+               blocking AUT startup (after test failures). If this is undesirable, use 
+               reuseExistingWorkspace option:
+           -->
+           <!--
+           <skipTags>
+	         <reuseExistingWorkspace>true</reuseExistingWorkspace>
+           </skipTags>
+          -->           
+           
           </aut>
 
-          <q7>
-            <!-- Q7 Runner location can be set using the same methods 
+          <runner>
+            <!-- RCPTT Runner location can be set using the same methods 
                  as AUT location:
             -->
             <!--
-            <explicit>/path/to/q7/runner</explicit>
+            <explicit>/path/to/rcptt/runner</explicit>
             -->
             
             <!-- but the most convenient way is to just set its version,
-                 Q7 maven plugin will automatically set right groupId and
-                 artifact ID and will download Q7 Runner from Xored Maven Repo -->
-            <version>1.3.11</version>
+                 RCPTT maven plugin will automatically set right groupId and
+                 artifact ID and will download RCPTT Runner from Xored Maven Repo -->
+            <version>${ci4rcptt-maven-version}</version>
             
             <!--
             	clientId is user or organization name to charge executions
-            	clientSecret can be retrieved at http://q7.xored.com/settings/balance 
+            	clientSecret can be retrieved at http://rcptt.xored.com/settings/balance 
             -->
             <clientId>userOrOrganization</clientId> 
             <clientSecret>secret hash string</clientSecret>            
-          </q7>
+          </runner>
 
-          <!-- Test options for Q7 Runner, most popular options listed here.
+          <!-- Test options for RCPTT Runner, most popular options listed here.
                Full list of options is available at:
-               http://help.xored.com/display/Q7/Q7+Runner#Q7Runner-Q7RuntimeoptionsruntimeOptions
+               https://ci.xored.com/doc/runner/
           -->
           <testOptions>
             <!-- Timeout for all tests, in seconds -->
@@ -177,7 +182,7 @@
             -->
           </testOptions>
 
-          <!-- By default Q7 Runner runs tests from a project directory,
+          <!-- By default RCPTT Runner runs tests from a project directory,
                but in some cases it might be required to import additional 
                projects into runner's workspace -->
           <!--
@@ -186,7 +191,7 @@
           </projects>
           -->
 
-          <!-- By default Q7 Runner runs all tests from workspace,
+          <!-- By default RCPTT Runner runs all tests from workspace,
                but it is possible to pass test suite names, so it
                will execute only test suites from given project. -->
 
@@ -197,8 +202,8 @@
           -->
 
           <!-- Sometimes it might be useful to skip a test case
-               (for instance because of some unresolved bug). Q7
-               can skip tests based on its tags. By default Q7 skips
+               (for instance because of some unresolved bug). RCPTT
+               can skip tests based on its tags. By default RCPTT skips
                tests with tag 'skipExecution' (this value has been 
                chosen because on one hand it is descriptive enough,
                on another hand it is unlikely that this tag name
@@ -210,7 +215,7 @@
           </skipTags>
           -->
 
-          <!-- By default Q7 generates a single HTML report file with
+          <!-- By default RCPTT generates a single HTML report file with
                all tests, but it is possible to generate one file per
                test -->
           <!--
