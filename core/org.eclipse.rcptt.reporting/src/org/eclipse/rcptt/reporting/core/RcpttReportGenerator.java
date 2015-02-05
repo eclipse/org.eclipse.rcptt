@@ -142,8 +142,8 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 	public void writeResult(Appendable stream, int tabs, ProcessStatus result) {
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		appendTabs(stream, tabs);
 		try {
+			appendTabs(stream, tabs);
 			stream.append("Result: ").append(SimpleSeverity.create(result).name()).append(", message:")
 					.append(result.getMessage());
 			stream.append(lineSeparator);

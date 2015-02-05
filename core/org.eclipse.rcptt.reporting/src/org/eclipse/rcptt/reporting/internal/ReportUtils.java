@@ -18,11 +18,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
@@ -259,7 +262,24 @@ public class ReportUtils {
 	
 	public static String getFailMessage(Node item) {
 		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
-		return current.getResult().getMessage();
+		return getFailMessage(current.getResult());
+	}
+
+	private static String getFailMessage(ProcessStatus result) {
+		if (result instanceof ScriptProcessStatus) {
+			ProcessStatus firstFail = getFirstFail(result.getChildren());
+			if (firstFail != null)
+				return getFailMessage(firstFail);
+		}
+		return result.getMessage();
+	}
+
+	private static ProcessStatus getFirstFail(List<ProcessStatus> children) {
+		for (ProcessStatus processStatus : children) {
+			if (processStatus.getSeverity() != IStatus.OK)
+				return processStatus;
+		}
+		return null;
 	}
 
 	public static String replaceHtmlEntities(String string) {
