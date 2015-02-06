@@ -9,7 +9,7 @@ public enum SimpleSeverity {
 	CANCEL,
 	ERROR;
 	
-	private static SimpleSeverity create(int severity) {
+	public static SimpleSeverity create(int severity) {
 		if ((severity & ~IStatus.INFO) == 0) {
 			return OK;
 		} else if ((severity & IStatus.CANCEL) != 0) {

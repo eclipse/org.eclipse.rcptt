@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -210,10 +209,6 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 			private void addNodes(List<Node> nodes, Node next) {
 				if (!nodes.contains(next)) {
 					nodes.add(next);
-				}
-				EList<Node> children = next.getChildren();
-				for (Node node : children) {
-					addNodes(nodes, node);
 				}
 			}
 		});

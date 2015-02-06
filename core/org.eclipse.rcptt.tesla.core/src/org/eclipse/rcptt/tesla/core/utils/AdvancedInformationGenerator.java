@@ -10,11 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.core.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.PrintWriter;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoNode;
 import org.eclipse.rcptt.tesla.core.info.JobEntry;
@@ -22,113 +20,79 @@ import org.eclipse.rcptt.tesla.core.info.NodeProperty;
 import org.eclipse.rcptt.tesla.core.info.StackTraceEntry;
 
 public class AdvancedInformationGenerator {
-	private static final String LINE_SEPARATOR = System
-			.getProperty("line.separator");
-	public static final String STACK_TRACE = "include.stack.trace";
+	private final PrintWriter writer;
 
-	private Map<String, Boolean> options = new HashMap<String, Boolean>();
-
-	{
-		options.put(STACK_TRACE, Boolean.TRUE);
+	public AdvancedInformationGenerator(PrintWriter writer) {
+		this.writer = writer;
 	}
 
-	public AdvancedInformationGenerator set(String property, boolean value) {
-		options.put(property, Boolean.valueOf(value));
-		return this;
+	private PrintWriter w(int tabs) {
+		for (int i = 0; i < tabs; ++i) {
+			writer.append("  ");
+		}
+		return writer;
 	}
 
-	public String generateContent(AdvancedInformation info) {
-		StringBuilder builder = new StringBuilder();
+	public void writeAdvanced(AdvancedInformation info, int tabs) {
 		EList<InfoNode> nodes = info.getNodes();
-		builder.append("Information:").append(LINE_SEPARATOR);
 		for (InfoNode infoNode : nodes) {
-			printNode(infoNode, builder, 1);
+			printNode(infoNode, tabs);
 		}
 		// Append job information
 		EList<JobEntry> jobs = info.getJobs();
 		if (!jobs.isEmpty()) {
-			builder.append(LINE_SEPARATOR).append("Jobs information:")
-					.append(LINE_SEPARATOR);
+			w(tabs).println("Jobs information:");
 			for (JobEntry jobEntry : jobs) {
-				appendTabs(builder, 1).append("Job:")
-						.append(jobEntry.getName()).append(LINE_SEPARATOR);
-				appendTabs(builder, 2).append("class=")
-						.append(jobEntry.getJobClass()).append(LINE_SEPARATOR);
-				appendTabs(builder, 2).append("state=")
-						.append(jobEntry.getState()).append(LINE_SEPARATOR);
+				w(tabs + 1).println("Job:" + jobEntry.getName());
+				w(tabs + 2).println("class=" + jobEntry.getJobClass());
+				w(tabs + 2).println("state=" + jobEntry.getState());
 				if (jobEntry.getRule() != null) {
-					appendTabs(builder, 2).append("rule=")
-							.append(jobEntry.getRule()).append(LINE_SEPARATOR);
+					w(tabs + 2).println("rule=" + jobEntry.getRule());
 				}
 			}
 		}
-		// Append job information
-		if (options.get(STACK_TRACE).equals(Boolean.TRUE)) {
-			EList<StackTraceEntry> threads = info.getThreads();
-			if (!threads.isEmpty()) {
-				builder.append(LINE_SEPARATOR).append("Thread information:")
-						.append(LINE_SEPARATOR);
-				for (StackTraceEntry trace : threads) {
-					if (trace.getThreadClass().equals(
-							"org.eclipse.core.internal.jobs.Worker")
-							&& trace.getStackTrace().size() == 4) {
-						// Skip Worker threads sleep state
-						continue;
-					}
-					appendTabs(builder, 1).append("Thread:")
-							.append(trace.getThreadName())
-							.append(LINE_SEPARATOR);
-					appendTabs(builder, 2).append("class=")
-							.append(trace.getThreadClass())
-							.append(LINE_SEPARATOR);
-					EList<String> list = trace.getStackTrace();
-					for (int i = 0; i < list.size(); i++) {
-						appendTabs(builder, 3)
-								.append(Integer.toString(list.size() - i - 1))
-								.append(": ").append(list.get(i))
-								.append(LINE_SEPARATOR);
+		// Append thread information
+		EList<StackTraceEntry> threads = info.getThreads();
+		if (!threads.isEmpty()) {
+			w(tabs + 0).println("Thread information:");
+			for (StackTraceEntry trace : threads) {
+				if (trace.getThreadClass().equals(
+						"org.eclipse.core.internal.jobs.Worker")
+						&& trace.getStackTrace().size() == 4) {
+					// Skip Worker threads sleep state
+					continue;
+				}
+				w(tabs + 1).println("Thread:" + trace.getThreadName());
+				w(tabs + 2).println("class=" + trace.getThreadClass());
+				EList<String> list = trace.getStackTrace();
+				for (int i = 0; i < list.size(); i++) {
+					w(tabs + 3).append(Integer.toString(list.size() - i - 1))
+							.append(": ").append(list.get(i))
+							.println();
 
-					}
 				}
 			}
 		}
-		return builder.toString();
 	}
 
-	private void printNode(InfoNode infoNode, StringBuilder stream, int tabs) {
-		appendTabs(stream, tabs);
-		stream.append(infoNode.getName());
+	private void printNode(InfoNode infoNode, int tabs) {
+		w(tabs).println(infoNode.getName());
 		EList<NodeProperty> list = infoNode.getProperties();
 		EList<InfoNode> childs = infoNode.getChildren();
 		if (!list.isEmpty() || !childs.isEmpty()) {
-			stream.append(" {").append(LINE_SEPARATOR);
+			w(tabs).println(" {");
 			// Out properties
 			if (list.size() != 0) {
-				// appendTabs(stream, tabs + 1).append("properties = [\n");
 				for (NodeProperty nodeProperty : list) {
-					appendTabs(stream, tabs + 1).append(nodeProperty.getName())
-							.append("=").append(nodeProperty.getValue())
-							.append(LINE_SEPARATOR);
+					w(tabs + 1).println(nodeProperty.getName() + "=" + nodeProperty.getValue());
 				}
-				// appendTabs(stream, tabs + 1).append("]\n");
 			}
-
 			if (childs.size() != 0) {
-				// appendTabs(stream, tabs + 1).append(LINE_SEPARATOR);
 				for (InfoNode child : childs) {
-					printNode(child, stream, tabs + 2);
+					printNode(child, tabs + 2);
 				}
 			}
-			appendTabs(stream, tabs).append("}").append(LINE_SEPARATOR);
-		} else {
-			stream.append(LINE_SEPARATOR);
+			w(tabs).println("}");
 		}
-	}
-
-	private StringBuilder appendTabs(StringBuilder stream, int tabs) {
-		for (int i = 0; i < tabs; ++i) {
-			stream.append("  ");
-		}
-		return stream;
 	}
 }

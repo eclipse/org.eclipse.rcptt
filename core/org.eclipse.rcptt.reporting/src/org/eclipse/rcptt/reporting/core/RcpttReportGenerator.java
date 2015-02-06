@@ -7,12 +7,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.EclException;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
@@ -22,8 +25,10 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
+import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
 
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
@@ -44,6 +49,7 @@ public class RcpttReportGenerator {
 	}
 
 	public void writeReport(Report report, int tabs) {
+		startTime = report.getRoot().getStartTime();
 		printNode(report.getRoot(), tabs);
 	}
 
@@ -80,32 +86,93 @@ public class RcpttReportGenerator {
 
 		try {
 			for (Event child : infoNode.getEvents()) {
-				if (child.getData() instanceof EclipseStatus) {
-					simpleReportGenerator.printStatus(
-							(EclipseStatus) child.getData(),
-							tabs + 6, writer);
-				}
+				writeEvent(child, tabs + 1);
 			}
 
 			for (Snaphot child : infoNode.getSnapshots()) {
-				if (child.getData() instanceof Screenshot) {
-					Screenshot shot = (Screenshot) child
-							.getData();
-					String description = shot.getMessage()
-							+ ": " //$NON-NLS-1$
-							+ TimeFormatHelper.format(child
-									.getTime()
-									- startTime);
-					images.add(new ImageEntry(shot.getData(), description));
-				} else {
-					simpleReportGenerator.printSnapshot(child, writer, tabs + 4);
-				}
+				writeSnapshot(child, tabs + 1);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		printChildren(tabs, infoNode);
+	}
 
+	private void writeEvent(Event event, int tabs) throws IOException {
+		writeTabs(tabs + 1).println("Event " + TimeFormatHelper.format(event.getTime() - startTime));
+		printObject(event.getData(), tabs + 2);
+	}
+
+	public void printObject(EObject object, int tabs) throws IOException {
+		if (object instanceof EclipseStatus) {
+			printStatus((EclipseStatus) object, tabs);
+		} else if (object instanceof Snaphot) {
+			writeSnapshot((Snaphot) object, tabs);
+		} else {
+			simpleReportGenerator.toString(writer, tabs, object);
+		}
+
+	}
+
+	private void writeSnapshot(Snaphot snapshot, int tabs) throws IOException {
+		if (snapshot.getData() instanceof Screenshot) {
+			Screenshot shot = (Screenshot) snapshot
+					.getData();
+			String description = shot.getMessage()
+					+ ": " //$NON-NLS-1$
+					+ TimeFormatHelper.format(snapshot
+							.getTime()
+							- startTime);
+			images.add(new ImageEntry(shot.getData(), description));
+			return;
+		} else if (snapshot.getData() instanceof AdvancedInformation) {
+			printAdvanced((AdvancedInformation) snapshot.getData(), tabs);
+			return;
+		}
+		writeTabs(tabs).println("Snapshot " + TimeFormatHelper.format(snapshot.getTime() - startTime));
+		printObject(snapshot.getData(), tabs + 1);
+	}
+
+	private void printAdvanced(AdvancedInformation data, int tabs) {
+		new AdvancedInformationGenerator(writer).writeAdvanced(data, tabs);
+	}
+
+	private PrintWriter w(int tabs) {
+		return writeTabs(tabs);
+	}
+	private void printStatus(EclipseStatus status, int tabs) throws IOException {
+		SimpleSeverity severity = SimpleSeverity.create(status.getSeverity());
+		w(tabs).append(severity.name());
+		writer.append(" in plugin: ").println(status.getPlugin());
+		w(tabs).append("message: ").println(status.getMessage());
+		if (status.getException() != null) {
+			w(tabs).println("exception: ");
+			printJavaException(status.getException(), tabs + 2);
+		}
+		for (EclipseStatus child : status.getChildren()) {
+			printStatus(child, tabs + 1);
+		}
+	}
+
+	private void printJavaException(JavaException e, int tabs) {
+		w(tabs).append(e.getClassName());
+		if (!Strings.isNullOrEmpty(e.getMessage())) {
+			writer.print(":" + e.getMessage());
+		}
+		writer.println();
+		for (JavaStackTraceEntry st : e.getStackTrace()) {
+			w(tabs + 2).append("at ")
+					.append(st.getClassName()).append(".")
+					.append(st.getMethodName()).append("(")
+					.append(st.getFileName()).append(":")
+					.append("" + st.getLineNumber()).append(")")
+					.println();
+		}
+		JavaException cause = e.getCause();
+		if (cause != null) {
+			w(tabs + 2).println("Caused by:");
+			printJavaException(cause, tabs + 1);
+		}
 	}
 
 	protected void printChildren(int tabs, Node infoNode) {

@@ -70,7 +70,8 @@ public class ReportDetailsComposite extends AbstractEmbeddedComposite {
 			protected void printChildren(int tabs, Node infoNode) {
 			}
 		};
-		generator.writeReport(report, 0);
+		for (Node node : nodes2)
+			generator.printNode(node, 0);
 		textBox.setText(writer.toString());
 	}
 
