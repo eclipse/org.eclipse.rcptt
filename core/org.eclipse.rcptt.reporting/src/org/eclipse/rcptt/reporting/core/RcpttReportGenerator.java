@@ -140,6 +140,7 @@ public class RcpttReportGenerator {
 	private PrintWriter w(int tabs) {
 		return writeTabs(tabs);
 	}
+
 	private void printStatus(EclipseStatus status, int tabs) throws IOException {
 		SimpleSeverity severity = SimpleSeverity.create(status.getSeverity());
 		w(tabs).append(severity.name());
@@ -282,10 +283,8 @@ public class RcpttReportGenerator {
 	public void writeResult(int tabs, ProcessStatus result) {
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		writeTabs(tabs);
-		writer.append("Result: ").append(SimpleSeverity.create(result).name()).append(", message:")
-				.append(result.getMessage());
-		writer.println();
+		w(tabs).append("Result: " + SimpleSeverity.create(result).name() + ", message: ")
+				.println(result.getMessage());
 		writeException(writer, tabs + 1, result.getException());
 		for (ProcessStatus child : result.getChildren()) {
 			writeResult(tabs + 1, child);
