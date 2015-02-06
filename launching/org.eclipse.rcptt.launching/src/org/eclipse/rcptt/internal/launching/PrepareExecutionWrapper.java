@@ -250,6 +250,9 @@ public class PrepareExecutionWrapper extends Executable {
 
 	@Override
 	public IStatus postExecute(IStatus status) {
+		IStatus temp = executable.postExecute(status);
+		if (status.isOK() && !temp.isOK())
+			status = temp;
 		Report resultReport = null;
 		try {
 			if (status.matches(IStatus.CANCEL)) {
