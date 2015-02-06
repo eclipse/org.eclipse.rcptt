@@ -11,6 +11,8 @@
 package org.eclipse.rcptt.ui.launching;
 
 import java.io.ByteArrayInputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,7 +189,9 @@ public final class DetailsDialog extends Dialog {
 		// value = new AdvancedInformationGenerator().generateContent(info);
 		// }
 		if (report != null) {
-			value += "\n" + new RcpttReportGenerator(this.report, LINE_SEPARATOR, this.images).generateContent(report);
+			StringWriter writer = new StringWriter();
+			new RcpttReportGenerator(new PrintWriter(writer), this.images).writeReport(report, 0);
+			value = writer.toString();
 		}
 		text.setText(value);
 	}

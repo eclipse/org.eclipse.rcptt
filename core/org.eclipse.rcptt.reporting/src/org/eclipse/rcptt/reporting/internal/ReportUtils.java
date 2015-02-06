@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.internal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -259,7 +260,7 @@ public class ReportUtils {
 			collectScreenshots(child, acc);
 		}
 	}
-	
+
 	public static String getFailMessage(Node item) {
 		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
 		return getFailMessage(current.getResult());
@@ -331,31 +332,37 @@ public class ReportUtils {
 	}
 
 	public static void collectDetails(Node item, StringBuilder result) {
-		EList<Snaphot> snapshots = item.getSnapshots();
-		for (Snaphot snaphot : snapshots) {
-			EObject data = snaphot.getData();
-			if (data != null) {
-				if (data instanceof AdvancedInformation) {
-					result.append(new AdvancedInformationGenerator()
-							.generateContent((AdvancedInformation) data));
-					result.append("\n");
-				} else {
-					new SimpleReportGenerator().toString(result, 2, data);
+		try {
+			EList<Snaphot> snapshots = item.getSnapshots();
+			for (Snaphot snaphot : snapshots) {
+				EObject data = snaphot.getData();
+				if (data != null) {
+					if (data instanceof AdvancedInformation) {
+						result.append(new AdvancedInformationGenerator()
+								.generateContent((AdvancedInformation) data));
+						result.append("\n");
+					} else {
+						new SimpleReportGenerator().toString(result, 2, data);
+						result.append("\n");
+					}
+				}
+			}
+			EList<Event> events = item.getEvents();
+			for (Event event : events) {
+				if (event.getData() instanceof EclipseStatus) {
+					EclipseStatus data = (EclipseStatus) event.getData();
+					new SimpleReportGenerator().toString(result, 1, data);
 					result.append("\n");
 				}
 			}
-		}
-		EList<Event> events = item.getEvents();
-		for (Event event : events) {
-			if (event.getData() instanceof EclipseStatus) {
-				EclipseStatus data = (EclipseStatus) event.getData();
-				new SimpleReportGenerator().toString(result, 1, data);
-				result.append("\n");
+			EList<Node> children = item.getChildren();
+			for (Node node : children) {
+				collectDetails(node, result);
 			}
-		}
-		EList<Node> children = item.getChildren();
-		for (Node node : children) {
-			collectDetails(node, result);
+		} catch (IOException e) {
+			// String builder does not throw
+			throw new RuntimeException(e);
 		}
 	}
+
 }

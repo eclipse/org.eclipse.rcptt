@@ -10,15 +10,18 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.reporting.core.ImageEntry;
 import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -61,19 +64,14 @@ public class ReportDetailsComposite extends AbstractEmbeddedComposite {
 	}
 
 	public void update(Report report, List<Node> nodes2) {
-		SimpleReportGenerator generator = new RcpttReportGenerator(report) {
+		StringWriter writer = new StringWriter();
+		RcpttReportGenerator generator = new RcpttReportGenerator(new PrintWriter(writer), new ArrayList<ImageEntry>()) {
 			@Override
-			protected void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode,
-					boolean includeWaitDetails) {
+			protected void printChildren(int tabs, Node infoNode) {
 			}
 		};
-		StringBuilder b = new StringBuilder();
-		for (Node node : nodes2) {
-			generator.printNode(node, b, 0, false);
-			b.append("RCPTT Widget details");
-			generator.printNode(node, b, 0, true);
-		}
-		textBox.setText(b.toString());
+		generator.writeReport(report, 0);
+		textBox.setText(writer.toString());
 	}
 
 }

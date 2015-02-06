@@ -1,7 +1,10 @@
 package org.eclipse.rcptt.reporting.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.rcptt.ecl.core.EclException;
@@ -18,25 +21,41 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 
-public class RcpttReportGenerator extends SimpleReportGenerator {
+public class RcpttReportGenerator {
+	private final SimpleReportGenerator simpleReportGenerator = new SimpleReportGenerator();
 	private final List<ImageEntry> images;
-	private final Report report;
-	private final String lineSeparator;
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	private final PrintWriter writer;
+	private long startTime = 0;
 
-	public RcpttReportGenerator(Report report) {
-		this(report, LINE_SEPARATOR, new ArrayList<ImageEntry>());
+	public RcpttReportGenerator(PrintWriter writer, List<ImageEntry> images) {
+		this.writer = writer;
+		this.images = images;
 	}
 
-	public RcpttReportGenerator(Report report, String lineSeparator, List<ImageEntry> images) {
-		this.report = report;
-		this.lineSeparator = lineSeparator;
-		this.images = images;
+	protected PrintWriter writeTabs(int tabs) {
+		return writeTabs(writer, tabs);
+	}
+
+	public void writeReport(Report report, int tabs) {
+		printNode(report.getRoot(), tabs);
+	}
+
+	protected static <T extends Appendable> T writeTabs(T writer, int tabs) {
+		for (int i = 0; i < tabs; ++i) {
+			try {
+				writer.append("  ");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return writer;
 	}
 
 	// @Override
@@ -52,27 +71,19 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 	// return super.toString(builder, tabs, obj, ignores);
 	// };
 	//
-	@Override
-	public void printNode(
-			org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node infoNode,
-			StringBuilder stringBuilder, int tabs, boolean includeWaitDetails) {
+	public void printNode(Node infoNode, int tabs) {
+		writeQ7Info(tabs, infoNode);
 
-		writeQ7Info(stringBuilder, tabs, infoNode);
+		writeQ7WaitInfo(tabs, infoNode);
 
-		if (includeWaitDetails) {
-			writeQ7WaitInfo(stringBuilder, tabs, infoNode);
-		}
+		writeLogsFromNode(tabs, infoNode);
 
-		writeLogsFromNode(stringBuilder, tabs, infoNode);
-
-		printChildren(stringBuilder, tabs, infoNode, includeWaitDetails);
-
-		if (!includeWaitDetails) {
+		try {
 			for (Event child : infoNode.getEvents()) {
 				if (child.getData() instanceof EclipseStatus) {
-					printStatus(
+					simpleReportGenerator.printStatus(
 							(EclipseStatus) child.getData(),
-							tabs + 6, stringBuilder);
+							tabs + 6, writer);
 				}
 			}
 
@@ -84,26 +95,88 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 							+ ": " //$NON-NLS-1$
 							+ TimeFormatHelper.format(child
 									.getTime()
-									- report.getRoot()
-											.getStartTime());
+									- startTime);
 					images.add(new ImageEntry(shot.getData(), description));
 				} else {
-					printSnapshot(child, stringBuilder, tabs + 4);
+					simpleReportGenerator.printSnapshot(child, writer, tabs + 4);
 				}
 			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
+		printChildren(tabs, infoNode);
+
 	}
 
-	protected void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode, boolean includeWaitDetails) {
+	protected void printChildren(int tabs, Node infoNode) {
 		for (Node child : infoNode.getChildren()) {
-			printNode(child, stringBuilder, tabs + 4, includeWaitDetails);
+			printNode(child, tabs + 4);
 		}
 	}
 
-	private void writeQ7WaitInfo(StringBuilder stringBuilder, int tabs, Node infoNode) {
+	private void writeQ7WaitInfo(int tabs, Node infoNode) {
 		Q7WaitInfoRoot waitInfo = ReportHelper.getWaitInfo(infoNode, false);
 		if (waitInfo != null) {
-			printWaitInfo(stringBuilder, tabs, "", waitInfo); //$NON-NLS-1$
+			writeQ7WaitInfo(tabs, waitInfo); //$NON-NLS-1$
+		}
+	}
+
+	public static String getType(Q7WaitInfoRoot info, Q7WaitInfo q7WaitInfo) {
+		String type = info.getTypesNames().get(q7WaitInfo.getTypeId());
+		if (!TeslaFeatures.isIncludeIgnoredWaitDetails() && type.contains("(ignored)")) {
+			return null;
+		}
+		return type;
+	}
+
+	public void writeQ7WaitInfo(int tabs, Q7WaitInfoRoot info) {
+		List<Q7WaitInfo> infos = new ArrayList<Q7WaitInfo>(info.getInfos());
+		Collections.sort(infos, new Comparator<Q7WaitInfo>() {
+			@Override
+			public int compare(Q7WaitInfo o1, Q7WaitInfo o2) {
+				return Long.valueOf(o1.getLastTick()).compareTo(Long.valueOf(o2.getLastTick()));
+			}
+		});
+		if (infos.size() == 0) {
+			return;
+		}
+		long endTime = info.getStartTime();
+		int total = 0;
+		for (Q7WaitInfo q7WaitInfo : infos) {
+			if (getType(info, q7WaitInfo) == null) {
+				continue;
+			}
+			if (endTime < q7WaitInfo.getEndTime()) {
+				endTime = q7WaitInfo.getEndTime();
+			}
+			total++;
+		}
+		if (total == 0) {
+			return;
+		}
+		writeTabs(tabs + 4).append("--> q7 wait details <-- total wait time: ")
+				.append(Long.toString(endTime - info.getStartTime()))
+				.println();
+		for (Q7WaitInfo i : infos) {
+			long totalTime = i.getEndTime() - i.getStartTime();
+			String className = SimpleReportGenerator.getClassName(info, i);
+			String type = getType(info, i);
+			if (type == null) {
+				continue;
+			}
+			writeTabs(tabs + 8).append(type).append(": ")
+					.append(className);
+			// writer.append(" time: ").append(Long.toString(i.getStartTime())).append(" - ").append(i.getEndTime());
+			if (totalTime != 0)
+				writer.append(", total time: ").append(Long.toString(totalTime));
+			if (i.getLastTick() > 0) {
+				// writer.append(", total ticks: ").append(Long.toString(i.getTicks()));
+				writer.append(", ticks: ").append(Long.toString(i.getLastTick() - i.getTicks() + 1));
+				writer.append(" to ").append(Long.toString(i.getLastTick()));
+			}
+			// if( i.getLastTick() != 0) {
+			// }
+			writer.println();
 		}
 	}
 
@@ -125,75 +198,70 @@ public class RcpttReportGenerator extends SimpleReportGenerator {
 		return name;
 	}
 
-	private void writeQ7Info(StringBuilder stringBuilder, int tabs, Node infoNode) {
+	private void writeQ7Info(int tabs, Node infoNode) {
 		Q7Info q7Info = ReportHelper.getInfo(infoNode);
-		appendTabs(stringBuilder, tabs);
+		writeTabs(tabs);
 		if (q7Info != null) {
-			stringBuilder.append(kindToString(q7Info.getType(), infoNode.getName()));
-			stringBuilder
-					.append(" ")
+			writer.append(kindToString(q7Info.getType(), infoNode.getName()));
+			writer.
+					append(" ")
 					.append("time: " +
 							TimeFormatHelper.format(infoNode.getEndTime() - infoNode.getStartTime()))
-					.append(lineSeparator);
-			writeResult(stringBuilder, tabs + 1, q7Info.getResult());
+					.println();
+			writeResult(tabs + 1, q7Info.getResult());
 		}
 	}
 
-	public void writeResult(Appendable stream, int tabs, ProcessStatus result) {
+	public void writeResult(int tabs, ProcessStatus result) {
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		try {
-			appendTabs(stream, tabs);
-			stream.append("Result: ").append(SimpleSeverity.create(result).name()).append(", message:")
-					.append(result.getMessage());
-			stream.append(lineSeparator);
-			writeException(stream, tabs + 1, result.getException());
-			for (ProcessStatus child : result.getChildren()) {
-				writeResult(stream, tabs + 1, child);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		writeTabs(tabs);
+		writer.append("Result: ").append(SimpleSeverity.create(result).name()).append(", message:")
+				.append(result.getMessage());
+		writer.println();
+		writeException(writer, tabs + 1, result.getException());
+		for (ProcessStatus child : result.getChildren()) {
+			writeResult(tabs + 1, child);
 		}
 	}
 
-	private void writeException(Appendable stream, final int tabs, EclException exception) {
+	private static void writeException(Appendable writer, final int tabs, EclException exception) {
 		if (exception == null)
 			return;
-		IndentedWriter writer = new IndentedWriter(CharStreams.asWriter(stream)) {
+		IndentedWriter iwriter = new IndentedWriter(CharStreams.asWriter(writer)) {
 			@Override
 			public void writeIndent() {
-				appendTabs(this, tabs);
+				writeTabs(this, tabs);
 			}
 		};
-		ProcessStatusConverter.getThrowable(exception).printStackTrace(writer);
-		writer.println();
-		writer.close();
+		ProcessStatusConverter.getThrowable(exception).printStackTrace(iwriter);
+		iwriter.println();
+		iwriter.flush();
 	}
 
-	private void writeLogsFromNode(StringBuilder builder, int tabs, Node infoNode) {
+	private void writeLogsFromNode(int tabs, Node infoNode) {
 		boolean haveEntries = false;
 		for (LoggingCategory logCategory : LoggingCategory.VALUES) {
 			String log = ReportBuilder.getLogs(infoNode, logCategory);
 			if (!Strings.isNullOrEmpty(log)) {
 				if (!haveEntries) {
 					haveEntries = true;
-					appendTabs(builder, tabs)
-							.append("--------------Logs BEGIN-------------------") //$NON-NLS-1$
-							.append(lineSeparator);
+					writeTabs(tabs)
+							.println("--------------Logs BEGIN-------------------"); //$NON-NLS-1$
 				}
 
-				for (String logLine : log.split(lineSeparator)) {
-					appendTabs(builder, tabs)
+				for (String logLine : log.split("[\r\n]+")) {
+					writeTabs(tabs)
 							.append(logLine)
-							.append(lineSeparator);
+							.println();
 				}
 			}
 		}
 
 		if (haveEntries) {
-			appendTabs(builder, tabs)
+			writeTabs(tabs)
 					.append("--------------Logs END-------------------") //$NON-NLS-1$
-					.append(lineSeparator);
+					.println();
 		}
 	}
 }

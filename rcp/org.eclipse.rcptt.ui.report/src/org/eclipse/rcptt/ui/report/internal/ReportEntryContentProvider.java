@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,6 @@ import com.google.common.base.Preconditions;
 
 class ReportEntryContentProvider implements
 		IStructuredContentProvider {
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	public void dispose() {
 		Job.getJobManager().cancel(this);
 	}
@@ -86,8 +86,8 @@ class ReportEntryContentProvider implements
 					Node root = next.getRoot();
 					Q7Info info = ReportHelper.getInfo(root);
 					StringWriter writer = new StringWriter();
-					new RcpttReportGenerator(next, LINE_SEPARATOR, new ArrayList<ImageEntry>()).writeResult(
-							writer, 0, info.getResult());
+					new RcpttReportGenerator(new PrintWriter(writer), new ArrayList<ImageEntry>()).writeResult(0,
+							info.getResult());
 					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root
 							.getStartTime()), info.getResult(), writer.toString()));
 				}
