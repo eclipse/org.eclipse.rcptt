@@ -34,9 +34,6 @@ public class TestSuiteExecutable extends Executable {
 		if (children.length > 0) {
 			System.arraycopy(children, 0, kids, 0, children.length);
 		}
-		for (Executable child : kids) {
-			child.setParent(this);
-		}
 	}
 
 	public String getName() {

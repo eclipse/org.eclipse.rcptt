@@ -40,7 +40,6 @@ public abstract class Executable implements IExecutable {
 	private State state = State.WAITING;
 	private long time;
 
-	private Executable parent;
 	private final ExecutionPhase phase;
 
 	public abstract Executable[] getChildren();
@@ -185,14 +184,6 @@ public abstract class Executable implements IExecutable {
 
 	/** Should only be called from org.eclipse.rcptt.internal.launching.Executable.executeAndRememberResult() */
 	protected abstract IStatus execute() throws InterruptedException;
-
-	protected Executable getParent() {
-		return parent;
-	}
-
-	protected void setParent(Executable parent) {
-		this.parent = parent;
-	}
 
 	protected Executable(boolean debug) {
 		this(debug, ExecutionPhase.AUTO, false);

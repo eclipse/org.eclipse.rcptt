@@ -192,13 +192,7 @@ public class PrepareExecutionWrapper extends Executable {
 
 	private void createReport() throws CoreException, InterruptedException {
 		CreateReport createReport = Q7CoreFactory.eINSTANCE.createCreateReport();
-		String name = getName();
-		Executable parent = getParent();
-		while (parent != null) {
-			name = parent.getName() + "/" + name;
-			parent = parent.getParent();
-		}
-		createReport.setName(name);
+		createReport.setName(getName());
 		createReport.setQ7info(getQ7Info(executable));
 		launch.execute(createReport);
 	}
