@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.aut;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.IStreamListener;
-import org.eclipse.debug.core.model.IFlushableStreamMonitor;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamMonitor;
 import org.eclipse.debug.core.model.IStreamsProxy;
@@ -22,62 +24,59 @@ import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchListener;
 import org.eclipse.rcptt.launching.AutLaunchState;
 
-public class ConsoleOutputTestListener implements AutLaunchListener {
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
-	private ConsoleOutputListener listener;
-	private StringBuilder log = null;
+public class ConsoleOutputListener implements AutLaunchListener {
 
-	public void startLogging(AutLaunch launch) {
-		IProcess[] processes = launch.getLaunch().getProcesses();
-		log = new StringBuilder();
-		if (listener == null) {
-			this.listener = new ConsoleOutputListener(log);
+	private final StringBuilder log = new StringBuilder();
+	private AutLaunch launch = null;
+
+	private IStreamListener listener = new IStreamListener() {
+		public void streamAppended(String text, IStreamMonitor monitor) {
+			assert launch != null;
+			log.append(text);
 		}
+	};
 
-		for (IProcess process : processes) {
+	static Collection<IStreamMonitor> getMonitors(ILaunch launch) {
+		if (launch == null)
+			return Collections.emptyList();
+		Builder<IStreamMonitor> builder = ImmutableList.<IStreamMonitor> builder();
+		for (IProcess process : launch.getProcesses()) {
 			IStreamsProxy proxy = process.getStreamsProxy();
 			if (proxy == null) {
 				continue;
 			}
+			builder.add(proxy.getOutputStreamMonitor());
+			builder.add(proxy.getErrorStreamMonitor());
+		}
+		return builder.build();
+	}
 
-			for (IStreamMonitor sm : new IStreamMonitor[] {
-					proxy.getOutputStreamMonitor(),
-					proxy.getErrorStreamMonitor() }) {
-				listener.streamAppended(sm.getContents(), sm);
-				sm.removeListener(listener);
-				sm.addListener(listener);
-			}
+	public void startLogging(AutLaunch launch) {
+		stopLogging();
+		log.setLength(0);
+		this.launch = launch;
+		for (IStreamMonitor sm : getMonitors(launch.getLaunch())) {
+			sm.addListener(listener);
 		}
 	}
 
 	public void stopLogging() {
-		if (listener != null) {
-			listener = null;
+		AutLaunch launch2 = launch;
+		if (launch2 == null)
+			return;
+		for (IStreamMonitor sm : getMonitors(launch2.getLaunch())) {
+			sm.removeListener(listener);
 		}
+		launch = null;
 	}
 
 	@Override
 	public void stateChanged(AutLaunch launch, AutLaunchState state) {
 		if (state.equals(AutLaunchState.TERMINATE)) {
 			stopLogging();
-		}
-	}
-
-	private static class ConsoleOutputListener implements IStreamListener {
-		public final StringBuilder log;
-
-		public ConsoleOutputListener(StringBuilder log) {
-			this.log = log;
-		}
-
-		public void streamAppended(String text, IStreamMonitor monitor) {
-			if (log == null) {
-				return;
-			}
-			log.append(text);
-			if (monitor instanceof IFlushableStreamMonitor) {
-				((IFlushableStreamMonitor) monitor).flushContents();
-			}
 		}
 	}
 

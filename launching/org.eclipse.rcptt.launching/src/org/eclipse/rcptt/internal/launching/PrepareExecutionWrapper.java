@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.rcptt.core.Q7;
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.ecl.core.model.CreateReport;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.ecl.core.model.GetReport;
 import org.eclipse.rcptt.core.ecl.core.model.PrepareEnvironment;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
@@ -71,7 +72,7 @@ public class PrepareExecutionWrapper extends Executable {
 	private String resultReportID;
 
 	public PrepareExecutionWrapper(AutLaunch launch, Executable executable) {
-		super(executable.isDebug());
+		super(executable.isDebug(), ExecutionPhase.AUTO, true);
 		this.launch = launch;
 		this.executable = executable;
 	}
@@ -315,7 +316,7 @@ public class PrepareExecutionWrapper extends Executable {
 		Report report = TestSuiteUtils.generateFailedReport((ITestCase) getActualElement(), reason);
 		Node root = report.getRoot();
 		root.setEndTime(root.getStartTime() + getTime());
-		ReportHelper.appendLog(root, LoggingCategory.NORMAL, testListener.getLog());
+		ReportHelper.appendLog(root, LoggingCategory.NORMAL, getLog());
 		return report;
 	}
 
