@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.rcptt.core.Q7;
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.ecl.core.model.CreateReport;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.ecl.core.model.GetReport;
 import org.eclipse.rcptt.core.ecl.core.model.PrepareEnvironment;
 import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
@@ -49,6 +50,7 @@ import org.eclipse.rcptt.parameters.ResetParams;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
@@ -67,7 +69,7 @@ public class PrepareExecutionWrapper extends Executable {
 	private String resultReportID;
 
 	public PrepareExecutionWrapper(AutLaunch launch, Executable executable) {
-		super(executable.isDebug());
+		super(executable.isDebug(), ExecutionPhase.AUTO, true);
 		this.launch = launch;
 		this.executable = executable;
 	}
@@ -294,6 +296,7 @@ public class PrepareExecutionWrapper extends Executable {
 		Report report = TestSuiteUtils.generateReport(getActualElement(), status);
 		Node root = report.getRoot();
 		root.setEndTime(root.getStartTime() + getTime());
+		ReportHelper.appendLog(root, LoggingCategory.NORMAL, getLog());
 		return report;
 	}
 
