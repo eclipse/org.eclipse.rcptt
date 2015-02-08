@@ -16,8 +16,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.IEventProviders;
@@ -128,7 +132,18 @@ public class ReportManager implements IQ7ReportConstants {
 					if (eObject instanceof ReportBuilderStore) {
 						ReportBuilderStore store = (ReportBuilderStore) eObject;
 						initializeBuilder(null, store);
-						builder.getCurrent().endTask(); //workbench restart complete
+					}
+					INodeBuilder node = builder.getCurrent();
+					ReportHelper.setResult(node,
+							RcpttPlugin.createProcessStatus(IStatus.OK, "Restart successful"));
+					node.endTask();
+					ProcessStatus eclStatus = RcpttPlugin
+							.createProcessStatus(
+									IStatus.OK,
+									"AUT restarted. Closing ECL report nodes.");
+					while (getType(node = builder.getCurrent()) == ItemKind.ECL_COMMAND) {
+						ReportHelper.setResult(node, eclStatus);
+						node.endTask();
 					}
 				} catch (Throwable e) {
 					Q7ReportingPlugin.log(e);
@@ -138,6 +153,16 @@ public class ReportManager implements IQ7ReportConstants {
 		}
 	}
 
+	private static ItemKind getType(INodeBuilder node) {
+		final ItemKind[] rv = { null };
+		node.update(new Procedure1<Node>() {
+			@Override
+			public void apply(Node arg) {
+				rv[0] = ReportHelper.getInfo(arg).getType();
+			}
+		});
+		return rv[0];
+	}
 	public synchronized static void storeState() {
 		ReportBuilder localBuilder = builder;
 		if (localBuilder != null) {

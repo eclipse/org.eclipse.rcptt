@@ -190,7 +190,10 @@ public final class DetailsDialog extends Dialog {
 		// }
 		if (report != null) {
 			StringWriter writer = new StringWriter();
-			new RcpttReportGenerator(new PrintWriter(writer), this.images).writeReport(report, 0);
+
+			PrintWriter printWriter = new PrintWriter(writer);
+			printWriter.println("Report: ");
+			new RcpttReportGenerator(printWriter, this.images).writeReport(report, 0);
 			value = writer.toString();
 		}
 		text.setText(value);

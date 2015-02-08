@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.internal.ecl.core.commands;
 
+import java.util.Stack;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.ecl.core.model.BeginReportNode;
@@ -26,25 +28,31 @@ import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.ISessionListener;
 import org.eclipse.rcptt.ecl.core.Pipeline;
+import org.eclipse.rcptt.ecl.core.RestoreState;
+import org.eclipse.rcptt.ecl.core.SaveState;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.SessionListenerManager;
 import org.eclipse.rcptt.ecl.core.With;
 import org.eclipse.rcptt.ecl.core.util.CommandToStringConverter;
 import org.eclipse.rcptt.ecl.gen.ast.AstExec;
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 
 public class EclCommandEventProvider extends AbstractEventProvider implements
 		ISessionListener, IEventProvider {
+
+	private Stack<INodeBuilder> stack = new Stack<INodeBuilder>();
 
 	public EclCommandEventProvider() {
 	}
@@ -63,24 +71,28 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		if (isIgnoredCommand(command)) {
 			return;
 		}
-		ReportBuilder builder = ReportManager.getBuilder();
-		if (builder != null) {
-			String cmdName = null;
-			try {
-				Command cmd = EcoreUtil.copy(command);
-				if (cmd instanceof With) {
-					((With) cmd).setDo(null);
-				}
-				cmdName = new CommandToStringConverter().convert(cmd).replace(
-						"\n", "\\n");
-			} catch (Throwable e) {
-				cmdName = command.getClass().getSimpleName();
+		String cmdName = buildName(command);
+		final INodeBuilder node = ReportManager.getCurrentReportNode().beginTask(cmdName);
+		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+		info.setType(ItemKind.ECL_COMMAND);
+		ReportHelper.setInfo(node, info);
+		stack.push(node);
+	}
+
+	private static String buildName(Command command) {
+		String cmdName = null;
+		try {
+			Command cmd = EcoreUtil.copy(command);
+			if (cmd instanceof With) {
+				((With) cmd).setDo(null);
 			}
-			INodeBuilder node = builder.getCurrent().beginTask(cmdName);
-			Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
-			info.setType(ItemKind.ECL_COMMAND);
-			ReportHelper.setInfo(node, info);
+			cmdName = new CommandToStringConverter().convert(cmd).replace(
+					"\n", "\\n");
+		} catch (Throwable e) {
+			CorePlugin.log(e);
+			cmdName = command.getClass().getSimpleName();
 		}
+		return cmdName;
 	}
 
 	private boolean isIgnoredCommand(Command command) {
@@ -97,6 +109,8 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 				|| command instanceof AstExec || command instanceof Script
 				|| cname.equals("SetupPlayerImpl")
 				|| cname.equals("ShoutdownPlayerImpl")
+				|| command instanceof SaveState
+				|| command instanceof RestoreState
 				|| command instanceof CreateReport
 				|| command instanceof GetReport
 				|| command instanceof ExecVerification;
@@ -104,10 +118,19 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 
 	public void endCommand(Command command, final IStatus status) {
 		if (isIgnoredCommand(command)) {
-
 			return;
 		}
-		INodeBuilder node = ReportManager.getCurrentReportNode();
+		final INodeBuilder node = stack.pop();
+		if (node == null)
+			throw new NullPointerException();
+		final String name = buildName(command);
+		assert name != null;
+		node.update(new Procedure1<Node>() {
+			@Override
+			public void apply(Node arg) {
+				assert name.equals(arg.getName()) : "" + name + " != " + arg.getName();
+			}
+		});
 		ReportHelper.setResult(node, status);
 		node.endTask();
 	}

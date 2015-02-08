@@ -11,7 +11,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="variant" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ItemKind">
     <eLiterals name="Context" literal="Context"/>

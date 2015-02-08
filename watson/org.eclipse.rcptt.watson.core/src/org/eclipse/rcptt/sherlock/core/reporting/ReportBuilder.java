@@ -40,6 +40,12 @@ public class ReportBuilder implements IReportBuilder {
 		private final Node node;
 		private NodeBuilder parent;
 		private NodeBuilder(NodeBuilder parent, Node node){
+			if (parent == null) {
+				EObject container = node.eContainer();
+				if (container instanceof Node) {
+					parent = new NodeBuilder(null, (Node) container);
+				}
+			}
 			this.parent = parent;
 			this.node = node;
 		}
@@ -65,9 +71,9 @@ public class ReportBuilder implements IReportBuilder {
 		public void endTask() {
 			synchronized (report) {
 				node.setEndTime(getTime());
-				if (parent != null) {
-					currentNode = parent;
-				}
+				if (parent == null)
+					throw new IllegalStateException("Root report node can't be closed.");
+				currentNode = parent;
 			}
 		}
 		

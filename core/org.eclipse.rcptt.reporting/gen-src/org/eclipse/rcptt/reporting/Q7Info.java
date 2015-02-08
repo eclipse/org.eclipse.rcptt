@@ -96,26 +96,26 @@ public interface Q7Info extends EObject {
 	void setType(ItemKind value);
 
 	/**
-	 * Returns the value of the '<em><b>Result</b></em>' reference.
+	 * Returns the value of the '<em><b>Result</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Result</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Result</em>' reference.
+	 * @return the value of the '<em>Result</em>' containment reference.
 	 * @see #setResult(ProcessStatus)
 	 * @see org.eclipse.rcptt.reporting.ReportingPackage#getQ7Info_Result()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	ProcessStatus getResult();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Result</em>' reference.
+	 * @param value the new value of the '<em>Result</em>' containment reference.
 	 * @see #getResult()
 	 * @generated
 	 */

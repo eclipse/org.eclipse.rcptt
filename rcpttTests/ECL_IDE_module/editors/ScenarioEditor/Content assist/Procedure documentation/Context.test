@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _d1NdkCbREeSJvYFSUnsXEQ
-Runtime-Version: 1.5.5.201502011233
-Save-Time: 2/5/15 4:14 PM
+Runtime-Version: 1.5.2.201408180747
+Save-Time: 9/10/14 3:36 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -24,13 +24,12 @@ with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] 
 get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | double-click
 get-editor Dummy | get-section Script | get-text-viewer | hover-text 1 9
 
-proc cleanString {
-	invoke replaceAll "(?m)(\\\\n| )" ""
-}
 
-global [val information [get-window -from "Information Window" | get-control Browser | get-property text -raw | invoke toLowerCase | cleanString]]
-trace $information
-$information | invoke contains "procedure<b>create-java-class</b><br>descriptionofcreate-java-classprocedure" | verify-true
+
+get-window -from "Information Window" | get-control Browser | get-property text -raw | invoke toLowerCase | invoke contains 
+
+"procedure <b>create-java-class</b>\\n"
+    + "<br /> description of create-java-class procedure\\n" | verify-true
 
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

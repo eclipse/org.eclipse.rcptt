@@ -7,10 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.EclException;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
@@ -281,6 +283,8 @@ public class RcpttReportGenerator {
 	}
 
 	public void writeResult(int tabs, ProcessStatus result) {
+		if (result == null)
+			result = RcpttPlugin.createProcessStatus(IStatus.ERROR, "Null result");
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
 		w(tabs).append("Result: " + SimpleSeverity.create(result).name() + ", message: ")

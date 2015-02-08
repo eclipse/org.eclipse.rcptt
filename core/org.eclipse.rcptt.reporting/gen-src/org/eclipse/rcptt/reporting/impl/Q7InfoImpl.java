@@ -13,6 +13,7 @@ package org.eclipse.rcptt.reporting.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -197,7 +198,7 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	protected String phase = PHASE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getResult() <em>Result</em>}' reference.
+	 * The cached value of the '{@link #getResult() <em>Result</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getResult()
@@ -273,14 +274,6 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * @generated
 	 */
 	public ProcessStatus getResult() {
-		if (result != null && result.eIsProxy()) {
-			InternalEObject oldResult = (InternalEObject)result;
-			result = (ProcessStatus)eResolveProxy(oldResult);
-			if (result != oldResult) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ReportingPackage.Q7_INFO__RESULT, oldResult, result));
-			}
-		}
 		return result;
 	}
 
@@ -289,8 +282,14 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProcessStatus basicGetResult() {
-		return result;
+	public NotificationChain basicSetResult(ProcessStatus newResult, NotificationChain msgs) {
+		ProcessStatus oldResult = result;
+		result = newResult;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ReportingPackage.Q7_INFO__RESULT, oldResult, newResult);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -299,10 +298,31 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 	 * @generated
 	 */
 	public void setResult(ProcessStatus newResult) {
-		ProcessStatus oldResult = result;
-		result = newResult;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ReportingPackage.Q7_INFO__RESULT, oldResult, result));
+		if (newResult != result) {
+			NotificationChain msgs = null;
+			if (result != null)
+				msgs = ((InternalEObject)result).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ReportingPackage.Q7_INFO__RESULT, null, msgs);
+			if (newResult != null)
+				msgs = ((InternalEObject)newResult).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ReportingPackage.Q7_INFO__RESULT, null, msgs);
+			msgs = basicSetResult(newResult, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ReportingPackage.Q7_INFO__RESULT, newResult, newResult));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ReportingPackage.Q7_INFO__RESULT:
+				return basicSetResult(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -447,8 +467,7 @@ public class Q7InfoImpl extends EObjectImpl implements Q7Info {
 			case ReportingPackage.Q7_INFO__PHASE:
 				return getPhase();
 			case ReportingPackage.Q7_INFO__RESULT:
-				if (resolve) return getResult();
-				return basicGetResult();
+				return getResult();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

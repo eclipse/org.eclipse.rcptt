@@ -15,6 +15,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.reporting.Q7Info;
@@ -130,18 +131,20 @@ public class ReportHelper {
 		setResult(node, ProcessStatusConverter.toProcessStatus(status));
 	}
 
-	public static void setResult(INodeBuilder node, final ProcessStatus status) {
+	public static void setResult(INodeBuilder node, ProcessStatus status) {
 		if (status == null)
 			throw new NullPointerException("Status can't be null");
 		if (node == null)
 			throw new NullPointerException("Node can't be null");
+
+		final ProcessStatus status2 = EcoreUtil.copy(status);
 		node.update(new Procedure1<Node>() {
 			@Override
 			public void apply(Node arg) {
 				Q7Info info = getInfo(arg);
 				if (info.getResult() != null)
 					throw new IllegalStateException("Result is already set");
-				info.setResult(status);
+				info.setResult(status2);
 			}
 		});
 	}

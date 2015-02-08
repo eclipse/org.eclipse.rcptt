@@ -360,7 +360,7 @@ public class ReportingPackageImpl extends EPackageImpl implements ReportingPacka
 		initEAttribute(getQ7Info_Subtype(), ecorePackage.getEString(), "subtype", null, 0, 1, Q7Info.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7Info_Variant(), ecorePackage.getEString(), "variant", null, 0, -1, Q7Info.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7Info_Phase(), ecorePackage.getEString(), "phase", null, 0, 1, Q7Info.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getQ7Info_Result(), theCorePackage.getProcessStatus(), null, "result", null, 0, 1, Q7Info.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getQ7Info_Result(), theCorePackage.getProcessStatus(), null, "result", null, 0, 1, Q7Info.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(q7StatisticsEClass, Q7Statistics.class, "Q7Statistics", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getQ7Statistics_Total(), ecorePackage.getEInt(), "total", null, 0, 1, Q7Statistics.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
