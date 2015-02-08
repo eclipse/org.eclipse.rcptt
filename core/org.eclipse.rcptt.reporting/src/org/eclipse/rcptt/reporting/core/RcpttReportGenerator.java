@@ -252,17 +252,17 @@ public class RcpttReportGenerator {
 	String kindToString(ItemKind kind, String name) {
 		switch (kind) {
 		case CONTEXT:
-			return "Context " + name;
+			return "Context *" + name + "*";
 		case ECL_COMMAND:
 			return name;
 		case SCRIPT:
-			return "Script " + name;
+			return "Script *" + name + "*";
 		case TESTCASE:
-			return "Test case " + name;
+			return "Test case *" + name + "*";
 		case TEST_SUITE:
-			return "Test suite " + name;
+			return "Test suite *" + name + "*";
 		case VERIFICATION:
-			return "Verification " + name;
+			return "Verification *" + name + "*";
 		}
 		return name;
 	}

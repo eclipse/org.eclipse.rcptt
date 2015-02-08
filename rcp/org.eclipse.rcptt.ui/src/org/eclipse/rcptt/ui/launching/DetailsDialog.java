@@ -192,8 +192,8 @@ public final class DetailsDialog extends Dialog {
 			StringWriter writer = new StringWriter();
 
 			PrintWriter printWriter = new PrintWriter(writer);
-			printWriter.println("Report: ");
-			new RcpttReportGenerator(printWriter, this.images).writeReport(report, 0);
+			printWriter.println("Report:");
+			new RcpttReportGenerator(printWriter, this.images).writeReport(report, 1);
 			value = writer.toString();
 		}
 		text.setText(value);
