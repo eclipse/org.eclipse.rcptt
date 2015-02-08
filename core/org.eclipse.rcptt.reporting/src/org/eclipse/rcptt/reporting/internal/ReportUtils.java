@@ -12,6 +12,7 @@ package org.eclipse.rcptt.reporting.internal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,8 +46,6 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
-
-import com.google.common.io.CharStreams;
 
 public class ReportUtils {
 
@@ -341,9 +340,10 @@ public class ReportUtils {
 				EObject data = snaphot.getData();
 				if (data != null) {
 					if (data instanceof AdvancedInformation) {
-						new AdvancedInformationGenerator(new PrintWriter(CharStreams.asWriter(result)))
+						StringWriter writer = new StringWriter();
+						new AdvancedInformationGenerator(new PrintWriter(writer))
 								.writeAdvanced((AdvancedInformation) data, 0);
-						result.append("\n");
+						result.append(writer.toString()).append("\n");
 					} else {
 						new SimpleReportGenerator().toString(result, 2, data);
 						result.append("\n");

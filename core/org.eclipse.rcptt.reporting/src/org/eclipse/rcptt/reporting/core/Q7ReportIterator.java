@@ -20,15 +20,12 @@ import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportIterator;
 
-import com.google.common.base.Preconditions;
-
 public class Q7ReportIterator implements
 		Iterable<Report> {
 	private final SherlockReportIterator sherlock;
 
 	public Q7ReportIterator(File file) {
 		sherlock = new SherlockReportIterator(file);
-		Preconditions.checkNotNull(sherlock);
 	}
 
 	public Iterator<Report> iterator() {

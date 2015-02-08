@@ -2,6 +2,7 @@ package org.eclipse.rcptt.reporting.core;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,9 +32,7 @@ import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
-
-import com.google.common.base.Strings;
-import com.google.common.io.CharStreams;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class RcpttReportGenerator {
 	private final SimpleReportGenerator simpleReportGenerator = new SimpleReportGenerator();
@@ -159,7 +158,7 @@ public class RcpttReportGenerator {
 
 	private void printJavaException(JavaException e, int tabs) {
 		w(tabs).append(e.getClassName());
-		if (!Strings.isNullOrEmpty(e.getMessage())) {
+		if (!StringUtils.isEmpty(e.getMessage())) {
 			writer.print(":" + e.getMessage());
 		}
 		writer.println();
@@ -295,10 +294,10 @@ public class RcpttReportGenerator {
 		}
 	}
 
-	private static void writeException(Appendable writer, final int tabs, EclException exception) {
+	private static void writeException(Writer writer, final int tabs, EclException exception) {
 		if (exception == null)
 			return;
-		IndentedWriter iwriter = new IndentedWriter(CharStreams.asWriter(writer)) {
+		IndentedWriter iwriter = new IndentedWriter(writer) {
 			@Override
 			public void writeIndent() {
 				writeTabs(this, tabs);
@@ -313,7 +312,7 @@ public class RcpttReportGenerator {
 		boolean haveEntries = false;
 		for (LoggingCategory logCategory : LoggingCategory.VALUES) {
 			String log = ReportBuilder.getLogs(infoNode, logCategory);
-			if (!Strings.isNullOrEmpty(log)) {
+			if (!StringUtils.isEmpty(log)) {
 				if (!haveEntries) {
 					haveEntries = true;
 					writeTabs(tabs)
