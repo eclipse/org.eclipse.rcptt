@@ -272,15 +272,17 @@ public class ReportUtils {
 		if (result instanceof ScriptProcessStatus) {
 			ProcessStatus firstFail = getFirstFail(result.getChildren());
 			if (firstFail != null)
-				return getFailMessage(firstFail);
+				return result.getMessage() + ": " + getFailMessage(firstFail);
 		}
 		return result.getMessage();
 	}
 
 	private static ProcessStatus getFirstFail(List<ProcessStatus> children) {
 		for (ProcessStatus processStatus : children) {
-			if (processStatus.getSeverity() != IStatus.OK)
-				return processStatus;
+			if (processStatus.getSeverity() != IStatus.OK) {
+				ProcessStatus grandChild = getFirstFail(processStatus.getChildren());
+				return grandChild != null ? grandChild : processStatus;
+			}
 		}
 		return null;
 	}
