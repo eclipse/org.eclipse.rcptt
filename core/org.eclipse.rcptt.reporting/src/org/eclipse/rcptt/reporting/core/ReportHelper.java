@@ -143,7 +143,7 @@ public class ReportHelper {
 			public void apply(Node arg) {
 				Q7Info info = getInfo(arg);
 				if (info.getResult() != null)
-					throw new IllegalStateException("Result is already set");
+					throw new IllegalStateException("Result is already set for " + arg.getName());
 				info.setResult(status2);
 			}
 		});
