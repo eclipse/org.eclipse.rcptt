@@ -131,6 +131,12 @@ public class ReportBuilder implements IReportBuilder {
 				runnable.apply(node);
 			}
 		}
+
+		@Override
+		public String toString() {
+			return node.getName();
+		}
+
 	}
 
 	static private Report createReport() {

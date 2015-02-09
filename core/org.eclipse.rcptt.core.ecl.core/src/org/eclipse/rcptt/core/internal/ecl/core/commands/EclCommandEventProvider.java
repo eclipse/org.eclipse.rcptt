@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.internal.ecl.core.commands;
 
-import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -52,7 +53,8 @@ import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 public class EclCommandEventProvider extends AbstractEventProvider implements
 		ISessionListener, IEventProvider {
 
-	private Stack<INodeBuilder> stack = new Stack<INodeBuilder>();
+	// We need to persist report nodes not to mismatch them with ones created in other threads
+	private ConcurrentMap<Command, INodeBuilder> openNodes = new ConcurrentHashMap<Command, INodeBuilder>();
 
 	public EclCommandEventProvider() {
 	}
@@ -76,7 +78,10 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
 		info.setType(ItemKind.ECL_COMMAND);
 		ReportHelper.setInfo(node, info);
-		stack.push(node);
+		INodeBuilder previousValue = openNodes.putIfAbsent(command, node);
+		if (previousValue != null) {
+			throw new IllegalStateException("A node for command " + cmdName + " is already opened");
+		}
 	}
 
 	private static String buildName(Command command) {
@@ -120,11 +125,11 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		if (isIgnoredCommand(command)) {
 			return;
 		}
-		final INodeBuilder node = stack.pop();
-		if (node == null)
-			throw new NullPointerException();
 		final String name = buildName(command);
 		assert name != null;
+		final INodeBuilder node = openNodes.remove(command);
+		if (node == null)
+			throw new IllegalStateException("There is no open report node for command " + name);
 		node.update(new Procedure1<Node>() {
 			@Override
 			public void apply(Node arg) {
