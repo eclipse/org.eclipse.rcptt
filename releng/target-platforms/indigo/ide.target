@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target includeMode="feature" name="ide-indigo" sequenceNumber="75">
+<?pde version="3.8"?><target includeMode="feature" name="ide-indigo" sequenceNumber="76">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="epp.package.java" version="1.4.2.20120213-0813"/>
@@ -36,7 +36,8 @@
 <repository location="http://download.eclipse.org/technology/nebula/archives/Q32014/release/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.rcptt.updates.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.rcptt.module.nebula.feature.group" version="1.5.5.201412230921"/>
+<unit id="org.eclipse.rcptt.updates.feature.group" version="1.5.5.201502090450"/>
 <repository location="http://download.eclipse.org/rcptt/nightly/1.5.5/latest/repository"/>
 </location>
 </locations>
