@@ -114,6 +114,7 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 				|| command instanceof AstExec || command instanceof Script
 				|| cname.equals("SetupPlayerImpl")
 				|| cname.equals("ShoutdownPlayerImpl")
+				|| cname.equals("AutSendEventImpl")
 				|| command instanceof SaveState
 				|| command instanceof RestoreState
 				|| command instanceof CreateReport
