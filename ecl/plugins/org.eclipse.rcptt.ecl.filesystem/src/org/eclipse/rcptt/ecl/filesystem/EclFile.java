@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collection;
+
+import org.eclipse.core.runtime.CoreException;
 
 public interface EclFile {
 
@@ -21,17 +22,17 @@ public interface EclFile {
 
 	boolean exists();
 
-	Collection<EclFile> getChildren() throws IOException;
+	Collection<? extends EclFile> getChildren() throws CoreException;
 
 	URI toURI();
 
 	boolean isDirectory();
 
-	void delete() throws IOException;
+	void delete() throws CoreException;
 	
-	void append(InputStream data) throws IOException;
+	void append(InputStream data) throws CoreException;
 
-	void write(InputStream data) throws IOException;
+	void write(InputStream data) throws CoreException;
 
-	InputStream read() throws IOException;
+	InputStream read() throws CoreException;
 }

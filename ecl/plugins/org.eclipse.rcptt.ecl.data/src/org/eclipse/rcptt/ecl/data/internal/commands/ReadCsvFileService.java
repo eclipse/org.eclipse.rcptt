@@ -24,8 +24,8 @@ import org.eclipse.rcptt.ecl.data.commands.ReadCsvFile;
 import org.eclipse.rcptt.ecl.data.objects.ObjectsFactory;
 import org.eclipse.rcptt.ecl.data.objects.Row;
 import org.eclipse.rcptt.ecl.data.objects.Table;
-import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.filesystem.EclFile;
+import org.eclipse.rcptt.ecl.filesystem.FileResolver;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 
@@ -41,12 +41,7 @@ public class ReadCsvFileService implements ICommandService {
 
 		ReadCsvFile readFile = (ReadCsvFile) command;
 		EclFile file = FileResolver.resolve(readFile.getUri());
-		CSVReader reader;
-		try {
-			reader = new CSVReader(new InputStreamReader(file.read()));
-		} catch (IOException e) {
-			return createErr("Cannot read file %s", file.toURI(), e);
-		}
+		CSVReader reader = new CSVReader(new InputStreamReader(file.read()));
 
 		Table result = ObjectsFactory.eINSTANCE.createTable();
 		try {

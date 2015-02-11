@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem.internal;
 
+import static org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin.PLUGIN_ID;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,12 +25,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.filesystem.EclFilesystemPlugin;
 
 public class JavaFile implements EclFile {
 	private final File file;
-	
+
 	public JavaFile(File file) {
 		if (file == null)
 			throw new NullPointerException();
@@ -46,11 +51,11 @@ public class JavaFile implements EclFile {
 	}
 
 	@Override
-	public Collection<EclFile> getChildren() throws IOException {
+	public Collection<JavaFile> getChildren() throws CoreException {
 		File[] array = file.listFiles();
 		if (array == null)
-			throw new IOException("" + file + " is not a directory");
-		List<EclFile> rv = new ArrayList<EclFile>(array.length);
+			throw new CoreException(err("%s is not a directory", null));
+		List<JavaFile> rv = new ArrayList<JavaFile>(array.length);
 		for (File f : array) {
 			rv.add(new JavaFile(f));
 		}
@@ -74,32 +79,37 @@ public class JavaFile implements EclFile {
 	 * @param path
 	 *            Root File Path
 	 * @return true iff the file and all sub files/directories have been removed
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 */
-	private static boolean deleteRecursive(File path) throws FileNotFoundException {
+	private static void deleteRecursive(File path) throws IOException {
 		if (!path.exists())
 			throw new FileNotFoundException(path.getAbsolutePath());
-		boolean ret = true;
 		if (path.isDirectory()) {
 			for (File f : path.listFiles()) {
-				ret = ret && deleteRecursive(f);
+				deleteRecursive(f);
 			}
 		}
-		return ret && path.delete();
+		if (!path.delete()) {
+			throw new IOException("Failed to delete " + path);
+		}
 	}
 
 	@Override
-	public void delete() throws IOException {
-		if (!deleteRecursive(file)) {
-			throw new IOException("Failed to delete " + file);
+	public void delete() throws CoreException {
+		try {
+			deleteRecursive(file);
+		} catch (FileNotFoundException e) {
+			throw new CoreException(err("Failed to delete %s", e));
+		} catch (IOException e) {
+			throw new CoreException(err("Failed to delete %s", e));
 		}
 	}
 
-	public static void copy(JavaFile src, JavaFile dst) throws IOException {
+	public static void copy(JavaFile src, JavaFile dst) throws CoreException, IOException {
 		doCopyFile(src.file, dst.file);
 	}
 
-	private static void doCopyFile(File src, File dst) throws IOException {
+	private static void doCopyFile(File src, File dst) throws CoreException, IOException {
 		if (!dst.exists()) {
 			dst.createNewFile();
 		}
@@ -132,7 +142,7 @@ public class JavaFile implements EclFile {
 		}
 	}
 
-	private void copyStream(InputStream input, OutputStream output) throws IOException {
+	private void copyStream(InputStream input, OutputStream output) throws CoreException, IOException {
 		try {
 			byte[] buffer = new byte[1024 * 1024];
 			while (true) {
@@ -152,29 +162,56 @@ public class JavaFile implements EclFile {
 	}
 
 	@Override
-	public void append(InputStream is) throws IOException {
+	public void append(InputStream is) throws CoreException {
 		mkdirs();
-		FileOutputStream os = new FileOutputStream(file, true);
-		copyStream(is, os);
+
+		try {
+			FileOutputStream os = new FileOutputStream(file, true);
+			copyStream(is, os);
+		} catch (FileNotFoundException e) {
+			throw new CoreException(err("Failed to append %s", e));
+		} catch (IOException e) {
+			throw new CoreException(err("Failed to append %s", e));
+		}
 	}
 
 	@Override
-	public void write(InputStream is) throws IOException {
+	public void write(InputStream is) throws CoreException {
 		mkdirs();
-		FileOutputStream os = new FileOutputStream(file, false);
-		copyStream(is, os);
+
+		try {
+			FileOutputStream os = new FileOutputStream(file, false);
+			copyStream(is, os);
+		} catch (FileNotFoundException e) {
+			throw new CoreException(err("Failed to write %s", e));
+		} catch (IOException e) {
+			throw new CoreException(err("Failed to write %s", e));
+		}
 	}
 
-	private void mkdirs() throws IOException {
+	private void mkdirs() throws CoreException {
 		File parent = file.getParentFile();
 		if (parent == null)
 			return;
 		parent.mkdirs();
 	}
 
+	@Override
+	public InputStream read() throws CoreException {
+		try {
+			return new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new CoreException(err("Failed to read %s", e));
+		}
+	}
+
+	private Status err(String message, Throwable e) {
+		return new Status(IStatus.ERROR, PLUGIN_ID, String.format(message, this.toString()), e);
+	}
 
 	@Override
-	public InputStream read() throws IOException {
-		return new FileInputStream(file);
+	public String toString() {
+		return file.toString();
 	}
+
 }

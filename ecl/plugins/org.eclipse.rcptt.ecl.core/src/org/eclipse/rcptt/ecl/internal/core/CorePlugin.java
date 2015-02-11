@@ -11,7 +11,9 @@
 
 package org.eclipse.rcptt.ecl.internal.core;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -84,6 +86,11 @@ public class CorePlugin extends Plugin {
 	}
 
 	public static IStatus err(String message, Throwable throwable) {
+		if (throwable instanceof CoreException) {
+			IStatus child = ((CoreException) throwable).getStatus();
+			IStatus[] children = new IStatus[] { child };
+			return new MultiStatus(child.getPlugin(), 0, children, message, null);
+		}
 		return new Status(IStatus.ERROR, PLUGIN_ID, message, throwable);
 	}
 
