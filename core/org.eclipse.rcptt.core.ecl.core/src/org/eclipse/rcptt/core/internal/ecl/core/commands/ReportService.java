@@ -12,6 +12,8 @@ package org.eclipse.rcptt.core.internal.ecl.core.commands;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.EmptyStackException;
+import java.util.Stack;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -35,9 +37,9 @@ import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 
 public class ReportService implements ICommandService {
+	private final Stack<INodeBuilder> stack = new Stack<INodeBuilder>();
 
 	public ReportService() {
 	}
@@ -71,23 +73,27 @@ public class ReportService implements ICommandService {
 				context.getOutput().write(container);
 			}
 		} else {
-			final ReportBuilder builder = ReportManager.getBuilder();
-			if (builder != null) {
-				if (command instanceof BeginReportNode) {
-					BeginReportNode node = (BeginReportNode) command;
-					INodeBuilder nde = builder.getCurrent().beginTask(node.getName());
-					ReportHelper.putProperties(nde, node.getProperties().map());
-				} else if (command instanceof EndReportNode) {
-					INodeBuilder nde = builder.getCurrent();
-					ReportHelper.takeSnapshot(nde);
-					ReportHelper.setResult(nde, ((EndReportNode) command).getResult());
-					nde.endTask();
-				} else if (command instanceof ReportAppend) {
-					ReportAppend cmd = (ReportAppend) command;
-					EList<EObject> objects = cmd.getObjects();
-					for (EObject eObject : objects) {
-						ReportHelper.addSnapshotWithData(builder.getCurrent(), eObject);
-					}
+			if (command instanceof BeginReportNode) {
+				BeginReportNode node = (BeginReportNode) command;
+				INodeBuilder nde = ReportManager.getCurrentReportNode().beginTask(node.getName());
+				ReportHelper.putProperties(nde, node.getProperties().map());
+				stack.push(nde);
+			} else if (command instanceof EndReportNode) {
+				INodeBuilder nde = null;
+				try {
+					nde = stack.pop();
+				} catch (EmptyStackException e) {
+					nde = ReportManager.getCurrentReportNode();
+				}
+				assert nde != null;
+				ReportHelper.takeSnapshot(nde);
+				ReportHelper.setResult(nde, ((EndReportNode) command).getResult());
+				nde.endTask();
+			} else if (command instanceof ReportAppend) {
+				ReportAppend cmd = (ReportAppend) command;
+				EList<EObject> objects = cmd.getObjects();
+				for (EObject eObject : objects) {
+					ReportHelper.addSnapshotWithData(ReportManager.getCurrentReportNode(), eObject);
 				}
 			}
 		}
