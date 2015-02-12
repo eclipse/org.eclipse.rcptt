@@ -23,6 +23,7 @@ import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.rcptt.tesla.core.ui.Button;
 import org.eclipse.rcptt.tesla.core.ui.ButtonKind;
+import org.eclipse.rcptt.tesla.core.ui.Cell;
 import org.eclipse.rcptt.tesla.core.ui.Combo;
 import org.eclipse.rcptt.tesla.core.ui.Control;
 import org.eclipse.rcptt.tesla.core.ui.ControlDecorator;
@@ -155,10 +156,10 @@ public class SWTModelMapper {
 		}
 		case Item:
 			if (widget instanceof org.eclipse.swt.widgets.TreeItem) {
-				return fillTreeItem(widget);
+				return fillTreeItem((org.eclipse.swt.widgets.TreeItem) widget);
 			}
 			if (widget instanceof org.eclipse.swt.widgets.TableItem) {
-				return fillTableItem(widget);
+				return fillTableItem((org.eclipse.swt.widgets.TableItem) widget);
 			}
 			break;
 		case Tree:
@@ -716,10 +717,10 @@ public class SWTModelMapper {
 		return table;
 	}
 
-	private static TableItem fillTableItem(org.eclipse.swt.widgets.Widget widget) {
+	private static TableItem fillTableItem(org.eclipse.swt.widgets.TableItem wItem) {
 		TableItem tItem = factory.createTableItem();
-		org.eclipse.swt.widgets.TableItem wItem = (org.eclipse.swt.widgets.TableItem) widget;
 		fillImage(tItem, wItem.getImage());
+		fillCells(wItem, tItem);
 		tItem.setCaption(unify(wItem.getText()));
 		tItem.setBackgroundColor(makeColor(wItem.getBackground()));
 		tItem.setForegroundColor(makeColor(wItem.getForeground()));
@@ -800,10 +801,18 @@ public class SWTModelMapper {
 		return tItem;
 	}
 
-	private static TreeItem fillTreeItem(org.eclipse.swt.widgets.Widget widget) {
+	private static void fillCells(org.eclipse.swt.widgets.Item swt, org.eclipse.rcptt.tesla.core.ui.Item model) {
+		int columnCount = TableTreeUtil.getColumnCount(swt);
+		for (int i = 0; i < columnCount; i++) {
+			Cell cell = UiFactory.eINSTANCE.createCell();
+			cell.setImage(mapImage(TableTreeUtil.getImage(swt, i)));
+			model.getCells().add(cell);
+		}
+	}
+	private static TreeItem fillTreeItem(org.eclipse.swt.widgets.TreeItem wItem) {
 		TreeItem tItem = UiFactory.eINSTANCE.createTreeItem();
-		org.eclipse.swt.widgets.TreeItem wItem = (org.eclipse.swt.widgets.TreeItem) widget;
 		fillImage(tItem, wItem.getImage());
+		fillCells(wItem, tItem);
 		tItem.setCaption(unify(wItem.getText()));
 		tItem.setBackgroundColor(makeColor(wItem.getBackground()));
 		tItem.setForegroundColor(makeColor(wItem.getForeground()));

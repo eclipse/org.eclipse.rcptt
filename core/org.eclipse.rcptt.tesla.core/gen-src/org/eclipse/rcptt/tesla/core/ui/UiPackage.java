@@ -868,13 +868,22 @@ public interface UiPackage extends EPackage {
 	int ITEM__INDEX = WIDGET_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITEM__CELLS = WIDGET_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 4;
+	int ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl <em>Menu Item</em>}' class.
@@ -930,6 +939,15 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int MENU_ITEM__INDEX = ITEM__INDEX;
+
+	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MENU_ITEM__CELLS = ITEM__CELLS;
 
 	/**
 	 * The feature id for the '<em><b>Accelerator</b></em>' attribute.
@@ -1195,6 +1213,15 @@ public interface UiPackage extends EPackage {
 	int TREE_ITEM__INDEX = ITEM__INDEX;
 
 	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREE_ITEM__CELLS = ITEM__CELLS;
+
+	/**
 	 * The feature id for the '<em><b>Image</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1374,6 +1401,15 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int TABLE_ITEM__INDEX = ITEM__INDEX;
+
+	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_ITEM__CELLS = ITEM__CELLS;
 
 	/**
 	 * The feature id for the '<em><b>Image</b></em>' containment reference.
@@ -2854,6 +2890,15 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int VIEWER_COLUMN__INDEX = ITEM__INDEX;
+
+	/**
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEWER_COLUMN__CELLS = ITEM__CELLS;
 
 	/**
 	 * The feature id for the '<em><b>Resizable</b></em>' attribute.
@@ -4531,6 +4576,34 @@ public interface UiPackage extends EPackage {
 	int LINE_MARKERS_VALUE_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.CellImpl <em>Cell</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.CellImpl
+	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getCell()
+	 * @generated
+	 */
+	int CELL = 45;
+
+	/**
+	 * The feature id for the '<em><b>Image</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CELL__IMAGE = WITH_IMAGE__IMAGE;
+
+	/**
+	 * The number of structural features of the '<em>Cell</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CELL_FEATURE_COUNT = WITH_IMAGE_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.ButtonKind <em>Button Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4538,7 +4611,7 @@ public interface UiPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getButtonKind()
 	 * @generated
 	 */
-	int BUTTON_KIND = 45;
+	int BUTTON_KIND = 46;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.PropertyNodeType <em>Property Node Type</em>}' enum.
@@ -4548,7 +4621,7 @@ public interface UiPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getPropertyNodeType()
 	 * @generated
 	 */
-	int PROPERTY_NODE_TYPE = 46;
+	int PROPERTY_NODE_TYPE = 47;
 
 
 	/**
@@ -4883,6 +4956,17 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getItem_Index();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rcptt.tesla.core.ui.Item#getCells <em>Cells</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Cells</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Item#getCells()
+	 * @see #getItem()
+	 * @generated
+	 */
+	EReference getItem_Cells();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.MenuItem <em>Menu Item</em>}'.
@@ -6866,6 +6950,16 @@ public interface UiPackage extends EPackage {
 	EReference getLineMarkersValue_Value();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.Cell <em>Cell</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cell</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Cell
+	 * @generated
+	 */
+	EClass getCell();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.Marker <em>Marker</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7224,6 +7318,14 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITEM__INDEX = eINSTANCE.getItem_Index();
+
+		/**
+		 * The meta object literal for the '<em><b>Cells</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ITEM__CELLS = eINSTANCE.getItem_Cells();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl <em>Menu Item</em>}' class.
@@ -8760,6 +8862,16 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LINE_MARKERS_VALUE__VALUE = eINSTANCE.getLineMarkersValue_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.CellImpl <em>Cell</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.CellImpl
+		 * @see org.eclipse.rcptt.tesla.core.ui.impl.UiPackageImpl#getCell()
+		 * @generated
+		 */
+		EClass CELL = eINSTANCE.getCell();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl <em>Marker</em>}' class.
