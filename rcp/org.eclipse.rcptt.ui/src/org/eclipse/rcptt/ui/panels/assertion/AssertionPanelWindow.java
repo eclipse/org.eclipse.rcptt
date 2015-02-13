@@ -858,7 +858,7 @@ public class AssertionPanelWindow extends Dialog {
 
 			AssertGroup widgetGroup = new AssertGroup(lineNumber, childNodesMarkers);
 			children.add(widgetGroup);
-		} else {
+		} else if (entry.getKey() != null) {
 			String childPropertyName = String.format("%s%s['%s']",
 					propertyPath, attr.getName(), entry.getKey().toString());
 			final Assert a = AssertionUtils.createAssert(
