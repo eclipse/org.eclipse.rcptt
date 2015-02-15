@@ -103,7 +103,7 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 	public boolean performCancel() {
 		ITargetPlatformHelper target = page.getTarget();
 		if (target != null) {
-			if (!target.isValid()) {
+			if (!target.getStatus().isOK()) {
 				target.delete();
 			}
 		}
@@ -112,167 +112,169 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 
 	public boolean performFinish() {
 		ITargetPlatformHelper target = page.getTarget();
-		if (target.isValid()) {
-			try {
-				String targetName = Q7TargetPlatformManager
-						.getTargetPlatformName(page.getTargetName());
+		if (!target.getStatus().isOK()) {
+			page.setStatus(target.getStatus());
+			target.delete();
+			return false;
+		}
+		try {
+			String targetName = Q7TargetPlatformManager
+					.getTargetPlatformName(page.getTargetName());
 
-				TargetPlatformManager.deleteTargetPlatform(targetName);
+			TargetPlatformManager.deleteTargetPlatform(targetName);
 
-				target.setTargetName(targetName);
-				target.save();
+			target.setTargetName(targetName);
+			target.save();
 
-				// Delete all files in configuration area.
-				File area = LaunchConfigurationHelper
-						.getConfigurationArea(configuration);
-				if (area != null && area.exists()) {
-					FileUtil.deleteFile(area, false);
-				}
+			// Delete all files in configuration area.
+			File area = LaunchConfigurationHelper
+					.getConfigurationArea(configuration);
+			if (area != null && area.exists()) {
+				FileUtil.deleteFile(area, false);
+			}
 
-				LaunchInfoCache.remove(configuration);
+			LaunchInfoCache.remove(configuration);
 
-				ILaunchConfigurationWorkingCopy workingCopy = configuration
-						.getWorkingCopy();
-				Q7LaunchingUtil.updateLaunchConfiguration(target, workingCopy);
+			ILaunchConfigurationWorkingCopy workingCopy = configuration
+					.getWorkingCopy();
+			Q7LaunchingUtil.updateLaunchConfiguration(target, workingCopy);
 
-				workingCopy.rename(page.getTargetName());
-				OSArchitecture autArch = page.getArchitecture();
-				workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
-						autArch.name());
-				OSArchitecture jvmArch = page.getJVMArch();
-				String vmArgs = workingCopy.getAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-						target.getIniVMArgs());
-				if (vmArgs == null) {
-					// Lets use current runner vm arguments
-					vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
-							.trim();
+			workingCopy.rename(page.getTargetName());
+			OSArchitecture autArch = page.getArchitecture();
+			workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
+					autArch.name());
+			OSArchitecture jvmArch = page.getJVMArch();
+			String vmArgs = workingCopy.getAttribute(
+					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+					target.getIniVMArgs());
+			if (vmArgs == null) {
+				// Lets use current runner vm arguments
+				vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
+						.trim();
+			} else {
+				vmArgs = vmArgs.trim();
+			}
+			if (!autArch.equals(jvmArch)
+					&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+				if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
+					vmArgs += " " + ATTR_D32;
 				} else {
-					vmArgs = vmArgs.trim();
+					vmArgs = ATTR_D32;
 				}
-				if (!autArch.equals(jvmArch)
-						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-					if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-						vmArgs += " " + ATTR_D32;
-					} else {
-						vmArgs = ATTR_D32;
-					}
-				}
-				if (vmArgs != null && vmArgs.length() > 0) {
-					vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-									vmArgs);
-				}
-
-				IVMInstall install = page.getJVMInstall();
-				if (install != null) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-									String.format(
-											"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-											install.getVMInstallType().getId(),
-											install.getName()));
-				}
-
-				String programArgs = workingCopy
-						.getAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-								LaunchArgumentsHelper
-										.getInitialProgramArguments().trim());
-				if (programArgs.contains("${target.arch}")) {
-					programArgs = programArgs.replace("${target.arch}",
-							autArch.name());
-				} else {
-					if (programArgs.contains("-arch")) {
-						int pos = programArgs.indexOf("-arch ") + 6;
-						int len = 6;
-						int pos2 = programArgs.indexOf("x86_64", pos);
-						if (pos2 == -1) {
-							len = 3;
-							pos2 = programArgs.indexOf("x86", pos);
-						}
-						if (pos2 != -1) {
-							programArgs = programArgs.substring(0, pos)
-									+ autArch.name()
-									+ programArgs.substring(pos2 + len,
-											programArgs.length());
-						}
-					} else {
-						programArgs = programArgs + " -arch " + autArch.name();
-					}
-				}
-				if (programArgs.length() > 0) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-									programArgs);
-				}
-
-				workingCopy.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY,
-						true);
-				String product = target.getDefaultProduct();
-				if (product != null) {
-					workingCopy.setAttribute(IPDELauncherConstants.USE_PRODUCT,
-							true);
-					workingCopy.setAttribute(IPDELauncherConstants.PRODUCT,
-							product);
-				}
-				workingCopy.setAttribute(IPDELauncherConstants.DOCLEAR, false);
-				workingCopy.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
-				workingCopy.setAttribute(IPDEConstants.DOCLEARLOG, false);
-				workingCopy.setAttribute(IPDELauncherConstants.LOCATION,
-						getDefaultWorkspaceLocation(workingCopy.getName()));
-
+			}
+			if (vmArgs != null && vmArgs.length() > 0) {
+				vmArgs = UpdateVMArgs.updateAttr(vmArgs);
 				workingCopy
 						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
-								page.getTargetLocation());
-
-				// String config = target.getTemplateConfigLocation();
-				// if (config != null) {
-				// workingCopy.setAttribute(
-				// IPDELauncherConstants.CONFIG_GENERATE_DEFAULT,
-				// false);
-				// workingCopy.setAttribute(
-				// IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION,
-				// config);
-				// }
-				// Disable console by default
-				workingCopy.setAttribute(
-						IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
-				workingCopy
-						.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
-				List<AutLaunch> list = AutManager.INSTANCE
-						.storeAUTLaunches(configuration);
-				LaunchInfoCache.remove(workingCopy);
-				ILaunchConfiguration newConfig = workingCopy.doSave();
-				LaunchInfoCache.remove(newConfig);
-				if (list != null) {
-					AutManager.INSTANCE.updateAUTLaunches(newConfig, list);
-				}
-
-				if (page.isLaunchNeeded()) {
-					Aut aut = BaseAutManager.INSTANCE.getByName(workingCopy.getName());
-					if (aut != null) {
-						List<AutLaunch> autLaunches = aut.getLaunches();
-						for (AutLaunch autLaunch : autLaunches) {
-							if (autLaunch.getState() != AutLaunchState.TERMINATE) {
-								autLaunch.terminate();
-							}
-						}
-						LaunchUtils.launch(aut, getShell());
-					}
-				}
-
-				return true;
-			} catch (CoreException e) {
-				Q7UIPlugin.log(e);
+								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+								vmArgs);
 			}
+
+			IVMInstall install = page.getJVMInstall();
+			if (install != null) {
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+								String.format(
+										"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+										install.getVMInstallType().getId(),
+										install.getName()));
+			}
+
+			String programArgs = workingCopy
+					.getAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+							LaunchArgumentsHelper
+									.getInitialProgramArguments().trim());
+			if (programArgs.contains("${target.arch}")) {
+				programArgs = programArgs.replace("${target.arch}",
+						autArch.name());
+			} else {
+				if (programArgs.contains("-arch")) {
+					int pos = programArgs.indexOf("-arch ") + 6;
+					int len = 6;
+					int pos2 = programArgs.indexOf("x86_64", pos);
+					if (pos2 == -1) {
+						len = 3;
+						pos2 = programArgs.indexOf("x86", pos);
+					}
+					if (pos2 != -1) {
+						programArgs = programArgs.substring(0, pos)
+								+ autArch.name()
+								+ programArgs.substring(pos2 + len,
+										programArgs.length());
+					}
+				} else {
+					programArgs = programArgs + " -arch " + autArch.name();
+				}
+			}
+			if (programArgs.length() > 0) {
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+								programArgs);
+			}
+
+			workingCopy.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY,
+					true);
+			String product = target.getDefaultProduct();
+			if (product != null) {
+				workingCopy.setAttribute(IPDELauncherConstants.USE_PRODUCT,
+						true);
+				workingCopy.setAttribute(IPDELauncherConstants.PRODUCT,
+						product);
+			}
+			workingCopy.setAttribute(IPDELauncherConstants.DOCLEAR, false);
+			workingCopy.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
+			workingCopy.setAttribute(IPDEConstants.DOCLEARLOG, false);
+			workingCopy.setAttribute(IPDELauncherConstants.LOCATION,
+					getDefaultWorkspaceLocation(workingCopy.getName()));
+
+			workingCopy
+					.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
+							page.getTargetLocation());
+
+			// String config = target.getTemplateConfigLocation();
+			// if (config != null) {
+			// workingCopy.setAttribute(
+			// IPDELauncherConstants.CONFIG_GENERATE_DEFAULT,
+			// false);
+			// workingCopy.setAttribute(
+			// IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION,
+			// config);
+			// }
+			// Disable console by default
+			workingCopy.setAttribute(
+					IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
+			workingCopy
+					.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
+			List<AutLaunch> list = AutManager.INSTANCE
+					.storeAUTLaunches(configuration);
+			LaunchInfoCache.remove(workingCopy);
+			ILaunchConfiguration newConfig = workingCopy.doSave();
+			LaunchInfoCache.remove(newConfig);
+			if (list != null) {
+				AutManager.INSTANCE.updateAUTLaunches(newConfig, list);
+			}
+
+			if (page.isLaunchNeeded()) {
+				Aut aut = BaseAutManager.INSTANCE.getByName(workingCopy.getName());
+				if (aut != null) {
+					List<AutLaunch> autLaunches = aut.getLaunches();
+					for (AutLaunch autLaunch : autLaunches) {
+						if (autLaunch.getState() != AutLaunchState.TERMINATE) {
+							autLaunch.terminate();
+						}
+					}
+					LaunchUtils.launch(aut, getShell());
+				}
+			}
+
+			return true;
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
 		}
-		target.delete();
 		return false;
 	}
 

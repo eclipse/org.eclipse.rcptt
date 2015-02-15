@@ -31,7 +31,7 @@ public class Q7TargetPlatformManager {
 
 	private static Map<String, ITargetPlatformHelper> cachedHelpers = new HashMap<String, ITargetPlatformHelper>();
 
-	public synchronized static ITargetPlatformHelper loadTarget(
+	public synchronized static ITargetPlatformHelper findTarget(
 			ILaunchConfiguration config, IProgressMonitor monitor)
 			throws CoreException {
 		String location = config.getAttribute(IQ7Launch.AUT_LOCATION, "");
@@ -49,19 +49,10 @@ public class Q7TargetPlatformManager {
 		}
 
 		monitor.beginTask("Initialize target platform...", 2);
-		ITargetPlatformHelper info = TargetPlatformManager.getTargetPlatform(
-				targetPlatform, new SubProgressMonitor(monitor, 1), false);
-		if (info != null) {
-			if (!info.isResolved()) {
-				info.resolve(monitor);
-			}
-		}
-
-		if (!info.isValid()) {
-			return null;
-		} else {
-			monitor.worked(1);
-		}
+		ITargetPlatformHelper info = TargetPlatformManager.findTarget(
+				targetPlatform, new SubProgressMonitor(monitor, 1), true);
+		assert info.getStatus().isOK();
+		monitor.worked(1);
 		monitor.done();
 		cachedHelpers.put(targetPlatform, info);
 		return info;
@@ -88,13 +79,9 @@ public class Q7TargetPlatformManager {
 		String targetPlatformName = getTargetPlatformName(config);
 
 		monitor.beginTask("Initialize target platform...", 2);
-		ITargetPlatformHelper info = TargetPlatformManager.getTargetPlatform(
-				targetPlatformName, new SubProgressMonitor(monitor, 1), true);
+		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, new SubProgressMonitor(monitor, 1), true);
 
-		if (info == null || !info.isValid()) {
-			// Update runtime version
-			if (info != null)
-				info.delete();
+		if (info == null) {
 			info = newTargetPlatform(config, new SubProgressMonitor(monitor, 1), location);
 			assert info != null;
 		} else {
@@ -110,14 +97,12 @@ public class Q7TargetPlatformManager {
 			ILaunchConfiguration config, IProgressMonitor monitor,
 			String location) throws CoreException {
 
-		ITargetPlatformHelper info = Q7TargetPlatformManager
-				.createTargetPlatform(location, monitor);
+		String name = getTargetPlatformName(config);
+		ITargetPlatformHelper info = Q7TargetPlatformManager.createTargetPlatform(location, monitor);
 		assert info != null;
-		if (info.isValid()) {
-			info.setTargetName(getTargetPlatformName(config));
-			info.save();
-			cachedHelpers.put(info.getName(), info);
-		}
+		info.setTargetName(name);
+		info.save();
+		cachedHelpers.put(info.getName(), info);
 		return info;
 	}
 
@@ -140,10 +125,8 @@ public class Q7TargetPlatformManager {
 			platform = TargetPlatformManager
 					.createTargetPlatform(location, new SubProgressMonitor(monitor,
 							50));
-			if (!platform.isValid())
-				throw new CoreException(platform.getStatus());
-			IStatus rv = Q7TargetPlatformInitializer.initialize(platform,
-					new SubProgressMonitor(monitor, 50));
+			throwOnError(platform.getStatus());
+			IStatus rv = Q7TargetPlatformInitializer.initialize(platform, new SubProgressMonitor(monitor, 50));
 			throwOnError(rv);
 			isOk = true;
 			return platform;

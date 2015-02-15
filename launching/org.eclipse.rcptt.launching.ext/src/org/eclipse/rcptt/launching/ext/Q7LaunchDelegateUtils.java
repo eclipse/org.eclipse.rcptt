@@ -27,12 +27,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.PDEUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
@@ -207,7 +209,7 @@ public class Q7LaunchDelegateUtils {
 
 	public static void setDelegateFields(
 			EclipseApplicationLaunchConfiguration delegate,
-			Map<IPluginModelBase, String> models, Map<String, Object> allBundles) {
+			Map<IPluginModelBase, String> models, Map<String, Object> allBundles) throws CoreException {
 		try {
 			Field field = EclipseApplicationLaunchConfiguration.class
 					.getDeclaredField("fModels");
@@ -218,8 +220,12 @@ public class Q7LaunchDelegateUtils {
 					.getDeclaredField("fAllBundles");
 			field.setAccessible(true);
 			field.set(delegate, allBundles);
-		} catch (Throwable e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
+		} catch (IllegalAccessException e) {
+			throw new CoreException(RcpttPlugin.createStatus("Failed to inject bundles", e));
+		} catch (SecurityException e) {
+			throw new CoreException(RcpttPlugin.createStatus("Failed to inject bundles", e));
+		} catch (NoSuchFieldException e) {
+			throw new CoreException(RcpttPlugin.createStatus("Failed to inject bundles", e));
 		}
 	}
 

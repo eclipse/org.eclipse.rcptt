@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
@@ -66,7 +67,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.PDEExtensionRegistry;
 import org.eclipse.pde.internal.core.PDEState;
-import org.eclipse.pde.internal.core.ifeature.IFeatureModel;
 import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
@@ -80,6 +80,7 @@ import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
+import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.injection.Directory;
@@ -92,6 +93,7 @@ import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.util.FileUtil;
 import org.osgi.framework.Version;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
 
@@ -113,6 +115,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private Q7Target q7target = new Q7Target();
 
 	public TargetPlatformHelper(ITargetDefinition target) {
+		Preconditions.checkNotNull(target);
 		this.target = target;
 		initialize();
 	}
@@ -160,7 +163,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
-	public IStatus getBundleStatus() {
+	private IStatus getBundleStatus() {
 		IBundleContainer[] containers = getBundleContainers();
 		if (containers != null) {
 			// Check if the containers have any resolution problems
@@ -310,16 +313,16 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return "";
 	}
 
-	public void save() {
+	public void save() throws CoreException {
+		if (!getStatus().isOK())
+			throw new CoreException(getStatus());
 		// Remove previous target platforms with same name.
-		if (target != null) {
-			TargetPlatformManager.deleteTargetPlatform(target.getName());
-			try {
-				ITargetPlatformService service = PDEHelper.getTargetService();
-				service.saveTargetDefinition(target);
-			} catch (CoreException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
+		TargetPlatformManager.deleteTargetPlatform(target.getName());
+		try {
+			ITargetPlatformService service = PDEHelper.getTargetService();
+			service.saveTargetDefinition(target);
+		} catch (CoreException e) {
+			Q7ExtLaunchingPlugin.getDefault().log(e);
 		}
 	}
 
@@ -359,7 +362,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		registry = null;
 	}
 
-	public IPluginModelBase[] getTargetModels() {
+	private IPluginModelBase[] getTargetModels() {
 		calcModels();
 		return models;
 	}
@@ -433,7 +436,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private IPluginModelBase weavingHook;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IStatus validateBundles(IProgressMonitor monitor) {
+	private IStatus validateBundles(IProgressMonitor monitor) {
 		LaunchValidationOperation validation = new LaunchValidationOperation(
 				null) {
 			@Override
@@ -464,9 +467,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 			if (b.length() > 0) {
 				return new Status(IStatus.ERROR, PLUGIN_ID, "Bundle validation failed: " + b.toString());
-			}
-			if (getWeavingHook() == null) {
-				return new Status(IStatus.ERROR, PLUGIN_ID, "No " + AJConstants.HOOK + " plugin");
 			}
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
@@ -533,7 +533,18 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public IStatus resolve(IProgressMonitor monitor) {
 		ITargetDefinition target = getTarget();
 		if (target != null) {
-			return status = target.resolve(monitor);
+			SubMonitor m = SubMonitor.convert(monitor, "Resolving " + getName(), 2);
+			try {
+				status = target.resolve(m.newChild(1, SubMonitor.SUPPRESS_NONE));
+				if (!status.isOK())
+					return status;
+				status = validateBundles(m.newChild(1, SubMonitor.SUPPRESS_NONE));
+				if (!status.isOK())
+					return status;
+				return status = getBundleStatus();
+			} finally {
+				m.done();
+			}
 		}
 		return status = Status.CANCEL_STATUS;
 	}
@@ -655,33 +666,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return bundleContainers;
 	}
 
-	public IResolvedBundle[] getAllBundles() {
-		if (target == null) {
-			return new IResolvedBundle[0];
-		}
-		return target.getAllBundles();
-	}
-
-	public IFeatureModel[] getAllFeatures() {
-		if (target == null) {
-			return new IFeatureModel[0];
-		}
-		return target.getAllFeatures();
-	}
-
-	private InjectionConfiguration injectConfig;
-
 	// Repository for all update site injections
 	@SuppressWarnings("unused")
 	private IFileArtifactRepository repository;
 
-	public InjectionConfiguration getInjectConfig() {
-		return injectConfig;
-	}
-
 	public IStatus applyInjection(InjectionConfiguration configuration,
 			IProgressMonitor monitor) {
-		injectConfig = configuration;
 		// remove the "host" from bundles, it is handled in a separate, special
 		// way
 		Iterables.removeAll(extra, Arrays.asList(getInstanceContainer()));
@@ -709,8 +699,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		if (!resolveStatus.isOK()) {
 			return resolveStatus;
 		}
-		save();
-		return validateBundles(monitor);
+		if (getWeavingHook() == null) {
+			return status = createError("No org.eclipse.weaving hook plugin");
+		}
+		try {
+			save();
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
+		return Status.OK_STATUS;
 	}
 
 	private IStatus processDirectory(IProgressMonitor monitor, Directory entry) {
@@ -1172,10 +1169,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return result;
 	}
 
-	public ArrayList<IBundleContainer> getExtra() {
-		return extra;
-	}
-
 	public String getRuntimeVersion() {
 		if (target != null && target.isResolved()) {
 			String version = "";
@@ -1260,6 +1253,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	@Override
 	public String toString() {
 		return (getName() == null ? "No name" : getName()) + " " + getTargetPlatformProfilePath();
+	}
+
+
+	@Override
+	public Map<String, org.eclipse.equinox.p2.metadata.Version> getVersions() throws CoreException {
+		if (!getStatus().isOK())
+			throw new CoreException(getStatus());
+		return AUTInformation.getInformationMap(target);
 	}
 
 	

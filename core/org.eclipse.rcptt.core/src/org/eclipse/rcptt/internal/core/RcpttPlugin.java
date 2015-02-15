@@ -149,4 +149,10 @@ public class RcpttPlugin extends Plugin {
 		return status;
 	}
 
+	public static void throwOnError(IStatus status) throws CoreException {
+		if (status.isOK() || status.getSeverity() == IStatus.INFO)
+			return;
+		throw new CoreException(status);
+	}
+
 }

@@ -275,8 +275,12 @@ public class ExternalAUTMainTab extends MainTab {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy config) {
 		super.performApply(config);
-		fLocationBlock.performApply(config);
-		fAUTProgramBlock.performApply(config);
+		try {
+			fLocationBlock.performApply(config);
+			fAUTProgramBlock.performApply(config);
+		} catch (CoreException e) {
+			setStatus(e.getStatus());
+		}
 	}
 
 	public void setCurrentTargetPlatform(ITargetPlatformHelper info) {

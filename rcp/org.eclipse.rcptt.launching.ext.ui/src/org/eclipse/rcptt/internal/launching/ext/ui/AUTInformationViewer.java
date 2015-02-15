@@ -13,7 +13,6 @@ package org.eclipse.rcptt.internal.launching.ext.ui;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -46,8 +45,7 @@ public class AUTInformationViewer {
 
 	public void updateInfo(ITargetPlatformHelper info) throws CoreException {
 		// Initialize viewer with status
-		informationViewer.setInput(AUTInformation.getInformationMap(info)
-				.entrySet());
+		informationViewer.setInput(info.getVersions().entrySet());
 		informationViewer.refresh();
 	}
 }

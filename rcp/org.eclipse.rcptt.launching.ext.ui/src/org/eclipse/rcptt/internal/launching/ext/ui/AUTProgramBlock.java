@@ -23,6 +23,8 @@ import org.eclipse.pde.core.plugin.TargetPlatform;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.SWTFactory;
 import org.eclipse.pde.launching.IPDELauncherConstants;
+import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
+import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -34,9 +36,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-
-import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 @SuppressWarnings("restriction")
 public class AUTProgramBlock {
@@ -135,7 +134,7 @@ public class AUTProgramBlock {
 
 	private String[] getProductNames() {
 		ITargetPlatformHelper target = fTab.getTarget();
-		if (target != null && target.isValid()) {
+		if (target != null) {
 			return target.getProducts();
 		}
 		return new String[0];
@@ -143,7 +142,7 @@ public class AUTProgramBlock {
 
 	private String[] getApplicationNames() {
 		ITargetPlatformHelper target = fTab.getTarget();
-		if (target != null && target.isValid()) {
+		if (target != null) {
 			return target.getApplications();
 		}
 		return new String[0];
@@ -151,7 +150,7 @@ public class AUTProgramBlock {
 
 	private String getDefaultApplication() {
 		ITargetPlatformHelper target = fTab.getTarget();
-		if (target != null && target.isValid()) {
+		if (target != null) {
 			String result = target.getDefaultApplication();
 			if (result != null) {
 				return result;
@@ -281,7 +280,7 @@ public class AUTProgramBlock {
 		if (fProductCombo.isDisposed() || fApplicationCombo.isDisposed()) {
 			return;
 		}
-		if (currentTargetPlatform != null && currentTargetPlatform.isValid()) {
+		if (currentTargetPlatform != null) {
 			String[] products = currentTargetPlatform.getProducts();
 			String[] applications = currentTargetPlatform.getApplications();
 			fProductCombo.setItems(products);

@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching.ext;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
-import static org.eclipse.rcptt.launching.ext.AUTInformation.getInformationMap;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -84,22 +83,21 @@ public class Q7TargetPlatformInitializer {
 		return new Status(IStatus.ERROR, PLUGIN_ID, message, error);
 	}
 
-	public static IStatus initialize(ITargetPlatformHelper iinfo,
+	public static IStatus initialize(ITargetPlatformHelper target,
 			IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Initialize AUT configuration", 100);
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
 
 		{
-			IStatus rv = iinfo.getStatus();
+			IStatus rv = target.getStatus();
 			if (rv.matches(IStatus.ERROR | IStatus.CANCEL))
 				return rv;
 		}
 
-		TargetPlatformHelper info = (TargetPlatformHelper) iinfo;
-		Map<String, Version> map = getInformationMap(iinfo);
+		Map<String, Version> map = target.getVersions();
 
-		Q7Info q7Info = getInfo(iinfo, map);
+		Q7Info q7Info = getInfo(target, map);
 		monitor.worked(20);
 
 		try {
@@ -114,9 +112,9 @@ public class Q7TargetPlatformInitializer {
 
 			InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
 					new NullProgressMonitor(), q7Info, map);
-			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + iinfo, null);
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + target, null);
 			if (injectionConfiguration != null) {
-				rv.add(info.applyInjection(injectionConfiguration, new SubProgressMonitor(
+				rv.add(target.applyInjection(injectionConfiguration, new SubProgressMonitor(
 						monitor, 60)));
 				if (rv.matches(IStatus.CANCEL))
 					return rv;
@@ -291,7 +289,7 @@ public class Q7TargetPlatformInitializer {
 
 	public static InjectionConfiguration getAspectJInjection(ITargetPlatformHelper targetPlatform,
 			IProgressMonitor progressMonitor) throws CoreException {
-		Q7Info q7Info = getInfo(targetPlatform, getInformationMap(targetPlatform));
+		Q7Info q7Info = getInfo(targetPlatform, targetPlatform.getVersions());
 		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
 		if (q7Info != null) {
 			UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();

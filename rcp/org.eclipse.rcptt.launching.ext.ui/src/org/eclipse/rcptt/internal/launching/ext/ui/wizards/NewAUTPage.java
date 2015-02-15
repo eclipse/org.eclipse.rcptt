@@ -226,12 +226,6 @@ public class NewAUTPage extends WizardPage {
 		}
 		setStatus(helper.getStatus());
 
-		if (!helper.isValid()) {
-			archEnabled.setValue(Boolean.FALSE);
-			setPageComplete(false);
-			return;
-		}
-
 		if (((String) nameValue.getValue()).trim().length() == 0) {
 			String defaultProduct = helper.getDefaultProduct();
 			if (defaultProduct != null) {
@@ -630,7 +624,7 @@ public class NewAUTPage extends WizardPage {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 					try {
-						helper[0] = Q7TargetPlatformManager.loadTarget(
+						helper[0] = Q7TargetPlatformManager.findTarget(
 								configuration, monitor);
 					} catch (CoreException e) {
 						RcpttPlugin.log(e);
@@ -642,7 +636,7 @@ public class NewAUTPage extends WizardPage {
 		} catch (InterruptedException e) {
 			Activator.log(e);
 		}
-		if (helper[0] != null && helper[0].isValid()) {
+		if (helper[0] != null && helper[0].getStatus().isOK()) {
 			info.setValue(helper[0]);
 		}
 		nameValue.setValue(configName);
