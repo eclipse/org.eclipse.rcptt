@@ -287,15 +287,12 @@ public class Q7TargetPlatformInitializer {
 		return false;
 	}
 
-	public static InjectionConfiguration getAspectJInjection(ITargetPlatformHelper targetPlatform,
+	public static InjectionConfiguration getAspectJInjection(Q7Info q7Info,
 			IProgressMonitor progressMonitor) throws CoreException {
-		Q7Info q7Info = getInfo(targetPlatform, targetPlatform.getVersions());
 		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
-		if (q7Info != null) {
-			UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
-			aspectsSite.setUri(q7Info.aspectj.toString());
-			injectionConfiguration.getEntries().add(aspectsSite);
-		}
+		UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
+		aspectsSite.setUri(q7Info.aspectj.toString());
+		injectionConfiguration.getEntries().add(aspectsSite);
 		return injectionConfiguration;
 	}
 }
