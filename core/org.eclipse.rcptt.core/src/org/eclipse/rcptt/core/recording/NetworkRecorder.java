@@ -28,7 +28,6 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetFeature;
 import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaMode;
-import org.eclipse.rcptt.tesla.core.ui.Widget;
 import org.eclipse.rcptt.tesla.internal.core.network.DataSerializer;
 import org.eclipse.rcptt.tesla.recording.core.TeslaNetworkRecorder;
 
