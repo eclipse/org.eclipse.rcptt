@@ -64,6 +64,8 @@ public class Activator extends AbstractUIPlugin {
 						AutEventManager.getInstance().sendEvent(location);
 					} catch (CoreException e) {
 						log(e.getMessage(), e);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
 					}
 				}
 			});

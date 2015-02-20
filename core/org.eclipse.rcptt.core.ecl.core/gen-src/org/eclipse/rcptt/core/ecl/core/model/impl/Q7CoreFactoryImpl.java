@@ -36,7 +36,7 @@ public class Q7CoreFactoryImpl extends EFactoryImpl implements Q7CoreFactory {
 	 */
 	public static Q7CoreFactory init() {
 		try {
-			Q7CoreFactory theQ7CoreFactory = (Q7CoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/core/ecl"); 
+			Q7CoreFactory theQ7CoreFactory = (Q7CoreFactory)EPackage.Registry.INSTANCE.getEFactory(Q7CorePackage.eNS_URI);
 			if (theQ7CoreFactory != null) {
 				return theQ7CoreFactory;
 			}

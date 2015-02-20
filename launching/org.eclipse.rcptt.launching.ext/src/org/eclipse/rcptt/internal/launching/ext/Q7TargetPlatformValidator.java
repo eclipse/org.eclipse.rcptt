@@ -20,7 +20,6 @@ import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer.Q7Info;
-import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
@@ -28,14 +27,11 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 public class Q7TargetPlatformValidator {
 	public static boolean validateUpdates(String location,
 			ITargetPlatformHelper platform) throws CoreException {
-		if (!platform.isValid()) {
-			return false;
-		}
 		String path = platform.getTargetPlatformProfilePath();
 		if (!location.equals(path)) {
 			return false;
 		}
-		Q7Info info = Q7TargetPlatformInitializer.getInfo(platform, AUTInformation.getInformationMap(platform));
+		Q7Info info = Q7TargetPlatformInitializer.getInfo(platform, platform.getVersions());
 		if (info == null) {
 			return false;
 		}

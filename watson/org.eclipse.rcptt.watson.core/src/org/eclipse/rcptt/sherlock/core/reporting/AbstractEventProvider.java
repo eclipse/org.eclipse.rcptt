@@ -13,6 +13,7 @@ package org.eclipse.rcptt.sherlock.core.reporting;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 
 public abstract class AbstractEventProvider implements IEventProvider {
@@ -59,4 +60,7 @@ public abstract class AbstractEventProvider implements IEventProvider {
 		}
 	}
 
+	@Override
+	public void storeSnapshot(INodeBuilder builder) {
+	}
 }

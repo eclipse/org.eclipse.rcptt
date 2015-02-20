@@ -1,17 +1,24 @@
 package org.eclipse.rcptt.ui.tags;
 
+import static org.eclipse.rcptt.core.search.tags.TagsContentAssist.OPERATOR_OR;
+import static org.eclipse.rcptt.core.search.tags.TagsContentAssist.REGEX_SPEC_CHARS;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.emf.databinding.EObjectObservableList;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.fieldassist.ContentProposal;
+import org.eclipse.jface.fieldassist.ContentProposalAdapter;
+import org.eclipse.jface.fieldassist.IContentProposal;
+import org.eclipse.jface.fieldassist.IContentProposalListener;
+import org.eclipse.jface.fieldassist.IContentProposalProvider;
+import org.eclipse.jface.fieldassist.IControlContentAdapter;
+import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -25,6 +32,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.search.tags.TagsContentAssist;
 import org.eclipse.rcptt.core.search.tags.TagsSearch;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.tags.TagsPackage;
@@ -35,45 +43,32 @@ import org.eclipse.rcptt.ui.commons.SearchControl;
 import org.eclipse.rcptt.ui.utils.ModelUtils;
 import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 
 /**
  * Creates a control with filtering RCPTT items by their tags.
  * 
  * Contains tags tree view + item list view + filter control + autocomplete.
- * Filter works with and/AND/&, or/OR/| and parentheses. E.g.: tag1 AND ("tag with space" OR tag2)
+ * Filter works with and/AND/&/or/OR/|/NOT/! operators and parentheses. E.g.: tag1 OR ("tag with space" AND !tag2)
  */
 public class TagsFilterComposite {
 	
-	private static final String OPERATOR_OR = "OR";
-	private static final String OPERATOR_AND = "AND";
-	private static final String REGEX_LAST_SEGMENT = "^.*(\\(| or | OR | \\| | and | AND | & | not | NOT |!)(.*)$";
-	private static final String REGEX_SPEC_CHARS = ".*[ ()!].*";
-	private static final String TOOLTIP_FILTER = "Feel free to use AND, OR and parentheses";
+	private static final String TOOLTIP_FILTER = "E.g. tag1 OR (tag2 AND !tag3)";
 	
 	public IObservableList tags;
 	
 	private SearchControl searchControl;
 	private TreeViewer tagsViewer;
 	private TableViewer listViewer;
-	private Shell popupShell;
-	private Table popupTable;
+	private AutocompleteContentProposalAdapter proposalAdapter;
 	
-	private boolean autocompleteOff = false;
 	private boolean isHorizontal;
 
 	public TagsFilterComposite(Composite parent, boolean isHorizontal) {
@@ -94,7 +89,7 @@ public class TagsFilterComposite {
 		createTreeControl(panel);
 		createListControl(panel);
 	}
-	
+
 	public TreeViewer getTagsViewer() {
 		return tagsViewer;
 	}
@@ -119,47 +114,42 @@ public class TagsFilterComposite {
 		}
 	}
 	
-	public void hidePopup() {
-		if (!popupShell.isDisposed())
-			popupShell.setVisible(false);
+	/**
+	 * Autocomplete proposal provider class.
+	 */
+	public class AutocompleteContentProposalProvider implements IContentProposalProvider {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public IContentProposal[] getProposals(String contents, int position) {
+			ArrayList<String> proposals = TagsContentAssist.getOffers(searchControl.getFilterString(), tags);
+			IContentProposal[] contentProposals = new IContentProposal[proposals.size()];
+			for (int i = 0; i < proposals.size(); i++) {
+				contentProposals[i] = new ContentProposal(proposals.get(i));
+			}
+
+			return contentProposals;
+		}
+
+	}
+
+	/**
+	 * Autocomplete proposal adapter class.
+	 */
+	public class AutocompleteContentProposalAdapter extends ContentProposalAdapter {
+
+		public AutocompleteContentProposalAdapter(Control control, IControlContentAdapter controlContentAdapter,
+				IContentProposalProvider proposalProvider, KeyStroke keyStroke, char[] autoActivationCharacters) {
+			super(control, controlContentAdapter, proposalProvider, keyStroke, autoActivationCharacters);
+		}
+
+		public void showProposals() {
+			openProposalPopup();
+		}
+
 	}
 	
 	private void createFilterControl(Composite panel) {
-		final Display display = panel.getDisplay();
-		final Shell shell = panel.getShell();
-		
-		// Autocomplete popup
-		popupShell = new Shell(shell, SWT.ON_TOP);
-		popupShell.setLayout(new FillLayout());
-		popupTable = new Table(popupShell, SWT.SINGLE);
-		popupTable.addListener(SWT.KeyDown, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				switch (event.keyCode) {
-				case SWT.ESC:
-					popupShell.setVisible(false);
-					break;
-				case SWT.CR:
-					selectAutocompleteOffer();
-					break;
-				}
-			}
-		});
-		popupTable.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				selectAutocompleteOffer();
-			}
-
-			@Override
-			public void mouseDown(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseUp(MouseEvent e) {
-			}
-		});
-		
 		// Filter control
 		searchControl = new SearchControl(panel);
 		if (isHorizontal) {
@@ -170,122 +160,42 @@ public class TagsFilterComposite {
 		
 		searchControl.setInitialText("Tag name");
 		searchControl.getFilterControl().setToolTipText(TOOLTIP_FILTER);
+
+		proposalAdapter = new AutocompleteContentProposalAdapter(searchControl.getFilterControl(),
+				new TextContentAdapter(), new AutocompleteContentProposalProvider(), null, null);
+		proposalAdapter.setPropagateKeys(true);
+		proposalAdapter.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		proposalAdapter.addContentProposalListener(new IContentProposalListener() {
+
+			@Override
+			public void proposalAccepted(IContentProposal proposal) {
+				selectAutocompleteOffer();
+			}
+
+		});
+
 		searchControl.getFilterControl().addListener(SWT.KeyDown, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				switch (event.keyCode) {
-				case SWT.ARROW_DOWN:
-					int index = (popupTable.getSelectionIndex() + 1) % popupTable.getItemCount();
-					popupTable.setSelection(index);
-					event.doit = false;
-					break;
-				case SWT.ARROW_UP:
-					index = popupTable.getSelectionIndex() - 1;
-					if (index < 0)
-						index = popupTable.getItemCount() - 1;
-					popupTable.setSelection(index);
-					event.doit = false;
-					break;
-				case SWT.ESC:
-					popupShell.setVisible(false);
-					break;
+				// ContentProposalAdapter can't be activated by any character and CTRL+SPACE at the same time,
+				// so by default it's activated by any alphanumeric character and here it's activated by CTRL+SPACE
 				case SWT.SPACE:
 					if ((event.stateMask & SWT.CTRL) == SWT.CTRL) {
-						showAutocomplete();
+						proposalAdapter.showProposals();
 						event.doit = false;
 					}
 					break;
+				// Uses Enter to refresh listViewer if User typed filter query instead of using autocompletion
 				case SWT.CR:
 					selectAutocompleteOffer();
 					break;
 				}
 			}
 		});
-		searchControl.getFilterControl().addListener(SWT.Modify, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				showAutocomplete();
-			}
-		});
-
-		// Close popup staff
-		Listener focusOutListener = new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				// Async is needed to wait until focus reaches its new Control
-				display.asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						if (display.isDisposed())
-							return;
-						Control control = display.getFocusControl();
-						if (control == null || (control != searchControl.getFilterControl() && control != popupTable)) {
-							popupShell.setVisible(false);
-						}
-					}
-				});
-			}
-		};
-		popupTable.addListener(SWT.FocusOut, focusOutListener);
-		searchControl.getFilterControl().addListener(SWT.FocusOut, focusOutListener);
-
-		shell.addListener(SWT.Move, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				popupShell.setVisible(false);
-			}
-		});
-		shell.addListener(SWT.Resize, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				popupShell.setVisible(false);
-			}
-		});
-	}
-	
-	private void showAutocomplete() {
-		if (autocompleteOff) return;
-		
-		String search = searchControl.getFilterString();
-		if (search.trim().length() == 0) {
-			popupShell.setVisible(false);
-		} else {
-			ArrayList<String> results = getAutocompleteOffers(search);
-			if (results.size() > 0) {
-				TableItem[] items = popupTable.getItems();
-				if (results.size() > items.length) {
-					for (int i = items.length; i < results.size(); i++) {
-						new TableItem(popupTable, SWT.NONE);
-					}
-				} else if (results.size() < items.length) {
-					for (int i = items.length - 1; i >= results.size(); i--) {
-						items[i].dispose();
-					}
-				}
-
-				for (int i = 0; i < results.size(); i++) {
-					popupTable.getItem(i).setText(results.get(i));
-				}
-				popupTable.deselectAll();
-
-				Rectangle bounds = searchControl.getBounds();
-				Point p = searchControl.toDisplay(0, bounds.height);
-				popupShell.setBounds(p.x, p.y, bounds.width - 50, 100);
-				popupShell.setVisible(true);
-			} else {
-				popupShell.setVisible(false);
-			}
-		}
 	}
 	
 	private void selectAutocompleteOffer() {
-		if (popupShell.isVisible() && popupTable.getSelectionIndex() != -1) {
-			String selected = popupTable.getSelection()[0].getText();
-			searchControl.getFilterControl().setText(selected);
-			searchControl.getFilterControl().setSelection(selected.length(), selected.length());
-		}
-		popupShell.setVisible(false);
-		
 		updateList();
 		tagsViewer.setSelection(null);
 		
@@ -296,80 +206,6 @@ public class TagsFilterComposite {
 			toSelect.add(listViewer.getElementAt(index));
 		}
 		listViewer.setSelection(new StructuredSelection(toSelect), true);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private ArrayList<String> getAutocompleteOffers(String search) {
-		ArrayList<String> results = new ArrayList<String>(0);
-		
-		Map<String, String> last = getLastSegment(search);
-		if (search.endsWith(" ")) {
-			if (last.get("operator") == null) { // tagName<space>
-				findAllTags(search, "", results, tags);
-				results.add(search + OPERATOR_OR);
-				results.add(search + OPERATOR_AND);
-			} else if (!last.get("segment").trim().isEmpty()) { // ..<or|and|(> tagName<space>
-				String prefix = search.substring(0, search.length() - last.get("segment").length());
-				findAllTags(last.get("segment"), prefix, results, tags);
-				results.add(search + OPERATOR_OR);
-				results.add(search + OPERATOR_AND);
-			} else { // ..<or|and><space>
-				getAllRootTags(search, results, tags);
-			}
-		} else if (search.endsWith("(") || search.endsWith("!")) { // ..( or ..!
-			getAllRootTags(search, results, tags);
-		} else {
-			if (last.get("operator") == null) { // tagNa..
-				findAllTags(search.replaceAll("^\\s+",""), "", results, tags);
-			} else if (!last.get("segment").trim().isEmpty()) { // ..<or|and|(> tagNa..
-				String prefix = search.substring(0, search.length() - last.get("segment").length());
-				findAllTags(last.get("segment").replaceAll("^\\s+",""), prefix, results, tags);
-			}
-		}
-		
-		return results;
-	}
-	
-	private static Map<String, String> getLastSegment(String text) {
-		Pattern pattern = Pattern.compile(REGEX_LAST_SEGMENT);
-		Matcher matcher = pattern.matcher(text);
-		Map<String, String> result = new HashMap<String, String>();
-		if (matcher.find()) {
-			result.put("operator", matcher.group(1));
-			result.put("segment", matcher.group(2) == null ? "" : matcher.group(2));
-		} else {
-			result.put("operator", null);
-			result.put("segment", null);
-		}
-		
-		return result;
-	}
-	
-	private void getAllRootTags(String prefix, ArrayList<String> results, List<Tag> tags) {
-		if (tags != null) {
-			for (Tag tag : tags) {
-				if (tag.getPath().matches(REGEX_SPEC_CHARS)) {
-					results.add(prefix + "\"" + tag.getPath() + "\"");
-				} else {
-					results.add(prefix + tag.getPath());
-				}
-			}
-		}
-	}
-	
-	private void findAllTags(String search, String prefix, ArrayList<String> results, List<Tag> tags) {
-		if (tags != null) {
-			for (Tag tag : tags) {
-				if (tag.getPath().toLowerCase().startsWith(search.toLowerCase())) {
-					if (tag.getPath().matches(REGEX_SPEC_CHARS)) {
-						results.add(prefix + "\"" + tag.getPath() + "\"");
-					} else {
-						results.add(prefix + tag.getPath());
-					}
-				}
-				findAllTags(search, prefix, results, tag.getTags());
-			}
-		}
 	}
 	
 	private void createTreeControl(Composite panel) {
@@ -424,6 +260,13 @@ public class TagsFilterComposite {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateFilterControl((IStructuredSelection) event.getSelection());
+			}
+		});
+		tagsViewer.getControl().addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if (tags != null)
+					tags.dispose();
 			}
 		});
 	}
@@ -499,9 +342,9 @@ public class TagsFilterComposite {
 				}
 			}
 			
-			autocompleteOff = true;
+			proposalAdapter.setEnabled(false);
 			searchControl.getFilterControl().setText(StringUtils.join(" " + OPERATOR_OR + " ", tags));
-			autocompleteOff = false;
+			proposalAdapter.setEnabled(true);
 			if (selection.size() == 1) {
 				listViewer.setInput(selection.getFirstElement()); // Don't run searching if only one tag is selected
 			} else {

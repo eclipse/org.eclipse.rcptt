@@ -32,15 +32,19 @@ public class EclStackTrace {
 		while (status.getCause() instanceof ExecutionStatus) {
 			status = (ExecutionStatus) status.getCause();
 		}
-		List<ScriptErrorStatus> trace = new ArrayList<ScriptErrorStatus>();
 		IStatus cause = status.getCause();
-		while (cause instanceof ScriptErrorStatus) {
-			trace.add((ScriptErrorStatus) cause);
-			cause = ((ScriptErrorStatus) cause).getCause();
+		return fromScriptStatus(cause);
+	}
+
+	public static EclStackTrace fromScriptStatus(IStatus status) {
+		List<ScriptErrorStatus> trace = new ArrayList<ScriptErrorStatus>();
+		while (status instanceof ScriptErrorStatus) {
+			trace.add((ScriptErrorStatus) status);
+			status = ((ScriptErrorStatus) status).getCause();
 		}
 		Collections.reverse(trace);
 
-		return new EclStackTrace(cause, trace.toArray(new ScriptErrorStatus[trace.size()]));
+		return new EclStackTrace(status, trace.toArray(new ScriptErrorStatus[trace.size()]));
 	}
 
 	public String print() {

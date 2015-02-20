@@ -18,20 +18,20 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.ecl.runtime.ICommandService;
-import org.eclipse.rcptt.ecl.runtime.IProcess;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.runtime.ICommandService;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.testing.commands.CaptureContext;
 import org.eclipse.rcptt.ui.actions.ContextSnapshotAction;
 import org.eclipse.rcptt.ui.context.ContextUIManager;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 
 public class CaptureContextService implements ICommandService {
 
@@ -77,8 +77,12 @@ public class CaptureContextService implements ICommandService {
 				type.getId(), null);
 		type.getMaker().captureContents(ctx, contextData,
 				new NullProgressMonitor());
-		ctx.commitWorkingCopy(true, new NullProgressMonitor());
-		return Status.OK_STATUS;
+		WriteAccessChecker writeAccessChecker = new WriteAccessChecker();
+		if (writeAccessChecker.makeResourceWritable(ctx)) {
+			ctx.commitWorkingCopy(true, new NullProgressMonitor());
+			return Status.OK_STATUS;
+		}
+		return Status.CANCEL_STATUS;
 	}
 
 	private static String getFileNameWithoutExtension(IFile file) {

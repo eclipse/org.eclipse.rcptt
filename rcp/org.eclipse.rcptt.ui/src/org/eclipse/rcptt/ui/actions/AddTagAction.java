@@ -17,14 +17,12 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.handlers.HandlerUtil;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
@@ -38,6 +36,9 @@ import org.eclipse.rcptt.ui.editors.INamedElementEditor;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.tags.SelectTagDialog;
 import org.eclipse.rcptt.ui.utils.ModelUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 public class AddTagAction extends AbstractHandler {
 
@@ -68,6 +69,15 @@ public class AddTagAction extends AbstractHandler {
 				protected IStatus run(final IProgressMonitor monitor) {
 					monitor.beginTask(Messages.AddTagAction_Task,
 							elements.length);
+					try {
+						WriteAccessChecker writeAccessChecker = new WriteAccessChecker(dialog.getShell());
+						if (!writeAccessChecker.makeResourceWritable(elements)) {
+							return Status.CANCEL_STATUS;
+						}
+					} catch (CoreException e) {
+						return e.getStatus();
+					}
+
 					for (IQ7NamedElement element : elements) {
 						if (monitor.isCanceled())
 							break;
@@ -94,7 +104,7 @@ public class AddTagAction extends AbstractHandler {
 			throws ModelException {
 		String tags = element.getTags();
 		NamedElement namedElement = element.getModifiedNamedElement();
-		if( namedElement != null ) {
+		if (namedElement != null) {
 			tags = namedElement.getTags();
 		}
 		final List<String> existingTags = TagsUtil.extractTags(tags);
@@ -152,5 +162,4 @@ public class AddTagAction extends AbstractHandler {
 			}
 		}
 	}
-
 }

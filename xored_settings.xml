@@ -12,6 +12,14 @@
       <mirrorOfLayouts>p2</mirrorOfLayouts>
     </mirror>
     <mirror>
+      <id>indigo-xored</id>
+      <mirrorOf>indigo</mirrorOf>
+      <name>Xored indigo</name>
+      <url>http://updates.xored.com/indigo/</url>
+      <layout>p2</layout>
+      <mirrorOfLayouts>p2</mirrorOfLayouts>
+    </mirror>
+    <mirror>
       <id>juno-xored</id>
       <mirrorOf>juno</mirrorOf>
       <url>http://updates.xored.com/juno</url>

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.runtime.ui;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.rcptt.runtime.ui.AutEventManager;
+import org.eclipse.rcptt.runtime.ui.Q7ServerStarter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,9 +24,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
-import org.eclipse.rcptt.runtime.ui.AutEventManager;
-import org.eclipse.rcptt.runtime.ui.Q7ServerStarter;
 
 public class Q7RuntimePreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {

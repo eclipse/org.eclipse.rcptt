@@ -22,11 +22,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ltk.core.refactoring.resource.DeleteResourceChange;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.ide.IDE;
-
 import org.eclipse.rcptt.core.VerificationType;
 import org.eclipse.rcptt.core.model.IQ7Folder;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -37,8 +32,13 @@ import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.actions.VerificationSnapshotAction;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.rcptt.ui.verification.VerificationUIManager;
 import org.eclipse.rcptt.ui.verification.VerificationViewer;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
 
 public class NewVerificationWizard extends Wizard implements INewWizard {
 
@@ -91,6 +91,10 @@ public class NewVerificationWizard extends Wizard implements INewWizard {
 			String name = verificationPage.getVerificationName();
 			IPath containerPath = verificationPage.getPathInProject();
 			IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
+			WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+			if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+				return false;
+			}
 			verification = folder.createVerification(name, type, true,
 					new NullProgressMonitor());
 			if (takeSnapshot) {
@@ -121,6 +125,9 @@ public class NewVerificationWizard extends Wizard implements INewWizard {
 					try {
 						ResourcesPlugin.getWorkspace().run(operation,
 								new NullProgressMonitor());
+						if (!writeAccessChecker.makeResourceWritable(workingCopy)) {
+							return false;
+						}
 						workingCopy.commitWorkingCopy(true, new NullProgressMonitor());
 					} catch (CoreException e) {
 						Q7UIPlugin.log(e.getCause());

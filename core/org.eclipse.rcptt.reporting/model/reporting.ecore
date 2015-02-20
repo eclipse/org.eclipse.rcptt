@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="reporting"
-    nsURI="http://eclipse.org/rcptt/reporting/core" nsPrefix="org.eclipse.rcptt.reporting.core">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="reporting" nsURI="http://eclipse.org/rcptt/reporting/core" nsPrefix="org.eclipse.rcptt.reporting.core">
   <eClassifiers xsi:type="ecore:EClass" name="Q7Info">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ItemKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="#//ResultStatus"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tags" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -15,6 +11,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="variant" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ItemKind">
     <eLiterals name="Context" literal="Context"/>
@@ -23,12 +21,6 @@
     <eLiterals name="Script" value="3"/>
     <eLiterals name="TestSuite" value="4"/>
     <eLiterals name="Verification" value="5" literal="Verification"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ResultStatus">
-    <eLiterals name="Pass" literal="Pass"/>
-    <eLiterals name="Fail" value="1"/>
-    <eLiterals name="Warn" value="2"/>
-    <eLiterals name="Skipped" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Q7Statistics">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="total" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

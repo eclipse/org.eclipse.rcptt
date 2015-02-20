@@ -34,9 +34,6 @@ public class TestSuiteExecutable extends Executable {
 		if (children.length > 0) {
 			System.arraycopy(children, 0, kids, 0, children.length);
 		}
-		for (Executable child : kids) {
-			child.setParent(this);
-		}
 	}
 
 	public String getName() {
@@ -97,7 +94,7 @@ public class TestSuiteExecutable extends Executable {
 	}
 
 	@Override
-	protected IStatus postExecute(Listener listener, IStatus result) {
+	protected IStatus postExecute(IStatus result) {
 		for (IExecutable child : getChildren()) {
 			IStatus status = child.getResultStatus();
 			if (status != null && !status.isOK()) {

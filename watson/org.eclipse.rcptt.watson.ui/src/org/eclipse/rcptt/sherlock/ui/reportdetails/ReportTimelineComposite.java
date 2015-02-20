@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.ui.reportdetails;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,16 +37,6 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.ScrollBar;
-
 import org.eclipse.rcptt.profiling.core.SherlockJobsCore;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventKind;
@@ -60,6 +51,15 @@ import org.eclipse.rcptt.sherlock.jobs.jobs.JobInfo;
 import org.eclipse.rcptt.sherlock.ui.reportdetails.figures.EventFigure;
 import org.eclipse.rcptt.sherlock.ui.reportdetails.figures.NodeFigure;
 import org.eclipse.rcptt.sherlock.ui.reportdetails.figures.SourceFigure;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ScrollBar;
 
 public class ReportTimelineComposite {
 	private List<Node> nodes = new ArrayList<Node>();
@@ -959,7 +959,12 @@ public class ReportTimelineComposite {
 				builder.append("\t" + "event:"
 						+ TimeFormatHelper.format(event.getTime() - minTime));
 				StringBuilder b2 = new StringBuilder();
-				gen.toString(b2, 0, event.getData(), true);
+				try {
+					gen.toString(b2, 0, event.getData(), true);
+				} catch (IOException e) {
+					// String Builder does not throw
+					throw new RuntimeException(e);
+				}
 				builder.append(" " + b2.toString().replace('\n', ' ').trim())
 						.append("\n");
 			}

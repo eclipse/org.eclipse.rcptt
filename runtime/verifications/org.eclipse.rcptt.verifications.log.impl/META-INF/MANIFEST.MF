@@ -9,4 +9,5 @@ Require-Bundle: org.eclipse.rcptt.core,
  org.eclipse.core.runtime,
  org.eclipse.rcptt.verifications.log,
  org.eclipse.rcptt.verifications,
- org.eclipse.rcptt.reporting
+ org.eclipse.rcptt.reporting,
+ org.eclipse.rcptt.tesla.ecl.impl

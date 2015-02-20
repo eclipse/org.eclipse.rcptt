@@ -24,7 +24,7 @@ public interface IProcess {
 
 	IStatus waitFor() throws InterruptedException;
 
-	IStatus waitFor(long timeout, IProgressMonitor monitor);
+	IStatus waitFor(long timeout, IProgressMonitor monitor) throws InterruptedException;
 
 	boolean isAlive();
 }

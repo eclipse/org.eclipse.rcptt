@@ -13,6 +13,7 @@ package org.eclipse.rcptt.tesla.core.ui.impl;
 import org.eclipse.rcptt.tesla.core.ui.Browser;
 import org.eclipse.rcptt.tesla.core.ui.Button;
 import org.eclipse.rcptt.tesla.core.ui.ButtonKind;
+import org.eclipse.rcptt.tesla.core.ui.Cell;
 import org.eclipse.rcptt.tesla.core.ui.Color;
 import org.eclipse.rcptt.tesla.core.ui.Combo;
 import org.eclipse.rcptt.tesla.core.ui.Composite;
@@ -380,6 +381,13 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass cellEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass markerEClass = null;
 
 	/**
@@ -741,6 +749,15 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 */
 	public EAttribute getItem_Index() {
 		return (EAttribute)itemEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getItem_Cells() {
+		return (EReference)itemEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2233,6 +2250,15 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCell() {
+		return cellEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMarker() {
 		return markerEClass;
 	}
@@ -2519,6 +2545,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		createEAttribute(itemEClass, ITEM__SELECTION);
 		createEAttribute(itemEClass, ITEM__ENABLEMENT);
 		createEAttribute(itemEClass, ITEM__INDEX);
+		createEReference(itemEClass, ITEM__CELLS);
 
 		menuItemEClass = createEClass(MENU_ITEM);
 		createEAttribute(menuItemEClass, MENU_ITEM__ACCELERATOR);
@@ -2745,6 +2772,8 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		createEAttribute(lineMarkersValueEClass, LINE_MARKERS_VALUE__KEY);
 		createEReference(lineMarkersValueEClass, LINE_MARKERS_VALUE__VALUE);
 
+		cellEClass = createEClass(CELL);
+
 		// Create enums
 		buttonKindEEnum = createEEnum(BUTTON_KIND);
 		propertyNodeTypeEEnum = createEEnum(PROPERTY_NODE_TYPE);
@@ -2815,6 +2844,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		sliderEClass.getESuperTypes().add(this.getControl());
 		formTextEClass.getESuperTypes().add(this.getControl());
 		markerEClass.getESuperTypes().add(this.getWidget());
+		cellEClass.getESuperTypes().add(this.getWithImage());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(widgetEClass, Widget.class, "Widget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2855,6 +2885,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEAttribute(getItem_Selection(), ecorePackage.getEBoolean(), "selection", null, 0, 1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItem_Enablement(), ecorePackage.getEBoolean(), "enablement", null, 0, 1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItem_Index(), ecorePackage.getEInt(), "index", null, 0, 1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getItem_Cells(), this.getCell(), null, "cells", null, 0, -1, Item.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(menuItemEClass, MenuItem.class, "MenuItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMenuItem_Accelerator(), ecorePackage.getEString(), "accelerator", null, 0, 1, MenuItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3080,6 +3111,8 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEClass(lineMarkersValueEClass, Map.Entry.class, "LineMarkersValue", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLineMarkersValue_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLineMarkersValue_Value(), this.getMarker(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cellEClass, Cell.class, "Cell", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(buttonKindEEnum, ButtonKind.class, "ButtonKind");

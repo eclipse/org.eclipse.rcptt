@@ -112,6 +112,7 @@ public class UiFactoryImpl extends EFactoryImpl implements UiFactory {
 			case UiPackage.VALUES_MAP: return (EObject)createValuesMap();
 			case UiPackage.MARKER: return createMarker();
 			case UiPackage.LINE_MARKERS_VALUE: return (EObject)createLineMarkersValue();
+			case UiPackage.CELL: return createCell();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -579,6 +580,16 @@ public class UiFactoryImpl extends EFactoryImpl implements UiFactory {
 	public Map.Entry<String, EList<Marker>> createLineMarkersValue() {
 		LineMarkersValueImpl lineMarkersValue = new LineMarkersValueImpl();
 		return lineMarkersValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Cell createCell() {
+		CellImpl cell = new CellImpl();
+		return cell;
 	}
 
 	/**

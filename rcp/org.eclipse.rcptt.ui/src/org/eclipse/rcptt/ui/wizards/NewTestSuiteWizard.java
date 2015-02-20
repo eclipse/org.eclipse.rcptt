@@ -20,15 +20,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.ide.IDE;
-
+import org.eclipse.rcptt.core.model.IQ7Folder;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
 
 public class NewTestSuiteWizard extends Wizard implements INewWizard {
 
@@ -76,10 +77,13 @@ public class NewTestSuiteWizard extends Wizard implements INewWizard {
 						IProject project = testSuitePage.getProject();
 						String name = testSuitePage.getTestSuiteName();
 						IPath containerPath = testSuitePage.getPathInProject();
-						testSuite = RcpttCore
-								.create(project)
-								.getFolder(containerPath)
-								.createTestSuite(name, true,
+						IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
+						WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+						if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+							result[0] = false;
+							return;
+						}
+						testSuite = folder.createTestSuite(name, true,
 										new NullProgressMonitor());
 						if (openEditor) {
 							IDE.openEditor(getPage(),

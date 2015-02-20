@@ -17,19 +17,19 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
-import org.eclipse.swt.graphics.Image;
-
-import com.google.common.base.Joiner;
-
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
+import org.eclipse.swt.graphics.Image;
+
+import com.google.common.base.Joiner;
 
 public class ExecutionLabelProvider extends LabelProvider implements
 		IStyledLabelProvider {
@@ -115,8 +115,9 @@ public class ExecutionLabelProvider extends LabelProvider implements
 					append(executable.getPhase().toString(), StyledString.DECORATIONS_STYLER);
 		}
 
-		if (executable.getStatus() == IExecutable.State.PASSED
-				|| executable.getStatus() == IExecutable.State.FAILED) {
+		if ((executable.getStatus() == IExecutable.State.PASSED
+				|| executable.getStatus() == IExecutable.State.FAILED)
+				&& !executable.getResultStatus().matches(IStatus.CANCEL)) {
 			styledString.append(" (", StyledString.COUNTER_STYLER); //$NON-NLS-1$
 			long time = executable.getTime();
 			styledString.append(TimeFormatHelper.format(time),

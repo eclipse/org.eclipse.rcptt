@@ -21,11 +21,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.ide.IDE;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Folder;
@@ -38,6 +33,11 @@ import org.eclipse.rcptt.ui.actions.ContextSnapshotAction;
 import org.eclipse.rcptt.ui.context.ContextUIManager;
 import org.eclipse.rcptt.ui.context.ContextViewer;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
 
 public class NewContextWizard extends Wizard implements INewWizard {
 
@@ -84,6 +84,10 @@ public class NewContextWizard extends Wizard implements INewWizard {
 			String name = selectContextPage.getContextName();
 			IPath containerPath = selectContextPage.getPathInProject();
 			IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
+			WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+			if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+				return false;
+			}
 			context = folder.createContext(name, type, true,
 					new NullProgressMonitor());
 			if (takeSnapshot) {
@@ -112,6 +116,9 @@ public class NewContextWizard extends Wizard implements INewWizard {
 					try {
 						ResourcesPlugin.getWorkspace().run(operation,
 								new NullProgressMonitor());
+						if (!writeAccessChecker.makeResourceWritable(workingCopy)) {
+							return false;
+						}
 						workingCopy.commitWorkingCopy(true,
 								new NullProgressMonitor());
 					} catch (CoreException e) {

@@ -17,6 +17,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -29,13 +30,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.IStatusHandler;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ecl.core.CoreFactory;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.AutStatusConstants;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
@@ -44,11 +48,14 @@ import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 
 public class TestSuiteUtils {
 	public static String toString(Throwable e) {
@@ -168,33 +175,40 @@ public class TestSuiteUtils {
 		}
 	}
 
-	public static Report generateFailedReport(ITestCase element, String errorMessage) {
-		return generateReport(element, ResultStatus.FAIL, errorMessage);
+	public static Report generateFailedReport(IQ7NamedElement element, String errorMessage) {
+		return generateReport(element, RcpttPlugin.createStatus(errorMessage));
 	}
 
-	public static Report generateSkippedReport(ITestCase element, String errorMessage) {
-		return generateReport(element, ResultStatus.SKIPPED, errorMessage);
+	public static Report generateSkippedReport(IQ7NamedElement iq7NamedElement, String errorMessage) {
+		return generateReport(iq7NamedElement, new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, errorMessage));
 	}
 
-	public static Report generateReport(ITestCase element, ResultStatus status, String errorMessage) {
+	private static final Map<HandleType, ItemKind> typeMapping;
+	static {
+		Builder<HandleType, ItemKind> b = ImmutableMap.builder();
+		b.put(HandleType.Context, ItemKind.CONTEXT);
+		b.put(HandleType.TestCase, ItemKind.TESTCASE);
+		b.put(HandleType.TestSuite, ItemKind.TEST_SUITE);
+		b.put(HandleType.Verification, ItemKind.VERIFICATION);
+		typeMapping = b.build();
+	}
+
+	public static ItemKind toItemKind(HandleType type) {
+		ItemKind rv = typeMapping.get(type);
+		Preconditions.checkArgument(rv != null, "Can't convert item type " + type + " to report type");
+		return rv;
+	}
+
+	public static Report generateReport(IQ7NamedElement element, IStatus status) {
 		try {
 			Report report = ReportFactory.eINSTANCE.createReport();
 			Node root = ReportFactory.eINSTANCE.createNode();
 			root.setName(element.getID());
 			report.setRoot(root);
-			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
-			q7info.setId(element.getID());
-			q7info.setMessage(errorMessage);
-			q7info.setResult(status);
-			q7info.setType(ItemKind.TESTCASE);
+			Q7Info q7info = getQ7Info(element);
+			q7info.setResult(ProcessStatusConverter.toProcessStatus(status));
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getElementName());
-			Q7Info scenario = EcoreUtil.copy(q7info);
-			scenario.setType(ItemKind.SCRIPT);
-			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
-			scenarioNode.setName(root.getName());
-			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
-			root.getChildren().add(scenarioNode);
 			return report;
 		} catch(ModelException e) {
 			Q7LaunchingPlugin.log(e);
@@ -204,17 +218,14 @@ public class TestSuiteUtils {
 			report.setRoot(root);
 			Q7Info q7info = ReportingFactory.eINSTANCE.createQ7Info();
 			q7info.setId(element.getPath().toString());
-			q7info.setMessage(toString(e));
-			q7info.setResult(status);
+			ProcessStatus pstatus = CoreFactory.eINSTANCE.createProcessStatus();
+			pstatus.setSeverity(IStatus.ERROR);
+			pstatus.setPluginId(RcpttPlugin.PLUGIN_ID);
+			pstatus.setMessage("Failed to generate simple report: " + e.getMessage());
+			q7info.setResult(pstatus);
 			q7info.setType(ItemKind.TESTCASE);
 			root.getProperties().put(IQ7ReportConstants.ROOT, q7info);
 			root.setName(element.getPath().toString());
-			Q7Info scenario = EcoreUtil.copy(q7info);
-			scenario.setType(ItemKind.SCRIPT);
-			Node scenarioNode = ReportFactory.eINSTANCE.createNode();
-			scenarioNode.setName(root.getName());
-			scenarioNode.getProperties().put(IQ7ReportConstants.ROOT, scenario);
-			root.getChildren().add(scenarioNode);
 			return report;
 		}
 
@@ -229,5 +240,15 @@ public class TestSuiteUtils {
 			return (AutLaunch) handler.handleStatus(status, null);
 		else
 			return null;
+	}
+
+	public static Q7Info getQ7Info(IQ7NamedElement element) throws ModelException {
+		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
+		info.setType(toItemKind(element.getElementType()));
+		Preconditions.checkNotNull(info.getType());
+		info.setDescription(element.getDescription());
+		info.setId(element.getID());
+		info.setTags(element.getTags());
+		return info;
 	}
 }

@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jdt.internal.launching.LaunchingPlugin;
 import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetHandle;
 import org.eclipse.pde.core.target.ITargetLocation;
@@ -56,11 +57,12 @@ public class TargetPlatformManager {
 	 * 
 	 * @throws CoreException
 	 * */
-	public static ITargetPlatformHelper createTargetPlatform(
-			final String location, IProgressMonitor monitor) throws CoreException {
+	public static ITargetPlatformHelper createTargetPlatform(final String location, IProgressMonitor monitor)
+			throws CoreException {
 		boolean isOk = false;
 		final ITargetPlatformService service = PDEHelper.getTargetService();
-		final TargetPlatformHelper info = new TargetPlatformHelper(service.newTarget());
+		final ITargetDefinition target = service.newTarget();
+		final TargetPlatformHelper info = new TargetPlatformHelper(target);
 		try {
 			List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
 			ITargetLocation installationContainer = service
@@ -101,10 +103,11 @@ public class TargetPlatformManager {
 	 * 
 	 * @param attribute
 	 * @return null if no target platform is found. Helper object otherwise.
+	 * @throws CoreException
 	 */
-	public static ITargetPlatformHelper getTargetPlatform(
+	public static ITargetPlatformHelper findTarget(
 			final String requiredName, final IProgressMonitor monitorArg,
-			final boolean needResolve) {
+			final boolean needResolve) throws CoreException {
 		SubMonitor monitor = SubMonitor.convert(monitorArg);
 		monitor.beginTask("Looking up " + requiredName, 2);
 
@@ -123,7 +126,12 @@ public class TargetPlatformManager {
 					continue;
 				final TargetPlatformHelper info = new TargetPlatformHelper(def);
 				if (needResolve) {
-					info.resolve(monitor.newChild(1));
+					IStatus status = info.resolve(monitor.newChild(1, SubMonitor.SUPPRESS_NONE));
+					if (!status.isOK()) {
+						LaunchingPlugin.log(status);
+						info.delete();
+						return null;
+					}
 				}
 				return info;
 			}
@@ -232,7 +240,7 @@ public class TargetPlatformManager {
 				public IStatus resolve(IProgressMonitor monitor) {
 					// Always resolved platform
 					return Status.OK_STATUS;
-				};
+				}
 			};
 			return helper;
 		} catch (CoreException e) {

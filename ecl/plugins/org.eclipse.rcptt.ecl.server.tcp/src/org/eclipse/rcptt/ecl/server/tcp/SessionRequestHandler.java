@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.server.tcp;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -59,7 +60,13 @@ final class SessionRequestHandler implements Runnable {
 					} catch (CoreException e) {
 						status = e.getStatus();
 					}
-					pipe.write(status);
+					try {
+						pipe.write(status);
+					} catch (ClassCastException e) { // Serialization errors
+						CorePlugin.log(e);
+						status = CorePlugin.err(e);
+						pipe.write(status);
+					}
 					pipe.close(status);
 				} catch (Exception e) {
 					Throwable te = e;
@@ -71,8 +78,7 @@ final class SessionRequestHandler implements Runnable {
 					if (te instanceof SocketException) {
 						try {
 							socket.close();
-						} catch (Throwable e2) {
-
+						} catch (IOException e2) {
 						}
 						break;
 					}

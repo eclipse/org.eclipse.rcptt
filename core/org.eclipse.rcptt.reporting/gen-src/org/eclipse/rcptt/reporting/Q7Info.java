@@ -12,6 +12,7 @@ package org.eclipse.rcptt.reporting;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,14 +25,13 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}</li>
- *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getTags <em>Tags</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getSubtype <em>Subtype</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getVariant <em>Variant</em>}</li>
  *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getPhase <em>Phase</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}</li>
  * </ul>
  * </p>
  *
@@ -96,59 +96,30 @@ public interface Q7Info extends EObject {
 	void setType(ItemKind value);
 
 	/**
-	 * Returns the value of the '<em><b>Result</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.rcptt.reporting.ResultStatus}.
+	 * Returns the value of the '<em><b>Result</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Result</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Result</em>' attribute.
-	 * @see org.eclipse.rcptt.reporting.ResultStatus
-	 * @see #setResult(ResultStatus)
+	 * @return the value of the '<em>Result</em>' containment reference.
+	 * @see #setResult(ProcessStatus)
 	 * @see org.eclipse.rcptt.reporting.ReportingPackage#getQ7Info_Result()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
-	ResultStatus getResult();
+	ProcessStatus getResult();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.rcptt.reporting.Q7Info#getResult <em>Result</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Result</em>' attribute.
-	 * @see org.eclipse.rcptt.reporting.ResultStatus
+	 * @param value the new value of the '<em>Result</em>' containment reference.
 	 * @see #getResult()
 	 * @generated
 	 */
-	void setResult(ResultStatus value);
-
-	/**
-	 * Returns the value of the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Message</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Message</em>' attribute.
-	 * @see #setMessage(String)
-	 * @see org.eclipse.rcptt.reporting.ReportingPackage#getQ7Info_Message()
-	 * @model
-	 * @generated
-	 */
-	String getMessage();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.rcptt.reporting.Q7Info#getMessage <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message</em>' attribute.
-	 * @see #getMessage()
-	 * @generated
-	 */
-	void setMessage(String value);
+	void setResult(ProcessStatus value);
 
 	/**
 	 * Returns the value of the '<em><b>Line</b></em>' attribute.

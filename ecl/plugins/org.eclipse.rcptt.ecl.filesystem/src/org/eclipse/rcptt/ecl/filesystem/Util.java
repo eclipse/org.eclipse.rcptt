@@ -16,17 +16,23 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.eclipse.core.runtime.CoreException;
+
 public class Util {
 	public static Writer getWriter(final EclFile file, final boolean append) {
 		StringWriter writer = new StringWriter() {
 			@Override
 			public void close() throws IOException {
 				super.close();
-				InputStream is = new ByteArrayInputStream(toString().getBytes());
-				if (append)
-					file.append(is);
-				else
-					file.write(is);
+				try {
+					InputStream is = new ByteArrayInputStream(toString().getBytes());
+					if (append)
+						file.append(is);
+					else
+						file.write(is);
+				} catch (CoreException e) {
+					throw new IOException("Failed to write " + file.toURI().toString(), e);
+				}
 			}
 		};
 		return writer;

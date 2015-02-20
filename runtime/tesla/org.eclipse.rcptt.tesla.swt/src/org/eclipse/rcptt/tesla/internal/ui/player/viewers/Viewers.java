@@ -578,6 +578,7 @@ public class Viewers {
 			}
 			SWTEvents player = parent.getPlayer().getEvents();
 
+			player.sendFocus(list);
 			player.sendEvent(list, SWT.MouseEnter);
 			player.sendEvent(list, SWT.MouseMove);
 			player.sendEvent(list, SWT.MouseDown);

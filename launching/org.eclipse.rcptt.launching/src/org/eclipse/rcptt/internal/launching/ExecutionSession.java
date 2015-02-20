@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
@@ -152,6 +155,9 @@ public class ExecutionSession implements IExecutionSession {
 
 	public void stop() {
 		this.running = false;
+		for (Executable ex : executables) {
+			ex.cancel(new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+		}
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).executionFinished();
 		}

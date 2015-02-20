@@ -46,7 +46,15 @@ public class ProcessStatusConverter implements
 		if (!ps.getChildren().isEmpty()) {
 			ArrayList<IStatus> children = new ArrayList<IStatus>(ps.getChildren().size());
 			for (ProcessStatus child: ps.getChildren()) {
-				children.add(fromEObject(child));
+				try {
+					children.add((IStatus) EMFConverterManager.INSTANCE.fromEObject(child));
+				} catch (CoreException e) {
+					CorePlugin.log(e.getStatus());
+					children.add(e.getStatus());
+				} catch (ClassCastException e) {
+					CorePlugin.log(e);
+					children.add(CorePlugin.err(e));
+				}
 			}
 			return new MultiStatus(ps.getPluginId(), ps.getCode(), children.toArray(new IStatus[children.size()]),
 					ps.getMessage(), th);
@@ -56,7 +64,7 @@ public class ProcessStatusConverter implements
 		}
 	}
 
-	private Throwable getThrowable(EclException exception) {
+	public static Throwable getThrowable(EclException exception) {
 		Throwable th = null;
 		try {
 			// Try to restore stored exception.
@@ -103,7 +111,7 @@ public class ProcessStatusConverter implements
 		return th;
 	}
 
-	private StackTraceElement[] constructStack(EList<EclStackTraceEntry> list) {
+	private static StackTraceElement[] constructStack(EList<EclStackTraceEntry> list) {
 		StackTraceElement[] stack = new StackTraceElement[list.size()];
 		for (int i = 0; i < list.size(); i++) {
 			EclStackTraceEntry entry = list.get(i);
@@ -120,6 +128,40 @@ public class ProcessStatusConverter implements
 		return rv;
 	}
 
+	public static ProcessStatus toProcessStatus(IStatus status) {
+		try {
+			if (status == null)
+				return null;
+			return (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(status);
+		} catch (CoreException e) {
+			try {
+				return (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(e.getStatus());
+			} catch (CoreException e1) {
+				CorePlugin.log(e1.getStatus());
+				ProcessStatus ps = CoreFactory.eINSTANCE.createProcessStatus();
+				ps.setSeverity(IStatus.ERROR);
+				ps.setMessage("Failed to convert result status " + status.getClass().getName() + ". See AUT's log");
+				ps.setPluginId(CorePlugin.PLUGIN_ID);
+				return ps;
+			}
+		} catch (ClassCastException e) {
+			return toProcessStatus(CorePlugin.err(e));
+		}
+	}
+
+	public static IStatus toIStatus(ProcessStatus status) {
+		try {
+			return (IStatus) EMFConverterManager.INSTANCE.fromEObject(status);
+		} catch (CoreException e) {
+			try {
+				return (IStatus) EMFConverterManager.INSTANCE.toEObject(e.getStatus());
+			} catch (CoreException e1) {
+				CorePlugin.log(e1.getStatus());
+				return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, "Failed to convert result status. See IDE's log");
+			}
+		}
+	}
+
 	public static void toEObject(IStatus status, ProcessStatus ps) throws CoreException {
 		ps.setCode(status.getCode());
 		ps.setMessage(status.getMessage());
@@ -131,8 +173,14 @@ public class ProcessStatusConverter implements
 		}
 		if (status.isMultiStatus()) {
 			for (IStatus child : status.getChildren()) {
-				ps.getChildren().add((ProcessStatus) EMFConverterManager.INSTANCE
-						.toEObject(child));
+				ProcessStatus s;
+				try {
+					s = (ProcessStatus) EMFConverterManager.INSTANCE.toEObject(child);
+				} catch (ClassCastException e) {
+					s = CoreFactory.eINSTANCE.createProcessStatus();
+					toEObject(CorePlugin.err(e), s);
+				}
+				ps.getChildren().add(s);
 			}
 		}
 	}
@@ -161,5 +209,4 @@ public class ProcessStatusConverter implements
 		}
 		return ex;
 	}
-
 }

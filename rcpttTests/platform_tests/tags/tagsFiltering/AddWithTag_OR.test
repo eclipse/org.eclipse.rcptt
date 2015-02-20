@@ -6,9 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=454740
 Id: _D4VfAIUPEeS44uQ7y9L3Dw
-Runtime-Version: 1.5.4.201412021526
-Save-Time: 1/8/15 10:06 AM
-Tags: skipExecution
+Runtime-Version: 1.5.5.qualifier
+Save-Time: 1/15/15 2:10 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -58,11 +57,9 @@ get-editor "TestSuite_tag1" | get-section "Test Cases" | get-button "Remove All"
 get-editor "TestSuite_tag1" | get-section "Test Cases" | get-button "Add with Tag" | click
 
 with [get-window "Select Tag(s) to Add"] {
-    get-editbox | set-text "tag1 | tag"
-    with [get-window -from "TagsFilterComposite.createFilterControl()" | get-table] {
-        get-item "tag1 | \"tag with spaces\"" | click
-        select "tag1 | \"tag with spaces\"" | double-click
-        get-item "tag1 | \"tag with spaces\"" | click
+    with [get-editbox] {
+        set-text "tag1 | \"tag with spaces\""
+        key-type Enter
     }
     get-button OK | click
 }

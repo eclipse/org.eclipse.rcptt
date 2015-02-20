@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +22,6 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
@@ -45,6 +45,10 @@ public class SimpleReportGenerator {
 		return builder.toString();
 	}
 
+	protected boolean printRawProperty(String key) {
+		return true;
+	}
+
 	public void printNode(Node infoNode, StringBuilder stream, int tabs, boolean includeWaitDetails) {
 		appendTabs(stream, tabs);
 		stream.append(infoNode.getName())
@@ -55,6 +59,8 @@ public class SimpleReportGenerator {
 
 		EMap<String, EObject> list = infoNode.getProperties();
 		for (String key : list.keySet()) {
+			if (!printRawProperty(key))
+				continue;
 			EObject value = list.get(key);
 			if (value instanceof Q7WaitInfoRoot) {
 				if (includeWaitDetails) {
@@ -68,16 +74,26 @@ public class SimpleReportGenerator {
 				}
 			}
 		}
-		for (Node child : infoNode.getChildren()) {
-			printNode(child, stream, tabs + 2, includeWaitDetails);
-		}
+		
+		printChildren(infoNode.getChildren(), stream, tabs, includeWaitDetails);
 
-		if (!includeWaitDetails) {
-			for (Snaphot child : infoNode.getSnapshots()) {
-				printSnapshot(child, stream, tabs + 2);
+		try {
+			if (!includeWaitDetails) {
+				for (Snaphot child : infoNode.getSnapshots()) {
+					printSnapshot(child, stream, tabs + 2);
+				}
 			}
+		} catch (IOException e) {
+			// String builder does not throw
+			throw new RuntimeException(e);
 		}
 		appendTabs(stream, tabs).append("}").append(LINE_SEPARATOR);
+	}
+
+	protected void printChildren(List<Node> children, StringBuilder stream, int tabs, boolean includeWaitDetails) {
+		for (Node child : children) {
+			printNode(child, stream, tabs + 2, includeWaitDetails);
+		}
 	}
 
 	public void printWaitInfo(StringBuilder stream, int tabs, String key, Q7WaitInfoRoot value) {
@@ -142,11 +158,15 @@ public class SimpleReportGenerator {
 
 	private String asValue(EObject eObject) {
 		StringBuilder b = new StringBuilder();
-		toString(b, 0, eObject);
+		try {
+			toString(b, 0, eObject);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		return "(" + b.toString().replace("\n", " ") + ")";
 	}
 
-	protected void printSnapshot(Snaphot child, StringBuilder stream, int tabs) {
+	public <T extends Appendable> T printSnapshot(Snaphot child, T stream, int tabs) throws IOException {
 		appendTabs(stream, tabs);
 		stream.append(" %");
 		stream.append(" object:").append(LINE_SEPARATOR);
@@ -158,17 +178,22 @@ public class SimpleReportGenerator {
 					.append(asValue(list.get(key))).append(LINE_SEPARATOR);
 		}
 		appendTabs(stream, tabs).append("%").append(LINE_SEPARATOR);
+		return stream;
 	}
 
-	protected StringBuilder appendTabs(StringBuilder stream, int tabs) {
+	protected <T extends Appendable> T appendTabs(T stream, int tabs) {
 		for (int i = 0; i < tabs; ++i) {
-			stream.append("  ");
+			try {
+				stream.append("  ");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return stream;
 	}
 
-	protected StringBuilder printStatus(EclipseStatus s, int tabs,
-			StringBuilder builder) {
+	public <T extends Appendable> T printStatus(EclipseStatus s, int tabs,
+			T builder) throws IOException {
 		int severity = s.getSeverity();
 		if (severity == IStatus.ERROR) {
 			appendTabs(builder, tabs).append("Error");
@@ -191,8 +216,8 @@ public class SimpleReportGenerator {
 		return builder;
 	}
 
-	private StringBuilder printJavaException(JavaException e, int tabs,
-			StringBuilder builder) {
+	private Appendable printJavaException(JavaException e, int tabs,
+			Appendable builder) throws IOException {
 		appendTabs(builder, tabs).append(e.getClassName());
 		if (e.getMessage() != null && e.getMessage().length() > 0) {
 			builder.append(":").append(e.getMessage());
@@ -203,7 +228,7 @@ public class SimpleReportGenerator {
 					.append(st.getClassName()).append(".")
 					.append(st.getMethodName()).append("(")
 					.append(st.getFileName()).append(":")
-					.append(st.getLineNumber()).append(")")
+					.append("" + st.getLineNumber()).append(")")
 					.append(LINE_SEPARATOR);
 		}
 		JavaException cause = e.getCause();
@@ -215,16 +240,20 @@ public class SimpleReportGenerator {
 		return builder;
 	}
 
-	public StringBuilder toString(StringBuilder builder, int tabs, EObject obj,
-			String... ignores) {
+	public <T extends Appendable> T toString(T builder, int tabs, EObject obj,
+			String... ignores) throws IOException {
 		return toString(builder, tabs, obj, true, ignores);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public StringBuilder toString(StringBuilder builder, int tabs, EObject obj,
-			boolean skipDefaults, String... ignores) {
+	public <T extends Appendable> T toString(T builder, int tabs, EObject obj,
+			boolean skipDefaults, String... ignores) throws IOException {
 		if (obj instanceof EclipseStatus) {
-			return printStatus((EclipseStatus) obj, tabs, builder);
+			try {
+				return printStatus((EclipseStatus) obj, tabs, builder);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		if (obj == null) {
 			return builder;
@@ -273,7 +302,7 @@ public class SimpleReportGenerator {
 					}
 					builder.append(']');
 				} else {
-					builder.append(eGet).append(LINE_SEPARATOR);
+					builder.append("" + eGet).append(LINE_SEPARATOR);
 				}
 			}
 		}

@@ -80,12 +80,16 @@ public abstract class TreeComparison<T> {
 						format("Expected %s, but no more elements left", getName(expectedChild.payload())),
 						indPath, fullPath));
 			}
-			Collection<? extends TreeNode<T>> exchildren = expectedChild.getChildren();
-			rv.addAll(assertChildren(exchildren, next.getChildren(), indPath, fullPath));
+			if (isChildrenVerificationRequired(expectedChild.payload())) {
+				Collection<? extends TreeNode<T>> exchildren = expectedChild.getChildren();
+				rv.addAll(assertChildren(exchildren, next.getChildren(), indPath, fullPath));
+			}
 			i++;
 		}
 		return rv;
 	}
+
+	public abstract boolean isChildrenVerificationRequired(T expectedChild);
 
 	private void setPath(List<TreeItemVerificationError> data, List<Integer> indPath, String fullPath) {
 		for (TreeItemVerificationError error : data) {

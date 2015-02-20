@@ -14,24 +14,28 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportIterator;
 
-public class Q7ReportIterator extends SherlockReportIterator implements
+public class Q7ReportIterator implements
 		Iterable<Report> {
+	private final SherlockReportIterator sherlock;
 
 	public Q7ReportIterator(File file) {
-		super(file);
+		sherlock = new SherlockReportIterator(file);
 	}
 
 	public Iterator<Report> iterator() {
-		reset();
+		sherlock.reset();
 
 		return new Iterator<Report>() {
 
 			
 			public boolean hasNext() {
-				return Q7ReportIterator.this.hasNext();
+				return sherlock.hasNext();
 			}
 
 			
@@ -39,7 +43,15 @@ public class Q7ReportIterator extends SherlockReportIterator implements
 				if (!hasNext()) {
 					throw new NoSuchElementException();
 				}
-				return Q7ReportIterator.this.next();
+				Report rv = sherlock.next();
+				if (rv == null)
+					return null;
+
+				Q7Info info = ReportHelper.getInfo(rv.getRoot());
+				if (info.getResult() == null) {
+					info.setResult(RcpttPlugin.createProcessStatus(IStatus.ERROR, "Empty result"));
+				}
+				return rv;
 			};
 
 			
@@ -50,4 +62,11 @@ public class Q7ReportIterator extends SherlockReportIterator implements
 
 	}
 
+	public void close() {
+		sherlock.close();
+	}
+
+	public File getReportFile() {
+		return sherlock.getReportFile();
+	}
 }

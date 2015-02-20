@@ -130,12 +130,12 @@ public class Q7LaunchConfigurationDelegate extends
 
 		// try to load existing configuration
 		if (helper == null) {
-			helper = TargetPlatformManager.getTargetPlatform(targetName,
+			helper = TargetPlatformManager.findTarget(targetName,
 					new SubProgressMonitor(monitor, 1), false);
 			if (helper != null) {
 				if (!helper.isResolved()) {
 					helper.resolve(monitor);
-					if (helper.isValid()) {
+					if (helper.getStatus().isOK()) {
 						Q7TargetPlatformManager.setHelper(targetName, helper);
 					}
 				}

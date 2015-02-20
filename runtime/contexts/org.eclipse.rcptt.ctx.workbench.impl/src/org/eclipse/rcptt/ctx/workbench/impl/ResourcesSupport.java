@@ -22,12 +22,11 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
-
 import org.eclipse.rcptt.core.scenario.Editor;
 import org.eclipse.rcptt.core.scenario.FileEditor;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
 import org.eclipse.rcptt.core.scenario.WorkbenchContext;
-import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
+import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 
 public class ResourcesSupport {
 

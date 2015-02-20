@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.core.ui;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +25,7 @@ package org.eclipse.rcptt.tesla.core.ui;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#isSelection <em>Selection</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#isEnablement <em>Enablement</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#getIndex <em>Index</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#getCells <em>Cells</em>}</li>
  * </ul>
  * </p>
  *
@@ -134,5 +137,21 @@ public interface Item extends Widget {
 	 * @generated
 	 */
 	void setIndex(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Cells</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.rcptt.tesla.core.ui.Cell}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cells</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Cells</em>' containment reference list.
+	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getItem_Cells()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Cell> getCells();
 
 } // Item

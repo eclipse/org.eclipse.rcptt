@@ -1978,47 +1978,47 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";		
+		String source = "http://www.eclipse.org/ecl/internal";	
 		addAnnotation
 		  (getCommand_Host(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getCommand_Bindings(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (execEClass, 
 		   source, 
 		   new String[] {
-		   });																						
+		   });	
 		addAnnotation
 		  (procInstanceEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getProcInstance_Definition(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (globalEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (saveStateEClass, 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (restoreStateEClass, 
 		   source, 
 		   new String[] {
-		   });													
+		   });
 	}
 
 	/**
@@ -2027,22 +2027,22 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";							
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getForeach_Input(), 
 		   source, 
 		   new String[] {
-		   });																										
+		   });	
 		addAnnotation
 		  (getGet_Input(), 
 		   source, 
 		   new String[] {
-		   });									
+		   });	
 		addAnnotation
 		  (getSwitch_Input(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });
 	}
 
 	/**
@@ -2051,7 +2051,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";				
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (withEClass, 
 		   source, 
@@ -2059,7 +2059,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Executes a <code>do</code> script by passing given <code>object</code> to each command inside <code>do</code>. The primary use case for this command is to extract a common prefix for a sequence of commands.",
 			 "returns", "Output of a <code>do</code> command",
 			 "example", "get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n"
-		   });			
+		   });	
 		addAnnotation
 		  (foreachEClass, 
 		   source, 
@@ -2067,7 +2067,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Reads objects from input pipe and for each object executes a given <code>do</code> command for each item. An optional variable declaration to hold a current value can be passed, if it is not passed, then current value is sent into an input pipe of a <code>do</code> command.  ",
 			 "returns", "An aggregated output of <code>do</code> command",
 			 "example", "// Implicit item: sent to an input pipe of inner script\nlist-launch-configurations | foreach { get name | log }\n\n// Explicit item:\nlist-launch-configuration | foreach [val item] {\n   $item | get-name | log\n}"
-		   });			
+		   });	
 		addAnnotation
 		  (ifEClass, 
 		   source, 
@@ -2075,25 +2075,25 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Based on a condition corresponds either command either from <code>then</code> or <code>else</code> branch. ",
 			 "returns", "Output of executed branch",
 			 "example", "if [get-property caption -raw | not-eq \"Test\" ] {\r\n\tselect-item\r\n\tget-menu Delete | click\r\n\tget-window \"Delete Resources\" | get-button OK | click\r\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getIf_Condition(), 
 		   source, 
 		   new String[] {
 			 "description", "Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
-		   });		
+		   });	
 		addAnnotation
 		  (getIf_Then(), 
 		   source, 
 		   new String[] {
 			 "description", "Branch being executed on <code>true</code> input. Can be omitted."
-		   });		
+		   });	
 		addAnnotation
 		  (getIf_Else(), 
 		   source, 
 		   new String[] {
 			 "description", "Branch being executed on <code>false</code> input. Can be omitted."
-		   });		
+		   });	
 		addAnnotation
 		  (listenEClass, 
 		   source, 
@@ -2101,19 +2101,19 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Listens for state changes while executing commands.",
 			 "returns", "State difference before and after execution.",
 			 "example", "// assert no new errors while clicking on the button\r\nlisten errorLog {\r\n\tget-button OK | click\r\n} | assert-empty"
-		   });		
+		   });	
 		addAnnotation
 		  (getListen_Source(), 
 		   source, 
 		   new String[] {
 			 "description", "Source to listen for, for example, <code>errorLog</code>."
-		   });		
+		   });	
 		addAnnotation
 		  (getListen_While(), 
 		   source, 
 		   new String[] {
 			 "description", "Commands to execute while listening for the source."
-		   });		
+		   });	
 		addAnnotation
 		  (valEClass, 
 		   source, 
@@ -2121,31 +2121,31 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Creates a new variable declaration. This command can be used only with <a href=\"#let\">let</a> and <a href=\"#proc\">proc</a>.",
 			 "returns", "An internal object, describing a variable",
 			 "example", "let [val button [get-button OK]] {\n    $button | click\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getVal_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Variable name. Later this name can be used to refer to a variable value by prepending a dollar sign, i.e. $varName. If variable with the same name already defined in outer scope, then it will be hidden by inner variable with the same name."
-		   });		
+		   });	
 		addAnnotation
 		  (getVal_Value(), 
 		   source, 
 		   new String[] {
 			 "description", "Variable value. When variable is defined in <a href=\"#proc\">proc</a> block, this value denotes the default parameter value."
-		   });		
+		   });	
 		addAnnotation
 		  (getVal_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "An option to indicate that variable value should be taken from input pipe. "
-		   });		
+		   });	
 		addAnnotation
 		  (getValEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns variable value by its name. Syntax sugar form <code>$name</code> can be used instead."
-		   });		
+		   });	
 		addAnnotation
 		  (letEClass, 
 		   source, 
@@ -2153,19 +2153,19 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Defines variables and evaluates <code>body</code> script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has <code>-input</code> flag, then <code>let</code> command must be used in a pipeline (see example 2). ",
 			 "returns", "An output of a <code>body</code> script",
 			 "example", "// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n"
-		   });		
+		   });	
 		addAnnotation
 		  (getLet_Vals(), 
 		   source, 
 		   new String[] {
 			 "description", "List of variables"
-		   });		
+		   });	
 		addAnnotation
 		  (getLet_Body(), 
 		   source, 
 		   new String[] {
 			 "description", "Script to be executed"
-		   });		
+		   });	
 		addAnnotation
 		  (procEClass, 
 		   source, 
@@ -2173,44 +2173,44 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.",
 			 "returns", "An output of a <code>body</code> script",
 			 "example", "// example 1\n// declaration:\nproc click-button [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc set-text-after-label [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\""
-		   });		
+		   });	
 		addAnnotation
 		  (getProc_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Procedure name. Must be unique in a context of current ECL session"
-		   });		
+		   });	
 		addAnnotation
 		  (procInstanceEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Marker superclass for user-defined procs"
-		   });							
+		   });	
 		addAnnotation
 		  (getEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name.",
 			 "example", "//types 1 into  log\nemit \"1\" \"2\" \"3\" | to-list | get 0 | str | log\n//types Febuary into log\nmap [entry 1 January][entry 2 Febuary] | get 2 | log"
-		   });			
+		   });	
 		addAnnotation
 		  (getGet_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Object to get a value from"
-		   });		
+		   });	
 		addAnnotation
 		  (getGet_Key(), 
 		   source, 
 		   new String[] {
 			 "description", "Depending on an input object either a key in a map, or index in a list, or name of a feature/attribute of EMF object"
-		   });		
+		   });	
 		addAnnotation
 		  (getGet_Default(), 
 		   source, 
 		   new String[] {
 			 "description", "Value to return if input object does not contain value by requested key"
-		   });		
+		   });	
 		addAnnotation
 		  (caseEClass, 
 		   source, 
@@ -2218,19 +2218,19 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.",
 			 "returns", "An internal object describing the case.",
 			 "example", "list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]"
-		   });		
+		   });	
 		addAnnotation
 		  (getCase_Condition(), 
 		   source, 
 		   new String[] {
 			 "description", "Object used to match to the <code>input</code>. Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
-		   });		
+		   });	
 		addAnnotation
 		  (getCase_Then(), 
 		   source, 
 		   new String[] {
 			 "description", "Branch being executed when <code>input</code> matches the object specified in <code>condition</code>"
-		   });		
+		   });	
 		addAnnotation
 		  (switchEClass, 
 		   source, 
@@ -2238,19 +2238,19 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 			 "description", "Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.",
 			 "returns", "An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.",
 			 "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n"
-		   });			
+		   });	
 		addAnnotation
 		  (getSwitch_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "The input object to match."
-		   });		
+		   });	
 		addAnnotation
 		  (getSwitch_Items(), 
 		   source, 
 		   new String[] {
 			 "description", "One or more <code>case</code> blocks. Block with a condition matching the input will be executed."
-		   });		
+		   });	
 		addAnnotation
 		  (getSwitch_Default(), 
 		   source, 

@@ -29,8 +29,7 @@ public class CoreSnaphotsProvider extends AbstractEventProvider {
 		node.addSnapshot(snapshot);
 	}
 	
-	public void storeSnapshot(IReportBuilder builder, String type) {
-		INodeBuilder node = builder.getCurrent();
+	public void storeSnapshot(INodeBuilder node) {
 		addSnapshotWithData(node, Info.getEclipse());
 		addSnapshotWithData(node, Info.getJava());
 		addSnapshotWithData(node, Info.getSystem());

@@ -16,10 +16,9 @@ import java.io.OutputStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.core.IReportRenderer;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
 public class FileReportGenerator implements IReportRenderer {
 
@@ -27,8 +26,9 @@ public class FileReportGenerator implements IReportRenderer {
 	}
 
 	
+	@Override
 	public IStatus generateReport(IContentFactory factory, String reportName,
-			Q7ReportIterator report) {
+			Iterable<Report> report) {
 
 		Q7Statistics statistics = ReportUtils.calculateStatistics(report
 				.iterator());

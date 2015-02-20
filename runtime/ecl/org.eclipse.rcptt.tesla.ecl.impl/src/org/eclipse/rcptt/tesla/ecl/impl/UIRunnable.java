@@ -8,24 +8,19 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.internal.runtime.ui;
+package org.eclipse.rcptt.tesla.ecl.impl;
 
-import static org.eclipse.rcptt.internal.runtime.ui.Activator.PLUGIN_ID;
+import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.PLUGIN_ID;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
-import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
-import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
-import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
-import org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector;
 import org.eclipse.rcptt.tesla.internal.core.queue.TeslaQClient;
 import org.eclipse.rcptt.tesla.internal.ui.player.ReportScreenshotProvider;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
@@ -135,7 +130,7 @@ public abstract class UIRunnable<T> {
 				if (time > start + getTimeout()) {
 					// Lets also capture all thread dump.
 					storeTimeoutInReport(display, collector);
-					MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Timeout during context execution...", null) {
+					MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Timeout during execution of " + runnable, null) {
 						{
 							setSeverity(ERROR);
 						}
@@ -169,45 +164,19 @@ public abstract class UIRunnable<T> {
 	}
 
 	private static void storeTimeoutInReport(final Display display,
-			UIJobCollector collector) {
+			UIJobCollector collector) throws InterruptedException {
 		final ReportBuilder currentBuilder = ReportManager.getBuilder();
 		final boolean infoCollected[] = { false };
 		display.asyncExec(new Runnable() {
 			public void run() {
-				ReportScreenshotProvider.takeScreenshot(display, true,
-						"timeout");
-
 				TeslaQClient client = TeslaBridge.getClient();
 				if (client != null) {
 					client.collectLastFailureInformation();
-
-					currentBuilder.takeSnapshot(null,
-							ReportManager.eventProviders);
 				}
-				infoCollected[0] = true;
+				ReportScreenshotProvider.takeScreenshot(display, true,
+						"timeout");
 			}
 		});
-
-		long waitStart = System.currentTimeMillis();
-		while (!infoCollected[0]
-				&& (System.currentTimeMillis() - waitStart) < 5000) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// Ignore
-			}
-		}
-		if (!infoCollected[0]) {
-			// At least add Thread dump.
-			AdvancedInformation info = TeslaBridge.getLastInfo();
-			if (info == null) {
-				info = InfoFactory.eINSTANCE.createAdvancedInformation();
-				GeneralInformationCollector.collectInformation(info);
-			}
-			if (info != null && currentBuilder != null) {
-				ReportHelper.addSnapshotWithData(currentBuilder.getCurrent(), info);
-			}
-		}
 	}
 
 	public static <T> T safeExec(final UIRunnable<T> runnable) {

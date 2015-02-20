@@ -13,11 +13,10 @@ package org.eclipse.rcptt.internal.launching;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.launching.AutLaunch;
 
 public abstract class DataExecutable extends Executable {
@@ -35,7 +34,7 @@ public abstract class DataExecutable extends Executable {
 
 	public DataExecutable(AutLaunch launch, IQ7NamedElement element,
 			boolean debug, ExecutionPhase phase) {
-		super(debug, phase);
+		super(debug, phase, false);
 		this.element = element;
 		this.launch = launch;
 		executionMonitor = new NullProgressMonitor();

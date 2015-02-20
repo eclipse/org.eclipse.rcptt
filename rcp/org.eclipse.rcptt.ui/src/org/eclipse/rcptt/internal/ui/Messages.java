@@ -361,6 +361,9 @@ public class Messages extends NLS {
 	public static String ReportWizard_FileOverwriteDialogMsg_ManyFiles;
 	public static String ReportWizard_FileOverwriteDialogMsg_OneFile;
 	public static String ReportWizard_FileOverwriteDialogTitle;
+	public static String ResourceAccess_Message;
+	public static String ResourceAccessDialog_Title;
+	public static String ResourceAccessDialog_Message;
 	public static String RunFailedAction_ToolTip;
 	public static String RunSelectedAction_ToolTip;
 	public static String ScenarioEditorPage_ExternalReferenceLabel;

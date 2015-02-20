@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem.internal;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,6 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.rcptt.ecl.filesystem.EclFile;
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 
 public class ResourceFile implements EclFile {
 	private final IPath path;
@@ -65,25 +65,25 @@ public class ResourceFile implements EclFile {
 	}
 
 	@Override
-	public void delete() throws IOException {
+	public void delete() throws CoreException {
 		IResource member = root.findMember(path);
 		if (member == null)
 			return;
 		try {
 			member.delete(true, null);
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throwError("Failed to delete %s", e);
 		}
 	}
 
-	public void refresh() throws IOException {
+	public void refresh() throws CoreException {
 		IResource member = root.findMember(path);
 		if (member == null)
 			return;
 		try {
 			member.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throwError("Failed to refresh %s", e);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class ResourceFile implements EclFile {
 	}
 
 	@Override
-	public void append(InputStream data) throws IOException {
+	public void append(InputStream data) throws CoreException {
 		IFile file = getFileForWrite();
 		try {
 			if (!file.exists())
@@ -115,12 +115,12 @@ public class ResourceFile implements EclFile {
 			else
 				file.appendContents(data, IFile.FORCE, null);
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throwError("failed to append %s", e);
 		}
 	}
 
 	@Override
-	public void write(InputStream data) throws IOException {
+	public void write(InputStream data) throws CoreException {
 		IFile file = getFileForWrite();
 		try {
 			if (!file.exists())
@@ -128,46 +128,47 @@ public class ResourceFile implements EclFile {
 			else
 				file.setContents(data, IFile.FORCE, null);
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throwError("Fialed to write %s", e);
 		}
 	}
 
-	private IFile getFileForWrite() throws IOException {
+	private IFile getFileForWrite() throws CoreException {
 		IFile file = root.getFile(path);
 		refresh();
 		try {
 			createFolder(file.getParent());
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throwError("Failed to create folder " + file.getParent() + " to write %s", e);
 		}
 		if (isDirectory())
-			throw new IOException("" + path + " is a directory.");
+			throwError("%s is a directory", null);
 		return file;
 	}
 
 	@Override
-	public InputStream read() throws IOException {
+	public InputStream read() throws CoreException {
 		IFile file = root.getFile(path);
 		try {
 			refresh();
 			return file.getContents();
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throw new CoreException(CorePlugin.err("Failed to read " + this, e));
 		}
 	}
 
 	IContainer getContainer() {
 		if (path.segmentCount() > 1) {
 			return root.getFolder(path);
-		}
-		if (path.segmentCount() == 1) {
+		} else if (path.segmentCount() == 1) {
 			return root.getProject(path.lastSegment());
+		} else if (path.segmentCount() == 0) {
+			return root;
 		}
-		throw new IllegalStateException("Can get folder " + path);
+		throw new IllegalStateException("Path can't be a container " + path);
 	}
 
 	@Override
-	public Collection<EclFile> getChildren() throws IOException {
+	public Collection<EclFile> getChildren() throws CoreException {
 		try {
 			refresh();
 			IResource[] members = getContainer().members();
@@ -177,7 +178,7 @@ public class ResourceFile implements EclFile {
 			}
 			return rv;
 		} catch (CoreException e) {
-			throw new IOException(e);
+			throw new CoreException(CorePlugin.err("Failed to read childen of " + this, e));
 		}
 	}
 
@@ -188,4 +189,16 @@ public class ResourceFile implements EclFile {
 			return false;
 		return member instanceof IContainer;
 	}
+
+	private void throwError(String message, Throwable reason) throws CoreException {
+		assert message.contains("%s");
+		String formatted = String.format(message, this.toString());
+		throw new CoreException(CorePlugin.err(formatted, reason));
+	}
+
+	@Override
+	public String toString() {
+		return path.makeAbsolute().toPortableString();
+	}
+
 }

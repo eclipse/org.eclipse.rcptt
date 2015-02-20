@@ -77,6 +77,7 @@ import org.eclipse.rcptt.ui.recording.RecordingContextManager;
 import org.eclipse.rcptt.ui.recording.RecordingSupport;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -769,8 +770,15 @@ public class ControlPanelWindow extends Dialog {
 			if (model.exists()) {
 				model = (ITestCase) model.getWorkingCopy(monitor);
 				copyContent(scenario, (Scenario) model.getNamedElement());
+				WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+
 				try {
+					if (!writeAccessChecker.makeResourceWritable(model)) {
+						return;
+					}
 					model.commitWorkingCopy(true, monitor);
+				} catch (CoreException e) {
+					Q7UIPlugin.log(e);
 				} finally {
 					model.discardWorkingCopy();
 				}

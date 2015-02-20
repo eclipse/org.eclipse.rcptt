@@ -20,15 +20,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.ide.IDE;
-
+import org.eclipse.rcptt.core.model.IQ7Folder;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
 
 public class NewScenarioWizard extends Wizard implements INewWizard {
 
@@ -76,17 +77,23 @@ public class NewScenarioWizard extends Wizard implements INewWizard {
 						IProject project = scenarioPage.getProject();
 						String name = scenarioPage.getScenarioName();
 						IPath containerPath = scenarioPage.getPathInProject();
-						testCase = RcpttCore
-								.create(project)
-								.getFolder(containerPath)
-								.createTestCase(name, true,
-										new NullProgressMonitor());
+						IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
+						WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+						if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+							result[0] = false;
+							return;
+						}
+						testCase = folder.createTestCase(name, true, new NullProgressMonitor());
 						ITestCase workingCopy = (ITestCase) testCase
 								.getWorkingCopy(new NullProgressMonitor());
 						try {
 							workingCopy.setType(getType());
-							workingCopy.commitWorkingCopy(true,
-									new NullProgressMonitor());
+							if (!writeAccessChecker.makeResourceWritable(workingCopy)) {
+								result[0] = false;
+							} else {
+								workingCopy.commitWorkingCopy(true,
+										new NullProgressMonitor());
+							}
 						} finally {
 							workingCopy.discardWorkingCopy();
 						}

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ast"
-    nsURI="http://www.eclipse.org/ecl/ast.ecore" nsPrefix="org.eclipse.rcptt.ecl.ast">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ast" nsURI="http://www.eclipse.org/ecl/ast.ecore" nsPrefix="org.eclipse.rcptt.ecl.ast">
   <eClassifiers xsi:type="ecore:EClass" name="AstNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
@@ -21,8 +19,5 @@
     <eAnnotations source="http://www.eclipse.org/ecl/internal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AstLiteral" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//LiteralParameter #//AstNode"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ScriptProcessStatus" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus #//AstNode">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cause" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScriptProcessStatus" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus #//AstNode"/>
 </ecore:EPackage>

@@ -13,7 +13,6 @@ package org.eclipse.rcptt.ecl.filesystem.internal;
 import java.io.IOException;
 import java.net.URI;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -28,7 +27,6 @@ public class ResourceFileResolver implements EclFileResolver {
 	@Override
 	public EclFile resolve(URI uri) throws IOException {
 		IPath path = toPath(uri);
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		if (uri.getScheme().equals("workspace")) {
 			return new ResourceFile(path);
 		}

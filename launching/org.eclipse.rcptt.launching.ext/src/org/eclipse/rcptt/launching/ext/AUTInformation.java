@@ -29,8 +29,6 @@ import org.eclipse.pde.core.target.TargetFeature;
 import org.eclipse.pde.internal.core.ifeature.IFeature;
 import org.eclipse.pde.internal.core.util.VersionUtil;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
-import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
-import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 import com.google.common.base.Objects;
 
@@ -89,18 +87,14 @@ public class AUTInformation {
 	 * @throws CoreException
 	 */
 	public static Map<String, Version> getInformationMap(
-			ITargetPlatformHelper platform) throws CoreException {
-		TargetPlatformHelper target = (TargetPlatformHelper) platform;
+			org.eclipse.pde.core.target.ITargetDefinition platform) throws CoreException {
 		VersionMap values = new VersionMap();
-		if (!platform.isValid()) {
-			return values;
-		}
 		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0, "Detected potential problems in target platform "
 				+ platform, null);
-		if (target.getBundleContainers().length <= 0)
+		if (platform.getTargetLocations().length <= 0)
 			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
 		// Calculate target platform version
-		TargetBundle[] allBundles = target.getAllBundles();
+		TargetBundle[] allBundles = platform.getAllBundles();
 		Map<String, BundleInfo> resolvedBundles = new HashMap<String, BundleInfo>();
 		for (TargetBundle bundle : allBundles) {
 			BundleInfo bundleInfo = bundle.getBundleInfo();
@@ -127,7 +121,7 @@ public class AUTInformation {
 			}
 		}
 
-		TargetFeature[] features = target.getAllFeatures();
+		TargetFeature[] features = platform.getAllFeatures();
 		for (TargetFeature feature : features) {
 			TargetFeature iFeature = feature;
 			if (iFeature.getId().equals("org.eclipse.platform")) {

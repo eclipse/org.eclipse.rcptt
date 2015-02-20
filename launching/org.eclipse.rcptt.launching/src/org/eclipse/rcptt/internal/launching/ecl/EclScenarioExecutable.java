@@ -28,7 +28,6 @@ import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 
@@ -48,7 +47,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	}
 
 	@Override
-	public IStatus doExecute() throws CoreException {
+	public IStatus doExecute() throws CoreException, InterruptedException {
 		Scenario scenario = (Scenario) getActualElement()
 				.getModifiedNamedElement();
 
@@ -56,7 +55,6 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 		{
 			Q7Info info = ReportHelper.createInfo();
 			info.setType(ItemKind.SCRIPT);
-			info.setResult(ResultStatus.PASS);
 			info.setTags(scenario.getTags());
 			info.setId(scenario.getId());
 			if (getVariantName() != null) {
@@ -79,16 +77,14 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 	}
 
 	@Override
-	public IStatus postExecute(Listener listener, IStatus status) {
+	public IStatus postExecute(IStatus status) {
 		// Take all snapshots
 		try {
-			// if (!isTerminated()) {
-			ReportMaker.endReportNode(true, null, launch);
-			// }
+			ReportMaker.endReportNode(true, launch, status);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
-		return super.postExecute(listener, status);
+		return super.postExecute(status);
 	}
 
 	protected void doExecuteTest(IProgressMonitor monitor) throws CoreException {

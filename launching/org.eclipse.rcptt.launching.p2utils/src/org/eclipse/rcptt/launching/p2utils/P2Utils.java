@@ -322,6 +322,7 @@ public class P2Utils {
 						IStatus result = P2Utils.validateBundle(file);
 						if (result.isOK()) {
 							installedOK.add(unit);
+							continue;
 						} else {
 							rv.add(result);
 						}

@@ -16,11 +16,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.ide.IDE;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.model.IContext;
@@ -29,6 +24,10 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.scenario.SuperContext;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.ide.IDE;
 
 public class NewSuperContextWizard extends Wizard implements INewWizard {
 
@@ -64,6 +63,10 @@ public class NewSuperContextWizard extends Wizard implements INewWizard {
 			String name = selectContextPage.getContextName();
 			IPath containerPath = selectContextPage.getPathInProject();
 			IQ7Folder folder = RcpttCore.create(project).getFolder(containerPath);
+			WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+			if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+				return false;
+			}
 			context = folder.createContext(name, ContextTypeManager
 					.getInstance()
 					.getTypeById("org.eclipse.rcptt.ctx.super"), true,
@@ -73,6 +76,9 @@ public class NewSuperContextWizard extends Wizard implements INewWizard {
 			try {
 				SuperContext superCtx = (SuperContext) copy.getNamedElement();
 				superCtx.setChildType(type.getId());
+				if (!writeAccessChecker.makeResourceWritable(copy)) {
+					return false;
+				}
 				copy.commitWorkingCopy(true, new NullProgressMonitor());
 			} finally {
 				copy.discardWorkingCopy();

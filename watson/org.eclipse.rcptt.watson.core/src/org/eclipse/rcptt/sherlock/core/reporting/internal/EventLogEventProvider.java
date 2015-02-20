@@ -13,6 +13,7 @@ package org.eclipse.rcptt.sherlock.core.reporting.internal;
 
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.SherlockCore;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
@@ -29,7 +30,7 @@ public class EventLogEventProvider extends AbstractEventProvider implements
 	public EventLogEventProvider() {
 	}
 
-	public void storeSnapshot(IReportBuilder builder, String id) {
+	public void storeSnapshot(INodeBuilder builder, String id) {
 	}
 
 	@Override

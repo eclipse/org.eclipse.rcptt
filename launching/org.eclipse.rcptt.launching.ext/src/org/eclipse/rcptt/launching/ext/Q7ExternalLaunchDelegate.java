@@ -203,7 +203,6 @@ public class Q7ExternalLaunchDelegate extends
 				"Target platform initialization failed  for "
 				+ configuration.getName(), null);
 		error.add(target.getStatus());
-		error.add(target.validateBundles(new SubProgressMonitor(monitor, 1)));
 
 		if (!error.isOK()) {
 			if (monitor.isCanceled()) {
@@ -599,17 +598,15 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
+		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
-		BundlesToLaunch bundlesToLaunch = collectBundles(((ITargetPlatformHelper) info.target)
-				.getQ7Target(), subm.newChild(50));
+		BundlesToLaunch bundlesToLaunch = collectBundles(target.getQ7Target(), subm.newChild(50));
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
-		removeDuplicatedModels(bundlesToLaunch.fModels, ((ITargetPlatformHelper) info.target)
-				.getQ7Target());
+		removeDuplicatedModels(bundlesToLaunch.fModels, target.getQ7Target());
 
-		setDelegateFields(this, bundlesToLaunch.fModels,
-				bundlesToLaunch.fAllBundles);
+		setDelegateFields(this, bundlesToLaunch.fModels, bundlesToLaunch.fAllBundles);
 
 		// Copy all additional configuration area folders into PDE new
 		// configuration location.

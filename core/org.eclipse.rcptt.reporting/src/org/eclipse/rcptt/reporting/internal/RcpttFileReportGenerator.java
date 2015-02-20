@@ -16,9 +16,9 @@ import java.io.OutputStream;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.reporting.core.IReportRenderer;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.util.FileUtil;
 
 public class RcpttFileReportGenerator implements IReportRenderer {
@@ -28,15 +28,16 @@ public class RcpttFileReportGenerator implements IReportRenderer {
 	public RcpttFileReportGenerator() {
 	}
 
-	
+	@Override
 	public IStatus generateReport(IContentFactory factory, String reportName,
-			Q7ReportIterator report) {
+			Iterable<Report> report) {
 
 		OutputStream stream = null;
+
 		try {
 			stream = factory.createFileStream(reportName + ".report");
 			FileUtil.copy(
-					new BufferedInputStream(new FileInputStream(report
+					new BufferedInputStream(new FileInputStream(((Q7ReportIterator) report)
 							.getReportFile())), stream);
 		} catch (Exception e) {
 			Q7ReportingPlugin.log(e);

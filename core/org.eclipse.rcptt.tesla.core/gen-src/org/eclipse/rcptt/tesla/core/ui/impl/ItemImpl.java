@@ -10,10 +10,17 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.core.ui.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.rcptt.tesla.core.ui.Cell;
 import org.eclipse.rcptt.tesla.core.ui.Item;
 import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 
@@ -27,6 +34,7 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#isSelection <em>Selection</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#isEnablement <em>Enablement</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#getIndex <em>Index</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#getCells <em>Cells</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,6 +112,16 @@ public class ItemImpl extends WidgetImpl implements Item {
 	 * @ordered
 	 */
 	protected int index = INDEX_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getCells() <em>Cells</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCells()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Cell> cells;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -199,6 +217,32 @@ public class ItemImpl extends WidgetImpl implements Item {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Cell> getCells() {
+		if (cells == null) {
+			cells = new EObjectContainmentEList<Cell>(Cell.class, this, UiPackage.ITEM__CELLS);
+		}
+		return cells;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UiPackage.ITEM__CELLS:
+				return ((InternalEList<?>)getCells()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -213,6 +257,8 @@ public class ItemImpl extends WidgetImpl implements Item {
 				return isEnablement();
 			case UiPackage.ITEM__INDEX:
 				return getIndex();
+			case UiPackage.ITEM__CELLS:
+				return getCells();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -221,6 +267,7 @@ public class ItemImpl extends WidgetImpl implements Item {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -235,6 +282,10 @@ public class ItemImpl extends WidgetImpl implements Item {
 				return;
 			case UiPackage.ITEM__INDEX:
 				setIndex((Integer)newValue);
+				return;
+			case UiPackage.ITEM__CELLS:
+				getCells().clear();
+				getCells().addAll((Collection<? extends Cell>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -259,6 +310,9 @@ public class ItemImpl extends WidgetImpl implements Item {
 			case UiPackage.ITEM__INDEX:
 				setIndex(INDEX_EDEFAULT);
 				return;
+			case UiPackage.ITEM__CELLS:
+				getCells().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -278,6 +332,8 @@ public class ItemImpl extends WidgetImpl implements Item {
 				return enablement != ENABLEMENT_EDEFAULT;
 			case UiPackage.ITEM__INDEX:
 				return index != INDEX_EDEFAULT;
+			case UiPackage.ITEM__CELLS:
+				return cells != null && !cells.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

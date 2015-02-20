@@ -10,11 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.variables.IStringVariableManager;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.IDebugUIConstants;
@@ -60,92 +64,94 @@ public class NewAUTWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		ITargetPlatformHelper target = page.getTarget();
-		if (target.isValid()) {
-			try {
-				target.setTargetName(Q7TargetPlatformManager
-						.getTargetPlatformName(page.getTargetName()));
-				target.save();
-				ILaunchConfigurationWorkingCopy workingCopy = Q7LaunchingUtil
-						.createLaunchConfiguration(target, page.getTargetName());
-				OSArchitecture autArch = page.getArchitecture();
-				workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
-						autArch.name());
-				OSArchitecture jvmArch = page.getJVMArch();
-				List<String> vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
-				if (!autArch.equals(jvmArch)
-						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-					UpdateVMArgs.addIfAbsent(vmArgs, ATTR_D32, "");
-				}
+		if (!target.getStatus().isOK()) {
+			page.setStatus(target.getStatus());
+			target.delete();
+			return false;
+		}
+		try {
+			target.setTargetName(Q7TargetPlatformManager
+					.getTargetPlatformName(page.getTargetName()));
+			target.save();
+			ILaunchConfigurationWorkingCopy workingCopy = Q7LaunchingUtil
+					.createLaunchConfiguration(target, page.getTargetName());
+			OSArchitecture autArch = page.getArchitecture();
+			workingCopy.setAttribute(Q7LaunchingCommon.ATTR_ARCH,
+					autArch.name());
+			OSArchitecture jvmArch = page.getJVMArch();
+			List<String> vmArgs = Q7LaunchDelegateUtils.getVMArgs(target, null);
+			if (!autArch.equals(jvmArch)
+					&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+				UpdateVMArgs.addIfAbsent(vmArgs, ATTR_D32, "");
+			}
+			workingCopy
+					.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+							Q7LaunchDelegateUtils.joinCommandArgs(vmArgs));
+
+			IVMInstall install = page.getJVMInstall();
+			if (install != null) {
 				workingCopy
 						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-								Q7LaunchDelegateUtils.joinCommandArgs(vmArgs));
-
-				IVMInstall install = page.getJVMInstall();
-				if (install != null) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-									String.format(
-											"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-											install.getVMInstallType().getId(),
-											install.getName()));
-				}
-
-				String programArgs = LaunchArgumentsHelper
-						.getInitialProgramArguments().trim();
-				if (programArgs.contains("${target.arch}")) {
-					programArgs = programArgs.replace("${target.arch}",
-							autArch.name());
-				} else {
-					programArgs = programArgs + " -arch " + autArch.name();
-				}
-				if (programArgs.length() > 0) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-									programArgs);
-				}
-
-				workingCopy.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY,
-						true);
-				String product = target.getDefaultProduct();
-				if (product != null) {
-					workingCopy.setAttribute(IPDELauncherConstants.USE_PRODUCT,
-							true);
-					workingCopy.setAttribute(IPDELauncherConstants.PRODUCT,
-							product);
-				}
-				workingCopy.setAttribute(IPDELauncherConstants.DOCLEAR, false);
-				workingCopy.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
-				workingCopy.setAttribute(IPDEConstants.DOCLEARLOG, false);
-				workingCopy.setAttribute(IPDELauncherConstants.LOCATION,
-						getDefaultWorkspaceLocation(workingCopy.getName()));
-
-				// String config = target.getTemplateConfigLocation();
-				// if (config != null) {
-				// workingCopy.setAttribute(
-				// IPDELauncherConstants.CONFIG_GENERATE_DEFAULT,
-				// false);
-				// workingCopy.setAttribute(
-				// IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION,
-				// config);
-				// }
-				// Disable console by default
-
-				setDefaultsAttributes(workingCopy);
-				workingCopy.doSave();
-
-				if (page.isLaunchNeeded()) {
-					LaunchUtils.launch(BaseAutManager.INSTANCE.getByName(workingCopy.getName()), getShell());
-				}
-
-				return true;
-			} catch (CoreException e) {
-				Q7UIPlugin.log(e);
+								IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+								String.format(
+										"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+										install.getVMInstallType().getId(),
+										install.getName()));
 			}
+
+			String programArgs = LaunchArgumentsHelper
+					.getInitialProgramArguments().trim();
+			if (programArgs.contains("${target.arch}")) {
+				programArgs = programArgs.replace("${target.arch}",
+						autArch.name());
+			} else {
+				programArgs = programArgs + " -arch " + autArch.name();
+			}
+			if (programArgs.length() > 0) {
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+								programArgs);
+			}
+
+			workingCopy.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY,
+					true);
+			String product = target.getDefaultProduct();
+			if (product != null) {
+				workingCopy.setAttribute(IPDELauncherConstants.USE_PRODUCT,
+						true);
+				workingCopy.setAttribute(IPDELauncherConstants.PRODUCT,
+						product);
+			}
+			workingCopy.setAttribute(IPDELauncherConstants.DOCLEAR, false);
+			workingCopy.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
+			workingCopy.setAttribute(IPDEConstants.DOCLEARLOG, false);
+			workingCopy.setAttribute(IPDELauncherConstants.LOCATION,
+					getUnoccupiedWorkspaceLocation(workingCopy.getName()));
+
+			// String config = target.getTemplateConfigLocation();
+			// if (config != null) {
+			// workingCopy.setAttribute(
+			// IPDELauncherConstants.CONFIG_GENERATE_DEFAULT,
+			// false);
+			// workingCopy.setAttribute(
+			// IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION,
+			// config);
+			// }
+			// Disable console by default
+
+			setDefaultsAttributes(workingCopy);
+			workingCopy.doSave();
+
+			if (page.isLaunchNeeded()) {
+				LaunchUtils.launch(BaseAutManager.INSTANCE.getByName(workingCopy.getName()), getShell());
+			}
+
+			return true;
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
 		}
-		target.delete();
 		return false;
 	}
 
@@ -165,4 +171,34 @@ public class NewAUTWizard extends Wizard {
 	public static String getDefaultWorkspaceLocation(String uniqueName) {
 		return "${workspace_loc}/../aut-" + uniqueName.replaceAll("\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
+
+	private String getUnoccupiedWorkspaceLocation(String name) {
+		String stringPath = getDefaultWorkspaceLocation(name);
+		try {
+			if (isLocationExists(stringPath)) { // a new location for a new AUT
+				int i = 1;
+				String newStringPath;
+				do {
+					i++;
+					newStringPath = getDefaultWorkspaceLocation(name + "-" + i);
+				} while (isLocationExists(newStringPath));
+				stringPath = newStringPath;
+			}
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
+		}
+		return stringPath;
+	}
+
+	private boolean isLocationExists(String location) throws CoreException {
+		IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
+		location = manager.performStringSubstitution(location);
+		IPath autPath = new Path(location);
+		File autDir = new File(autPath.toOSString());
+		if (autDir.exists() && autDir.isDirectory()) {
+			return true;
+		}
+		return false;
+	}
+
 }

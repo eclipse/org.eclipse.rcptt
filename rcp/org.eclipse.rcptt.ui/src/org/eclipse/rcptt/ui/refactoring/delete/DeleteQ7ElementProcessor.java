@@ -32,8 +32,6 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.internal.core.refactoring.Resources;
 import org.eclipse.ltk.internal.core.refactoring.resource.DeleteResourcesProcessor;
-import org.eclipse.ui.internal.UIPlugin;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -47,6 +45,9 @@ import org.eclipse.rcptt.internal.core.model.BackReferencesProjectScope;
 import org.eclipse.rcptt.internal.core.model.ModelManager;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.refactoring.ResourceAccessChange;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.ui.internal.UIPlugin;
 
 @SuppressWarnings("restriction")
 public class DeleteQ7ElementProcessor extends DeleteResourcesProcessor {
@@ -310,6 +311,11 @@ public class DeleteQ7ElementProcessor extends DeleteResourcesProcessor {
 				for (Entry<IQ7NamedElement, IQ7Element[]> entry : references
 						.entrySet()) {
 					for (IQ7Element element : entry.getValue()) {
+						IQ7Element parent = element.getParent();
+						checkParentResourceAccess(change, parent.getResource());
+						if (WriteAccessChecker.isReadOnly(element)) {
+							change.add(new ResourceAccessChange(element.getResource(), true));
+						}
 						if (entry.getKey() instanceof IContext) {
 							IContext ctx = (IContext) entry.getKey();
 							change.add(new DeleteContextReferenceChange(
@@ -327,13 +333,42 @@ public class DeleteQ7ElementProcessor extends DeleteResourcesProcessor {
 						pm.worked(1);
 					}
 				}
+				for (IResource recource : resources) {
+					IResource parent = recource.getParent();
+					if (parent != null && WriteAccessChecker.isReadOnly(parent)) {
+						change.add(new ResourceAccessChange(parent, true));
+					}
+				}
 				change.add(deleteChange);
 				return change;
 			} finally {
 				pm.done();
 			}
 		} else {
-			return super.createChange(pm);
+			CompositeChange deleteChange = (CompositeChange) super.createChange(pm);
+			CompositeChange change = new CompositeChange(deleteChange.getName());
+			for (IResource recource : resources) {
+				IResource parent = recource.getParent();
+				checkParentResourceAccess(change, parent);
+			}
+			change.merge(deleteChange);
+			return change;
+		}
+	}
+
+	private void checkParentResourceAccess(CompositeChange change, IResource parent) {
+		if (parent != null && WriteAccessChecker.isReadOnly(parent)) {
+			boolean exists = false;
+			ResourceAccessChange changeParent = new ResourceAccessChange(parent, true);
+			for (Change child : change.getChildren()) {
+				if (child.getModifiedElement().equals(changeParent.getModifiedElement())) {
+					exists = true;
+					break;
+				}
+			}
+			if (!exists) {
+				change.add(changeParent);
+			}
 		}
 	}
 }

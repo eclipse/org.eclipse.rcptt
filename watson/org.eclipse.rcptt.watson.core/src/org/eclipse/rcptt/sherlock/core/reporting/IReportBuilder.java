@@ -21,32 +21,6 @@ public interface IReportBuilder {
 	 */
 	public EventSource registerEventSource(String name);
 
-
-//	/**
-//	 * Return current report. Direct operations are not thread safe.
-//	 */
-//	public Report getReport();
-
-	
-//	/**
-//	 * Works with current node. Proper synchronizations are applied.
-//	 * @param procedure
-//	 */
-//	public void withCurrentNode(Procedure1<Node> procedure);
-
-
-	/**
-	 * Store snapshot using following event provider. 'id' used for prefix
-	 * match.
-	 * 
-	 * So if we have providers: 'a.b.c', 'a.b', 'a.d'
-	 * 
-	 * and pass id as 'a.b' then 'a.b.c' and 'a.b' will be selected.
-	 * 
-	 * 
-	 */
-	public void takeSnapshot(String type, String... id);
-
 	public EventSource findSource(String attr, EObject info);
 
 

@@ -20,13 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
-import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.ecl.runtime.IPipe;
-import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.rcptt.ecl.runtime.ISession;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
 import org.eclipse.rcptt.core.launching.events.AutEvent;
 import org.eclipse.rcptt.core.launching.events.AutEventInit;
@@ -34,8 +27,14 @@ import org.eclipse.rcptt.core.launching.events.AutEventStart;
 import org.eclipse.rcptt.core.launching.events.AutSendEvent;
 import org.eclipse.rcptt.core.launching.events.AutStartState;
 import org.eclipse.rcptt.core.launching.events.EventsFactory;
+import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.runtime.IPipe;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.internal.runtime.ui.Activator;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.osgi.framework.Bundle;
 
 public class AutEventManager {
 	private static AutEventManager eventManager = null;
@@ -81,7 +80,8 @@ public class AutEventManager {
 		return eventManager;
 	}
 
-	public Object execute(Command command, long timeout, IProgressMonitor monitor) throws CoreException {
+	public Object execute(Command command, long timeout, IProgressMonitor monitor) throws CoreException,
+			InterruptedException {
 		ISession session = createEclSession();
 		if (session == null) {
 			Activator
@@ -109,7 +109,7 @@ public class AutEventManager {
 		}
 	}
 
-	public Object sendEvent(AutEvent event) throws CoreException {
+	public Object sendEvent(AutEvent event) throws CoreException, InterruptedException {
 		AutSendEvent cmd = EventsFactory.eINSTANCE.createAutSendEvent();
 		cmd.setId(getAutIdentity());
 		cmd.setEvent(event);
@@ -139,6 +139,8 @@ public class AutEventManager {
 			AutEventManager.getInstance().sendEvent(startEvent);
 		} catch (CoreException e) {
 			Activator.log(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -151,6 +153,8 @@ public class AutEventManager {
 			AutEventManager.getInstance().sendEvent(startEvent);
 		} catch (CoreException e) {
 			Activator.log(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -199,6 +203,8 @@ public class AutEventManager {
 			sendEvent(initObj);
 		} catch (CoreException e) {
 			Activator.log(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

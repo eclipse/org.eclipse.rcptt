@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.launching;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,9 +61,11 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.IExecutable.State;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
 import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.reporting.core.IndentedWriter;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
@@ -105,12 +109,13 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.part.ViewPart;
+
+import com.google.common.io.CharStreams;
 
 public class ExecutionView extends ViewPart implements IExecutionSessionListener {
 
@@ -435,6 +440,7 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	}
 
+
 	private boolean isConnectionTerminatedStatus(IExecutable exec) {
 		IStatus status = exec.getResultStatus();
 		
@@ -494,47 +500,42 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	private List<StyleRange> print(IStatus status, int level, StringBuilder buffer) {
 		String message = status.getMessage();
-		appendTabs(buffer, level);
 		if (message == null || message.length() == 0) {
 			message = Messages.ExecutionView_ExecutionFailedMsg;
 		}
-
 		List<StyleRange> ranges = new ArrayList<StyleRange>();
-
+		
 		if (status instanceof ExecutionStatus) {
-			final ExecutionStatus ses = (ExecutionStatus) status;
-			IStatus cause = ses.getCause(true);
-			if (cause instanceof ScriptErrorStatus) {
-				EclStackTrace trace = EclStackTrace.fromExecStatus(ses);
+			for (IStatus child : status.getChildren()) {
+				ranges.addAll(print(child, level, buffer));
+			}
+			return ranges;
+		}
+		
+		appendTabs(buffer, level);
 
-				append(buffer, trace.getDisplayMessage());
-				if (trace.frames.length != 0) {
-					append(buffer, LINE_SEPARATOR);
-				}
-				for (ScriptErrorStatus frame : trace.frames) {
-					append(buffer, "\tat ");
-					ranges.add(bold(append(buffer, frame.getMessage())));
-					append(buffer, " (");
-					ranges.add(link(append(buffer, EclStackTrace.getLocation(frame)), frame));
-					append(buffer, ")\n");
-				}
-			} else if (cause instanceof VerificationStatus) {
-				VerificationStatus verStatus = (VerificationStatus) cause;
-				StyledMessage styledMsg = VerificationReporter.getStyledMessage(verStatus);
 
-				buffer.append(styledMsg.getMessage());
-				for (Entry<StyleRangeEntry, Object> style : styledMsg.getStyles().entrySet()) {
-					ranges.add(makeMessageStyleRange(style.getKey(), style.getValue()));
-				}
-			} else {
-				if (cause != null && message.equals(cause.getMessage()) && status.getChildren().length == 0) {
-					print(cause, level, buffer);
-				} else {
-					buffer.append(message);
-					buffer.append(LINE_SEPARATOR);
-					if (cause != null)
-						print(cause, level + 1, buffer);
-				}
+		if (status instanceof ScriptErrorStatus) {
+			EclStackTrace trace = EclStackTrace.fromScriptStatus(status);
+			append(buffer, trace.getDisplayMessage());
+			if (trace.frames.length != 0) {
+				append(buffer, LINE_SEPARATOR);
+			}
+			for (ScriptErrorStatus frame : trace.frames) {
+				append(buffer, "\tat ");
+				ranges.add(bold(append(buffer, frame.getMessage())));
+				append(buffer, " (");
+				ranges.add(link(append(buffer, EclStackTrace.getLocation(frame)), frame));
+				append(buffer, ")\n");
+			}
+			return ranges;
+		} else if (status instanceof VerificationStatus) {
+			VerificationStatus verStatus = (VerificationStatus) status;
+			StyledMessage styledMsg = VerificationReporter.getStyledMessage(verStatus);
+
+			buffer.append(styledMsg.getMessage());
+			for (Entry<StyleRangeEntry, Object> style : styledMsg.getStyles().entrySet()) {
+				ranges.add(makeMessageStyleRange(style.getKey(), style.getValue()));
 			}
 		} else {
 			buffer.append(message);
@@ -568,25 +569,39 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		}
 	}
 
-	private void processThrowableMsg(int level, StringBuilder buffer,
+	private void processThrowableMsg(final int level, StringBuilder buffer,
 			Throwable t) {
-		StackTraceElement[] trace = t.getStackTrace();
-		for (int i = 0; i < trace.length; i++) {
-			appendTabs(buffer, level + 1);
-			buffer.append("at "); //$NON-NLS-1$
-			buffer.append(trace[i]);
-			buffer.append(LINE_SEPARATOR);
-		}
-		if (t.getCause() != null) {
-			buffer.append("Caused by: " + t.getCause().getMessage()).append(
-					"\n");
-			processThrowableMsg(level + 1, buffer, t.getCause());
-		}
+		PrintWriter printWriter = new IndentedWriter(CharStreams.asWriter(buffer)) {
+			@Override
+			public void writeIndent() {
+				appendTabs(this, level + 1);
+			}
+		};
+		
+		t.printStackTrace(printWriter);
+		printWriter.close();
+
+		// StackTraceElement[] trace = t.getStackTrace();
+		// for (int i = 0; i < trace.length; i++) {
+		// appendTabs(buffer, level + 1);
+		//			buffer.append("at "); //$NON-NLS-1$
+		// buffer.append(trace[i]);
+		// buffer.append(LINE_SEPARATOR);
+		// }
+		// if (t.getCause() != null) {
+		// buffer.append("Caused by: " + t.getCause().getMessage()).append(
+		// "\n");
+		// processThrowableMsg(level + 1, buffer, t.getCause());
+		// }
 	}
 
-	private StringBuilder appendTabs(StringBuilder stream, int tabs) {
+	private static <T extends Appendable> T appendTabs(T stream, int tabs) {
 		for (int i = 0; i < tabs; ++i) {
-			stream.append("  "); //$NON-NLS-1$
+			try {
+				stream.append("  ");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return stream;
 	}
@@ -641,47 +656,37 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		int i = 0;
 		for (IExecutable executable : executables) {
 			i++;
-			if (IExecutable.State.PASSED == executable.getStatus()
-					|| IExecutable.State.FAILED == executable.getStatus()) {
-				if (activeSession != null) {
-					statisticPanel.update(activeSession.getTotalCount(),
-							activeSession.getFinishedCount(),
-							activeSession.getFailedCount(),
-							activeSession.getStoppedCount(),
-							activeSession.getTotalTime());
-				} else {
-					return;
-				}
+			State state = executable.getStatus();
+			if (IExecutable.State.PASSED == state
+					|| IExecutable.State.FAILED == state) {
 			}
 
-			viewer.refresh(executable);
-			TreeItem item = (TreeItem) viewer.testFindItem(executable);
-			if (item != null && item.getParentItem() != null) {
-				item = item.getParentItem();
-				if (item.getData() != null) {
-					viewer.refresh(item.getData());
-				}
-			}
 			// scroll only to last element
-			if (!scrollState && i == executables.length) {
+			if (!scrollState && i == executables.length && !executable.getResultStatus().matches(IStatus.CANCEL)) {
 				viewer.setSelection(new StructuredSelection(executable), true);
 			}
-			if ((IExecutable.State.PASSED == executable.getStatus())) {
+			if ((IExecutable.State.PASSED == state)) {
 				// Collapse item if passed
 				viewer.collapseToLevel(executable, TreeViewer.ALL_LEVELS);
-			} else if (IExecutable.State.LAUNCHING == executable.getStatus()) {
+			} else if (IExecutable.State.LAUNCHING == state) {
 				viewer.expandToLevel(executable, 1);
 			}
-			viewer.refresh(executable);
 
-			runSelectedAction.updateEnablement(activeSession);
-			runFailedAction.updateEnablement(activeSession);
-			if (IExecutable.State.FAILED == executable.getStatus()
+			if (IExecutable.State.FAILED == state
 					&& stopOnFirstFailAction.getValue()) {
 				Q7Launcher.getInstance().stop();
-				viewer.refresh(executable);
 			}
+			viewer.refresh(executable);
 		}
+		if (activeSession != null) {
+			statisticPanel.update(activeSession.getTotalCount(),
+					activeSession.getFinishedCount(),
+					activeSession.getFailedCount(),
+					activeSession.getStoppedCount(),
+					activeSession.getTotalTime());
+		}
+		runSelectedAction.updateEnablement(activeSession);
+		runFailedAction.updateEnablement(activeSession);
 	}
 
 	@Override

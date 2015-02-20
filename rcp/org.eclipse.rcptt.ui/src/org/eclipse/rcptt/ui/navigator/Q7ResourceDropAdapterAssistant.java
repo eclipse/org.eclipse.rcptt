@@ -13,6 +13,7 @@ package org.eclipse.rcptt.ui.navigator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -48,6 +49,7 @@ import org.eclipse.rcptt.ui.actions.edit.Q7CopyFilesAndFoldersOperation;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -57,7 +59,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CopyFilesAndFoldersOperation;
 import org.eclipse.ui.actions.MoveFilesAndFoldersOperation;
-import org.eclipse.ui.actions.ReadOnlyStateChecker;
 import org.eclipse.ui.ide.dialogs.ImportTypeDialog;
 import org.eclipse.ui.internal.ide.IDEInternalPreferences;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
@@ -297,6 +298,18 @@ public class Q7ResourceDropAdapterAssistant extends
 		IContainer target = getActualTarget((IResource) dropAdapter
 				.getCurrentTarget());
 
+		WriteAccessChecker writeAccessChecker = new WriteAccessChecker();
+		List<IResource> toCheck = getParents(sources);
+		toCheck.add(target);
+		try {
+			if (!writeAccessChecker.makeResourceWritable(toCheck.toArray(new IResource[0]))) {
+				return Status.CANCEL_STATUS;
+			}
+		} catch (CoreException e) {
+			return WorkbenchNavigatorPlugin.createErrorStatus(0,
+					e.getLocalizedMessage(), e);
+		}
+
 		boolean shouldLinkAutomatically = false;
 		if (target.isVirtual()) {
 			shouldLinkAutomatically = true;
@@ -314,13 +327,10 @@ public class Q7ResourceDropAdapterAssistant extends
 			operation.setCreateLinks(true);
 			operation.copyResources(sources, target);
 		} else {
-			ReadOnlyStateChecker checker = new ReadOnlyStateChecker(
-					getShell(),
-					WorkbenchNavigatorMessages.MoveResourceAction_title,
-					WorkbenchNavigatorMessages.MoveResourceAction_checkMoveMessage);
-			sources = checker.checkReadOnlyResources(sources);
-
 			try {
+				if (!writeAccessChecker.makeResourceWritable(sources)) {
+					return Status.CANCEL_STATUS;
+				}
 				RefactoringContribution contribution = RefactoringCore
 						.getRefactoringContribution(MoveResourcesDescriptor.ID);
 				MoveResourcesDescriptor descriptor = (MoveResourcesDescriptor) contribution
@@ -426,6 +436,17 @@ public class Q7ResourceDropAdapterAssistant extends
 		}
 
 		return problems;
+	}
+
+	private List<IResource> getParents(IResource[] sources) {
+		List<IResource> parents = new ArrayList<IResource>();
+		if (!(sources != null && sources.length > 0)) {
+			return parents;
+		}
+		for (IResource source : sources) {
+			parents.add(source.getParent());
+		}
+		return parents;
 	}
 
 	/**

@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.model.search;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -18,7 +20,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.index.IQ7IndexConstants;
 import org.eclipse.rcptt.core.model.search.SearchPattern.IKeyQuery;
@@ -27,8 +28,20 @@ import org.eclipse.rcptt.internal.core.model.index.Index;
 import org.eclipse.rcptt.internal.core.model.index.QueryResult;
 
 public class AllContextWithLinksQueryPattern implements ISearchPattern {
-	public AllContextWithLinksQueryPattern() {
 
+	final Set<IPath> linksFilterPaths;
+
+	public AllContextWithLinksQueryPattern() {
+		linksFilterPaths = new HashSet<IPath>();
+	}
+
+	/**
+	 * Constructor with injected filter for context
+	 * 
+	 * @param linksFilterPaths
+	 */
+	public AllContextWithLinksQueryPattern(Set<IPath> linksFilterPaths) {
+		this.linksFilterPaths = linksFilterPaths;
 	}
 
 	public void findIndexMatches(Index index, IProgressMonitor monitor,
@@ -39,7 +52,16 @@ public class AllContextWithLinksQueryPattern implements ISearchPattern {
 				new String[] { IQ7IndexConstants.WS_LINK_REF },
 				new IKeyQuery() {
 					public boolean accept(String key, String value) {
-						return true;
+						// return all contexts if filter is not specified
+						if (linksFilterPaths.isEmpty()) {
+							return true;
+						}
+
+
+						// if filter is specified compare it with linked elements
+						IPath path = new Path(value);
+
+						return linksFilterPaths.contains(path) ? true : false;
 					}
 				}, monitor);
 		for (QueryResult queryResult : list) {

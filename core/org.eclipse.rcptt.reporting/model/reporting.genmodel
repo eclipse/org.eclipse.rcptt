@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.reporting/gen-src"
-    modelPluginID="org.eclipse.rcptt.reporting" modelName="Reporting" modelPluginClass=""
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    runtimeVersion="2.5">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.reporting/gen-src" modelPluginID="org.eclipse.rcptt.reporting"
+    modelName="Reporting" modelPluginClass="" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>reporting.ecore</foreignModel>
   <genPackages prefix="Reporting" basePackage="org.eclipse.rcptt" disposableProviderFactory="true"
       ecorePackage="reporting.ecore#/">
@@ -13,22 +11,20 @@
       <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ItemKind/Testcase"/>
       <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ItemKind/EclCommand"/>
       <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ItemKind/Script"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="reporting.ecore#//ResultStatus">
-      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ResultStatus/Pass"/>
-      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ResultStatus/Fail"/>
-      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ResultStatus/Warn"/>
-      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ResultStatus/Skipped"/>
+      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ItemKind/TestSuite"/>
+      <genEnumLiterals ecoreEnumLiteral="reporting.ecore#//ItemKind/Verification"/>
     </genEnums>
     <genClasses ecoreClass="reporting.ecore#//Q7Info">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/result"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/line"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/tags"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/contextKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/subtype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/variant"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Info/phase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference reporting.ecore#//Q7Info/result"/>
     </genClasses>
     <genClasses ecoreClass="reporting.ecore#//Q7Statistics">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reporting.ecore#//Q7Statistics/total"/>

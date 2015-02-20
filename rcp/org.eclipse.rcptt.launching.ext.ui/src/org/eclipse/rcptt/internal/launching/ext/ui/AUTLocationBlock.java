@@ -97,11 +97,13 @@ public class AUTLocationBlock {
 		}
 
 		if (needUpdate && file.exists()) {
+			info = null;
 			runInDialog(new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 					try {
 						info = Q7TargetPlatformManager.createTargetPlatform(location, monitor);
+						assert info.getStatus().isOK();
 					} catch (CoreException e) {
 						setStatus(e.getStatus());
 					}
@@ -109,23 +111,10 @@ public class AUTLocationBlock {
 			});
 		}
 		if (info != null) {
-			// errorInfo = info.getErrorMessage();
-			validateForBundleErrors();
 			fTab.doUpdate(info);
 		}
 		fTab.setCurrentTargetPlatform(info);
 		fTab.scheduleUpdateJob();
-	}
-
-	private void validateForBundleErrors() {
-		runInDialog(new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-				if (info != null) {
-					info.validateBundles(monitor);
-				}
-			}
-		});
 	}
 
 	public void createControl(Composite parent) {
@@ -193,7 +182,7 @@ public class AUTLocationBlock {
 		}
 	}
 
-	public void performApply(ILaunchConfigurationWorkingCopy config) {
+	public void performApply(ILaunchConfigurationWorkingCopy config) throws CoreException {
 		config.setAttribute(IQ7Launch.AUT_LOCATION, getLocation());
 		if (info != null) {
 			info.setTargetName(Q7TargetPlatformManager
@@ -221,7 +210,7 @@ public class AUTLocationBlock {
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				try {
-					info = Q7TargetPlatformManager.loadTarget(config, monitor);
+					info = Q7TargetPlatformManager.findTarget(config, monitor);
 					if (info == null) {
 						info = Q7TargetPlatformManager.getTarget(config,
 								monitor);

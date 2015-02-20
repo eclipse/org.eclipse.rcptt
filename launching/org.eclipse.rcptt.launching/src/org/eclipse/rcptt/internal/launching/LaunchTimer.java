@@ -63,7 +63,8 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 
 		@Override
 		public void run() {
-			executable.terminateWithResult(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Execution timed out after " + timeout + " seconds"));
+			executable.cancel(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Execution timed out after "
+					+ timeout + " seconds"));
 		}
 
 	}

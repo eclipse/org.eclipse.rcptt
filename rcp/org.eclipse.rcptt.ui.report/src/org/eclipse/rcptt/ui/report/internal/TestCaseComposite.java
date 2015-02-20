@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -33,12 +32,12 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
-import org.eclipse.rcptt.ui.launching.TimeFormatHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -61,62 +60,40 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 			Q7Info object = (Q7Info) entry.getProperties().get(
 					IQ7ReportConstants.ROOT);
 			if (object != null) {
-				ResultStatus status = object.getResult();
+				SimpleSeverity severity = SimpleSeverity.create(object);
 				switch (object.getType()) {
 				case SCRIPT:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.SCENARIO_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
-						return Images.getImage(Images.SCENARIO_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
-						return Images.getImage(Images.SCENARIO);
-					}
-					return Images.getImage(Images.SCENARIO);
 				case TESTCASE:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.SCENARIO_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
+					if (severity == SimpleSeverity.OK)
 						return Images.getImage(Images.SCENARIO_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if (severity == SimpleSeverity.CANCEL)
 						return Images.getImage(Images.SCENARIO);
-					}
-					return Images.getImage(Images.SCENARIO);
+					return Images.getImage(Images.SCENARIO_FAIL);
 				case CONTEXT:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.CONTEXT_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
+					if (severity == SimpleSeverity.OK)
 						return Images.getImage(Images.CONTEXT_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if (severity == SimpleSeverity.CANCEL)
 						return Images.getImage(Images.CONTEXT);
-					}
-					return Images.getImage(Images.CONTEXT);
+					return Images.getImage(Images.CONTEXT_FAIL);
 				case VERIFICATION:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getImage(Images.CONTEXT_FAIL);
-					}
-					if (status.equals(ResultStatus.PASS)) {
-						return Images.getImage(Images.CONTEXT_PASS);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
-						return Images.getImage(Images.CONTEXT);
-					}
-					return Images.getImage(Images.CONTEXT);
+					if (severity == SimpleSeverity.OK)
+						return Images.getImage(Images.VERIFICATION_PASS);
+					if (severity == SimpleSeverity.CANCEL)
+						return Images.getImage(Images.VERIFICATION);
+					return Images.getImage(Images.VERIFICATION_FAIL);
 				case ECL_COMMAND:
-					if (status.equals(ResultStatus.FAIL)) {
-						return Images.getOverlayImageBottomLeft(
-								Images.ECL_COMMAND, Images.OVERLAY_ERROR);
-					}
-					if (status.equals(ResultStatus.SKIPPED)) {
+					if (severity == SimpleSeverity.OK)
+						return Images.getImage(Images.ECL_COMMAND);
+					if (severity == SimpleSeverity.CANCEL)
 						return Images.getOverlayImageBottomLeft(
 								Images.ECL_COMMAND, Images.OVERLAY_WARNING);
-					}
-					return Images.getImage(Images.ECL_COMMAND);
+					return Images.getOverlayImageBottomLeft(Images.ECL_COMMAND, Images.OVERLAY_ERROR);
+				case TEST_SUITE:
+					if (severity == SimpleSeverity.OK)
+						return Images.getImage(Images.EXECUTION_SESSION_OK);
+					if (severity == SimpleSeverity.CANCEL)
+						return Images.getImage(Images.EXECUTION_SESSION_STOP);
+					return Images.getImage(Images.EXECUTION_SESSION_FAIL);
 				}
 			}
 			return null;
@@ -131,7 +108,7 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 				return entry.getName();
 			case 1:// status
 				if (object != null) {
-					return object.getResult().getLiteral();
+					return SimpleSeverity.create(object.getResult()).name();
 				}
 				return "";
 			case 2:// time
@@ -232,10 +209,6 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 			private void addNodes(List<Node> nodes, Node next) {
 				if (!nodes.contains(next)) {
 					nodes.add(next);
-				}
-				EList<Node> children = next.getChildren();
-				for (Node node : children) {
-					addNodes(nodes, node);
 				}
 			}
 		});

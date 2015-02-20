@@ -208,8 +208,6 @@ public class BaseTeslaRecorder extends UIPlayer {
 			skipNext = false;
 			if (command instanceof FigureMouseCommand) {
 				transferKind = getKindForFigureMouseCommand((FigureMouseCommand) command, transferKind);
-			} else if (command instanceof SelectCommand) {
-				transferKind = getKindForSelectCommand(command, last, transferKind);
 			}
 			if (isReplacable(last, command) && !skipNext) {
 				// Replace old command
@@ -222,23 +220,6 @@ public class BaseTeslaRecorder extends UIPlayer {
 			transferKind = CommandTransferKind.INSERT_BEFORE_ESSENTIAL_COMMAND;
 		} else if (command instanceof UpdateControlCommand) {
 			transferKind = CommandTransferKind.REMOVE;
-		}
-		return transferKind;
-	}
-
-	private CommandTransferKind getKindForSelectCommand(Command command, Command last, CommandTransferKind transferKind) {
-		if (last instanceof SelectCommand) {
-			if (EcoreUtil.equals(command, last)) {
-				transferKind = CommandTransferKind.REMOVE;
-			}
-		} else {
-			List<Command> commands = container.getCommands();
-			if (commands.size() > 1) {
-				Command beforeLast = commands.get((commands.size() - 2));
-				if (EcoreUtil.equals(command, beforeLast)) {
-					transferKind = CommandTransferKind.REMOVE;
-				}
-			}
 		}
 		return transferKind;
 	}

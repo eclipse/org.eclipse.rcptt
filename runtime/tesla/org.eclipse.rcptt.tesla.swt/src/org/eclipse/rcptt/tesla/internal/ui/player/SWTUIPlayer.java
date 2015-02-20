@@ -844,8 +844,7 @@ public final class SWTUIPlayer {
 						events.sendFocus(widget);
 					}
 					if (widget instanceof Button
-							&& ((widget.getStyle() & SWT.CHECK) != 0 || (widget
-									.getStyle() & SWT.RADIO) != 0)) {
+							&& ((widget.getStyle() & SWT.CHECK) != 0)) {
 						Button b = (Button) widget;
 						b.setSelection(!b.getSelection());
 					}
@@ -856,40 +855,7 @@ public final class SWTUIPlayer {
 						b.setSelection(!b.getSelection());
 					}
 					if (widget instanceof Button && isRadioButton) {
-						Button b = (Button) widget;
-						b.setSelection(true);
-						// Deselect other buttons.
-						int parentStyle = b.getParent().getStyle();
-						if ((parentStyle & SWT.NO_RADIO_GROUP) == 0) {
-							SWTUIElement[] siblings = children.collectFor(
-									wrap(b.getParent()),
-									new SWTUIElement[] { w }, false,
-									Button.class);
-							for (SWTUIElement swtuiElement : siblings) {
-								Button bb = (Button) unwrap(swtuiElement);
-								if ((bb.getStyle() & SWT.RADIO) != 0)
-									bb.setSelection(false);
-							}
-						}
-					}
-					// Send select event to other buttons in group
-					if (!widget.isDisposed() && widget instanceof Button
-							&& (widget.getStyle() & SWT.RADIO) != 0) {
-						Button b = (Button) widget;
-						// Deselect other buttons.
-						int parentStyle = b.getParent().getStyle();
-						if ((parentStyle & SWT.NO_RADIO_GROUP) == 0) {
-							SWTUIElement[] siblings = children.collectFor(
-									wrap(b.getParent()),
-									new SWTUIElement[] { w }, false,
-									Button.class);
-							for (SWTUIElement swtuiElement : siblings) {
-								if ((swtuiElement.widget.getStyle() & SWT.RADIO) != 0) {
-									events.sendEvent(swtuiElement,
-											SWT.Selection);
-								}
-							}
-						}
+						sendEventsToRadioButtons(widget);
 					}
 
 					Point clickPoint = getClickPoint(w);
@@ -916,6 +882,33 @@ public final class SWTUIPlayer {
 					break;
 				}
 			}
+
+			private void sendEventsToRadioButtons(Widget widget) {
+				Button button = (Button) widget;
+				sendEventPreviousSelected(button);
+				button.setSelection(true);
+			}
+
+			private void sendEventPreviousSelected(Button button) {
+				SWTUIElement[] siblings = null;
+				int parentStyle = button.getParent().getStyle();
+				if ((parentStyle & SWT.NO_RADIO_GROUP) == 0) {
+					siblings = children.collectFor(
+							wrap(button.getParent()),
+							new SWTUIElement[] { w }, false,
+							Button.class);
+				}
+				if (siblings == null)
+					return;
+				for (SWTUIElement element : siblings) {
+					Button previousButton = (Button) unwrap(element);
+					if ((previousButton.getStyle() & SWT.RADIO) != 0 && previousButton.getSelection()) {
+						events.sendEvent(element, SWT.Selection);
+						previousButton.setSelection(false);
+					}
+				}
+			}
+
 		});
 	}
 
@@ -923,9 +916,9 @@ public final class SWTUIPlayer {
 
 	private static Point getMiddleClickPoint(Control w) {
 		Point size = w.getSize();
-		return new Point(size.x/2, size.y/2);
+		return new Point(size.x / 2, size.y / 2);
 	}
-	
+
 	private static Point getClickPoint(SWTUIElement element) {
 		Widget widget = unwrapWidget(element);
 		switch (element.getKind().kind) {
@@ -942,7 +935,7 @@ public final class SWTUIPlayer {
 			return point;
 		default:
 			if (widget instanceof Control)
-				return getMiddleClickPoint((Control)widget);
+				return getMiddleClickPoint((Control) widget);
 			return LEGACY_CLICK_POINT;
 		}
 	}

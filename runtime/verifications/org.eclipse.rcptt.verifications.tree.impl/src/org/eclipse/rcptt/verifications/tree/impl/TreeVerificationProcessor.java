@@ -90,7 +90,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 	private void compareTrees(final Widget widget,
 			final ErrorList errors,
 			final Tree expectedTree, Tree actualTree,
-			final boolean allowUnverifiedChildren,
+			final boolean allowUncapturedChildren,
 			final boolean allowExtra, final boolean allowMissing,
 			final boolean verifyIcons, final VerifyStyleType verifyStyle) {
 		if (expectedTree == null) {
@@ -160,7 +160,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				}
 			}
 
-			TreeComparison<Row> comparison = new TreeComparison<Row>(allowUnverifiedChildren) {
+			TreeComparison<Row> comparison = new TreeComparison<Row>(false) {
 				@Override
 				public List<TreeItemVerificationError> compare(Row row1, Row row2) {
 					List<TreeItemVerificationError> rv = new ArrayList<TreeItemVerificationError>();
@@ -168,6 +168,11 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 							expectingColumns, mappedInds);
 					Assert.isTrue(equal == rv.isEmpty());
 					return rv;
+				}
+
+				@Override
+				public boolean isChildrenVerificationRequired(Row expectedChild) {
+					return !(allowUncapturedChildren && expectedChild.getChildren().isEmpty());
 				}
 
 				@Override

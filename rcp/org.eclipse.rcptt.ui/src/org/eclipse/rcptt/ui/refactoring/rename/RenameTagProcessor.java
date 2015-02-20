@@ -23,11 +23,12 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.osgi.util.NLS;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.ui.refactoring.RefactoringUtils;
+import org.eclipse.rcptt.ui.refactoring.ResourceAccessChange;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 
 public class RenameTagProcessor extends RenameProcessor {
 
@@ -93,6 +94,9 @@ public class RenameTagProcessor extends RenameProcessor {
 				int i = path.lastIndexOf(tag.getValue());
 				String newPath = path.substring(0, i) + newTagName;
 				for (IQ7NamedElement ref : tag.getRefs()) {
+					if (WriteAccessChecker.isReadOnly(ref)) {
+						composite.add(new ResourceAccessChange(ref.getResource(), true));
+					}
 					composite.add(new UpdateTagReferenceChange(ref, tag
 							.getPath(), newPath));
 				}
@@ -112,6 +116,9 @@ public class RenameTagProcessor extends RenameProcessor {
 					+ oldPath2.substring(oldPath.length(), oldPath2.length());
 			synchronized (t) {
 				for (IQ7NamedElement ref : t.getRefs()) {
+					if (WriteAccessChecker.isReadOnly(ref)) {
+						composite.add(new ResourceAccessChange(ref.getResource(), true));
+					}
 					composite.add(new UpdateTagReferenceChange(ref, oldPath2,
 							newPath2));
 				}

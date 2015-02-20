@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.rcptt.ecl.core.CorePackage;
 import org.eclipse.rcptt.verifications.status.EVerificationStatus;
 import org.eclipse.rcptt.verifications.status.StatusFactory;
 import org.eclipse.rcptt.verifications.status.StatusPackage;
@@ -104,6 +105,7 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 
 		// Initialize simple dependencies
 		UiPackage.eINSTANCE.eClass();
+		CorePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theStatusPackage.createPackageContents();
@@ -142,30 +144,6 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 	 */
 	public EReference getEVerificationStatus_Data() {
 		return (EReference)eVerificationStatusEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEVerificationStatus_Message() {
-		return (EAttribute)eVerificationStatusEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEVerificationStatus_PluginId() {
-		return (EAttribute)eVerificationStatusEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEVerificationStatus_Severity() {
-		return (EAttribute)eVerificationStatusEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -277,9 +255,6 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 		eVerificationStatusEClass = createEClass(EVERIFICATION_STATUS);
 		createEAttribute(eVerificationStatusEClass, EVERIFICATION_STATUS__RESOURCE);
 		createEReference(eVerificationStatusEClass, EVERIFICATION_STATUS__DATA);
-		createEAttribute(eVerificationStatusEClass, EVERIFICATION_STATUS__MESSAGE);
-		createEAttribute(eVerificationStatusEClass, EVERIFICATION_STATUS__PLUGIN_ID);
-		createEAttribute(eVerificationStatusEClass, EVERIFICATION_STATUS__SEVERITY);
 
 		verificationStatusDataEClass = createEClass(VERIFICATION_STATUS_DATA);
 		createEAttribute(verificationStatusDataEClass, VERIFICATION_STATUS_DATA__MESSAGE);
@@ -318,6 +293,7 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		UiPackage theUiPackage = (UiPackage)EPackage.Registry.INSTANCE.getEPackage(UiPackage.eNS_URI);
 
 		// Create type parameters
@@ -325,6 +301,7 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		eVerificationStatusEClass.getESuperTypes().add(theCorePackage.getProcessStatus());
 		treeItemVerificationErrorEClass.getESuperTypes().add(this.getVerificationStatusData());
 		treeItemStyleVerificationErrorEClass.getESuperTypes().add(this.getTreeItemVerificationError());
 
@@ -332,9 +309,6 @@ public class StatusPackageImpl extends EPackageImpl implements StatusPackage {
 		initEClass(eVerificationStatusEClass, EVerificationStatus.class, "EVerificationStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEVerificationStatus_Resource(), ecorePackage.getEString(), "resource", null, 0, 1, EVerificationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEVerificationStatus_Data(), this.getVerificationStatusData(), null, "data", null, 0, -1, EVerificationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEVerificationStatus_Message(), ecorePackage.getEString(), "message", null, 0, 1, EVerificationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEVerificationStatus_PluginId(), ecorePackage.getEString(), "pluginId", null, 0, 1, EVerificationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEVerificationStatus_Severity(), ecorePackage.getEInt(), "severity", null, 0, 1, EVerificationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(verificationStatusDataEClass, VerificationStatusData.class, "VerificationStatusData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVerificationStatusData_Message(), ecorePackage.getEString(), "message", null, 0, 1, VerificationStatusData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

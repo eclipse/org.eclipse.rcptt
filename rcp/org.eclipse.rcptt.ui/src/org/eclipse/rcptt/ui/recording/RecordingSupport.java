@@ -32,7 +32,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.UIJob;
-
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.VerificationType;
@@ -61,7 +60,6 @@ import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.internal.core.model.ModelManager;
 import org.eclipse.rcptt.internal.core.model.Q7InternalTestCase;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
-import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.internal.ui.Messages;
@@ -70,6 +68,7 @@ import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchState;
 import org.eclipse.rcptt.launching.Q7LaunchUtils;
 import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
@@ -910,7 +909,7 @@ public class RecordingSupport {
 				.createCreateReport();
 		if (testCase != null) {
 			createReport.setName(testCase.getName());
-			createReport.setQ7info(PrepareExecutionWrapper.getQ7Info(testCase));
+			createReport.setQ7info(TestSuiteUtils.getQ7Info(testCase));
 		} else {
 			createReport.setName("q7.control.panel.recording");
 			Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();

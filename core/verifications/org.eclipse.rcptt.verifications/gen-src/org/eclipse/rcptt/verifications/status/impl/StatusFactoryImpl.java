@@ -35,7 +35,7 @@ public class StatusFactoryImpl extends EFactoryImpl implements StatusFactory {
 	 */
 	public static StatusFactory init() {
 		try {
-			StatusFactory theStatusFactory = (StatusFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/verifications/status"); 
+			StatusFactory theStatusFactory = (StatusFactory)EPackage.Registry.INSTANCE.getEFactory(StatusPackage.eNS_URI);
 			if (theStatusFactory != null) {
 				return theStatusFactory;
 			}

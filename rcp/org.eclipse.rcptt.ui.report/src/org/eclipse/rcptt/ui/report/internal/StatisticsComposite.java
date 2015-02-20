@@ -110,7 +110,11 @@ public class StatisticsComposite extends AbstractEmbeddedComposite {
 			return;
 		if (panel.isDisposed())
 			return;
-		final Q7Statistics tmp = statistics;
+		Q7Statistics tmp2 = statistics;
+		if (tmp2 == null) {
+			tmp2 = ReportingFactory.eINSTANCE.createQ7Statistics();
+		}
+		final Q7Statistics tmp = tmp2;
 		panel.getDisplay().asyncExec(new Runnable() {
 
 			@Override

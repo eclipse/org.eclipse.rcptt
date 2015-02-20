@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -152,12 +151,12 @@ public class Q7SearchCore {
 		return result.toArray(new IQ7NamedElement[result.size()]);
 	}
 
-	public static IContext[] findContextsWithLinks(ISearchScope scope,
+	public static IContext[] findContextsWithLinks(ISearchScope scope, Set<IPath> changed,
 			IProgressMonitor monitor) {
 		IndexManager indexManager = ModelManager.getModelManager().getIndexManager();
 		final List<IContext> result = new ArrayList<IContext>();
 		indexManager.performConcurrentJob(new PatternSearchJob(
-				new AllContextWithLinksQueryPattern(), scope, new IIndexRequestor() {
+				new AllContextWithLinksQueryPattern(changed), scope, new IIndexRequestor() {
 					public void acceptMatch(IQ7Element q7Element, String key, String value) {
 						// Could also collect all refernced files here.
 						if (q7Element instanceof IContext) {

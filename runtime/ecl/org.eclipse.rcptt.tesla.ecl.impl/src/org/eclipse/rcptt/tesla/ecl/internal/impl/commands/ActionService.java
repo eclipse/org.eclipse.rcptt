@@ -328,10 +328,8 @@ public class ActionService extends AbstractActionService {
 		if (tryHandleTraverse(kt))
 			return kt.getControl();
 
-		kt.setKey(TeslaEclUtils.getKeyByAlias(kt.getKey()));
-
 		ControlUIElement controlUIElement = getControlUIElement(kt.getControl());
-		String keyStr = kt.getKey();
+		String keyStr = TeslaEclUtils.getKeyByAlias(kt.getKey());
 		String charStr = kt.getChar();
 		char ch;
 		try {

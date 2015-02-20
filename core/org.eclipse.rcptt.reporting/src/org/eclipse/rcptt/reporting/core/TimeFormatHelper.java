@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.ui.launching;
+package org.eclipse.rcptt.reporting.core;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

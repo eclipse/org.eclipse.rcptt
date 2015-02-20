@@ -112,4 +112,10 @@ public class EclParserPlugin extends Plugin {
 		return output.toByteArray();
 	}
 
+	public static IStatus createStatus(Throwable t) {
+		if (t instanceof CoreException)
+			return ((CoreException) t).getStatus();
+		return new Status(Status.ERROR, PLUGIN_ID, t.getMessage(), t);
+	}
+
 }

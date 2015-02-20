@@ -10,8 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.target;
 
+import java.util.Map;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
@@ -24,14 +28,6 @@ import org.eclipse.rcptt.launching.internal.target.Q7Target;
  */
 public interface ITargetPlatformHelper {
 	Q7Target getQ7Target();
-
-	/**
-	 * Check if platform are valid. Check target platform containers status
-	 * message. If target platform are not resolved, method will return false.
-	 * 
-	 * @return - false if target platform is not resolved, or resulution status.
-	 */
-	boolean isValid();
 
 	/**
 	 * Return if target is already resolved.
@@ -49,8 +45,9 @@ public interface ITargetPlatformHelper {
 
 	/**
 	 * Save current target platform to PDE.
+	 * @throws CoreException 
 	 */
-	void save();
+	void save() throws CoreException;
 
 	/**
 	 * Return target platform name.
@@ -70,15 +67,6 @@ public interface ITargetPlatformHelper {
 	 * Remove target platform from PDE.
 	 */
 	void delete();
-
-	/**
-	 * Validate bundles consistency. getErrorMessage() method could be used to
-	 * retrive error if failed.
-	 * 
-	 * @param monitor
-	 * @return
-	 */
-	IStatus validateBundles(IProgressMonitor monitor);
 
 	/**
 	 * Return list of available applications to target platform. If platform is
@@ -136,15 +124,6 @@ public interface ITargetPlatformHelper {
 
 	OriginalOrderProperties getConfigIniProperties();
 
-	/**
-	 * Returns {@link InjectionConfiguration} set with previous
-	 * {@link #applyInjection(InjectionConfiguration, IProgressMonitor)}
-	 * invocation. Can be null if no injection has been applied
-	 * 
-	 * @return
-	 */
-	InjectionConfiguration getInjectConfig();
-
 	OSArchitecture detectArchitecture(boolean preferCurrentVmArchitecture,
 			StringBuilder detectMsg);
 
@@ -157,4 +136,6 @@ public interface ITargetPlatformHelper {
 	public abstract IPluginModelBase getWeavingHook();
 
 	IStatus getStatus();
+	
+	Map<String, Version> getVersions() throws CoreException;
 }

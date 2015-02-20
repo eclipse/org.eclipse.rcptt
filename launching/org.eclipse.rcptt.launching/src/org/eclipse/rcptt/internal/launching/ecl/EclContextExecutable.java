@@ -27,7 +27,6 @@ import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
@@ -66,7 +65,6 @@ public class EclContextExecutable extends ContextExecutable {
 			description = context.getDescription();
 			props = new HashMap<String, EObject>();
 			info.setType(ItemKind.CONTEXT);
-			info.setResult(ResultStatus.PASS);
 			info.setTags(context.getTags());
 			info.setId(context.getId());
 			info.setDescription(description);
@@ -97,12 +95,12 @@ public class EclContextExecutable extends ContextExecutable {
 	}
 
 	@Override
-	public IStatus postExecute(Listener listener, IStatus status) {
+	public IStatus postExecute(IStatus status) {
 		try {
 			if (isEcl) {
-				ReportMaker.endReportNode(true, null, launch);
+				ReportMaker.endReportNode(true, launch, status);
 			}
-			return super.postExecute(listener, status);
+			return super.postExecute(status);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}

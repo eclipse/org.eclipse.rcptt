@@ -14,6 +14,7 @@ import static org.eclipse.rcptt.util.StringUtils.getUtf8Bytes;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -23,19 +24,17 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
-
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 public class XMLReportGenerator {
 	private Document newDocument;
@@ -281,13 +280,13 @@ public class XMLReportGenerator {
 	}
 
 	public void generateContent(OutputStream stream, String reportName,
-			Q7ReportIterator report, Q7Statistics statistics)
+			Iterable<Report> reports, Q7Statistics statistics)
 			throws CoreException {
 		try {
 			stream.write(getUtf8Bytes("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n"));
 			stream.write(getUtf8Bytes(String.format("<report name=\"%s\">",
 					reportName)));
-			report.reset();
+			Iterator<Report> report = reports.iterator();
 			while (report.hasNext()) {
 				Report r = report.next();
 				String s = generateContent(r);

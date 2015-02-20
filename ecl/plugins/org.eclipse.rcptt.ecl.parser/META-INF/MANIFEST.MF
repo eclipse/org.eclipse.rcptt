@@ -4,13 +4,17 @@ Bundle-Name: %pluginName
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.parser;singleton:=true
 Bundle-Version: 2.0.0.qualifier
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.rcptt.ecl.core,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
  org.antlr.runtime;bundle-version="[3.2.0,3.3.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.ecl.gen.ast,
- org.eclipse.rcptt.ecl.internal.parser;x-friends:="org.eclipse.rcptt.ecl.parser.test",
+ org.eclipse.rcptt.ecl.gen.ast.impl,
+ org.eclipse.rcptt.ecl.internal.parser;
+  x-friends:="org.eclipse.rcptt.ecl.parser.test",
  org.eclipse.rcptt.ecl.parser
 Bundle-Activator: org.eclipse.rcptt.ecl.internal.parser.EclParserPlugin
 Bundle-Vendor: %providerName

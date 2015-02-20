@@ -408,6 +408,15 @@ public interface UiFactory extends EFactory {
 	Marker createMarker();
 
 	/**
+	 * Returns a new object of class '<em>Cell</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cell</em>'.
+	 * @generated
+	 */
+	Cell createCell();
+
+	/**
 	 * Returns a new object of class '<em>Style Range Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

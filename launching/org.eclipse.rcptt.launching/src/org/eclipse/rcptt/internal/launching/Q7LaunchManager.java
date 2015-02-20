@@ -66,6 +66,7 @@ import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclVerificationExecutable;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.IExecutable.State;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.ILaunchListener;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
@@ -112,7 +113,8 @@ public class Q7LaunchManager {
 					@Override
 					public void onStatusChange(Executable executable) {
 						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-						session.setActive(executable);
+						if (executable.getStatus() == State.LAUNCHING)
+							session.setActive(executable);
 					}
 
 					@Override
@@ -125,13 +127,14 @@ public class Q7LaunchManager {
 						// break full execution
 						massUpdateOnTerminate.add(executable);
 						// fireLaunchStatusChanged(executable);
-						executable.cancel(listener, new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+						executable.cancel(new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
 						continue;
 					}
-					
+					executable.addListener(listener);
 					try {
-						executable.executeAndRememberResult(listener);
+						executable.executeAndRememberResult();
 					} finally {
+						executable.removeListener(listener);
 						session.setActive(null);
 						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
 					}
@@ -485,8 +488,7 @@ public class Q7LaunchManager {
 				throws ModelException {
 			boolean debug = debugger != null;
 			if (verification.getNamedElement() instanceof UnresolvedVerification) {
-				return new UnresolvedVerificationExecutable(launch,
-						verification, debug, phase);
+				return new UnresolvedVerificationExecutable(launch, verification, debug, phase);
 			} else {
 				return !debug ?
 						new EclVerificationExecutable(launch, verification, debug, phase)

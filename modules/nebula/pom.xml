@@ -7,10 +7,6 @@
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <properties>
-    <rcpttRuntimeRepo>file:/${user.dir}/runtime/org.eclipse.rcptt.runtime-updatesite/target/repository/</rcpttRuntimeRepo>
-  </properties>
-
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>ide</artifactId>

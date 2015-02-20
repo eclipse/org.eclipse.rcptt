@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching.ext;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
-import static org.eclipse.rcptt.launching.ext.AUTInformation.getInformationMap;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -84,22 +83,21 @@ public class Q7TargetPlatformInitializer {
 		return new Status(IStatus.ERROR, PLUGIN_ID, message, error);
 	}
 
-	public static IStatus initialize(ITargetPlatformHelper iinfo,
+	public static IStatus initialize(ITargetPlatformHelper target,
 			IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Initialize AUT configuration", 100);
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
 
 		{
-			IStatus rv = iinfo.getStatus();
+			IStatus rv = target.getStatus();
 			if (rv.matches(IStatus.ERROR | IStatus.CANCEL))
 				return rv;
 		}
 
-		TargetPlatformHelper info = (TargetPlatformHelper) iinfo;
-		Map<String, Version> map = getInformationMap(iinfo);
+		Map<String, Version> map = target.getVersions();
 
-		Q7Info q7Info = getInfo(iinfo, map);
+		Q7Info q7Info = getInfo(target, map);
 		monitor.worked(20);
 
 		try {
@@ -113,10 +111,10 @@ public class Q7TargetPlatformInitializer {
 			}
 
 			InjectionConfiguration injectionConfiguration = createInjectionConfiguration(
-					new NullProgressMonitor(), q7Info, map, repository);
-			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + iinfo, null);
+					new NullProgressMonitor(), q7Info, map);
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Runtime injection failed for target platform " + target, null);
 			if (injectionConfiguration != null) {
-				rv.add(info.applyInjection(injectionConfiguration, new SubProgressMonitor(
+				rv.add(target.applyInjection(injectionConfiguration, new SubProgressMonitor(
 						monitor, 60)));
 				if (rv.matches(IStatus.CANCEL))
 					return rv;
@@ -130,8 +128,7 @@ public class Q7TargetPlatformInitializer {
 	}
 
 	public static InjectionConfiguration createInjectionConfiguration(
-			IProgressMonitor monitor, Q7Info q7Info, Map<String, Version> map,
-			IMetadataRepository repository) {
+			IProgressMonitor monitor, Q7Info q7Info, Map<String, Version> map) {
 		boolean hasEMF = map.containsKey(AUTInformation.EMF);
 		boolean hasEMFWorkspace = map.containsKey(AUTInformation.EMF_WORKSPACE);
 		boolean hasEMFTransaction = map
@@ -144,12 +141,8 @@ public class Q7TargetPlatformInitializer {
 				.createInjectionConfiguration();
 
 		// Add Q7 plugins
-		// List<String> q7Units = collectQ7InstallIDs(monitor, hasGEF, hasGMF,
-		// repository);
 		UpdateSite q7Site = InjectionFactory.eINSTANCE.createUpdateSite();
 		q7Site.setUri(q7Info.q7.toString());
-		// Include all Q7 units to install
-		// q7Site.getUnits().addAll(q7Units);
 		injectionConfiguration.getEntries().add(q7Site);
 		
 		// Add aspectj plugins
@@ -188,6 +181,7 @@ public class Q7TargetPlatformInitializer {
 			site.setAllUnits(true);
 			injectionConfiguration.getEntries().add(site);
 		}
+
 		return injectionConfiguration;
 	}
 
@@ -293,15 +287,12 @@ public class Q7TargetPlatformInitializer {
 		return false;
 	}
 
-	public static InjectionConfiguration getAspectJInjection(ITargetPlatformHelper targetPlatform,
+	public static InjectionConfiguration getAspectJInjection(Q7Info q7Info,
 			IProgressMonitor progressMonitor) throws CoreException {
-		Q7Info q7Info = getInfo(targetPlatform, getInformationMap(targetPlatform));
 		InjectionConfiguration injectionConfiguration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
-		if (q7Info != null) {
-			UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
-			aspectsSite.setUri(q7Info.aspectj.toString());
-			injectionConfiguration.getEntries().add(aspectsSite);
-		}
+		UpdateSite aspectsSite = InjectionFactory.eINSTANCE.createUpdateSite();
+		aspectsSite.setUri(q7Info.aspectj.toString());
+		injectionConfiguration.getEntries().add(aspectsSite);
 		return injectionConfiguration;
 	}
 }

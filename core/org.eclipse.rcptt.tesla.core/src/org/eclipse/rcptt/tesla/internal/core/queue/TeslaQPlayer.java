@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.tesla.internal.core.queue;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import org.eclipse.rcptt.tesla.core.protocol.TeslaStream;
 import org.eclipse.rcptt.tesla.core.protocol.UIPlayer;
@@ -19,10 +18,9 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 
 public class TeslaQPlayer extends UIPlayer {
-	private TeslaStream qStream = null;
+	private final TeslaStream qStream;
 
-	public TeslaQPlayer(TeslaQClient client) throws UnknownHostException,
-			IOException {
+	public TeslaQPlayer(TeslaQClient client) {
 		// Make reversed stream
 		qStream = new TeslaQStream(client.qStream);
 	}

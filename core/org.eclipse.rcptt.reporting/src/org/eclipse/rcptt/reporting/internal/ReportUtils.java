@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.internal;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,18 +21,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.ResultStatus;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
@@ -44,7 +49,7 @@ import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
 
 public class ReportUtils {
 
-	public static Q7Statistics calculateStatistics(Q7ReportIterator iterator) {
+	public static Q7Statistics calculateStatistics(Iterable<Report> iterator) {
 		return calculateStatistics(iterator.iterator());
 	}
 
@@ -63,7 +68,7 @@ public class ReportUtils {
 		while (iterator.hasNext()) {
 			Report report = iterator.next();
 			if (report == null) {
-				return null;
+				continue;
 			}
 			total += 1;
 			Node localRoot = report.getRoot();
@@ -73,19 +78,18 @@ public class ReportUtils {
 
 			Q7Info q7info = (Q7Info) localRoot.getProperties().get(
 					IQ7ReportConstants.ROOT);
-			switch (q7info.getResult()) {
-			case FAIL:
-			case WARN:
-				failed++;
-				break;
-			case PASS:
-				passed++;
-				break;
-			case SKIPPED:
+			SimpleSeverity severity = SimpleSeverity.create(q7info);
+			switch (severity) {
+			case CANCEL:
 				skipped++;
 				break;
+			case ERROR:
+				failed++;
+				break;
+			case OK:
+				passed++;
+				break;
 			}
-
 			startTime = Math.min(startTime, localRoot.getStartTime());
 			endTime = Math.max(endTime, localRoot.getEndTime());
 			totalTime += (localRoot.getEndTime() - localRoot.getStartTime());
@@ -106,14 +110,14 @@ public class ReportUtils {
 	 * @param session
 	 * @return
 	 */
-	public static Report combineReports(Q7ReportIterator iterator, int len,
+	public static Report combineReports(Iterable<Report> reports, int len,
 			IProgressMonitor monitor) {
 
 		monitor.beginTask("Combine Q7 testcase reports", len * 10);
 		Report report = ReportFactory.eINSTANCE.createReport();
 		Node rootNode = ReportFactory.eINSTANCE.createNode();
 		report.setRoot(rootNode);
-		iterator.reset();
+		Iterator<Report> iterator = reports.iterator();
 		while (iterator.hasNext()) {
 			Report copy = iterator.next();
 
@@ -260,32 +264,27 @@ public class ReportUtils {
 	}
 
 	public static String getFailMessage(Node item) {
-		StringBuilder result = new StringBuilder();
-		EList<Node> children = item.getChildren();
 		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
-		if (current != null && current.getResult().equals(ResultStatus.FAIL)) {
-			if (current.getMessage() != null) {
-				return current.getMessage();
-			}
-		}
-		for (Node node : children) {
-			String message = getFailMessage(node);
-			if (message != null && !message.isEmpty()) {
-				return message;
-			}
-		}
-		return result.toString();
+		return getFailMessage(current.getResult());
 	}
 
-	public static String getSkipMessage(Node item) {
-		StringBuilder result = new StringBuilder();
-		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
-		if (current != null && current.getResult().equals(ResultStatus.SKIPPED)) {
-			if (current.getMessage() != null) {
-				result.append(current.getMessage());
+	private static String getFailMessage(ProcessStatus result) {
+		if (result instanceof ScriptProcessStatus) {
+			ProcessStatus firstFail = getFirstFail(result.getChildren());
+			if (firstFail != null)
+				return result.getMessage() + ": " + getFailMessage(firstFail);
+		}
+		return result.getMessage();
+	}
+
+	private static ProcessStatus getFirstFail(List<ProcessStatus> children) {
+		for (ProcessStatus processStatus : children) {
+			if (processStatus.getSeverity() != IStatus.OK) {
+				ProcessStatus grandChild = getFirstFail(processStatus.getChildren());
+				return grandChild != null ? grandChild : processStatus;
 			}
 		}
-		return result.toString();
+		return null;
 	}
 
 	public static String replaceHtmlEntities(String string) {
@@ -300,21 +299,6 @@ public class ReportUtils {
 		string = string.replace("\n", "<br />");
 		string = string.replace("\r", "<br />");
 		return string;
-	}
-
-	private static void collectFailures(Node item, StringBuilder result) {
-		Q7Info info = (Q7Info) item.getProperties()
-				.get(IQ7ReportConstants.ROOT);
-		if (info != null && info.getResult().equals(ResultStatus.FAIL)) {
-			String msg = info.getMessage();
-			if (msg != null) {
-				result.append(msg).append("\n");
-			}
-		}
-		EList<Node> children = item.getChildren();
-		for (Node node : children) {
-			collectFailures(node, result);
-		}
 	}
 
 	public static String getDetails(Node item) {
@@ -352,31 +336,38 @@ public class ReportUtils {
 	}
 
 	public static void collectDetails(Node item, StringBuilder result) {
-		EList<Snaphot> snapshots = item.getSnapshots();
-		for (Snaphot snaphot : snapshots) {
-			EObject data = snaphot.getData();
-			if (data != null) {
-				if (data instanceof AdvancedInformation) {
-					result.append(new AdvancedInformationGenerator()
-							.generateContent((AdvancedInformation) data));
-					result.append("\n");
-				} else {
-					new SimpleReportGenerator().toString(result, 2, data);
+		try {
+			EList<Snaphot> snapshots = item.getSnapshots();
+			for (Snaphot snaphot : snapshots) {
+				EObject data = snaphot.getData();
+				if (data != null) {
+					if (data instanceof AdvancedInformation) {
+						StringWriter writer = new StringWriter();
+						new AdvancedInformationGenerator(new PrintWriter(writer))
+								.writeAdvanced((AdvancedInformation) data, 0);
+						result.append(writer.toString()).append("\n");
+					} else {
+						new SimpleReportGenerator().toString(result, 2, data);
+						result.append("\n");
+					}
+				}
+			}
+			EList<Event> events = item.getEvents();
+			for (Event event : events) {
+				if (event.getData() instanceof EclipseStatus) {
+					EclipseStatus data = (EclipseStatus) event.getData();
+					new SimpleReportGenerator().toString(result, 1, data);
 					result.append("\n");
 				}
 			}
-		}
-		EList<Event> events = item.getEvents();
-		for (Event event : events) {
-			if (event.getData() instanceof EclipseStatus) {
-				EclipseStatus data = (EclipseStatus) event.getData();
-				new SimpleReportGenerator().toString(result, 1, data);
-				result.append("\n");
+			EList<Node> children = item.getChildren();
+			for (Node node : children) {
+				collectDetails(node, result);
 			}
-		}
-		EList<Node> children = item.getChildren();
-		for (Node node : children) {
-			collectDetails(node, result);
+		} catch (IOException e) {
+			// String builder does not throw
+			throw new RuntimeException(e);
 		}
 	}
+
 }

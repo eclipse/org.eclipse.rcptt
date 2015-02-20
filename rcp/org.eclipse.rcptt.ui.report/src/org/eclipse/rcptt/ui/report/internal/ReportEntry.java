@@ -10,13 +10,32 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
-import org.eclipse.rcptt.reporting.ResultStatus;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 class ReportEntry {
-	public String name;
-	public String id;
-	public int time;
-	public ResultStatus status;
-	public String message = "";
-	public boolean warning = false;
+	public final String name;
+	public final String id;
+	public final int time;
+	public final ProcessStatus status;
+	public final String message;
+
+	public ReportEntry(String name, String id, int time, ProcessStatus status, String message) {
+		super();
+		checkNotNull(name);
+		checkNotNull(id);
+		checkNotNull(time);
+		checkNotNull(status);
+		checkNotNull(message);
+		this.message = message;
+		this.name = name;
+		this.id = id;
+		this.time = time;
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return message;
+	}
 }

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.impl;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,46 +78,40 @@ public class TeslaBridge {
 			client.shutdown();
 			client = null;
 		}
+		client = new TeslaQClient();
+		// To be sure all info are clear before test
 		try {
-			client = new TeslaQClient();
-			// To be sure all info are clear before test
-			try {
-				client.clean();
-			} catch (Throwable e) {
-				TeslaImplPlugin.err("Failed to clean client", e);
-			}
-			player = new TeslaQPlayer(client) {
-				@Override
-				protected void notifyUI() {
-					client.notifyUI();
-				};
-			};
-			if (listener != null) {
-				TeslaEventManager.getManager().removeEventListener(listener);
-			}
-			listener = new ITeslaEventListener() {
-				public boolean doProcessing(Context context) {
-					Q7WaitInfoRoot info = getCurrentWaitInfo(true);
-					TeslaQClient clientTemp = client;
-					if (clientTemp != null && clientTemp.processNext(context, info)) {
-						return true;
-					}
-					return false;
-				}
-
-				public void hasEvent(HasEventKind kind, String run) {
-					if (client != null) {
-						Q7WaitInfoRoot info = getCurrentWaitInfo(false);
-						client.hasEvent(kind.name(), run, info);
-					}
-				}
-			};
-			TeslaEventManager.getManager().addEventListener(listener);
-		} catch (UnknownHostException e) {
-			// Do nothing
-		} catch (IOException e) {
-			// Do nothing
+			client.clean();
+		} catch (Throwable e) {
+			TeslaImplPlugin.err("Failed to clean client", e);
 		}
+		player = new TeslaQPlayer(client) {
+			@Override
+			protected void notifyUI() {
+				client.notifyUI();
+			};
+		};
+		if (listener != null) {
+			TeslaEventManager.getManager().removeEventListener(listener);
+		}
+		listener = new ITeslaEventListener() {
+			public boolean doProcessing(Context context) {
+				Q7WaitInfoRoot info = getCurrentWaitInfo(true);
+				TeslaQClient clientTemp = client;
+				if (clientTemp != null && clientTemp.processNext(context, info)) {
+					return true;
+				}
+				return false;
+			}
+
+			public void hasEvent(HasEventKind kind, String run) {
+				if (client != null) {
+					Q7WaitInfoRoot info = getCurrentWaitInfo(false);
+					client.hasEvent(kind.name(), run, info);
+				}
+			}
+		};
+		TeslaEventManager.getManager().addEventListener(listener);
 	}
 
 	public static Q7WaitInfoRoot getCurrentWaitInfo(final boolean tick) {

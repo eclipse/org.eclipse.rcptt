@@ -37,7 +37,6 @@ import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
  *   <li>{@link org.eclipse.rcptt.ecl.gen.ast.impl.ScriptProcessStatusImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.gen.ast.impl.ScriptProcessStatusImpl#getLength <em>Length</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.gen.ast.impl.ScriptProcessStatusImpl#getResourceID <em>Resource ID</em>}</li>
- *   <li>{@link org.eclipse.rcptt.ecl.gen.ast.impl.ScriptProcessStatusImpl#getCause <em>Cause</em>}</li>
  * </ul>
  * </p>
  *
@@ -123,16 +122,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 	 * @ordered
 	 */
 	protected String resourceID = RESOURCE_ID_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getCause() <em>Cause</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCause()
-	 * @generated
-	 * @ordered
-	 */
-	protected ProcessStatus cause;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -242,63 +231,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProcessStatus getCause() {
-		return cause;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetCause(ProcessStatus newCause, NotificationChain msgs) {
-		ProcessStatus oldCause = cause;
-		cause = newCause;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AstPackage.SCRIPT_PROCESS_STATUS__CAUSE, oldCause, newCause);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCause(ProcessStatus newCause) {
-		if (newCause != cause) {
-			NotificationChain msgs = null;
-			if (cause != null)
-				msgs = ((InternalEObject)cause).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AstPackage.SCRIPT_PROCESS_STATUS__CAUSE, null, msgs);
-			if (newCause != null)
-				msgs = ((InternalEObject)newCause).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AstPackage.SCRIPT_PROCESS_STATUS__CAUSE, null, msgs);
-			msgs = basicSetCause(newCause, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AstPackage.SCRIPT_PROCESS_STATUS__CAUSE, newCause, newCause));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case AstPackage.SCRIPT_PROCESS_STATUS__CAUSE:
-				return basicSetCause(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -310,8 +242,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 				return getLength();
 			case AstPackage.SCRIPT_PROCESS_STATUS__RESOURCE_ID:
 				return getResourceID();
-			case AstPackage.SCRIPT_PROCESS_STATUS__CAUSE:
-				return getCause();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -335,9 +265,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 				return;
 			case AstPackage.SCRIPT_PROCESS_STATUS__RESOURCE_ID:
 				setResourceID((String)newValue);
-				return;
-			case AstPackage.SCRIPT_PROCESS_STATUS__CAUSE:
-				setCause((ProcessStatus)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -363,9 +290,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 			case AstPackage.SCRIPT_PROCESS_STATUS__RESOURCE_ID:
 				setResourceID(RESOURCE_ID_EDEFAULT);
 				return;
-			case AstPackage.SCRIPT_PROCESS_STATUS__CAUSE:
-				setCause((ProcessStatus)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -386,8 +310,6 @@ public class ScriptProcessStatusImpl extends ProcessStatusImpl implements Script
 				return length != LENGTH_EDEFAULT;
 			case AstPackage.SCRIPT_PROCESS_STATUS__RESOURCE_ID:
 				return RESOURCE_ID_EDEFAULT == null ? resourceID != null : !RESOURCE_ID_EDEFAULT.equals(resourceID);
-			case AstPackage.SCRIPT_PROCESS_STATUS__CAUSE:
-				return cause != null;
 		}
 		return super.eIsSet(featureID);
 	}

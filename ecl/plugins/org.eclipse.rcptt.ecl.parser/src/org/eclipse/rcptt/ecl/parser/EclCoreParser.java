@@ -52,9 +52,9 @@ public class EclCoreParser {
 		try {
 			return setResource(parser.commands(), resource);
 		} catch (RecognitionException e) {
-			throw emitErr(resource, e.line, e.charPositionInLine, 1);
+			throw emitErr(resource, e.line, e.charPositionInLine, 1, e);
 		} catch (SyntaxErrorException e) {
-			throw emitErr(resource, e.line, e.col, 1);
+			throw emitErr(resource, e.line, e.col, 1, e);
 		} catch (Throwable t) {
 			EclParserPlugin.logErr(t.getMessage(), t);
 			throw new CoreException(new Status(IStatus.ERROR,
@@ -93,10 +93,11 @@ public class EclCoreParser {
 		return cmd;
 	}
 
-	private static CoreException emitErr(String resource, int line, int pos, int len)
+	private static CoreException emitErr(String resource, int line, int pos, int len, Throwable e)
 			throws CoreException {
-		ScriptErrorStatus status = new ScriptErrorStatus(IStatus.ERROR,
-				EclParserPlugin.PLUGIN_ID, "Syntax error", resource, line, pos, len, null);
+		ScriptErrorStatus status = new ScriptErrorStatus(EclParserPlugin.PLUGIN_ID, "Syntax error", resource, line,
+				pos, len);
+		status.add(EclParserPlugin.createStatus(e));
 		return new CoreException(status);
 	}
 }

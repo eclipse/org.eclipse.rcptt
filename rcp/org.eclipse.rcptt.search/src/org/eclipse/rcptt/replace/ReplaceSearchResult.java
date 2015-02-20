@@ -11,8 +11,11 @@
 package org.eclipse.rcptt.replace;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -31,7 +34,9 @@ import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.search.Q7SearchQuery;
 import org.eclipse.rcptt.search.Q7SearchResult;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.search.ui.text.Match;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -62,6 +67,11 @@ public class ReplaceSearchResult {
 			boolean IsRegEx = ((Q7SearchQuery) searchResult.getQuery())
 					.isRegexSearch();
 
+			Shell shell = page.getWorkbenchWindow().getShell();
+			WriteAccessChecker writeAccessChecker = new WriteAccessChecker(shell, false);
+			if (!writeAccessChecker.makeResourceWritable(foundFiles(searchResult))) {
+				return;
+			}
 			for (Object element : searchResult.getElements()) {
 				IFile file = searchResult.getFile(element);
 				if (file != null) {
@@ -114,9 +124,21 @@ public class ReplaceSearchResult {
 				}
 			}
 			searchResult.removeAll();
+		} catch (CoreException e) {
+			Q7UIPlugin.log(e);
 		} finally {
 			monitor.done();
 		}
+	}
+
+	private static IFile[] foundFiles(Q7SearchResult searchResult) {
+		List<IFile> files = new ArrayList<IFile>();
+		for (Object element : searchResult.getElements()) {
+			if (element instanceof IFile) {
+				files.add((IFile) element);
+			}
+		}
+		return files.toArray(new IFile[0]);
 	}
 
 	interface EclContainer {

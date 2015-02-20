@@ -44,22 +44,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.rcptt.ecl.core.Script;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -76,16 +60,32 @@ import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7Folder;
 import org.eclipse.rcptt.internal.core.model.Q7ResourceInfo;
 import org.eclipse.rcptt.internal.core.model.ReferencedProjectScope;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
 import org.eclipse.rcptt.ui.wizards.LocationSelectionDialog;
 import org.eclipse.rcptt.ui.wizards.plain.DestinationsBox.Selection;
 import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.rcptt.util.StringUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public class Q7PortableFormatImportPage extends WizardPage implements
 		IPlainConstants {
@@ -396,6 +396,10 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
 				public void run(IProgressMonitor monitor) throws CoreException {
 					IQ7Folder folder = getFolder();
+					WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+					if (!writeAccessChecker.makeResourceWritable(folder.getResource())) {
+						return;
+					}
 					if (folder != null) {
 						IContainer cl = (IContainer) folder.getResource();
 						IFile newFile = ((Q7Folder) folder).getNewFile(cl,
@@ -569,6 +573,7 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 								}
 							}
 
+							// Used incremental file name, so replacing the file does not happen.
 							copy.commitWorkingCopy(true,
 									new NullProgressMonitor());
 						} catch (ModelException e) {
@@ -614,8 +619,11 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 
 						if (copy.hasUnsavedChanges()) {
 							verificationIDUpdateMap.put(oldID, copy.getID());
-							copy.commitWorkingCopy(true,
-									new NullProgressMonitor());
+							WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+							if (writeAccessChecker.makeResourceWritable(copy)) {
+								copy.commitWorkingCopy(true,
+										new NullProgressMonitor());
+							}
 						}
 					} catch (Exception e) {
 						Q7UIPlugin.log(e);
@@ -670,8 +678,11 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 						}
 						if (copy.hasUnsavedChanges()) {
 							contextIDUpdateMap.put(oldID, copy.getID());
-							copy.commitWorkingCopy(true,
-									new NullProgressMonitor());
+							WriteAccessChecker writeAccessChecker = new WriteAccessChecker(getShell());
+							if (writeAccessChecker.makeResourceWritable(copy)) {
+								copy.commitWorkingCopy(true,
+										new NullProgressMonitor());
+							}
 						}
 					} catch (Exception e) {
 						Q7UIPlugin.log(e);

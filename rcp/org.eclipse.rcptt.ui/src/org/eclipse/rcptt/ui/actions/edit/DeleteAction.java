@@ -22,11 +22,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchCommandConstants;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.rcptt.core.tags.Tag;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.Q7ProjectMetadata;
@@ -35,6 +30,11 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.delete.DeleteQ7ElementWizard;
 import org.eclipse.rcptt.ui.refactoring.delete.DeleteTagWizard;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchCommandConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.DeleteResourceAction;
 
 public class DeleteAction extends DeleteResourceAction {
 
@@ -63,12 +63,7 @@ public class DeleteAction extends DeleteResourceAction {
 			run(new DeleteTagWizard(getSelectedTags()), provider.getShell());
 		} else {
 			IResource[] resources = getSelectedResourcesArray();
-			if (containsQ7Elements(resources)) {
-				run(new DeleteQ7ElementWizard(resources), provider.getShell());
-			} else {
-				// Other files
-				super.run();
-			}
+			run(new DeleteQ7ElementWizard(resources), provider.getShell());
 		}
 	}
 

@@ -203,15 +203,6 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getScriptProcessStatus_Cause() {
-		return (EReference)scriptProcessStatusEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public AstFactory getAstFactory() {
 		return (AstFactory)getEFactoryInstance();
 	}
@@ -246,7 +237,6 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		astLiteralEClass = createEClass(AST_LITERAL);
 
 		scriptProcessStatusEClass = createEClass(SCRIPT_PROCESS_STATUS);
-		createEReference(scriptProcessStatusEClass, SCRIPT_PROCESS_STATUS__CAUSE);
 	}
 
 	/**
@@ -300,7 +290,6 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		initEClass(astLiteralEClass, AstLiteral.class, "AstLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(scriptProcessStatusEClass, ScriptProcessStatus.class, "ScriptProcessStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getScriptProcessStatus_Cause(), theCorePackage.getProcessStatus(), null, "cause", null, 0, 1, ScriptProcessStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -317,27 +306,27 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";		
+		String source = "http://www.eclipse.org/ecl/internal";	
 		addAnnotation
 		  (getAstNode_Column(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getAstNode_Line(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getAstNode_Length(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getAstNode_ResourceID(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (astExecEClass, 
 		   source, 

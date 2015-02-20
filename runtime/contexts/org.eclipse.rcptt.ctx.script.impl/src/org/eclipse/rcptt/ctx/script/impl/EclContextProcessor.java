@@ -15,16 +15,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.core.IContextProcessor;
+import org.eclipse.rcptt.core.ecl.context.EclContext;
+import org.eclipse.rcptt.core.ecl.internal.context.EclContextPlugin;
+import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.EclRuntime;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
-
-import org.eclipse.rcptt.core.IContextProcessor;
-import org.eclipse.rcptt.core.scenario.Context;
-import org.eclipse.rcptt.core.ecl.context.EclContext;
-import org.eclipse.rcptt.core.ecl.internal.context.EclContextPlugin;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
@@ -61,10 +60,9 @@ public class EclContextProcessor implements IContextProcessor {
 								+ eclContext.getName() + " at line:"
 								+ st.getLine();
 
-						ScriptErrorStatus sse = new ScriptErrorStatus(
-								st.getSeverity(), st.getPlugin(), msg,
-								st.getResource(), st.getLine(), st.getColumn(), st.getLength(),
-								st.getCause());
+						ScriptErrorStatus sse = new ScriptErrorStatus(st.getPlugin(), msg,
+								st.getResource(), st.getLine(), st.getColumn(), st.getLength());
+						sse.add(st.getCause());
 						resultE[0] = new CoreException(sse);
 					} else if (!status.isOK()) {
 						resultE[0] = new CoreException(status);

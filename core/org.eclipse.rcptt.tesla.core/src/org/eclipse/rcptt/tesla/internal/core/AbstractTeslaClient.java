@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -25,8 +24,6 @@ import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoFactory;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
-import org.eclipse.rcptt.tesla.core.protocol.Assert;
-import org.eclipse.rcptt.tesla.core.protocol.BooleanResponse;
 import org.eclipse.rcptt.tesla.core.protocol.ElementCommand;
 import org.eclipse.rcptt.tesla.core.protocol.GetStateResponse;
 import org.eclipse.rcptt.tesla.core.protocol.IElementProcessorMapper;
@@ -114,43 +111,20 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		this.elementProcessors.put(key, newSet);
 	}
 
-	protected void handleSelect(SelectCommand cmd) throws IOException {
-		try {
-			// Check for extensions first
-			String kind = cmd.getData().getKind();
-			SelectResponse response = processors.select(cmd, generator, this);
-			if (response == null) {
-				response = ProtocolFactory.eINSTANCE.createSelectResponse();
-				response.setStatus(ResponseStatus.FAILED);
-				response.setMessage("No Element with kind:" + kind
-						+ " is available for selection...");
-			}
-			if (response.getStatus().equals(ResponseStatus.FAILED)) {
-				handleFailedResponse(cmd, response);
-			}
-			stream().writeResponse(response);
-		} catch (Throwable e) {
-			if (!(e.getMessage() != null && e.getMessage().equals(
-					"Software caused connection abort: socket write error"))) {
-				sendErrorResponse(e);
-				TeslaCore.log(e);
-			}
-		}
-	}
-
-	protected void handleAssert(Assert cmd) throws IOException {
+	protected SelectResponse handleSelect(SelectCommand cmd) {
 		// Check for extensions first
-		{
-			Response response = processors.executeCommand(cmd, this, true);
-			if (response != null) {
-				stream().writeResponse(response);
-				return;
-			}
+		String kind = cmd.getData().getKind();
+		SelectResponse response = processors.select(cmd, generator, this);
+		if (response == null) {
+			response = ProtocolFactory.eINSTANCE.createSelectResponse();
+			response.setStatus(ResponseStatus.FAILED);
+			response.setMessage("No Element with kind:" + kind
+					+ " is available for selection...");
 		}
-		BooleanResponse response = ProtocolFactory.eINSTANCE
-				.createBooleanResponse();
-		response.setStatus(ResponseStatus.FAILED);
-		stream().writeResponse(response);
+		if (response.getStatus().equals(ResponseStatus.FAILED)) {
+			handleFailedResponse(cmd, response);
+		}
+		return response;
 	}
 
 	private String makeKey(Element uiElement) {
@@ -265,15 +239,20 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 				}
 				isLocalQueue = false;
 			}
-			if (!preExecute(command, info)) {
-				if (isLocalQueue) {
-					localQueue.add(0, command);
-				} else {
-					localQueue.add(command);
+			try {
+				if (!preExecute(command, info)) {
+					if (isLocalQueue) {
+						localQueue.add(0, command);
+					} else {
+						localQueue.add(command);
+					}
+					return false;
 				}
-				return false;
+				stream().writeResponse(execute(command));
+			} catch (Throwable e) {
+				logException(e);
+				stream().writeResponse(createErrorResponse(e));
 			}
-			execute(command);
 		} finally {
 			synchronized (this) {
 				processing = false;
@@ -283,124 +262,85 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		return true;
 	}
 
-	protected void execute(final Command command) {
+	private Response execute(final Command command) {
 		// long startTime = System.currentTimeMillis();
 		if (!(command instanceof Nop)) {
 			lastFailureInformation = null;
 		}
-		try {
-			if (command instanceof ElementCommand) {
-				ElementCommand cmd = (ElementCommand) command;
-				Element element = cmd.getElement();
+		if (command instanceof ElementCommand) {
+			ElementCommand cmd = (ElementCommand) command;
+			Element element = cmd.getElement();
 
-				if (element != null) {
-					Set<ITeslaCommandProcessor> processors = elementProcessors
-							.get(makeKey(element));
-					if (processors != null) {
-						for (ITeslaCommandProcessor processor : processors) {
-							if (processor != null) {
-								try {
-									Response response = processor
-											.executeCommand(command, this);
-									if (response != null) {
-										if (response.getStatus().equals(
-												ResponseStatus.FAILED)) {
-											handleFailedResponse(command,
-													response);
-										}
-										stream().writeResponse(response);
-										return;
+			if (element != null) {
+				Set<ITeslaCommandProcessor> processors = elementProcessors
+						.get(makeKey(element));
+				if (processors != null) {
+					for (ITeslaCommandProcessor processor : processors) {
+						if (processor != null) {
+							Response response = processor
+									.executeCommand(command, this);
+							if (response != null) {
+								if (response.getStatus().equals(
+										ResponseStatus.FAILED)) {
+									handleFailedResponse(command,
+											response);
 									}
-								} catch (Throwable e) {
-									TeslaCore.log(e);
-									// Write failed status to stream
-									sendErrorResponse(e);
-									return;
-								}
+								return response;
 							}
 						}
 					}
 				}
-			} else {
-				try {
-					Response response = processors.executeCommand(command, this, true);
-					if (response != null) {
-						if (response.getStatus().equals(ResponseStatus.FAILED)) {
-							handleFailedResponse(command, response);
-						}
-						stream().writeResponse(response);
-						return;
-					}
-				} catch (Exception e) {
-					TeslaCore.log(e);
-					sendErrorResponse(e);
-					return;
-				}
 			}
-			if (command.eClass().getEPackage()
-					.equals(ProtocolFactory.eINSTANCE.getEPackage())) {
-				switch (command.eClass().getClassifierID()) {
-				case ProtocolPackage.SELECT_COMMAND:
-					handleSelect((SelectCommand) command);
-					return;
-				case ProtocolPackage.SHUTDOWN:
-					stream().writeResponse(
-							RawFactory.eINSTANCE.createResponse());
-					shutdown();
-					return;
-				case ProtocolPackage.NOP:
-
-					stream().writeResponse(
-							RawFactory.eINSTANCE.createResponse());
-					return;
-				case ProtocolPackage.GET_STATE:
-					GetStateResponse res = ProtocolFactory.eINSTANCE
-							.createGetStateResponse();
-					Element state = RawFactory.eINSTANCE.createElement();
-					String returnedState = currentContext.getID();
-					// System.out.println("RETURNED WAIT STATE:" +
-					// returnedState);
-					state.setId(returnedState);
-					state.setKind("State");
-					res.setState(state);
-					stream().writeResponse(res);
-					return;
-				case ProtocolPackage.WAIT_FOR_STATE:
-					stream().writeResponse(
-							RawFactory.eINSTANCE.createResponse());
-					return;
-				case ProtocolPackage.ROLLBACK_TO_STATE:
-					// TODO
-					stream().writeResponse(
-							RawFactory.eINSTANCE.createResponse());
-					return;
+		} else {
+			Response response = processors.executeCommand(command, this, true);
+			if (response != null) {
+				if (response.getStatus().equals(ResponseStatus.FAILED)) {
+					handleFailedResponse(command, response);
 				}
+				return response;
 			}
-			Response failed = RawFactory.eINSTANCE.createResponse();
-			failed.setStatus(ResponseStatus.FAILED);
-			failed.setMessage("Unsupported command");
-			stream().writeResponse(failed);
-			// shutdown();
-			// throw new RuntimeException("Unknown command:"
-			// + command.toString());
-			return;
-		} catch (Throwable t) {
-			logException(t);
-			handleFailedResponse(command, null);
 		}
+		if (command.eClass().getEPackage()
+				.equals(ProtocolFactory.eINSTANCE.getEPackage())) {
+			switch (command.eClass().getClassifierID()) {
+			case ProtocolPackage.SELECT_COMMAND:
+				return handleSelect((SelectCommand) command);
+			case ProtocolPackage.SHUTDOWN:
+				shutdown();
+				return RawFactory.eINSTANCE.createResponse();
+			case ProtocolPackage.NOP:
+				return RawFactory.eINSTANCE.createResponse();
+			case ProtocolPackage.GET_STATE:
+				GetStateResponse res = ProtocolFactory.eINSTANCE
+						.createGetStateResponse();
+				Element state = RawFactory.eINSTANCE.createElement();
+				String returnedState = currentContext.getID();
+				// System.out.println("RETURNED WAIT STATE:" +
+				// returnedState);
+				state.setId(returnedState);
+				state.setKind("State");
+				res.setState(state);
+				return res;
+			case ProtocolPackage.WAIT_FOR_STATE:
+				return RawFactory.eINSTANCE.createResponse();
+			case ProtocolPackage.ROLLBACK_TO_STATE:
+				// TODO
+				return RawFactory.eINSTANCE.createResponse();
+			}
+		}
+		Response failed = RawFactory.eINSTANCE.createResponse();
+		failed.setStatus(ResponseStatus.FAILED);
+		failed.setMessage("Unsupported command");
+		return failed;
 	}
 
-	private void sendErrorResponse(Throwable e) {
-		try {
-			Response errorResponse = RawFactory.eINSTANCE.createResponse();
-			errorResponse.setStatus(ResponseStatus.FAILED);
-			errorResponse.setMessage("Exception happened:\n"
-					+ Exceptions.toString(e)); // not only class name, but also its
-										// message
-			stream().writeResponse(errorResponse);
-		} catch (Throwable e2) {
-			TeslaCore.log(e2);
-		}
+	private Response createErrorResponse(Throwable e) {
+		Response errorResponse = RawFactory.eINSTANCE.createResponse();
+		errorResponse.setStatus(ResponseStatus.FAILED);
+		errorResponse.setMessage("Exception happened:\n"
+				+ Exceptions.toString(e)); // not only class name, but also its
+		// message
+		return errorResponse;
 	}
 
 	public AdvancedInformation getLastFailureInformation() {

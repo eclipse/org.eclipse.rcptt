@@ -36,7 +36,7 @@ public class ReportingFactoryImpl extends EFactoryImpl implements ReportingFacto
 	 */
 	public static ReportingFactory init() {
 		try {
-			ReportingFactory theReportingFactory = (ReportingFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/reporting/core"); 
+			ReportingFactory theReportingFactory = (ReportingFactory)EPackage.Registry.INSTANCE.getEFactory(ReportingPackage.eNS_URI);
 			if (theReportingFactory != null) {
 				return theReportingFactory;
 			}
@@ -82,8 +82,6 @@ public class ReportingFactoryImpl extends EFactoryImpl implements ReportingFacto
 		switch (eDataType.getClassifierID()) {
 			case ReportingPackage.ITEM_KIND:
 				return createItemKindFromString(eDataType, initialValue);
-			case ReportingPackage.RESULT_STATUS:
-				return createResultStatusFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -99,8 +97,6 @@ public class ReportingFactoryImpl extends EFactoryImpl implements ReportingFacto
 		switch (eDataType.getClassifierID()) {
 			case ReportingPackage.ITEM_KIND:
 				return convertItemKindToString(eDataType, instanceValue);
-			case ReportingPackage.RESULT_STATUS:
-				return convertResultStatusToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -143,26 +139,6 @@ public class ReportingFactoryImpl extends EFactoryImpl implements ReportingFacto
 	 * @generated
 	 */
 	public String convertItemKindToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ResultStatus createResultStatusFromString(EDataType eDataType, String initialValue) {
-		ResultStatus result = ResultStatus.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertResultStatusToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

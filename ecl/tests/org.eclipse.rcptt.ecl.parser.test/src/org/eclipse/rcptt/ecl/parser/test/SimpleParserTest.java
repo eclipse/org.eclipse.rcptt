@@ -213,7 +213,7 @@ public class SimpleParserTest extends TestCase {
 	}
 
 	public void testCurlyArgWithCommentInside() throws Throwable {
-		check("try { //comment\nargument }", "try  //comment\nargument "); 
+		check("try { //comment\nargument }", "try  //comment\nargument ");
 	}
 
 	public void testClosedBraceWithRandomComments() throws Throwable {
@@ -222,7 +222,7 @@ public class SimpleParserTest extends TestCase {
 	}
 	
 	public void testCurlyArg() throws Throwable {
-		check("try { argument }", "try  argument "); 
+		check("try { argument }", "try  argument ");
 	}
 	public void testWithConstruct() throws Throwable {
 		String test = "first -flag\nsecond -secondFlag";
@@ -305,20 +305,28 @@ public class SimpleParserTest extends TestCase {
 	public void testSubCommandOnANewLine() throws Throwable {
 		check("command\n[subcommand]", "command [subcommand]");
 	}
+
+	public void testSubCommandOnNewLines() throws Throwable {
+		check("command\n[\nsubcommand\n]", "command [subcommand]");
+	}
 	
+	public void testSubCommandWithEverything() throws Throwable {
+		check("command //simple comment\n \t\n [\t\n\t/*comment*/ subcommand\n \t ]", "command [subcommand]");
+	}
+
 	public void testNewLineWithSpacesAfterCommand() throws Throwable {
 		check("command\n   \n", "command");
 	}
 	
 	//https://bugs.eclipse.org/bugs/show_bug.cgi?id=440960
 	public void testNoNestedSequences() throws Throwable {
-		check("command1\nwait-until-eclipse-is-ready\ncommand2", 
+		check("command1\nwait-until-eclipse-is-ready\ncommand2",
 				"(command1;wait-until-eclipse-is-ready;command2)");
 	}
 	
 	//https://bugs.eclipse.org/bugs/show_bug.cgi?id=441083
 	public void testVarDereference() throws Throwable {
-		check("$a | command1 \n $a| command2", "((get-val a|command1);(get-val a|command2))"); 
+		check("$a | command1 \n $a| command2", "((get-val a|command1);(get-val a|command2))");
 	}
 	
 	public void testCommentAfterPipe() throws Throwable {

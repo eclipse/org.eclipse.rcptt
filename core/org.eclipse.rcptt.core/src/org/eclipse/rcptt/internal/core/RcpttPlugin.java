@@ -18,6 +18,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.rcptt.ecl.core.CoreFactory;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.internal.core.model.ModelManager;
 import org.eclipse.rcptt.util.NetworkUtils;
 import org.osgi.framework.BundleContext;
@@ -138,4 +140,19 @@ public class RcpttPlugin extends Plugin {
 			def.getLog().log(new Status(Status.INFO, PLUGIN_ID, msg));
 		}
 	}
+
+	public static ProcessStatus createProcessStatus(int severity, String message) {
+		ProcessStatus status = CoreFactory.eINSTANCE.createProcessStatus();
+		status.setSeverity(severity);
+		status.setPluginId(PLUGIN_ID);
+		status.setMessage(message);
+		return status;
+	}
+
+	public static void throwOnError(IStatus status) throws CoreException {
+		if (status.isOK() || status.getSeverity() == IStatus.INFO)
+			return;
+		throw new CoreException(status);
+	}
+
 }

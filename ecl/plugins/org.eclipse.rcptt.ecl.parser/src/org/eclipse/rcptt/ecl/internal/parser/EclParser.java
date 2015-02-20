@@ -8,14 +8,16 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-// $ANTLR 3.5.2 Ecl.g 2014-08-04 20:24:17
+// $ANTLR 3.5.2 Ecl.g 2015-01-29 20:14:24
 
 package org.eclipse.rcptt.ecl.internal.parser;
 import org.antlr.runtime.BitSet;
+import org.antlr.runtime.EarlyExitException;
 import org.antlr.runtime.MismatchedSetException;
 import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.rcptt.ecl.core.Command;
@@ -28,22 +30,16 @@ import org.eclipse.rcptt.ecl.core.Parallel;
 import org.eclipse.rcptt.ecl.core.Parameter;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.Sequence;
-import org.eclipse.rcptt.ecl.gen.ast.AstFactory;
 import org.eclipse.rcptt.ecl.gen.ast.AstExec;
+import org.eclipse.rcptt.ecl.gen.ast.AstFactory;
 import org.eclipse.rcptt.ecl.gen.ast.AstLiteral;
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class EclParser extends Parser {
 	public static final String[] tokenNames = new String[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "AND", "COLON", "COMMENT", "CURLY_STRING", 
-		"DIGIT", "DNAME", "IP4", "LBRACK", "LCURLY", "LINE_COMMENT", "LOPEN", 
-		"MINUS", "NAME", "NEWLINE", "NUMBER", "OR", "RBRACK", "RCURLY", "ROPEN", 
+		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "AND", "COLON", "COMMENT", "CURLY_STRING",
+		"DIGIT", "DNAME", "IP4", "LBRACK", "LCURLY", "LINE_COMMENT", "LOPEN",
+		"MINUS", "NAME", "NEWLINE", "NUMBER", "OR", "RBRACK", "RCURLY", "ROPEN",
 		"SEMICOLON", "STRING", "WS", "'$'", "'+'", "'='", "'@'"
 	};
 	public static final int EOF=-1;
@@ -93,12 +89,12 @@ public class EclParser extends Parser {
 	@Override public String getGrammarFileName() { return "Ecl.g"; }
 
 	  
-	    CoreFactory factory = CoreFactory.eINSTANCE;  
+	    CoreFactory factory = CoreFactory.eINSTANCE;
 	    Command processSequence(Command cmd, Command c2 ) {
 	            //Construct sequence if not yet constructed.
 	            if (cmd == null)
 	                return c2;
-	            Sequence seq; 
+	            Sequence seq;
 	            if (cmd instanceof Sequence) {
 	                    seq = (Sequence) cmd;
 	            } else {
@@ -111,9 +107,10 @@ public class EclParser extends Parser {
 	              seq.getCommands().add(c2);
 	            }
 	          return seq;
-	    } 
+	    }
 		
-	    public void displayRecognitionError(String[] tokenNames,
+	    @Override
+		public void displayRecognitionError(String[] tokenNames,
 	        RecognitionException e) {
 	              if (e.token.getType() == Token.EOF) {
 	                Token prev = getTokenStream().get(e.index - 1);
@@ -121,7 +118,7 @@ public class EclParser extends Parser {
 	                    prev.getCharPositionInLine());
 	              }
 	        throw new SyntaxErrorException(e.line, e.charPositionInLine);
-	    }  
+	    }
 
 
 
@@ -247,7 +244,7 @@ public class EclParser extends Parser {
 				}
 			}
 
-			match(input,EOF,FOLLOW_EOF_in_commands92); 
+			match(input,EOF,FOLLOW_EOF_in_commands92);
 
 			            if (cmd == null)
 			                cmd =factory.createSequence();
@@ -351,13 +348,13 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:95:28: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr144); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr144);
 							}
 							break;
 
 					}
 
-					match(input,AND,FOLLOW_AND_in_and_expr147); 
+					match(input,AND,FOLLOW_AND_in_and_expr147);
 					// Ecl.g:95:41: ( NEWLINE )?
 					int alt5=2;
 					int LA5_0 = input.LA(1);
@@ -368,7 +365,7 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:95:41: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr149); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_and_expr149);
 							}
 							break;
 
@@ -468,13 +465,13 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:116:8: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr183); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr183);
 							}
 							break;
 
 					}
 
-					match(input,OR,FOLLOW_OR_in_or_expr186); 
+					match(input,OR,FOLLOW_OR_in_or_expr186);
 					// Ecl.g:116:20: ( NEWLINE )?
 					int alt8=2;
 					int LA8_0 = input.LA(1);
@@ -485,7 +482,7 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:116:20: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr188); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_or_expr188);
 							}
 							break;
 
@@ -608,12 +605,21 @@ public class EclParser extends Parser {
 			// Ecl.g:146:5: ( ( eos )+ c2= one_or_more_expr )?
 			int alt12=2;
 			int LA12_0 = input.LA(1);
-			if ( (LA12_0==NEWLINE||LA12_0==SEMICOLON) ) {
+			if ( (LA12_0==NEWLINE) ) {
 				int LA12_1 = input.LA(2);
 				if ( (LA12_1==DNAME||LA12_1==LOPEN||LA12_1==NAME||LA12_1==26) ) {
 					alt12=1;
 				}
 				else if ( (LA12_1==NEWLINE||LA12_1==SEMICOLON) ) {
+					alt12=1;
+				}
+			}
+			else if ( (LA12_0==SEMICOLON) ) {
+				int LA12_4 = input.LA(2);
+				if ( (LA12_4==DNAME||LA12_4==LOPEN||LA12_4==NAME||LA12_4==26) ) {
+					alt12=1;
+				}
+				else if ( (LA12_4==NEWLINE||LA12_4==SEMICOLON) ) {
 					alt12=1;
 				}
 			}
@@ -729,15 +735,15 @@ public class EclParser extends Parser {
 					// Ecl.g:154:2: ( LOPEN c= open_expr_list ROPEN )
 					// Ecl.g:154:3: LOPEN c= open_expr_list ROPEN
 					{
-					match(input,LOPEN,FOLLOW_LOPEN_in_cmd308); 
+					match(input,LOPEN,FOLLOW_LOPEN_in_cmd308);
 					pushFollow(FOLLOW_open_expr_list_in_cmd312);
 					c=open_expr_list();
 					state._fsp--;
 
 
-					 	cmd = c; 
+					 	cmd = c;
 					 
-					match(input,ROPEN,FOLLOW_ROPEN_in_cmd316); 
+					match(input,ROPEN,FOLLOW_ROPEN_in_cmd316);
 					}
 
 					}
@@ -748,7 +754,7 @@ public class EclParser extends Parser {
 					// Ecl.g:156:13: ( '$' n= command_name )
 					// Ecl.g:156:14: '$' n= command_name
 					{
-					match(input,26,FOLLOW_26_in_cmd322); 
+					match(input,26,FOLLOW_26_in_cmd322);
 					pushFollow(FOLLOW_command_name_in_cmd326);
 					n=command_name();
 					state._fsp--;
@@ -905,13 +911,13 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:191:5: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_named_command383); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_named_command383);
 							}
 							break;
 
 					}
 
-					match(input,MINUS,FOLLOW_MINUS_in_named_command386); 
+					match(input,MINUS,FOLLOW_MINUS_in_named_command386);
 					// Ecl.g:191:20: ( MINUS )?
 					int alt17=2;
 					int LA17_0 = input.LA(1);
@@ -922,7 +928,7 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:191:20: MINUS
 							{
-							match(input,MINUS,FOLLOW_MINUS_in_named_command388); 
+							match(input,MINUS,FOLLOW_MINUS_in_named_command388);
 							}
 							break;
 
@@ -968,7 +974,7 @@ public class EclParser extends Parser {
 
 
 	// $ANTLR start "subcommand"
-	// Ecl.g:204:1: subcommand returns [Parameter param=null;] : ( ( ( NEWLINE )? LBRACK c= open_expr_list RBRACK ) | '$' name= command_name );
+	// Ecl.g:204:1: subcommand returns [Parameter param=null;] : ( ( ( NEWLINE )? LBRACK ( NEWLINE )? c= open_expr_list ( NEWLINE )? RBRACK ) | '$' name= command_name );
 	public final Parameter subcommand() throws RecognitionException {
 		Parameter param = null;;
 
@@ -977,28 +983,28 @@ public class EclParser extends Parser {
 		String name =null;
 
 		try {
-			// Ecl.g:204:42: ( ( ( NEWLINE )? LBRACK c= open_expr_list RBRACK ) | '$' name= command_name )
-			int alt20=2;
-			int LA20_0 = input.LA(1);
-			if ( (LA20_0==LBRACK||LA20_0==NEWLINE) ) {
-				alt20=1;
+			// Ecl.g:204:42: ( ( ( NEWLINE )? LBRACK ( NEWLINE )? c= open_expr_list ( NEWLINE )? RBRACK ) | '$' name= command_name )
+			int alt22=2;
+			int LA22_0 = input.LA(1);
+			if ( (LA22_0==LBRACK||LA22_0==NEWLINE) ) {
+				alt22=1;
 			}
-			else if ( (LA20_0==26) ) {
-				alt20=2;
+			else if ( (LA22_0==26) ) {
+				alt22=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 20, 0, input);
+					new NoViableAltException("", 22, 0, input);
 				throw nvae;
 			}
 
-			switch (alt20) {
+			switch (alt22) {
 				case 1 :
-					// Ecl.g:205:3: ( ( NEWLINE )? LBRACK c= open_expr_list RBRACK )
+					// Ecl.g:205:3: ( ( NEWLINE )? LBRACK ( NEWLINE )? c= open_expr_list ( NEWLINE )? RBRACK )
 					{
-					// Ecl.g:205:3: ( ( NEWLINE )? LBRACK c= open_expr_list RBRACK )
-					// Ecl.g:205:4: ( NEWLINE )? LBRACK c= open_expr_list RBRACK
+					// Ecl.g:205:3: ( ( NEWLINE )? LBRACK ( NEWLINE )? c= open_expr_list ( NEWLINE )? RBRACK )
+					// Ecl.g:205:4: ( NEWLINE )? LBRACK ( NEWLINE )? c= open_expr_list ( NEWLINE )? RBRACK
 					{
 					// Ecl.g:205:4: ( NEWLINE )?
 					int alt19=2;
@@ -1010,14 +1016,30 @@ public class EclParser extends Parser {
 						case 1 :
 							// Ecl.g:205:4: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_subcommand415); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_subcommand415);
 							}
 							break;
 
 					}
 
-					match(input,LBRACK,FOLLOW_LBRACK_in_subcommand418); 
-					pushFollow(FOLLOW_open_expr_list_in_subcommand426);
+					match(input,LBRACK,FOLLOW_LBRACK_in_subcommand418);
+					// Ecl.g:205:20: ( NEWLINE )?
+					int alt20=2;
+					int LA20_0 = input.LA(1);
+					if ( (LA20_0==NEWLINE) ) {
+						alt20=1;
+					}
+					switch (alt20) {
+						case 1 :
+							// Ecl.g:205:20: NEWLINE
+							{
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_subcommand420);
+							}
+							break;
+
+					}
+
+					pushFollow(FOLLOW_open_expr_list_in_subcommand429);
 					c=open_expr_list();
 					state._fsp--;
 
@@ -1026,16 +1048,32 @@ public class EclParser extends Parser {
 					  		p.setCommand(c);
 						  	param = p;
 					    
-					match(input,RBRACK,FOLLOW_RBRACK_in_subcommand432); 
+					// Ecl.g:211:3: ( NEWLINE )?
+					int alt21=2;
+					int LA21_0 = input.LA(1);
+					if ( (LA21_0==NEWLINE) ) {
+						alt21=1;
+					}
+					switch (alt21) {
+						case 1 :
+							// Ecl.g:211:3: NEWLINE
+							{
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_subcommand435);
+							}
+							break;
+
+					}
+
+					match(input,RBRACK,FOLLOW_RBRACK_in_subcommand438);
 					}
 
 					}
 					break;
 				case 2 :
-					// Ecl.g:211:13: '$' name= command_name
+					// Ecl.g:211:22: '$' name= command_name
 					{
-					match(input,26,FOLLOW_26_in_subcommand437); 
-					pushFollow(FOLLOW_command_name_in_subcommand441);
+					match(input,26,FOLLOW_26_in_subcommand443);
+					pushFollow(FOLLOW_command_name_in_subcommand447);
 					name=command_name();
 					state._fsp--;
 
@@ -1077,38 +1115,38 @@ public class EclParser extends Parser {
 			// Ecl.g:221:2: (n= NAME |n= DNAME )
 			{
 			// Ecl.g:221:2: (n= NAME |n= DNAME )
-			int alt21=2;
-			int LA21_0 = input.LA(1);
-			if ( (LA21_0==NAME) ) {
-				alt21=1;
+			int alt23=2;
+			int LA23_0 = input.LA(1);
+			if ( (LA23_0==NAME) ) {
+				alt23=1;
 			}
-			else if ( (LA21_0==DNAME) ) {
-				alt21=2;
+			else if ( (LA23_0==DNAME) ) {
+				alt23=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 21, 0, input);
+					new NoViableAltException("", 23, 0, input);
 				throw nvae;
 			}
 
-			switch (alt21) {
+			switch (alt23) {
 				case 1 :
 					// Ecl.g:221:3: n= NAME
 					{
-					n=(Token)match(input,NAME,FOLLOW_NAME_in_command_name461); 
+					n=(Token)match(input,NAME,FOLLOW_NAME_in_command_name467);
 					}
 					break;
 				case 2 :
 					// Ecl.g:221:33: n= DNAME
 					{
-					n=(Token)match(input,DNAME,FOLLOW_DNAME_in_command_name468); 
+					n=(Token)match(input,DNAME,FOLLOW_DNAME_in_command_name474);
 					}
 					break;
 
 			}
 
-			 name = n.getText(); 
+			 name = n.getText();
 			}
 
 		}
@@ -1140,34 +1178,34 @@ public class EclParser extends Parser {
 			// Ecl.g:225:2: ( '@' (n= NAME |n= IP4 ) )
 			// Ecl.g:225:3: '@' (n= NAME |n= IP4 )
 			{
-			match(input,29,FOLLOW_29_in_host486); 
+			match(input,29,FOLLOW_29_in_host492);
 			// Ecl.g:225:7: (n= NAME |n= IP4 )
-			int alt22=2;
-			int LA22_0 = input.LA(1);
-			if ( (LA22_0==NAME) ) {
-				alt22=1;
+			int alt24=2;
+			int LA24_0 = input.LA(1);
+			if ( (LA24_0==NAME) ) {
+				alt24=1;
 			}
-			else if ( (LA22_0==IP4) ) {
-				alt22=2;
+			else if ( (LA24_0==IP4) ) {
+				alt24=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 22, 0, input);
+					new NoViableAltException("", 24, 0, input);
 				throw nvae;
 			}
 
-			switch (alt22) {
+			switch (alt24) {
 				case 1 :
 					// Ecl.g:225:8: n= NAME
 					{
-					n=(Token)match(input,NAME,FOLLOW_NAME_in_host491); 
+					n=(Token)match(input,NAME,FOLLOW_NAME_in_host497);
 					}
 					break;
 				case 2 :
 					// Ecl.g:225:15: n= IP4
 					{
-					n=(Token)match(input,IP4,FOLLOW_IP4_in_host495); 
+					n=(Token)match(input,IP4,FOLLOW_IP4_in_host501);
 					}
 					break;
 
@@ -1209,13 +1247,13 @@ public class EclParser extends Parser {
 			// Ecl.g:231:4: (p= named_argument )
 			// Ecl.g:231:5: p= named_argument
 			{
-			pushFollow(FOLLOW_named_argument_in_argument517);
+			pushFollow(FOLLOW_named_argument_in_argument523);
 			p=named_argument();
 			state._fsp--;
 
 			}
 
-			 param = p; 
+			 param = p;
 			}
 
 		}
@@ -1245,16 +1283,16 @@ public class EclParser extends Parser {
 			// Ecl.g:234:3: (p= simple_value |p= subcommand |p= convert_string )
 			{
 			// Ecl.g:234:3: (p= simple_value |p= subcommand |p= convert_string )
-			int alt23=3;
+			int alt25=3;
 			switch ( input.LA(1) ) {
 			case NAME:
 				{
-				int LA23_1 = input.LA(2);
-				if ( (LA23_1==COLON) ) {
-					alt23=3;
+				int LA25_1 = input.LA(2);
+				if ( (LA25_1==COLON) ) {
+					alt25=3;
 				}
-				else if ( (LA23_1==EOF||LA23_1==AND||LA23_1==CURLY_STRING||LA23_1==LBRACK||(LA23_1 >= MINUS && LA23_1 <= RBRACK)||(LA23_1 >= ROPEN && LA23_1 <= STRING)||LA23_1==26) ) {
-					alt23=1;
+				else if ( (LA25_1==EOF||LA25_1==AND||LA25_1==CURLY_STRING||LA25_1==LBRACK||(LA25_1 >= MINUS && LA25_1 <= RBRACK)||(LA25_1 >= ROPEN && LA25_1 <= STRING)||LA25_1==26) ) {
+					alt25=1;
 				}
 
 				else {
@@ -1262,7 +1300,7 @@ public class EclParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 23, 1, input);
+							new NoViableAltException("", 25, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1275,17 +1313,17 @@ public class EclParser extends Parser {
 			case NUMBER:
 			case STRING:
 				{
-				alt23=1;
+				alt25=1;
 				}
 				break;
 			case NEWLINE:
 				{
-				int LA23_3 = input.LA(2);
-				if ( (LA23_3==CURLY_STRING||LA23_3==STRING) ) {
-					alt23=1;
+				int LA25_3 = input.LA(2);
+				if ( (LA25_3==CURLY_STRING||LA25_3==STRING) ) {
+					alt25=1;
 				}
-				else if ( (LA23_3==LBRACK) ) {
-					alt23=2;
+				else if ( (LA25_3==LBRACK) ) {
+					alt25=2;
 				}
 
 				else {
@@ -1293,7 +1331,7 @@ public class EclParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 23, 3, input);
+							new NoViableAltException("", 25, 3, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1305,19 +1343,19 @@ public class EclParser extends Parser {
 			case LBRACK:
 			case 26:
 				{
-				alt23=2;
+				alt25=2;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 23, 0, input);
+					new NoViableAltException("", 25, 0, input);
 				throw nvae;
 			}
-			switch (alt23) {
+			switch (alt25) {
 				case 1 :
 					// Ecl.g:234:4: p= simple_value
 					{
-					pushFollow(FOLLOW_simple_value_in_argument_value538);
+					pushFollow(FOLLOW_simple_value_in_argument_value544);
 					p=simple_value();
 					state._fsp--;
 
@@ -1326,7 +1364,7 @@ public class EclParser extends Parser {
 				case 2 :
 					// Ecl.g:234:23: p= subcommand
 					{
-					pushFollow(FOLLOW_subcommand_in_argument_value545);
+					pushFollow(FOLLOW_subcommand_in_argument_value551);
 					p=subcommand();
 					state._fsp--;
 
@@ -1335,7 +1373,7 @@ public class EclParser extends Parser {
 				case 3 :
 					// Ecl.g:234:39: p= convert_string
 					{
-					pushFollow(FOLLOW_convert_string_in_argument_value553);
+					pushFollow(FOLLOW_convert_string_in_argument_value559);
 					p=convert_string();
 					state._fsp--;
 
@@ -1378,26 +1416,26 @@ public class EclParser extends Parser {
 			// Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
 			{
 			// Ecl.g:239:2: (d= NAME |d= NUMBER | ( NEWLINE )? d2= string | ( NEWLINE )? d3= CURLY_STRING )
-			int alt26=4;
+			int alt28=4;
 			switch ( input.LA(1) ) {
 			case NAME:
 				{
-				alt26=1;
+				alt28=1;
 				}
 				break;
 			case NUMBER:
 				{
-				alt26=2;
+				alt28=2;
 				}
 				break;
 			case NEWLINE:
 				{
-				int LA26_3 = input.LA(2);
-				if ( (LA26_3==STRING) ) {
-					alt26=3;
+				int LA28_3 = input.LA(2);
+				if ( (LA28_3==STRING) ) {
+					alt28=3;
 				}
-				else if ( (LA26_3==CURLY_STRING) ) {
-					alt26=4;
+				else if ( (LA28_3==CURLY_STRING) ) {
+					alt28=4;
 				}
 
 				else {
@@ -1405,7 +1443,7 @@ public class EclParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 26, 3, input);
+							new NoViableAltException("", 28, 3, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1416,52 +1454,52 @@ public class EclParser extends Parser {
 				break;
 			case STRING:
 				{
-				alt26=3;
+				alt28=3;
 				}
 				break;
 			case CURLY_STRING:
 				{
-				alt26=4;
+				alt28=4;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 26, 0, input);
+					new NoViableAltException("", 28, 0, input);
 				throw nvae;
 			}
-			switch (alt26) {
+			switch (alt28) {
 				case 1 :
 					// Ecl.g:239:3: d= NAME
 					{
-					d=(Token)match(input,NAME,FOLLOW_NAME_in_simple_value570); 
+					d=(Token)match(input,NAME,FOLLOW_NAME_in_simple_value576);
 					}
 					break;
 				case 2 :
 					// Ecl.g:239:10: d= NUMBER
 					{
-					d=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_simple_value574); 
+					d=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_simple_value580);
 					}
 					break;
 				case 3 :
 					// Ecl.g:239:19: ( NEWLINE )? d2= string
 					{
 					// Ecl.g:239:19: ( NEWLINE )?
-					int alt24=2;
-					int LA24_0 = input.LA(1);
-					if ( (LA24_0==NEWLINE) ) {
-						alt24=1;
+					int alt26=2;
+					int LA26_0 = input.LA(1);
+					if ( (LA26_0==NEWLINE) ) {
+						alt26=1;
 					}
-					switch (alt24) {
+					switch (alt26) {
 						case 1 :
 							// Ecl.g:239:19: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value576); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value582);
 							}
 							break;
 
 					}
 
-					pushFollow(FOLLOW_string_in_simple_value581);
+					pushFollow(FOLLOW_string_in_simple_value587);
 					d2=string();
 					state._fsp--;
 
@@ -1471,22 +1509,22 @@ public class EclParser extends Parser {
 					// Ecl.g:239:38: ( NEWLINE )? d3= CURLY_STRING
 					{
 					// Ecl.g:239:38: ( NEWLINE )?
-					int alt25=2;
-					int LA25_0 = input.LA(1);
-					if ( (LA25_0==NEWLINE) ) {
-						alt25=1;
+					int alt27=2;
+					int LA27_0 = input.LA(1);
+					if ( (LA27_0==NEWLINE) ) {
+						alt27=1;
 					}
-					switch (alt25) {
+					switch (alt27) {
 						case 1 :
 							// Ecl.g:239:38: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value583); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_simple_value589);
 							}
 							break;
 
 					}
 
-					d3=(Token)match(input,CURLY_STRING,FOLLOW_CURLY_STRING_in_simple_value588); 
+					d3=(Token)match(input,CURLY_STRING,FOLLOW_CURLY_STRING_in_simple_value594);
 					}
 					break;
 
@@ -1494,7 +1532,7 @@ public class EclParser extends Parser {
 
 			 
 			    AstLiteral literal = AstFactory.eINSTANCE.createAstLiteral();
-			    Token t = input.LT(-1);    
+			    Token t = input.LT(-1);
 			    literal.setLine(t.getLine());
 			    literal.setColumn(t.getCharPositionInLine());
 			    literal.setLength(t.getText().length());
@@ -1522,7 +1560,7 @@ public class EclParser extends Parser {
 			            }
 			          }
 			          result.append(ch);
-			        }                      
+			        }
 			        p.setLiteral(result.toString());
 			  		}
 			      else if( d3 != null ) {
@@ -1563,34 +1601,34 @@ public class EclParser extends Parser {
 			// Ecl.g:280:2: (n= NAME ( ( '=' )? (v= argument_value ) )? )
 			// Ecl.g:280:3: n= NAME ( ( '=' )? (v= argument_value ) )?
 			{
-			n=(Token)match(input,NAME,FOLLOW_NAME_in_named_argument607); 
+			n=(Token)match(input,NAME,FOLLOW_NAME_in_named_argument613);
 			// Ecl.g:280:10: ( ( '=' )? (v= argument_value ) )?
-			int alt28=2;
-			int LA28_0 = input.LA(1);
-			if ( (LA28_0==CURLY_STRING||LA28_0==LBRACK||LA28_0==NAME||LA28_0==NUMBER||LA28_0==STRING||LA28_0==26||LA28_0==28) ) {
-				alt28=1;
+			int alt30=2;
+			int LA30_0 = input.LA(1);
+			if ( (LA30_0==CURLY_STRING||LA30_0==LBRACK||LA30_0==NAME||LA30_0==NUMBER||LA30_0==STRING||LA30_0==26||LA30_0==28) ) {
+				alt30=1;
 			}
-			else if ( (LA28_0==NEWLINE) ) {
-				int LA28_4 = input.LA(2);
-				if ( (LA28_4==CURLY_STRING||LA28_4==LBRACK||LA28_4==STRING) ) {
-					alt28=1;
+			else if ( (LA30_0==NEWLINE) ) {
+				int LA30_4 = input.LA(2);
+				if ( (LA30_4==CURLY_STRING||LA30_4==LBRACK||LA30_4==STRING) ) {
+					alt30=1;
 				}
 			}
-			switch (alt28) {
+			switch (alt30) {
 				case 1 :
 					// Ecl.g:280:11: ( '=' )? (v= argument_value )
 					{
 					// Ecl.g:280:11: ( '=' )?
-					int alt27=2;
-					int LA27_0 = input.LA(1);
-					if ( (LA27_0==28) ) {
-						alt27=1;
+					int alt29=2;
+					int LA29_0 = input.LA(1);
+					if ( (LA29_0==28) ) {
+						alt29=1;
 					}
-					switch (alt27) {
+					switch (alt29) {
 						case 1 :
 							// Ecl.g:280:11: '='
 							{
-							match(input,28,FOLLOW_28_in_named_argument610); 
+							match(input,28,FOLLOW_28_in_named_argument616);
 							}
 							break;
 
@@ -1599,7 +1637,7 @@ public class EclParser extends Parser {
 					// Ecl.g:280:16: (v= argument_value )
 					// Ecl.g:280:17: v= argument_value
 					{
-					pushFollow(FOLLOW_argument_value_in_named_argument616);
+					pushFollow(FOLLOW_argument_value_in_named_argument622);
 					v=argument_value();
 					state._fsp--;
 
@@ -1613,7 +1651,7 @@ public class EclParser extends Parser {
 			}
 
 
-			  if (v == null){    
+			  if (v == null){
 			    LiteralParameter l = factory.createLiteralParameter();
 			    l.setLiteral("true");
 			    param=l;
@@ -1654,9 +1692,9 @@ public class EclParser extends Parser {
 			// Ecl.g:293:2: (f= NAME COLON v= CURLY_STRING )
 			// Ecl.g:293:3: f= NAME COLON v= CURLY_STRING
 			{
-			f=(Token)match(input,NAME,FOLLOW_NAME_in_convert_string638); 
-			match(input,COLON,FOLLOW_COLON_in_convert_string640); 
-			v=(Token)match(input,CURLY_STRING,FOLLOW_CURLY_STRING_in_convert_string644); 
+			f=(Token)match(input,NAME,FOLLOW_NAME_in_convert_string644);
+			match(input,COLON,FOLLOW_COLON_in_convert_string646);
+			v=(Token)match(input,CURLY_STRING,FOLLOW_CURLY_STRING_in_convert_string650);
 			}
 
 
@@ -1695,69 +1733,69 @@ public class EclParser extends Parser {
 			// Ecl.g:322:33: (f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )* )
 			// Ecl.g:323:3: f= STRING ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
 			{
-			f=(Token)match(input,STRING,FOLLOW_STRING_in_string741); 
-			StringBuilder sb = 
+			f=(Token)match(input,STRING,FOLLOW_STRING_in_string747);
+			StringBuilder sb =
 			    new StringBuilder(f.getText().substring(1, f.getText().length()-1));
 			// Ecl.g:325:3: ( ( NEWLINE )? '+' ( NEWLINE )? r= STRING )*
-			loop31:
+			loop33:
 			while (true) {
-				int alt31=2;
-				int LA31_0 = input.LA(1);
-				if ( (LA31_0==NEWLINE) ) {
-					int LA31_1 = input.LA(2);
-					if ( (LA31_1==27) ) {
-						alt31=1;
+				int alt33=2;
+				int LA33_0 = input.LA(1);
+				if ( (LA33_0==NEWLINE) ) {
+					int LA33_1 = input.LA(2);
+					if ( (LA33_1==27) ) {
+						alt33=1;
 					}
 
 				}
-				else if ( (LA31_0==27) ) {
-					alt31=1;
+				else if ( (LA33_0==27) ) {
+					alt33=1;
 				}
 
-				switch (alt31) {
+				switch (alt33) {
 				case 1 :
 					// Ecl.g:325:4: ( NEWLINE )? '+' ( NEWLINE )? r= STRING
 					{
 					// Ecl.g:325:4: ( NEWLINE )?
-					int alt29=2;
-					int LA29_0 = input.LA(1);
-					if ( (LA29_0==NEWLINE) ) {
-						alt29=1;
+					int alt31=2;
+					int LA31_0 = input.LA(1);
+					if ( (LA31_0==NEWLINE) ) {
+						alt31=1;
 					}
-					switch (alt29) {
+					switch (alt31) {
 						case 1 :
 							// Ecl.g:325:4: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_string749); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_string755);
 							}
 							break;
 
 					}
 
-					match(input,27,FOLLOW_27_in_string752); 
+					match(input,27,FOLLOW_27_in_string758);
 					// Ecl.g:325:17: ( NEWLINE )?
-					int alt30=2;
-					int LA30_0 = input.LA(1);
-					if ( (LA30_0==NEWLINE) ) {
-						alt30=1;
+					int alt32=2;
+					int LA32_0 = input.LA(1);
+					if ( (LA32_0==NEWLINE) ) {
+						alt32=1;
 					}
-					switch (alt30) {
+					switch (alt32) {
 						case 1 :
 							// Ecl.g:325:17: NEWLINE
 							{
-							match(input,NEWLINE,FOLLOW_NEWLINE_in_string754); 
+							match(input,NEWLINE,FOLLOW_NEWLINE_in_string760);
 							}
 							break;
 
 					}
 
-					r=(Token)match(input,STRING,FOLLOW_STRING_in_string759); 
+					r=(Token)match(input,STRING,FOLLOW_STRING_in_string765);
 					sb.append(r.getText().substring(1, r.getText().length()-1));
 					}
 					break;
 
 				default :
-					break loop31;
+					break loop33;
 				}
 			}
 
@@ -1813,35 +1851,37 @@ public class EclParser extends Parser {
 	public static final BitSet FOLLOW_MINUS_in_named_command388 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_argument_in_named_command393 = new BitSet(new long[]{0x0000000000028002L});
 	public static final BitSet FOLLOW_NEWLINE_in_subcommand415 = new BitSet(new long[]{0x0000000000000800L});
-	public static final BitSet FOLLOW_LBRACK_in_subcommand418 = new BitSet(new long[]{0x0000000004114200L});
-	public static final BitSet FOLLOW_open_expr_list_in_subcommand426 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_RBRACK_in_subcommand432 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_26_in_subcommand437 = new BitSet(new long[]{0x0000000000010200L});
-	public static final BitSet FOLLOW_command_name_in_subcommand441 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_command_name461 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DNAME_in_command_name468 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_29_in_host486 = new BitSet(new long[]{0x0000000000010400L});
-	public static final BitSet FOLLOW_NAME_in_host491 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_IP4_in_host495 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_named_argument_in_argument517 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_simple_value_in_argument_value538 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_subcommand_in_argument_value545 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_convert_string_in_argument_value553 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_simple_value570 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NUMBER_in_simple_value574 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NEWLINE_in_simple_value576 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_string_in_simple_value581 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NEWLINE_in_simple_value583 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_CURLY_STRING_in_simple_value588 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_named_argument607 = new BitSet(new long[]{0x0000000015070882L});
-	public static final BitSet FOLLOW_28_in_named_argument610 = new BitSet(new long[]{0x0000000005070880L});
-	public static final BitSet FOLLOW_argument_value_in_named_argument616 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_convert_string638 = new BitSet(new long[]{0x0000000000000020L});
-	public static final BitSet FOLLOW_COLON_in_convert_string640 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_CURLY_STRING_in_convert_string644 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_STRING_in_string741 = new BitSet(new long[]{0x0000000008020002L});
-	public static final BitSet FOLLOW_NEWLINE_in_string749 = new BitSet(new long[]{0x0000000008000000L});
-	public static final BitSet FOLLOW_27_in_string752 = new BitSet(new long[]{0x0000000001020000L});
-	public static final BitSet FOLLOW_NEWLINE_in_string754 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_STRING_in_string759 = new BitSet(new long[]{0x0000000008020002L});
+	public static final BitSet FOLLOW_LBRACK_in_subcommand418 = new BitSet(new long[]{0x0000000004134200L});
+	public static final BitSet FOLLOW_NEWLINE_in_subcommand420 = new BitSet(new long[]{0x0000000004134200L});
+	public static final BitSet FOLLOW_open_expr_list_in_subcommand429 = new BitSet(new long[]{0x0000000000120000L});
+	public static final BitSet FOLLOW_NEWLINE_in_subcommand435 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_RBRACK_in_subcommand438 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_26_in_subcommand443 = new BitSet(new long[]{0x0000000000010200L});
+	public static final BitSet FOLLOW_command_name_in_subcommand447 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_command_name467 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DNAME_in_command_name474 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_29_in_host492 = new BitSet(new long[]{0x0000000000010400L});
+	public static final BitSet FOLLOW_NAME_in_host497 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_IP4_in_host501 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_named_argument_in_argument523 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_simple_value_in_argument_value544 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_subcommand_in_argument_value551 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_convert_string_in_argument_value559 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_simple_value576 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NUMBER_in_simple_value580 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NEWLINE_in_simple_value582 = new BitSet(new long[]{0x0000000001000000L});
+	public static final BitSet FOLLOW_string_in_simple_value587 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NEWLINE_in_simple_value589 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_CURLY_STRING_in_simple_value594 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_named_argument613 = new BitSet(new long[]{0x0000000015070882L});
+	public static final BitSet FOLLOW_28_in_named_argument616 = new BitSet(new long[]{0x0000000005070880L});
+	public static final BitSet FOLLOW_argument_value_in_named_argument622 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_convert_string644 = new BitSet(new long[]{0x0000000000000020L});
+	public static final BitSet FOLLOW_COLON_in_convert_string646 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_CURLY_STRING_in_convert_string650 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_STRING_in_string747 = new BitSet(new long[]{0x0000000008020002L});
+	public static final BitSet FOLLOW_NEWLINE_in_string755 = new BitSet(new long[]{0x0000000008000000L});
+	public static final BitSet FOLLOW_27_in_string758 = new BitSet(new long[]{0x0000000001020000L});
+	public static final BitSet FOLLOW_NEWLINE_in_string760 = new BitSet(new long[]{0x0000000001000000L});
+	public static final BitSet FOLLOW_STRING_in_string765 = new BitSet(new long[]{0x0000000008020002L});
 }

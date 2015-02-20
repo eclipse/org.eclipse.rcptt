@@ -87,15 +87,15 @@ public abstract class AbstractSession implements ISession {
 		} catch (CoreException e) {
 			s = e.getStatus();
 		} catch (InterruptedException ie) {
-			s = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
-					ie.getMessage(), ie);
-			log(err(ie.getMessage(), ie));
+			log(s = err(ie));
 		} catch (Throwable t) {
-			s = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, t.getMessage(),
-					t);
-			log(err(t.getMessage(), t));
+			log(s = err(t));
 		} finally {
-			SessionListenerManager.endCommand(scriptlet, s);
+			try {
+				SessionListenerManager.endCommand(scriptlet, s);
+			} catch (Throwable e) {
+				log(s = err(e));
+			}
 			CommandStack.fireExit(stack);
 			try {
 				process.setStatus(s);
@@ -110,6 +110,7 @@ public abstract class AbstractSession implements ISession {
 			}
 		}
 	}
+
 
 	protected void setupInputFeature(Command scriptlet,
 			List<Object> inputContent) throws CoreException {

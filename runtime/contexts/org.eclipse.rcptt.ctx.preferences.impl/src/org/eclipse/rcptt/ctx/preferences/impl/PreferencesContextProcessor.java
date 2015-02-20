@@ -31,12 +31,10 @@ import org.eclipse.jface.util.OpenStrategy;
 import org.osgi.framework.Bundle;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
-
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.preferences.PrefUtils;
-import org.eclipse.rcptt.internal.runtime.ui.UIRunnable;
 import org.eclipse.rcptt.preferences.PrefData;
 import org.eclipse.rcptt.preferences.PrefNode;
 import org.eclipse.rcptt.preferences.PreferencesContext;
@@ -45,6 +43,7 @@ import org.eclipse.rcptt.preferences.SecurePrefNode;
 import org.eclipse.rcptt.preferences.SettingsNode;
 import org.eclipse.rcptt.preferences.StringPrefData;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 

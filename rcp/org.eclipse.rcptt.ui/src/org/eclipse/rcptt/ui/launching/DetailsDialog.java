@@ -11,6 +11,8 @@
 package org.eclipse.rcptt.ui.launching;
 
 import java.io.ByteArrayInputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +21,10 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.reporting.core.ImageEntry;
+import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
-import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
-import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
-import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
-import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -50,12 +42,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import com.google.common.base.Strings;
-
 public final class DetailsDialog extends Dialog {
 	@SuppressWarnings("unused")
 	private AdvancedInformation info;
-	private static final String LINE_SEPARATOR = System
+	static final String LINE_SEPARATOR = System
 			.getProperty("line.separator"); //$NON-NLS-1$
 	private StyledText text;
 	private Report report;
@@ -71,11 +61,6 @@ public final class DetailsDialog extends Dialog {
 	@Override
 	protected boolean isResizable() {
 		return true;
-	}
-
-	private static class ImageEntry {
-		byte[] data;
-		String description;
 	}
 
 	private List<ImageEntry> images = new ArrayList<ImageEntry>();
@@ -204,7 +189,12 @@ public final class DetailsDialog extends Dialog {
 		// value = new AdvancedInformationGenerator().generateContent(info);
 		// }
 		if (report != null) {
-			value += "\n" + new RcpttReportGenerator(this.report, this.images).generateContent(report);
+			StringWriter writer = new StringWriter();
+
+			PrintWriter printWriter = new PrintWriter(writer);
+			printWriter.println("Report:");
+			new RcpttReportGenerator(printWriter, this.images).writeReport(report, 1);
+			value = writer.toString();
 		}
 		text.setText(value);
 	}
@@ -231,159 +221,5 @@ public final class DetailsDialog extends Dialog {
 		showImage(descriptionField, imageControl, selection);
 		Point size = imageControl.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		sc.setMinSize(size);
-	}
-
-	private static class RcpttReportGenerator extends SimpleReportGenerator {
-		private final List<ImageEntry> images;
-		private final Report report;
-
-		public RcpttReportGenerator(Report report, List<ImageEntry> images) {
-			this.report = report;
-			this.images = images;
-		}
-
-		@Override
-		public StringBuilder toString(StringBuilder builder,
-				int tabs, org.eclipse.emf.ecore.EObject obj,
-				String... ignores) {
-			if (obj instanceof AdvancedInformation) {
-				String content = new AdvancedInformationGenerator()
-						.generateContent((AdvancedInformation) obj);
-				builder.append(content);
-				return builder;
-			}
-			return super.toString(builder, tabs, obj, ignores);
-		};
-
-		@Override
-		public void printNode(
-				org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node infoNode,
-				StringBuilder stringBuilder, int tabs, boolean includeWaitDetails) {
-
-			writeQ7Info(stringBuilder, tabs, infoNode);
-
-			if (includeWaitDetails) {
-				writeQ7WaitInfo(stringBuilder, tabs, infoNode);
-			}
-
-			writeLogsFromNode(stringBuilder, tabs, infoNode);
-
-			printChildren(stringBuilder, tabs, infoNode, includeWaitDetails);
-
-			if (!includeWaitDetails) {
-				for (Event child : infoNode.getEvents()) {
-					if (child.getData() instanceof EclipseStatus) {
-						printStatus(
-								(EclipseStatus) child.getData(),
-								tabs + 6, stringBuilder);
-					}
-				}
-
-				for (Snaphot child : infoNode.getSnapshots()) {
-					if (child.getData() instanceof Screenshot) {
-						Screenshot shot = (Screenshot) child
-								.getData();
-						ImageEntry e = new ImageEntry();
-						e.data = shot.getData();
-						e.description = shot.getMessage()
-								+ ": "
-								+ TimeFormatHelper.format(child
-										.getTime()
-										- report.getRoot()
-												.getStartTime());
-						images.add(e);
-					} else {
-						printSnapshot(child, stringBuilder, tabs + 4);
-					}
-				}
-			}
-		}
-
-		private void printChildren(StringBuilder stringBuilder, int tabs, Node infoNode, boolean includeWaitDetails) {
-			for (Node child : infoNode.getChildren()) {
-				printNode(child, stringBuilder, tabs + 4, includeWaitDetails);
-			}
-		}
-
-		private void writeQ7WaitInfo(StringBuilder stringBuilder, int tabs, Node infoNode) {
-			Q7WaitInfoRoot waitInfo = ReportHelper.getWaitInfo(infoNode, false);
-			if (waitInfo != null) {
-				printWaitInfo(stringBuilder, tabs, "", waitInfo);
-			}
-		}
-
-		private void writeQ7Info(StringBuilder stringBuilder, int tabs, Node infoNode) {
-			Q7Info q7Info = ReportHelper.getInfo(infoNode);
-			appendTabs(stringBuilder, tabs);
-			if (q7Info != null) {
-				switch (q7Info.getType()) {
-				case TESTCASE:
-					stringBuilder.append(Messages.bind(
-							Messages.DetailsDialog_TestCase,
-							infoNode.getName()));
-					break;
-				case SCRIPT:
-					stringBuilder.append(Messages.bind(
-							Messages.DetailsDialog_Script,
-							infoNode.getName()));
-					break;
-				case CONTEXT:
-					stringBuilder.append(Messages.bind(
-							Messages.DetailsDialog_Context,
-							infoNode.getName()));
-					break;
-				case VERIFICATION:
-					stringBuilder.append(Messages.bind(
-							Messages.DetailsDialog_Verifications,
-							infoNode.getName(), q7Info.getPhase()));
-					break;
-				case ECL_COMMAND:
-					stringBuilder.append(Messages.bind(
-							Messages.DetailsDialog_EclCommand,
-							infoNode.getName()));
-					break;
-				case TEST_SUITE:
-					// TODO: Check it later.
-					break;
-				default:
-					break;
-				}
-				stringBuilder.append(" ") //$NON-NLS-1$
-						.append(Messages
-								.bind(Messages.DetailsDialog_TimeFragment,
-										TimeFormatHelper.format(infoNode
-												.getEndTime()
-												- infoNode
-														.getStartTime())))
-						.append(LINE_SEPARATOR);
-			}
-		}
-
-		private void writeLogsFromNode(StringBuilder builder, int tabs, Node infoNode) {
-			boolean haveEntries = false;
-			for (LoggingCategory logCategory : LoggingCategory.VALUES) {
-				String log = ReportBuilder.getLogs(infoNode, logCategory);
-				if (!Strings.isNullOrEmpty(log)) {
-					if (!haveEntries) {
-						haveEntries = true;
-						appendTabs(builder, tabs)
-								.append("--------------Logs BEGIN-------------------")
-								.append(LINE_SEPARATOR);
-					}
-
-					for (String logLine : log.split(LINE_SEPARATOR)) {
-						appendTabs(builder, tabs)
-								.append(logLine)
-								.append(LINE_SEPARATOR);
-					}
-				}
-			}
-
-			if (haveEntries) {
-				appendTabs(builder, tabs)
-						.append("--------------Logs END-------------------")
-						.append(LINE_SEPARATOR);
-			}
-		}
 	}
 }
