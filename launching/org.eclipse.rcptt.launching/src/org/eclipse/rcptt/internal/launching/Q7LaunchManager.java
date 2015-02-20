@@ -13,6 +13,7 @@ package org.eclipse.rcptt.internal.launching;
 import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -508,6 +509,11 @@ public class Q7LaunchManager {
 
 			for (IVerification v : verifications)
 				try {
+					if (v == null)
+						throw new NullPointerException();
+					if (v.getType() == null)
+						throw new NullPointerException();
+
 					if (v.getType().supportsPhase(VerificationType.PHASE_START))
 						plan.add(makeVerificationExecutable(v, ExecutionPhase.START));
 				} catch (ModelException e) {
@@ -564,6 +570,8 @@ public class Q7LaunchManager {
 							test, finder, false);
 					IVerification[] verifications = RcpttCore.getInstance().getVerifications(
 							test, finder, false);
+					assert !Arrays.asList(verifications).contains(null) : "Null verification in "
+							+ test.getElementName();
 
 					List<IContext> superContexts = SuperContextSupport
 							.findSuperContexts(contexts);

@@ -49,7 +49,10 @@ public class VerificationTypeManager {
 
 	public VerificationType getTypeByVerification(Verification verification) {
 		init();
-		return classToType.get(verification.eClass());
+		VerificationType rv = classToType.get(verification.eClass());
+		if (rv == null)
+			throw new IllegalArgumentException("Unknown verification type " + verification.eClass().getName());
+		return rv;
 	}
 
 	private static Map<String, String> legacyTypes = new HashMap<String, String>();
