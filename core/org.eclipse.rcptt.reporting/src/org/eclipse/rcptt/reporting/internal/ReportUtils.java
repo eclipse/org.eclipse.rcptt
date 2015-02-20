@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
-import org.eclipse.rcptt.ecl.gen.ast.ScriptProcessStatus;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
@@ -269,11 +268,9 @@ public class ReportUtils {
 	}
 
 	private static String getFailMessage(ProcessStatus result) {
-		if (result instanceof ScriptProcessStatus) {
-			ProcessStatus firstFail = getFirstFail(result.getChildren());
-			if (firstFail != null)
-				return result.getMessage() + ": " + getFailMessage(firstFail);
-		}
+		ProcessStatus firstFail = getFirstFail(result.getChildren());
+		if (firstFail != null)
+			return result.getMessage() + ": " + getFailMessage(firstFail);
 		return result.getMessage();
 	}
 
