@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.rcptt.core.scenario.UnresolvedVerification;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
@@ -49,6 +50,9 @@ public class VerificationTypeManager {
 
 	public VerificationType getTypeByVerification(Verification verification) {
 		init();
+		if (verification instanceof UnresolvedVerification) {
+			return UnresolvedType.INSTANCE;
+		}
 		VerificationType rv = classToType.get(verification.eClass());
 		if (rv == null)
 			throw new IllegalArgumentException("Unknown verification type " + verification.eClass().getName());
@@ -129,7 +133,7 @@ public class VerificationTypeManager {
 				.getConfigurationElementsFor(EXPT_ID);
 		for (IConfigurationElement element : elements) {
 			try {
-				VerificationType type = new VerificationType(element);
+				VerificationType type = new ResolvedVerificationType(element);
 				list.add(type);
 				classToType.put(type.getEClass(), type);
 				idToType.put(type.getId(), type);
