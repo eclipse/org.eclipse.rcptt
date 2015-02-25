@@ -164,8 +164,7 @@ public class PrepareExecutionWrapper extends Executable {
 				throw new CoreException(createStatus("Expected item id: " + id + ", actual report id: " + reportId));
 			}
 		} catch (CoreException e) {
-			IQ7NamedElement element = executable.getActualElement();
-			resultReport = TestSuiteUtils.generateReport(element, e.getStatus());
+			resultReport = generateReport(e.getStatus());
 		}
 		Q7Info info = ReportHelper.getInfoOnly(resultReport.getRoot());
 		if (info != null) {
