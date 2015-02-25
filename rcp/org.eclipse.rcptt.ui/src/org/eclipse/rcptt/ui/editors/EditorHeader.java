@@ -457,7 +457,7 @@ public abstract class EditorHeader {
 
 			public void launchStatusChanged(IExecutable... executable) {
 				for (IExecutable e : executable) {
-					if (e.getStatus() == IExecutable.State.FAILED) {
+					if (!e.getResultStatus().isOK()) {
 						countAtom.set(0);
 					}
 				}

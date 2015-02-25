@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.debug.core.DebugPlugin;
@@ -80,8 +81,8 @@ public class Q7Launcher {
 		return getManager().isRunning();
 	}
 
-	public void stop() {
-		getManager().stop();
+	public void stop(IStatus result) {
+		getManager().stop(result);
 	}
 
 	public IExecutionSession execute(final IQ7NamedElement[] elements, Aut aut,

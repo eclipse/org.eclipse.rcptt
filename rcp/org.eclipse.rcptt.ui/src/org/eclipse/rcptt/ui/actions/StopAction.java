@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.actions;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
-
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.launching.IExecutionSession;
@@ -36,7 +38,8 @@ public class StopAction extends Action {
 
     @Override
     public void run() {
-        getLauncher().stop();
+		getLauncher().stop(
+				new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, "Execution is stopped from Execution view"));
         updateEnablement(null);
     }
 

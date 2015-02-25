@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.aut.ConsoleOutputListener;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
@@ -27,7 +28,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 
 public abstract class Executable implements IExecutable {
-
 	protected static final Executable[] EMPTY = new Executable[0];
 	private static final IStatus cancelledForPreviousFailures = new Status(IStatus.CANCEL, PLUGIN_ID,
 			"Execution was canceled due to previous failures");
@@ -36,7 +36,7 @@ public abstract class Executable implements IExecutable {
 
 	private final boolean debug;
 	private final boolean collectLog;
-	private IStatus result;
+	private volatile IStatus result;
 	private State state = State.WAITING;
 	private long time;
 
@@ -92,6 +92,19 @@ public abstract class Executable implements IExecutable {
 		}
 	}
 
+	private void setResult(IStatus result) {
+		boolean changed = false;
+		synchronized (this) {
+			if (this.result == null) {
+				this.result = result;
+				changed = true;
+				state = State.COMPLETED;
+			}
+		}
+		if (changed)
+			listeners.onStatusChange(this);
+	}
+
 	public void addListener(Listener listener) {
 		listeners.add(listener);
 	}
@@ -105,19 +118,18 @@ public abstract class Executable implements IExecutable {
 			throw new IllegalStateException("Can't start in " + state + " state");
 		if (collectLog)
 			consoleListener.startLogging(getAut());
-		state = State.LAUNCHING;
+		state = State.RUNNING;
 		long startTime = System.currentTimeMillis();
+		IStatus localResult = null;
 		try {
 			startLaunching();
 			listeners.onStatusChange(this);
-			result = execute();
-			if (result == null)
-				throw new NullPointerException("Null result");
-			if (!result.isOK()) {
-				return;
-			}
+			localResult = execute();
+			Preconditions.checkNotNull(localResult);
 			for (final Executable child : getChildren()) {
-				if (!result.isOK()) {
+				if (result != null)
+					localResult = result;
+				if (!localResult.isOK()) {
 					child.cancel(cancelledForPreviousFailures);
 					continue;
 				}
@@ -126,47 +138,36 @@ public abstract class Executable implements IExecutable {
 					child.executeAndRememberResult();
 					IStatus rv = handleChildResult(child.getResultStatus());
 					if (!rv.isOK()) {
-						result = rv;
+						localResult = rv;
 					}
 				} finally {
 					child.removeListener(listeners);
 				}
 			}
 		} catch (InterruptedException e) {
-			result = Status.CANCEL_STATUS;
-			state = State.FAILED;
+			localResult = RcpttPlugin.createStatus("Execution was unexpectedly terminated", e);
 			throw e;
 		} catch (Throwable e) {
-			result = Q7LaunchingPlugin.createStatus(e);
-			state = State.FAILED;
+			localResult = Q7LaunchingPlugin.createStatus(e);
 		} finally {
 			time = System.currentTimeMillis() - startTime;
 			try {
-				Preconditions.checkNotNull(result);
+				Preconditions.checkNotNull(localResult);
 				try {
-					result = postExecute(result);
+					localResult = postExecute(localResult);
 				} catch (Throwable e) {
-					result = Q7LaunchingPlugin.createStatus(e);
+					localResult = Q7LaunchingPlugin.createStatus(e);
 				}
 			} finally {
-				state = (result != null && result.isOK()) ? State.PASSED : State.FAILED;
-				listeners.onStatusChange(this);
+				setResult(localResult);
+
 			}
 			consoleListener.stopLogging();
 		}
 	}
 
 	public void cancel(IStatus status) {
-		switch (state) {
-		case LAUNCHING:
-		case WAITING:
-			result = status;
-			state = State.FAILED;
-			listeners.onStatusChange(this);
-		case PASSED:
-		case FAILED:
-			break;
-		}
+		setResult(status);
 		for (final Executable child : getChildren()) {
 			child.addListener(listeners);
 			try {
@@ -247,17 +248,13 @@ public abstract class Executable implements IExecutable {
 	}
 
 	@Override
-	public final IStatus getResultStatus() {
-		switch (state) {
-		case PASSED:
-			return Status.OK_STATUS;
-		case WAITING:
-		case LAUNCHING:
-			return result == null ? Status.OK_STATUS : result;
-		case FAILED:
-			return result;
-		}
-		throw new IllegalStateException("Unknown state");
+	public synchronized final IStatus getResultStatus() {
+		IStatus localResult = this.result;
+		Preconditions.checkState(localResult != null || state != State.COMPLETED,
+				"Result should always be set in COMPLETED state");
+		if (localResult != null)
+			return localResult;
+		return Status.OK_STATUS;
 	}
 
 	@Override

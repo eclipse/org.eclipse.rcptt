@@ -12,6 +12,7 @@ package org.eclipse.rcptt.launching;
 
 import java.util.Date;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.rcptt.internal.launching.Q7TestLaunch;
 
 public interface IExecutionSession {
@@ -31,10 +32,6 @@ public interface IExecutionSession {
 	public Date getStartTime();
 
 	public boolean isRunning();
-
-	public boolean isTerminated();
-
-	public int getResultStatus();
 
 	public int getTotalCount();
 
@@ -59,4 +56,6 @@ public interface IExecutionSession {
 	public void addListener(IExecutionSessionListener listener);
 
 	public void removeListener(IExecutionSessionListener listener);
+
+	public IStatus getResultStatus();
 }

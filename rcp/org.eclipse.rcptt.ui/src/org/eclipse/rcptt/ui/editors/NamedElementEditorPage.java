@@ -20,6 +20,15 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.internal.ui.HookUtils;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.launching.IExecutable;
+import org.eclipse.rcptt.launching.IExecutionSession;
+import org.eclipse.rcptt.launching.ILaunchListener;
+import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -37,16 +46,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.internal.ui.HookUtils;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.launching.IExecutable;
-import org.eclipse.rcptt.launching.IExecutionSession;
-import org.eclipse.rcptt.launching.ILaunchListener;
-import org.eclipse.rcptt.launching.Q7Launcher;
-import org.eclipse.rcptt.ui.launching.LaunchUtils;
 
 public abstract class NamedElementEditorPage extends FormPage implements
 		IQ7NamedElementEditorPage {
@@ -212,7 +211,7 @@ public abstract class NamedElementEditorPage extends FormPage implements
 
 				public void launchStatusChanged(IExecutable... executable) {
 					for (IExecutable e : executable) {
-						if (e.getStatus() == IExecutable.State.FAILED) {
+						if (!e.getResultStatus().isOK()) {
 							count[0] = 0;
 						}
 					}

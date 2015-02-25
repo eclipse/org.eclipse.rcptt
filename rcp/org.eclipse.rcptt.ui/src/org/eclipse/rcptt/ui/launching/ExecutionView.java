@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -52,6 +53,7 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7Context;
 import org.eclipse.rcptt.internal.launching.EclStackTrace;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
@@ -66,6 +68,7 @@ import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.IExecutionSession.IExecutionSessionListener;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.reporting.core.IndentedWriter;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
@@ -657,24 +660,23 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		for (IExecutable executable : executables) {
 			i++;
 			State state = executable.getStatus();
-			if (IExecutable.State.PASSED == state
-					|| IExecutable.State.FAILED == state) {
-			}
-
+			IStatus result = executable.getResultStatus();
+			boolean failed = result.matches(~IStatus.INFO);
 			// scroll only to last element
-			if (!scrollState && i == executables.length && !executable.getResultStatus().matches(IStatus.CANCEL)) {
+			if (!scrollState && i == executables.length && !result.matches(IStatus.CANCEL)) {
 				viewer.setSelection(new StructuredSelection(executable), true);
 			}
-			if ((IExecutable.State.PASSED == state)) {
+			if (IExecutable.State.COMPLETED == state && !failed) {
 				// Collapse item if passed
 				viewer.collapseToLevel(executable, TreeViewer.ALL_LEVELS);
-			} else if (IExecutable.State.LAUNCHING == state) {
+			} else if (IExecutable.State.RUNNING == state) {
 				viewer.expandToLevel(executable, 1);
 			}
 
-			if (IExecutable.State.FAILED == state
-					&& stopOnFirstFailAction.getValue()) {
-				Q7Launcher.getInstance().stop();
+			if (failed && stopOnFirstFailAction.getValue()) {
+				MultiStatus status = new MultiStatus(RcpttPlugin.PLUGIN_ID, 0, new IStatus[] { result },
+						"Stopped after previous failure", null);
+				Q7Launcher.getInstance().stop(status);
 			}
 			viewer.refresh(executable);
 		}
@@ -822,17 +824,19 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 						.getImage(Images.EXECUTION_SESSION_RUN));
 			}
 
-			switch (session.getResultStatus()) {
-			case IExecutionSession.OK:
+			SimpleSeverity severity = SimpleSeverity.create(session.getResultStatus());
+			switch (severity) {
+			case OK:
 				return ImageDescriptor.createFromImage(Images
 						.getImage(Images.EXECUTION_SESSION_OK));
-			case IExecutionSession.FAIL:
+			case ERROR:
 				return ImageDescriptor.createFromImage(Images
 						.getImage(Images.EXECUTION_SESSION_FAIL));
-			default:
+			case CANCEL:
 				return ImageDescriptor.createFromImage(Images
 						.getImage(Images.EXECUTION_SESSION));
 			}
+			throw new IllegalStateException("Unknown SimpleSeverity: " + severity);
 
 		}
 

@@ -266,4 +266,5 @@ public class Images {
 	public static ImageDescriptor getImageDescriptor(String key) {
 		return Q7UIPlugin.imageDescriptorFromPlugin(Q7UIPlugin.PLUGIN_ID, key);
 	}
+
 }

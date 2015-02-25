@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,20 +17,19 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 
+import com.google.common.base.Preconditions;
+
 public class ExecutionSession implements IExecutionSession {
 
 	private final String name;
 	private final Executable[] executables;
 	private Date startTime;
-	private boolean running = false;
-	private boolean terminated = false;
 	private final ListenerList listeners = new ListenerList();
 
 	private Executable executable;
@@ -44,6 +41,7 @@ public class ExecutionSession implements IExecutionSession {
 	private Q7TestLaunch launch;
 	private final int testCasesCount;
 	private AutLaunch aut;
+	private volatile IStatus result = null;
 
 	public ExecutionSession(String name, Executable[] executables, AutLaunch aut) {
 		this.name = name;
@@ -125,43 +123,24 @@ public class ExecutionSession implements IExecutionSession {
 		return startTime;
 	}
 
-	public int getResultStatus() {
-		int status = OK;
-		for (IExecutable executable : executables) {
-			switch (executable.getStatus()) {
-			case FAILED:
-				return FAIL;
-			case PASSED:
-				continue;
-			case LAUNCHING:
-			case WAITING:
-				return UNKNOWN;
-			}
-		}
-		return status;
-	}
-
 	public boolean isRunning() {
-		return running;
+		return result == null;
 	}
 
-	public boolean isTerminated() {
-		return terminated;
-	}
-
-	public void start() {
-		this.running = true;
-	}
-
-	public void stop() {
-		this.running = false;
+	public void stop(IStatus result) {
+		// new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped")
+		Preconditions.checkNotNull(result);
+		synchronized (this) {
+			if (this.result == null)
+				this.result = result;
+			result = this.result;
+		}
 		for (Executable ex : executables) {
-			ex.cancel(new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+			ex.cancel(result);
 		}
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).executionFinished();
 		}
-		terminated = true;
 		if (launch != null) {
 			launch.setSession(null);
 		}
@@ -250,6 +229,11 @@ public class ExecutionSession implements IExecutionSession {
 	}
 
 	public boolean isDebugging(AutLaunch aut) {
-		return running && aut.equals(this.aut);
+		return isRunning() && aut.equals(this.aut);
+	}
+
+	@Override
+	public IStatus getResultStatus() {
+		return result;
 	}
 }

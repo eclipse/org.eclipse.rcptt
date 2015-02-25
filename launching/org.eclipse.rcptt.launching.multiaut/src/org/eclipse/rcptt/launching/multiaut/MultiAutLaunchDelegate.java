@@ -22,6 +22,7 @@ import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Script;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.Executable;
 import org.eclipse.rcptt.internal.launching.ExecutionSession;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
@@ -143,7 +144,8 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		public void handleDebugEvents(DebugEvent[] events) {
 			for (DebugEvent event : events) {
 				if (event.getKind() == DebugEvent.TERMINATE && processes.contains(event.getSource())) {
-					Q7LaunchManager.getInstance().stop();
+					Q7LaunchManager.getInstance().stop(
+							RcpttPlugin.createStatus("One of multiple auts " + event.getSource() + " was terminated."));
 				}
 			}
 		}

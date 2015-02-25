@@ -39,7 +39,7 @@ public class LaunchingListener implements ILaunchListener {
 						&& executable.getTime() == 0) {
 					addLogFile(executable, "Before Contexts");
 				} else if (executable instanceof ScenarioExecutable
-						&& executable.getStatus() == IExecutable.State.LAUNCHING) {
+						&& executable.getStatus() == IExecutable.State.RUNNING) {
 					addLogFile(executable, "Before Execution");
 				}
 			}

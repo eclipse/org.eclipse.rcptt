@@ -13,6 +13,7 @@ package org.eclipse.rcptt.ui.launching;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -24,7 +25,7 @@ import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
-import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.StateImageProvider;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
 import org.eclipse.swt.graphics.Image;
@@ -37,62 +38,20 @@ public class ExecutionLabelProvider extends LabelProvider implements
 	@Override
 	public Image getImage(Object element) {
 		IExecutable executable = cast(element);
-		if (executable.getType() == IExecutable.TYPE_SCENARIO) {
-			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
-				return Images.getImage(Images.SCENARIO_STOP);
+
+		try {
+			if (executable.getType() == IExecutable.TYPE_SCENARIO) {
+				return StateImageProvider.TEST.getStateImage(executable.getStatus(), executable.getResultStatus());
+			} else if (executable.getType() == IExecutable.TYPE_CONTEXT) {
+				return StateImageProvider.CONTEXT.getStateImage(executable.getStatus(), executable.getResultStatus());
+			} else if (executable.getType() == IExecutable.TYPE_VERIFICATION) {
+				return StateImageProvider.VERIFICATION.getStateImage(executable.getStatus(),
+						executable.getResultStatus());
+			} else if (executable.getType() == IExecutable.TYPE_TESTSUITE) {
+				return StateImageProvider.SUITE.getStateImage(executable.getStatus(), executable.getResultStatus());
 			}
-			switch (executable.getStatus()) {
-			case WAITING:
-				return Images.getImage(Images.SCENARIO_WAIT);
-			case LAUNCHING:
-				return Images.getImage(Images.SCENARIO_RUN);
-			case PASSED:
-				return Images.getImage(Images.SCENARIO_PASS);
-			case FAILED:
-				return Images.getImage(Images.SCENARIO_FAIL);
-			}
-		} else if (executable.getType() == IExecutable.TYPE_CONTEXT) {
-			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
-				return Images.getImage(Images.CONTEXT_STOP);
-			}
-			switch (executable.getStatus()) {
-			case WAITING:
-				return Images.getImage(Images.CONTEXT_WAIT);
-			case LAUNCHING:
-				return Images.getImage(Images.CONTEXT_RUN);
-			case PASSED:
-				return Images.getImage(Images.CONTEXT_PASS);
-			case FAILED:
-				return Images.getImage(Images.CONTEXT_FAIL);
-			}
-		} else if (executable.getType() == IExecutable.TYPE_VERIFICATION) {
-			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
-				return Images.getImage(Images.VERIFICATION_STOP);
-			}
-			switch (executable.getStatus()) {
-			case WAITING:
-				return Images.getImage(Images.VERIFICATION_WAIT);
-			case LAUNCHING:
-				return Images.getImage(Images.VERIFICATION_RUN);
-			case PASSED:
-				return Images.getImage(Images.VERIFICATION_PASS);
-			case FAILED:
-				return Images.getImage(Images.VERIFICATION_FAIL);
-			}
-		} else if (executable.getType() == IExecutable.TYPE_TESTSUITE) {
-			if (executable.getResultStatus().matches(IStatus.CANCEL)) {
-				return Images.getImage(Images.EXECUTION_SESSION_STOP);
-			}
-			switch (executable.getStatus()) {
-			case WAITING:
-				return Images.getImage(Images.EXECUTION_SESSION);
-			case LAUNCHING:
-				return Images.getImage(Images.EXECUTION_SESSION_RUN);
-			case PASSED:
-				return Images.getImage(Images.EXECUTION_SESSION_OK);
-			case FAILED:
-				return Images.getImage(Images.EXECUTION_SESSION_FAIL);
-			}
+		} catch (CoreException e) {
+			RcpttPlugin.getDefault().getLog().log(e.getStatus());
 		}
 		return null;
 	}
@@ -115,8 +74,7 @@ public class ExecutionLabelProvider extends LabelProvider implements
 					append(executable.getPhase().toString(), StyledString.DECORATIONS_STYLER);
 		}
 
-		if ((executable.getStatus() == IExecutable.State.PASSED
-				|| executable.getStatus() == IExecutable.State.FAILED)
+		if (executable.getStatus() == IExecutable.State.COMPLETED
 				&& !executable.getResultStatus().matches(IStatus.CANCEL)) {
 			styledString.append(" (", StyledString.COUNTER_STYLER); //$NON-NLS-1$
 			long time = executable.getTime();

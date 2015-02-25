@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -97,7 +95,8 @@ public class Q7LaunchManager {
 				Object source = event.getSource();
 				if (q7Process == source
 						&& event.getKind() == DebugEvent.TERMINATE) {
-					Q7LaunchManager.getInstance().stop();
+					Q7LaunchManager.getInstance().stop(
+							RcpttPlugin.createStatus("Aut " + source + " was terminated"));
 				}
 			}
 		}
@@ -106,18 +105,18 @@ public class Q7LaunchManager {
 		public void run() {
 			session.resetCounters();
 			session.setStartTime(new Date());
-			session.start();
 			DebugPlugin.getDefault().addDebugEventListener(this);
 			final Executable[] executables = session.getExecutables();
 
 			Q7LaunchManager.getInstance().fireStarted(session);
+			IStatus result = null;
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
 				final Executable.Listener listener = new Executable.Listener() {
 					@Override
 					public void onStatusChange(Executable executable) {
 						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-						if (executable.getStatus() == State.LAUNCHING)
+						if (executable.getStatus() == State.RUNNING)
 							session.setActive(executable);
 					}
 
@@ -131,7 +130,7 @@ public class Q7LaunchManager {
 						// break full execution
 						massUpdateOnTerminate.add(executable);
 						// fireLaunchStatusChanged(executable);
-						executable.cancel(new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+						executable.cancel(session.getResultStatus());
 						continue;
 					}
 					executable.addListener(listener);
@@ -149,16 +148,16 @@ public class Q7LaunchManager {
 							.toArray(new Executable[massUpdateOnTerminate
 									.size()]));
 				}
-			} catch (final InterruptedException e) {
-				// ignore interruption
-			} catch (final Exception e) {
-				Q7LaunchingPlugin.log(e);
+				result = Status.OK_STATUS;
+			} catch (final Throwable e) {
+				result = RcpttPlugin.createStatus(e);
 			} finally {
+				Preconditions.checkNotNull(result);
 				DebugPlugin.getDefault().removeDebugEventListener(this);
 				synchronized (Q7LaunchManager.getInstance()) {
 					Q7LaunchManager.getInstance().threads.remove(launchId);
 				}
-				session.stop();
+				session.stop(result);
 				session.setEndTime(new Date());
 				Q7LaunchManager.getInstance().fireFinished(session);
 				try {
@@ -224,11 +223,11 @@ public class Q7LaunchManager {
 		return !threads.isEmpty();
 	}
 
-	public synchronized void stop() {
+	public synchronized void stop(IStatus result) {
 		for (final String launch : new HashSet<String>(threads.keySet())) {
 			ExecThread thread = threads.get(launch);
 			if (thread != null) {
-				thread.stop();
+				thread.stop(result);
 				threads.remove(launch);
 			}
 		}
@@ -402,23 +401,13 @@ public class Q7LaunchManager {
 
 	private synchronized void execute(final ExecutionSession session,
 			Q7Process process) {
-		sessions.add(session);
 		final String launchId = process.getLaunch().getLaunchConfiguration()
 				.getName();
-
-		// if something is already running on that SUT, terminate it
-		final ExecThread existing = threads.get(launchId);
-		if (existing != null) {
-			existing.stop();
-		}
 
 		final SessionRunnable sessionRunnable = new SessionRunnable(launchId,
 				session, process);
 
-		final ExecThread execThread = new ExecThread(session, sessionRunnable,
-				launchId);
-		threads.put(launchId, execThread);
-		execThread.start();
+		execute(launchId, session, sessionRunnable);
 	}
 
 	public void execute(String launchId, ExecutionSession session, Runnable runnable) {
@@ -426,7 +415,7 @@ public class Q7LaunchManager {
 		// if something is already running on that SUT, terminate it
 		final ExecThread existing = threads.get(launchId);
 		if (existing != null) {
-			existing.stop();
+			existing.stop(new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, "Launching execution of " + launchId));
 		}
 
 		final ExecThread execThread = new ExecThread(session, runnable,
@@ -704,18 +693,20 @@ public class Q7LaunchManager {
 				protected IStatus run(IProgressMonitor monitor) {
 					thread.start();
 					monitor.beginTask(getName(), -1);
+					IStatus result = null;
 					try {
 						while (!complete) {
 							if (monitor.isCanceled()) {
-								return Status.CANCEL_STATUS;
+								return result = Status.CANCEL_STATUS;
 							}
 							Thread.sleep(100);
 							monitor.worked(-1);
 						}
-					} catch (InterruptedException e) {
-						return Status.CANCEL_STATUS;
+						result = Status.OK_STATUS;
+					} catch (Throwable e) {
+						result = RcpttPlugin.createStatus(e);
 					} finally {
-						stop();
+						stop(result);
 					}
 					return Status.OK_STATUS;
 				}
@@ -727,8 +718,8 @@ public class Q7LaunchManager {
 			this.job.schedule();
 		}
 
-		public void stop() {
-			session.stop();
+		public void stop(IStatus result) {
+			session.stop(result);
 			// thread.interrupt();
 			job.cancel();
 		}
@@ -744,7 +735,7 @@ public class Q7LaunchManager {
 
 	private void updateDebuggingActive(IExecutionSession exclude) {
 		for (IExecutionSession es : sessions) {
-			if (es.isTerminated() || es == exclude)
+			if (!es.isRunning() || es == exclude)
 				continue;
 			for (IExecutable e : es.getExecutables()) {
 				if (e.isDebug()) {
@@ -759,7 +750,7 @@ public class Q7LaunchManager {
 
 	public synchronized boolean isElementUnderDebugging(IQ7Element element) {
 		for (ExecutionSession es : sessions) {
-			if (es.isTerminated())
+			if (!es.isRunning())
 				continue;
 			for (IExecutable e : es.getExecutables()) {
 				if (e.isDebug()
