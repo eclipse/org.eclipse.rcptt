@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_Z-6cEEVwEeGf87sdqO61AA
 Element-Name: RenameTestSuiteWhichInTestSuite
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _WjtzkEZMEeGf87sdqO61AA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 1.5.5.201502210521
+Save-Time: 2/25/15 11:39 AM
 Tags: TestSuite, Rename
 Testcase-Type: ecl
 
@@ -67,7 +66,7 @@ with [get-window "Rename Resource"] {
     get-button OK | click
 }
 with [get-view "Test Explorer" | get-tree] {
-    get-item MyProject | get-property childCount | equals 12 | verify-true
+    get-item MyProject | get-property childCount | equals 13 | verify-true
     get-item "MyProject/NewTestSuite" | get-property caption | equals NewTestSuite | verify-true
     get-item "MyProject/RenamedTest" | get-property caption | equals RenamedTest | verify-true
 }
