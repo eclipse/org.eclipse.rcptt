@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.core.swt;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,11 +19,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
+import org.eclipse.rcptt.tesla.core.protocol.ItemUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.UISelector;
+import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
+import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
+import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
+import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
+import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
+import org.eclipse.rcptt.tesla.swt.util.IndexUtil;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -72,42 +98,6 @@ import org.eclipse.ui.internal.PerspectiveBarContributionItem;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.part.WorkbenchPart;
-import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.IMLSelectData;
-import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
-import org.eclipse.rcptt.tesla.core.protocol.ItemUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.PartUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
-import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
-import org.eclipse.rcptt.tesla.core.protocol.SelectData;
-import org.eclipse.rcptt.tesla.core.protocol.SelectResponse;
-import org.eclipse.rcptt.tesla.core.protocol.UIPlayer;
-import org.eclipse.rcptt.tesla.core.protocol.UISelector;
-import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
-import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
-import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
-import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
-import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
-import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
-import org.eclipse.rcptt.tesla.swt.util.IndexUtil;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 @SuppressWarnings("restriction")
 public final class SWTWidgetLocator {
@@ -317,11 +307,9 @@ public final class SWTWidgetLocator {
 		} else if (widget.unwrap() instanceof CoolItem) {
 			return findCoolItem(widget.unwrap(), alwaysFindLeaf,
 					supportEclipseWorkbench);
-		} else if (widget.unwrap() instanceof TreeItem) {
-			return findTreeItem(widget.unwrap(), alwaysFindLeaf,
-					supportEclipseWorkbench);
-		} else if (widget.unwrap() instanceof TableItem) {
-			return findTableItem(widget.unwrap(), alwaysFindLeaf,
+		} else if (widget.unwrap() instanceof TreeItem
+				|| widget.unwrap() instanceof TableItem) {
+			return findTableOrTreeItem(widget.unwrap(), alwaysFindLeaf,
 					supportEclipseWorkbench);
 		} else if (widget.unwrap() instanceof TreeColumn) {
 			return findTreeColumn(widget.unwrap(), alwaysFindLeaf,
@@ -410,46 +398,54 @@ public final class SWTWidgetLocator {
 		return changeRequired;
 	}
 
-	private FindResult findTableItem(Widget widget, boolean alwaysFindLeaf,
-			boolean supportEclipseWorkbench) {
-		ElementEntry element = SWTRecordingHelper.getHelper().get(
-				player.wrap(widget));
-		if (element != null && !alwaysFindLeaf) {
-			return new FindResult(player.wrap(widget), element.getElement());
-		}
-		TableItem item = (TableItem) widget;
-		Table parent = item.getParent();
-		FindResult treeSearch = findElement(getPlayer().wrap(parent), false,
+	private ItemUIElement findItemUIElement(Widget widget, boolean supportEclipseWorkbench) {
+		ItemUIElement itemElement = null;
+		FindResult treeSearch = findElement(findParent(widget), false,
 				false, supportEclipseWorkbench);
 		ViewerUIElement treeView = new ViewerUIElement(treeSearch.element,
 				recorder);
-		recorder.setControls(SWTModelMapper.map(player.wrap(item)));
-		ItemUIElement itemElement = treeView.item(Viewers
-				.getPathByTableItem(item));
-		SWTRecordingHelper.getHelper().put(player.wrap(widget),
-				new ElementEntry(itemElement.getElement()));
-		return new FindResult(player.wrap(item), itemElement.getElement());
+		if (widget instanceof TableItem) {
+			itemElement = treeView.item(Viewers.getPathByTableItem((TableItem) widget));
+		} else if (widget instanceof TreeItem) {
+			itemElement = treeView.item(Viewers.getPathByTreeItem((TreeItem) widget));
+		}
+		return itemElement;
 	}
 
-	private FindResult findTreeItem(Widget widget, boolean alwaysFindLeaf,
+	private SWTUIElement findParent(Widget widget) {
+		SWTUIElement result = null;
+		if (widget instanceof TableItem) {
+			TableItem item = (TableItem) widget;
+			Table parent = item.getParent();
+			result = getPlayer().wrap(parent);
+		} else if (widget instanceof TreeItem) {
+			TreeItem item = (TreeItem) widget;
+			Tree parent = item.getParent();
+			result = getPlayer().wrap(parent);
+		}
+		return result;
+	}
+
+	private FindResult findTableOrTreeItem(Widget widget, boolean alwaysFindLeaf,
 			boolean supportEclipseWorkbench) {
 		ElementEntry element = SWTRecordingHelper.getHelper().get(
 				player.wrap(widget));
+		SWTUIElement uiElement = player.wrap(widget);
 		if (element != null && !alwaysFindLeaf) {
-			return new FindResult(player.wrap(widget), element.getElement());
+			FindResult result = new FindResult(uiElement, element.getElement());
+			if (isElementTextFieldChange(uiElement, element)) {
+				element.set(ELEMENT_TEXT, PlayerTextUtils.getText(uiElement));
+			} else {
+				return result;
+			}
 		}
-		TreeItem item = (TreeItem) widget;
-		Tree parent = item.getParent();
-		FindResult treeSearch = findElement(getPlayer().wrap(parent), false,
-				false, supportEclipseWorkbench);
-		ViewerUIElement treeView = new ViewerUIElement(treeSearch.element,
-				recorder);
-		recorder.setControls(SWTModelMapper.map(player.wrap(item)));
-		ItemUIElement itemElement = treeView.item(Viewers
-				.getPathByTreeItem(item));
-		SWTRecordingHelper.getHelper().put(player.wrap(widget),
-				new ElementEntry(itemElement.getElement()));
-		return new FindResult(player.wrap(item), itemElement.getElement());
+		recorder.setControls(SWTModelMapper.map(uiElement));
+		ItemUIElement itemElement = findItemUIElement(widget, supportEclipseWorkbench);
+
+		ElementEntry newElement = new ElementEntry(itemElement.getElement());
+		SWTRecordingHelper.getHelper().put(uiElement, newElement);
+		newElement.set(ELEMENT_TEXT, PlayerTextUtils.getText(uiElement));
+		return new FindResult(uiElement, itemElement.getElement());
 	}
 
 	private FindResult findCoolItem(Widget widget, boolean alwaysFindLeaf,
