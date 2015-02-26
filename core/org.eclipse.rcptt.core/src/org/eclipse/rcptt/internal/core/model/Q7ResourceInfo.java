@@ -31,7 +31,6 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 	private Resource resource;
 	private NamedElement element;
 	public long timestamp;
-	private IPersistenceModel model;
 	private String plainStoreFormat;
 
 	public Q7ResourceInfo(String storeFormat) {
@@ -52,7 +51,7 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 		if (resource == null) {
 			createResource(uri);
 		}
-		model = getPersistenceModel();
+		IPersistenceModel model = getPersistenceModel();
 
 		if (file != null && !file.exists()) {
 			Q7Status status = new Q7Status(Q7Status.ERROR, "Element: " + file.getFullPath()
@@ -70,10 +69,7 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 			if (stream != null) {
 				resource.load(stream, PersistenceManager.getOptions());
 			}
-			IPersistenceModel model = getPersistenceModel();
-			if (model != null) {
-				model.updateMetadata();
-			}
+			model.updateMetadata();
 			EList<EObject> contents = resource.getContents();
 			resource.setModified(false);
 			if (contents.size() == 0 ) {
@@ -115,7 +111,6 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 		PersistenceManager.getInstance().remove(resource);
 		resource = null;
 		element = null;
-		this.model = null;
 		timestamp = 0;
 	}
 
@@ -124,12 +119,11 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 	}
 
 	public void extractAllPersistence() {
-		if (model != null) {
-			model.extractAll();
-		}
+		getPersistenceModel().extractAll();
 	}
 
 	public void save() {
+		IPersistenceModel model = getPersistenceModel();
 		if (model instanceof PlainTextPersistenceModel) {
 			((PlainTextPersistenceModel)model).setSaveFormat(plainStoreFormat);
 		}
@@ -139,14 +133,14 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 	}
 
 	public IPersistenceModel getModel() {
-		return model;
+		return getPersistenceModel();
 	}
 
 	public boolean hasChanges() {
-		if (resource == null || model == null) {
+		if (resource == null) {
 			return true;
 		}
-		return resource.isModified() || model.isModified();
+		return resource.isModified() || getPersistenceModel().isModified();
 	}
 
 	public void createNamedElement(NamedElement createNamedElement) {
@@ -159,6 +153,6 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 	}
 
 	public void updatePersistenceModel(IPersistenceModel newModel) {
-		model = newModel;
+		PersistenceManager.getInstance().replaceModelWith(resource, newModel);
 	}
 }
