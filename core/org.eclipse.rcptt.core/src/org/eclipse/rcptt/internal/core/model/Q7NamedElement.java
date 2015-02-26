@@ -25,6 +25,7 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.Q7Status;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
+import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 
@@ -46,14 +47,14 @@ public abstract class Q7NamedElement extends Openable implements
 		return name;
 	}
 
-	public IResource getResource() {
+	public IFile getResource() {
 		return ((IContainer) this.getParent().getResource()).getFile(new Path(
 				this.getName()));
 	}
 
 	@Override
 	protected Object createElementInfo() {
-		return new Q7ResourceInfo();
+		return new Q7ResourceInfo(IPlainConstants.PLAIN_HEADER, Q7ResourceInfo.toURI(getResource()));
 	}
 
 	protected abstract NamedElement createNamedElement();

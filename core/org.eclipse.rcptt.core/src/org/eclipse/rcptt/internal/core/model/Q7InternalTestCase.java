@@ -12,9 +12,9 @@ package org.eclipse.rcptt.internal.core.model;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
-
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
@@ -31,7 +31,7 @@ public class Q7InternalTestCase extends Q7TestCase {
 	}
 
 	@Override
-	public IResource getResource() {
+	public IFile getResource() {
 		return null;
 	}
 

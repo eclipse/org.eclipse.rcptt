@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.internal.core.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-
 import org.eclipse.rcptt.core.VerificationType;
 import org.eclipse.rcptt.core.VerificationTypeManager;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
@@ -45,7 +44,7 @@ public class Q7Verification extends Q7NamedElement implements IVerification {
 
 	@Override
 	protected Object createElementInfo() {
-		return new Q7ResourceInfo(IPlainConstants.PLAIN_VERIFICATION);
+		return new Q7ResourceInfo(IPlainConstants.PLAIN_VERIFICATION, Q7ResourceInfo.toURI(getResource()));
 	}
 
 	@Override

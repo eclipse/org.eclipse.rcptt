@@ -265,8 +265,7 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 			return;
 		}
 		// Validate content
-		Q7ResourceInfo info = new Q7ResourceInfo();
-		info.createResource(URI.createURI("__compare__"));
+		Q7ResourceInfo info = new Q7ResourceInfo(IPlainConstants.PLAIN_HEADER, URI.createURI("__compare__"));
 		final IPersistenceModel model = PersistenceManager.getInstance()
 				.getModel(
 						StringUtils.getUtf8Bytes((String) previewValue

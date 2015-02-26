@@ -12,11 +12,11 @@ package org.eclipse.rcptt.internal.core.model;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -47,7 +47,7 @@ public class Q7InternalContext extends Q7Context {
 	}
 
 	@Override
-	public IResource getResource() {
+	public IFile getResource() {
 		return null;
 	}
 

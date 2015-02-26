@@ -22,35 +22,34 @@ import org.eclipse.rcptt.core.model.Q7Status;
 import org.eclipse.rcptt.core.model.Q7Status.Q7StatusCode;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
 import org.eclipse.rcptt.core.persistence.PersistenceManager;
-import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.persistence.plain.PlainTextPersistenceModel;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.internal.core.Q7LazyResource;
 
 public class Q7ResourceInfo extends OpenableElementInfo {
-	private Resource resource;
+	private final Resource resource;
 	private NamedElement element;
 	public long timestamp;
-	private String plainStoreFormat;
+	private final String plainStoreFormat;
 
-	public Q7ResourceInfo(String storeFormat) {
+	public Q7ResourceInfo(String storeFormat, URI uri) {
 		this.plainStoreFormat = storeFormat;
-	}
-
-	public Q7ResourceInfo() {
-		this(IPlainConstants.PLAIN_HEADER);
+		if (uri == null) {
+			resource = null;
+		} else {
+			resource = new Q7LazyResource(uri);
+			resource.setTrackingModification(true);
+		}
 	}
 
 	public void load(IFile file) throws ModelException {
-		
+		if (resource == null)
+			throw new NullPointerException("Resource info " + plainStoreFormat + " can't be associated with a file");
+
 		if (file != null) {
 			timestamp = file.getModificationStamp();
 		}
-		URI uri = URI.createPlatformResourceURI(file != null ? file
-				.getFullPath().toString() : "__uri__", true);
-		if (resource == null) {
-			createResource(uri);
-		}
+		URI uri = toURI(file);
 		IPersistenceModel model = getPersistenceModel();
 
 		if (file != null && !file.exists()) {
@@ -98,9 +97,9 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 		}
 	}
 
-	public void createResource(URI uri) {
-		resource = new Q7LazyResource(uri);
-		resource.setTrackingModification(true);
+	public static URI toURI(IFile file) {
+		return URI.createPlatformResourceURI(file != null ? file
+				.getFullPath().toString() : "__uri__", true);
 	}
 
 	protected IPersistenceModel getPersistenceModel() {
@@ -109,7 +108,6 @@ public class Q7ResourceInfo extends OpenableElementInfo {
 
 	public void unload() {
 		PersistenceManager.getInstance().remove(resource);
-		resource = null;
 		element = null;
 		timestamp = 0;
 	}
