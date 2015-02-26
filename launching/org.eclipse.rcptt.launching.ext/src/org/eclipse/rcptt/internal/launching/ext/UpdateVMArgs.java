@@ -26,7 +26,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -67,20 +66,7 @@ public class UpdateVMArgs {
 		}
 	}
 
-	static class StartsWith implements Predicate<String> {
-		private final String prefix;
-
-		public StartsWith(String prefix) {
-			this.prefix = prefix;
-		}
-
-		@Override
-		public boolean apply(String input) {
-			return input.startsWith(prefix);
-		}
-
-	}
-
+	// Adds a single argument if similar is not already present in the set
 	public static void addIfAbsent(List<String> target, String prefix, String value) {
 		if (!Iterables.any(target, new StartsWith(prefix))) {
 			target.add(prefix + value);

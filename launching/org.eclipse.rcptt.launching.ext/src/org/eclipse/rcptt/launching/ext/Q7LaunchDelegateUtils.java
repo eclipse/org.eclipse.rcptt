@@ -43,9 +43,12 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("restriction")
@@ -64,6 +67,7 @@ public class Q7LaunchDelegateUtils {
 	}
 
 	private static final Predicate<IPluginModelBase> isSimpleConfigurator = new Predicate<IPluginModelBase>() {
+		@Override
 		public boolean apply(IPluginModelBase input) {
 			return BUNDLE_SIMPLE_CONFIGURATOR.equals(id(input));
 		}
@@ -111,6 +115,7 @@ public class Q7LaunchDelegateUtils {
 	private static List<String> EXCLUDE = asList(IPDEBuildConstants.BUNDLE_OSGI);
 	private static final Predicate<Object> keepBundle = new Predicate<Object>() {
 
+		@Override
 		public boolean apply(Object input) {
 			return !EXCLUDE.contains(id((IPluginModelBase) input));
 		}
@@ -152,6 +157,7 @@ public class Q7LaunchDelegateUtils {
 		return Joiner.on(",").join(
 				transform(filter(bundles.values(), keepBundle),
 						new Function<Object, String>() {
+							@Override
 							public String apply(Object input) {
 								IPluginModelBase plugin = (IPluginModelBase) input;
 								return getEntry(
@@ -178,9 +184,9 @@ public class Q7LaunchDelegateUtils {
 			Map<String, String> manifest = StartLevelSupport.loadManifest(model
 					.getInstallLocation());
 			if (manifest != null) {
-				String startLevel = (String) manifest
+				String startLevel = manifest
 						.get(StartLevelSupport.START_LEVEL_ATTR);
-				String autoStart = (String) manifest
+				String autoStart = manifest
 						.get(StartLevelSupport.AUTO_START_ATTR);
 				if (startLevel == null && autoStart == null) {
 					if (runlevelsMap != null && runlevelsMap.containsKey(name)) {
@@ -243,10 +249,6 @@ public class Q7LaunchDelegateUtils {
 		return null;
 	}
 
-	public static final List<String> DEF_ARGS = Arrays.asList("-os",
-			"${target.os}", "-arch", "${target.arch}", "-nl", "${target.nl}",
-			"-consoleLog");
-
 	public static File getWorkingDirectory(File autLocation) {
 		if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
 			return autLocation;
@@ -288,11 +290,26 @@ public class Q7LaunchDelegateUtils {
 		return UpdateVMArgs.updateAttr(args);
 	}
 
+
+	/** Adds a key value pair, if this key is not already present */
+	private static void addIfAbsent(Collection<String> arguments, String key, String value) {
+		Preconditions.checkNotNull(key);
+		if (!Iterables.any(arguments, Predicates.equalTo(key))) {
+			arguments.add(key);
+			if (value != null)
+				arguments.add(value);
+		}
+	}
+
 	public static String getAUTArgs(Collection<String> userArgs) {
-		List<String> allArgs = new ArrayList<String>(DEF_ARGS);
+		List<String> allArgs = new ArrayList<String>();
 		if (userArgs != null) {
 			allArgs.addAll(userArgs);
 		}
+		addIfAbsent(allArgs, "-os", "${target.os}");
+		addIfAbsent(allArgs, "-arch", "${target.arch}");
+		addIfAbsent(allArgs, "-nl", "${target.nl}");
+		addIfAbsent(allArgs, "-consoleLog", null);
 		return joinCommandArgs(allArgs);
 	}
 
