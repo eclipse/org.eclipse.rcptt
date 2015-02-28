@@ -29,6 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -266,14 +267,12 @@ public class DebugContextProcessor implements IContextProcessor {
 					return null;
 				}
 			});
-			try {
-				collector.join(TeslaLimits.getContextJoinTimeout());
-			} catch (InterruptedException e) {
-				return;
-			}
+			collector.join(TeslaLimits.getContextJoinTimeout());
 			ContextHelper helper = new ContextHelper();
 			helper.setFrom(context);
 			helper.applyLaunches(context.getLaunches());
+		} catch (InterruptedException e) {
+			throw new CoreException(RcpttPlugin.createStatus("Launch context was interrupted", e));
 		} finally {
 			Job.getJobManager().removeJobChangeListener(collector);
 		}
@@ -298,8 +297,8 @@ public class DebugContextProcessor implements IContextProcessor {
 		return new Status(IStatus.ERROR, Q7DebugRuntime.PLUGIN_ID, message);
 	}
 
-	private void cleanLaunches(final String exceptions) throws CoreException {
-		final Exception[] resultE = new Exception[] { null };
+	private void cleanLaunches(final String exceptions) throws CoreException, InterruptedException {
+		final MultiStatus result = new MultiStatus(Q7DebugRuntime.PLUGIN_ID, 0, "Failed to remove launches", null);
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				Patterns patterns = new Patterns();
@@ -307,34 +306,28 @@ public class DebugContextProcessor implements IContextProcessor {
 				final ILaunchManager launches = DebugPlugin.getDefault()
 						.getLaunchManager();
 				for (final ILaunch launch : launches.getLaunches()) {
+					String name = "";
 					if (launch.getLaunchConfiguration() != null) {
-						String name = launch.getLaunchConfiguration().getName();
+						name = launch.getLaunchConfiguration().getName();
 						if (patterns.matches(name))
 							continue;
 					}
 					try {
 						try {
 							launch.terminate();
-						} catch (Exception e) {
-							resultE[0] = e;
+						} finally {
+							launches.removeLaunch(launch);
 						}
-						launches.removeLaunch(launch);
 					} catch (Exception e) {
-						resultE[0] = e;
+						result.add(new Status(Status.ERROR, Q7DebugRuntime.PLUGIN_ID, "Failed to terminate " + name, e));
 					}
 				}
 			}
 		}, "Debug Context: Clean launches");
 		t.start();
-		try {
-			t.join(TeslaLimits.getContextJoinTimeout());
-		} catch (InterruptedException e) {
-			RcpttPlugin.log(e);
-		}
-		if (resultE[0] != null) {
-			throw new CoreException(new Status(Status.ERROR,
-					Q7DebugRuntime.PLUGIN_ID, resultE[0].getMessage(),
-					resultE[0]));
+		t.join(TeslaLimits.getContextJoinTimeout());
+		if (!result.isOK()) {
+			throw new CoreException(result);
 		}
 	}
 
