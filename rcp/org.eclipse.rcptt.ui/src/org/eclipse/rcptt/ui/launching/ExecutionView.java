@@ -675,7 +675,11 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 			if (failed && stopOnFirstFailAction.getValue()) {
 				MultiStatus status = new MultiStatus(RcpttPlugin.PLUGIN_ID, 0, new IStatus[] { result },
-						"Stopped after previous failure", null);
+						"Stopped after previous failure", null) {
+					{
+						setSeverity(IStatus.CANCEL);
+					}
+				};
 				Q7Launcher.getInstance().stop(status);
 			}
 			viewer.refresh(executable);

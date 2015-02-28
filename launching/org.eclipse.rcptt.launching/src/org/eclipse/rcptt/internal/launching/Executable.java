@@ -168,6 +168,7 @@ public abstract class Executable implements IExecutable {
 
 	public void cancel(IStatus status) {
 		setResult(status);
+
 		for (final Executable child : getChildren()) {
 			child.addListener(listeners);
 			try {

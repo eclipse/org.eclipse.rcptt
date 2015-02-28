@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -95,8 +97,8 @@ public class Q7LaunchManager {
 				Object source = event.getSource();
 				if (q7Process == source
 						&& event.getKind() == DebugEvent.TERMINATE) {
-					Q7LaunchManager.getInstance().stop(
-							RcpttPlugin.createStatus("Aut " + source + " was terminated"));
+					Q7LaunchManager.getInstance()
+							.stop(new Status(IStatus.CANCEL, PLUGIN_ID, "Aut has been terminated"));
 				}
 			}
 		}
