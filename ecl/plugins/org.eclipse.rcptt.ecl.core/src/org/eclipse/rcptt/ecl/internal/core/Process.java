@@ -58,7 +58,7 @@ public class Process implements IProcess {
 		while (status == null) {
 			long cur = System.currentTimeMillis();
 			if (timeout != 0 && (cur - start) > timeout) {
-				return status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
+				return status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, TIMEOUT_CODE,
 						"Execution has timed out after " + (timeout/1000) + " seconds", null);
 			}
 			if (monitor.isCanceled()) {
