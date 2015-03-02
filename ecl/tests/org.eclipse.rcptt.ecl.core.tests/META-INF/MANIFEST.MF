@@ -14,5 +14,7 @@ Export-Package: org.eclipse.rcptt.ecl.core.tests,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.rcptt.ecl.core;visibility:=reexport,
- org.junit
+ org.junit,
+ org.eclipse.rcptt.ecl.parser,
+ org.eclipse.rcptt.ecl.interop;bundle-version="1.5.6"
 Bundle-ActivationPolicy: lazy
