@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>org.eclipse.rcptt</groupId>
-		<version>1.5.5-SNAPSHOT</version>
+		<version>1.5.6-SNAPSHOT</version>
 		<relativePath>../releng/core/pom.xml</relativePath>
 	</parent>
 	<modules>
@@ -41,7 +41,7 @@
 		<module>org.eclipse.rcptt.expandbar</module>
 	</modules>
 	<groupId>org.eclipse.rcptt</groupId>
-	<version>1.5.5-SNAPSHOT</version>
+	<version>1.5.6-SNAPSHOT</version>
 	<artifactId>rcptt.core</artifactId>
 	<packaging>pom</packaging>
 </project>

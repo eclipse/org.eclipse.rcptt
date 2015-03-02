@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.updates.e3x"
       label="RCPTT Runtime Sites (Incubation)"
-      version="1.5.5.qualifier"
+      version="1.5.6.qualifier"
       provider-name="%proiderName"
       plugin="org.eclipse.rcptt.updates.aspectj.e3x">
 
@@ -22,7 +22,7 @@
          id="org.eclipse.rcptt.updates.runtime"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
 </feature>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCPTT Runtime SWT Support Aspects (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.watson.aspects.swt;singleton:=true
-Bundle-Version: 1.5.5.qualifier
+Bundle-Version: 1.5.6.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.aspectj.runtime;resolution:=optional;visibility:=reexport;x-installation:=greedy,
  org.eclipse.swt,

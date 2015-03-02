@@ -28,7 +28,7 @@
 		<repository>
 			<id>rcptt</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/rcptt/nightly/1.5.5/latest/repository/</url>
+			<url>http://download.eclipse.org/rcptt/nightly/1.5.6/latest/repository/</url>
 		</repository>
 	</repositories>
 

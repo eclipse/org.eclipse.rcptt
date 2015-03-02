@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>q7.recording</groupId> 
   <artifactId>q7.recording.tests</artifactId>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.5.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <pluginRepositories>

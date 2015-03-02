@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.watson.runtime"
       label="RCPTT Eclipse runtime information collector aspects (Incubation)"
-      version="1.5.5.qualifier"
+      version="1.5.6.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.rcptt.watson.aspects.jobs">
 
@@ -19,21 +19,21 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.watson" version="1.5.5.qualifier"/>
+      <import feature="org.eclipse.rcptt.watson" version="1.5.6.qualifier"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.jobs"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.aspects.swt"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
 </feature>

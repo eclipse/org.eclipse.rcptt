@@ -5,7 +5,7 @@
   <artifactId>productTests</artifactId>
   <!-- Set group id based on application under test name -->
   <groupId>projectName</groupId>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.5.6-SNAPSHOT</version>
   <!-- RCPTT Maven Plugin provides this packaging type -->
   <packaging>rcpttTest</packaging>
 

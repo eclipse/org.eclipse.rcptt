@@ -5,10 +5,10 @@
 	<parent>
 		<artifactId>rcptt.core</artifactId>
 		<groupId>org.eclipse.rcptt</groupId>
-		<version>1.5.5-SNAPSHOT</version>
+		<version>1.5.6-SNAPSHOT</version>
 	</parent>
 	<groupId>org.eclipse.rcptt</groupId>
 	<artifactId>org.eclipse.rcptt.logging</artifactId>
-	<version>1.5.5-SNAPSHOT</version>
+	<version>1.5.6-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>

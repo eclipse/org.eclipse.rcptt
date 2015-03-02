@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCPTT External AUT Launching UI (Incubation)
 Bundle-SymbolicName: org.eclipse.rcptt.launching.remote.ui;singleton:=true
-Bundle-Version: 1.5.5.qualifier
+Bundle-Version: 1.5.6.qualifier
 Bundle-Activator: org.eclipse.rcptt.internal.launching.remote.ui.Activator
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.eclipse.ui,

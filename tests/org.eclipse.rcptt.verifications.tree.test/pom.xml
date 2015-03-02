@@ -4,7 +4,7 @@
   <parent>
     <artifactId>rcptt.core.tests</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>1.5.5-SNAPSHOT</version>
+    <version>1.5.6-SNAPSHOT</version>
   </parent>
   <artifactId>org.eclipse.rcptt.verifications.tree.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>

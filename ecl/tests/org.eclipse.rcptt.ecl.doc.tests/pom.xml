@@ -5,10 +5,10 @@
   <parent>
     <artifactId>ecl-tests</artifactId>
     <groupId>org.eclipse.rcptt.ecl</groupId>
-    <version>1.5.5-SNAPSHOT</version>
+    <version>1.5.6-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.ecl</groupId>
   <artifactId>org.eclipse.rcptt.ecl.doc.tests</artifactId>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.5.6-SNAPSHOT</version>
   <packaging>eclipse-test-plugin</packaging>
 </project>

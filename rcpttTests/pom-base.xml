@@ -4,7 +4,7 @@
 
   <groupId>org.eclipse.rcptt.tests</groupId>
   <artifactId>base</artifactId>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.5.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <pluginRepositories>
@@ -39,13 +39,13 @@
 
   <properties>
     <ci-maven-group>com.xored.ci4rcptt</ci-maven-group>
-    <ci-maven-version>1.5.5-SNAPSHOT</ci-maven-version>
+    <ci-maven-version>1.5.6-SNAPSHOT</ci-maven-version>
     <ci-maven-plugin>ci4rcptt-maven-plugin</ci-maven-plugin>
     <ci-server-maven-plugin>q7-server-maven-plugin</ci-server-maven-plugin>
-    <runner-version>1.5.5-SNAPSHOT</runner-version>
+    <runner-version>1.5.6-SNAPSHOT</runner-version>
     <autRepository>file://${basedir}/../modules/repository/target/repository</autRepository>
     <runtimeRepository>file:/${user.dir}/runtime/updates/org.eclipse.rcptt.updates.runtime/q7</runtimeRepository>
-    <q7-cloud-version>1.5.5-SNAPSHOT</q7-cloud-version>
+    <q7-cloud-version>1.5.6-SNAPSHOT</q7-cloud-version>
   </properties>
 
 </project>

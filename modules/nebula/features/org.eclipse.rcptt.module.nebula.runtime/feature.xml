@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.module.nebula.runtime"
       label="RCPTT Runtime plugins for Nebula module (Incubation)"
-      version="1.5.5.qualifier"
+      version="1.5.6.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.rcptt.tesla.nebula">
 
@@ -22,35 +22,35 @@
          id="org.eclipse.rcptt.tesla.nebula"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.impl"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.ecl.impl"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.nebula"
          download-size="0"
          install-size="0"
-         version="1.5.5.qualifier"
+         version="1.5.6.qualifier"
          unpack="false"/>
 
 </feature>

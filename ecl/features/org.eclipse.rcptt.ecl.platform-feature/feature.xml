@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.ecl.platform"
       label="ECL Platform (Incubation)"
-      version="1.5.5.qualifier"
+      version="1.5.6.qualifier"
       provider-name="%providerName%"
       plugin="org.eclipse.rcptt.ecl.platform">
 
@@ -19,7 +19,7 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.5.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="1.5.6.qualifier"/>
    </requires>
 
    <plugin

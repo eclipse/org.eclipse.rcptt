@@ -4,11 +4,11 @@
   <parent>
     <artifactId>tesla</artifactId>
     <groupId>org.eclipse.rcptt.tesla</groupId>
-    <version>1.5.5-SNAPSHOT</version>
+    <version>1.5.6-SNAPSHOT</version>
   </parent>
   <groupId>org.eclipse.rcptt.tesla</groupId>
   <artifactId>org.eclipse.rcptt.tesla.workbench.texteditor.aspects</artifactId>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.5.6-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <dependencies>
     <dependency>
