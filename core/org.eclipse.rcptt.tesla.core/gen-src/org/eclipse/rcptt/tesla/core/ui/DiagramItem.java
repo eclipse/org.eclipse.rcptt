@@ -41,7 +41,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface DiagramItem extends Widget, PropertyMap {
+public interface DiagramItem extends Widget, PropertyMap, WithImage {
 	/**
 	 * Returns the value of the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->

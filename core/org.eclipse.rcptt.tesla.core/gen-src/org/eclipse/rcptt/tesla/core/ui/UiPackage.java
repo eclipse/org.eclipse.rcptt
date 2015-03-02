@@ -3002,13 +3002,22 @@ public interface UiPackage extends EPackage {
 	int DIAGRAM_ITEM__PROPERTIES = WIDGET_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Image</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM_ITEM__IMAGE = WIDGET_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__TEXT = WIDGET_FEATURE_COUNT + 1;
+	int DIAGRAM_ITEM__TEXT = WIDGET_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Tooltip</b></em>' attribute.
@@ -3017,7 +3026,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__TOOLTIP = WIDGET_FEATURE_COUNT + 2;
+	int DIAGRAM_ITEM__TOOLTIP = WIDGET_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
@@ -3026,7 +3035,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__CLASS_NAME = WIDGET_FEATURE_COUNT + 3;
+	int DIAGRAM_ITEM__CLASS_NAME = WIDGET_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Item Address</b></em>' attribute.
@@ -3035,7 +3044,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__ITEM_ADDRESS = WIDGET_FEATURE_COUNT + 4;
+	int DIAGRAM_ITEM__ITEM_ADDRESS = WIDGET_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Selected</b></em>' attribute.
@@ -3044,7 +3053,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__SELECTED = WIDGET_FEATURE_COUNT + 5;
+	int DIAGRAM_ITEM__SELECTED = WIDGET_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -3053,7 +3062,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__X = WIDGET_FEATURE_COUNT + 6;
+	int DIAGRAM_ITEM__X = WIDGET_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -3062,7 +3071,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__Y = WIDGET_FEATURE_COUNT + 7;
+	int DIAGRAM_ITEM__Y = WIDGET_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -3071,7 +3080,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__WIDTH = WIDGET_FEATURE_COUNT + 8;
+	int DIAGRAM_ITEM__WIDTH = WIDGET_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -3080,7 +3089,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__HEIGHT = WIDGET_FEATURE_COUNT + 9;
+	int DIAGRAM_ITEM__HEIGHT = WIDGET_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Children Count</b></em>' attribute.
@@ -3089,7 +3098,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__CHILDREN_COUNT = WIDGET_FEATURE_COUNT + 10;
+	int DIAGRAM_ITEM__CHILDREN_COUNT = WIDGET_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Background Color</b></em>' containment reference.
@@ -3098,7 +3107,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__BACKGROUND_COLOR = WIDGET_FEATURE_COUNT + 11;
+	int DIAGRAM_ITEM__BACKGROUND_COLOR = WIDGET_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Foreground Color</b></em>' containment reference.
@@ -3107,7 +3116,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__FOREGROUND_COLOR = WIDGET_FEATURE_COUNT + 12;
+	int DIAGRAM_ITEM__FOREGROUND_COLOR = WIDGET_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Model Property Nodes</b></em>' containment reference list.
@@ -3116,7 +3125,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM__MODEL_PROPERTY_NODES = WIDGET_FEATURE_COUNT + 13;
+	int DIAGRAM_ITEM__MODEL_PROPERTY_NODES = WIDGET_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of structural features of the '<em>Diagram Item</em>' class.
@@ -3125,7 +3134,7 @@ public interface UiPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 14;
+	int DIAGRAM_ITEM_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramConnectionImpl <em>Diagram Connection</em>}' class.
@@ -3154,6 +3163,15 @@ public interface UiPackage extends EPackage {
 	 * @ordered
 	 */
 	int DIAGRAM_CONNECTION__PROPERTIES = DIAGRAM_ITEM__PROPERTIES;
+
+	/**
+	 * The feature id for the '<em><b>Image</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM_CONNECTION__IMAGE = DIAGRAM_ITEM__IMAGE;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.

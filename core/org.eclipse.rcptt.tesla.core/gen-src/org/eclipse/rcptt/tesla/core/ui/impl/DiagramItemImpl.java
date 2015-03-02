@@ -12,11 +12,13 @@ package org.eclipse.rcptt.tesla.core.ui.impl;
 
 import org.eclipse.rcptt.tesla.core.ui.Color;
 import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
+import org.eclipse.rcptt.tesla.core.ui.Image;
 import org.eclipse.rcptt.tesla.core.ui.PropertyEntry;
 import org.eclipse.rcptt.tesla.core.ui.PropertyMap;
 import org.eclipse.rcptt.tesla.core.ui.PropertyNode;
 import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 
+import org.eclipse.rcptt.tesla.core.ui.WithImage;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -40,6 +42,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#get__properties <em>properties</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getClassName <em>Class Name</em>}</li>
@@ -68,6 +71,16 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 	 * @ordered
 	 */
 	protected EList<PropertyEntry> __properties;
+
+	/**
+	 * The cached value of the '{@link #getImage() <em>Image</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImage()
+	 * @generated
+	 * @ordered
+	 */
+	protected Image image;
 
 	/**
 	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -328,6 +341,49 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 			__properties = new EObjectContainmentEList<PropertyEntry>(PropertyEntry.class, this, UiPackage.DIAGRAM_ITEM__PROPERTIES);
 		}
 		return __properties;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Image getImage() {
+		return image;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetImage(Image newImage, NotificationChain msgs) {
+		Image oldImage = image;
+		image = newImage;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UiPackage.DIAGRAM_ITEM__IMAGE, oldImage, newImage);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImage(Image newImage) {
+		if (newImage != image) {
+			NotificationChain msgs = null;
+			if (image != null)
+				msgs = ((InternalEObject)image).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UiPackage.DIAGRAM_ITEM__IMAGE, null, msgs);
+			if (newImage != null)
+				msgs = ((InternalEObject)newImage).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UiPackage.DIAGRAM_ITEM__IMAGE, null, msgs);
+			msgs = basicSetImage(newImage, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UiPackage.DIAGRAM_ITEM__IMAGE, newImage, newImage));
 	}
 
 	/**
@@ -648,6 +704,8 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 		switch (featureID) {
 			case UiPackage.DIAGRAM_ITEM__PROPERTIES:
 				return ((InternalEList<?>)get__properties()).basicRemove(otherEnd, msgs);
+			case UiPackage.DIAGRAM_ITEM__IMAGE:
+				return basicSetImage(null, msgs);
 			case UiPackage.DIAGRAM_ITEM__BACKGROUND_COLOR:
 				return basicSetBackgroundColor(null, msgs);
 			case UiPackage.DIAGRAM_ITEM__FOREGROUND_COLOR:
@@ -668,6 +726,8 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 		switch (featureID) {
 			case UiPackage.DIAGRAM_ITEM__PROPERTIES:
 				return get__properties();
+			case UiPackage.DIAGRAM_ITEM__IMAGE:
+				return getImage();
 			case UiPackage.DIAGRAM_ITEM__TEXT:
 				return getText();
 			case UiPackage.DIAGRAM_ITEM__TOOLTIP:
@@ -710,6 +770,9 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 			case UiPackage.DIAGRAM_ITEM__PROPERTIES:
 				get__properties().clear();
 				get__properties().addAll((Collection<? extends PropertyEntry>)newValue);
+				return;
+			case UiPackage.DIAGRAM_ITEM__IMAGE:
+				setImage((Image)newValue);
 				return;
 			case UiPackage.DIAGRAM_ITEM__TEXT:
 				setText((String)newValue);
@@ -766,6 +829,9 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 			case UiPackage.DIAGRAM_ITEM__PROPERTIES:
 				get__properties().clear();
 				return;
+			case UiPackage.DIAGRAM_ITEM__IMAGE:
+				setImage((Image)null);
+				return;
 			case UiPackage.DIAGRAM_ITEM__TEXT:
 				setText(TEXT_EDEFAULT);
 				return;
@@ -819,6 +885,8 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 		switch (featureID) {
 			case UiPackage.DIAGRAM_ITEM__PROPERTIES:
 				return __properties != null && !__properties.isEmpty();
+			case UiPackage.DIAGRAM_ITEM__IMAGE:
+				return image != null;
 			case UiPackage.DIAGRAM_ITEM__TEXT:
 				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
 			case UiPackage.DIAGRAM_ITEM__TOOLTIP:
@@ -862,6 +930,12 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 				default: return -1;
 			}
 		}
+		if (baseClass == WithImage.class) {
+			switch (derivedFeatureID) {
+				case UiPackage.DIAGRAM_ITEM__IMAGE: return UiPackage.WITH_IMAGE__IMAGE;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -875,6 +949,12 @@ public class DiagramItemImpl extends WidgetImpl implements DiagramItem {
 		if (baseClass == PropertyMap.class) {
 			switch (baseFeatureID) {
 				case UiPackage.PROPERTY_MAP__PROPERTIES: return UiPackage.DIAGRAM_ITEM__PROPERTIES;
+				default: return -1;
+			}
+		}
+		if (baseClass == WithImage.class) {
+			switch (baseFeatureID) {
+				case UiPackage.WITH_IMAGE__IMAGE: return UiPackage.DIAGRAM_ITEM__IMAGE;
 				default: return -1;
 			}
 		}

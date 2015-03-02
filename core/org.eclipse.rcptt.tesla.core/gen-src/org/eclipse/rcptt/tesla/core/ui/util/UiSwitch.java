@@ -317,6 +317,7 @@ public class UiSwitch<T> {
 				T result = caseDiagramItem(diagramItem);
 				if (result == null) result = caseWidget(diagramItem);
 				if (result == null) result = casePropertyMap(diagramItem);
+				if (result == null) result = caseWithImage(diagramItem);
 				if (result == null) result = casePropertyNodeList(diagramItem);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -327,6 +328,7 @@ public class UiSwitch<T> {
 				if (result == null) result = caseDiagramItem(diagramConnection);
 				if (result == null) result = caseWidget(diagramConnection);
 				if (result == null) result = casePropertyMap(diagramConnection);
+				if (result == null) result = caseWithImage(diagramConnection);
 				if (result == null) result = casePropertyNodeList(diagramConnection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
