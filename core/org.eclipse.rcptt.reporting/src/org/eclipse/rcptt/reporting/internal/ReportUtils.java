@@ -270,10 +270,14 @@ public class ReportUtils {
 
 	private static String getFailMessage(ProcessStatus result) {
 		ProcessStatus firstFail = getFirstFail(result.getChildren());
+		String resultMessage = result.getMessage();
 		if (firstFail != null) {
-			return getLineMessage(firstFail) + result.getMessage() + ": " + getFailMessage(firstFail);
+			String childrenMessage = getFailMessage(firstFail);
+			if (!resultMessage.equals(childrenMessage)) {
+				return getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
+			}
 		}
-		return result.getMessage();
+		return resultMessage;
 	}
 
 	private static String getLineMessage(ProcessStatus firstFail) {
