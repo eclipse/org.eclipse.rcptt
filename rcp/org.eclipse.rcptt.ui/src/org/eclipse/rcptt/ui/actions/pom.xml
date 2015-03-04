@@ -26,7 +26,7 @@
        http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/org/eclipse/sdk/
   -->
   <properties>
-    <ci4rcptt-maven-version>1.5.4</ci4rcptt-maven-version>
+    <ci4rcptt-maven-version>1.5.5</ci4rcptt-maven-version>
   </properties>
 
   <!-- The main part of RCPTT Maven plugin -->
