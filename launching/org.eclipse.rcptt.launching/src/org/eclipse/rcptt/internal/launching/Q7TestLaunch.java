@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.Launch;
-
 import org.eclipse.rcptt.launching.IExecutionSession;
 
 public class Q7TestLaunch extends Launch {
@@ -21,16 +20,10 @@ public class Q7TestLaunch extends Launch {
 		super(launchConfiguration, mode, null);
 	}
 
-	public void setSession(IExecutionSession session) {
+	public IExecutionSession setSession(IExecutionSession session) {
+		IExecutionSession result = this.session;
 		this.session = session;
-		if (session != null) {
-			this.session.setLaunch(this);
-		}
-	}
-
-	public IExecutionSession getClearSession() {
-		IExecutionSession result = session;
-		this.session = null;
+		assert session == null || session.getLaunch() == this;
 		return result;
 	}
 

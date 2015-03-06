@@ -45,8 +45,6 @@ public interface IExecutionSession {
 
 	public Date getEndTime();
 
-	public void setLaunch(Q7TestLaunch q7TestLaunch);
-
 	public Q7TestLaunch getLaunch();
 	
 	public static interface IExecutionSessionListener {

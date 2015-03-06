@@ -61,14 +61,6 @@ public class TestSuiteExecutable extends Executable {
 		return TYPE_TESTSUITE;
 	}
 
-	public long getTime() {
-		long total = 0;
-		for (IExecutable child : kids) {
-			total += child.getTime();
-		}
-		return total;
-	}
-
 	@Override
 	public Executable[] getChildren() {
 		return kids;

@@ -20,6 +20,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -79,7 +80,7 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		// create session
 		final ExecutionSession session = new MultiAutExecutionSession(launch
 				.getLaunchConfiguration().getName(),
-				executables.toArray(new Executable[executables.size()]), autLaunches.values());
+				executables.toArray(new Executable[executables.size()]), autLaunches.values(), q7launch);
 
 		final int maxEntries = Q7LaunchManager.getInstance().getMaxHistoryEntries();
 		final IExecutionSession[] prevSessions = Q7LaunchManager.getInstance().getExecutionSessions();
@@ -155,8 +156,9 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 	private static class MultiAutExecutionSession extends ExecutionSession {
 		private Set<AutLaunch> auts;
 
-		public MultiAutExecutionSession(String name, Executable[] executables, Collection<AutLaunch> auts) {
-			super(name, executables, null);
+		public MultiAutExecutionSession(String name, Executable[] executables, Collection<AutLaunch> auts,
+				Q7TestLaunch q7launch) {
+			super(name, executables, null, q7launch);
 			this.auts = new HashSet<AutLaunch>(auts);
 		}
 
@@ -176,7 +178,8 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		private boolean restartAut;
 		private ProxyLaunch launch;
 
-		public MultiAutPrepareExecutionWrapper(PrepareExecutionWrapper source, boolean restartAut) {
+		public MultiAutPrepareExecutionWrapper(PrepareExecutionWrapper source, boolean restartAut)
+				throws ModelException {
 			super(source.getAut(), source.getExecutable());
 			this.restartAut = restartAut;
 			this.launch = (ProxyLaunch) getAut();

@@ -162,11 +162,6 @@ public class Q7LaunchManager {
 				session.stop(result);
 				session.setEndTime(new Date());
 				Q7LaunchManager.getInstance().fireFinished(session);
-				try {
-					session.getLaunch().terminate();
-				} catch (DebugException e) {
-					Q7LaunchingPlugin.log(e);
-				}
 			}
 		}
 	}
@@ -273,7 +268,7 @@ public class Q7LaunchManager {
 
 		// create session
 		final ExecutionSession session = new ExecutionSession(launch
-				.getLaunchConfiguration().getName(), executables, aut);
+				.getLaunchConfiguration().getName(), executables, aut, launch);
 		final int maxEntries = getMaxHistoryEntries();
 		while (sessions.size() >= maxEntries) {
 			final ExecutionSession rSession = sessions.remove(0);

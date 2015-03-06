@@ -259,7 +259,7 @@ public abstract class Executable implements IExecutable {
 	}
 
 	@Override
-	public long getTime() {
+	public final long getTime() {
 		return time;
 	}
 
