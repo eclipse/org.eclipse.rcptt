@@ -530,10 +530,6 @@ public class Q7ExternalLaunchDelegate extends
 					+ IPath.SEPARATOR + SECURE_STORAGE_FILE_NAME);
 		}
 
-		IVMInstall install = VMHelper.getVMInstall(configuration);
-		programArgs.add("-vm");
-		programArgs.add(install.getInstallLocation().toString());
-
 		info.programArgs = programArgs.toArray(new String[programArgs.size()]);
 		Q7ExtLaunchingPlugin.getDefault().info(
 				Q7_LAUNCHING_AUT + configuration.getName()
@@ -578,7 +574,7 @@ public class Q7ExternalLaunchDelegate extends
 
 		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
 
-		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args));
+		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args) + "\n");
 
 		info.vmArgs = args.toArray(new String[args.size()]);
 		Q7ExtLaunchingPlugin.getDefault().info(
