@@ -398,12 +398,15 @@ public final class SWTWidgetLocator {
 		return changeRequired;
 	}
 
-	private ItemUIElement findItemUIElement(Widget widget, boolean supportEclipseWorkbench) {
+	private ItemUIElement findItemUIElement(Widget widget, SWTUIElement uiElement,
+			boolean supportEclipseWorkbench) {
+
 		ItemUIElement itemElement = null;
 		FindResult treeSearch = findElement(findParent(widget), false,
 				false, supportEclipseWorkbench);
 		ViewerUIElement treeView = new ViewerUIElement(treeSearch.element,
 				recorder);
+		recorder.setControls(SWTModelMapper.map(uiElement));
 		if (widget instanceof TableItem) {
 			itemElement = treeView.item(Viewers.getPathByTableItem((TableItem) widget));
 		} else if (widget instanceof TreeItem) {
@@ -439,8 +442,7 @@ public final class SWTWidgetLocator {
 				return result;
 			}
 		}
-		recorder.setControls(SWTModelMapper.map(uiElement));
-		ItemUIElement itemElement = findItemUIElement(widget, supportEclipseWorkbench);
+		ItemUIElement itemElement = findItemUIElement(widget, uiElement, supportEclipseWorkbench);
 
 		ElementEntry newElement = new ElementEntry(itemElement.getElement());
 		SWTRecordingHelper.getHelper().put(uiElement, newElement);
