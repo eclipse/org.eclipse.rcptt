@@ -140,7 +140,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Takes a table from input and returns the table with rows filtered by column and criteria."/>
       <details key="returns" value="Copy of input table object with filtered rows."/>
-      <details key="example" value="select-rows -column &quot;columnName&quot; -value &quot;value&quot; -match exact|glob|regex"/>
+      <details key="example" value="select-rows -column &quot;columnName&quot; -value &quot;value&quot; -match exact|glob|regexp"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="table" eType="ecore:EClass objects.ecore#//Table">
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
@@ -160,7 +160,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="#//RowMatchMode">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
-        <details key="description" value="Describes the matching behaviour for rows.&#xA;&lt;ul>&#xA;&lt;li>&lt;b>glob&lt;/b> &amp;ndash; wildcard matching&lt;/li>&#xA;&lt;li>&lt;b>exact&lt;/b> &amp;ndash; value should be equals to pattern&lt;/li>&#xA;&lt;li>&lt;b>regext&lt;/b> &amp;ndash; value must match java regular expression&lt;/li>&#xA;&lt;/ul>"/>
+        <details key="description" value="Describes the matching behaviour for rows.&#xD;&#xA;&lt;ul>&#xD;&#xA;&lt;li>&lt;b>glob&lt;/b> &amp;ndash; wildcard matching&lt;/li>&#xD;&#xA;&lt;li>&lt;b>exact&lt;/b> &amp;ndash; value should be equals to pattern&lt;/li>&#xD;&#xA;&lt;li>&lt;b>regexp&lt;/b> &amp;ndash; value must match java regular expression&lt;/li>&#xD;&#xA;&lt;/ul>"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

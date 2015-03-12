@@ -30,7 +30,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectRows()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table with rows filtered by column and criteria.' returns='Copy of input table object with filtered rows.' example='select-rows -column \"columnName\" -value \"value\" -match exact|glob|regex'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table with rows filtered by column and criteria.' returns='Copy of input table object with filtered rows.' example='select-rows -column \"columnName\" -value \"value\" -match exact|glob|regexp'"
  * @generated
  */
 public interface SelectRows extends Command {
@@ -125,7 +125,7 @@ public interface SelectRows extends Command {
 	 * @see org.eclipse.rcptt.ecl.data.commands.RowMatchMode
 	 * @see #setMatch(RowMatchMode)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectRows_Match()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\n<ul>\n<li><b>glob</b> &ndash; wildcard matching</li>\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\n<li><b>regext</b> &ndash; value must match java regular expression</li>\n</ul>'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\r\n<ul>\r\n<li><b>glob</b> &ndash; wildcard matching</li>\r\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\r\n<li><b>regexp</b> &ndash; value must match java regular expression</li>\r\n</ul>'"
 	 * @generated
 	 */
 	RowMatchMode getMatch();

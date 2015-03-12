@@ -8,11 +8,6 @@
             genModel="model/objects.genmodel"
             uri="http://www.eclipse.org/ecl/data/objects.ecore">
       </package>
-      <package
-            class="org.eclipse.rcptt.ecl.data.commands.CommandsPackage"
-            genModel="model/commands.genmodel"
-            uri="http://www.eclipse.org/ecl/data/commands.ecore">
-      </package>
    </extension>
    <extension
          point="org.eclipse.rcptt.ecl.core.scriptlet">
@@ -78,5 +73,13 @@
       </scriptlet>
    </extension>
 
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated commands -->
+      <package
+            uri="http://www.eclipse.org/ecl/data/commands.ecore"
+            class="org.eclipse.rcptt.ecl.data.commands.CommandsPackage"
+            genModel="model/commands.genmodel"/>
+   </extension>
 
 </plugin>
