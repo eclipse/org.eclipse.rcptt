@@ -41,8 +41,9 @@ public enum ImageSources {
 			return result;
 		}
 
-		if (ResourceSource.isValidSource(descriptor)) {
-			result = new ResourceSource(descriptor);
+		String info = DescriptorInfo.getInfo(descriptor);
+		if (info != null) {
+			result = new ResourceSource(info);
 			descriptors.put(descriptor, result);
 			return result;
 		} else {
@@ -87,26 +88,16 @@ public enum ImageSources {
 	}
 
 	public static class ResourceSource extends ImageSource {
-
 		public final String source;
 
-		public ResourceSource(ImageDescriptor source) {
-			this.source = getInfo(source.toString());
-		}
-
-		public static boolean isValidSource(ImageDescriptor source) {
-			return DescriptorInfo.isValid(source.toString());
-		}
-
-		public static String getInfo(String str) {
-			return DescriptorInfo.getInfo(str);
+		public ResourceSource(String source) {
+			this.source = source;
 		}
 
 		@Override
 		public String toString() {
 			return source;
 		}
-
 	}
 
 	public static class CompositeSource extends ImageSource {
