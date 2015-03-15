@@ -666,7 +666,7 @@ public class InfoPackageImpl extends EPackageImpl implements InfoPackage {
 		initEAttribute(getQ7WaitInfo_Ticks(), ecorePackage.getELong(), "ticks", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(q7WaitInfoRootEClass, Q7WaitInfoRoot.class, "Q7WaitInfoRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getQ7WaitInfoRoot_Infos(), this.getQ7WaitInfo(), null, "infos", null, 0, -1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getQ7WaitInfoRoot_Infos(), this.getQ7WaitInfo(), null, "infos", null, 0, -1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7WaitInfoRoot_StartTime(), ecorePackage.getELong(), "startTime", null, 0, 1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7WaitInfoRoot_Tick(), ecorePackage.getELong(), "tick", null, 0, 1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7WaitInfoRoot_ClassNames(), ecorePackage.getEString(), "classNames", null, 0, -1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

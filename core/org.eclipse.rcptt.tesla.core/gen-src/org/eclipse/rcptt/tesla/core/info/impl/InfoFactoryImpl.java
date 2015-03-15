@@ -44,7 +44,7 @@ public class InfoFactoryImpl extends EFactoryImpl implements InfoFactory {
 	 */
 	public static InfoFactory init() {
 		try {
-			InfoFactory theInfoFactory = (InfoFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/info"); 
+			InfoFactory theInfoFactory = (InfoFactory)EPackage.Registry.INSTANCE.getEFactory(InfoPackage.eNS_URI);
 			if (theInfoFactory != null) {
 				return theInfoFactory;
 			}

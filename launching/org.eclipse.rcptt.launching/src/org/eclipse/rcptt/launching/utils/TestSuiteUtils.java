@@ -251,4 +251,5 @@ public class TestSuiteUtils {
 		info.setTags(element.getTags());
 		return info;
 	}
+
 }

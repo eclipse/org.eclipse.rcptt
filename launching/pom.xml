@@ -7,6 +7,10 @@
     <version>1.5.6-SNAPSHOT</version>
     <relativePath>../releng/ide/pom.xml</relativePath>    
   </parent>
+
+  <artifactId>rcptt.launching</artifactId>
+  <packaging>pom</packaging>
+
   <modules>
     <module>org.eclipse.rcptt.launching-feature</module>
     <module>org.eclipse.rcptt.launching</module>
@@ -17,9 +21,7 @@
     <module>org.eclipse.rcptt.launching.common</module>
     <module>org.eclipse.rcptt.launching.multiaut</module>
     <module>org.eclipse.rcptt.launching.remote</module>
+    <module>org.eclipse.rcptt.reporting.html</module>
+    <module>tests</module>
   </modules>
-  <groupId>org.eclipse.rcptt</groupId>
-  <version>1.5.6-SNAPSHOT</version>
-  <artifactId>rcptt.launching</artifactId>
-  <packaging>pom</packaging>
 </project>

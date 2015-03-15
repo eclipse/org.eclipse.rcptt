@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.reporting.reportRenderer">
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.html.HtmlReportRenderer"
+            description="Allow to save report to html format"
+            extension="html"
+            name="HTML" id="html">
+      </reportRenderer>
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.html.HtmlReporter"
+            description="Generate HTML report"
+            extension="html"
+            id="html_separate"
+            name="HTML (Separate Files)">
+      </reportRenderer>
+   </extension>
+
+</plugin>

@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.core;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -16,8 +16,7 @@ import java.io.OutputStream;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.reporting.core.IReportRenderer;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.util.FileUtil;
 

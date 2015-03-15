@@ -36,7 +36,6 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.ui.report.Q7UIReportPlugin;
@@ -73,7 +72,7 @@ public class RcpttReportEditor extends FormEditor {
 		super.setInput(input);
 
 		// Copy file into .metadata
-		IPath path = Q7ReportingPlugin.getDefault().getStateLocation()
+		IPath path = Q7UIReportPlugin.getDefault().getStateLocation()
 				.append("temporary");
 		path.toFile().mkdirs();
 

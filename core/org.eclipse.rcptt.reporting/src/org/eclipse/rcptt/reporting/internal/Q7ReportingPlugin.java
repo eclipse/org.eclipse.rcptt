@@ -110,19 +110,4 @@ public class Q7ReportingPlugin extends Plugin {
 		IStatus status = new Status(Status.WARNING, PLUGIN_ID, message, t);
 		getDefault().getLog().log(status);
 	}
-
-	public static String getID(String value) {
-		if (value == null) {
-			return null;
-		}
-		String textResult = "";
-		for (char c : value.toCharArray()) {
-			if (!Character.isLetterOrDigit(c)) {
-				textResult += '_';
-			} else {
-				textResult += c;
-			}
-		}
-		return textResult;
-	}
 }

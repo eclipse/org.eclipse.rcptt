@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -50,7 +51,7 @@ import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
  */
 public class Q7WaitInfoRootImpl extends EObjectImpl implements Q7WaitInfoRoot {
 	/**
-	 * The cached value of the '{@link #getInfos() <em>Infos</em>}' reference list.
+	 * The cached value of the '{@link #getInfos() <em>Infos</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getInfos()
@@ -153,7 +154,7 @@ public class Q7WaitInfoRootImpl extends EObjectImpl implements Q7WaitInfoRoot {
 	 */
 	public EList<Q7WaitInfo> getInfos() {
 		if (infos == null) {
-			infos = new EObjectResolvingEList<Q7WaitInfo>(Q7WaitInfo.class, this, InfoPackage.Q7_WAIT_INFO_ROOT__INFOS);
+			infos = new EObjectContainmentEList<Q7WaitInfo>(Q7WaitInfo.class, this, InfoPackage.Q7_WAIT_INFO_ROOT__INFOS);
 		}
 		return infos;
 	}
@@ -244,6 +245,8 @@ public class Q7WaitInfoRootImpl extends EObjectImpl implements Q7WaitInfoRoot {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case InfoPackage.Q7_WAIT_INFO_ROOT__INFOS:
+				return ((InternalEList<?>)getInfos()).basicRemove(otherEnd, msgs);
 			case InfoPackage.Q7_WAIT_INFO_ROOT__INNER_CLASS_MAP:
 				return ((InternalEList<?>)getInnerClassMap()).basicRemove(otherEnd, msgs);
 		}

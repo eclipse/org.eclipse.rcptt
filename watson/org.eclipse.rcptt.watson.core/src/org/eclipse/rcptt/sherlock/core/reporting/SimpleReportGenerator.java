@@ -148,6 +148,13 @@ public class SimpleReportGenerator {
 		}
 	}
 
+	public static String getType(Q7WaitInfo q7WaitInfo) {
+		Q7WaitInfoRoot info = (Q7WaitInfoRoot) q7WaitInfo.eContainer();
+		if (info == null)
+			throw new NullPointerException("Unrooted object");
+		return getType(info, q7WaitInfo);
+	}
+
 	public static String getType(Q7WaitInfoRoot info, Q7WaitInfo q7WaitInfo) {
 		String type = info.getTypesNames().get(q7WaitInfo.getTypeId());
 		if (!TeslaFeatures.isIncludeIgnoredWaitDetails() && type.contains("(ignored)")) {

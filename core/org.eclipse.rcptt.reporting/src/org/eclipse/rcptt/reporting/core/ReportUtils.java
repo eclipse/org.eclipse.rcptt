@@ -8,7 +8,9 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.core;
+
+import static org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin.log;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,8 +35,6 @@ import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
@@ -70,12 +70,13 @@ public class ReportUtils {
 			if (report == null) {
 				continue;
 			}
-			total += 1;
 			Node localRoot = report.getRoot();
-			if (!localRoot.getProperties().containsKey(IQ7ReportConstants.ROOT)) {
+			if (localRoot == null) {
+				log(new NullPointerException("Report should always have root"));
 				continue;
 			}
 
+			total += 1;
 			Q7Info q7info = (Q7Info) localRoot.getProperties().get(
 					IQ7ReportConstants.ROOT);
 			SimpleSeverity severity = SimpleSeverity.create(q7info);
@@ -265,6 +266,9 @@ public class ReportUtils {
 
 	public static String getFailMessage(Node item) {
 		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (current == null) {
+			return "Non Q7 report node";
+		}
 		return getFailMessage(current.getResult());
 	}
 
@@ -305,6 +309,8 @@ public class ReportUtils {
 	}
 
 	public static String replaceLineBreaks(String string) {
+		if (string == null)
+			return null;
 		string = string.replace("\r\n", "<br />");
 		string = string.replace("\n", "<br />");
 		string = string.replace("\r", "<br />");
@@ -380,4 +386,18 @@ public class ReportUtils {
 		}
 	}
 
+	public static String getID(String value) {
+		if (value == null) {
+			return null;
+		}
+		String textResult = "";
+		for (char c : value.toCharArray()) {
+			if (!Character.isLetterOrDigit(c)) {
+				textResult += '_';
+			} else {
+				textResult += c;
+			}
+		}
+		return textResult;
+	}
 }

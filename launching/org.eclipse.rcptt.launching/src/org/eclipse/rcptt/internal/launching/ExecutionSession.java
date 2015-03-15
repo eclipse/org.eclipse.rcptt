@@ -21,7 +21,7 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.reporting.core.ReportUtils;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 
 import com.google.common.base.Preconditions;
@@ -49,7 +49,7 @@ public class ExecutionSession implements IExecutionSession {
 		this.executables = executables;
 		this.aut = aut;
 		this.launch = launch;
-		String reportID = Q7ReportingPlugin.getID(name);
+		String reportID = ReportUtils.getID(name);
 		File reportRoot = Q7LaunchingPlugin.getExecutionSessionRoot(reportID,
 				this);
 		reportSession = new SherlockReportSession(reportRoot);

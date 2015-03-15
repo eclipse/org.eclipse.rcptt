@@ -1,0 +1,88 @@
+.failure th, .failure td {
+	border-color: red;
+}
+
+.skipped th, .skipped td {
+	border-color: grey;
+}
+
+.passed th, .passed td {
+	border-color: green;
+}
+
+h1.failure, h2.failure, h3.failure, h4.failure, h5.failure {
+	color: red;
+}
+
+h1.passed, h2.passed, h3.passed, h4.passed, h5.passed {
+	color: green;
+}
+
+h1.skipped, h2.skipped, h3.skipped, h4.skipped, h5.skipped {
+	color: grey;
+}
+
+table.failure th {
+	vertical-align: top;
+	text-align: right;
+}
+
+/*To keep header on details icon level */
+summary h1,
+summary h2,
+summary h3,
+summary h4,
+summary h5,
+summary h6
+{
+	display: inline-block;
+}
+
+.childNode {
+	padding-left: 10px;
+}
+
+table {
+	border-collapse:collapse;
+}
+
+table td, table th {
+	border:1px solid;
+	padding: 2px;
+}
+
+summary {
+	cursor:pointer;
+	display: block;
+}
+
+@-moz-document url-prefix() {
+	/* Imitation of details element
+	 * http://www.w3.org/wiki/HTML/Elements/details
+	 */   
+	
+	details.closed .detailsContent {
+		display:none;
+	}
+	
+	details.closed summary h1:before,
+	details.closed summary h2:before,
+	details.closed summary h3:before,
+	details.closed summary h4:before,
+	details.closed summary h5:before,
+	details.closed summary h6:before
+	{
+		content: "+ ";
+	}
+	
+	details summary h1:before,
+	details summary h2:before,
+	details summary h3:before,
+	details summary h4:before,
+	details summary h5:before,
+	details summary h6:before
+	{
+		content: "- ";
+	}
+}
+

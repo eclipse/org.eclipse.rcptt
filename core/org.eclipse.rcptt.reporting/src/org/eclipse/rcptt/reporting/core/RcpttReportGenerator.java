@@ -308,7 +308,7 @@ public class RcpttReportGenerator {
 		iwriter.flush();
 	}
 
-	private void writeLogsFromNode(int tabs, Node infoNode) {
+	public void writeLogsFromNode(int tabs, Node infoNode) {
 		boolean haveEntries = false;
 		for (LoggingCategory logCategory : LoggingCategory.VALUES) {
 			String log = ReportBuilder.getLogs(infoNode, logCategory);
