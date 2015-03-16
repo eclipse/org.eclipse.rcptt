@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>runner</artifactId>
+		<groupId>org.eclipse.rcptt.runner</groupId>
+		<version>1.5.6-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<!-- Lite version of features -->
+		<module>org.eclipse.rcptt.rcp.lite-feature</module>
+		<module>org.eclipse.rcptt.platform.lite-feature</module>
+		<module>org.eclipse.rcptt.jdt.lite-feature</module>
+		<module>org.eclipse.rcptt.pde.lite-feature</module>
+		<module>org.eclipse.rcptt.runner.runner-feature</module>
+		<module>org.eclipse.rcptt.runner.integration-feature</module>
+	</modules>
+	<groupId>org.eclipse.rcptt.runner.features</groupId>
+	<artifactId>runner.features</artifactId>
+	<packaging>pom</packaging>
+</project>

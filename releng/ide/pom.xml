@@ -28,7 +28,9 @@
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e44x</module>
+
     <module>../../repository/full</module>
+    <module>../../runner</module>
   </modules>
 
   <properties>
