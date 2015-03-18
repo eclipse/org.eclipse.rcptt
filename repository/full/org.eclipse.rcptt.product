@@ -36,7 +36,9 @@ Apache Software Foundation http://www.apache.org/
       <vmArgsLin>-Dorg.eclipse.swt.browser.DefaultType=mozilla
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
       </vmArgsLin>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      <vmArgsMac>-XstartOnFirstThread
+	-Dorg.eclipse.swt.internal.carbon.smallFonts
+	-Dorg.osgi.framework.library.extensions=jnilib
       </vmArgsMac>
    </launcherArgs>
 
