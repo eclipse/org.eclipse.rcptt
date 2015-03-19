@@ -331,6 +331,7 @@ Apache Software Foundation http://www.apache.org/
       <feature id="org.eclipse.equinox.p2.user.ui"/>
       <feature id="org.eclipse.equinox.p2.rcp.feature"/>
       <feature id="org.eclipse.rcptt.module.nebula"/>
+      <feature id="org.eclipse.rcptt.launching"/>
    </features>
 
    <configurations>
