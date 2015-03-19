@@ -544,13 +544,13 @@ public class SWTModelMapper {
 		}
 		switch (styleRange.fontStyle) {
 		case SWT.BOLD:
-			style.setFontStyle("bold"); //$NON-NLS-1$ 
+			style.setFontStyle("bold"); //$NON-NLS-1$
 			break;
 		case SWT.ITALIC:
-			style.setFontStyle("italic"); //$NON-NLS-1$ 
+			style.setFontStyle("italic"); //$NON-NLS-1$
 			break;
 		case SWT.BOLD | SWT.ITALIC:
-			style.setFontStyle("bold-italic"); //$NON-NLS-1$ 
+			style.setFontStyle("bold-italic"); //$NON-NLS-1$
 			break;
 		default:
 			style.setFontStyle("normal"); //$NON-NLS-1$
@@ -567,15 +567,15 @@ public class SWTModelMapper {
 		if (styleRange.underline) {
 			switch (styleRange.underlineStyle) {
 			case SWT.UNDERLINE_SINGLE:
-				style.setUnderline("single");break; //$NON-NLS-1$ 
+				style.setUnderline("single");break; //$NON-NLS-1$
 			case SWT.UNDERLINE_DOUBLE:
-				style.setUnderline("double");break; //$NON-NLS-1$ 
+				style.setUnderline("double");break; //$NON-NLS-1$
 			case SWT.UNDERLINE_SQUIGGLE:
-				style.setUnderline("squiggle");break; //$NON-NLS-1$ 
+				style.setUnderline("squiggle");break; //$NON-NLS-1$
 			case SWT.UNDERLINE_ERROR:
-				style.setUnderline("error");break; //$NON-NLS-1$ 
+				style.setUnderline("error");break; //$NON-NLS-1$
 			case SWT.UNDERLINE_LINK:
-				style.setUnderline("link");break; //$NON-NLS-1$ 
+				style.setUnderline("link");break; //$NON-NLS-1$
 			}
 			if (styleRange.underlineColor != null) {
 				style.setUnderlineColor(makeColor(styleRange.underlineColor));
@@ -946,16 +946,16 @@ public class SWTModelMapper {
 		for (FontData fontData : fontDatas) {
 			switch (fontData.getStyle()) {
 			case SWT.BOLD:
-				st.setFontStyle("bold"); //$NON-NLS-1$ 
+				st.setFontStyle("bold"); //$NON-NLS-1$
 				break;
 			case SWT.ITALIC:
-				st.setFontStyle("italic"); //$NON-NLS-1$ 
+				st.setFontStyle("italic"); //$NON-NLS-1$
 				break;
 			case SWT.BOLD | SWT.ITALIC:
-				st.setFontStyle("bold-italic"); //$NON-NLS-1$ 
+				st.setFontStyle("bold-italic"); //$NON-NLS-1$
 				break;
 			default:
-				st.setFontStyle("normal"); //$NON-NLS-1$ 
+				st.setFontStyle("normal"); //$NON-NLS-1$
 			}
 			st.setFont(fontData.getName());
 		}
@@ -1071,7 +1071,7 @@ public class SWTModelMapper {
 		extensions = exts;
 	}
 
-	private static void fillImage(WithImage widget, Image image) {
+	public static void fillImage(WithImage widget, Image image) {
 		org.eclipse.rcptt.tesla.core.ui.Image img = mapImage(image);
 		if (img == null) {
 			return;

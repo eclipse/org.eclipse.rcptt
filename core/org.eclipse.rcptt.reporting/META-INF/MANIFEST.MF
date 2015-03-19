@@ -10,11 +10,11 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.reporting,
  org.eclipse.rcptt.reporting.core,
  org.eclipse.rcptt.reporting.impl,
- org.eclipse.rcptt.reporting.internal,
  org.eclipse.rcptt.reporting.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.rcptt.watson.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.watson.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;visibility:=reexport,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,

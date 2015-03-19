@@ -18,11 +18,6 @@
         genModel="/models/diagram.genmodel"
         uri="http://eclipse.org/rcptt/tesla/diagram">
   </package>
-  <package
-        class="org.eclipse.rcptt.tesla.core.info.InfoPackage"
-        genModel="/models/info.genmodel"
-        uri="http://eclipse.org/rcptt/tesla/info">
-  </package>
 	</extension>
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated controls -->
@@ -30,6 +25,14 @@
             uri="http://eclipse.org/rcptt/tesla/widgets"
             class="org.eclipse.rcptt.tesla.core.ui.UiPackage"
             genModel="models/controls.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated info -->
+      <package
+            uri="http://eclipse.org/rcptt/tesla/info"
+            class="org.eclipse.rcptt.tesla.core.info.InfoPackage"
+            genModel="models/info.genmodel"/>
    </extension>
 
 </plugin>

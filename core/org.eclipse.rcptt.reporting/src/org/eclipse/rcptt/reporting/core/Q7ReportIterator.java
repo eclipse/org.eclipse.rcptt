@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.reporting.core;
 
+import java.io.Closeable;
 import java.io.File;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -21,7 +22,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportIterator;
 
 public class Q7ReportIterator implements
-		Iterable<Report> {
+		Iterable<Report>, Closeable {
 	private final SherlockReportIterator sherlock;
 
 	public Q7ReportIterator(File file) {
@@ -62,6 +63,7 @@ public class Q7ReportIterator implements
 
 	}
 
+	@Override
 	public void close() {
 		sherlock.close();
 	}

@@ -15,6 +15,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.ecl.core.model.BeginReportNode;
@@ -23,6 +24,7 @@ import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
@@ -59,7 +61,12 @@ public class ReportMaker implements IQ7ReportConstants {
 	}
 
 	public static void endReportNode(boolean takeSnaphots, AutLaunch launch, IStatus result) throws CoreException {
-		endReportNode(takeSnaphots, launch, ProcessStatusConverter.toProcessStatus(result));
+		try {
+			endReportNode(takeSnaphots, launch, ProcessStatusConverter.toProcessStatus(result));
+		} catch (CoreException e) {
+			IStatus[] children = new IStatus[] { result, e.getStatus() };
+			throw new CoreException(new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, "Failed to close report node", null));
+		}
 	}
 	/**
 	 * If snaphots contains elements, then only items will be used, overwize all

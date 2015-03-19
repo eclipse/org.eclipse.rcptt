@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.core;
 
 import java.io.OutputStream;
 import java.util.Iterator;
@@ -20,8 +20,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
-import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
-import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.reporting.internal.Reports;
+import org.eclipse.rcptt.reporting.internal.XMLUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 

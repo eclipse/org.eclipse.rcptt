@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: HTML reporting tests (Incubation)
+Bundle-SymbolicName: org.eclipse.rcptt.reporting.html.tests
+Bundle-Version: 2.0.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit;bundle-version="4.8.2",
+ org.eclipse.rcptt.core.ecl.formatter,
+ org.eclipse.rcptt.reporting,
+ org.eclipse.equinox.registry,
+ com.google.guava,
+ org.eclipse.rcptt.util,
+ org.eclipse.rcptt.reporting.html,
+ org.eclipse.rcptt.tesla.core

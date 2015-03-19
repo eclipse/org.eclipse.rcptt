@@ -1,13 +1,38 @@
 package org.eclipse.rcptt.ecl.core.tests;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.util.Statuses;
+import org.eclipse.rcptt.ecl.parser.EclCoreParser;
+import org.eclipse.rcptt.ecl.runtime.EclRuntime;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.ecl.runtime.ISession;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class StatusesTest {
+
+	private static final NullProgressMonitor MONITOR = new NullProgressMonitor();
+
+	private ISession session = null;
+
+	@Before
+	public void init() {
+		Assert.assertNull(session);
+		session = EclRuntime.createSession();
+	}
+
+	@After
+	public void close() throws CoreException {
+		session.close();
+		session = null;
+	}
 
 	private static IStatus status(int severity, int code) {
 		return new Status(severity, "plugin", code, "", null);
@@ -29,4 +54,27 @@ public class StatusesTest {
 		Assert.assertTrue(Statuses.hasCode(status, 1));
 	}
 
+	private Command parse(String input) throws CoreException {
+		return EclCoreParser.newCommand(input);
+	}
+	
+	Command sleepCommand(long milliseconds) throws CoreException {
+		return parse("invoke-static -pluginId \"org.eclipse.core.runtime\" -className java.lang.Thread -methodName sleep -args "
+				+ milliseconds);
+	}
+	@Test 
+	public void testNoTimeout() throws InterruptedException, CoreException {
+		IProcess process = session.execute(sleepCommand(100));
+		IStatus result = process.waitFor(200, MONITOR);
+		Assert.assertTrue(result.getMessage(), result.isOK());
+		Assert.assertFalse(Statuses.hasCode(result, IProcess.TIMEOUT_CODE));
+	}
+
+	@Test
+	public void testTimeout() throws InterruptedException, CoreException {
+		IProcess process = session.execute(sleepCommand(100));
+		IStatus result = process.waitFor(50, MONITOR);
+		Assert.assertFalse(result.isOK());
+		Assert.assertTrue(result.getMessage(), Statuses.hasCode(result, IProcess.TIMEOUT_CODE));
+	}
 }

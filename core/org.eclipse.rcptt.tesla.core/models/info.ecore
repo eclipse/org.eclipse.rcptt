@@ -46,7 +46,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Q7WaitInfoRoot">
     <eStructuralFeatures xsi:type="ecore:EReference" name="infos" upperBound="-1"
-        eType="#//Q7WaitInfo"/>
+        eType="#//Q7WaitInfo" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tick" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="classNames" unique="false"

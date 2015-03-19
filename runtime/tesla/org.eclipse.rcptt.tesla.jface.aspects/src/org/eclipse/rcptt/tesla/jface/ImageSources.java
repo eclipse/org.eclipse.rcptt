@@ -10,13 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.jface;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -24,7 +20,6 @@ import org.eclipse.rcptt.tesla.swt.images.ImageDataMapping;
 import org.eclipse.rcptt.util.WeakIdentityHashMap;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.osgi.framework.Bundle;
 
 public enum ImageSources {
 	INSTANCE;
@@ -46,8 +41,9 @@ public enum ImageSources {
 			return result;
 		}
 
-		if (ResourceSource.isValidSource(descriptor)) {
-			result = new ResourceSource(descriptor);
+		String info = DescriptorInfo.getInfo(descriptor);
+		if (info != null) {
+			result = new ResourceSource(info);
 			descriptors.put(descriptor, result);
 			return result;
 		} else {
@@ -55,18 +51,15 @@ public enum ImageSources {
 		}
 	}
 
-	public synchronized void imageDataFromDescriptor(ImageData imageData,
-			ImageDescriptor descriptor) {
+	public synchronized void imageDataFromDescriptor(ImageData imageData, ImageDescriptor descriptor) {
 		imageOrDataFromDescriptor(dedup(imageData), descriptor);
 	}
 
-	public synchronized void imageFromDescriptor(Image image,
-			ImageDescriptor descriptor) {
+	public synchronized void imageFromDescriptor(Image image, ImageDescriptor descriptor) {
 		imageOrDataFromDescriptor(dedup(image), descriptor);
 	}
 
-	private synchronized void imageOrDataFromDescriptor(Object imageOrData,
-			ImageDescriptor descriptor) {
+	private synchronized void imageOrDataFromDescriptor(Object imageOrData, ImageDescriptor descriptor) {
 		ImageSource source = findOrCreate(descriptor);
 		if (source == null) {
 			return; // unknown origin
@@ -79,8 +72,7 @@ public enum ImageSources {
 		return source == null ? imageOrData : source;
 	}
 
-	public synchronized void imageDrawn(ImageData data,
-			ImageDescriptor descriptor) {
+	public synchronized void imageDrawn(ImageData data, ImageDescriptor descriptor) {
 		ImageSource composite = findOrCreate(descriptor);
 		ImageSource source = sources.get(dedup(data));
 		if (source == null) {
@@ -96,78 +88,16 @@ public enum ImageSources {
 	}
 
 	public static class ResourceSource extends ImageSource {
-		private static Pattern bundleUrlDescriptor = Pattern
-				.compile("URLImageDescriptor\\(((bundleentry|bundleresource).*)\\)");
-		private static Pattern platformUrlDescriptor = Pattern
-				.compile("URLImageDescriptor\\(platform:/plugin/(.*)\\)");
-		private static Pattern fileClassDescriptor = Pattern
-				.compile("FileImageDescriptor\\(location=class (.*), name=(.*)\\)");
+		public final String source;
 
-		// (bundleresource://5724.fwk1864311781:1/icons/q7.png)
-		private static String getInfo(String str) {
-			Matcher urlMatcher = bundleUrlDescriptor.matcher(str);
-			if (urlMatcher.matches()) {
-				String uriStr = urlMatcher.group(1);
-				URI bundleUri = null;
-				try {
-					bundleUri = new URI(uriStr);
-				} catch (URISyntaxException e) {
-					return "InvalidUri(" + uriStr + ")";
-				}
-
-				String host = bundleUri.getHost();
-				int bundleIdEndIndex = host.indexOf(".fwk");
-				if (bundleIdEndIndex == -1) {
-					return "UnknownBundleId(" + uriStr + ")";
-				}
-
-				int bundleId = -1;
-				try {
-					bundleId = Integer.parseInt(host.substring(0, bundleIdEndIndex));
-				} catch (NumberFormatException e) {
-					return "UnknownBundleId(" + uriStr + ")";
-				}
-
-				Bundle imageBundle = JFaceAspectsActivator.getDefault().getBundle().getBundleContext()
-						.getBundle(bundleId);
-				String bundleName = imageBundle == null ? "unknownBundle" : imageBundle.getSymbolicName();
-				return String.format("%s%s", bundleName, bundleUri.getPath());
-			}
-
-			Matcher platformMatcher = platformUrlDescriptor.matcher(str);
-			if (platformMatcher.matches()) {
-				return platformMatcher.group(1);
-			}
-
-			Matcher fileMatcher = fileClassDescriptor.matcher(str);
-			if (fileMatcher.matches()) {
-				return String.format("%s%s", fileMatcher.group(1),
-						fileMatcher.group(2));
-			}
-
-			return str;
-
-		}
-
-		public static boolean isValidSource(ImageDescriptor source) {
-			String str = source.toString();
-			Matcher urlMatcher = bundleUrlDescriptor.matcher(str);
-			Matcher platformMatcher = platformUrlDescriptor.matcher(str);
-			Matcher fileMatcher = fileClassDescriptor.matcher(str);
-
-			return (urlMatcher.matches() || platformMatcher.matches() || fileMatcher.matches());
-		}
-
-		public ResourceSource(ImageDescriptor source) {
-			this.source = getInfo(source.toString());
+		public ResourceSource(String source) {
+			this.source = source;
 		}
 
 		@Override
 		public String toString() {
 			return source;
 		}
-
-		public final String source;
 	}
 
 	public static class CompositeSource extends ImageSource {

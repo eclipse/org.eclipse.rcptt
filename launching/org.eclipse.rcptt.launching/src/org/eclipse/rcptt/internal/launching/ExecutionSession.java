@@ -17,10 +17,11 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.debug.core.DebugException;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.reporting.core.ReportUtils;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportSession;
 
 import com.google.common.base.Preconditions;
@@ -38,16 +39,17 @@ public class ExecutionSession implements IExecutionSession {
 	private int failedCount;
 	private Date endTime;
 	private final SherlockReportSession reportSession;
-	private Q7TestLaunch launch;
+	private final Q7TestLaunch launch;
 	private final int testCasesCount;
-	private AutLaunch aut;
+	private final AutLaunch aut;
 	private volatile IStatus result = null;
 
-	public ExecutionSession(String name, Executable[] executables, AutLaunch aut) {
+	public ExecutionSession(String name, Executable[] executables, AutLaunch aut, Q7TestLaunch launch) {
 		this.name = name;
 		this.executables = executables;
 		this.aut = aut;
-		String reportID = Q7ReportingPlugin.getID(name);
+		this.launch = launch;
+		String reportID = ReportUtils.getID(name);
 		File reportRoot = Q7LaunchingPlugin.getExecutionSessionRoot(reportID,
 				this);
 		reportSession = new SherlockReportSession(reportRoot);
@@ -59,10 +61,6 @@ public class ExecutionSession implements IExecutionSession {
 			}
 		}
 		testCasesCount = testCases.length;
-	}
-
-	public void setLaunch(Q7TestLaunch q7TestLaunch) {
-		this.launch = q7TestLaunch;
 	}
 
 	public Q7TestLaunch getLaunch() {
@@ -143,8 +141,12 @@ public class ExecutionSession implements IExecutionSession {
 		}
 		if (launch != null) {
 			launch.setSession(null);
+			try {
+				launch.terminate();
+			} catch (DebugException e) {
+				Q7LaunchingPlugin.log(e);
+			}
 		}
-		aut = null;
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).statisticsUpdate();
 		}
@@ -217,7 +219,6 @@ public class ExecutionSession implements IExecutionSession {
 		if (reportSession != null) {
 			reportSession.dispose();
 		}
-		aut = null;
 	}
 
 	public void setEndTime(Date date) {

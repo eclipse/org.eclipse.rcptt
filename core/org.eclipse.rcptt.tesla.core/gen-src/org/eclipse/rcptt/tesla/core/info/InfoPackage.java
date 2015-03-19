@@ -417,7 +417,7 @@ public interface InfoPackage extends EPackage {
 	int Q7_WAIT_INFO_ROOT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Infos</b></em>' reference list.
+	 * The feature id for the '<em><b>Infos</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -862,10 +862,10 @@ public interface InfoPackage extends EPackage {
 	EClass getQ7WaitInfoRoot();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getInfos <em>Infos</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getInfos <em>Infos</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Infos</em>'.
+	 * @return the meta object for the containment reference list '<em>Infos</em>'.
 	 * @see org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getInfos()
 	 * @see #getQ7WaitInfoRoot()
 	 * @generated
@@ -1222,7 +1222,7 @@ public interface InfoPackage extends EPackage {
 		 */
 		EClass Q7_WAIT_INFO_ROOT = eINSTANCE.getQ7WaitInfoRoot();
 		/**
-		 * The meta object literal for the '<em><b>Infos</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Infos</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

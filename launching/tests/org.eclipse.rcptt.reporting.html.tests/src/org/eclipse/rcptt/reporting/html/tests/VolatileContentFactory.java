@@ -1,0 +1,72 @@
+package org.eclipse.rcptt.reporting.html.tests;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.reporting.core.IReportRenderer.IContentFactory;
+
+import com.google.common.base.Charsets;
+
+public class VolatileContentFactory implements IContentFactory {
+	private final Map<String, byte[]> data;
+	private final String prefix;
+
+	private VolatileContentFactory(Map<String, byte[]> data, String prefix) {
+		super();
+		this.data = data;
+		this.prefix = prefix;
+	}
+
+	public VolatileContentFactory() {
+		this(new HashMap<String, byte[]>(), "");
+	}
+
+	@Override
+	public IContentFactory createFolder(String name) {
+		return new VolatileContentFactory(data, createKey(name));
+	}
+
+	private String createKey(String name) {
+		return prefix + "/" + name;
+	}
+
+	@Override
+	public List<String> matchFiles(String fname) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean isFileExist(String fileName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public OutputStream createFileStream(String fname) throws CoreException {
+		final String key = createKey(fname);
+		if (data.get(key) != null)
+			throw new CoreException(RcpttPlugin.createStatus("Second write to " + key));
+		return new ByteArrayOutputStream() {
+			@Override
+			public void close() throws IOException {
+				if (data.put(key, toByteArray()) != null) {
+					throw new IOException("Second write to " + key);
+				}
+			}
+		};
+	}
+
+	@Override
+	public void removeFileOrFolder(String name) throws CoreException {
+		data.remove(createKey(name));
+	}
+
+	public String read(String path) {
+		return new String(data.get(createKey(path)), Charsets.UTF_8);
+	}
+}

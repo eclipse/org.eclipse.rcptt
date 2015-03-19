@@ -35,7 +35,7 @@ public class ObjectsFactoryImpl extends EFactoryImpl implements ObjectsFactory {
 	 */
 	public static ObjectsFactory init() {
 		try {
-			ObjectsFactory theObjectsFactory = (ObjectsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/data/objects.ecore"); 
+			ObjectsFactory theObjectsFactory = (ObjectsFactory)EPackage.Registry.INSTANCE.getEFactory(ObjectsPackage.eNS_URI);
 			if (theObjectsFactory != null) {
 				return theObjectsFactory;
 			}

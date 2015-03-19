@@ -21,7 +21,7 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.internal.ReportUtils;
+import org.eclipse.rcptt.reporting.core.ReportUtils;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
 import org.eclipse.rcptt.ui.launching.StatisticPanel;
 import org.eclipse.swt.SWT;

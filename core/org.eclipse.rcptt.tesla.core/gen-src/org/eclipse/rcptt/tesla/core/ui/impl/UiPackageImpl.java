@@ -2833,6 +2833,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		viewerColumnEClass.getESuperTypes().add(this.getItem());
 		diagramItemEClass.getESuperTypes().add(this.getWidget());
 		diagramItemEClass.getESuperTypes().add(this.getPropertyMap());
+		diagramItemEClass.getESuperTypes().add(this.getWithImage());
 		diagramConnectionEClass.getESuperTypes().add(this.getDiagramItem());
 		propertyWidgetEClass.getESuperTypes().add(this.getWidget());
 		propertyWidgetEClass.getESuperTypes().add(this.getPropertyMap());

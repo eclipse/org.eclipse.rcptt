@@ -26,20 +26,17 @@ import org.eclipse.rcptt.ecl.data.objects.Row;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getValues <em>Values
- * </em>}</li>
- * <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getChildren <em>Children
- * </em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class RowImpl extends EObjectImpl implements Row {
 	/**
-	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -47,9 +44,8 @@ public class RowImpl extends EObjectImpl implements Row {
 	protected EList<String> values;
 
 	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -58,7 +54,6 @@ public class RowImpl extends EObjectImpl implements Row {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RowImpl() {
@@ -67,7 +62,6 @@ public class RowImpl extends EObjectImpl implements Row {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,7 +71,6 @@ public class RowImpl extends EObjectImpl implements Row {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<String> getValues() {
@@ -89,7 +82,6 @@ public class RowImpl extends EObjectImpl implements Row {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Row> getChildren() {
@@ -101,84 +93,78 @@ public class RowImpl extends EObjectImpl implements Row {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ObjectsPackage.ROW__VALUES:
-			return getValues();
-		case ObjectsPackage.ROW__CHILDREN:
-			return getChildren();
+			case ObjectsPackage.ROW__VALUES:
+				return getValues();
+			case ObjectsPackage.ROW__CHILDREN:
+				return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ObjectsPackage.ROW__VALUES:
-			getValues().clear();
-			getValues().addAll((Collection<? extends String>) newValue);
-			return;
-		case ObjectsPackage.ROW__CHILDREN:
-			getChildren().clear();
-			getChildren().addAll((Collection<? extends Row>) newValue);
-			return;
+			case ObjectsPackage.ROW__VALUES:
+				getValues().clear();
+				getValues().addAll((Collection<? extends String>)newValue);
+				return;
+			case ObjectsPackage.ROW__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection<? extends Row>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ObjectsPackage.ROW__VALUES:
-			getValues().clear();
-			return;
-		case ObjectsPackage.ROW__CHILDREN:
-			getChildren().clear();
-			return;
+			case ObjectsPackage.ROW__VALUES:
+				getValues().clear();
+				return;
+			case ObjectsPackage.ROW__CHILDREN:
+				getChildren().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ObjectsPackage.ROW__VALUES:
-			return values != null && !values.isEmpty();
-		case ObjectsPackage.ROW__CHILDREN:
-			return children != null && !children.isEmpty();
+			case ObjectsPackage.ROW__VALUES:
+				return values != null && !values.isEmpty();
+			case ObjectsPackage.ROW__CHILDREN:
+				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (values: ");

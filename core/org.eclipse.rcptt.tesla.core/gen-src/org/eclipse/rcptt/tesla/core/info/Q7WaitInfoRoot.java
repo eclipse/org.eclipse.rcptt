@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Q7WaitInfoRoot extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Infos</b></em>' reference list.
+	 * Returns the value of the '<em><b>Infos</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -45,9 +45,9 @@ public interface Q7WaitInfoRoot extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Infos</em>' reference list.
+	 * @return the value of the '<em>Infos</em>' containment reference list.
 	 * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getQ7WaitInfoRoot_Infos()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Q7WaitInfo> getInfos();

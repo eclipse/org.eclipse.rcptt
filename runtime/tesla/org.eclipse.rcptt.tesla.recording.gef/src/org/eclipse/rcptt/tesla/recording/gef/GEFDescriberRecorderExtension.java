@@ -18,8 +18,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.gef.GefProcessor;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
@@ -27,6 +25,7 @@ import org.eclipse.rcptt.tesla.recording.core.swt.IRecorderDescriberExtension;
 import org.eclipse.rcptt.tesla.recording.core.swt.IRecordingDescriber;
 import org.eclipse.rcptt.tesla.recording.core.swt.RecordingWidgetDescriber;
 import org.eclipse.rcptt.tesla.recording.core.swt.SWTEventRecorder;
+import org.eclipse.swt.widgets.Widget;
 
 public class GEFDescriberRecorderExtension implements
 		IRecorderDescriberExtension {
@@ -46,29 +45,41 @@ public class GEFDescriberRecorderExtension implements
 		return figureAt;
 	}
 
+	@Override
 	public IRecordingDescriber getDescriber(Widget widget,
 			IRecordingDescriber previous, int x, int y, boolean fromAsser) {
 		if (widget instanceof FigureCanvas) {
 			FigureCanvas canvas = (FigureCanvas) widget;
-			SWTUIPlayer player = getSWTProcessor(TeslaRecorder.getInstance())
-					.getPlayer();
+			SWTUIPlayer player = getSWTProcessor(TeslaRecorder.getInstance()).getPlayer();
 			GraphicalViewer viewer = GefProcessor.findDiagramViewer(
 					player.wrap(canvas), GraphicalViewer.class, null, player);
-			EditPart editPart = viewer == null ? null : viewer
-					.findObjectAt(new Point(x, y));
+			EditPart editPart = viewer == null ? null : viewer.findObjectAt(new Point(x, y));
 			if (editPart instanceof RootEditPart) {
-				return new RecordingEditPartDescriber(viewer.getContents(),
-						viewer);
+				return new RecordingEditPartDescriber(viewer.getContents(), viewer);
 			}
 
 			if (editPart != null) {
 				IFigure figure = ((GraphicalEditPart) editPart).getFigure();
-				IFigure figureAt = figure.findFigureAt(x, y);
+				IFigure figureAt = null;
+
+				// Gets viewer location (scrolling offset)
+				Point location = null;
+				if (viewer != null) {
+					FigureCanvas figureCanvas = (FigureCanvas) viewer.getControl();
+					if (figureCanvas != null) {
+						location = figureCanvas.getViewport().getViewLocation();
+					}
+				}
+				// Searches figure
+				if (location != null) {
+					figureAt = figure.findFigureAt(x + location.x, y + location.y);
+				} else {
+					figureAt = figure.findFigureAt(x, y);
+				}
 
 				if (figureAt != null && !figure.equals(figureAt)) {
 					figureAt = skipFlowFigures(figureAt, figure);
-					return new RecordingFigureDescriber(figureAt, editPart,
-							viewer, canvas);
+					return new RecordingFigureDescriber(figureAt, editPart, viewer, canvas);
 				}
 				return new RecordingEditPartDescriber(editPart, viewer);
 			}

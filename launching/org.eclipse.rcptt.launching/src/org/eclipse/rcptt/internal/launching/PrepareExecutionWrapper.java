@@ -81,10 +81,12 @@ public class PrepareExecutionWrapper extends Executable {
 
 	private String resultReportID;
 
-	public PrepareExecutionWrapper(AutLaunch launch, Executable executable) {
+	public PrepareExecutionWrapper(AutLaunch launch, Executable executable) throws ModelException {
 		super(executable.isDebug(), ExecutionPhase.AUTO, true);
 		this.launch = launch;
 		this.executable = executable;
+		Preconditions.checkNotNull(getActualElement());
+		Preconditions.checkNotNull(getActualElement().getID());
 	}
 
 	public Executable getExecutable() {
@@ -225,10 +227,6 @@ public class PrepareExecutionWrapper extends Executable {
 
 	public String getName() {
 		return executable.getName();
-	}
-
-	public long getTime() {
-		return super.getTime() + executable.getTime();
 	}
 
 	public int getType() {

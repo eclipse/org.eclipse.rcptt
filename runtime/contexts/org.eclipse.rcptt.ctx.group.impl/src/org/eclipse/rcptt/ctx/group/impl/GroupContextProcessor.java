@@ -12,6 +12,7 @@ package org.eclipse.rcptt.ctx.group.impl;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.IEclAwareProcessor;
 import org.eclipse.rcptt.core.ecl.core.model.EnterContext;
@@ -21,23 +22,27 @@ import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.ecl.runtime.ISession;
 
 public class GroupContextProcessor implements IContextProcessor, IEclAwareProcessor {
+	@Override
 	public void apply(Context context, ISession session) throws CoreException {
 		GroupContext groupContext = (GroupContext) context;
 		for (Context refContext : groupContext.getContexts()) {
 			EnterContext childCommand = Q7CoreFactory.eINSTANCE.createEnterContext();
-			childCommand.setData(refContext);
+			childCommand.setData(EcoreUtil.copy(refContext));
 			session.execute(childCommand);
 		}
 	}
 
+	@Override
 	public void apply(Context context) throws CoreException {
 		apply(context, null);
 	}
 
+	@Override
 	public Context create(EObject param) throws CoreException {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean isApplied(Context context) {
 		throw new UnsupportedOperationException();
 	}

@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.core;
 
 import static org.eclipse.rcptt.util.FileUtil.escapeFileName;
 
@@ -19,7 +19,7 @@ import java.util.Iterator;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.reporting.core.IReportRenderer;
+import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.util.StringUtils;
 

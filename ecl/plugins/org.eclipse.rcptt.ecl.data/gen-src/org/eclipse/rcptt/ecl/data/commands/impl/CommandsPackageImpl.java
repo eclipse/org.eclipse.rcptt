@@ -770,7 +770,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (readCsvFileEClass, 
 		   source, 
@@ -778,20 +778,20 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Parses given csv file. Fails if file is not found or format is invalid.\nLearn more about <a href = \"http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table\">Asserting the whole table contents.</a>",
 			 "returns", "<code>Table</code> EMF Object. ",
 			 "example", "with [get-window Preferences] {\n\tget-tree | select \"Java/Installed JREs\"\n\tget-table | get-table-data | eq [read-csv-file \"workspace:/assertData/table.csv\"] | \n\t\tassert-true \"Data in table does not match input file\" \n\tget-button OK | click\n}\n\n//Let\'s say we need to write ErrorLog info to csv file \'table.csv\'.\n//ECL script should look like this:\n \nget-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-csv-file \"workspace:/MyProject/AssertData/table.csv\n \n//Note: \n//<a href=\"#expand-all\">Expand-all</a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won\'t be written.  \n//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. \n \n//In case you want to specify which columns/rows should be written you may use \n//<a href=\"#select-columns\">select-columns</a>/<a href=\"#exclude-columns\">exclude-columns</a> and <a href=\"#select-rows\">select-rows</a>/<a href=\"#exclude-rows\">exclude-rows</a> commands:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" \nget-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\nget-view \"Error Log\" | get-tree | get-table-data | select-rows -column \"Message\"  -value \"Execution of early startup handlers completed.\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\n \n//To compare table data to already written csv file you may use <a href=\"#read-csv-file\">read-csv-file</a> command:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Plug-in\" | eq [read-csv-file \"workspace:/MyProject/AssertData/table.csv\"] | assert-true \"Data in table does not match input file\" "
-		   });		
+		   });	
 		addAnnotation
 		  (getReadCsvFile_Uri(), 
 		   source, 
 		   new String[] {
 			 "description", "URI to a file to read. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
-		   });		
+		   });	
 		addAnnotation
 		  (printEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Takes a list of objects from input pipe and prints them as a plain-text table into output pipe.",
 			 "returns", "Series of string objects"
-		   });				
+		   });	
 		addAnnotation
 		  (writeCsvFileEClass, 
 		   source, 
@@ -799,19 +799,19 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Writes given table into csv file. Fails if file is not accessible.\nLearn more about <a href = \"http://xored.freshdesk.com/solution/articles/78219-assert-the-whole-table\">Asserting the whole table contents.</a>",
 			 "returns", "The value of <code>table</code> argument.",
 			 "example", "with [get-window Preferences] {\n\tget-tree | select \"Java/Installed JREs\"\n\tget-table | get-table-data | write-csv-file \"workspace:/assertData/table.csv\"\n\tget-button OK | click\n}\n\n//Let\'s say we need to write ErrorLog info to csv file \'table.csv\'.\n//ECL script should look like this:\n \nget-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-csv-file \"workspace:/MyProject/AssertData/table.csv\n \n//Note: \n//<a href=\"#expand-all\">Expand-all</a>command may be useful in case of hierarchical tree - otherwise non-expanded levels won\'t be written.  \n//You should have MyProject/AssertData on your workspace (you may do it easily with a workspace context) to let you csv file to be created there. \n \n//In case you want to specify which columns/rows should be written you may use \n//<a href=\"#select-columns\">select-columns</a>/<a href=\"#exclude-columns\">exclude-columns</a> and <a href=\"#select-rows\">select-rows</a>/<a href=\"#exclude-rows\">exclude-rows</a> commands:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" \nget-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\nget-view \"Error Log\" | get-tree | get-table-data | select-rows -column \"Message\"  -value \"Execution of early startup handlers completed.\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"\n \n//To compare table data to already written csv file you may use <a href=\"#read-csv-file\">read-csv-file</a> command:\n \nget-view \"Error Log\" | get-tree | get-table-data | select-columns \"Plug-in\" | eq [read-csv-file \"workspace:/MyProject/AssertData/table.csv\"] | assert-true \"Data in table does not match input file\" "
-		   });			
+		   });	
 		addAnnotation
 		  (getWriteCsvFile_Table(), 
 		   source, 
 		   new String[] {
 			 "description", "Table to write"
-		   });		
+		   });	
 		addAnnotation
 		  (getWriteCsvFile_Uri(), 
 		   source, 
 		   new String[] {
 			 "description", "URI to write CSV data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
-		   });		
+		   });	
 		addAnnotation
 		  (excludeColumnsEClass, 
 		   source, 
@@ -819,19 +819,19 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Takes a table from input and returns the same table which has some columns excluded. ",
 			 "returns", "Copy of input table object without columns with names listed in <code>columns</code>",
 			 "example", "get-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\""
-		   });			
+		   });	
 		addAnnotation
 		  (getExcludeColumns_Table(), 
 		   source, 
 		   new String[] {
 			 "description", "Table to exclude columns from"
-		   });		
+		   });	
 		addAnnotation
 		  (getExcludeColumns_Columns(), 
 		   source, 
 		   new String[] {
 			 "description", "Column names to exclude from table. It is OK to pass column names which are not present in table"
-		   });		
+		   });	
 		addAnnotation
 		  (selectColumnsEClass, 
 		   source, 
@@ -839,102 +839,102 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Takes a table from input and returns the table containing only columns passed into <code>columns</code> argument.",
 			 "returns", "Copy of input table object with only columns with names listed in <code>columns</code>",
 			 "example", "get-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" "
-		   });			
+		   });	
 		addAnnotation
 		  (getSelectColumns_Table(), 
 		   source, 
 		   new String[] {
 			 "description", "Table to take columns from"
-		   });		
+		   });	
 		addAnnotation
 		  (getSelectColumns_Columns(), 
 		   source, 
 		   new String[] {
 			 "description", "Column names to take from table. If given column name is not present in input table, command fails"
-		   });		
+		   });	
 		addAnnotation
 		  (assertTablesMatchEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Compares contents of two tables. If contents are not the same, fails with a descriptive message",
 			 "example", "assert-tables-match [get-editor \"context\" | get-section Parameters | get-table | get-table-data ]\n                    [get-editor \"context2\" | get-section Parameters | get-table | get-table-data]"
-		   });		
+		   });	
 		addAnnotation
 		  (getAssertTablesMatch_IgnoreColumnOrder(), 
 		   source, 
 		   new String[] {
 			 "description", "When true, column order is not taken into account"
-		   });		
+		   });	
 		addAnnotation
 		  (getAssertTablesMatch_IgnoreMissingColumns(), 
 		   source, 
 		   new String[] {
 			 "description", "Describes the comparison behaviour in case when one of tables contains a column which is not present in other table:\n<ul>\n<li><b>NONE</b> &ndash; all columns must be present in both tables</li>\n<li><b>LEFT</b> &ndash; columns from right table which are not present in left, are ignored</li>\n<li><b>RIGHT</b> &ndash; columns from left table which are not present in right, are ignored</li>\n<li><b>BOTH</b> &ndash; comparison performed only on columns present in both tables</li>\n<p>Another way to interpret this argument is that it is an answer on question &quot;Which column can have less columns?&quot;</p>\n<p>The primary reasoning for this argument is to provide smooth migration when presentation is changed \u2013 consider this scenario: we have a CSV file with table data, and we have UI table. If we add or remove extra columns in the UI, we can keep existing sample data file and just correct the <code>ignoreMissingColumns</code> argument</p>\n"
-		   });		
+		   });	
 		addAnnotation
 		  (writeLinesEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Reads objects from input pipe and writes them into file line-by-line as strings",
 			 "example", "//writes a list of launch configuration into a file line-by-line\nlist-launch-configurations | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n// appends \"New line\" into a file. \nstr \"New line\" | write-lines -uri \"workspace:/Project/Folder/file.txt\" -append\n"
-		   });		
+		   });	
 		addAnnotation
 		  (getWriteLines_Uri(), 
 		   source, 
 		   new String[] {
 			 "description", "URI to write lines to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
-		   });		
+		   });	
 		addAnnotation
 		  (getWriteLines_Append(), 
 		   source, 
 		   new String[] {
 			 "description", "Whether to append given lines into file. Default value is false"
-		   });		
+		   });	
 		addAnnotation
 		  (readLinesEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Reads lines from file identified by uri and writes them one-by-one into output pipe",
 			 "example", "//Displays alert with lines count\nshow-alert [concat \"The number of lines is \"[read-lines -uri \"workspace:/Project/Folder/file.txt\" | length | str]]\n\n"
-		   });		
+		   });	
 		addAnnotation
 		  (getReadLines_Uri(), 
 		   source, 
 		   new String[] {
 			 "description", "URI to read lines from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
-		   });			
+		   });	
 		addAnnotation
 		  (selectRowsEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Takes a table from input and returns the table with rows filtered by column and criteria.",
 			 "returns", "Copy of input table object with filtered rows.",
-			 "example", "select-rows -column \"columnName\" -value \"value\" -match exact|glob|regex"
-		   });			
+			 "example", "select-rows -column \"columnName\" -value \"value\" -match exact|glob|regexp"
+		   });	
 		addAnnotation
 		  (getSelectRows_Table(), 
 		   source, 
 		   new String[] {
 			 "description", "Table to take columns from"
-		   });		
+		   });	
 		addAnnotation
 		  (getSelectRows_Column(), 
 		   source, 
 		   new String[] {
 			 "description", "Column named to filter rows by."
-		   });		
+		   });	
 		addAnnotation
 		  (getSelectRows_Value(), 
 		   source, 
 		   new String[] {
 			 "description", "Pattern to match rows to."
-		   });		
+		   });	
 		addAnnotation
 		  (getSelectRows_Match(), 
 		   source, 
 		   new String[] {
-			 "description", "Describes the matching behaviour for rows.\n<ul>\n<li><b>glob</b> &ndash; wildcard matching</li>\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\n<li><b>regext</b> &ndash; value must match java regular expression</li>\n</ul>"
-		   });		
+			 "description", "Describes the matching behaviour for rows.\r\n<ul>\r\n<li><b>glob</b> &ndash; wildcard matching</li>\r\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\r\n<li><b>regexp</b> &ndash; value must match java regular expression</li>\r\n</ul>"
+		   });	
 		addAnnotation
 		  (excludeRowsEClass, 
 		   source, 
@@ -942,31 +942,31 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Takes a table from input and returns the table with rows filtered by column and criteria.",
 			 "returns", "Copy of input table object with filtered rows.",
 			 "example", "exclude-rows -column \"columnName\" -value \"value\" -match exact|glob|regex"
-		   });			
+		   });	
 		addAnnotation
 		  (getExcludeRows_Table(), 
 		   source, 
 		   new String[] {
 			 "description", "Table to take columns from"
-		   });		
+		   });	
 		addAnnotation
 		  (getExcludeRows_Column(), 
 		   source, 
 		   new String[] {
 			 "description", "Column named to filter rows by."
-		   });		
+		   });	
 		addAnnotation
 		  (getExcludeRows_Value(), 
 		   source, 
 		   new String[] {
 			 "description", "Pattern to match rows to."
-		   });		
+		   });	
 		addAnnotation
 		  (getExcludeRows_Match(), 
 		   source, 
 		   new String[] {
 			 "description", "Describes the matching behaviour for rows.\n<ul>\n<li><b>glob</b> &ndash; wildcard matching</li>\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\n<li><b>regext</b> &ndash; value must match java regular expression</li>\n</ul>"
-		   });		
+		   });	
 		addAnnotation
 		  (asTableDataEClass, 
 		   source, 
@@ -974,13 +974,13 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Converts its input to table data format, exactly the same as <code>get-table-data</code> returns.",
 			 "returns", "Table data.",
 			 "example", "get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\""
-		   });			
+		   });	
 		addAnnotation
 		  (getAsTableData_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Object(s) to convert from."
-		   });		
+		   });	
 		addAnnotation
 		  (readPropertiesEClass, 
 		   source, 
@@ -988,7 +988,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Parses given .properties file. Fails if file is not found or format is invalid",
 			 "returns", "ECL map with values from properties file",
 			 "example", "...get-item \"General Registers/pc\" | get-property \"values[\\\'Value\\\']\"\n| matches [format \"%s.*\" [read-properties -uri \"file:/C:/Users/Administrator/Desktop/p.properties\" | get myKey]] | verify-true\n"
-		   });		
+		   });	
 		addAnnotation
 		  (getReadProperties_Uri(), 
 		   source, 
@@ -1004,12 +1004,12 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";					
+		String source = "http://www.eclipse.org/ecl/internal";	
 		addAnnotation
 		  (printEClass, 
 		   source, 
 		   new String[] {
-		   });																																							
+		   });
 	}
 
 	/**
@@ -1019,47 +1019,47 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";						
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getPrint_Input(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getWriteCsvFile_Table(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });	
 		addAnnotation
 		  (getExcludeColumns_Table(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });	
 		addAnnotation
 		  (getSelectColumns_Table(), 
 		   source, 
 		   new String[] {
-		   });												
+		   });	
 		addAnnotation
 		  (getReadLines_Uri(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getSelectRows_Table(), 
 		   source, 
 		   new String[] {
-		   });							
+		   });	
 		addAnnotation
 		  (getExcludeRows_Table(), 
 		   source, 
 		   new String[] {
-		   });							
+		   });	
 		addAnnotation
 		  (getAsTableData_Input(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });
 	}
 
 } //CommandsPackageImpl

@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.swt.graphics.Rectangle;
-
 import org.eclipse.rcptt.tesla.core.ui.DiagramConnection;
 import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
 import org.eclipse.rcptt.tesla.core.ui.PropertyNodeList;
@@ -34,6 +32,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.swt.reflection.EMFMembersHelper;
 import org.eclipse.rcptt.tesla.swt.reflection.JavaMembersHelper;
+import org.eclipse.swt.graphics.Rectangle;
 
 public class GefModelMapper {
 
@@ -101,6 +100,10 @@ public class GefModelMapper {
 
 	public static DiagramItem figureMap(IFigure figure) {
 		DiagramItem item = UiFactory.eINSTANCE.createDiagramItem();
+
+		if (figure instanceof Label) {
+			SWTModelMapper.fillImage(item, ((Label) figure).getIcon());
+		}
 
 		item.setText(getText(figure));
 		item.setTooltip(getText(figure.getToolTip()));
@@ -217,9 +220,9 @@ public class GefModelMapper {
 	private static void fillConnectionProperies(
 			AbstractConnectionEditPart connectionPart,
 			DiagramConnection connectionItem, SWTUIPlayer player) {
-		DiagramItem source = (DiagramItem) basicMap(connectionPart.getSource());
+		DiagramItem source = basicMap(connectionPart.getSource());
 		connectionItem.setSource(source);
-		DiagramItem target = (DiagramItem) basicMap(connectionPart.getTarget());
+		DiagramItem target = basicMap(connectionPart.getTarget());
 		connectionItem.setTarget(target);
 	}
 

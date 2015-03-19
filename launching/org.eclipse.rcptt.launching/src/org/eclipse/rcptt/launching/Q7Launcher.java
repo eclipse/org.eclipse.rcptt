@@ -101,7 +101,7 @@ public class Q7Launcher {
 		try {
 			Q7TestLaunch launch = (Q7TestLaunch) config.launch(
 					ILaunchManager.RUN_MODE, new NullProgressMonitor());
-			return launch.getClearSession();
+			return launch.setSession(null);
 		} finally {
 			launchData.remove(config);
 		}

@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.core;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,9 +22,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IPath;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.core.IReportRenderer.IContentFactory;
+import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
 import org.eclipse.rcptt.util.FileUtil;
 
 public class FileContentFactory implements IContentFactory {

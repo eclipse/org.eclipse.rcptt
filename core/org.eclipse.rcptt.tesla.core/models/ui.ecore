@@ -219,7 +219,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramItem" eSuperTypes="#//Widget #//PropertyMap">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramItem" eSuperTypes="#//Widget #//PropertyMap #//WithImage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tooltip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

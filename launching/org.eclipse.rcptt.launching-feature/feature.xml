@@ -95,7 +95,7 @@
          unpack="false"/>
 
    <plugin
-         id="com.google.gson"
+         id="org.eclipse.rcptt.reporting.html"
          download-size="0"
          install-size="0"
          version="0.0.0"

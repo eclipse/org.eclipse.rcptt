@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.launching.AutLaunch;
-import org.eclipse.rcptt.launching.IExecutable;
 
 public class GroupExecutable extends Executable {
 
@@ -69,14 +68,6 @@ public class GroupExecutable extends Executable {
 
 	public int getType() {
 		return getRoot().getType();
-	}
-
-	public long getTime() {
-		long total = 0;
-		for (IExecutable child : kids) {
-			total += child.getTime();
-		}
-		return total;
 	}
 
 	@Override
