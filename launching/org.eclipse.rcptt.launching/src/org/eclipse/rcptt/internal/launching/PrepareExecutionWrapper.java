@@ -62,6 +62,19 @@ import com.google.common.base.Preconditions;
 
 public class PrepareExecutionWrapper extends Executable {
 
+	@Override
+	public void cancel(IStatus status) {
+		// Handle cancellation caused by child failure.
+		// Execution view may interrupt execution on first error.
+		for (final Executable child : getChildren()) {
+			IStatus childResult = handleChildResult(child.getResultStatus());
+			if (child.getStatus() == State.COMPLETED && !childResult.isOK()) {
+				return; // Execution will complete soon and this node will assume error result.
+			}
+		}
+		super.cancel(status);
+	}
+
 	private final AutLaunch launch;
 	private final Executable executable;
 	private SherlockReportSession reportSession;
@@ -164,8 +177,7 @@ public class PrepareExecutionWrapper extends Executable {
 				throw new CoreException(createStatus("Expected item id: " + id + ", actual report id: " + reportId));
 			}
 		} catch (CoreException e) {
-			IQ7NamedElement element = executable.getActualElement();
-			resultReport = TestSuiteUtils.generateReport(element, e.getStatus());
+			resultReport = generateReport(e.getStatus());
 		}
 		Q7Info info = ReportHelper.getInfoOnly(resultReport.getRoot());
 		if (info != null) {
@@ -201,7 +213,6 @@ public class PrepareExecutionWrapper extends Executable {
 		IQ7NamedElement element = executable.getActualElement();
 		return TestSuiteUtils.getQ7Info(element);
 	}
-
 
 	@Override
 	public Executable[] getChildren() {

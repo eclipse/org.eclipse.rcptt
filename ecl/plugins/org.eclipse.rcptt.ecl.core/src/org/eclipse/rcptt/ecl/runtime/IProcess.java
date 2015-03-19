@@ -16,6 +16,8 @@ import org.eclipse.core.runtime.IStatus;
 
 public interface IProcess {
 
+	public static final int TIMEOUT_CODE = 123130;
+
 	IPipe getInput();
 
 	IPipe getOutput();

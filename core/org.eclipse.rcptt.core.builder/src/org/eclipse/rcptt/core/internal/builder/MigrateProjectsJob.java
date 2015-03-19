@@ -64,6 +64,8 @@ public class MigrateProjectsJob extends Job {
 				return;
 			if (!iProject.hasNature(LEGACY_NATURE_ID))
 				return;
+			if (iProject.hasNature(NATURE_ID))
+				return;
 			iProject.refreshLocal(IResource.DEPTH_ONE, null);
 			if (!iProject.hasNature(LEGACY_NATURE_ID))
 				return;
@@ -78,7 +80,6 @@ public class MigrateProjectsJob extends Job {
 	private void migrateNatures(IProject iProject) throws CoreException {
 		IProjectDescription description = iProject.getDescription();
 		List<String> natures = Lists.newArrayList(description.getNatureIds());
-		natures.remove(LEGACY_NATURE_ID);
 		if (!natures.contains(NATURE_ID))
 			natures.add(NATURE_ID);
 		description.setNatureIds(Iterables.toArray(natures, String.class));
@@ -93,7 +94,7 @@ public class MigrateProjectsJob extends Job {
 		IFile rcpttMetadata = project
 				.getFile(new Path(IQ7Project.METADATA_NAME));
 		if (!rcpttMetadata.exists())
-			q7Metadata.move(rcpttMetadata.getFullPath(), true, null);
+			q7Metadata.copy(rcpttMetadata.getFullPath(), true, null);
 	}
 
 	@Override

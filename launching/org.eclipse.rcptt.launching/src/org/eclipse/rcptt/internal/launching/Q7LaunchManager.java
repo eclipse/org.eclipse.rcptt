@@ -13,6 +13,7 @@ package org.eclipse.rcptt.internal.launching;
 import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,6 +59,7 @@ import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ecl.EclContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugTestExecutable;
@@ -89,31 +91,34 @@ public class Q7LaunchManager {
 			this.q7Process = q7Process;
 		}
 
+		@Override
 		public void handleDebugEvents(DebugEvent[] events) {
 			for (DebugEvent event : events) {
 				Object source = event.getSource();
 				if (q7Process == source
 						&& event.getKind() == DebugEvent.TERMINATE) {
-					Q7LaunchManager.getInstance().stop();
+					Q7LaunchManager.getInstance()
+							.stop(new Status(IStatus.CANCEL, PLUGIN_ID, "Aut has been terminated"));
 				}
 			}
 		}
 
+		@Override
 		public void run() {
 			session.resetCounters();
 			session.setStartTime(new Date());
-			session.start();
 			DebugPlugin.getDefault().addDebugEventListener(this);
 			final Executable[] executables = session.getExecutables();
 
 			Q7LaunchManager.getInstance().fireStarted(session);
+			IStatus result = null;
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
 				final Executable.Listener listener = new Executable.Listener() {
 					@Override
 					public void onStatusChange(Executable executable) {
 						Q7LaunchManager.getInstance().fireLaunchStatusChanged(executable);
-						if (executable.getStatus() == State.LAUNCHING)
+						if (executable.getStatus() == State.RUNNING)
 							session.setActive(executable);
 					}
 
@@ -127,7 +132,7 @@ public class Q7LaunchManager {
 						// break full execution
 						massUpdateOnTerminate.add(executable);
 						// fireLaunchStatusChanged(executable);
-						executable.cancel(new Status(IStatus.CANCEL, PLUGIN_ID, "Execution is stopped"));
+						executable.cancel(session.getResultStatus());
 						continue;
 					}
 					executable.addListener(listener);
@@ -145,16 +150,16 @@ public class Q7LaunchManager {
 							.toArray(new Executable[massUpdateOnTerminate
 									.size()]));
 				}
-			} catch (final InterruptedException e) {
-				// ignore interruption
-			} catch (final Exception e) {
-				Q7LaunchingPlugin.log(e);
+				result = Status.OK_STATUS;
+			} catch (final Throwable e) {
+				result = RcpttPlugin.createStatus(e);
 			} finally {
+				Preconditions.checkNotNull(result);
 				DebugPlugin.getDefault().removeDebugEventListener(this);
 				synchronized (Q7LaunchManager.getInstance()) {
 					Q7LaunchManager.getInstance().threads.remove(launchId);
 				}
-				session.stop();
+				session.stop(result);
 				session.setEndTime(new Date());
 				Q7LaunchManager.getInstance().fireFinished(session);
 				try {
@@ -220,11 +225,11 @@ public class Q7LaunchManager {
 		return !threads.isEmpty();
 	}
 
-	public synchronized void stop() {
+	public synchronized void stop(IStatus result) {
 		for (final String launch : new HashSet<String>(threads.keySet())) {
 			ExecThread thread = threads.get(launch);
 			if (thread != null) {
-				thread.stop();
+				thread.stop(result);
 				threads.remove(launch);
 			}
 		}
@@ -398,23 +403,13 @@ public class Q7LaunchManager {
 
 	private synchronized void execute(final ExecutionSession session,
 			Q7Process process) {
-		sessions.add(session);
 		final String launchId = process.getLaunch().getLaunchConfiguration()
 				.getName();
-
-		// if something is already running on that SUT, terminate it
-		final ExecThread existing = threads.get(launchId);
-		if (existing != null) {
-			existing.stop();
-		}
 
 		final SessionRunnable sessionRunnable = new SessionRunnable(launchId,
 				session, process);
 
-		final ExecThread execThread = new ExecThread(session, sessionRunnable,
-				launchId);
-		threads.put(launchId, execThread);
-		execThread.start();
+		execute(launchId, session, sessionRunnable);
 	}
 
 	public void execute(String launchId, ExecutionSession session, Runnable runnable) {
@@ -422,7 +417,7 @@ public class Q7LaunchManager {
 		// if something is already running on that SUT, terminate it
 		final ExecThread existing = threads.get(launchId);
 		if (existing != null) {
-			existing.stop();
+			existing.stop(new Status(IStatus.CANCEL, RcpttPlugin.PLUGIN_ID, "Launching execution of " + launchId));
 		}
 
 		final ExecThread execThread = new ExecThread(session, runnable,
@@ -508,6 +503,11 @@ public class Q7LaunchManager {
 
 			for (IVerification v : verifications)
 				try {
+					if (v == null)
+						throw new NullPointerException();
+					if (v.getType() == null)
+						throw new NullPointerException();
+
 					if (v.getType().supportsPhase(VerificationType.PHASE_START))
 						plan.add(makeVerificationExecutable(v, ExecutionPhase.START));
 				} catch (ModelException e) {
@@ -557,78 +557,84 @@ public class Q7LaunchManager {
 			boolean debug = debugger != null;
 			for (int i = 0; i < elements.length; i++) {
 				final IQ7NamedElement element = elements[i];
-				if (element instanceof ITestCase) {
-					final ITestCase test = (ITestCase) element;
+				try {
+					if (element instanceof ITestCase) {
+						final ITestCase test = (ITestCase) element;
 
-					IContext[] contexts = RcpttCore.getInstance().getContexts(
-							test, finder, false);
-					IVerification[] verifications = RcpttCore.getInstance().getVerifications(
-							test, finder, false);
+						IContext[] contexts = RcpttCore.getInstance().getContexts(
+								test, finder, false);
+						IVerification[] verifications = RcpttCore.getInstance().getVerifications(
+								test, finder, false);
+						assert !Arrays.asList(verifications).contains(null) : "Null verification in "
+								+ test.getElementName();
 
-					List<IContext> superContexts = SuperContextSupport
-							.findSuperContexts(contexts);
-					if (superContexts.size() == 0) {
-						final Executable exec = debugger == null ? new EclScenarioExecutable(
-								launch, test) : new EclDebugTestExecutable(
-								launch, test, debugger);
-						executables.add(makeExecutionPlan(exec, contexts, verifications));
-					} else {
-						// Create One executable per super context
-						List<ContextConfiguration> variants = SuperContextSupport
-								.findContextVariants(superContexts, contexts);
-						List<List<String>> supportedVariants = null;
-						if (namedVariants != null) {
-							supportedVariants = namedVariants.get(element);
-						}
-						for (ContextConfiguration contextConfiguration : variants) {
-							if (supportedVariants != null
-									&& !supportedVariants
-											.contains(contextConfiguration
-													.getVariantName())) {
-								continue; // Skip variant if it is not required.
-							}
-
-							final EclScenarioExecutable exec = debugger == null ? new EclScenarioExecutable(
+						List<IContext> superContexts = SuperContextSupport
+								.findSuperContexts(contexts);
+						if (superContexts.size() == 0) {
+							final Executable exec = debugger == null ? new EclScenarioExecutable(
 									launch, test) : new EclDebugTestExecutable(
 									launch, test, debugger);
-							exec.setVariantName(contextConfiguration
-									.getVariantName());
-							executables.add(makeExecutionPlan(exec,
-									contextConfiguration.getContexts(), verifications));
+							executables.add(makeExecutionPlan(exec, contexts, verifications));
+						} else {
+							// Create One executable per super context
+							List<ContextConfiguration> variants = SuperContextSupport
+									.findContextVariants(superContexts, contexts);
+							List<List<String>> supportedVariants = null;
+							if (namedVariants != null) {
+								supportedVariants = namedVariants.get(element);
+							}
+							for (ContextConfiguration contextConfiguration : variants) {
+								if (supportedVariants != null
+										&& !supportedVariants
+												.contains(contextConfiguration
+														.getVariantName())) {
+									continue; // Skip variant if it is not required.
+								}
+
+								final EclScenarioExecutable exec = debugger == null ? new EclScenarioExecutable(
+										launch, test) : new EclDebugTestExecutable(
+										launch, test, debugger);
+								exec.setVariantName(contextConfiguration
+										.getVariantName());
+								executables.add(makeExecutionPlan(exec,
+										contextConfiguration.getContexts(), verifications));
+							}
 						}
-					}
-				} else if (element instanceof ITestSuite) {
-					ITestSuite suite = (ITestSuite) element;
-					ISearchScope scope = Q7SearchCore.getSearchScope(suite);
-					ArrayList<IQ7NamedElement> testSuiteItems = new ArrayList<IQ7NamedElement>();
-					for (TestSuiteItem item : suite.getItems()) {
-						IQ7NamedElement q7Element = Q7SearchCore
-								.getTestSuiteItemElement(item, scope);
-						if (q7Element == null) {
-							unresolvedItems.add(suite);
-							continue;
+					} else if (element instanceof ITestSuite) {
+						ITestSuite suite = (ITestSuite) element;
+						ISearchScope scope = Q7SearchCore.getSearchScope(suite);
+						ArrayList<IQ7NamedElement> testSuiteItems = new ArrayList<IQ7NamedElement>();
+						for (TestSuiteItem item : suite.getItems()) {
+							IQ7NamedElement q7Element = Q7SearchCore
+									.getTestSuiteItemElement(item, scope);
+							if (q7Element == null) {
+								unresolvedItems.add(suite);
+								continue;
+							}
+							testSuiteItems.add(q7Element);
 						}
-						testSuiteItems.add(q7Element);
+
+						if (!suite.getTestSuite().isManuallyOrdered())
+							SortingUtils.sortNamedElements(testSuiteItems);
+
+						Executable[] children = map(
+								testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants);
+						executables.add(new TestSuiteExecutable(launch,
+								(ITestSuite) element, children, debug));
+					} else if (element instanceof IContext) {
+						IContext context = (IContext) element;
+						executables.add(makeContextExecutable(context));
+					} else {
+						// Call prepare context for execution logic
+
+						IVerification verification = (IVerification) element;
+						executables.add(debugger == null ? new EclVerificationExecutable(
+								launch, verification, debug, ExecutionPhase.AUTO)
+								: new EclDebugVerificationExecutable(launch, verification,
+										debugger, ExecutionPhase.AUTO));
 					}
-
-					if (!suite.getTestSuite().isManuallyOrdered())
-						SortingUtils.sortNamedElements(testSuiteItems);
-
-					Executable[] children = map(
-							testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants);
-					executables.add(new TestSuiteExecutable(launch,
-							(ITestSuite) element, children, debug));
-				} else if (element instanceof IContext) {
-					IContext context = (IContext) element;
-					executables.add(makeContextExecutable(context));
-				} else {
-					// Call prepare context for execution logic
-
-					IVerification verification = (IVerification) element;
-					executables.add(debugger == null ? new EclVerificationExecutable(
-							launch, verification, debug, ExecutionPhase.AUTO)
-							: new EclDebugVerificationExecutable(launch, verification,
-									debugger, ExecutionPhase.AUTO));
+				} catch (Throwable e) {
+					throw new CoreException(RcpttPlugin.createStatus("Failed to process " + element.getName(), e));
 				}
 
 			}
@@ -673,6 +679,7 @@ public class Q7LaunchManager {
 			super();
 			this.session = session;
 			this.thread = new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						runnable.run();
@@ -688,18 +695,20 @@ public class Q7LaunchManager {
 				protected IStatus run(IProgressMonitor monitor) {
 					thread.start();
 					monitor.beginTask(getName(), -1);
+					IStatus result = null;
 					try {
 						while (!complete) {
 							if (monitor.isCanceled()) {
-								return Status.CANCEL_STATUS;
+								return result = Status.CANCEL_STATUS;
 							}
 							Thread.sleep(100);
 							monitor.worked(-1);
 						}
-					} catch (InterruptedException e) {
-						return Status.CANCEL_STATUS;
+						result = Status.OK_STATUS;
+					} catch (Throwable e) {
+						result = RcpttPlugin.createStatus(e);
 					} finally {
-						stop();
+						stop(result);
 					}
 					return Status.OK_STATUS;
 				}
@@ -711,8 +720,8 @@ public class Q7LaunchManager {
 			this.job.schedule();
 		}
 
-		public void stop() {
-			session.stop();
+		public void stop(IStatus result) {
+			session.stop(result);
 			// thread.interrupt();
 			job.cancel();
 		}
@@ -728,7 +737,7 @@ public class Q7LaunchManager {
 
 	private void updateDebuggingActive(IExecutionSession exclude) {
 		for (IExecutionSession es : sessions) {
-			if (es.isTerminated() || es == exclude)
+			if (!es.isRunning() || es == exclude)
 				continue;
 			for (IExecutable e : es.getExecutables()) {
 				if (e.isDebug()) {
@@ -743,7 +752,7 @@ public class Q7LaunchManager {
 
 	public synchronized boolean isElementUnderDebugging(IQ7Element element) {
 		for (ExecutionSession es : sessions) {
-			if (es.isTerminated())
+			if (!es.isRunning())
 				continue;
 			for (IExecutable e : es.getExecutables()) {
 				if (e.isDebug()

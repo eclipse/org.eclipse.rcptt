@@ -31,7 +31,7 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 	public void launchStatusChanged(IExecutable... executables) {
 		cancel();
 		for (IExecutable executable : executables) {
-			if (executable.getStatus() == IExecutable.State.LAUNCHING
+			if (executable.getStatus() == IExecutable.State.RUNNING
 					&& !executable.isDebug()) {
 				timer = new Timer(true);
 				int timeout = Q7Launcher.getLaunchTimeout();

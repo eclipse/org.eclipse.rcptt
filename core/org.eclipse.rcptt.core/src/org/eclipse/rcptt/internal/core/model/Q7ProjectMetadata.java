@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.internal.core.model;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.core.model.IQ7Project;
 import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ModelException;
@@ -49,7 +48,7 @@ public class Q7ProjectMetadata extends Q7NamedElement implements
 
 	@Override
 	protected Object createElementInfo() {
-		return new Q7ResourceInfo(IPlainConstants.PLAIN_METADATA);
+		return new Q7ResourceInfo(IPlainConstants.PLAIN_METADATA, Q7ResourceInfo.toURI(getResource()));
 	}
 
 	@Override

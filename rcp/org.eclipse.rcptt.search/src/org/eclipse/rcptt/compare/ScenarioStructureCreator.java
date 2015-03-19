@@ -26,17 +26,17 @@ import org.eclipse.compare.structuremergeviewer.IStructureCreator;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
 import org.eclipse.rcptt.core.persistence.PersistenceManager;
+import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7ResourceInfo;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.util.FileUtil;
+import org.eclipse.swt.graphics.Image;
 
 @SuppressWarnings("restriction")
 public class ScenarioStructureCreator implements IStructureCreator {
@@ -75,8 +75,7 @@ public class ScenarioStructureCreator implements IStructureCreator {
 				try {
 					byte[] content = FileUtil.getStreamContent(is);
 
-					Q7ResourceInfo info = new Q7ResourceInfo();
-					info.createResource(URI.createURI("__compare__"));
+					Q7ResourceInfo info = new Q7ResourceInfo(IPlainConstants.PLAIN_HEADER, URI.createURI("__compare__"));
 					final IPersistenceModel model = PersistenceManager
 							.getInstance()
 							.getModel(content, info.getResource());

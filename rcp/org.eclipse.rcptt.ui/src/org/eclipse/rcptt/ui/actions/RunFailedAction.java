@@ -40,7 +40,7 @@ public class RunFailedAction extends Q7ExecutionViewAction {
 		if (session != null) {
 			IExecutable[] executables = session.getTestCases();
 			for (IExecutable iExecutable : executables) {
-				if (iExecutable.getStatus() != IExecutable.State.PASSED) {
+				if (!iExecutable.getResultStatus().isOK()) {
 					toExecute.add(iExecutable);
 				}
 			}

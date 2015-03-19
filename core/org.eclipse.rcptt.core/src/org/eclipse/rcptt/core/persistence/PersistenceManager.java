@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -73,7 +74,8 @@ public class PersistenceManager implements IPlainConstants {
 	private static PersistenceManager persistenceManager;
 	// private Map<IFile, IPersistenceModel> models = new HashMap<IFile,
 	// IPersistenceModel>();
-	private Map<Resource, IPersistenceModel> resourceOnlyModels = new HashMap<Resource, IPersistenceModel>();
+	private Map<Resource, IPersistenceModel> resourceOnlyModels = Collections
+			.synchronizedMap(new HashMap<Resource, IPersistenceModel>());
 
 	private PersistenceManager() {
 		File root = RcpttPlugin.getDefault().getStateLocation()
@@ -101,7 +103,7 @@ public class PersistenceManager implements IPlainConstants {
 		if (element.getURI() == null) {
 			return null;
 		}
-		IPersistenceModel model = internalGetModel(element);
+		IPersistenceModel model = resourceOnlyModels.get(element);
 		if (model == null) {
 			model = factory.createModel(element);
 			replaceModel(element, model);
@@ -109,41 +111,17 @@ public class PersistenceManager implements IPlainConstants {
 		return model;
 	}
 
-	private synchronized IPersistenceModel internalGetModel(Resource element) {
-		// IFile file = WorkspaceSynchronizer.getFile(element);
-		// if (file != null) {
-		// return models.get(file);
-		// }
-		return resourceOnlyModels.get(element);
+	private void internalRemove(Resource element) {
+		IPersistenceModel old = resourceOnlyModels.remove(element);
+		if (old != null)
+			old.dispose();
 	}
 
-	private synchronized void internalPutModel(Resource element,
-			IPersistenceModel model) {
-		// IFile file = WorkspaceSynchronizer.getFile(element);
-		// if (file != null) {
-		// models.put(file, model);
-		// } else {
-		resourceOnlyModels.put(element, model);
-		// }
-	}
-
-	private synchronized void internalRemove(Resource element) {
-		// IFile file = WorkspaceSynchronizer.getFile(element);
-		// if (file != null) {
-		// this.models.remove(file);
-		// } else {
-		resourceOnlyModels.remove(element);
-		// }
-	}
-
-	private synchronized void replaceModel(Resource element,
-			IPersistenceModel modelCopy) {
-		// IFile file = WorkspaceSynchronizer.getFile(element);
-		// if (file != null) {
-		// models.put(file, modelCopy);
-		// } else {
-		resourceOnlyModels.put(element, modelCopy);
-		// }
+	private void replaceModel(Resource element,
+			IPersistenceModel newModel) {
+		IPersistenceModel old = resourceOnlyModels.put(element, newModel);
+		if (old != null)
+			old.dispose();
 	}
 
 	private static Map<String, String> legacyNamespaces = new HashMap<String, String>();
@@ -526,11 +504,7 @@ public class PersistenceManager implements IPlainConstants {
 		}
 	}
 
-	public synchronized void remove(Resource resource) {
-		IPersistenceModel model = internalGetModel(resource);
-		if (model != null) {
-			model.dispose();
-		}
+	public void remove(Resource resource) {
 		internalRemove(resource);
 	}
 
@@ -543,7 +517,7 @@ public class PersistenceManager implements IPlainConstants {
 		IPersistenceModel model = format.createModel(res);
 		if (model instanceof BasePersistenceModel) {
 			((BasePersistenceModel) model).setInternalContent(content);
-			internalPutModel(res, model);
+			replaceModel(res, model);
 
 			return model;
 		}
