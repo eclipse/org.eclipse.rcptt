@@ -1,78 +1,79 @@
 #! /bin/bash
+set -x -e
 
-WORKSPACE=${WORKSPACE:-$PWD}
+: ${WORKSPACE:=$PWD}
+: ${downloadsHome:=/home/data/httpd/download.eclipse.org/rcptt}
+: ${type:=nightly}
+: ${typeAbbr:=N}
+: ${buildsToKeep:=5}
+
 # qualifier and version
 source $WORKSPACE/repository/full/target/publisher.properties
-
 echo "productVersion: $productVersion"
 echo "productQualifier: $productQualifier"
-
-
-downloadsHome=/home/data/httpd/download.eclipse.org/rcptt
-type=nightly
-typeAbbr=N
+qualifiedDecoration=incubation-$productVersion-$typeAbbr$productQualifier
+unqualifiedDecoration=incubation-$productVersion-$type
 
 # where all downloads of this branch reside
+test -d $downloadsHome/$type || exit 1 #folder for type should already exist
+mkdir -p $downloadsHome/$type/$productVersion 
 streamDestination=$downloadsHome/$type/$productVersion
 
+# qualifed copies of artifacts go here
 buildDestination=$streamDestination/$productQualifier
 echo "stream destination: $streamDestination "
 echo "build destination: $buildDestination "
+mkdir $buildDestination #should fail if this directory already exists
+mkdir $buildDestination/ide
+mkdir $buildDestination/runner
 
-
-# copying products
-
-productsDir=$WORKSPACE/repository/full/target/products
-productsDestination=$buildDestination/ide
-
-mkdir -p $productsDestination
-cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86.zip       $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip    $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86_64.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-macosx.cocoa.x86_64.zip $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86.zip     $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-win32.win32.x86.zip
-cp $productsDir/org.eclipse.rcptt.platform.product-win32.win32.x86_64.zip  $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-win32.win32.x86_64.zip
-
-# copy full repository
-cp -r $WORKSPACE/repository/full/target/repository $buildDestination
-
-# copy full repository archive
-cp -r $WORKSPACE/repository/full/target/full-$productVersion-SNAPSHOT.zip $buildDestination/repository-incubation-$productVersion-$typeAbbr$productQualifier.zip
-
-# copy runtimes
-cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime/q7 $buildDestination/runtime3x
-cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7 $buildDestination/runtime4x
-
-
-# discard old builds
-buildsToKeep=5
-let "tailArg=$buildsToKeep+1"
-
-ls -r $streamDestination | grep -v latest | tail -n +$tailArg | xargs -I {} rm -r $streamDestination/{}
-
-# symlink latest
-
+# latest folder
+# contains artifacts with unqualified names 
 latest=$streamDestination/latest
 if [ -d "$latest" ]; then
     rm -r $latest
 fi
-mkdir -p $latest
 
-cp -r $buildDestination/repository $latest/repository
-cp -r $buildDestination/repository-incubation-$productVersion-$typeAbbr$productQualifier.zip $latest/repository-incubation-$type.zip
+mkdir $latest
+mkdir $latest/ide
+mkdir $latest/runner
+
+# copying products
+ideProductSourcePrefix=$WORKSPACE/repository/full/target/products/org.eclipse.rcptt.platform.product
+for arch in linux.gtk.x86 linux.gtk.x86_64 macosx.cocoa.x86_64 win32.win32.x86 win32.win32.x86_64 ; do
+	cp $ideProductSourcePrefix-$arch.zip $buildDestination/ide/rcptt.ide-$qualifiedDecoration-$arch.zip
+	cp $ideProductSourcePrefix-$arch.zip $latest/ide/rcptt.ide-$unqualifiedDecoration-$arch.zip
+done
+
+
+runnerProductSource=$WORKSPACE/runner/product/target/rcptt.runner-$productVersion-SNAPSHOT.zip
+cp  $runnerProductSource $buildDestination/runner/rcptt.runner-$qualifiedDecoration.zip
+cp  $runnerProductSource $latest/runner/rcptt.runner-$unqualifiedDecoration.zip
+
+# copy full repository
+repositorySource=$WORKSPACE/repository/full/target/repository
+cp -r $repositorySource $buildDestination
+cp -r $repositorySource $latest
+
+# copy full repository archive
+repositoryArchiveSource=$WORKSPACE/repository/full/target/full-$productVersion-SNAPSHOT.zip
+cp $repositoryArchiveSource $buildDestination/repository-$qualifiedDecoration.zip
+cp $repositoryArchiveSource $latest/repository-$unqualifiedDecoration.zip
+
+# copy runtimes
+cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime/q7 $buildDestination/runtime3x
+cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7 $buildDestination/runtime4x
 cp -r $buildDestination/runtime3x $latest/runtime3x
 cp -r $buildDestination/runtime4x $latest/runtime4x
-
-mkdir $latest/ide
-
-cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86.zip       $latest/ide/rcptt.ide-incubation-$productVersion-$type-linux.gtk.x86.zip
-cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-linux.gtk.x86_64.zip    $latest/ide/rcptt.ide-incubation-$productVersion-$type-linux.gtk.x86_64.zip
-cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-macosx.cocoa.x86_64.zip $latest/ide/rcptt.ide-incubation-$productVersion-$type-macosx.cocoa.x86_64.zip
-cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-win32.win32.x86.zip     $latest/ide/rcptt.ide-incubation-$productVersion-$type-win32.win32.x86.zip
-cp $productsDestination/rcptt.ide-incubation-$productVersion-$typeAbbr$productQualifier-win32.win32.x86_64.zip  $latest/ide/rcptt.ide-incubation-$productVersion-$type-win32.win32.x86_64.zip
-
 
 DOC_DIR=$WORKSPACE/releng/doc/target
 if [ -d "$DOC_DIR" ]; then
     cp -r $DOC_DIR/doc $buildDestination
     cp -r $DOC_DIR/doc $latest
 fi
+
+# discard old builds
+let "tailArg=$buildsToKeep+1"
+for old in `ls -r $streamDestination | grep -v latest | tail -n +$tailArg` ; do
+	rm -r $streamDestination/$old
+done
