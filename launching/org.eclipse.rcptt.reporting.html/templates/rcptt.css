@@ -56,33 +56,30 @@ summary {
 	display: block;
 }
 
-@-moz-document url-prefix() {
-	/* Imitation of details element
-	 * http://www.w3.org/wiki/HTML/Elements/details
-	 */   
-	
-	details.closed .detailsContent {
-		display:none;
-	}
-	
-	details.closed summary h1:before,
-	details.closed summary h2:before,
-	details.closed summary h3:before,
-	details.closed summary h4:before,
-	details.closed summary h5:before,
-	details.closed summary h6:before
-	{
-		content: "+ ";
-	}
-	
-	details summary h1:before,
-	details summary h2:before,
-	details summary h3:before,
-	details summary h4:before,
-	details summary h5:before,
-	details summary h6:before
-	{
-		content: "- ";
-	}
+/* Imitation of details element
+ * http://www.w3.org/wiki/HTML/Elements/details
+ */   
+
+.notwebkit details.closed .detailsContent {
+  display:none;
 }
 
+.notwebkit details.closed summary h1:before,
+.notwebkit details.closed summary h2:before,
+.notwebkit details.closed summary h3:before,
+.notwebkit details.closed summary h4:before,
+.notwebkit details.closed summary h5:before,
+.notwebkit details.closed summary h6:before
+{
+  content: "+ ";
+}
+
+.notwebkit details summary h1:before,
+.notwebkit details summary h2:before,
+.notwebkit details summary h3:before,
+.notwebkit details summary h4:before,
+.notwebkit details summary h5:before,
+.notwebkit details summary h6:before
+{
+  content: "- ";
+}
