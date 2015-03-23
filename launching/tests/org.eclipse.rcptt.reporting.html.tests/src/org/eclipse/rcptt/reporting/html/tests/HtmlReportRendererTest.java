@@ -100,7 +100,7 @@ public class HtmlReportRendererTest {
 				result.contains("<script type=\"text/javascript\" src =\"rcptt.js\">"));
 	}
 
-	@Test
+	// @Test
 	public void renderZip() {
 		Q7ReportIterator iterator = new Q7ReportIterator(new File("C:\\Users\\vasili\\Downloads\\tests.report"));
 		try {
@@ -110,6 +110,16 @@ public class HtmlReportRendererTest {
 		}
 	}
 
-
-
+	@Test
+	public void testElapsed() {
+		Report report = createReport("1", IStatus.OK);
+		report.getRoot().setStartTime(1000);
+		report.getRoot().setEndTime(3500);
+		Report report2 = createReport("2", IStatus.OK);
+		report2.getRoot().setStartTime(4000);
+		report2.getRoot().setEndTime(6000);
+		String result = generate(asList(report, report2)).replaceAll("\\s", "");
+		Assert.assertTrue("Statistics should have proper Execution time",
+				result.contains("ExecutionTime</th><td>4,5s"));
+	}
 }

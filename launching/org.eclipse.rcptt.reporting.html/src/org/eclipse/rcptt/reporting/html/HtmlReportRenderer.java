@@ -172,7 +172,7 @@ public class HtmlReportRenderer implements IReportRenderer {
 		r.replace("failedPercent", percent(statistics.getFailed(), statistics.getTotal()));
 		r.replace("skippedPercent", percent(statistics.getSkipped(), statistics.getTotal()));
 		r.replace("skippedCount", statistics.getSkipped());
-		r.replace("elapsed", durationFormat.format((float) (statistics.getTotal()) / 1000f));
+		r.replace("elapsed", durationFormat.format((float) (statistics.getTime()) / 1000f));
 	}
 
 	private static class Replacer {
