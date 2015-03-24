@@ -1,79 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <artifactId>tests</artifactId>
   <packaging>rcpttTest</packaging>
-
   <parent>
     <groupId>org.eclipse.rcptt.tests</groupId>
     <artifactId>base</artifactId>
     <version>1.5.6-SNAPSHOT</version>
     <relativePath>./pom-base.xml</relativePath>
   </parent>
-
   <properties>
     <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/latest/repository</rcpttRepo>
   </properties>
-  
   <build>
     <plugins>
       <plugin>
-	<groupId>${ci-maven-group}</groupId>
-	<artifactId>${ci-maven-plugin}</artifactId>
-	<version>${ci-maven-version}</version>
-	<extensions>true</extensions>
-
-	<configuration>
-	  <aut>
-	    <explicit>${rcpttPath}</explicit>
-	    <args>
-	      <arg>-nosplash</arg>
-	      <arg>-consoleLog</arg>	      
-	    </args>
-<!--	      <groupId>org.eclipse</groupId>
+        <groupId>${ci-maven-group}</groupId>
+        <artifactId>${ci-maven-plugin}</artifactId>
+        <version>${ci-maven-version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <aut>
+            <explicit>${rcpttPath}</explicit>
+            <args>
+              <arg>-nosplash</arg>
+              <arg>-consoleLog</arg>
+            </args>
+            <!--	      <groupId>org.eclipse</groupId>
 	      <artifactId>sdk</artifactId>
 	      <version>3.7.2</version>
 -->
-		<ignoreOtherInjections>true</ignoreOtherInjections>
-		<injections>
-			<injection>
-				<site>${runtimeRepository}</site>
-			</injection>
-		</injections>
-		
-	    </aut>
-	    <runner>
-	      <version>${runner-version}</version>
-	    </runner>
-	    <skipTags>
-	      <tag>skipExecution</tag>
-	    </skipTags>
-	    <testOptions>
-	      <execTimeout>18000</execTimeout>
-	    </testOptions>
-	  </configuration>
+            <ignoreOtherInjections>true</ignoreOtherInjections>
+            <injections>
+              <injection>
+                <site>${runtimeRepository}</site>
+              </injection>
+            </injections>
+          </aut>
+          <runner>
+            <version>${runner-version}</version>
+          </runner>
+          <skipTags>
+            <tag>skipExecution</tag>
+          </skipTags>
+          <testOptions>
+            <execTimeout>18000</execTimeout>
+          </testOptions>
+        </configuration>
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>linux</id>
-      <activation><os><family>unix</family></os></activation>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
       <build>
-	<plugins>
-	  <plugin>
-	    <groupId>${ci-maven-group}</groupId>
-	    <artifactId>${ci-maven-plugin}</artifactId>
-	    <version>${ci-maven-version}</version>
-	    <extensions>true</extensions>
-	    <configuration>
-	      <skipTags combine.children="append">
-		<tag>skipLinux</tag>
-	      </skipTags>
-	    </configuration>
-	  </plugin>
-	</plugins>
+        <plugins>
+          <plugin>
+            <groupId>${ci-maven-group}</groupId>
+            <artifactId>${ci-maven-plugin}</artifactId>
+            <version>${ci-maven-version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <skipTags combine.children="append">
+                <tag>skipLinux</tag>
+              </skipTags>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <activation>
+        <property>
+          <name>explicitRunner</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>${ci-maven-group}</groupId>
+            <artifactId>${ci-maven-plugin}</artifactId>
+            <version>${ci-maven-version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <runner>
+                <explicit>${explicitRunner}</explicit>
+              </runner>
+            </configuration>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>
