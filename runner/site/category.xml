@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.eclipse.rcptt.jdt.lite"/>
+   <feature id="org.eclipse.rcptt.pde.lite"/>
+   <feature id="org.eclipse.rcptt.platform.lite"/>
+   <feature id="org.eclipse.rcptt.rcp.lite"/>
+   <feature id="org.eclipse.rcptt.runner.headless"/>
+   <feature id="org.eclipse.rcptt.runner.integration"/>
+</site>

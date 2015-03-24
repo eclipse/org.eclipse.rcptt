@@ -158,10 +158,10 @@ public class FullSingleTestHtmlRenderer {
 		if (nonIgnored.isEmpty())
 			return;
 		renderHeader(2, "Profile", "");
-		writer.println("<table>");
+		writer.println("<table><tr>");
 		writer.println("<th>Task type</th>");
 		writer.println("<th>Class</th>");
-		writer.println("<th>Time taken (ms)</th>");
+		writer.println("<th>Time taken (ms)</th></tr>");
 		for (Q7WaitInfo info : nonIgnored) {
 			long duration = info.getEndTime() - info.getStartTime();
 			String type = SimpleReportGenerator.getType(root, info);

@@ -110,6 +110,9 @@ public class FullSingleTestHtmlRendererTest {
 		Assert.assertFalse("ignored type should not be seen", result.contains("timer"));
 		Assert.assertFalse("ignored type should not be seen", result.contains("someclass"));
 		Assert.assertFalse("All placeholders should be replaced with numbers", result.contains("$"));
+		String stripped = result.replaceAll("\\s", "");
+		Assert.assertFalse("Header without row", stripped.contains("<table><th>"));
+		Assert.assertFalse("Cell without row", stripped.contains("<table><td>"));
 	}
 
 	private String generate(Report report) {

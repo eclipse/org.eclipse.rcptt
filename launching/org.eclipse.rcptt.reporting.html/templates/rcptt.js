@@ -63,3 +63,6 @@ function installCollapse(detailsNode) {
 	}
 }
 
+if(navigator.userAgent.indexOf('AppleWebKit') == -1){
+    addClass(document.getElementsByTagName("html")[0], "notwebkit");
+}

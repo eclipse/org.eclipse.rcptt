@@ -38,6 +38,7 @@
       <import feature="org.eclipse.jdt" version="0.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.emf.databinding" version="0.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.rcptt.ecl.platform.ui" version="1.5.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.rcptt.launching" version="2.0.0.qualifier"/>
    </requires>
 
    <plugin
@@ -141,6 +142,13 @@
          download-size="0"
          install-size="0"
          version="2.0.0.qualifier"/>
+
+   <plugin
+         id="org.eclipse.rcptt.core.builder"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.testing.ecl"
