@@ -3,6 +3,7 @@ package org.eclipse.rcptt.reporting.html.tests;
 import static java.util.Arrays.asList;
 
 import java.io.File;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -119,7 +120,8 @@ public class HtmlReportRendererTest {
 		report2.getRoot().setStartTime(4000);
 		report2.getRoot().setEndTime(6000);
 		String result = generate(asList(report, report2)).replaceAll("\\s", "");
+		char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
 		Assert.assertTrue("Statistics should have proper Execution time",
-				result.contains("ExecutionTime</th><td>4,5s"));
+				result.contains("ExecutionTime</th><td>4" + separator + "5s"));
 	}
 }
