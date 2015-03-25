@@ -78,13 +78,29 @@ public class FullSingleTestHtmlRendererTest {
 	}
 
 	@Test
-	public void failedChildShouldBeBlack() {
+	public void failedChildShouldBeRed() {
 		Report report = createReport("1", IStatus.ERROR);
 		Node node = createNode("2", IStatus.ERROR);
 		report.getRoot().getChildren().add(node);
 		String result = generate(report);
 		Assert.assertTrue("Failed node header should have failure class",
 				result.contains("<h4 class=\"failure\">2</h4>"));
+	}
+
+	@Test
+	public void failedTestHeaderShouldBeRed() {
+		Report report = createReport("1", IStatus.ERROR);
+		String result = generate(report);
+		Assert.assertTrue("Failed node header should have failure class",
+				result.contains("<h2 class=\"failure\">1</h2>"));
+	}
+
+	@Test
+	public void passedTestHeaderShouldBeGreen() {
+		Report report = createReport("1", IStatus.OK);
+		String result = generate(report);
+		Assert.assertTrue("Failed node header should have failure class",
+				result.contains("<h2 class=\"passed\">1</h2>"));
 	}
 
 	@Test

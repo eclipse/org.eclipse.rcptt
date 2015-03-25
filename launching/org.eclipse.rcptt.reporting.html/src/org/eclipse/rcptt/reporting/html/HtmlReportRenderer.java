@@ -125,6 +125,7 @@ public class HtmlReportRenderer implements IReportRenderer {
 		for (Report report:failedReports) {
 			try {
 				renderFailed(writer, report, content);
+				writer.println("<hr/>");
 			} catch (Exception e) {
 				UTILS.log(UTILS.createError(e));
 				e.printStackTrace(writer);

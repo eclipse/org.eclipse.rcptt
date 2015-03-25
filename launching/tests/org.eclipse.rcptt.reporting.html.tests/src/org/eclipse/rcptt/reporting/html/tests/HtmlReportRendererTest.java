@@ -101,7 +101,7 @@ public class HtmlReportRendererTest {
 				result.contains("<script type=\"text/javascript\" src =\"rcptt.js\">"));
 	}
 
-	// @Test
+	//@Test
 	public void renderZip() {
 		Q7ReportIterator iterator = new Q7ReportIterator(new File("C:\\Users\\vasili\\Downloads\\tests.report"));
 		try {

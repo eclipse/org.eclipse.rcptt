@@ -204,7 +204,7 @@ public class ReportUtils {
 				return info.getTags();
 			}
 		}
-		return null;
+		return "";
 	}
 
 	public static String getScenarioDescription(Node item) {
@@ -400,4 +400,9 @@ public class ReportUtils {
 		}
 		return textResult;
 	}
+
+	public static final String getTime(Node nde) {
+		return formatTime(nde.getEndTime() - nde.getStartTime());
+	}
+
 }
