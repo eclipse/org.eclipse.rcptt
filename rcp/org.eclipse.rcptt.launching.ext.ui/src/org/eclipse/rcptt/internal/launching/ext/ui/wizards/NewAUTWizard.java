@@ -27,7 +27,6 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.internal.launching.IPDEConstants;
-import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
@@ -40,6 +39,7 @@ import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.eclipse.rcptt.launching.utils.AUTLaunchArgumentsHelper;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.ui.IWorkbench;
 
@@ -100,14 +100,9 @@ public class NewAUTWizard extends Wizard {
 										install.getName()));
 			}
 
-			String programArgs = LaunchArgumentsHelper
-					.getInitialProgramArguments().trim();
-			if (programArgs.contains("${target.arch}")) {
-				programArgs = programArgs.replace("${target.arch}",
-						autArch.name());
-			} else {
-				programArgs = programArgs + " -arch " + autArch.name();
-			}
+			String programArgs = AUTLaunchArgumentsHelper
+					.getInitialProgramArguments(autArch.name());
+
 			if (programArgs.length() > 0) {
 				workingCopy
 						.setAttribute(
