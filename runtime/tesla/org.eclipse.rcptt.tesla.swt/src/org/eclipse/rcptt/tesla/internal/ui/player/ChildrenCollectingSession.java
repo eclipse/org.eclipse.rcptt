@@ -43,9 +43,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.WorkbenchPartReference;
-
 import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
@@ -181,12 +179,6 @@ public class ChildrenCollectingSession {
 				}
 		}
 
-		try {
-			EclipseFormsSupport.formsChildren(player, results, widget, ignores,
-					classes);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
 		if (widget instanceof ToolBar) {
 			ToolBar tb = (ToolBar) widget;
 			ToolItem[] children = tb.getItems();

@@ -53,7 +53,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.TypedListener;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.progress.DeferredTreeContentManager;
 
@@ -635,18 +634,6 @@ public class TeslaSWTAccess {
 			TeslaCore.log(e);
 		}
 		return 0;
-	}
-
-	public static Control getExpandableLabel(Widget apUnwrap) {
-		try {
-			Field field = ExpandableComposite.class
-					.getDeclaredField("textLabel");
-			field.setAccessible(true);
-			return (Control) field.get(apUnwrap);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
-		return null;
 	}
 
 	public static CTabFolderEvent createCTabFolderEvent(Widget widget) {

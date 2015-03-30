@@ -35,7 +35,6 @@ import org.eclipse.rcptt.tesla.core.protocol.UISelector;
 import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.WindowUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
@@ -46,6 +45,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
 import org.eclipse.rcptt.tesla.recording.aspects.SWTEventManager;
+import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessorExtension;
 import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
 import org.eclipse.rcptt.tesla.swt.util.GetWindowUtil;
@@ -107,6 +107,7 @@ public final class SWTWidgetLocator {
 
 	private final SWTUIPlayer player;
 	private TeslaRecorder recorder;
+	private List<IRecordingProcessorExtension> recorderExtensions;
 
 	public synchronized void initialize(TeslaRecorder teslaRecorder) {
 		this.recorder = teslaRecorder;
@@ -663,27 +664,17 @@ public final class SWTWidgetLocator {
 				SWTUIElement afterParent = player.getParentElement(i);
 				// after could be only on same level as control itself
 				if (afterParent != null && afterParent.equals(lowerParent)) {
-					Widget apUnwrap = afterParent.unwrap();
-					try { // In case we are not have org.eclipse.ui.forms
-						Class<?> expandableClass = Class
-								.forName("org.eclipse.ui.forms.widgets.ExpandableComposite");
-						if (expandableClass != null
-								&& expandableClass.isInstance(apUnwrap)) {
-							Control label = TeslaSWTAccess
-									.getExpandableLabel(apUnwrap);
-							if (label != null && label.equals(i.unwrap())) {
-								continue; // Skip Expandable composite label for
-											// after item
-							}
+					boolean isPartOfParent = false;
+					for (IRecordingProcessorExtension extension : getRecorderExtensions()) {
+						if (extension.isPartOfParent(i.unwrap(), afterParent.unwrap())) {
+							isPartOfParent = true;
+							break;
 						}
-					} catch (Throwable e) {
-						// Ignore
-					} finally {
-
 					}
-
-					realAfter = i;
-					widgetIndex = -1;
+					if (!isPartOfParent) {
+						realAfter = i;
+						widgetIndex = -1;
+					}
 				}
 			}
 		}
@@ -836,24 +827,15 @@ public final class SWTWidgetLocator {
 					SWTUIElement afterParent = player.getParentElement(realChildren[i]);
 					// after could be only on same level as control itself
 					if (afterParent != null && afterParent.equals(lowerParent)) {
-						Widget apUnwrap = afterParent.unwrap();
-						try { // In case we are not have org.eclipse.ui.forms
-							Class<?> expandableClass = Class
-									.forName("org.eclipse.ui.forms.widgets.ExpandableComposite");
-							if (expandableClass != null
-									&& expandableClass.isInstance(apUnwrap)) {
-								Control label = TeslaSWTAccess
-										.getExpandableLabel(apUnwrap);
-								if (label != null && label.equals(realChildren[i].unwrap())) {
-									continue; // Skip Expandable composite label
-												// for
-												// after item
-								}
+						boolean isPartOfParent = false;
+						for (IRecordingProcessorExtension extension : getRecorderExtensions()) {
+							if (extension.isPartOfParent(realChildren[i].unwrap(), afterParent.unwrap())) {
+								isPartOfParent = true;
+								break;
 							}
-						} catch (Throwable e) {
-							// Ignore
-						} finally {
-
+						}
+						if (isPartOfParent) {
+							continue;
 						}
 						// check for label bounds be upper control bounds.
 						Rectangle afterBounds = realChildren[i].getBounds();
@@ -971,11 +953,6 @@ public final class SWTWidgetLocator {
 		classes.add(Label.class);
 		classes.add(CLabel.class);
 		classes.add(Link.class);
-		try {
-			EclipseFormsSupport.addLinkClass(classes);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
 		classes.add(getSearchableClass(control));
 		if (control instanceof StyledText) {
 			classes.add(Text.class);
@@ -1049,11 +1026,6 @@ public final class SWTWidgetLocator {
 				classes.add(Label.class);
 				classes.add(CLabel.class);
 				classes.add(Link.class);
-				try {
-					EclipseFormsSupport.addLinkClass(classes);
-				} catch (Throwable e) {
-					TeslaCore.log(e);
-				}
 			}
 			SWTUIElement[] children = player.children.collectFor(p, null, true,
 					classes.toArray(new Class[classes.size()]));
@@ -1549,5 +1521,10 @@ public final class SWTWidgetLocator {
 		extensions.add(ext);
 	}
 
-	//
+	public List<IRecordingProcessorExtension> getRecorderExtensions() {
+		if (recorderExtensions == null) {
+			recorderExtensions = recorder.getProcessors(IRecordingProcessorExtension.class);
+		}
+		return recorderExtensions;
+	}
 }

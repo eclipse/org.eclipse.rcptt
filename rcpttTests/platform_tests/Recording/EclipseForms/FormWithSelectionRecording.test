@@ -1,0 +1,57 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _V0104D8TEeSV5L6atfY6Ug,_cQEZwD2QEeSxD9UFwnFS6w
+Element-Name: FormWithSelectionRecording
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Xp2Z4NiOEeSXouPau0KnWQ
+Runtime-Version: 1.5.6.qualifier
+Save-Time: 4/3/15 7:29 PM
+Tags: skipLinux
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view Applications | click
+get-button "Record a Snippet" | click
+
+get-aut "mockupsQ7" | eval {
+	get-button "Open Perspective" | click
+	get-menu "Other..." | click
+	get-window "Open Perspective" | get-table | select "Q7 Quality" | double-click
+	with [get-view "Q7 Quality Mockups"] {
+	    get-tree | select "eclipse/form/FormWithSection"
+	    with [get-group FormWithSection] {
+	        with [get-section "Section 1"] {
+	            get-table | select One
+	            get-button "Do something" | click
+	            get-table | select Two
+	            get-button "Do something" | click
+	            get-table | select Three
+	        }
+	        get-section "Section 2" | get-editbox | click-text "1:5"
+	        get-section "Section 2" -after [get-label "Eclipse Forms API Example"] -index 1 | get-editbox | click-text "1:5"
+	    }
+	}
+}
+get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
+    | equals "get-button \"Open Perspective\" | click\n"
+    + "get-window \"Open Perspective\" | get-table | select \"Q7 Quality\" | double-click\n"
+    + "with [get-view \"Q7 Quality Mockups\"] {\n"
+    + "    get-tree | select \"eclipse/form/FormWithSection\"\n"
+    + "    with [get-group FormWithSection] {\n"
+    + "        with [get-section \"Section 1\"] {\n"
+    + "            get-table | select One\n"
+    + "            with [get-button \"Do something\"] {\n"
+    + "                click\n"
+    + "                click\n"
+    + "            }\n"
+    + "        }\n"
+    + "        get-section \"Section 2\" | get-editbox | click-text \"1:5\"\n"
+    + "        get-section \"Section 2\" -after [get-label \"Eclipse Forms API Example\"] -index 1 | get-editbox | click-text \"1:5\"\n"
+    + "    }\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

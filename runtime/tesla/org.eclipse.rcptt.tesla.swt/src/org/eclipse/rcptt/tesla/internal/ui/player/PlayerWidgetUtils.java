@@ -25,8 +25,6 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IWorkbenchPartReference;
-
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 public class PlayerWidgetUtils {
@@ -39,7 +37,7 @@ public class PlayerWidgetUtils {
 	}
 
 	public static boolean canClick(SWTUIElement w) {
-		if (unwrap(w) instanceof IWorkbenchPartReference || canClickFormLink(w)) {
+		if (unwrap(w) instanceof IWorkbenchPartReference) {
 			if (!canClickView(w)) {
 				return false;
 			}
@@ -61,15 +59,6 @@ public class PlayerWidgetUtils {
 					.getReference();
 			return EclipseWorkbenchProvider.getProvider().canClickView(
 					reference);
-		}
-		return true;
-	}
-
-	private static boolean canClickFormLink(SWTUIElement w) {
-		try {
-			return EclipseFormsSupport.isHyperLinkSegment(w);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
 		}
 		return true;
 	}

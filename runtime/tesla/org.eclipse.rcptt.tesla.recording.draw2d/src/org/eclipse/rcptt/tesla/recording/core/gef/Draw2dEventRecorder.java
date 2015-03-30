@@ -16,11 +16,6 @@ import java.util.List;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTEventDispatcher;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Canvas;
-
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement;
 import org.eclipse.rcptt.tesla.core.features.IMLFeatures;
@@ -37,6 +32,10 @@ import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessorExtension;
 import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
 import org.eclipse.rcptt.tesla.recording.core.swt.SWTEventRecorder;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Canvas;
 
 public class Draw2dEventRecorder implements IRecordingProcessor,
 		IDraw2DEventListener, IRecordingProcessorExtension {
@@ -273,6 +272,11 @@ public class Draw2dEventRecorder implements IRecordingProcessor,
 
 	@Override
 	public boolean isNotDraw2d(Object widget) {
+		return false;
+	}
+
+	@Override
+	public boolean isPartOfParent(Object widget, Object parent) {
 		return false;
 	}
 }

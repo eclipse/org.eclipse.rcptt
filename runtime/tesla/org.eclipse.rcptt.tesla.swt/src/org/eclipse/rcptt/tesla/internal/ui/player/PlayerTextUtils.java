@@ -46,10 +46,8 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IWorkbenchPartReference;
-
 import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 
@@ -115,11 +113,6 @@ public class PlayerTextUtils {
 		Widget widget = unwrapWidget(uiElement);
 		if (widget == null || widget.isDisposed()) {
 			return TeslaSWTMessages.SWTUIPlayer_DisposedControl_RawText;
-		}
-		try {
-			result = EclipseFormsSupport.getText(rawElement);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
 		}
 		if (widget instanceof Decorations) {
 			result = ((Decorations) widget).getText();

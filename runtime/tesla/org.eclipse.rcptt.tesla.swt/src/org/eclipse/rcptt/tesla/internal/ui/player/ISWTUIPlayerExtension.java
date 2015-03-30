@@ -13,7 +13,6 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 
@@ -77,5 +76,30 @@ public interface ISWTUIPlayerExtension {
 	 * @return
 	 */
 	Widget getIndirectParent(Widget current);
+
+	/**
+	 * Returns real class for supported widget
+	 * 
+	 * @param widget
+	 * @return
+	 */
+	Class<?> getSearchableClass(Object widget);
+
+	/**
+	 * Return true if extension has click handler
+	 * 
+	 * @param widget
+	 * @return
+	 */
+	boolean canClick(final SWTUIElement widget, final boolean isDefault,
+			final boolean doubleClick, final boolean arrow);
+
+	/**
+	 * Click handler
+	 * 
+	 * @param widget
+	 */
+	void click(final SWTUIElement widget, final boolean isDefault,
+			final boolean doubleClick, final boolean arrow);
 
 }

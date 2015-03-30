@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player;
 
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 
@@ -23,11 +24,14 @@ public class PlayerWrapUtils {
 			return ((WorkbenchUIElement) element).reference;
 		}
 		try {
-			Object result = EclipseFormsSupport.unwrap(element);
-			if (result != null) {
-				return result;
+			if (element instanceof FormTextLinkUIElement) {
+				Object result = ((FormTextLinkUIElement) element).segment;
+				if (result != null) {
+					return result;
+				}
 			}
 		} catch (Throwable e) {
+			TeslaCore.log(e);
 		}
 		return (element).widget;
 	}
