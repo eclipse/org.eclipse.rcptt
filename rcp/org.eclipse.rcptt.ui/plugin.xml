@@ -6,7 +6,6 @@
 	<extension-point id="autWizard" name="autWizard" schema="schema/autWizard.exsd"/>
 	<extension-point id="searchMatchers" name="Pluggable search implementations" schema="schema/searchMatchers.exsd"/>
 	<extension-point id="scenarioEditorPages" name="Scenario Editor Pages" schema="schema/scenarioEditorPages.exsd"/>
-	<extension-point id="scenarioPropertySource" name="Scenario Property Source" schema="schema/scenarioPropertySource.exsd"/>
 	<extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
@@ -487,16 +486,6 @@
 		</perspectiveExtension>
 	</extension>
 	
-	<extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="org.eclipse.rcptt.preferences.PrefNode"
-            class="org.eclipse.rcptt.internal.ui.PreferencesAdapterFactory">
-         <adapter
-               type="org.eclipse.ui.views.properties.IPropertySource">
-         </adapter>
-      </factory>
-   </extension>
  <extension
        point="org.eclipse.ui.preferencePages">
     <page

@@ -12,8 +12,6 @@ package org.eclipse.rcptt.ui.editors;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -31,7 +29,6 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.controls.ContextsTable;
@@ -257,44 +254,13 @@ public class EditorContent implements INamedElementActions {
 	}
 
 	private IPropertySource createPropertySource() {
-		IPropertySourceFactory factory = getPropertySourceFactory();
-		if (factory != null) {
-			return factory.createPropertySource(getElement());
-		}
-		return null;
+		return (IPropertySource) Platform.getAdapterManager().getAdapter(getElement(), IPropertySource.class);
 	}
 
 	private static final String EXT_REF_TOOLTIP = Messages.ScenarioEditorPage_ExternalReferenceToolTip;
 
-	private static final String SCENARIO_EDITOR_PAGES_EXTENSION_POINT_ID = Q7UIPlugin.PLUGIN_ID
-			+ ".scenarioPropertySource"; //$NON-NLS-1$
-
-	private static IPropertySourceFactory[] PROPERTY_SOURCE_FACTORY;
 	private DescriptionComposite descriptionComposite;
 	private Binding externalRefBinding;
-
-	private static IPropertySourceFactory getPropertySourceFactory() {
-		if (PROPERTY_SOURCE_FACTORY == null) {
-			PROPERTY_SOURCE_FACTORY = new IPropertySourceFactory[1];
-			IExtensionPoint wizard = Platform
-					.getExtensionRegistry()
-					.getExtensionPoint(SCENARIO_EDITOR_PAGES_EXTENSION_POINT_ID);
-			if (wizard != null) {
-				IConfigurationElement[] elements = wizard
-						.getConfigurationElements();
-				for (IConfigurationElement element : elements) {
-					try {
-						PROPERTY_SOURCE_FACTORY[0] = (IPropertySourceFactory) element
-								.createExecutableExtension("class"); //$NON-NLS-1$
-						break;
-					} catch (Throwable e) {
-						RcpttPlugin.log(e);
-					}
-				}
-			}
-		}
-		return PROPERTY_SOURCE_FACTORY[0];
-	}
 
 	public void gotoMarker(IMarker marker) {
 		try {
