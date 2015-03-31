@@ -44,11 +44,9 @@ import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IEventProvider;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
-import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 
 public class EclCommandEventProvider extends AbstractEventProvider implements
 		ISessionListener, IEventProvider {
@@ -131,12 +129,6 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		final INodeBuilder node = openNodes.remove(command);
 		if (node == null)
 			throw new IllegalStateException("There is no open report node for command " + name);
-		node.update(new Procedure1<Node>() {
-			@Override
-			public void apply(Node arg) {
-				assert name.equals(arg.getName()) : "" + name + " != " + arg.getName();
-			}
-		});
 		ReportHelper.setResult(node, status);
 		node.endTask();
 	}

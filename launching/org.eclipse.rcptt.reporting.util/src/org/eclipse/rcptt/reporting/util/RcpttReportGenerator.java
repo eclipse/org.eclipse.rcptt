@@ -1,4 +1,4 @@
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +16,10 @@ import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.ImageEntry;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;

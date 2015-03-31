@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
 import java.io.Closeable;
 import java.io.File;
@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.streams.SherlockReportIterator;
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
 import static org.eclipse.rcptt.util.FileUtil.escapeFileName;
 
@@ -19,8 +19,10 @@ import java.util.Iterator;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.reporting.core.IReportRenderer;
+import org.eclipse.rcptt.reporting.util.internal.Plugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.util.FileUtil;
 import org.eclipse.rcptt.util.StringUtils;
 
 public class XmlSplitReportGenerator implements IReportRenderer {
@@ -50,13 +52,10 @@ public class XmlSplitReportGenerator implements IReportRenderer {
 	private static void writeContents(OutputStream out, String contents) {
 		try {
 			out.write(StringUtils.getUtf8Bytes(contents));
-			out.close();
 		} catch (IOException e) {
-			try {
-				out.close();
-			} catch (IOException e1) {
-			}
-			Q7ReportingPlugin.log(e);
+			Plugin.UTILS.log(e);
+		} finally {
+			FileUtil.safeClose(out);
 		}
 	}
 

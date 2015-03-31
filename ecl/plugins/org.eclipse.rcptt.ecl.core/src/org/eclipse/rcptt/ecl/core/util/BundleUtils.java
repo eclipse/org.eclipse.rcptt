@@ -33,6 +33,10 @@ public class BundleUtils {
 		log(createError(msg, t));
 	}
 
+	public void log(Throwable t) {
+		log(createError(t));
+	}
+
 	public void log(IStatus status) {
 		log.log(status);
 	}

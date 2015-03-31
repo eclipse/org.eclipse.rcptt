@@ -17,7 +17,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.pde.internal.core.PDECore;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 import org.eclipse.rcptt.runner.util.Reporter;
 import org.eclipse.rcptt.runner.util.ResultsHandler;
 import org.eclipse.rcptt.runner.util.TargetPlatformChecker;

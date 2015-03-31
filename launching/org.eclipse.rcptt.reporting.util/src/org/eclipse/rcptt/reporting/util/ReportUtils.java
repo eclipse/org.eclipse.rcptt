@@ -8,9 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.core;
-
-import static org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin.log;
+package org.eclipse.rcptt.reporting.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,6 +33,9 @@ import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
 import org.eclipse.rcptt.reporting.ReportingFactory;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.reporting.util.internal.Plugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
@@ -46,8 +47,23 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.utils.AdvancedInformationGenerator;
+import org.eclipse.rcptt.verifications.status.EVerificationStatus;
+import org.eclipse.rcptt.verifications.status.VerificationStatusData;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 
 public class ReportUtils {
+
+	private static final Function<? super VerificationStatusData, String> datumToMessage = new Function<VerificationStatusData, String>() {
+
+		@Override
+		public String apply(VerificationStatusData input) {
+			return input.getMessage();
+		}
+
+	};
 
 	public static Q7Statistics calculateStatistics(Iterable<Report> iterator) {
 		return calculateStatistics(iterator.iterator());
@@ -72,7 +88,7 @@ public class ReportUtils {
 			}
 			Node localRoot = report.getRoot();
 			if (localRoot == null) {
-				log(new NullPointerException("Report should always have root"));
+				Plugin.UTILS.log(new NullPointerException("Report should always have root"));
 				continue;
 			}
 
@@ -274,7 +290,7 @@ public class ReportUtils {
 
 	private static String getFailMessage(ProcessStatus result) {
 		ProcessStatus firstFail = getFirstFail(result.getChildren());
-		String resultMessage = result.getMessage();
+		String resultMessage = getDirectFailMessage(result);
 		if (firstFail != null) {
 			String childrenMessage = getFailMessage(firstFail);
 			if (!resultMessage.equals(childrenMessage)) {
@@ -282,6 +298,16 @@ public class ReportUtils {
 			}
 		}
 		return resultMessage;
+	}
+
+	private static String getDirectFailMessage(ProcessStatus result) {
+		StringBuilder sb = new StringBuilder(result.getMessage());
+		if (result instanceof EVerificationStatus) {
+			EVerificationStatus vs = (EVerificationStatus) result;
+			sb.append(" ");
+			sb.append(Joiner.on(", ").join(Iterables.transform(vs.getData(), datumToMessage)));
+		}
+		return sb.toString();
 	}
 
 	private static String getLineMessage(ProcessStatus firstFail) {

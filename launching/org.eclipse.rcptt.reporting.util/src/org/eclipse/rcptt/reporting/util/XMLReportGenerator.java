@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
 import static org.eclipse.rcptt.util.StringUtils.getUtf8Bytes;
 
@@ -26,8 +26,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
-import org.eclipse.rcptt.reporting.internal.XMLUtils;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
+import org.eclipse.rcptt.reporting.util.internal.Plugin;
+import org.eclipse.rcptt.reporting.util.internal.XMLUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
@@ -297,7 +298,7 @@ public class XMLReportGenerator {
 			}
 			stream.write(getUtf8Bytes("\n</report>"));
 		} catch (IOException e) {
-			Q7ReportingPlugin.log(e);
+			Plugin.UTILS.log(e);
 		}
 	}
 }

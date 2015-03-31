@@ -2,7 +2,7 @@ package org.eclipse.rcptt.reporting.html;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.transform;
-import static org.eclipse.rcptt.reporting.core.ReportUtils.replaceLineBreaks;
+import static org.eclipse.rcptt.reporting.util.ReportUtils.replaceLineBreaks;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -22,8 +22,8 @@ import org.eclipse.rcptt.ecl.core.EclException;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
-import org.eclipse.rcptt.reporting.core.ReportUtils;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
+import org.eclipse.rcptt.reporting.util.ReportUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;

@@ -22,11 +22,11 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.reporting.core.FileContentFactory;
 import org.eclipse.rcptt.reporting.core.IReportRenderer;
 import org.eclipse.rcptt.reporting.core.IReportRenderer.IContentFactory;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
 import org.eclipse.rcptt.reporting.core.ReportRendererManager.ReportRenderer;
+import org.eclipse.rcptt.reporting.util.FileContentFactory;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 
 public class ReportWizard extends Wizard {
 	private ReportMainPage mainPage;

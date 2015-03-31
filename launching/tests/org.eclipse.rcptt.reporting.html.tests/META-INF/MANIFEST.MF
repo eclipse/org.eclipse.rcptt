@@ -12,4 +12,5 @@ Require-Bundle: org.junit;bundle-version="4.8.2",
  com.google.guava,
  org.eclipse.rcptt.util,
  org.eclipse.rcptt.reporting.html,
- org.eclipse.rcptt.tesla.core
+ org.eclipse.rcptt.tesla.core,
+ org.eclipse.rcptt.reporting.util

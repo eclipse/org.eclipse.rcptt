@@ -8,7 +8,7 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.internal;
+package org.eclipse.rcptt.reporting.util.internal;
 
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -25,9 +25,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.runtime.CoreException;
-import org.w3c.dom.Document;
-
 import org.eclipse.rcptt.util.StringUtils;
+import org.w3c.dom.Document;
 
 public class XMLUtils {
 
@@ -36,7 +35,7 @@ public class XMLUtils {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
 					.newDocument();
 		} catch (ParserConfigurationException e1) {
-			throw new CoreException(Q7ReportingPlugin.createStatus(e1));
+			throw new CoreException(Plugin.UTILS.createError(e1));
 		}
 	}
 
@@ -46,7 +45,7 @@ public class XMLUtils {
 			return XMLOutputFactory.newInstance().createXMLStreamWriter(stream,
 					"UTF-8");
 		} catch (XMLStreamException e1) {
-			throw new CoreException(Q7ReportingPlugin.createStatus(e1));
+			throw new CoreException(Plugin.UTILS.createError(e1));
 		}
 	}
 
@@ -54,9 +53,9 @@ public class XMLUtils {
 		try {
 			writer.close();
 		} catch (RuntimeException ex) {
-			Q7ReportingPlugin.logWarn("Can't close XMLStreamWriter", ex);
+			Plugin.UTILS.log("Can't close XMLStreamWriter", ex);
 		} catch (XMLStreamException ex) {
-			Q7ReportingPlugin.logWarn("Can't close XMLStreamWriter", ex);
+			Plugin.UTILS.log("Can't close XMLStreamWriter", ex);
 		}
 	}
 	public static String toString(Document doc) throws CoreException {
@@ -78,7 +77,7 @@ public class XMLUtils {
 			transformer.transform(source, result);
 
 		} catch (Exception ex) {
-			throw new CoreException(Q7ReportingPlugin.createStatus(ex));
+			throw new CoreException(Plugin.UTILS.createError(ex));
 		}
 		return result.getWriter().toString();
 	}

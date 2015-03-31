@@ -1,4 +1,4 @@
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
 import java.io.PrintWriter;
 import java.io.Writer;

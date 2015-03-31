@@ -49,7 +49,7 @@ import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
 import org.eclipse.rcptt.internal.core.model.index.NamedElementCollector;
 import org.eclipse.rcptt.internal.core.model.index.TestSuiteElementCollector;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 import org.eclipse.rcptt.runner.HeadlessRunner;
 import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
 import org.eclipse.rcptt.runner.RunnerConfiguration;

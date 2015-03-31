@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.reporting.reportRenderer">
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.util.FileReportGenerator"
+            description="Allow to save report to xml file"
+            extension="xml"
+            id="xml"
+            name="XML">
+      </reportRenderer>
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.util.XmlSplitReportGenerator"
+            description="Separate XML files for each test case"
+            extension="xml"
+            id="xml_separate"
+            name="XML (Separate Files)">
+      </reportRenderer>
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.util.JUnitFileReportGenerator"
+            description="Allow to save report to junit xml file"
+            extension="xml"
+            id="junit"
+            name="JUnit XML">
+      </reportRenderer>
+      <reportRenderer
+            class="org.eclipse.rcptt.reporting.util.RcpttFileReportGenerator"
+            description="Allow to save report in RCPTT internal report format"
+            extension="report"
+            id="rcptt"
+            name="RCPTT Report">
+      </reportRenderer>
+      <!--reportRenderer
+            class="org.eclipse.rcptt.reporting.internal.FileXMLReportGenerator"
+            description="Allow to save report to xml file"
+            extension="txt"
+            name="XML file">
+      </reportRenderer-->
+   </extension>
+</plugin>

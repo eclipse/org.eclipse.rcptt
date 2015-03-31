@@ -8,45 +8,50 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.reporting.core;
+package org.eclipse.rcptt.reporting.util;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.rcptt.reporting.internal.Q7ReportingPlugin;
+import org.eclipse.rcptt.reporting.Q7Statistics;
+import org.eclipse.rcptt.reporting.core.IReportRenderer;
+import org.eclipse.rcptt.reporting.util.internal.Plugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.util.FileUtil;
 
-public class RcpttFileReportGenerator implements IReportRenderer {
+public class FileReportGenerator implements IReportRenderer {
 
-	protected static final String ID = null;
-
-	public RcpttFileReportGenerator() {
+	public FileReportGenerator() {
 	}
 
+	
 	@Override
 	public IStatus generateReport(IContentFactory factory, String reportName,
 			Iterable<Report> report) {
 
+		Q7Statistics statistics = ReportUtils.calculateStatistics(report
+				.iterator());
 		OutputStream stream = null;
-
 		try {
-			stream = factory.createFileStream(reportName + ".report");
-			FileUtil.copy(
-					new BufferedInputStream(new FileInputStream(((Q7ReportIterator) report)
-							.getReportFile())), stream);
-		} catch (Exception e) {
-			Q7ReportingPlugin.log(e);
+			stream = factory.createFileStream(reportName + ".xml");
+			new XMLReportGenerator().generateContent(stream, reportName,
+					report, statistics);
+		} catch (CoreException cex) {
+			return cex.getStatus();
+		} finally {
+			try {
+				stream.close();
+			} catch (IOException e) {
+				return Plugin.UTILS.createError(e);
+			}
 		}
-
 		return Status.OK_STATUS;
 	}
 
 	
 	public String[] getGeneratedFileNames(String reportName) {
-		return new String[] { reportName + ".report" };
+		return new String[] { reportName + ".xml" };
 	}
 }

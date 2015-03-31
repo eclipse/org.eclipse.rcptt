@@ -11,7 +11,7 @@ served. This program and the accompanying materials
 package org.eclipse.rcptt.runner.util;
 
 import org.eclipse.rcptt.reporting.core.IReportRenderer;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 
 public interface IReporter {
 
