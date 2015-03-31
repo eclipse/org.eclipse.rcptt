@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1741
 Id: _3SkmQEu5EeG_ScHaVV2s7w
-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 5:35 PM
+Runtime-Version: 1.5.5.201503020312
+Save-Time: 3/31/15 12:40 PM
 Tags: ECL_IDE_module, TestCase
 Testcase-Type: ecl
 
@@ -38,16 +38,16 @@ Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "MyProject/WorkspaceIsEmpty" | double-click
 get-editor WorkspaceIsEmpty | get-section Script | get-text-viewer | set-caret-pos 1 1
-get-label "1 : 1" | get-property caption | equals "1 : 1" | verify-true
+get-label -after [get-label "Smart Insert"] -index 1| get-property caption | equals "1 : 1" | verify-true
 with [get-editor WorkspaceIsEmpty | get-section Script | get-text-viewer] {
     key-type "M1+ARROW_RIGHT"
 }
-get-label "1 : 4" | get-property caption | equals "1 : 4" | verify-true
+get-label -after [get-label "Smart Insert"] -index 1| get-property caption | equals [get-by-os -macosx "1 : 86" -win "1 : 4" -linux "1 : 86"] 
 with [get-editor WorkspaceIsEmpty | get-section Script | get-text-viewer] {
     key-type End
     key-type "M1+ARROW_LEFT"
 }
-get-label "1 : 80" | get-property caption | equals "1 : 80" | verify-true
+get-label -after [get-label "Smart Insert"] -index 1| get-property caption | equals "1 : 80" | verify-true
 with [get-editor WorkspaceIsEmpty | get-section Script | get-text-viewer] {
     set-caret-pos 1 79
     key-type "M1+M2+ARROW_LEFT"
