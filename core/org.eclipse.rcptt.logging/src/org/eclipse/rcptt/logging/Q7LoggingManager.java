@@ -93,7 +93,7 @@ public class Q7LoggingManager {
 		return getManager().getNewMonitor(prefix, base);
 	}
 
-	public static IQ7Monitor getChild(IQ7Monitor monitor, String uri) {
+	public static StatusListener getChild(IQ7Monitor monitor, String uri) {
 		IQ7Monitor result = getManager().getMonitor(monitor.getId(),
 				monitor.getPrefix(), uri);
 		monitor.putChild(result);

@@ -24,9 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import org.eclipse.rcptt.logging.IQ7Monitor.IQ7LogListener;
+import org.eclipse.core.runtime.IStatus;
 
-public abstract class BaseFileQ7Monitor {
+public abstract class BaseFileQ7Monitor implements IQ7Monitor {
 	static boolean logToConsole = false;
 
 	public static void setLogToConsole(boolean value) {
@@ -47,6 +47,7 @@ public abstract class BaseFileQ7Monitor {
 		super();
 	}
 
+	@Override
 	public synchronized void addListener(IQ7LogListener listener) {
 		if (listeners == null) {
 			listeners = new ArrayList<IQ7LogListener>();
@@ -54,6 +55,7 @@ public abstract class BaseFileQ7Monitor {
 		listeners.add(listener);
 	}
 
+	@Override
 	public synchronized void removeListener(IQ7LogListener listener) {
 		if (listeners != null) {
 			listeners.remove(listener);
@@ -111,10 +113,12 @@ public abstract class BaseFileQ7Monitor {
 		}
 	}
 
+	@Override
 	public void log(String message) {
 		log(message, null);
 	}
 
+	@Override
 	public synchronized void log(String message, Throwable e) {
 		if (logToConsole) {
 			System.out.println(message);
@@ -137,6 +141,7 @@ public abstract class BaseFileQ7Monitor {
 		logger.log(Level.ALL, message, e);
 	}
 
+	@Override
 	public void close() {
 		disposeLogger();
 	}
@@ -160,6 +165,26 @@ public abstract class BaseFileQ7Monitor {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void log(IStatus status) {
+		if (logToConsole) {
+			System.out.println(status.toString());
+		}
+		if (listeners != null) {
+			for (IQ7LogListener l : listeners) {
+				l.added(status.getMessage());
+			}
+		}
+		if (this.logger == null) {
+			reinit();
+		}
+		if (this.logger == null) {
+			Q7LoggingPlugin.error(getFailMessage(), null);
+			return;
+		}
+		logger.log(Level.ALL, status.toString());
 	}
 
 }

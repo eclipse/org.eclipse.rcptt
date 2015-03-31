@@ -37,6 +37,14 @@ public class BundleUtils {
 		log.log(status);
 	}
 
+	public IStatus createStatus(int severity, String message) {
+		return new Status(severity, getID(), message);
+	}
+
+	public IStatus createInfo(String message) {
+		return createStatus(IStatus.INFO, message);
+	}
+
 	public IStatus createError(String message, Throwable t) {
 		if (t != null) {
 			if (message == null || message.equals(t.getMessage())) {
