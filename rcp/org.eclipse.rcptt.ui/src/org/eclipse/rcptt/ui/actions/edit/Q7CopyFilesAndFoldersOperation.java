@@ -114,7 +114,6 @@ public class Q7CopyFilesAndFoldersOperation {
 	 *            the workspace
 	 * @return the new full path for the copy
 	 */
-	@SuppressWarnings("restriction")
 	static IPath getAutoNewNameFor(IPath originalName, IWorkspace workspace) {
 		int counter = 1;
 		String resourceName = originalName.lastSegment();
@@ -124,13 +123,9 @@ public class Q7CopyFilesAndFoldersOperation {
 			String nameSegment;
 
 			if (counter > 1) {
-				nameSegment = NLS
-						.bind(org.eclipse.ui.internal.ide.IDEWorkbenchMessages.CopyFilesAndFoldersOperation_copyNameTwoArgs,
-								new Integer(counter), resourceName);
+				nameSegment = NLS.bind("Copy ({0}) of {1}", new Integer(counter), resourceName);
 			} else {
-				nameSegment = NLS
-						.bind(org.eclipse.ui.internal.ide.IDEWorkbenchMessages.CopyFilesAndFoldersOperation_copyNameOneArg,
-								resourceName);
+				nameSegment = NLS.bind("Copy of {0}", resourceName);
 			}
 
 			IPath pathToTry = leadupSegment.append(nameSegment);

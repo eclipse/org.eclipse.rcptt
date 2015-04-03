@@ -24,7 +24,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.equinox.p2.engine,
  org.eclipse.equinox.p2.metadata,
  org.eclipse.equinox.p2.operations,
- org.eclipse.equinox.p2.ql,
  org.eclipse.jface.text,
  org.eclipse.core.variables
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
