@@ -1,13 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.workspace
-Element-Name: Project With Clear Workspace Context
+Element-Name: ScriptViewAndEdit
 Element-Type: context
 Element-Version: 2.0
 Id: __2fEACC3EeGpvKMy1SUvBw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:44 PM
+Runtime-Version: 1.5.5.201502121026
+Save-Time: 3/24/15 8:13 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -224,14 +223,14 @@ dFBLBQYAAAAAAQABADYAAAD3AAAAAAA=
 Content-Type: q7/binary
 Entry-Name: .q7.content
 
-UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVktFPwjAQxt/5Ky59t3X4oFk2iE40
-xGAwYvCNLOUG1W1d1pON/94OuhkSmfHt2vvd912/NBjXWQo7LI3Secg8fskAc6nXKt+E7IuSixs2Hg0C
-XW44ylQVBnkpCyIuqeaVLj9NEUv0l20V6ZywJqgz5Xeyw0bWGuXGt/ch2xIVvhBVVXGdbbgVF++zaYv8
-4dWNt0wzfuCE5UTHMcjjzNLzUn+gJFgq2kKUYlxCty24dRmodchWq2EyuY2iqwk+Frun2d57fdvdVQxk
-M7X8WSCJU4NsNAAIZCOQU1PbU3H0Ms56tnfm7Ni3RKJSbNvc4Uz82o5OXJsQzoElxoQv186ME5pzmvca
-njW5GOZej+gcqiawhz7EA2UgxaTXclFpcJuZHrHuoVMzyQran0gGok32ELroUg/Ef3/maPANUEsHCNsV
-pOI8AQAA9AIAAFBLAQIUABQACAgIAAAAIQDbFaTiPAEAAPQCAAAIAAAAAAAAAAAAAAAAAAAAAAAuY29u
-dGVudFBLBQYAAAAAAQABADYAAAByAQAAAAA=
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAAALmNvbnRlbnSVklFPwjAQx99N/A5N320dPmiWTYJz
+GmIwGFR8I0vXQXVrm/ak8O3tYBshkRnfene/+/9710bDTVWiNTdWKBnjgFxixCVTuZDLGH9DcXGDh7fn
+Z5EyS8JZKbTlxDANQBhsiFPmy+qM8XDenhIlgW8AbSoRdrqDWtc7SRv6fIxXADqk1DlHVLUkXpx+TMYt
+8odX194ydfuOo56jHYeRzCpPz5gRGt4FdyOZp7kAjEQe48ViUKSjJLlK+aNeP022wextfecwYiXPzPzg
+VmSl5dgvAaGI1dNJ2AU+1EZ9cga2cZpsp/sEbgCPFKLkbZ00PKa/15Mj53rqk6ThGfCX68aPALcnVe8V
+elaAduJoGvTJTpETsEIPvUyAhEUlL/pdX51Cze1sn1w37timlYbtsWhE2xXv908PDxDR//5J3/QDUEsH
+CNAcox0/AQAA8AIAAFBLAQIUABQACAgIAAAAIQDQHKMdPwEAAPACAAAIAAAAAAAAAAAAAAAAAAAAAAAu
+Y29udGVudFBLBQYAAAAAAQABADYAAAB1AQAAAAA=
 ------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
 ------=_contents/MyProject/P with F.ctx-c241ae94-6838-34e8-9967-4debdb96ba9e
 Content-Type: q7/binary

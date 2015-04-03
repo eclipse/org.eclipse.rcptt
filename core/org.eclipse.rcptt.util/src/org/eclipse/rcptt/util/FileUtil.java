@@ -49,6 +49,7 @@ public class FileUtil {
 		}
 	}
 
+	/** Reads all data from the stream and closes it. */
 	public static byte[] getStreamContent(InputStream stream)
 			throws IOException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();

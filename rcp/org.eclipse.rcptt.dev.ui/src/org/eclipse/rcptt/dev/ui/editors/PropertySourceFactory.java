@@ -10,19 +10,25 @@
  *******************************************************************************/
 package org.eclipse.rcptt.dev.ui.editors;
 
+import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.core.scenario.Scenario;
-import org.eclipse.rcptt.ui.editors.IPropertySourceFactory;
+public class PropertySourceFactory implements IAdapterFactory {
+	private static final Class<?>[] ADAPTER_LIST = new Class<?>[] { IPropertySource.class };
 
-public class PropertySourceFactory implements IPropertySourceFactory {
-
-	public IPropertySource createPropertySource(NamedElement scenario) {
-		if (scenario instanceof Scenario) {
-			return new ScenarioPropertySource((Scenario) scenario);
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adaptableObject instanceof Scenario && adapterType == IPropertySource.class) {
+			return new ScenarioPropertySource((Scenario) adaptableObject);
 		}
 		return null;
+	}
+
+	@Override
+	public Class<?>[] getAdapterList() {
+		return ADAPTER_LIST;
 	}
 
 }

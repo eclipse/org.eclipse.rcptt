@@ -12,7 +12,7 @@ import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.reporting.core.FileContentFactory;
 import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
-import org.eclipse.rcptt.reporting.html.HtmlReportRenderer;
+import org.eclipse.rcptt.reporting.html.HtmlReporter;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
@@ -21,21 +21,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HtmlReportRendererTest {
+public class HtmlReporterTest {
 	private VolatileContentFactory contentFactory;
-	private HtmlReportRenderer renderer;
+	private HtmlReporter renderer;
 
 	@Before
 	public void before() {
 		contentFactory = new VolatileContentFactory();
-		renderer = new HtmlReportRenderer();
+		renderer = new HtmlReporter();
 	}
 
 	@Test
 	public void testNoPlaceholders() {
 		String result = generate(Collections.<Report> emptyList());
 		Assert.assertTrue("Even empty report should have summary", result.length() > 300);
-		Assert.assertFalse("All placeholders should be replaced with numbers", result.contains("${"));
+		Assert.assertFalse("All placeholders should be replaced with numbers", result.contains("$"));
 	}
 
 	@Test
@@ -62,14 +62,15 @@ public class HtmlReportRendererTest {
 	@Test
 	public void testStylingOfDifferentResults() {
 		String result = generate(Arrays.asList(createReport("1", IStatus.ERROR), createReport("2", IStatus.OK),
-				createReport("3", IStatus.CANCEL)));
+				createReport("3", IStatus.CANCEL))).replaceAll("\\s+", " ");
 		Assert.assertTrue("Failed tests has red titles", result.contains("<h1 class=\"failure\">Failed Tests (1)</h1>"));
-		Assert.assertTrue("Failed tests has red titles", result.contains("<h2 class=\"failure\">1</h2>"));
+		Assert.assertTrue("Failed tests has red titles", result.contains("<table class=\"failure"));
+		Assert.assertTrue("Test 1 should be in a table", result.contains("<td> <a href=\"_1_0.html\">1</a> </td>"));
 		Assert.assertTrue("Failed tests has red titles",
 				result.contains("<h1 class=\"skipped\">Skipped Tests (1)</h1>"));
 		Assert.assertTrue("Test 3 should be in a table", result.contains("<td>3</td>"));
 		Assert.assertTrue("Failed tests has red titles", result.contains("<h1 class=\"passed\">Passed Tests (1)</h1>"));
-		Assert.assertTrue("Test 2 should be in a table", result.contains("<td>2</td>"));
+		Assert.assertTrue("Test 2 should be in a table", result.contains("<td> <a href=\"_2_2.html\">2</a> </td>"));
 	}
 
 	private String generate(Iterable<Report> reports) {
@@ -86,17 +87,33 @@ public class HtmlReportRendererTest {
 
 	@Test
 	public void testStyle() {
-		String result = generate(Collections.<Report> emptyList()).replaceAll("(\r|\n)+", " ");
-		Assert.assertTrue("Style should be written",
-				result.contains("<style> .failure th, .failure td"));
+		String result = generate(Collections.<Report> emptyList());
+		String style = contentFactory.read("rcptt.css");
+		Assert.assertTrue("Style file should be written", style.length() > 0);
+		Assert.assertTrue("Style file should be referenced", result.contains("<link href=\"rcptt.css\""));
 	}
 
 	@Test
 	public void testScript() {
-		String result = generate(Collections.<Report> emptyList()).replaceAll("(\r|\n)+", " ");
-		Assert.assertTrue("Script should be written",
-				result.contains("<script type=\"text/javascript\"> function installDetailsWorkaround() {"));
+		String result = generate(Collections.<Report> emptyList());
+		String style = contentFactory.read("rcptt.js");
+		Assert.assertTrue("Script file should be written", style.length() > 0);
+		Assert.assertTrue("Script file should be referenced",
+				result.contains("<script type=\"text/javascript\" src =\"rcptt.js\">"));
+		Assert.assertTrue("Script should be ivoked",
+				result.contains("onload=\"installDetailsWorkaround()\""));
 	}
+
+	@Test
+	public void testScriptInChild() {
+		generate(asList(createReport("abc", IStatus.ERROR)));
+		String result = contentFactory.read("_abc_0.html");
+		Assert.assertTrue("Script file should be referenced",
+				result.contains("<script type=\"text/javascript\" src =\"rcptt.js\">"));
+		Assert.assertTrue("Script should be ivoked",
+				result.contains("onload=\"installDetailsWorkaround()\""));
+	}
+
 
 	@Test
 	public void testElapsed() {
@@ -121,5 +138,4 @@ public class HtmlReportRendererTest {
 			FileUtil.safeClose(iterator);
 		}
 	}
-
 }

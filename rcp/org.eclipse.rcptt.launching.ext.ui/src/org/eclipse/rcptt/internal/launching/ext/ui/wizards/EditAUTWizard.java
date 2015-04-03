@@ -44,6 +44,7 @@ import org.eclipse.rcptt.launching.common.Q7LaunchingCommon;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
+import org.eclipse.rcptt.launching.utils.AUTLaunchArgumentsHelper;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.launching.aut.IAUTConfigWizard;
 import org.eclipse.rcptt.util.FileUtil;
@@ -184,30 +185,9 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 			String programArgs = workingCopy
 					.getAttribute(
 							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-							LaunchArgumentsHelper
-									.getInitialProgramArguments().trim());
-			if (programArgs.contains("${target.arch}")) {
-				programArgs = programArgs.replace("${target.arch}",
-						autArch.name());
-			} else {
-				if (programArgs.contains("-arch")) {
-					int pos = programArgs.indexOf("-arch ") + 6;
-					int len = 6;
-					int pos2 = programArgs.indexOf("x86_64", pos);
-					if (pos2 == -1) {
-						len = 3;
-						pos2 = programArgs.indexOf("x86", pos);
-					}
-					if (pos2 != -1) {
-						programArgs = programArgs.substring(0, pos)
-								+ autArch.name()
-								+ programArgs.substring(pos2 + len,
-										programArgs.length());
-					}
-				} else {
-					programArgs = programArgs + " -arch " + autArch.name();
-				}
-			}
+							AUTLaunchArgumentsHelper
+									.getInitialProgramArguments(autArch.name()));
+
 			if (programArgs.length() > 0) {
 				workingCopy
 						.setAttribute(

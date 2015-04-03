@@ -308,7 +308,6 @@ public class Q7LaunchDelegateUtils {
 		}
 		addIfAbsent(allArgs, "-os", "${target.os}");
 		addIfAbsent(allArgs, "-arch", "${target.arch}");
-		addIfAbsent(allArgs, "-nl", "${target.nl}");
 		addIfAbsent(allArgs, "-consoleLog", null);
 		return joinCommandArgs(allArgs);
 	}

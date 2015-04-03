@@ -2,6 +2,7 @@ package org.eclipse.rcptt.reporting.html;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.transform;
+import static org.eclipse.rcptt.reporting.core.ReportUtils.replaceLineBreaks;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -83,7 +84,7 @@ public class FullSingleTestHtmlRenderer {
 			renderHeader(0, "Empty report", "failure");
 			return;
 		}
-		renderHeader(0, root.getName(), "failure");
+		renderHeader(0, root.getName(), toFailureClass(root));
 		renderMain(root);
 		openDetails(1, "Details", "");
 		renderNode(root);
@@ -100,8 +101,7 @@ public class FullSingleTestHtmlRenderer {
 		}
 		writer.println("<div class=\"childNode\">");
 		for (Node child : children) {
-			Q7Info childInfo = ReportHelper.getInfo(child);
-			openDetails(2, child.getName(), toFailureClass(childInfo));
+			openDetails(2, child.getName(), toFailureClass(child));
 			renderNode(child);
 			closeDetails();
 		}
@@ -365,17 +365,21 @@ public class FullSingleTestHtmlRenderer {
 		String message = ReportUtils.getFailMessage(root);
 		message = ReportUtils.replaceHtmlEntities(message);
 		message = ReportUtils.replaceLineBreaks(message);
-		writer.println("<table class=\"failure\">");
+		writer.println("<table class=\"" + toFailureClass(root) + "\">");
 		titledRow("Failure Reason", message);
 		String tags = ReportUtils.getScenarioTags(root);
-		tags = ReportUtils.replaceLineBreaks(tags);
-		titledRow("Tags", tags);
+		tags = replaceLineBreaks(tags).trim();
+		titledRow("Tags", Strings.emptyToNull(tags));
 		titledRow("Duration", durationFormat.format(durationSeconds(root)));
 		String desc = ReportUtils.getScenarioDescription(root);
 		desc = ReportUtils.replaceLineBreaks(desc);
-		titledRow("Description", desc);		
+		titledRow("Description", desc);
 		writer.println("</table>");
 		renderScreenShots(root);
+	}
+
+	private String toFailureClass(Node root) {
+		return toFailureClass(ReportHelper.getInfo(root));
 	}
 
 	private void renderScreenShots(Node root) {
@@ -414,7 +418,7 @@ public class FullSingleTestHtmlRenderer {
 
 	private static float durationSeconds(Node node) {
 		long millseconds = node.getEndTime() - node.getStartTime();
-		return (float) (millseconds) / 1000f;
+		return (millseconds) / 1000f;
 	}
 
 }

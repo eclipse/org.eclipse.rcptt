@@ -10,6 +10,10 @@
 	border-color: green;
 }
 
+hr {
+	margin-bottom: 50px;
+}
+
 h1.failure, h2.failure, h3.failure, h4.failure, h5.failure {
 	color: red;
 }
@@ -22,9 +26,13 @@ h1.skipped, h2.skipped, h3.skipped, h4.skipped, h5.skipped {
 	color: grey;
 }
 
-table.failure th {
+table.failure th,
+table.passed th,
+table#summary th
+{
 	vertical-align: top;
 	text-align: right;
+	width: 150px;
 }
 
 /*To keep header on details icon level */
@@ -44,6 +52,7 @@ summary h6
 
 table {
 	border-collapse:collapse;
+	width: 100%;
 }
 
 table td, table th {

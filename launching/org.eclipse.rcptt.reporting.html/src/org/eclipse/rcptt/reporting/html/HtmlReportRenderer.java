@@ -15,9 +15,7 @@ import java.io.PrintWriter;
 import java.text.NumberFormat;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.Q7Statistics;
@@ -33,11 +31,11 @@ import org.eclipse.rcptt.util.FileUtil;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 
 public class HtmlReportRenderer implements IReportRenderer {
 
 	private final String summaryTemplate = loadAsString("/templates/summary.html");
-	private final String headTemplate = loadAsString("/templates/head.html");
 
 	protected final NumberFormat durationFormat = NumberFormat.getNumberInstance();
 	{
@@ -72,12 +70,10 @@ public class HtmlReportRenderer implements IReportRenderer {
 
 
 
-	private void renderReport(PrintWriter writer, Iterable<Report> reports, IContentFactory content)
+	protected void renderReport(PrintWriter writer, Iterable<Report> reports, IContentFactory content)
 			throws CoreException {
-		copyResource(content, Path.fromPortableString("/templates/rcptt.css"));
-		copyResource(content, Path.fromPortableString("/templates/rcptt.js"));
 		writer.println("<html>");
-		renderHead(writer);
+		renderHead(writer, null);
 		writer.println("<body onload=\"installDetailsWorkaround()\">");
 		Q7Statistics statistics = ReportUtils.calculateStatistics(reports.iterator());
 		renderSummary(writer, reports, statistics);
@@ -107,17 +103,17 @@ public class HtmlReportRenderer implements IReportRenderer {
 		writer.println("</body></html>");
 	}
 
-	private void renderHead(PrintWriter writer) {
-		writer.println(headTemplate);
-	}
-
-	private void copyResource(IContentFactory content, IPath path) throws CoreException {
-		try {
-			FileUtil.copy(HtmlReportRenderer.class.getResourceAsStream(path.toPortableString()),
-					content.createFileStream(path.lastSegment()));
-		} catch (IOException e) {
-			throw new CoreException(UTILS.createError(e));
-		}
+	protected void renderHead(PrintWriter writer, String title) {
+		writer.println("<head>");
+		if (!Strings.isNullOrEmpty(title))
+			writer.println("<title>" + title + "</title>");
+		writer.println("<style>");
+		writer.println(loadAsString("/templates/rcptt.css"));
+		writer.println("</style>");
+		writer.println("<script type=\"text/javascript\">");
+		writer.println(loadAsString("/templates/rcptt.js"));
+		writer.println("</script>");
+		writer.println("</head>");
 	}
 
 	protected void renderFailed(PrintWriter writer, IContentFactory content, Iterable<Report> failedReports)
@@ -125,6 +121,7 @@ public class HtmlReportRenderer implements IReportRenderer {
 		for (Report report:failedReports) {
 			try {
 				renderFailed(writer, report, content);
+				writer.println("<hr/>");
 			} catch (Exception e) {
 				UTILS.log(UTILS.createError(e));
 				e.printStackTrace(writer);

@@ -12,7 +12,7 @@ package org.eclipse.rcptt.logging;
 
 import java.io.File;
 
-public interface IQ7Monitor {
+public interface IQ7Monitor extends StatusListener {
 	void log(String message, Throwable e);
 
 	void log(String message);
