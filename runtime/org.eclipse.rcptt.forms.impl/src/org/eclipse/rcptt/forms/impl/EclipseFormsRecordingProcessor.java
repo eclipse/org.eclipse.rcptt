@@ -14,11 +14,13 @@ import static org.eclipse.rcptt.forms.impl.internal.Plugin.UTILS;
 
 import java.lang.reflect.Field;
 
+import org.eclipse.rcptt.forms.impl.EclipseFormsProcessor;
 import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ControlUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
 import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
+import org.eclipse.rcptt.tesla.internal.ui.player.ISWTModelMapperExtension;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.recording.aspects.IBasicSWTEventListener;
@@ -48,7 +50,7 @@ import org.eclipse.ui.internal.forms.widgets.TitleRegion;
 
 @SuppressWarnings("restriction")
 public class EclipseFormsRecordingProcessor implements IRecordingProcessor,
-		IRecordingProcessorExtension, IBasicSWTEventListener, IFormsEventListener {
+		IRecordingProcessorExtension, IBasicSWTEventListener, IFormsEventListener, ISWTModelMapperExtension {
 
 	private TeslaRecorder recorder = null;
 
@@ -211,5 +213,12 @@ public class EclipseFormsRecordingProcessor implements IRecordingProcessor,
 			UTILS.log(UTILS.createError(e));
 		}
 		return null;
+	}
+
+	@Override
+	public org.eclipse.rcptt.tesla.core.ui.Widget mapExtraValues(
+		SWTUIElement element, org.eclipse.rcptt.tesla.core.ui.Widget result
+	) {
+		return EclipseFormsProcessor.mapWidget(element, result);
 	}
 }

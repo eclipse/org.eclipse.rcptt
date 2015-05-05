@@ -33,6 +33,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTModelMapper;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.ui.forms.widgets.AbstractHyperlink;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.internal.forms.widgets.FormTextModel;
@@ -117,38 +118,31 @@ public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelM
 
 	@Override
 	public Widget mapExtraValues(SWTUIElement element, Widget result) {
+		return mapWidget(element, result);
+	}
+
+	public static Widget mapWidget(SWTUIElement element, Widget result) {
 		org.eclipse.swt.widgets.Widget widget = element.widget;
-		try {
-			switch (element.getKind().kind) {
-			case Link:
-				Widget link = swtModelMapperMap(widget);
-				if (link != null) {
-					return link;
-				}
-				break;
-			case FormText:
-				Widget formText = mapFormText(widget);
-				if (formText != null) {
-					return formText;
-				}
-				break;
-			default:
-				break;
+		if (widget instanceof Link) {
+			Widget link = fillLink((org.eclipse.swt.widgets.Link) widget);
+			if (link != null) {
+				result = link;
 			}
-		} catch (Throwable e) {
-			UTILS.log(UTILS.createError(e));
+		} else if (widget instanceof AbstractHyperlink) {
+			Widget hyperLink = fillHyperLink((AbstractHyperlink) widget);
+			if (hyperLink != null) {
+				result = hyperLink;
+			}
+		} else if (widget instanceof FormText) {
+			Widget formText = fillFormText((FormText) widget);
+			if (formText != null) {
+				result = formText;
+			}
 		}
 		return result;
 	}
 
-	private Widget mapFormText(org.eclipse.swt.widgets.Widget widget) {
-		if (widget instanceof FormText) {
-			return fillFormText((FormText) widget);
-		}
-		return null;
-	}
-
-	private Widget fillFormText(FormText widget) {
+	private static Widget fillFormText(FormText widget) {
 		org.eclipse.rcptt.tesla.core.ui.FormText formText = UiFactory.eINSTANCE
 				.createFormText();
 		SWTModelMapper.fillControl(formText, widget);
@@ -163,17 +157,7 @@ public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelM
 		return formText;
 	}
 
-	private Widget swtModelMapperMap(org.eclipse.swt.widgets.Widget widget) {
-		if (widget instanceof AbstractHyperlink) {
-			return fillHyperLink((AbstractHyperlink) widget);
-		}
-		if (widget instanceof org.eclipse.swt.widgets.Link) {
-			return fillLink((org.eclipse.swt.widgets.Link) widget);
-		}
-		return null;
-	}
-
-	private Widget fillHyperLink(AbstractHyperlink widget) {
+	private static Widget fillHyperLink(AbstractHyperlink widget) {
 		org.eclipse.rcptt.tesla.core.ui.Link label = UiFactory.eINSTANCE.createLink();
 		label.setCaption(unify(widget.getText()));
 		label.setToltip(unify(widget.getToolTipText()));
@@ -181,7 +165,7 @@ public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelM
 		return label;
 	}
 
-	private Widget fillLink(org.eclipse.swt.widgets.Link widget) {
+	private static Widget fillLink(org.eclipse.swt.widgets.Link widget) {
 		org.eclipse.rcptt.tesla.core.ui.Link label = UiFactory.eINSTANCE.createLink();
 		label.setCaption(unify(widget.getText()));
 		label.setToltip(unify(widget.getToolTipText()));
@@ -189,7 +173,7 @@ public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelM
 		return label;
 	}
 
-	private String unify(String value) {
+	private static String unify(String value) {
 		return PlayerTextUtils.unifyMultilines(value);
 	}
 
