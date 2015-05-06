@@ -219,7 +219,7 @@ public class ChildrenCollectingSession {
 				if (c instanceof Tree || c instanceof Table) {
 					player.getEvents().sendFocus(c);
 				}
-				player.getEvents().sendEvent(c, SWT.MenuDetect, xy.x, xy.y, SWT.BUTTON2);
+				player.getEvents().sendEvent(c, SWT.MenuDetect, p.x, p.y, SWT.BUTTON2);
 
 				// events.sendEvent(c, SWT.MouseDown);
 				collectMenuItems(c.getMenu(), p);
