@@ -39,15 +39,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.AbstractHyperlink;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.ScrolledFormText;
-import org.eclipse.ui.forms.widgets.ScrolledPageBook;
-import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
+import org.eclipse.ui.internal.forms.widgets.FormHeading;
 import org.eclipse.ui.internal.forms.widgets.FormTextModel;
 import org.eclipse.ui.internal.forms.widgets.IHyperlinkSegment;
-import org.eclipse.ui.internal.forms.widgets.WrappedPageBook;
+import org.eclipse.ui.internal.forms.widgets.TitleRegion;
 
 
 @SuppressWarnings("restriction")
@@ -94,17 +90,15 @@ public class EclipseFormsRecordingProcessor implements IRecordingProcessor,
 
 	@Override
 	public boolean isNotCanvas(Object widget, int type, Object event) {
+		Composite parent = null;
 		try {
-			if (widget instanceof Form
-					|| widget instanceof ScrolledForm
-					|| widget instanceof ScrolledFormText
-					|| widget instanceof ScrolledPageBook
-					|| widget instanceof WrappedPageBook
-					|| widget instanceof SharedScrolledComposite
-					|| widget instanceof SharedScrolledComposite) {
-				return true;
-			}
-			return false;
+			parent = ((Control) widget).getParent();
+			return !(widget instanceof ExpandableComposite)
+					&& !(widget instanceof AbstractHyperlink)
+					&& !(widget instanceof FormHeading)
+					&& !(widget instanceof TitleRegion)
+					&& !(widget instanceof FormText)
+					&& !(parent instanceof ExpandableComposite);
 		} catch (ClassCastException e) {
 			return false;
 		}
