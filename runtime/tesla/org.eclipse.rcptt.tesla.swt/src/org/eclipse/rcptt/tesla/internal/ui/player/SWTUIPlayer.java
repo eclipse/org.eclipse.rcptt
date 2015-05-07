@@ -1328,11 +1328,7 @@ public final class SWTUIPlayer {
 				TabItem[] items = ((TabFolder) c).getSelection();
 				if (items.length > 0) {
 					Rectangle bounds = items[0].getBounds();
-					xy.x = bounds.x + bounds.width / 2;
-					xy.y = bounds.y + bounds.height / 2;
-					Point p = c.getDisplay().map((Control) c, null, xy);
-					xy.x = p.x;
-					xy.y = p.y;
+					return new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 				}
 			} else if (c instanceof CTabFolder) {
 				CTabItem selection = ((CTabFolder) c).getSelection();
@@ -1340,9 +1336,7 @@ public final class SWTUIPlayer {
 					Rectangle bounds = selection.getBounds();
 					xy.x = bounds.x + bounds.width / 2;
 					xy.y = bounds.y + bounds.height / 2;
-					Point p = c.getDisplay().map((Control) c, null, xy);
-					xy.x = p.x;
-					xy.y = p.y;
+					return new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 				}
 			} else if (c instanceof Table) {
 				if (((Table) c).getItemCount() == 0) {
