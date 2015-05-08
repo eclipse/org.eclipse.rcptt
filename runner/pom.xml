@@ -7,10 +7,10 @@
 	<packaging>pom</packaging>
 
 	<parent>
-		<artifactId>ide</artifactId>
+		<artifactId>runner</artifactId>
     	<groupId>org.eclipse.rcptt</groupId>
     	<version>1.5.6-SNAPSHOT</version>
-    	<relativePath>../releng/ide/pom.xml</relativePath>
+    	<relativePath>../releng/runner/pom.xml</relativePath>
 	</parent>
 
 	<properties>
@@ -123,18 +123,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!--
-	<distributionManagement>
-		<repository>
-			<id>xored</id>
-			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>xored</id>
-			<name>Xored Maven repository</name>
-			<url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	-->
  </project>

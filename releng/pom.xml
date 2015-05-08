@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>rcptt-parent</artifactId>
   <version>1.5.6-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <properties>
     <tycho-version>0.20.0</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
@@ -16,12 +13,22 @@
     <aspectj_dep>1.7.0</aspectj_dep>
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>
   </properties>
-
+  <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>RCPTT Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>RCPTT Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
   <build>
-    
     <pluginManagement>
       <plugins>
-	<plugin>
+        <plugin>
           <groupId>org.eclipse.tycho</groupId>
           <artifactId>tycho-packaging-plugin</artifactId>
           <version>${tycho-version}</version>
@@ -37,60 +44,59 @@
             <timestampProvider>jgit</timestampProvider>
             <jgit.ignore>pom.xml</jgit.ignore>
           </configuration>
-	</plugin>
+        </plugin>
       </plugins>
     </pluginManagement>
-    
     <plugins>
       <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-compiler-plugin</artifactId>
-	<version>3.0</version>
-	<configuration>
-	  <source>1.6</source>
-	  <target>1.6</target>
-	</configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
       </plugin>
       <plugin>
-	<groupId>${tycho-groupid}</groupId>
-	<artifactId>target-platform-configuration</artifactId>
-	<version>${tycho-version}</version>
-	<configuration>
-	  <resolver>p2</resolver>
-	  <environments>
-	    <environment>
-	      <os>win32</os>
-	      <ws>win32</ws>
-	      <arch>x86</arch>
-	    </environment>
-	    <environment>
-	      <os>win32</os>
-	      <ws>win32</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	    <environment>
-	      <os>linux</os>
-	      <ws>gtk</ws>
-	      <arch>x86</arch>
-	    </environment>
-	    <environment>
-	      <os>linux</os>
-	      <ws>gtk</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	    <environment>
-	      <os>macosx</os>
-	      <ws>cocoa</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	  </environments>
-	</configuration>
+        <groupId>${tycho-groupid}</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <environments>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
       </plugin>
       <plugin>
-	<groupId>${tycho-groupid}</groupId>
-	<artifactId>tycho-maven-plugin</artifactId>
-	<version>${tycho-version}</version>
-	<extensions>true</extensions>
+        <groupId>${tycho-groupid}</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
       </plugin>
     </plugins>
   </build>
