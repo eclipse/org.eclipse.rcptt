@@ -66,7 +66,7 @@
          id="com.google.gson"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.2.4"
          unpack="false"/>
 
    <plugin
