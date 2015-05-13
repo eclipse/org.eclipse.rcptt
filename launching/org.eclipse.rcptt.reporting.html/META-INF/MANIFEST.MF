@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.reporting;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.util;bundle-version="1.0.0",
- com.google.guava
+ com.google.guava,
+ org.eclipse.rcptt.reporting.util
 Bundle-ClassPath: .
 Export-Package: org.eclipse.rcptt.reporting.html

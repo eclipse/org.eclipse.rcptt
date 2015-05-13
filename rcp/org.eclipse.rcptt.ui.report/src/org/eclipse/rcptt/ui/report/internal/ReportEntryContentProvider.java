@@ -25,9 +25,9 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.ImageEntry;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 

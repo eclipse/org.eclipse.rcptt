@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.rcptt.reporting.core.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
 import org.eclipse.rcptt.ui.report.ReportWizard;
 import org.eclipse.swt.SWT;

@@ -62,6 +62,7 @@
     <module>org.eclipse.rcptt.runtime-updatesite</module>
     <module>updates</module>
     <module>org.eclipse.rcptt.expandbar.runtime</module>
+    <module>org.eclipse.rcptt.forms.impl</module>
     <module>tests</module>
   </modules>
 

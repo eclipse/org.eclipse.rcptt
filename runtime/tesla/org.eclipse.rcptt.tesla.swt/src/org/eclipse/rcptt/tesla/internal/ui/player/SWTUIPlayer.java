@@ -165,6 +165,51 @@ public final class SWTUIPlayer {
 	private final Map<Context, List<Runnable>> runnables = new HashMap<Context, List<Runnable>>();
 	private static Map<Display, SWTUIPlayer> players = new HashMap<Display, SWTUIPlayer>();
 
+	protected static Map<Class<?>, ElementKind> elementKinds = new LinkedHashMap<Class<?>, ElementKind>();
+	private final ITimerExecHelper timerListener;
+	static List<ISWTUIPlayerExtension> extensions = new ArrayList<ISWTUIPlayerExtension>();
+	static {
+		elementKinds.put(Shell.class, ElementKind.Window);
+		elementKinds.put(CBanner.class, ElementKind.CBanner);
+		elementKinds.put(ToolBar.class, ElementKind.Toolbar);
+		elementKinds.put(CoolBar.class, ElementKind.CoolBar);
+		elementKinds.put(Button.class, ElementKind.Button);
+		elementKinds.put(ToolItem.class, ElementKind.Button);
+		elementKinds.put(Label.class, ElementKind.Label);
+		elementKinds.put(CLabel.class, ElementKind.Label);
+		elementKinds.put(Group.class, ElementKind.Group);
+		elementKinds.put(TabFolder.class, ElementKind.TabFolder);
+		elementKinds.put(CTabFolder.class, ElementKind.TabFolder);
+		elementKinds.put(Text.class, ElementKind.Text);
+		elementKinds.put(StyledText.class, ElementKind.Text);
+		elementKinds.put(Spinner.class, ElementKind.Text);
+		elementKinds.put(Link.class, ElementKind.Link);
+		elementKinds.put(Combo.class, ElementKind.Combo);
+		elementKinds.put(CCombo.class, ElementKind.Combo);
+		elementKinds.put(Tree.class, ElementKind.Tree);
+		elementKinds.put(org.eclipse.swt.widgets.List.class, ElementKind.List);
+		elementKinds.put(MenuItem.class, ElementKind.Menu);
+		elementKinds.put(Menu.class, ElementKind.Menu);
+		elementKinds.put(Table.class, ElementKind.Table);
+		elementKinds.put(CTabItem.class, ElementKind.TabItem);
+		elementKinds.put(TabItem.class, ElementKind.TabItem);
+		elementKinds.put(IViewReference.class, ElementKind.View);
+		elementKinds.put(IEditorReference.class, ElementKind.Editor);
+		elementKinds.put(DateTime.class, ElementKind.DateTime);
+		elementKinds.put(Slider.class, ElementKind.Slider);
+		elementKinds.put(Link.class, ElementKind.Link);
+		elementKinds.put(Shell.class, ElementKind.Window);
+		elementKinds.put(TreeItem.class, ElementKind.Item);
+		elementKinds.put(TableItem.class, ElementKind.Item);
+		elementKinds.put(Canvas.class, ElementKind.Canvas);
+		elementKinds.put(Browser.class, ElementKind.Browser);
+		elementKinds.put(TreeColumn.class, ElementKind.ColumnHeader);
+		elementKinds.put(TableColumn.class, ElementKind.ColumnHeader);
+
+		// Debug check right order of classes in elementKings Map
+		// checkIntegrity(elementKinds.keySet().toArray(new Class<?>[0]));
+	}
+
 	public Shell[] getIgnored() {
 		return ignoredShells;
 	}
@@ -277,9 +322,6 @@ public final class SWTUIPlayer {
 			result = selectWidget(filter,
 					Group.class);
 			break;
-		case Expandable:
-			result = EclipseFormsSupport.searchExpandable(this, filter);
-			break;
 		case Text:
 			result = selectWidget(filter, Text.class, StyledText.class,
 					Spinner.class);
@@ -313,9 +355,6 @@ public final class SWTUIPlayer {
 			result = selectWidget(filter,
 					Label.class, CLabel.class);
 			break;
-		case Link:
-			result = EclipseFormsSupport.searchLink(this, filter);
-			break;
 		case TabItem:
 			result = selectWidget(filter,
 					CTabItem.class, TabItem.class);
@@ -329,9 +368,6 @@ public final class SWTUIPlayer {
 			break;
 		case Editor:
 			result = selectEditor(filter);
-			break;
-		case FormText:
-			result = EclipseFormsSupport.searchFormText(this, filter);
 			break;
 		case Any:
 			result = selectWidget(filter.withoutKind());
@@ -791,9 +827,17 @@ public final class SWTUIPlayer {
 			final boolean doubleClick, final boolean arrow) {
 		exec("click", new Runnable() {
 			public void run() {
+				for (ISWTUIPlayerExtension ext : extensions) {
+					if (ext.canClick(w, isDefault, doubleClick, arrow)) {
+						ext.click(w, isDefault, doubleClick, arrow);
+						return;
+					}
+				}
+
 				if (!canClick(w)) {
 					failClick(w);
 				}
+
 				IWorkbenchPage page = getTargetPage();
 				switch (w.getKind().kind) {
 				case View:
@@ -805,14 +849,8 @@ public final class SWTUIPlayer {
 				case TabItem:
 					clickTabItem(w, isDefault);
 					break;
-				case FormText:
-					EclipseFormsSupport.clickOnFormText(w);
-					break;
 				case Link:
 					clickLink(w, doubleClick);
-					break;
-				case Expandable:
-					EclipseFormsSupport.clickOnExpandable(w);
 					break;
 				case Item:
 					clickTableTreeItem(w, doubleClick);
@@ -1062,10 +1100,6 @@ public final class SWTUIPlayer {
 	}
 
 	private void clickLink(final SWTUIElement w, boolean doubleClick) {
-		if (w instanceof FormTextLinkUIElement) {
-			EclipseFormsSupport.clickOnLink(w, doubleClick);
-			return;
-		}
 		Widget widget = unwrapWidget(w);
 		if (widget.isDisposed()) {
 			return;
@@ -1274,10 +1308,6 @@ public final class SWTUIPlayer {
 		if (s instanceof IWorkbenchPartReference) {
 			return new WorkbenchUIElement((IWorkbenchPartReference) s, this);
 		}
-		SWTUIElement o = EclipseFormsSupport.wrapSegment(this, s);
-		if (o != null) {
-			return o;
-		}
 		if (s instanceof Widget) {
 			return new SWTUIElement((Widget) s, this);
 		}
@@ -1298,11 +1328,7 @@ public final class SWTUIPlayer {
 				TabItem[] items = ((TabFolder) c).getSelection();
 				if (items.length > 0) {
 					Rectangle bounds = items[0].getBounds();
-					xy.x = bounds.x + bounds.width / 2;
-					xy.y = bounds.y + bounds.height / 2;
-					Point p = c.getDisplay().map((Control) c, null, xy);
-					xy.x = p.x;
-					xy.y = p.y;
+					return new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 				}
 			} else if (c instanceof CTabFolder) {
 				CTabItem selection = ((CTabFolder) c).getSelection();
@@ -1310,9 +1336,7 @@ public final class SWTUIPlayer {
 					Rectangle bounds = selection.getBounds();
 					xy.x = bounds.x + bounds.width / 2;
 					xy.y = bounds.y + bounds.height / 2;
-					Point p = c.getDisplay().map((Control) c, null, xy);
-					xy.x = p.x;
-					xy.y = p.y;
+					return new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 				}
 			} else if (c instanceof Table) {
 				if (((Table) c).getItemCount() == 0) {
@@ -1617,51 +1641,6 @@ public final class SWTUIPlayer {
 		return widget == null || widget.isDisposed();
 	}
 
-	protected static Map<Class<?>, ElementKind> elementKinds = new LinkedHashMap<Class<?>, ElementKind>();
-	private final ITimerExecHelper timerListener;
-	static List<ISWTUIPlayerExtension> extensions = new ArrayList<ISWTUIPlayerExtension>();
-	static {
-		elementKinds.put(Shell.class, ElementKind.Window);
-		elementKinds.put(CBanner.class, ElementKind.CBanner);
-		elementKinds.put(ToolBar.class, ElementKind.Toolbar);
-		elementKinds.put(CoolBar.class, ElementKind.CoolBar);
-		elementKinds.put(Button.class, ElementKind.Button);
-		elementKinds.put(ToolItem.class, ElementKind.Button);
-		elementKinds.put(Label.class, ElementKind.Label);
-		elementKinds.put(CLabel.class, ElementKind.Label);
-		elementKinds.put(Group.class, ElementKind.Group);
-		elementKinds.put(TabFolder.class, ElementKind.TabFolder);
-		elementKinds.put(CTabFolder.class, ElementKind.TabFolder);
-		elementKinds.put(Text.class, ElementKind.Text);
-		elementKinds.put(StyledText.class, ElementKind.Text);
-		elementKinds.put(Spinner.class, ElementKind.Text);
-		elementKinds.put(Link.class, ElementKind.Link);
-		elementKinds.put(Combo.class, ElementKind.Combo);
-		elementKinds.put(CCombo.class, ElementKind.Combo);
-		elementKinds.put(Tree.class, ElementKind.Tree);
-		elementKinds.put(org.eclipse.swt.widgets.List.class, ElementKind.List);
-		elementKinds.put(MenuItem.class, ElementKind.Menu);
-		elementKinds.put(Menu.class, ElementKind.Menu);
-		elementKinds.put(Table.class, ElementKind.Table);
-		elementKinds.put(CTabItem.class, ElementKind.TabItem);
-		elementKinds.put(TabItem.class, ElementKind.TabItem);
-		elementKinds.put(IViewReference.class, ElementKind.View);
-		elementKinds.put(IEditorReference.class, ElementKind.Editor);
-		elementKinds.put(DateTime.class, ElementKind.DateTime);
-		elementKinds.put(Slider.class, ElementKind.Slider);
-		EclipseFormsSupport.addKinds(elementKinds);
-		elementKinds.put(Link.class, ElementKind.Link);
-		elementKinds.put(Shell.class, ElementKind.Window);
-		elementKinds.put(TreeItem.class, ElementKind.Item);
-		elementKinds.put(TableItem.class, ElementKind.Item);
-		elementKinds.put(Canvas.class, ElementKind.Canvas);
-		elementKinds.put(Browser.class, ElementKind.Browser);
-		elementKinds.put(TreeColumn.class, ElementKind.ColumnHeader);
-		elementKinds.put(TableColumn.class, ElementKind.ColumnHeader);
-		// Debug check right order of classes in elementKings Map
-		// checkIntegrity(elementKinds.keySet().toArray(new Class<?>[0]));
-	}
-
 	protected static void checkIntegrity(Class<?>[] classes) {
 		for (int i = 0; i < classes.length; i++) {
 			for (int j = i + 1; j < classes.length; j++) {
@@ -1677,23 +1656,26 @@ public final class SWTUIPlayer {
 		}
 	}
 
-	public static Class<?> getSearchableClass(Object w) {
-		ElementKind kind = elementKinds.get(w.getClass());
+	public static Class<?> getSearchableClass(Object widget) {
+		ElementKind kind = elementKinds.get(widget.getClass());
 		if (kind == null) {
-			Class<?> result = EclipseFormsSupport.getSearchableClass(w);
-			if (result != null) {
-				return result;
+			// Try to find superclass for custom widget in extensions
+			for (ISWTUIPlayerExtension extension : extensions) {
+				Class<?> searchableClass = extension.getSearchableClass(widget);
+				if (searchableClass != null) {
+					return searchableClass;
+				}
 			}
-			// Check all items
+			// Try to find superclass for custom widget in "default" elements
 			for (Map.Entry<Class<?>, ElementKind> entry : elementKinds
 					.entrySet()) {
 				Class<?> key = entry.getKey();
-				if (key.isInstance(w)) {
+				if (key.isInstance(widget)) {
 					return key;
 				}
 			}
 		}
-		return w.getClass();
+		return widget.getClass();
 	}
 
 	public static GenericElementKind getKind(Object w) {
@@ -1709,10 +1691,6 @@ public final class SWTUIPlayer {
 
 		ElementKind kind = elementKinds.get(w.getClass());
 		if (kind == null) {
-			ElementKind result = EclipseFormsSupport.getKind(w);
-			if (result != null) {
-				return new GenericElementKind(result);
-			}
 			for (Map.Entry<Class<?>, ElementKind> entry : elementKinds.entrySet()) {
 				Class<?> key = entry.getKey();
 				if (key.isInstance(w)) {

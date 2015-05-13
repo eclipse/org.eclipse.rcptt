@@ -8,6 +8,8 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.core.ecl.core.model,
+ org.eclipse.rcptt.core.ecl.core.model.impl,
+ org.eclipse.rcptt.core.ecl.core.model.util,
  org.eclipse.rcptt.core.internal.ecl.core
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,

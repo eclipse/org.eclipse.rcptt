@@ -41,16 +41,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.gef.tools.SelectionTool;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Widget;
-
-import org.eclipse.rcptt.util.ReflectionUtil;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.features.IMLFeatures;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramFeatures;
@@ -81,6 +71,15 @@ import org.eclipse.rcptt.tesla.recording.core.gef.GefRecordingHelper.GraphicalVi
 import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
 import org.eclipse.rcptt.tesla.recording.core.swt.ICanvasDiagramHelper;
 import org.eclipse.rcptt.tesla.recording.core.swt.SWTEventRecorder;
+import org.eclipse.rcptt.util.ReflectionUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Widget;
 
 public class GefEventRecorder implements IRecordingProcessor,
 		IGefEventListener, ICanvasDiagramHelper, IRecordingProcessorExtension {
@@ -1253,6 +1252,11 @@ public class GefEventRecorder implements IRecordingProcessor,
 		if (widget instanceof Widget && getGraphicalViewer((Widget) widget) != null) {
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	public boolean isPartOfParent(Object widget, Object parent) {
 		return false;
 	}
 }

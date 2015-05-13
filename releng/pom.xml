@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>rcptt-parent</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <properties>
     <tycho-version>0.20.0</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
@@ -17,7 +14,18 @@
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>    
     <signExcludeInnerJars>true</signExcludeInnerJars>
   </properties>
-
+  <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>RCPTT Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>RCPTT Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
   <build>
     
     <pluginManagement>

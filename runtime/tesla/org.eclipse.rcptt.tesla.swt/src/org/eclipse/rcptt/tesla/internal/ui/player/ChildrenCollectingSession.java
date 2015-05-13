@@ -43,9 +43,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.WorkbenchPartReference;
-
 import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
@@ -181,12 +179,6 @@ public class ChildrenCollectingSession {
 				}
 		}
 
-		try {
-			EclipseFormsSupport.formsChildren(player, results, widget, ignores,
-					classes);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
 		if (widget instanceof ToolBar) {
 			ToolBar tb = (ToolBar) widget;
 			ToolItem[] children = tb.getItems();
@@ -227,7 +219,7 @@ public class ChildrenCollectingSession {
 				if (c instanceof Tree || c instanceof Table) {
 					player.getEvents().sendFocus(c);
 				}
-				player.getEvents().sendEvent(c, SWT.MenuDetect, xy.x, xy.y, SWT.BUTTON2);
+				player.getEvents().sendEvent(c, SWT.MenuDetect, p.x, p.y, SWT.BUTTON2);
 
 				// events.sendEvent(c, SWT.MouseDown);
 				collectMenuItems(c.getMenu(), p);

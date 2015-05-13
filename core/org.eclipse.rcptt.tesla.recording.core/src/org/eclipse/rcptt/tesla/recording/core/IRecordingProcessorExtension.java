@@ -16,4 +16,13 @@ public interface IRecordingProcessorExtension {
 	boolean isIgnored(Object widget, int type, Object event);
 
 	boolean isNotDraw2d(Object widget);
+
+	/**
+	 * Return true if widget is a part of parent widget
+	 * 
+	 * @param widget
+	 * @param parent
+	 * @return
+	 */
+	boolean isPartOfParent(Object widget, Object parent);
 }

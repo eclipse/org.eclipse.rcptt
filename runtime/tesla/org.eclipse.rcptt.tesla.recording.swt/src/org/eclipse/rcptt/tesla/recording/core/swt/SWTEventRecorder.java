@@ -782,31 +782,6 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		new ControlUIElement(element.element, getRecorder()).setFocus();
 	}
 
-	private void processFocusOut(Widget widget) {
-		if (widget.isDisposed()) {
-			return;
-		}
-		if (!hasListeners(widget, SWT.FocusOut)) {
-			return;
-		}
-
-		Context ctx = ContextManagement.currentContext();
-		if (ctx.contains(WizardDialog.class.getName(), "stopped")) {
-			return;
-		}
-		if (Platform.getOS().equals(Platform.OS_MACOSX)) {
-			if (ctx.contains(Display.class.getName(), "checkFocus")) {
-				return;
-			}
-		}
-		FindResult element = getLocator()
-				.findElement(widget, true, false, true);
-		if (element == null || element.element == null) {
-			return;
-		}
-		new ControlUIElement(element.element, getRecorder()).unfocus();
-	}
-
 	public void addToPressed(Event event) {
 		KeyStroke strk = KeyStroke.getInstance(event.stateMask, event.keyCode);
 		String split = strk.toString().toLowerCase();
@@ -862,14 +837,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 					|| type == SWT.MouseEnter || type == SWT.MouseExit
 					|| type == SWT.MouseHover || type == SWT.MouseWheel) {
 				String clName = widget.getClass().getName();
-				Composite parent = ((Control) widget).getParent();
-				boolean val = true;
-				try {
-					val = EclipseFormsSupport.isNotCanvas(widget, parent);
-				} catch (Throwable e) {
-					TeslaCore.log(e);
-				}
-				if (!clName.equals("org.eclipse.draw2d.FigureCanvas") && val) {
+				if (!clName.equals("org.eclipse.draw2d.FigureCanvas")) {
 					return true;
 				}
 			}
@@ -1172,14 +1140,6 @@ public class SWTEventRecorder implements IRecordingProcessor,
 					&& !(isRadioWidget && !((Button) widget).getSelection())
 					&& !isTabFolder
 					|| (type == SWT.DefaultSelection && isTreeOrTableOrList)) {
-				try {
-					if (EclipseFormsSupport.isFormTextWidget(widget)) {
-						// Skip form text selections
-						return;
-					}
-				} catch (Throwable e) {
-					TeslaCore.log(e);
-				}
 				if (widget instanceof MenuItem) {
 					MenuItem mi = (MenuItem) widget;
 					Object data = mi.getData();
@@ -2214,13 +2174,6 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	private static boolean hasListeners(Listener[] listenersDown) {
-		if (listenersDown == null) {
-			return false;
-		}
-		return listenersDown.length > 0;
-	}
-
 	private void processMouseDown(Widget widget, Event event,
 			RecordedEvent toRecording) {
 		if ((widget instanceof TabFolder || widget instanceof CTabFolder)) {
@@ -2311,13 +2264,6 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				}
 			}
 		}
-		try {
-			EclipseFormsSupport.recordFormsMouseDown(widget, getLocator(),
-					getRecorder(), getPlayer(), event);
-		} catch (Throwable e) {
-			TeslaCore.log(e);
-		}
-
 		recordTextSetFocus(widget, event.button);
 
 		if (widget instanceof org.eclipse.swt.widgets.List && ((Control) widget).isVisible())

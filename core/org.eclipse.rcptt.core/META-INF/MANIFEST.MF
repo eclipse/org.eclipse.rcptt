@@ -38,8 +38,8 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.rcptt.ecl.parser;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.rcptt.core.scenario;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
  org.eclipse.rcptt.tesla.recording.core.ecl;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
- org.eclipse.core.resources;resolution:=optional,
- org.eclipse.emf.workspace;resolution:=optional,
+ org.eclipse.core.resources;resolution:=optional;x-installation:=greedy,
+ org.eclipse.emf.workspace;resolution:=optional;x-installation:=greedy,
  org.eclipse.rcptt.util;bundle-version="[2.0.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.internal.core.RcpttPlugin

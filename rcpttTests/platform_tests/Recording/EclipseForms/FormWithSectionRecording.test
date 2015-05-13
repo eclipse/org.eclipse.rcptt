@@ -1,0 +1,50 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _V0104D8TEeSV5L6atfY6Ug,_cQEZwD2QEeSxD9UFwnFS6w
+Element-Name: FormWithSectionRecording
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _ZaeNgNiPEeSXouPau0KnWQ
+Runtime-Version: 1.5.6.qualifier
+Save-Time: 4/3/15 7:30 PM
+Tags: skipLinux
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view Applications | click
+get-button "Record a Snippet" | click
+
+get-aut "mockupsQ7" | eval {
+	get-button "Open Perspective" | click
+	get-menu "Other..." | click
+	get-window "Open Perspective" | get-table | select "Q7 Quality" | double-click
+	with [get-view "Q7 Quality Mockups"] {
+	    get-tree | select "eclipse/form/SectionWithButtons"
+	    with [get-group SectionWithButtons | get-section "Section 1"] {
+	        get-button "Check button" | check
+	        get-button "Radio button" | click
+	        get-button "Radio button 2" | click
+	        get-button "Radio button" -index 1 | click
+	        get-button "Push button" | click
+	    }
+	}
+}
+
+get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
+    | equals "get-button \"Open Perspective\" | click\n"
+    + "get-window \"Open Perspective\" | get-table | select \"Q7 Quality\" | double-click\n"
+    + "with [get-view \"Q7 Quality Mockups\"] {\n"
+    + "    get-tree | select \"eclipse/form/SectionWithButtons\"\n"
+    + "    with [get-group SectionWithButtons | get-section \"Section 1\"] {\n"
+    + "        get-button \"Check button\" | check\n"
+    + "        get-button \"Radio button\" | click\n"
+    + "        get-button \"Radio button 2\" | click\n"
+    + "        get-button \"Radio button\" -index 1 | click\n"
+    + "        get-button \"Push button\" | click\n"
+    + "    }\n"
+    + "}" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

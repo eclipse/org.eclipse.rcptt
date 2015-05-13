@@ -50,7 +50,6 @@ import org.eclipse.rcptt.tesla.core.ui.ViewerColumn;
 import org.eclipse.rcptt.tesla.core.ui.Widget;
 import org.eclipse.rcptt.tesla.core.ui.Window;
 import org.eclipse.rcptt.tesla.core.ui.WithImage;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
 import org.eclipse.rcptt.tesla.jface.ControlDecoratorRecordingHolder;
 import org.eclipse.rcptt.tesla.jface.ImageSources;
@@ -137,11 +136,6 @@ public class SWTModelMapper {
 		case Browser:
 			return fillBrowser((Browser) widget);
 		case Link:
-			try {
-				return EclipseFormsSupport.SWTModelMapperMap(widget);
-			} catch (Throwable e) {
-				TeslaCore.log(e);
-			}
 			if (widget instanceof Link) {
 				return fillLink((Link) widget);
 			}
@@ -212,15 +206,8 @@ public class SWTModelMapper {
 			return fillView(element);
 		case Window:
 			return fillWindow(element);
-		}
-
-		try {
-			Widget result = EclipseFormsSupport.mapFormText(widget);
-			if (result != null) {
-				return result;
-			}
-		} catch (Exception e) {
-			// ignore
+		default:
+			break;
 		}
 
 		if (widget instanceof org.eclipse.swt.widgets.Control) {

@@ -1,38 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>ide</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <version>2.0.0-SNAPSHOT</version>
     <artifactId>core</artifactId>
     <relativePath>../core/pom.xml</relativePath>
   </parent>
-  
   <modules>
     <module>../../modules/nebula</module>
     <module>../../launching</module>
     <module>../../rcp</module>
     <module>../../testing</module>
-
     <module>../../runtime/updates/org.eclipse.rcptt.updates.helios</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.galileo</module>    
+    <module>../../runtime/updates/org.eclipse.rcptt.updates.galileo</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.kepler</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x</module>
     <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e44x</module>
-
     <module>../../repository/full</module>
-    <module>../../runner</module>
   </modules>
-
   <properties>
     <buildUrl>file:/${user.dir}</buildUrl>
     <rcpttRuntimeRepo>${buildUrl}/runtime/org.eclipse.rcptt.runtime-updatesite/target/repository/</rcpttRuntimeRepo>
@@ -40,7 +32,6 @@
     <e4xRepository>${buildUrl}/repository/e4x/target/repository</e4xRepository>
     <coreRepository>${buildUrl}/repository/core/target/repository</coreRepository>
   </properties>
-  
   <repositories>
     <repository>
       <id>mars</id>
@@ -50,7 +41,7 @@
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/</url>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/</url>
     </repository>
     <repository>
       <id>core</id>

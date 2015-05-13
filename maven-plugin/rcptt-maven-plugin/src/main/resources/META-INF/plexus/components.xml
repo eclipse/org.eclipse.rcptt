@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-set>
+	<components>
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>rcpttTest</role-hint>
+			<implementation>
+				org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+			<configuration>
+				<phases>
+					<generate-resources>org.eclipse.rcptt:rcptt-maven-plugin:resources
+					</generate-resources>
+					<compile>org.eclipse.rcptt:rcptt-maven-plugin:execute</compile>
+					<package>org.eclipse.rcptt:rcptt-maven-plugin:package</package>
+					<install>
+						org.apache.maven.plugins:maven-install-plugin:install
+					</install>
+					<deploy>
+						org.apache.maven.plugins:maven-deploy-plugin:deploy
+					</deploy>
+				</phases>
+			</configuration>
+		</component>
+		<component>
+			<role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+			<role-hint>rcpttTest</role-hint>
+			<implementation>
+				org.apache.maven.artifact.handler.DefaultArtifactHandler
+			</implementation>
+			<configuration>
+				<type>rcpttTest</type>
+				<extension>zip</extension>
+				<language>ecl</language>
+			</configuration>
+		</component>
+	</components>
+</component-set>

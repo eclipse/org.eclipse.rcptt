@@ -19,7 +19,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.core.ImageEntry;
-import org.eclipse.rcptt.reporting.core.RcpttReportGenerator;
+import org.eclipse.rcptt.reporting.util.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
