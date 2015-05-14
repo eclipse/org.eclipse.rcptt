@@ -573,6 +573,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 						styledText.getShell().forceActive();
 						styledText.forceFocus();
 						e.stateMask = SWT.MOD1;
+						e.count = 1;
 						e.type = SWT.MouseMove;
 						events.sendEvent(styledText, e);
 						e.type = SWT.MouseHover;
