@@ -56,7 +56,7 @@ cp -r $repositorySource $buildDestination
 cp -r $repositorySource $latest
 
 # copy rcptt repository archive
-repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt-$productVersion-SNAPSHOT.zip
+repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt.repository-$productVersion-SNAPSHOT.zip
 cp $repositoryArchiveSource $buildDestination/repository-$qualifiedDecoration.zip
 cp $repositoryArchiveSource $latest/repository-$unqualifiedDecoration.zip
 
