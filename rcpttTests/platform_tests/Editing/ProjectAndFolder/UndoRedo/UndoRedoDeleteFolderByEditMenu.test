@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_LhMUsNH1EeCvZZdPZOPlnw
 Element-Name: UndoRedoDeleteFolderByEditMenu
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _JZcnkILaEeGVWel_bIqsJQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:23 PM
 Tags: Folder, Delete, UndoRedo
 Testcase-Type: ecl
 
@@ -58,7 +57,7 @@ get-view "Test Explorer" | get-tree | select "p2/folder_test/scenario2" | double
 get-editor scenario2 | get-section Contexts | click
 get-editor scenario2 | get-section Contexts | get-table | get-item "context2 \\(p2\\)" | get-property caption 
     | equals "context2 (p2)" | verify-true
-get-view "Test Explorer" | get-tree | key-type "M1+y"
+get-view "Test Explorer" | get-tree | key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 get-editor scenario2 | get-section Contexts | get-table | get-property itemCount | equals 0 | verify-true
 get-editor scenario2 | close
 verify-error {

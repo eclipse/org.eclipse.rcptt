@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=454740
 Id: _jwbcgIUQEeS44uQ7y9L3Dw
-Runtime-Version: 1.5.4.201412181238
-Save-Time: 2/24/15 1:37 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 4:30 PM
 Tags: Tags/Filtering
 Testcase-Type: ecl
 
@@ -34,7 +34,7 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-button "Run.*" | click -arrow
+get-button "Run selfQ7 (already running)" | click -arrow
 get-menu "Run Configurations..." | click
 with [get-window "Run Configurations"] {
     get-tree | select "RCPTT Test Suite" | double-click

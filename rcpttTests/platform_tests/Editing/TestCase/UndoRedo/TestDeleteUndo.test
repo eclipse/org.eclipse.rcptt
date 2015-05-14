@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _9yaIUI3LEeCIpuRG91DDQQ,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: TestDeleteUndoRedo
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _PX3FMKktEeC9A5Rw8Wseug
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:12 PM
 Tags: TestCase, Delete, UndoRedo
 Testcase-Type: ecl
 
@@ -48,7 +47,7 @@ get-view "Test Explorer" | get-tree | select Q7Project | key-type "M1+z"
 get-view "Test Explorer" | get-tree | get-item "Q7Project/context" | get-property caption | equals context | verify-true
 get-view "Test Explorer" | get-tree | get-item "Q7Project/scenario" | get-property caption | equals scenario | verify-true
 
-get-view "Test Explorer" | get-tree | key-type "M1+y"
+get-view "Test Explorer" | get-tree | key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 get-view "Test Explorer" | get-tree | verify-error { get-item "Q7Project/context" }
 get-view "Test Explorer" | get-tree | verify-error { get-item "Q7Project/scenario" }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

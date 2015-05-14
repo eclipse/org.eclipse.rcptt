@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
 Element-Name: StepOverAtDebugging
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _xg40sHM7EeGsLtfm1BUmHg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 12:50 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:02 PM
 Tags: feature/debug, selfAUT
 Testcase-Type: ecl
 
@@ -44,7 +43,7 @@ get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true
-get-view Debug | get-button "Step Over (F6)" | click
+get-button "Step Over (F6)" | click
 with [get-view Debug | get-tree] {
     get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread" | get-property childCount | equals 2 
         | verify-true
@@ -62,7 +61,7 @@ with [get-view Debug | get-tree] {
     get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/with \\(CreateJavaProject: 2\\)" | get-property caption 
         | equals "with (CreateJavaProject: 2)" | verify-true
 }
-get-view Debug | get-button "Step Over (F6)" | click
+get-button "Step Over (F6)" | click
 with [get-view Debug | get-tree] {
     get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread" | get-property childCount | equals 2 
         | verify-true
@@ -82,7 +81,7 @@ with [get-view Debug | get-tree] {
     get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/with \\(CreateJavaProject: 2\\)" | get-property caption 
         | equals "with (CreateJavaProject: 2)" | verify-true
 }
-get-view Debug | get-button "Resume (F8)" | click
+get-button "Resume (F8)" | click
 get-button "RCPTT perspective" | click
 wait 1000
 with [get-view "Execution View"] {

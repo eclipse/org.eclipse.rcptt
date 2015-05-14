@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
 Element-Name: SetBreakpointViaContextMenu
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1695
 Id: _dhdcMTEsEeGmnqpjyhCbeA
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 12:48 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 4:55 PM
 Tags: selfAUT, Debug
 Testcase-Type: ecl
 
@@ -49,13 +48,13 @@ exec-with-options -disableJobWaiting -command {
 		get-view Debug | get-tree | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true
     }
-	get-view Debug | get-button "Step Into (F5)" | click
+	get-button "Step Into (F5)" | click
 	try -times 30 -delay 500 -command {
 		get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 1\\)" 
     | get-property caption | equals "get-tree (CreateJavaProject: 1)" | verify-true
     }
-	get-view Debug | get-button "Resume (F8)" | click
+	get-button "Resume (F8)" | click
 }
 get-button "RCPTT perspective" | click
 with [get-view "Execution View"] {

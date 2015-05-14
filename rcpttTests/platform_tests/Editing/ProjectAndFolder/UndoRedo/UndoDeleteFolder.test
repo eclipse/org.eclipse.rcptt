@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_LhMUsNH1EeCvZZdPZOPlnw
 Element-Name: UndoRedoDeleteFolderByHotKeys
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _qQVaYNIoEeCSSY3GE2xBfQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:20 PM
 Tags: Folder, Delete, UndoRedo
 Testcase-Type: ecl
 
@@ -45,7 +44,7 @@ with [get-view "Test Explorer" | get-tree] {
     get-item "p3/folder/context3" | get-property caption | equals context3 | verify-true
     get-item "p3/folder/scenario3" | get-property caption | equals scenario3 | verify-true
 }
-get-view "Test Explorer" | get-tree | key-type "M1+y"
+get-view "Test Explorer" | get-tree | key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 verify-error {
 	get-view "Test Explorer" | get-tree |   get-item "p3/folder"
 }
@@ -65,7 +64,7 @@ with [get-editor scenario2 | get-section Contexts | get-table] {
     get-property itemCount | equals 1 | verify-true
     get-item "context2 \\(p2\\)" | get-property caption | equals "context2 (p2)" | verify-true
 }
-get-view "Test Explorer" | get-tree | key-type "M1+y"
+get-view "Test Explorer" | get-tree | key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 verify-error {
 	get-view "Test Explorer" | get-tree |   get-item "p2/folder_context"
 }

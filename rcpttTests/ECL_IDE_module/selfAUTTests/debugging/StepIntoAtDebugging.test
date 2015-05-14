@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
 Element-Name: StepIntoAtDebugging
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _bssvoHM7EeGsLtfm1BUmHg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 12:48 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:00 PM
 Tags: feature/debug, selfAUT
 Testcase-Type: ecl
 
@@ -42,11 +41,11 @@ get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 8\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 8)" | verify-true
-get-view Debug | get-button "Step Into (F5)" | click
+get-button "Step Into (F5)" | click
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 8\\)" 
     | get-property caption | equals "get-tree (CreateJavaProject: 8)" | verify-true
-get-view Debug | get-button "Step Into (F5)" | click
+get-button "Step Into (F5)" | click
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-property \\(CreateJavaProject: 8\\)" 
     | get-property caption | equals "get-property (CreateJavaProject: 8)" | verify-true
@@ -58,15 +57,15 @@ get-view Debug | get-tree | key-type F5
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/verify-true \\(CreateJavaProject: 8\\)" 
     | get-property caption | equals "verify-true (CreateJavaProject: 8)" | verify-true
-get-view Debug | get-button "Step Into (F5)" | click
+ get-button "Step Into (F5)" | click
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 9\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 9)" | verify-true
-get-view Debug | get-button "Step Into (F5)" | click
+ get-button "Step Into (F5)" | click
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 9\\)" 
     | get-property caption | equals "get-tree (CreateJavaProject: 9)" | verify-true
-get-view Debug | get-button "Resume (F8)" | click
+ get-button "Resume (F8)" | click
 get-button "RCPTT perspective" | click
 with [get-view "Execution View"] {
     get-label "1/1" | get-property caption | equals "1/1" | verify-true

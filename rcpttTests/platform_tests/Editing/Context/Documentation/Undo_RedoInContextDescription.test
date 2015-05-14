@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_Z-6cEEVwEeGf87sdqO61AA
 Element-Name: Undo\RedoInContextDescription
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _UXYZ0VheEeGO45sjqA_WKg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 5:27 PM
 Tags: Description, Context, UndoRedo
 Testcase-Type: ecl
 
@@ -62,7 +61,7 @@ get-editor ClearWorkspace | get-section Description | get-editbox | get-property
     | equals "new test on description" | verify-true
 with [get-editor ClearWorkspace | get-section Description | get-text-viewer] {
     set-caret-pos 2 5
-    key-type [get-by-os -default "M1+y" -macosx "M1+M2+z"]
+    key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 }
 get-editor ClearWorkspace | get-section Description | get-editbox | get-property text 
     | equals "new test on description\n"

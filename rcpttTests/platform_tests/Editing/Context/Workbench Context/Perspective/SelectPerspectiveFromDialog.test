@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _48D0QOirEeCButSfkA0tsQ
-Runtime-Version: 1.5.0.201407290252
-Save-Time: 7/30/14 4:00 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 4:32 PM
 Tags: selfAUT,Context, WorkbenchContext, Perspective
 Testcase-Type: ecl
 
@@ -37,20 +37,7 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "ContextsProject/WB_test" | double-click -nowait
-get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
-get-window "Select a perspective" | get-table | select "CVS Repository Exploring"
-with [get-window "Select a perspective"] {
-    get-table | select RCPTT
-    get-button Cancel | click
-}
-with [get-editor "WB_test" | get-section Workbench] {
-    get-editbox -after [get-label "Perspective id:"] | get-property value | equals "" | verify-true
-    with [get-button "Reset perspective"] {
-        get-property enablement | equals false | verify-true
-        get-property caption | equals "Reset perspective" | verify-true
-        get-property selected | equals false | verify-true
-    }
-}
+
 get-editor "WB_test" | get-section Workbench | get-button "Browse..." | click
 with [get-window "Select a perspective"] {
     get-table | select RCPTT
