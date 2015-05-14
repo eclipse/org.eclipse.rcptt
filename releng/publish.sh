@@ -50,13 +50,13 @@ runnerProductSource=$WORKSPACE/runner/product/target/rcptt.runner-$productVersio
 cp  $runnerProductSource $buildDestination/runner/rcptt.runner-$qualifiedDecoration.zip
 cp  $runnerProductSource $latest/runner/rcptt.runner-$unqualifiedDecoration.zip
 
-# copy full repository
-repositorySource=$WORKSPACE/repository/full/target/repository
+# copy rcptt repository
+repositorySource=$WORKSPACE/repository/rcptt/target/repository
 cp -r $repositorySource $buildDestination
 cp -r $repositorySource $latest
 
-# copy full repository archive
-repositoryArchiveSource=$WORKSPACE/repository/full/target/full-$productVersion-SNAPSHOT.zip
+# copy rcptt repository archive
+repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt-$productVersion-SNAPSHOT.zip
 cp $repositoryArchiveSource $buildDestination/repository-$qualifiedDecoration.zip
 cp $repositoryArchiveSource $latest/repository-$unqualifiedDecoration.zip
 

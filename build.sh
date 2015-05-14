@@ -7,3 +7,4 @@ mvn clean verify -f releng/core/pom.xml $OPTIONS || exit 101
 mvn clean verify -f releng/runtime/pom.xml -P runtime3x $OPTIONS || exit 102
 mvn clean verify -f releng/runtime/pom.xml -P runtime4x $OPTIONS || exit 103
 mvn clean verify -f releng/ide/pom.xml $OPTIONS || exit 104
+mvn clean verify -f releng/rcptt/pom.xml $OPTIONS || exit 105
