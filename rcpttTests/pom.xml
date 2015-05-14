@@ -26,16 +26,6 @@
               <arg>-nosplash</arg>
               <arg>-consoleLog</arg>
             </args>
-            <!--	      <groupId>org.eclipse</groupId>
-	      <artifactId>sdk</artifactId>
-	      <version>3.7.2</version>
--->
-            <ignoreOtherInjections>true</ignoreOtherInjections>
-            <injections>
-              <injection>
-                <site>${runtimeRepository}</site>
-              </injection>
-            </injections>
           </aut>
           <runner>
             <version>${runner-version}</version>
