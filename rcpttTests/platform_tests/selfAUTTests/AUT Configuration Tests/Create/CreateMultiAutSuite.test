@@ -5,8 +5,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=441306
 Id: _mtrBICbTEeSzmJFroiZ8_Q
-Runtime-Version: 1.5.0.201406020630
-Save-Time: 8/20/14 4:54 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 1:19 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -30,7 +30,7 @@ Entry-Name: .content
 //    Xored Software Inc - initial creation and/or initial documentation
 //--------------------------------------------------------------------------------
 
-get-button Run | click -arrow
+get-button Run -index 1 | click -arrow
 get-menu "Run Configurations..." | click
 get-window "Run Configurations" | get-tree | select "MultiAUT Suite" | double-click
 get-window "Run Configurations" | get-button -text Close | click

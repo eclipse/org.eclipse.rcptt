@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _j-zLsKh3EeCt7ZMCHpjZwg,_4zI9AWpgEeCzId1Gnkds9A
 Element-Name: AddSeveralExistentTagsToFolder
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _gXf4YKh4EeCt7ZMCHpjZwg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.0.0.201505131625
+Save-Time: 5/14/15 1:16 PM
 Tags: Tags
 Testcase-Type: ecl
 
@@ -47,9 +46,9 @@ get-view "Test Explorer" | get-tree | select "q7project/folder/context" | double
 get-editor context | get-editbox -after [get-label "Tags:"] | get-property rawValue 
     | equals "t1,t2,     t3/t31/t32/t33" | verify-true
 get-view "Test Explorer" | get-tree | select "q7project/folder/test3" | double-click -nowait
-get-editor test3 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "t1, t2" | verify-true
+get-editor test3 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "t2, t1" | verify-true
 get-view "Test Explorer" | get-tree | select "q7project/folder/test1" | double-click -nowait
-get-editor test1 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "   t3  , t1, t2" 
+get-editor test1 | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "   t3  , t2, t1" 
     | verify-true
 get-view "Test Explorer" | get-tree | select "q7project/group" | double-click -nowait
 get-editor group | get-editbox -after [get-label "Tags:"] | get-property rawValue | equals "t3/t31/t32, t1" 
