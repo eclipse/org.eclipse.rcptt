@@ -25,9 +25,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>${ci-maven-group}</groupId>
-				<artifactId>${ci-maven-plugin}</artifactId>
-				<version>${ci-maven-version}</version>
+				<groupId>${rcptt-maven-group}</groupId>
+				<artifactId>${rcptt-maven-plugin}</artifactId>
+				<version>${rcptt-maven-version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<aut>

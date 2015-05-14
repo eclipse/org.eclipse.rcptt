@@ -10,14 +10,14 @@
     <relativePath>./pom-base.xml</relativePath>
   </parent>
   <properties>
-    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/1.5.1/latest/repository</rcpttRepo>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.0.0/latest/repository</rcpttRepo>
   </properties>
   <build>
     <plugins>
       <plugin>
-        <groupId>${ci-maven-group}</groupId>
-        <artifactId>${ci-maven-plugin}</artifactId>
-        <version>${ci-maven-version}</version>
+        <groupId>${rcptt-maven-group}</groupId>
+        <artifactId>${rcptt-maven-plugin}</artifactId>
+        <version>${rcptt-maven-version}</version>
         <extensions>true</extensions>
         <configuration>
           <aut>
@@ -61,9 +61,9 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>${ci-maven-group}</groupId>
-            <artifactId>${ci-maven-plugin}</artifactId>
-            <version>${ci-maven-version}</version>
+            <groupId>${rcptt-maven-group}</groupId>
+            <artifactId>${rcptt-maven-plugin}</artifactId>
+            <version>${rcptt-maven-version}</version>
             <extensions>true</extensions>
             <configuration>
               <skipTags combine.children="append">
@@ -83,9 +83,9 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>${ci-maven-group}</groupId>
-            <artifactId>${ci-maven-plugin}</artifactId>
-            <version>${ci-maven-version}</version>
+            <groupId>${rcptt-maven-group}</groupId>
+            <artifactId>${rcptt-maven-plugin}</artifactId>
+            <version>${rcptt-maven-version}</version>
             <extensions>true</extensions>
             <configuration>
               <runner>

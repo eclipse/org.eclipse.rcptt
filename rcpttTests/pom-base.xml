@@ -9,45 +9,27 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>xored-releases</id>
-      <name>Xored Maven repository</name>
-      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
+      <id>rcptt-releases</id>
+      <name>RCPTT Maven repository Releases</name>
+      <url>http://maven.xored.com/nexus/content/repositories/rcptt-releases/</url>
     </pluginRepository>
-
     <pluginRepository>
+      <id>rcptt-snapshots</id>
       <snapshots>
         <updatePolicy>always</updatePolicy>
       </snapshots>
-      <id>xored-snapshots</id>
-      <name>Xored Maven repository</name>
-      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-snapshots/</url>
+      <name>RCPTT Maven repository Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-snapshots/</url>
     </pluginRepository>
-  </pluginRepositories>
-
-  <repositories>
-    <repository>
-      <id>xored-releases</id>
-      <name>Xored Maven repository</name>
-      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
-    </repository>
-    <repository>
-      <id>xored-snapshots</id>
-      <name>Xored Snapshots</name>
-      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-snapshots/</url>
-    </repository>
-  </repositories>
+  </pluginRepositories> 
 
   <properties>
-    <q7-version>2.0.0-SNAPSHOT</q7-version>
-    <ci-maven-group>com.xored.ci4rcptt</ci-maven-group>
-    <ci-maven-version>1.5.6-SNAPSHOT</ci-maven-version>
-    <ci-maven-plugin>ci4rcptt-maven-plugin</ci-maven-plugin>
-    <ci-server-maven-plugin>q7-server-maven-plugin</ci-server-maven-plugin>
-    <runner-version>1.5.6-SNAPSHOT</runner-version>
+    <rcptt-maven-group>org.eclipse.rcptt</rcptt-maven-group>
+    <rcptt-maven-version>2.0.0-SNAPSHOT</rcptt-maven-version>
+    <rcptt-maven-plugin>rcptt-maven-plugin</rcptt-maven-plugin>
+    <runner-version>2.0.0-SNAPSHOT</runner-version>
     <autRepository>file://${basedir}/../modules/repository/target/repository</autRepository>
     <runtimeRepository>file:/${user.dir}/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7</runtimeRepository>
-    <q7-cloud-version>2.0.0-SNAPSHOT</q7-cloud-version>
-    <q7-maven-group>com.xored.q7</q7-maven-group>
   </properties>
 
 </project>
