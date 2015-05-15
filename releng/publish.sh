@@ -37,6 +37,7 @@ fi
 mkdir $latest
 mkdir $latest/ide
 mkdir $latest/runner
+mkdir $latest/full
 
 # copying products
 ideProductSourcePrefix=$WORKSPACE/repository/full/target/products/org.eclipse.rcptt.platform.product
@@ -44,7 +45,6 @@ for arch in linux.gtk.x86 linux.gtk.x86_64 macosx.cocoa.x86_64 win32.win32.x86 w
 	cp $ideProductSourcePrefix-$arch.zip $buildDestination/ide/rcptt.ide-$qualifiedDecoration-$arch.zip
 	cp $ideProductSourcePrefix-$arch.zip $latest/ide/rcptt.ide-$unqualifiedDecoration-$arch.zip
 done
-
 
 runnerProductSource=$WORKSPACE/runner/product/target/rcptt.runner-$productVersion-SNAPSHOT.zip
 cp  $runnerProductSource $buildDestination/runner/rcptt.runner-$qualifiedDecoration.zip
@@ -54,6 +54,11 @@ cp  $runnerProductSource $latest/runner/rcptt.runner-$unqualifiedDecoration.zip
 repositorySource=$WORKSPACE/repository/rcptt/target/repository
 cp -r $repositorySource $buildDestination
 cp -r $repositorySource $latest
+
+# copy full repository
+repositorySource=$WORKSPACE/repository/full/target/repository
+cp -r $repositorySource $buildDestination/full/
+cp -r $repositorySource $latest/full
 
 # copy rcptt repository archive
 repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt.repository-$productVersion-SNAPSHOT.zip

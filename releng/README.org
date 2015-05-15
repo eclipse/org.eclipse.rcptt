@@ -12,6 +12,7 @@
 
      # Main repo & runtime repos
      /nightly/1.5.2/{qualifier}/repository/
+     /nightly/1.5.2/{qualifier}/full/repository/
      /nightly/1.5.2/{qualifier}/runtime3x/
      /nightly/1.5.2/{qualifier}/runtime4x/
 
