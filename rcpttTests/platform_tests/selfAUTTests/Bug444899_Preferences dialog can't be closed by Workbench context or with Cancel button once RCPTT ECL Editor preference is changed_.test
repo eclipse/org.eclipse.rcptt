@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=444899
 Id: _2o--AHl3EeSxJeam03ptGg
-Runtime-Version: 1.5.4.201411250946
-Save-Time: 12/2/14 12:19 AM
+Runtime-Version: 2.0.0.201505142314
+Save-Time: 5/15/15 11:36 AM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
