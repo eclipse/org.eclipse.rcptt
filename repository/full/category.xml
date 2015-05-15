@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
   <feature id="org.eclipse.rcptt.platform">
-    <category name="rcptt.modules"/>
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.core">
+    <category name="rcptt"/>
   </feature>
-  <feature id="org.eclipse.rcptt.launching"/>
+  <feature id="org.eclipse.rcptt.launching">
+    <category name="rcptt"/>
+  </feature>
   <feature id="org.eclipse.rcptt.updates">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.ecl.server">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.tesla.ecl">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.ecl.core">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.ecl.ide">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.ecl.platform">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.ecl.platform.ui">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.tesla">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.watson">
+    <category name="rcptt"/>
   </feature>
   <feature id="org.eclipse.rcptt.module.nebula">
-    <category name="rcptt.modules"/>
+    <category name="rcptt"/>
   </feature>
-  <category-def label="RCP Testing Tool Modules" name="rcptt.modules"/>
+  <category-def label="RCP Testing Tool" name="rcptt"/>
 </site>
