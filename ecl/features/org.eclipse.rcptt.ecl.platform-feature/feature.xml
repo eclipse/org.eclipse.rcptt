@@ -3,7 +3,7 @@
       id="org.eclipse.rcptt.ecl.platform"
       label="RCPTT ECL Platform (Incubation)"
       version="2.0.0.qualifier"
-      provider-name="%providerName%">
+      provider-name="%providerName">
 
    <description>
       ECL Commands for Eclipse Platform

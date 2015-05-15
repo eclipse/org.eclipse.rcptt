@@ -3,7 +3,7 @@
       id="org.eclipse.rcptt.ecl.sdk"
       label="ECL SDK (Incubation)"
       version="2.0.0.qualifier"
-      provider-name="%providerName%">
+      provider-name="%providerName">
 
    <description>
       Eclipse Command Language SDK

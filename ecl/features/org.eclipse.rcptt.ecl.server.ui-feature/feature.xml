@@ -3,7 +3,7 @@
 	id="org.eclipse.rcptt.ecl.server.ui" 
 	label="ECL Server UI (Incubation)"
 	version="2.0.0.qualifier"
-	provider-name="%providerName%">
+	provider-name="%providerName">
 	
 	<description>
       Automatic start-up of ECL TCP Server after workbench startup
