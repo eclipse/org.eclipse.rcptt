@@ -84,10 +84,8 @@ public aspect EventFilterAspect {
 							case WinOS.WM_IME_CHAR:
 							case WinOS.WM_HSCROLL:
 							case WinOS.WM_VSCROLL:
-							case WinOS.WM_SETFOCUS:
-								// It was commented out for some reason, but now the problem of double invoke
-								// occurred because of this. Bug 462813
-							case WinOS.WM_KILLFOCUS:
+								// case WinOS.WM_SETFOCUS:
+								// case WinOS.WM_KILLFOCUS:
 							case WinOS.WM_SETCURSOR:
 								// case WinOS.WM_ACTIVATEAPP:
 							case WinOS.WM_NCHITTEST:
