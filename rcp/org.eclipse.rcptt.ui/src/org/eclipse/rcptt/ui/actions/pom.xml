@@ -4,7 +4,7 @@
   <!-- Set artifact id according to a RCPTT project name  -->
   <artifactId>productTests</artifactId>
   <!-- Set group id based on application under test name -->
-  <groupId>projectName</groupId>
+  <groupId>com.company.product</groupId>
   <version>2.0.0-SNAPSHOT</version>
   <!-- RCPTT Maven Plugin provides this packaging type -->
   <packaging>rcpttTest</packaging>
@@ -12,9 +12,17 @@
   <!-- RCPTT Maven Plugin and RCPTT Runner are hosted in this repository -->
   <pluginRepositories>
     <pluginRepository>
-      <id>xored</id>
-        <name>Xored Maven repository</name>
-      <url>http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/</url>
+      <id>rcptt-releases</id>
+      <name>RCPTT Maven repository</name>
+      <url>http://maven.xored.com/nexus/content/repositories/rcptt-releases/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>rcptt-snapshots</id>
+      <name>RCPTT Maven Snapshots repository</name>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-snapshots/</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -26,16 +34,16 @@
        http://maven.xored.com/nexus/content/repositories/ci4rcptt-releases/org/eclipse/sdk/
   -->
   <properties>
-    <ci4rcptt-maven-version>1.5.4</ci4rcptt-maven-version>
+    <rcptt-maven-version>2.0.0-SNAPSHOT</rcptt-maven-version>
   </properties>
 
   <!-- The main part of RCPTT Maven plugin -->
   <build>
     <plugins>
       <plugin>
-        <groupId>com.xored.ci4rcptt</groupId>
-        <artifactId>ci4rcptt-maven-plugin</artifactId>
-        <version>${ci4rcptt-maven-version}</version>
+        <groupId>org.eclipse.rcptt</groupId>
+        <artifactId>rcptt-maven-plugin</artifactId>
+        <version>${rcptt-maven-version}</version>
         <extensions>true</extensions>
         <configuration>
 
@@ -94,20 +102,12 @@
 
                  
             <injections>
-              <!-- This injection will include all available features from
-                   repository assembled during current build -->
+              <!-- features are optional - when omitted, all features from given site will be installed -->
               <!--
               <injection>
-                <site>${project.baseUri}../../../repository/target/repository</site>
-              </injection>
-              -->
-
-              <!-- This injection will install a single feature from indigo -->
-              <!-- 
-              <injection>
-                <site>http://download.eclipse.org/releases/indigo/</site>
+                <site></site>
                 <features>
-                  <feature>org.eclipse.emf.transaction.feature.group</feature>
+                  <feature>com.comanyname.featureid</feature>
                 </features>
               </injection>
               -->
@@ -128,18 +128,6 @@
 			 <vmArg>-XX:MaxPermSize=256m</vmArg>
 		   </vmArgs>
            -->
-           
-           <!-- By default AUT's workspace is recreated each time AUT hangs and is 
-               forcefully restarted. This is done to prevent workspace corruption from 
-               blocking AUT startup (after test failures). If this is undesirable, use 
-               reuseExistingWorkspace option:
-           -->
-           <!--
-           <skipTags>
-	         <reuseExistingWorkspace>true</reuseExistingWorkspace>
-           </skipTags>
-          -->           
-           
           </aut>
 
           <runner>
@@ -153,14 +141,12 @@
             <!-- but the most convenient way is to just set its version,
                  RCPTT maven plugin will automatically set right groupId and
                  artifact ID and will download RCPTT Runner from Xored Maven Repo -->
-            <version>${ci4rcptt-maven-version}</version>
-            
-            <!--
-            	clientId is user or organization name to charge executions
-            	clientSecret can be retrieved at http://rcptt.xored.com/settings/balance 
-            -->
-            <clientId>userOrOrganization</clientId> 
-            <clientSecret>secret hash string</clientSecret>            
+            <version>${rcptt-maven-version}</version>
+
+            <vmArgs>
+              <vmArg>-Xmx1024m</vmArg>
+              <vmArg>-XX:MaxPermSize=256m</vmArg>
+            </vmArgs>
           </runner>
 
           <!-- Test options for RCPTT Runner, most popular options listed here.
@@ -169,7 +155,7 @@
           -->
           <testOptions>
             <!-- Timeout for all tests, in seconds -->
-            <execTimeout>3600</execTimeout>
+            <execTimeout>1800</execTimeout>
             <!-- Timeout for a single test case, in seconds -->
             <testExecTimeout>300</testExecTimeout>
 
@@ -197,7 +183,7 @@
 
           <!--
 		  <suites>
-			<suite>FastSanityCheckTestSuite</suite>
+			<suite>MyTestSuite</suite>
 		  </suites>
           -->
 
