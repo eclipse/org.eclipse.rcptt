@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _da-SEauHEeCsAecib2O_8g
-Runtime-Version: 2.0.0.201505131625
-Save-Time: 5/14/15 4:24 PM
+Runtime-Version: 2.0.0.201505191136
+Save-Time: 5/20/15 9:11 AM
 Tags: Q7Explorer, Rename
 Testcase-Type: ecl
 
@@ -44,10 +44,11 @@ get-view "Project Explorer" | click -nowait
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/test.txt" | get-property caption | equals "test.txt" 
     | verify-true
 get-view "Project Explorer" | get-tree | select "TestQ7Prj/test.txt" | get-menu "Rename..." | click
+try -times 10 -delay 100 -command {
 with [get-window "Rename Resource"] {
     get-editbox -after [get-label "New name:"] | set-text "test2.txt"
     get-button OK | click
-}
+}}
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/test2.txt" | get-property caption | equals "test2.txt" 
     | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
