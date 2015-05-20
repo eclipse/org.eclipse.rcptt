@@ -1301,9 +1301,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 		}
 	}
-
+	
 	private boolean processTabFolder(Widget widget, boolean tabFolder) {
-		if (!(widget instanceof TabFolder)) {
+		if (!(widget instanceof TabFolder) && !(widget instanceof CTabFolder)) {
 			return tabFolder;
 		}
 		FindResult result = getLocator()
@@ -1312,41 +1312,80 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		if (result == null) {
 			return tabFolder;
 		}
-		TabFolder tabFolderWidget = (TabFolder) widget;
-		TabItem selectedItem = null;
+		
+		String tabName = null;
+		if (widget instanceof TabFolder) {
+			TabFolder tabFolderWidget = (TabFolder) widget;
+			TabItem selectedItem = null;
 
-		int selectionIndex = tabFolderWidget.getSelectionIndex();
-		if (selectionIndex != -1) {
-			selectedItem = tabFolderWidget.getItem(selectionIndex);
+			int selectionIndex = tabFolderWidget.getSelectionIndex();
+			if (selectionIndex != -1) {
+				selectedItem = tabFolderWidget.getItem(selectionIndex);
 
-		}
-
-		// Ivan Inozemtsev: On Linux if there are no selection listeners,
-		// then selection event happens before updating
-		// selection index, but after real tab switching
-		// therefore, we need to manually iterate through
-		// tabs in order to find which one is visible
-		for (TabItem item : tabFolderWidget.getItems()) {
-			if (item.isDisposed()) {
-				continue;
 			}
 
-			Control content = item.getControl();
-			if (content == null || content.isDisposed()) {
-				continue;
+			// Ivan Inozemtsev: On Linux if there are no selection listeners,
+			// then selection event happens before updating
+			// selection index, but after real tab switching
+			// therefore, we need to manually iterate through
+			// tabs in order to find which one is visible
+			for (TabItem item : tabFolderWidget.getItems()) {
+				if (item.isDisposed()) {
+					continue;
+				}
+
+				Control content = item.getControl();
+				if (content == null || content.isDisposed()) {
+					continue;
+				}
+
+				if (content.isVisible()) {
+					selectedItem = item;
+					break;
+				}
 			}
 
-			if (content.isVisible()) {
-				selectedItem = item;
-				break;
+			if (selectedItem == null) {
+				return tabFolder;
 			}
-		}
+			tabName = PlayerTextUtils.removeAcceleratorFromText(selectedItem.getText());
+		} else {
+			CTabFolder tabFolderWidget = (CTabFolder) widget;
+			CTabItem selectedItem = null;
 
-		if (selectedItem == null) {
-			return tabFolder;
-		}
-		String tabName = PlayerTextUtils.removeAcceleratorFromText(selectedItem.getText());
+			int selectionIndex = tabFolderWidget.getSelectionIndex();
+			if (selectionIndex != -1) {
+				selectedItem = tabFolderWidget.getItem(selectionIndex);
 
+			}
+
+			// Ivan Inozemtsev: On Linux if there are no selection listeners,
+			// then selection event happens before updating
+			// selection index, but after real tab switching
+			// therefore, we need to manually iterate through
+			// tabs in order to find which one is visible
+			for (CTabItem item : tabFolderWidget.getItems()) {
+				if (item.isDisposed()) {
+					continue;
+				}
+
+				Control content = item.getControl();
+				if (content == null || content.isDisposed()) {
+					continue;
+				}
+
+				if (content.isVisible()) {
+					selectedItem = item;
+					break;
+				}
+			}
+
+			if (selectedItem == null) {
+				return tabFolder;
+			}
+			tabName = PlayerTextUtils.removeAcceleratorFromText(selectedItem.getText());
+		}
+		
 		if (lastTabItemSelection.containsKey(widget)) {
 			String v = lastTabItemSelection.get(widget);
 			if (v.equals(tabName)) {
