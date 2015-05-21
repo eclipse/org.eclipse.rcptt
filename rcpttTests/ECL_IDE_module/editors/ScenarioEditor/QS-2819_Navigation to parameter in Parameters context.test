@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,__ZTV8Au2EeOLiPM97zhEfw
 Element-Name: QS-2819_Navigation to parameter in Parameters context
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _0qSOgQu2EeOLiPM97zhEfw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.0.0.201505210415
+Save-Time: 5/21/15 3:53 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -37,5 +36,5 @@ with [get-editor "New Java Class Procs" | get-section Script | get-text-viewer] 
 }
 get-editor JavaLabels | get-section Parameters | get-table | get-item newClassTitle | get-property selected 
     | equals true | verify-true
-get-tab-folder -index 1 | get-property activePage | equals JavaLabels | verify-true
+get-tab-folder -index 2 | get-property activePage | equals JavaLabels | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
