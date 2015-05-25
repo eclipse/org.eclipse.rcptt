@@ -875,10 +875,8 @@ public final class SWTUIPlayer {
 						clickMenuItem(w, isDefault, widget);
 						break;
 					}
-					events.sendFocus(widget);
 					boolean isRadioButton = (widget.getStyle() & SWT.RADIO) != 0;
-					if (widget instanceof Control
-							&& !(widget instanceof Button && isRadioButton)) {
+					if (!(widget instanceof Button && isRadioButton)) {
 						events.sendFocus(widget);
 					}
 					if (widget instanceof Button
