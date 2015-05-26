@@ -18,6 +18,14 @@
       %license
    </license>
 
+   <includes
+         id="org.eclipse.rcptt.runtime"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.rcptt.updates"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.rcptt.tesla.ecl" version="2.0.0"/>
       <import feature="org.eclipse.pde"/>
