@@ -19,10 +19,6 @@
    </license>
 
    <includes
-         id="org.eclipse.rcptt.runtime"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.rcptt.updates"
          version="0.0.0"/>
 
