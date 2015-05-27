@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.platform.commands.UpdateAll;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Update All</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.platform.commands.SubstituteVariables;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.SubstituteVariablesImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.SubstituteVariablesImpl#isIgnoreUndefined <em>Ignore Undefined</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.platform.commands.Echo;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.EchoImpl#getStr <em>Str</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

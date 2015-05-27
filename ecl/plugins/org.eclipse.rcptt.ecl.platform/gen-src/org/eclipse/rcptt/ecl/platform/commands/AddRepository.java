@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.AddRepository#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.AddRepository#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getAddRepository()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Adds p2 repository.' returns='nothing'"

@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.platform.commands.ListPlugins;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.ListPluginsImpl#isIncludeDependencies <em>Include Dependencies</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

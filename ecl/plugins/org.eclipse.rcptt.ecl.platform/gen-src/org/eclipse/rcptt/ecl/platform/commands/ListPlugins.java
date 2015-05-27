@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.ListPlugins#isIncludeDependencies <em>Include Dependencies</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getListPlugins()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all plugins.' returns='Lists all available plugins. '"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all plugins.' returns='Lists all available plugins. ' example='list-plugins | foreach [val item]  {\n\n\tif [$item | get name | matches \"Q7 ECL.*\"]{\n    \t\t$item | get name | log\n\t}\n}'"
  * @generated
  */
 public interface ListPlugins extends Command {

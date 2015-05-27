@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.platform.commands.UpdateFeature;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.UpdateFeatureImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

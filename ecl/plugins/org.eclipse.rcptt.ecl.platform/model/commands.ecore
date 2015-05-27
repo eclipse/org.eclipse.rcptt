@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands"
-    nsURI="http://www.eclipse.org/ecl/platform/commands.ecore" nsPrefix="platformCommands">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands" nsURI="http://www.eclipse.org/ecl/platform/commands.ecore"
+    nsPrefix="platformCommands">
   <eClassifiers xsi:type="ecore:EClass" name="ListPlugins" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Returns list of all plugins."/>
@@ -149,7 +148,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See &lt;a href='http://www.xored.com/2013/09/03/how-to-pass-a-value-to-a-test-during-its-execution/'>How to pass a value to a test&lt;/a> for more information."/>
       <details key="returns" value="expression with variable references replaced with variable values"/>
-      <details key="example" value="//writes prop val to AUT workspace log&#xA;log [subsitute-variables &quot;${system_property:propertyName}&quot;] "/>
+      <details key="example" value="//writes prop val to AUT workspace log&#xA;log [substitute-variables &quot;${system_property:propertyName}&quot;] "/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">

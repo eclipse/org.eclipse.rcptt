@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Launch#getMode <em>Mode</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Launch#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getLaunch()
  * @model annotation="http://www.eclipse.org/ecl/docs descriprion='Launches a configuration in specified mode. ' returns='Nothing.'"

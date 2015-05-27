@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.SortBy#getField <em>Field</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getSortBy()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sorts list of objects from input stream by defined field. ' returns='sorted list of objects' example='list-working-sets | sort-by -field name | foreach {get name | log}'"

@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.RemoveRepository#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getRemoveRepository()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Removes p2 repository.' returns='nothing'"

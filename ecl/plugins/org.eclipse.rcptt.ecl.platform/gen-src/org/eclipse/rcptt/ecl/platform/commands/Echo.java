@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Echo#getStr <em>Str</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getEcho()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a string argument and writes it into an output pipe. ' returns='value of <code>str</code> argument'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a string argument and writes it into an output pipe. ' returns='value of <code>str</code> argument' example='echo \"MyStr\" | log'"
  * @generated
  */
 public interface Echo extends Command {

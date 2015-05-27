@@ -772,55 +772,58 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (listPluginsEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns list of all plugins.",
-			 "returns", "Lists all available plugins. "
-		   });		
+			 "returns", "Lists all available plugins. ",
+			 "example", "list-plugins | foreach [val item]  {\n\n\tif [$item | get name | matches \"Q7 ECL.*\"]{\n    \t\t$item | get name | log\n\t}\n}"
+		   });	
 		addAnnotation
 		  (getListPlugins_IncludeDependencies(), 
 		   source, 
 		   new String[] {
 			 "description", "When true, returned plugins includes information about imported packages and bundle dependencies."
-		   });		
+		   });	
 		addAnnotation
 		  (listFeaturesEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns list of all features.",
-			 "returns", "Lists all available features. "
-		   });		
+			 "returns", "Lists all available features. ",
+			 "example", "list-features | foreach [val item]  {\n\tif [$item | get id | matches \"com.xored.q7.*\"]{\n    \t\t$item | get name | log\n\t}\n}"
+		   });	
 		addAnnotation
 		  (listRepositoriesEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns list of p2 repositories.",
-			 "returns", "List of p2 repositories"
-		   });		
+			 "returns", "List of p2 repositories",
+			 "example", "list-repositories | foreach [val item] {\n\tif [$item | get name | equals \"download cache\"]{\n\t\t$item | get isArtifact | equals true | verify-true\n\t}\n}\n"
+		   });	
 		addAnnotation
 		  (addRepositoryEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Adds p2 repository.",
 			 "returns", "nothing"
-		   });		
+		   });	
 		addAnnotation
 		  (removeRepositoryEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Removes p2 repository.",
 			 "returns", "nothing"
-		   });		
+		   });	
 		addAnnotation
 		  (updateFeatureEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Updates feature with defined name.",
 			 "returns", "nothing"
-		   });		
+		   });	
 		addAnnotation
 		  (sortByEClass, 
 		   source, 
@@ -828,112 +831,119 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Sorts list of objects from input stream by defined field. ",
 			 "returns", "sorted list of objects",
 			 "example", "list-working-sets | sort-by -field name | foreach {get name | log}"
-		   });		
+		   });	
 		addAnnotation
 		  (listInstallUnitsEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns list of all install units.",
-			 "returns", "Lists all install units."
-		   });		
+			 "returns", "Lists all install units.",
+			 "example", "list-install-units | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n"
+		   });	
 		addAnnotation
 		  (getLogEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns log entries sorted by timestamp descending.",
-			 "returns", "Log entries"
-		   });		
+			 "returns", "Log entries",
+			 "example", "get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\""
+		   });	
 		addAnnotation
 		  (getGetLog_Levels(), 
 		   source, 
 		   new String[] {
 			 "description", "Log entry severities to show. Any of <code>error</code>, <code>warning</code>, <code>info</code>, <code>OK</code>, <code>Cancel</code> in any letter case."
-		   });		
+		   });	
 		addAnnotation
 		  (getGetLog_Limit(), 
 		   source, 
 		   new String[] {
 			 "description", "Number of log entries to get. Default value is 100."
-		   });		
+		   });	
 		addAnnotation
 		  (logEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Writes an entry into Eclipse log",
-			 "returns", "Nothing"
-		   });			
+			 "returns", "Nothing",
+			 "example", "log -message \"Error\" -severity error -plugin \"com.xored.q7\"\necho \"Warning\" | log -severity warning"
+		   });	
 		addAnnotation
 		  (getLog_Message(), 
 		   source, 
 		   new String[] {
 			 "description", "Writes an entry into Eclipse log"
-		   });		
+		   });	
 		addAnnotation
 		  (getLog_Severity(), 
 		   source, 
 		   new String[] {
 			 "description", "Log entry severity. Can be <code>info</code>, <code>warning</code>, <code>error</code>, <code>ok</code>, <code>cancel</code> in any letter case. Default value is <code>info</code>."
-		   });		
+		   });	
 		addAnnotation
 		  (getLog_Plugin(), 
 		   source, 
 		   new String[] {
 			 "description", "ID of plugin adding log entry. Default value is <code>org.eclipse.rcptt.ecl.platform</code>"
-		   });		
+		   });	
 		addAnnotation
 		  (echoEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Takes a string argument and writes it into an output pipe. ",
-			 "returns", "value of <code>str</code> argument"
-		   });			
+			 "returns", "value of <code>str</code> argument",
+			 "example", "echo \"MyStr\" | log"
+		   });	
 		addAnnotation
 		  (clearLogEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Removes log file. Note that if log view is open, it may enter into inconsistent state. If it is important, use <code>clear-log-view</code> instead",
 			 "returns", "Nothing"
-		   });		
+		   });	
 		addAnnotation
 		  (listLaunchConfigurationsEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns list of launch configurations.",
-			 "returns", "List of launch configurations."
-		   });		
+			 "returns", "List of launch configurations.",
+			 "example", "list-launch-configurations | write-lines -uri \"workspace:/Project/Folder/file.txt\""
+		   });	
 		addAnnotation
 		  (launchEClass, 
 		   source, 
 		   new String[] {
 			 "descriprion", "Launches a configuration in specified mode. ",
 			 "returns", "Nothing."
-		   });		
+		   });	
 		addAnnotation
 		  (substituteVariablesEClass, 
 		   source, 
 		   new String[] {
-			 "descriprion", "Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See <a href=\'http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/core/variables/IStringVariableManager.html\'>IStringVariableManager</a>for more information.",
-			 "returns", "expression with variable references replaced with variable values"
-		   });		
+			 "description", "Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See <a href=\'http://www.xored.com/2013/09/03/how-to-pass-a-value-to-a-test-during-its-execution/\'>How to pass a value to a test</a> for more information.",
+			 "returns", "expression with variable references replaced with variable values",
+			 "example", "//writes prop val to AUT workspace log\nlog [substitute-variables \"${system_property:propertyName}\"] "
+		   });	
 		addAnnotation
 		  (getSubstituteVariables_Expression(), 
 		   source, 
 		   new String[] {
 			 "description", "expression referencing variables"
-		   });		
+		   });	
 		addAnnotation
 		  (getSubstituteVariables_IgnoreUndefined(), 
 		   source, 
 		   new String[] {
 			 "description", "whether a reference to an undefined variable is to be considered an error (i.e. throw an exception)"
-		   });		
+		   });	
 		addAnnotation
 		  (getWorkspaceLocationEClass, 
 		   source, 
 		   new String[] {
 			 "descriprion", "Returns the path to workspace root.",
-			 "returns", "path to workspace root"
-		   });		
+			 "returns", "path to workspace root",
+			 "example", "get-workspace-location | equals \"/Users/My_MacAir/aut-Q7-1.3.12-B2\" | verify-true"
+		   });	
 		addAnnotation
 		  (findInWorkspaceEClass, 
 		   source, 
@@ -952,7 +962,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";															
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getLog_Message(), 
 		   source, 
@@ -960,12 +970,12 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   },
 		   new URI[] {
 			 URI.createURI(CorePackage.eNS_URI).appendFragment("//Foreach/input/%http:%2F%2Fwww.eclipse.org%2Fecl%2Finput%")
-		   });						
+		   });	
 		addAnnotation
 		  (getEcho_Str(), 
 		   source, 
 		   new String[] {
-		   });								
+		   });
 	}
 
 } //CommandsPackageImpl

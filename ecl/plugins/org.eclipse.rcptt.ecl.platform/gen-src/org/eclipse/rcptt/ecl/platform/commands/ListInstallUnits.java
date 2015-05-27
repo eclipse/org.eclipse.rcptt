@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getListInstallUnits()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all install units.' returns='Lists all install units.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all install units.' returns='Lists all install units.' example='list-install-units | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n'"
  * @generated
  */
 public interface ListInstallUnits extends Command {

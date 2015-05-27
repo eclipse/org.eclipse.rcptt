@@ -19,14 +19,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.SubstituteVariables#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.SubstituteVariables#isIgnoreUndefined <em>Ignore Undefined</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getSubstituteVariables()
- * @model annotation="http://www.eclipse.org/ecl/docs descriprion='Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See <a href=\'http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/core/variables/IStringVariableManager.html\'>IStringVariableManager</a>for more information.' returns='expression with variable references replaced with variable values'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Recursively resolves and replaces all variable references in the given expression with their corresponding values. Allows the client to control whether references to undefined variables are reported as an error (i.e. an exception is thrown). See <a href=\'http://www.xored.com/2013/09/03/how-to-pass-a-value-to-a-test-during-its-execution/\'>How to pass a value to a test</a> for more information.' returns='expression with variable references replaced with variable values' example='//writes prop val to AUT workspace log\nlog [substitute-variables \"${system_property:propertyName}\"] '"
  * @generated
  */
 public interface SubstituteVariables extends Command {

@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getListFeatures()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all features.' returns='Lists all available features. '"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of all features.' returns='Lists all available features. ' example='list-features | foreach [val item]  {\n\tif [$item | get id | matches \"com.xored.q7.*\"]{\n    \t\t$item | get name | log\n\t}\n}'"
  * @generated
  */
 public interface ListFeatures extends Command {

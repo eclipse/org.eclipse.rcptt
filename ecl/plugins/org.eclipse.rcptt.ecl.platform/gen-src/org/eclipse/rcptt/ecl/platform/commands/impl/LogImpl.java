@@ -27,12 +27,12 @@ import org.eclipse.rcptt.ecl.platform.commands.Log;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.LogImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.LogImpl#getSeverity <em>Severity</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.LogImpl#getPlugin <em>Plugin</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,15 +19,15 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Log#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Log#getSeverity <em>Severity</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.Log#getPlugin <em>Plugin</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getLog()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Writes an entry into Eclipse log' returns='Nothing'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Writes an entry into Eclipse log' returns='Nothing' example='log -message \"Error\" -severity error -plugin \"com.xored.q7\"\necho \"Warning\" | log -severity warning'"
  * @generated
  */
 public interface Log extends Command {

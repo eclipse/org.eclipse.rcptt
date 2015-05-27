@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.platform.commands.GetWorkspaceLocation;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Get Workspace Location</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

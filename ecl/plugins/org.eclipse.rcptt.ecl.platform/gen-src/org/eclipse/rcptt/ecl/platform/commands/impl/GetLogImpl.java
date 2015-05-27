@@ -33,11 +33,11 @@ import org.eclipse.rcptt.ecl.platform.commands.GetLog;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetLogImpl#getLevels <em>Levels</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetLogImpl#getLimit <em>Limit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

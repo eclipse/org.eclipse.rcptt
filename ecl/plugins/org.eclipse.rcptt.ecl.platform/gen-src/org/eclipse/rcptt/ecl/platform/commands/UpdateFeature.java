@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.UpdateFeature#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getUpdateFeature()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Updates feature with defined name.' returns='nothing'"

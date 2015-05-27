@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.platform.commands.CommandsPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Clear Log</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

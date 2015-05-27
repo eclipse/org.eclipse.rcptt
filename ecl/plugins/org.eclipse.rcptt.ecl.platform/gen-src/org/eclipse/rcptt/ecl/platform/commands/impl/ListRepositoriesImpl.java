@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.platform.commands.ListRepositories;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>List Repositories</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

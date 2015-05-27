@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.platform.commands.SortBy;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.SortByImpl#getField <em>Field</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

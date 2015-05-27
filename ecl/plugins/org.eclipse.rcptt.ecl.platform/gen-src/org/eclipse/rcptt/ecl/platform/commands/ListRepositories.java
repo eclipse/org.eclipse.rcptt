@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getListRepositories()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of p2 repositories.' returns='List of p2 repositories'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns list of p2 repositories.' returns='List of p2 repositories' example='list-repositories | foreach [val item] {\n\tif [$item | get name | equals \"download cache\"]{\n\t\t$item | get isArtifact | equals true | verify-true\n\t}\n}\n'"
  * @generated
  */
 public interface ListRepositories extends Command {

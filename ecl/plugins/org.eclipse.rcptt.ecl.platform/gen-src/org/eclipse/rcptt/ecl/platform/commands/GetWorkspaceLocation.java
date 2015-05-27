@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getGetWorkspaceLocation()
- * @model annotation="http://www.eclipse.org/ecl/docs descriprion='Returns the path to workspace root.' returns='path to workspace root'"
+ * @model annotation="http://www.eclipse.org/ecl/docs descriprion='Returns the path to workspace root.' returns='path to workspace root' example='get-workspace-location | equals \"/Users/My_MacAir/aut-Q7-1.3.12-B2\" | verify-true'"
  * @generated
  */
 public interface GetWorkspaceLocation extends Command {

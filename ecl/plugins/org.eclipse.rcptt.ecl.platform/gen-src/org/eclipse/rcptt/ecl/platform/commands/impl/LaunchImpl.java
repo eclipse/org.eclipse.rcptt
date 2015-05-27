@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.platform.commands.Launch;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.LaunchImpl#getMode <em>Mode</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.LaunchImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

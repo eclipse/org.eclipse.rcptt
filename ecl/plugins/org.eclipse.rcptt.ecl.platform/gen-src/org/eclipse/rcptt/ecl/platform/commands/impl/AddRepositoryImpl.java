@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.platform.commands.CommandsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.AddRepositoryImpl#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.impl.AddRepositoryImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

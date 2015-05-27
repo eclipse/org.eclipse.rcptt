@@ -21,14 +21,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.GetLog#getLevels <em>Levels</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.commands.GetLog#getLimit <em>Limit</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.commands.CommandsPackage#getGetLog()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns log entries sorted by timestamp descending.' returns='Log entries'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns log entries sorted by timestamp descending.' returns='Log entries' example='get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\"'"
  * @generated
  */
 public interface GetLog extends Command {
