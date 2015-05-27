@@ -12,10 +12,7 @@
       </recorder>
       <recorder
             class="org.eclipse.rcptt.tesla.recording.core.swt.WorkbenchRecordingProcessor">
-      </recorder>
-      <recorder
-            class="org.eclipse.rcptt.tesla.recording.core.swt.EclipseFormsRecordingProcessor">
-      </recorder>
+      </recorder> 
       <recorder
             class="org.eclipse.rcptt.tesla.recording.core.swt.JFaceRecordingProcessor">
       </recorder>
