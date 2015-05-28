@@ -44,4 +44,11 @@
          install-size="0"
          version="2.0.0.qualifier"/>
 
+   <plugin
+         id="org.eclipse.rcptt.tesla.nebula.nattable.ecl"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.qualifier"
+         unpack="false"/>
+
 </feature>

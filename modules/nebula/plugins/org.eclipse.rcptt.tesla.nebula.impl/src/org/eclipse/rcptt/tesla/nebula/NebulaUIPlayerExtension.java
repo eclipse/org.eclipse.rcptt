@@ -13,8 +13,6 @@ package org.eclipse.rcptt.tesla.nebula;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
 import org.eclipse.rcptt.tesla.internal.ui.player.AbstractSWTUIPlayerExtension;
@@ -30,9 +28,11 @@ import org.eclipse.rcptt.tesla.nebula.grid.parts.GridPart;
 import org.eclipse.rcptt.tesla.nebula.grid.parts.ItemCell;
 import org.eclipse.rcptt.tesla.nebula.grid.parts.RowHeader;
 import org.eclipse.rcptt.tesla.nebula.viewers.NebulaViewers;
+import org.eclipse.swt.widgets.Widget;
 
 public class NebulaUIPlayerExtension extends AbstractSWTUIPlayerExtension {
 
+	@Override
 	public SWTUIElement wrap(Object s, SWTUIPlayer p) {
 		if (s instanceof Grid)
 			return new NebulaUIElement((Widget) s, p);
@@ -41,6 +41,7 @@ public class NebulaUIPlayerExtension extends AbstractSWTUIPlayerExtension {
 		return null;
 	}
 
+	@Override
 	public SWTUIElement select(SWTUIPlayer p, PlayerSelectionFilter f) {
 
 		switch (f.kind.kind) {
@@ -64,11 +65,14 @@ public class NebulaUIPlayerExtension extends AbstractSWTUIPlayerExtension {
 				return ItemCell.select(p, f);
 			else if (f.kind.is(NebulaElementKinds.EMPTY_AREA))
 				return EmptyArea.select(p, f);
+		default:
+			break;
 		}
 
 		return null;
 	}
 
+	@Override
 	public GenericElementKind getKind(Object w) {
 		if (w instanceof Grid)
 			return new GenericElementKind(NebulaElementKinds.GRID);

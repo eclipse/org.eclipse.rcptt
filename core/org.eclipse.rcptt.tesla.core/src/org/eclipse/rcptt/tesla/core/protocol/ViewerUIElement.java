@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 
 public class ViewerUIElement extends ControlUIElement {
@@ -95,6 +94,7 @@ public class ViewerUIElement extends ControlUIElement {
 	 * @param path
 	 * @return
 	 */
+	@Deprecated
 	public boolean selectItem(String... path) {
 		return this.selector.set_item.path(path).select();
 	}
@@ -169,6 +169,13 @@ public class ViewerUIElement extends ControlUIElement {
 		player.safeExecuteCommand(cmd);
 	}
 
+	public void activateCellEditor(String path) {
+		ActivateCellEditor cmd = factory.createActivateCellEditor();
+		cmd.setElement(getElement());
+		cmd.getPath().add(path);
+		player.safeExecuteCommand(cmd);
+	}
+
 	public void applyCellEditor() {
 		ApplyCellEditor cmd = factory.createApplyCellEditor();
 		cmd.setElement(getElement());
@@ -190,6 +197,7 @@ public class ViewerUIElement extends ControlUIElement {
 	 * @deprecated
 	 * @param index
 	 */
+	@Deprecated
 	public void cellClick(int index) {
 		CellClick click = factory.createCellClick();
 		click.setColumn(index);

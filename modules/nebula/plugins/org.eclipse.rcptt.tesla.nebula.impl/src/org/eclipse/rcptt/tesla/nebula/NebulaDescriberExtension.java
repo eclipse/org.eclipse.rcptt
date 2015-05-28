@@ -12,9 +12,6 @@ package org.eclipse.rcptt.tesla.nebula;
 
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridItem;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
@@ -22,14 +19,18 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.ui.describers.IDescriberExtension;
 import org.eclipse.rcptt.tesla.ui.describers.IWidgetDescriber;
 import org.eclipse.rcptt.tesla.ui.describers.WidgetDescriber;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Widget;
 
 public class NebulaDescriberExtension implements IDescriberExtension {
 
+	@Override
 	public IWidgetDescriber getDescriber(Widget widget,
 			IWidgetDescriber previous, int x, int y) {
 		return getItemAt(new WidgetDescriber(widget), x, y);
 	}
 
+	@Override
 	public IWidgetDescriber getDescriber(Element element,
 			AbstractTeslaClient client) {
 		NebulaUIProcessor processor = client

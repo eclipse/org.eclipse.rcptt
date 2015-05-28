@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.GetNebulaNatTableService"
+            name="GetNebulaNatTable"
+            namespace="http://eclipse.org/rcptt/tesla/nebula/nattable/ecl">
+      </scriptlet>
+   </extension>
+   
+   <extension point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableSelectServiceExtension"
+            name="Select"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableGetItemServiceExtension"
+            name="GetItem"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableCellActionServiceExtension"
+            name="ActivateCellEdit"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableCellActionServiceExtension"
+            name="ApplyCellEdit"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>      
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableCellActionServiceExtension"
+            name="DeactivateCellEdit"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>  
+      <scriptletExtension
+            class="org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl.commands.NatTableCellActionServiceExtension"
+            name="CancelCellEdit"
+            namespace="http://eclipse.org/rcptt/tesla/ecl">
+      </scriptletExtension>      
+   </extension>
+</plugin>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target includeMode="feature" name="ide-mars" sequenceNumber="89">
+<locations>
+<location path="/home/andy/projects/org.eclipse.nebula.widgets.nattable/org.eclipse.nebula.widgets.nattable.dataset/target" type="Directory"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.rcptt.updates.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/rcptt/nightly/1.5.4/latest/repository"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.edit.ui.feature.group" version="2.11.0.v20150123-0357"/>
+<unit id="org.eclipse.emf.common.ui.feature.group" version="2.9.0.v20150123-0357"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.11.0.v20150123-0357"/>
+<unit id="org.eclipse.pde.feature.group" version="3.11.0.v20150203-1300"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.9.0.201502040445"/>
+<unit id="epp.package.java" version="4.5.0.20150128-0656"/>
+<unit id="org.eclipse.platform.sdk" version="4.5.0.I20150203-1300"/>
+<unit id="org.eclipse.gmf.feature.group" version="1.9.0.201502040533"/>
+<repository location="http://download.eclipse.org/releases/mars/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.ajdt.sdk.feature.group" version="2.2.4.e44x-20150202-1700"/>
+<unit id="org.eclipse.contribution.weaving.feature.group" version="2.2.4.e44x-20150202-1700"/>
+<repository location="http://download.eclipse.org/tools/ajdt/44/dev/update/"/>
+</location>
+<location path="/home/andy/projects/org.eclipse.nebula.widgets.nattable/org.eclipse.nebula.widgets.nattable.extension.builder/target" type="Directory"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.google.guava" version="12.0.0.v201212092141"/>
+<unit id="com.google.gson" version="2.1.0.v201303041604"/>
+<unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
+<unit id="org.jsoup" version="1.7.2.v201304221138"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.widgets.nattable.extension.poi.source.feature.feature.group" version="1.2.0.201501272102"/>
+<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="1.2.0.201501272102"/>
+<unit id="org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group" version="1.2.0.201501272102"/>
+<unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.2.0.201501272102"/>
+<unit id="org.eclipse.nebula.widgets.nattable.extension.poi.feature.feature.group" version="1.2.0.201501272102"/>
+<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature.feature.group" version="1.2.0.201501272102"/>
+<repository location="http://download.eclipse.org/nattable/releases/1.2.0/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.examples.release.feature.feature.group" version="1.0.4.201409040043"/>
+<unit id="org.eclipse.nebula.feature.feature.group" version="1.0.0.201409040043"/>
+<unit id="org.eclipse.nebula.examples.feature.feature.group" version="1.0.4.201409040043"/>
+<repository location="http://download.eclipse.org/technology/nebula/archives/Q32014/release/"/>
+</location>
+<location path="/home/andy/projects/org.eclipse.nebula.widgets.nattable/org.eclipse.nebula.widgets.nattable.examples/target" type="Directory"/>
+</locations>
+</target>

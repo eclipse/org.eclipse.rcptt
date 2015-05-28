@@ -21,6 +21,16 @@
       <url>http://download.eclipse.org/technology/nebula/snapshot/</url>
     </repository>
     <repository>
+      <id>nebula-nat-table</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/nattable/releases/1.2.0/repository/</url>
+    </repository>
+    <repository>
+      <id>orbit-glazed-list</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</url>
+    </repository>
+    <repository>
       <id>rcptt-runtime</id>
       <layout>p2</layout>
       <url>${rcpttRuntimeRepo}</url>
@@ -43,6 +53,10 @@
     <module>runtime-site</module>
     <module>plugins/org.eclipse.rcptt.module.nebula.updates</module>
     <module>features/org.eclipse.rcptt.module.nebula</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.impl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.ecl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl</module>
+    <module>plugins/org.eclipse.rcptt.tesla.recording.nebula.nattable</module>
     <module>site</module>
   </modules>
 </project>
