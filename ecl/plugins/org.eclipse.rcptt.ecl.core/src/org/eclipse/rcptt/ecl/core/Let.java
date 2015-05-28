@@ -19,11 +19,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Let#getVals <em>Vals</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Let#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getLet()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Defines variables and evaluates <code>body</code> script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has <code>-input</code> flag, then <code>let</code> command must be used in a pipeline (see example 2). ' returns='An output of a <code>body</code> script' example='// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n'"

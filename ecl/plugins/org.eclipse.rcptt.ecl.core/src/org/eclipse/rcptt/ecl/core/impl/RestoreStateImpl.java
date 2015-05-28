@@ -28,10 +28,10 @@ import org.eclipse.rcptt.ecl.core.SessionState;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.RestoreStateImpl#getState <em>State</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

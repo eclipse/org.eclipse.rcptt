@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Nullable#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Nullable#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getNullable()
  * @model

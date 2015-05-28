@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.With#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.With#getDo <em>Do</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getWith()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Executes a <code>do</code> script by passing given <code>object</code> to each command inside <code>do</code>. The primary use case for this command is to extract a common prefix for a sequence of commands.' returns='Output of a <code>do</code> command' example='get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n'"

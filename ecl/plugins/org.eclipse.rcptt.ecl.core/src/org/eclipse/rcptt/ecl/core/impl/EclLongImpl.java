@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.EclLong;
  * <em><b>Ecl Long</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclLongImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -32,11 +32,11 @@ import org.eclipse.rcptt.ecl.core.EclMapEntry;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclMapEntryImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclMapEntryImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

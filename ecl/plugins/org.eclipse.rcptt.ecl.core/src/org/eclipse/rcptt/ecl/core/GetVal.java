@@ -18,10 +18,10 @@ package org.eclipse.rcptt.ecl.core;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.GetVal#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getGetVal()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Returns variable value by its name. Syntax sugar form <code>$name</code> can be used instead.'"

@@ -18,10 +18,10 @@ package org.eclipse.rcptt.ecl.core;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.ExecutableParameter#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getExecutableParameter()
  * @model

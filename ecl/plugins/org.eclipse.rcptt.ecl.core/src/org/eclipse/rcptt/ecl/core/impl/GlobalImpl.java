@@ -34,11 +34,11 @@ import org.eclipse.rcptt.ecl.core.Global;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GlobalImpl#getVals <em>Vals</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GlobalImpl#isOverride <em>Override</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

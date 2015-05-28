@@ -32,10 +32,10 @@ import org.eclipse.rcptt.ecl.core.CorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.BlockImpl#getCommands <em>Commands</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -37,10 +37,10 @@ import org.eclipse.rcptt.ecl.core.EclMapEntry;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclMapImpl#getEntries <em>Entries</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

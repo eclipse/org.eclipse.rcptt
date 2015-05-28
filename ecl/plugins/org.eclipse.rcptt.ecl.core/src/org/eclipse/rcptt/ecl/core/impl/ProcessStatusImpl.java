@@ -33,6 +33,7 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl#getPluginId <em>Plugin Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl#getCode <em>Code</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl#getException <em>Exception</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

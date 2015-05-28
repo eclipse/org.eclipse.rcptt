@@ -31,11 +31,11 @@ import org.eclipse.rcptt.ecl.core.CorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.CaseImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.CaseImpl#getThen <em>Then</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,8 +19,6 @@ import org.eclipse.rcptt.ecl.core.Pipeline;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Pipeline</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

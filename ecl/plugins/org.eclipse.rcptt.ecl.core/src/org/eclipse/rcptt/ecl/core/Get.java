@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Get#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Get#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Get#getDefault <em>Default</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getGet()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name.' example='//types 1 into  log\nemit \"1\" \"2\" \"3\" | to-list | get 0 | str | log\n//types Febuary into log\nmap [entry 1 January][entry 2 Febuary] | get 2 | log'"

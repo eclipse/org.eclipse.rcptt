@@ -18,11 +18,11 @@ package org.eclipse.rcptt.ecl.core;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.LiteralParameter#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.LiteralParameter#getFormat <em>Format</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getLiteralParameter()
  * @model

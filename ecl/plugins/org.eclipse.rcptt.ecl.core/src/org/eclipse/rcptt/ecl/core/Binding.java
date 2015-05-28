@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Binding#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Binding#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getBinding()
  * @model

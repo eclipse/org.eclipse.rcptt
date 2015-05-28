@@ -36,12 +36,12 @@ import org.eclipse.rcptt.ecl.core.Proc;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcImpl#getVals <em>Vals</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ProcImpl#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

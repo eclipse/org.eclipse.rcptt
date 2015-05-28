@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Val#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Val#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Val#isInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getVal()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new variable declaration. This command can be used only with <a href=\"#let\">let</a> and <a href=\"#proc\">proc</a>.' returns='An internal object, describing a variable' example='let [val button [get-button OK]] {\n    $button | click\n}'"

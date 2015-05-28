@@ -25,10 +25,10 @@ import org.eclipse.rcptt.ecl.core.GetVal;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GetValImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

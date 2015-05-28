@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.core.CorePackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Boxed Value</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

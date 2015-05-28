@@ -27,12 +27,12 @@ import org.eclipse.rcptt.ecl.core.Val;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ValImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ValImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ValImpl#isInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

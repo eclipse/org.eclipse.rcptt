@@ -29,11 +29,11 @@ import org.eclipse.rcptt.ecl.core.Nullable;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.NullableImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.NullableImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

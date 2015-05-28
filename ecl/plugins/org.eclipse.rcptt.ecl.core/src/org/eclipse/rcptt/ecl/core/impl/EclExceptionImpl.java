@@ -33,6 +33,7 @@ import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getMessage <em>Message</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getThrowable <em>Throwable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getCause <em>Cause</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

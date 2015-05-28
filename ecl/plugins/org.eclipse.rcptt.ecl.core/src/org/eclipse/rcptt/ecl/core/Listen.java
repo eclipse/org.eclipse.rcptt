@@ -18,11 +18,11 @@ package org.eclipse.rcptt.ecl.core;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Listen#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Listen#getWhile <em>While</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getListen()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Listens for state changes while executing commands.' returns='State difference before and after execution.' example='// assert no new errors while clicking on the button\r\nlisten errorLog {\r\n\tget-button OK | click\r\n} | assert-empty'"

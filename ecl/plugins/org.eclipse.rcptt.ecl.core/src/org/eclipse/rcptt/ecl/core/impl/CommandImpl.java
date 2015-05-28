@@ -36,11 +36,11 @@ import org.eclipse.rcptt.ecl.core.CorePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.CommandImpl#getHost <em>Host</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.CommandImpl#getBindings <em>Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

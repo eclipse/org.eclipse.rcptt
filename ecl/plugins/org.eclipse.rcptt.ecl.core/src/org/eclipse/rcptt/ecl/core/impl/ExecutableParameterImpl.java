@@ -28,10 +28,10 @@ import org.eclipse.rcptt.ecl.core.ExecutableParameter;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ExecutableParameterImpl#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

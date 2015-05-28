@@ -19,12 +19,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Exec#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Exec#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Exec#getParameters <em>Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getExec()
  * @model

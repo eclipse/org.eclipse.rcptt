@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.EclString;
  * <em><b>Ecl String</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclStringImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,15 +19,15 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Proc#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Proc#getVals <em>Vals</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Proc#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getProc()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.' returns='An output of a <code>body</code> script' example='// example 1\n// declaration:\nproc click-button [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc set-text-after-label [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.' returns='An output of a <code>body</code> script' example='// example 1\n// declaration:\nproc \"click-button\" [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc \"set-text-after-label\" [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\"'"
  * @generated
  */
 public interface Proc extends Command {

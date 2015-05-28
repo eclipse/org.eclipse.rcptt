@@ -39,12 +39,12 @@ import org.eclipse.rcptt.ecl.core.Switch;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SwitchImpl#getDefault <em>Default</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

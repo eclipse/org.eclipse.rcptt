@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getItem <em>Item</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getDo <em>Do</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getForeach()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Reads objects from input pipe and for each object executes a given <code>do</code> command for each item. An optional variable declaration to hold a current value can be passed, if it is not passed, then current value is sent into an input pipe of a <code>do</code> command.  ' returns='An aggregated output of <code>do</code> command' example='// Implicit item: sent to an input pipe of inner script\nlist-launch-configurations | foreach { get name | log }\n\n// Explicit item:\nlist-launch-configuration | foreach [val item] {\n   $item | get-name | log\n}'"

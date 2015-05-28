@@ -25,11 +25,11 @@ import org.eclipse.rcptt.ecl.core.LiteralParameter;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.LiteralParameterImpl#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.LiteralParameterImpl#getFormat <em>Format</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

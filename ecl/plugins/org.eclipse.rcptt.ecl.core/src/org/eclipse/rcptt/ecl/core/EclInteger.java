@@ -16,10 +16,10 @@ package org.eclipse.rcptt.ecl.core;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclInteger#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getEclInteger()
  * @model

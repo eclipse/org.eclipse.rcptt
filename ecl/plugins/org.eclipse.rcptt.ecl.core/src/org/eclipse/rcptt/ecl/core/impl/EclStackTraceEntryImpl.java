@@ -26,6 +26,7 @@ import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl#getDeclaringClass <em>Declaring Class</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl#getLineNumber <em>Line Number</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl#isNativeMethod <em>Native Method</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

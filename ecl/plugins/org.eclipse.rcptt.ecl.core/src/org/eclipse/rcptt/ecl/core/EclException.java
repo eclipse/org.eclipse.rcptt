@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getMessage <em>Message</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getThrowable <em>Throwable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getCause <em>Cause</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getEclException()
  * @model

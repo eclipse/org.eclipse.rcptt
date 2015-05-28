@@ -30,12 +30,12 @@ import org.eclipse.rcptt.ecl.core.Val;
  * <em><b>Foreach</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getItem <em>Item</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getDo <em>Do</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

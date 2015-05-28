@@ -19,8 +19,6 @@ import org.eclipse.rcptt.ecl.core.SaveState;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Save State</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

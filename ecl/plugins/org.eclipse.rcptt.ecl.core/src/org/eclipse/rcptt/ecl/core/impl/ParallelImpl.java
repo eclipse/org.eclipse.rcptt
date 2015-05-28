@@ -19,8 +19,6 @@ import org.eclipse.rcptt.ecl.core.Parallel;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Parallel</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

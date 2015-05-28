@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclStackTraceEntry#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclStackTraceEntry#getDeclaringClass <em>Declaring Class</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclStackTraceEntry#getLineNumber <em>Line Number</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclStackTraceEntry#isNativeMethod <em>Native Method</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getEclStackTraceEntry()
  * @model

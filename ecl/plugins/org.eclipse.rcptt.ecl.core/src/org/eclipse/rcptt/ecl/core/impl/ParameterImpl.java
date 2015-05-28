@@ -26,10 +26,10 @@ import org.eclipse.rcptt.ecl.core.Parameter;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ParameterImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

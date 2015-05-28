@@ -29,11 +29,11 @@ import org.eclipse.rcptt.ecl.core.With;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.WithImpl#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.WithImpl#getDo <em>Do</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

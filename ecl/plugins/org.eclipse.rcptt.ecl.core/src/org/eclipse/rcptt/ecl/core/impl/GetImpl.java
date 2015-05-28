@@ -28,12 +28,12 @@ import org.eclipse.rcptt.ecl.core.Get;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GetImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GetImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.GetImpl#getDefault <em>Default</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.core.Declaration;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Declaration</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

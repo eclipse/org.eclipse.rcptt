@@ -2005,11 +2005,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   new String[] {
 		   });	
 		addAnnotation
-		  (globalEClass, 
-		   source, 
-		   new String[] {
-		   });	
-		addAnnotation
 		  (saveStateEClass, 
 		   source, 
 		   new String[] {
@@ -2172,7 +2167,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   new String[] {
 			 "description", "Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.",
 			 "returns", "An output of a <code>body</code> script",
-			 "example", "// example 1\n// declaration:\nproc click-button [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc set-text-after-label [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\""
+			 "example", "// example 1\n// declaration:\nproc \"click-button\" [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc \"set-text-after-label\" [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\""
 		   });	
 		addAnnotation
 		  (getProc_Name(), 
@@ -2185,6 +2180,14 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		   source, 
 		   new String[] {
 			 "description", "Marker superclass for user-defined procs"
+		   });	
+		addAnnotation
+		  (globalEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Creates a new global variable declaration.",
+			 "returns", "An internal object, describing a variable",
+			 "example", "// declaring an empty list:\n\nglobal [val myList [list]]\n\n\n\n// filling the list with all New/... menu items:\n\nrepeat [val index] -times [get-elements-count] -command {\n\nlet [val oldlist [$myList]] [val itemName [get-item-property [$index] \"getText()\"]] {\n\n// check if the item is not separator or Other...\n\nif [and [$itemName | not-eq \"\"][$itemName | not-eq \"&Other.*\"]] {\n\nglobal [val myList [appendToList [$oldlist] [$itemName]]] -override\n\n}\n\n}\n\n}"
 		   });	
 		addAnnotation
 		  (getEClass, 

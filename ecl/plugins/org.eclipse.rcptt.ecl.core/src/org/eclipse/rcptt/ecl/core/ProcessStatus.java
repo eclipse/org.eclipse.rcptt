@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.ProcessStatus#getPluginId <em>Plugin Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.ProcessStatus#getCode <em>Code</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.ecl.core.ProcessStatus#getException <em>Exception</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.ProcessStatus#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getProcessStatus()
  * @model

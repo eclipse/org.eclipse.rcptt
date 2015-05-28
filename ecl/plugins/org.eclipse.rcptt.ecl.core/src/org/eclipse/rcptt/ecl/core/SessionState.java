@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.SessionState#getProcs <em>Procs</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.SessionState#getDecls <em>Decls</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getSessionState()
  * @model

@@ -29,12 +29,12 @@ import org.eclipse.rcptt.ecl.core.If;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.IfImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.IfImpl#getThen <em>Then</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.IfImpl#getElse <em>Else</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

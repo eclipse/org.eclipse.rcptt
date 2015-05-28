@@ -26,10 +26,10 @@ import org.eclipse.rcptt.ecl.core.Serialized;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SerializedImpl#getBytes <em>Bytes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

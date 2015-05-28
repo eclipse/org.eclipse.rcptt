@@ -35,11 +35,11 @@ import org.eclipse.rcptt.ecl.core.SessionState;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SessionStateImpl#getProcs <em>Procs</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.SessionStateImpl#getDecls <em>Decls</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
