@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MouseImpl#getEvent <em>Event</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MouseImpl#getButton <em>Button</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MouseImpl#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MouseImpl#getY <em>Y</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

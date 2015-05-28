@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetSliderImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetSliderImpl#getAfter <em>After</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetSliderImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetSliderImpl#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

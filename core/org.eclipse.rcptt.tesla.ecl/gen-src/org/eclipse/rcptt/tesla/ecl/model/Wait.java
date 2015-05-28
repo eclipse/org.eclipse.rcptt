@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Wait#getMs <em>Ms</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getWait()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Suspend execution for a given number of milliseconds.' returns='nothing' recorded='false' example='wait 100'"

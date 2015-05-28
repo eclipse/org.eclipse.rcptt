@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.TeslaProcessStatus#getInfo <em>Info</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTeslaProcessStatus()
  * @model

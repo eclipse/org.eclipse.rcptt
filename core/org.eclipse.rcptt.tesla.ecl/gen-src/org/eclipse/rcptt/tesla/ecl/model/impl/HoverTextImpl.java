@@ -29,13 +29,13 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverTextImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverTextImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverTextImpl#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverTextImpl#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

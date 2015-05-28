@@ -18,10 +18,10 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetRulerColumn()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the ruler column of the editor.' returns='ruler column' recorded='true' example='get-editor CreateProject | get-section Script | get-left-ruler | get-ruler-column -index 1 | click-ruler -line 4'"

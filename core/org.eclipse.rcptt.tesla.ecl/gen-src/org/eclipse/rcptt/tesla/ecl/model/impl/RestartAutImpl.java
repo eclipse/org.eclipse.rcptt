@@ -21,8 +21,6 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Restart Aut</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

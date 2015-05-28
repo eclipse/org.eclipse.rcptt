@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.IsDisposed#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getIsDisposed()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if the control is disposed or not' returns='true if the control is disposed or false otherwise' recorded='true' example='get-editor \"WorkbenchContext\" | is-disposed | verify-false'"

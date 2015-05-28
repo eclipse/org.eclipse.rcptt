@@ -22,6 +22,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction#getX <em>X</em>}</li>
@@ -31,7 +32,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction#getHeight <em>Height</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction#getWidth <em>Width</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseAction()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse actions'"

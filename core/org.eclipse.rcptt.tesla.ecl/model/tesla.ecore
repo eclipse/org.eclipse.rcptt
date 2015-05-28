@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
-    nsURI="http://eclipse.org/rcptt/tesla/ecl" nsPrefix="org.eclipse.rcptt.tesla.ecl">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://eclipse.org/rcptt/tesla/ecl" nsPrefix="org.eclipse.rcptt.tesla.ecl">
   <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Suspend execution for a given number of milliseconds."/>
@@ -1728,7 +1726,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="DecryptResult">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RestartAut" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>  
+  <eClassifiers xsi:type="ecore:EClass" name="RestartAut" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Restarts AUT.&#xA;Can be used if there in no File/Restart option in AUT.&#xA;&#xA;Please note that &lt;a href=&quot;#wait-until-eclipse-is-ready&quot;>wait-until-eclipse-is-ready&lt;/a> command should be used &#xA;immidiately after restart-aut command. "/>
+      <details key="example" value="get-view &quot;Package Explorer&quot; | get-tree | get-menu &quot;New/Java Project&quot; | click&#xA;with [get-window &quot;New Java Project&quot;] {&#xA;    with [get-editbox -after [get-label &quot;Project name:&quot;]] {&#xA;        set-text MyProjec&#xA;        set-text MyProject&#xA;    }&#xA;    get-button Finish | click&#xA;}&#xA;&#xA;restart-aut&#xA;&#xA;wait-until-eclipse-is-ready&#xA;&#xA;get-view &quot;Package Explorer&quot; | get-tree | get-property itemCount | equals 1 | verify-true"/>
+    </eAnnotations>
+  </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
       nsPrefix="org.eclipse.rcptt.ecl.tesla.diagram">
     <eClassifiers xsi:type="ecore:EClass" name="GetDiagram" eSuperTypes="#//Selector">

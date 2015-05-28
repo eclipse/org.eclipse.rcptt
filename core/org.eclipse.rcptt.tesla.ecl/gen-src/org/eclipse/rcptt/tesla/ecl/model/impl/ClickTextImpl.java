@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickTextImpl#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickTextImpl#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickTextImpl#getButton <em>Button</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

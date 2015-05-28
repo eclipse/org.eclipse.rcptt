@@ -29,11 +29,11 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MatchesImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.MatchesImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

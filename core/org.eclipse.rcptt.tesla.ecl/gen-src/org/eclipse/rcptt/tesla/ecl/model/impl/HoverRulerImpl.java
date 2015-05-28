@@ -25,12 +25,12 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <em><b>Ruler Hover</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverRulerImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverRulerImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.HoverRulerImpl#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

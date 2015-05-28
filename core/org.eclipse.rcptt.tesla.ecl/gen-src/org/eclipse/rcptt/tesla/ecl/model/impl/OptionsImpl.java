@@ -30,11 +30,11 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.OptionsImpl#isAllowStatusDialog <em>Allow Status Dialog</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.OptionsImpl#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

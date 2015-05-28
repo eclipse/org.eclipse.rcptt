@@ -18,13 +18,13 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetRegion#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetRegion#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetRegion#getImageURI <em>Image URI</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetRegion#getRawImage <em>Raw Image</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetRegion()
  * @model

@@ -786,17 +786,17 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";									
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getDirectEdit_Control(), 
 		   source, 
 		   new String[] {
-		   });							
+		   });	
 		addAnnotation
 		  (getMouseAction_Control(), 
 		   source, 
 		   new String[] {
-		   });																					
+		   });
 	}
 
 	/**
@@ -805,7 +805,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (getDiagramEClass, 
 		   source, 
@@ -814,7 +814,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "diagram",
 			 "recorded", "true",
 			 "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
-		   });		
+		   });	
 		addAnnotation
 		  (getPaletteEClass, 
 		   source, 
@@ -823,7 +823,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "palette",
 			 "recorded", "true",
 			 "example", "get-editor Diagram | get-palette | get-palette-entry CompositeLink | get-property text"
-		   });		
+		   });	
 		addAnnotation
 		  (getEditPartEClass, 
 		   source, 
@@ -832,19 +832,19 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "Part of EObject",
 			 "recorded", "true",
 			 "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
-		   });		
+		   });	
 		addAnnotation
 		  (getGetEditPart_Path(), 
 		   source, 
 		   new String[] {
 			 "description", "Path to EObject"
-		   });		
+		   });	
 		addAnnotation
 		  (getGetEditPart_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Name of EObject"
-		   });		
+		   });	
 		addAnnotation
 		  (getFigureEClass, 
 		   source, 
@@ -853,7 +853,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "figure",
 			 "recorded", "true",
 			 "example", "get-editor Diagram | get-palette | get-figure \"0/3/1/0/0/0/0/1/1/0\""
-		   });		
+		   });	
 		addAnnotation
 		  (getEntryEClass, 
 		   source, 
@@ -861,13 +861,13 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Gets entry from palette",
 			 "returns", "Palette entry",
 			 "recorded", "true"
-		   });			
+		   });	
 		addAnnotation
 		  (getDirectEdit_Control(), 
 		   source, 
 		   new String[] {
 			 "description", "Edit part or figure."
-		   });		
+		   });	
 		addAnnotation
 		  (activateDirectEditEClass, 
 		   source, 
@@ -875,14 +875,14 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Activates direct editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke \r\n    | activate-direct-edit"
-		   });		
+		   });	
 		addAnnotation
 		  (commitDirectEditEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Commits direct editing.",
 			 "returns", "value of <code>control</code> parameter"
-		   });		
+		   });	
 		addAnnotation
 		  (cancelDirectEditEClass, 
 		   source, 
@@ -890,58 +890,58 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Cancels direct editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {<br> \r\n&nbsp activate-direct-edit<br>\r\n&nbsp cancel-direct-edit<br>}"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseActionEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates mouse actions"
-		   });			
+		   });	
 		addAnnotation
 		  (getMouseAction_Control(), 
 		   source, 
 		   new String[] {
 			 "description", "Canvas, edit part or figure."
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_X(), 
 		   source, 
 		   new String[] {
 			 "description", "X coordinate relative to left top corner of the control."
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_Y(), 
 		   source, 
 		   new String[] {
 			 "description", "Y coordinate relative to left top corner of the control."
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_Button(), 
 		   source, 
 		   new String[] {
 			 "description", "Mouse button pressed. Must be one of followings: none, button1, button2, button3.",
 			 "default", "none"
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_Mask(), 
 		   source, 
 		   new String[] {
 			 "default", "0"
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_Height(), 
 		   source, 
 		   new String[] {
 			 "description", "Height of the control.",
 			 "default", "0"
-		   });		
+		   });	
 		addAnnotation
 		  (getMouseAction_Width(), 
 		   source, 
 		   new String[] {
 			 "description", "Width of the control.",
 			 "default", "0"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseMoveEClass, 
 		   source, 
@@ -949,7 +949,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse move over the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor Test | get-diagram | get-figure \"0/1/0/0/0/1\" | mouse-move 62 167 -height 235 -width 525"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseDragEClass, 
 		   source, 
@@ -957,7 +957,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse drag on the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-drag 77 311 -height 689 -width 413 <br> }"
-		   });		
+		   });	
 		addAnnotation
 		  (mousePressEClass, 
 		   source, 
@@ -965,7 +965,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse press on the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseReleaseEClass, 
 		   source, 
@@ -973,7 +973,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse release on the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-release 77 311 button1 -height 689 -width 413 <br> }"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseDoubleClickEClass, 
 		   source, 
@@ -981,21 +981,21 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse double click on the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-palette-entry \"Try/Catch/Finally\"] {<br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> &nbsp mouse-press 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-double-click 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> }"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseEnterEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates mouse entering to the control.",
 			 "returns", "value of <code>control</code> parameter"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseExitEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Emulates mouse leaving from the control.",
 			 "returns", "value of <code>control</code> parameter"
-		   });		
+		   });	
 		addAnnotation
 		  (mouseHoverEClass, 
 		   source, 
@@ -1003,7 +1003,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Emulates mouse hovering over the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-edit-part \"0/0/1/0/1/0/1/0\"] {<br> &nbsp mouse-release 13 17 button1 524288 -height 22 -width 88<br> &nbsp  mouse-move 14 16 -height 22 -width 88<br> &nbsp mouse-hover 14 16 -height 22 -width 88<br>}"
-		   });		
+		   });	
 		addAnnotation
 		  (getSourceConnectionEClass, 
 		   source, 
@@ -1011,7 +1011,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "description", "Gets source connection on diagram. ",
 			 "returns", "source connection",
 			 "recorded", "true"
-		   });		
+		   });	
 		addAnnotation
 		  (getTargetConnectionEClass, 
 		   source, 
@@ -1020,7 +1020,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "target connection",
 			 "example", "get-editor Diagram | get-diagram | get-edit-part -name SO | get-edit-part -name SA | get-target-connection 0 | get-property foregroundColor | equals \"#F49316\" | verify-true",
 			 "recorded", "true"
-		   });		
+		   });	
 		addAnnotation
 		  (getPopupBarItemEClass, 
 		   source, 
@@ -1029,7 +1029,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "pop-up bar ",
 			 "example", "get-editor Diagram | get-diagram  | get-edit-part -className DiagramEditPart | get-popup-bar-item | mouse-hover 16 9 -height 20 -width 30",
 			 "recorded", "true"
-		   });		
+		   });	
 		addAnnotation
 		  (getConnectionHandleEClass, 
 		   source, 
@@ -1038,7 +1038,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "connection handle",
 			 "example", "get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-connection-handle 0 | mouse-move 1 6 button1 -height 16 -width 20",
 			 "recorded", "true"
-		   });		
+		   });	
 		addAnnotation
 		  (getPaletteEntryEClass, 
 		   source, 
@@ -1047,7 +1047,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 			 "returns", "Palette entry",
 			 "example", "get-editor SO | get-palette | get-palette-entry Tools | get-figure \"0/0\" | drag-set-data",
 			 "recorded", "true"
-		   });		
+		   });	
 		addAnnotation
 		  (getHandleEClass, 
 		   source, 

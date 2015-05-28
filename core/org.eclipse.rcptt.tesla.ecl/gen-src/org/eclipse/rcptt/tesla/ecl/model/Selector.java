@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Selector#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Selector#getAfter <em>After</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Selector#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Selector#getParent <em>Parent</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelector()
  * @model interface="true" abstract="true"

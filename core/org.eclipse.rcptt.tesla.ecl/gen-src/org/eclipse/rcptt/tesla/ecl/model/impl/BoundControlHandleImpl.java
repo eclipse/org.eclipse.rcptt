@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.BoundControlHandleImpl#getWidgetId <em>Widget Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

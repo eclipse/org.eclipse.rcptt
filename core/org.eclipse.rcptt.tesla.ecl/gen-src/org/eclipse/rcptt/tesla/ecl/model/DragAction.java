@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DragAction#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DragAction#getX <em>X</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DragAction#getDetail <em>Detail</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DragAction#getOperation <em>Operation</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAction()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag action event.' returns='value of <code>control</code> parameter'"

@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions#isAllowStatusDialog <em>Allow Status Dialog</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions#isDisableJobWaiting <em>Disable Job Waiting</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getExecWithOptions()
  * @model

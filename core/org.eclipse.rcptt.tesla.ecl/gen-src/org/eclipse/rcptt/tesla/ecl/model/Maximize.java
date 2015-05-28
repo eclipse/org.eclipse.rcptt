@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Maximize#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getMaximize()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Maximize the tab folder.\nSee more details about <a href=\"http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a\">How to resize a window.</a>' returns='value of <code>control</code> parameter' example='get-window \"New Project\" | maximize\n\n'"

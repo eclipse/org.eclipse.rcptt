@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickRuler#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickRuler#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickRuler#getButton <em>Button</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickRuler#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickRuler()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks a ruler at given position with specified button and modifiers' returns='value of control parameter' example='with [get-left-ruler | get-ruler-column AnnotationColumn] {\n        click-ruler -line 2\n    }'"

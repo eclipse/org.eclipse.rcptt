@@ -29,13 +29,13 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyImpl#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyImpl#isRaw <em>Raw</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetTableData#isIncludeChecked <em>Include Checked</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetTableData#isExcludeHidden <em>Exclude Hidden</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetTableData()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a data from table or tree and returns <code>Table</code> EMF object. When table or tree does not have columns, then it is assumed that there\'s one column named \'text\'.' returns='<code>Table</code> object' recorded='false' example='get-table | get-table-data | write-csv-file \"workspace:/project/file.csv\"'"

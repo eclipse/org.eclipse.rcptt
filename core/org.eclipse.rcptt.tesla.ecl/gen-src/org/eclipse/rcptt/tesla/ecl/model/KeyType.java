@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.KeyType#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.KeyType#getKey <em>Key</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.KeyType#isDisplay <em>Display</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.KeyType#getTimes <em>Times</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getKeyType()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Type key to the control.' returns='value of <code>control</code> parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  key-type \"M1+s\"'"

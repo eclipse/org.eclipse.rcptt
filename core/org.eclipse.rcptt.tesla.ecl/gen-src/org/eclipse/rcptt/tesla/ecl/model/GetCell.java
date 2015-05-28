@@ -16,11 +16,11 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetCell#getRow <em>Row</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetCell#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetCell()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets cell with defined parameter. If this cell doesn\'t exist, then error is returned.' returns='cell' recorded='true' example='get-editor context | get-section Parameters | get-table | get-cell -row 1 -column 1 | \n get-property text -raw | str  | log'"

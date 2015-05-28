@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Decrypt#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDecrypt()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Decrypts an encrypted string' returns='Decrypted string' recorded='true'"

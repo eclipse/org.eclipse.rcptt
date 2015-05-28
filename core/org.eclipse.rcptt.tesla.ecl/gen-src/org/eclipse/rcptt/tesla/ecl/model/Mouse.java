@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Mouse#getEvent <em>Event</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Mouse#getButton <em>Button</em>}</li>
@@ -26,7 +27,6 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Mouse#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Mouse#getY <em>Y</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getMouse()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sends a mouse event to control. Returns the same control, so that mouse commands can be chained: <pre>... | get-text \"Foo\" | mouse down -button Right | mouse up -buton Right</pre>' returns='value of control parameter'"

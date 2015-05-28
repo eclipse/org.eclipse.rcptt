@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyHandler#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyHandler#getAttribute <em>Attribute</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyHandler#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyHandler#getIndex <em>Index</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getVerifyHandler()
  * @model

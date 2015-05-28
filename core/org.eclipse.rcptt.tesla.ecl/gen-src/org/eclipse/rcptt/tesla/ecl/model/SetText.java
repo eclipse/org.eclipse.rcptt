@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetText#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetText#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets text content of the control.' returns='value of <code>control</code> parameter' example='get-window Properties |  get-combo -after [get-label \"Priority:\"] | set-text High'"

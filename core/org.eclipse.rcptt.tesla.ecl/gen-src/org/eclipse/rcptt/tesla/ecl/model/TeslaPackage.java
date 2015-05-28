@@ -243,6 +243,15 @@ public interface TeslaPackage extends EPackage {
 	int TESLA_PROCESS_STATUS__EXCEPTION = CorePackage.PROCESS_STATUS__EXCEPTION;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TESLA_PROCESS_STATUS__CHILDREN = CorePackage.PROCESS_STATUS__CHILDREN;
+
+	/**
 	 * The feature id for the '<em><b>Info</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -18,6 +18,7 @@ import org.eclipse.rcptt.tesla.ecl.model.Selector;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getName <em>Name</em>}</li>
@@ -25,7 +26,6 @@ import org.eclipse.rcptt.tesla.ecl.model.Selector;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getGetEditPart()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets EObject part that should be edited' returns='Part of EObject' recorded='true' example='get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034'"

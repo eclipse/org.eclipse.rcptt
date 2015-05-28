@@ -18,10 +18,10 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetControl#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetControl()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets control with defined caption or index. If this control doesn\'t exist, then error is returned.' returns='link to the control' recorded='true' example='//writes \'Perspective id:\' into log\nget-editor WorkbanchContext | get-section Workbench | get-control -kind \"Label\" -index 1 | get-property text -raw| str | log'"

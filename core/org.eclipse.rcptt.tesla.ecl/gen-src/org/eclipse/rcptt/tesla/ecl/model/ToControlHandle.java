@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ToControlHandle#getWidget <em>Widget</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getToControlHandle()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets UI control handle from widget.' returns='UI control handle.'"

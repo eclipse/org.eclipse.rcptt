@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset#getLine <em>Line</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getHoverAtTextOffset()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Perform mouse hover at specific text position.' returns='value of <code>control</code> parameter'"

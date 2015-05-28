@@ -175,7 +175,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	 */
 	public static TeslaFactory init() {
 		try {
-			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/ecl"); 
+			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory(TeslaPackage.eNS_URI);
 			if (theTeslaFactory != null) {
 				return theTeslaFactory;
 			}
