@@ -94,8 +94,7 @@ public class EclDocCommand implements IEclDocProvider {
 			"control-not-found", "pipeline", "setup-player", "shutdown-player",
 			"get-global", "set-global", "script", "get-region",
 			"get-region-text", "alert", "get-memory-usage", "get-val",
-			"proc-instance", "save-session", "restore-session",
-			"global", "upload-file", "declaration", "unzip-file",
+			"proc-instance", "save-session", "restore-session", "upload-file", "declaration", "unzip-file",
 			"shoutdown-player", "path-utils", "list-executed-suites",
 			"kill-all-executed", "binary-op");
 
