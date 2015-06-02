@@ -745,7 +745,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private IStatus processUpdateSite(IProgressMonitor monitor, UpdateSite site) {
 
 		try {
-			URI uri = URI.create(site.getUri());
+			URI uri = URI.create(
+				Platform.getOS().equals(Platform.OS_WIN32) ?
+					site.getUri().replace('\\', '/') :
+					site.getUri()
+			);
 			IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
 					monitor);
 			IArtifactRepository artifactRepository = PDEHelper
