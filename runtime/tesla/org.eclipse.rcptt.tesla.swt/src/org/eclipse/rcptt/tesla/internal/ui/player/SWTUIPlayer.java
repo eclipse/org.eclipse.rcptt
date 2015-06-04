@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.preference.ColorSelector;
@@ -876,7 +877,16 @@ public final class SWTUIPlayer {
 						break;
 					}
 					boolean isRadioButton = (widget.getStyle() & SWT.RADIO) != 0;
-					if (!(widget instanceof Button && isRadioButton)) {
+					if (widget instanceof Button && isRadioButton) {
+						if (!Platform.getOS().equals(Platform.OS_WIN32)) {
+							sendEventsToRadioButtons(widget);
+						} else if (!((Button) widget).getSelection()) {
+							events.sendFocus(widget);
+							sendEventsToRadioButtons(widget);
+							events.sendUnfocus(widget);
+							break;
+						}
+					} else {
 						events.sendFocus(widget);
 					}
 					if (widget instanceof Button
@@ -889,9 +899,6 @@ public final class SWTUIPlayer {
 									.getStyle() & SWT.RADIO) != 0)) {
 						ToolItem b = (ToolItem) widget;
 						b.setSelection(!b.getSelection());
-					}
-					if (widget instanceof Button && isRadioButton) {
-						sendEventsToRadioButtons(widget);
 					}
 
 					Point clickPoint = getClickPoint(w);
