@@ -19,11 +19,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Widget;
-
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 
 public class SWTEvents {
 	private Display display;
@@ -370,7 +371,11 @@ public class SWTEvents {
 		else {
 			//ctrl.getShell().forceActive();
 			if (!ctrl.isFocusControl()) {
-				ctrl.getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(ctrl.getShell());
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
 				ctrl.setFocus();
 				ctrl.forceFocus();
 				sendEvent(ctrl, SWT.MouseEnter);

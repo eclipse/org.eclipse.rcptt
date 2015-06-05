@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.ecl.platform.ui"
       label="RCPTT ECL Platform UI"
-      version="2.0.0.qualifier"
+      version="2.1.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -25,7 +25,7 @@
          id="org.eclipse.rcptt.ecl.platform.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
 </feature>

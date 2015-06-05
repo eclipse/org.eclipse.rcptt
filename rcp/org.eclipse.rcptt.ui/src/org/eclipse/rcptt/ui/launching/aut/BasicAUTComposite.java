@@ -47,6 +47,7 @@ import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -216,7 +217,11 @@ public abstract class BasicAUTComposite {
 							config, IDebugUIConstants.ID_RUN_LAUNCH_GROUP);
 				}
 			}
-			shell.forceActive();
+			try {
+				ShellUtilsProvider.getShellUtils().forceActive(shell);
+			} catch (CoreException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -289,7 +294,11 @@ public abstract class BasicAUTComposite {
 		};
 		dialog.setHelpAvailable(false);
 		dialog.open();
-		shell.forceActive();
+		try {
+			ShellUtilsProvider.getShellUtils().forceActive(shell);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected ImageDescriptor getDeleteImage() {

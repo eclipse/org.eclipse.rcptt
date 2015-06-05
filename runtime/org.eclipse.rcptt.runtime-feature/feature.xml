@@ -46,7 +46,7 @@
          id="org.eclipse.rcptt.runtime.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin

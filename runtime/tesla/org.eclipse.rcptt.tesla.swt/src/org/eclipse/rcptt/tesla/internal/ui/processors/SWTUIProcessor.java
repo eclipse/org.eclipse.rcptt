@@ -183,6 +183,7 @@ import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 import org.eclipse.rcptt.tesla.ui.describers.IWidgetDescriber;
 import org.eclipse.rcptt.tesla.ui.describers.WidgetDescriber;
 import org.eclipse.rcptt.util.StringUtils;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.util.swt.StringLines;
 import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
@@ -953,7 +954,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
 						if (command.isValue()) {
-							control.getShell().forceActive();
+							try {
+								ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+							} catch (CoreException e) {
+								throw new RuntimeException(e);
+							}
 							control.setFocus();
 							control.forceFocus();
 							events.sendEvent(control, SWT.MouseEnter);
@@ -1020,7 +1025,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					public void run() {
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
-						control.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 						events.sendFocus(control);
 						control.setSelection(start, end);
 						// Do a mouse Down/Up for a selected position
@@ -1084,7 +1093,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					public void run() {
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
-						control.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 						events.sendFocus(control);
 						control.setSelection(finalStart, finalEnd);
 
@@ -1423,7 +1436,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				e.y = point.y;
 				getPlayer().addMouseWidgetInfo(styledText, e.x, e.y);
 				events.sendEvent(styledText.getShell(), SWT.Deactivate);
-				styledText.getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
+				} catch (CoreException exc) {
+					throw new RuntimeException(exc);
+				}
 				styledText.forceFocus();
 				e.type = SWT.MouseMove;
 				events.sendEvent(styledText, e);

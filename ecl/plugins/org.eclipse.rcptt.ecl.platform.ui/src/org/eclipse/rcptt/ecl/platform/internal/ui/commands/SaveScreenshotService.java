@@ -27,6 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.platform.ui.commands.SaveScreenshot;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -207,7 +208,11 @@ public class SaveScreenshotService implements ICommandService {
 			public void run() {
 				Shell shell = getShell(input);
 				if (shell != null) {
-					shell.forceActive();
+					try {
+						ShellUtilsProvider.getShellUtils().forceActive(shell);
+					} catch (CoreException e) {
+						throw new RuntimeException(e);
+					}
 					display.readAndDispatch();
 				}
 				Rectangle displayBounds = display.getBounds();
