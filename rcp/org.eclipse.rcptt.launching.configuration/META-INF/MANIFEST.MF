@@ -12,9 +12,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.pde.launching,
  org.eclipse.pde.build,
  org.eclipse.equinox.frameworkadmin,
- org.eclipse.rcptt.launching.ext,
- org.eclipse.rcptt.tesla.core,
+ org.eclipse.rcptt.launching.ext;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.ui,
- org.eclipse.rcptt.launching
+ org.eclipse.rcptt.launching;bundle-version="[2.0.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

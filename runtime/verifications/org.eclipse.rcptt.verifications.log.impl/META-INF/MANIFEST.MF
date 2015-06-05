@@ -5,9 +5,9 @@ Bundle-SymbolicName: org.eclipse.rcptt.verifications.log.impl;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.rcptt.core,
+Require-Bundle: org.eclipse.rcptt.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.core.runtime,
- org.eclipse.rcptt.verifications.log,
- org.eclipse.rcptt.verifications,
- org.eclipse.rcptt.reporting,
- org.eclipse.rcptt.tesla.ecl.impl
+ org.eclipse.rcptt.verifications.log;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.verifications;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.reporting;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.ecl.impl;bundle-version="[2.0.0,3.0.0)"

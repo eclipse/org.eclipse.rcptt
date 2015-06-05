@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.extensions.runtime.feature"
       label="RCPTT ECL extensions example - Runtime (Incubation)"
-      version="1.0.0.qualifier"
+      version="2.0.0.qualifier"
       provider-name="Eclipse RCP Testing Tool Project"
       plugin="org.eclipse.rcptt.extensions.ecl.impl">
 

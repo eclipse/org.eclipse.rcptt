@@ -9,7 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.emf.ecore,
- org.eclipse.rcptt.ecl.debug.runtime
+ org.eclipse.rcptt.ecl.debug.runtime;bundle-version="[2.0.0,3.0.0)"
 Export-Package: org.eclipse.rcptt.ecl.debug.core,
  org.eclipse.rcptt.ecl.internal.debug.core
 Bundle-ActivationPolicy: lazy

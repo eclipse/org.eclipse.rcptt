@@ -6,7 +6,7 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.telnet.server.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.rcptt.ecl.telnet.server
+ org.eclipse.rcptt.ecl.telnet.server;bundle-version="[2.0.0,3.0.0)"
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

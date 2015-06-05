@@ -5,10 +5,10 @@ Bundle-SymbolicName: org.eclipse.rcptt.ecl.operations.tests
 Bundle-Version: 2.0.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.junit,
- org.eclipse.rcptt.ecl.core,
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.equinox.common,
- org.eclipse.rcptt.ecl.operations,
- org.eclipse.rcptt.ecl.parser,
- org.eclipse.rcptt.ecl.parser.test
+ org.eclipse.rcptt.ecl.operations;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.parser;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.parser.test;bundle-version="[2.0.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %pluginProvider

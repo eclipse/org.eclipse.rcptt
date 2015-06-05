@@ -6,7 +6,7 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ecl.doc.EclDocPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
- org.eclipse.rcptt.ecl.core
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.ecl.doc

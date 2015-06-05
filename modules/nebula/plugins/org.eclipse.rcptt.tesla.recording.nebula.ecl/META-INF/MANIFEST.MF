@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.tesla.recording.nebula.ecl;singleton:=tru
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.rcptt.tesla.recording.core.ecl,
- org.eclipse.rcptt.tesla.nebula;bundle-version="1.1.0",
- org.eclipse.rcptt.ecl.core;bundle-version="1.1.0",
- org.eclipse.rcptt.tesla.nebula.ecl;bundle-version="1.1.0"
+Require-Bundle: org.eclipse.rcptt.tesla.recording.core.ecl;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.nebula;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.nebula.ecl;bundle-version="[2.0.0,3.0.0)"
