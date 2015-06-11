@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.core"
-      label="RCPTT Core (Incubation)"
+      label="RCPTT Core"
       version="2.0.0.qualifier"
       provider-name="%providerName">
 

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Super Context UI (Incubation)
+Bundle-Name: RCPTT Super Context UI
 Bundle-SymbolicName: org.eclipse.rcptt.ctx.super.ui;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.ctx.superc.ui.Activator

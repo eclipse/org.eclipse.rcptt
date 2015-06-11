@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Utilities for RCPTT reporting (Incubation)
+Bundle-Name: Utilities for RCPTT reporting
 Bundle-SymbolicName: org.eclipse.rcptt.reporting.util;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Runtime Context Core (Incubation)
+Bundle-Name: RCPTT Runtime Context Core
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.core.context
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

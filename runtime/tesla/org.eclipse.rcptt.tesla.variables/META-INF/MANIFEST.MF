@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Variables (Incubation)
+Bundle-Name: RCPTT Variables
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.variables;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.variables.TeslaVariablesPlugin

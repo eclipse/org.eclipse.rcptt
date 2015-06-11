@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SWT RCPTT Utiilties (Incubation)
+Bundle-Name: SWT RCPTT Utiilties
 Bundle-SymbolicName: org.eclipse.rcptt.util.swt
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.util.swt.internal.SwtUtilPlugin

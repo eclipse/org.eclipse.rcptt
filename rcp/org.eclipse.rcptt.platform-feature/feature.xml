@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.platform"
-      label="RCPTT IDE (Incubation)"
+      label="RCPTT IDE"
       version="2.0.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.rcptt.platform">

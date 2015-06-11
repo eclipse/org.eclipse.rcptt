@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT AUT Launching Configuration Type (Incubation)
+Bundle-Name: RCPTT AUT Launching Configuration Type
 Bundle-SymbolicName: org.eclipse.rcptt.launching.configuration;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.launching.configuration.Activator

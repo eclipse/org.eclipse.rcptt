@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Scanner (Incubation)
+Bundle-Name: ECL Scanner
 Bundle-SymbolicName: org.eclipse.rcptt.core.ecl.scanner
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.core.ecl.scanner.internal.EclScannerPlugin

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECL Multi-Dispatching Mechanism (Incubation)
+Bundle-Name: ECL Multi-Dispatching Mechanism
 Bundle-SymbolicName: org.eclipse.rcptt.ecl.dispatch;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

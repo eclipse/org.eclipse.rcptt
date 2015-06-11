@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCP Testing Tool IDE (Incubation)
+Bundle-Name: RCP Testing Tool IDE
 Bundle-SymbolicName: org.eclipse.rcptt.platform;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

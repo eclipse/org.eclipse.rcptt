@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Sherlock UI (Incubation)
+Bundle-Name: Sherlock UI
 Bundle-SymbolicName: org.eclipse.rcptt.watson.ui
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.sherlock.ui.Activator

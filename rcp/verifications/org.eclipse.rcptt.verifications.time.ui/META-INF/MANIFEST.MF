@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Time Verification UI (Incubation)
+Bundle-Name: Time Verification UI
 Bundle-SymbolicName: org.eclipse.rcptt.verifications.time.ui;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.verifications.time.ui.Activator

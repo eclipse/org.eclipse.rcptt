@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Indexed search in workspace (Incubation)
+Bundle-Name: Indexed search in workspace
 Bundle-SymbolicName: org.eclipse.rcptt.core.search
 Bundle-Version: 2.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
