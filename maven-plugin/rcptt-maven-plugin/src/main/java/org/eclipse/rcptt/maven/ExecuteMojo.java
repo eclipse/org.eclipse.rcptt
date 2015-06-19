@@ -72,6 +72,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String LIMIT = "-limit";
 	private static final String SPLIT_HTML_REPORT = "-splitHtmlReport";
 	private static final String NO_SECURITY_OVERRIDE = "-noSecurityOverride";
+	private static final String EXECUTION_TIMEOUT = "-timeout";
 
 	private static int shutdownListenerPort;
 	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms128m", "-Xmx256m",
@@ -205,6 +206,8 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		// test options
 		cmd.createArg().setValue(TEST_OPTIONS);
 		cmd.createArg().setValue(TestOptions.toString(getTestOptions()));
+		cmd.createArg().setValue(EXECUTION_TIMEOUT);
+		cmd.createArg().setValue(TestOptions.get(getTestOptions(), TestOptions.EXEC_TIMEOUT));
 
 		int shift = (int) (new Random().nextLong() % 1000);
 		shutdownListenerPort = NetUtils.findFreePort(9000 + shift, 9999 + shift);
