@@ -22,10 +22,10 @@
 
    <includes
          id="org.eclipse.rcptt.rcp.lite"
-         version="0.0.0"/>
+         version="3.7.0"/>
 
    <requires>
-      <import feature="org.eclipse.rcptt.rcp.lite" version="0.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.rcptt.rcp.lite" version="3.7.0"/>
    </requires>
 
    <plugin

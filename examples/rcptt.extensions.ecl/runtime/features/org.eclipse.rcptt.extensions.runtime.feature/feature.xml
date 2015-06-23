@@ -20,13 +20,13 @@
 
    <includes
          id="org.eclipse.rcptt.extensions.common.feature"
-         version="0.0.0"/>
+         version="2.0.0.qualifier"/>
 
    <plugin
          id="org.eclipse.rcptt.extensions.ecl.impl"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
 </feature>
