@@ -1,0 +1,66 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _YaPKEBouEeWuYb430rX0EA
+Element-Name: ReadOnly_TryToMakeChangesInReadOnlyTest
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=457228
+Id: _dROHIBouEeWuYb430rX0EA
+Runtime-Version: 2.0.0.201506230636
+Save-Time: 6/24/15 12:24 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "MyProject/TC1-ReadOnly" | select "MyProject/TC1-ReadOnly" 
+    | get-menu Properties | click
+with [get-window "Properties for TC1-ReadOnly.test"] {
+    get-table | get-button -index 1 | uncheck
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Test Explorer" | get-tree | select "MyProject/TC1-ReadOnly" | select "MyProject/TC1-ReadOnly" | double-click
+with [get-editor "TC1-ReadOnly" | get-section Script | get-text-viewer] {
+    type-text "get-view"
+    set-caret-pos 1 9
+    key-type "M1+s"
+}
+get-window "Read-only Resource Encountered" 
+    | get-label "Resource \"/MyProject/TC1-ReadOnly.test\" is read-only. Do you wish to make it writable?" 
+    | get-property caption 
+    | equals "Resource \"/MyProject/TC1-ReadOnly.test\" is read-only. Do you wish to make it writable?" | verify-true
+get-window "Read-only Resource Encountered" | get-button No | click
+get-editor "TC1-ReadOnly" | close
+get-window "Save Resource" | get-button No | click
+get-view "Test Explorer" | get-tree | select "MyProject/TC1-ReadOnly" | select "MyProject/TC1-ReadOnly" | double-click
+get-editor "TC1-ReadOnly" | get-section Script | get-text-viewer | get-property text | equals "" | verify-true
+with [get-editor "TC1-ReadOnly" | get-section Script | get-text-viewer] {
+    type-text "get-view"
+    set-caret-pos 1 9
+}
+get-button "Save (M1+S)" | click
+get-window "Read-only Resource Encountered" | get-button Yes | click
+get-editor "TC1-ReadOnly" | close
+get-view "Test Explorer" | get-tree | select "MyProject/TC1-ReadOnly" | select "MyProject/TC1-ReadOnly" | double-click
+get-editor "TC1-ReadOnly" | get-section Script | get-text-viewer | get-property text | equals "get-view" | verify-true
+get-view "Test Explorer" | get-tree | select "MyProject/TC1-ReadOnly" | get-menu Properties | click
+get-window "Properties for TC1-ReadOnly.test" | get-table | get-button -index 1 | get-property selected | equals true 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
