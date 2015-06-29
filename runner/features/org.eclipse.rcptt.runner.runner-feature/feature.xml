@@ -22,23 +22,23 @@
 
    <includes
          id="org.eclipse.rcptt.runner.integration"
-         version="0.0.0"/>
+         version="2.1.0.qualifier"/>
 
    <requires>
-      <import feature="org.eclipse.rcptt.tesla.ecl"/>
+      <import feature="org.eclipse.rcptt.tesla.ecl" version="2.0.0.qualifier"/>
       <import feature="org.eclipse.pde"/>
-      <import feature="org.eclipse.rcptt.ecl.server"/>
+      <import feature="org.eclipse.rcptt.ecl.server" version="2.0.0.qualifier"/>
       <import feature="org.eclipse.emf.workspace"/>
-      <import feature="org.eclipse.rcptt.watson"/>
-      <import feature="org.eclipse.rcptt.ecl.ide"/>
-      <import feature="org.eclipse.rcptt.ecl.platform"/>
+      <import feature="org.eclipse.rcptt.watson" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.ide" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.platform" version="2.0.0.qualifier"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.reporting.html"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -73,7 +73,7 @@
          id="org.eclipse.rcptt.runner"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
 </feature>

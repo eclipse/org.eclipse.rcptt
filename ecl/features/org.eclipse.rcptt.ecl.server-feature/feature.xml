@@ -17,5 +17,5 @@
 		%license
 	</license>
 	
-	<plugin id="org.eclipse.rcptt.ecl.server.tcp" unpack="false" version="0.0.0"/>
+	<plugin id="org.eclipse.rcptt.ecl.server.tcp" unpack="false" version="2.0.0.qualifier"/>
 </feature>

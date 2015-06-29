@@ -21,17 +21,17 @@
 
    <includes
          id="org.eclipse.rcptt.core"
-         version="0.0.0"/>
+         version="2.0.0.qualifier"/>
 
    <includes
          id="org.eclipse.rcptt.launching"
-         version="0.0.0"/>
+         version="2.1.0.qualifier"/>
 
    <plugin
          id="org.eclipse.rcptt.reporting.html"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -45,14 +45,14 @@
          id="org.eclipse.rcptt.watson.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.debug.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -94,7 +94,7 @@
          id="org.eclipse.rcptt.watson.jobs"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
 </feature>
