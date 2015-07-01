@@ -1273,6 +1273,10 @@ public final class SWTUIPlayer {
 		}
 
 		//
+		
+		if (s instanceof SWTUIElement) {
+			return (SWTUIElement) s;
+		}
 
 		if (s instanceof IWorkbenchPart) {
 			IWorkbenchPart part = (IWorkbenchPart) s;
