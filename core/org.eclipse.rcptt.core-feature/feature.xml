@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.core"
       label="RCPTT Core"
-      version="2.0.0.qualifier"
+      version="2.1.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -183,7 +183,29 @@ Not used in runtime.
          id="org.eclipse.rcptt.util.swt"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.util.swt.win32"
+         os="win32"
+         ws="win32"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="2.1.0.qualifier"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.util.swt.win64"
+         os="win32"
+         ws="win32"
+         arch="x86_64"
+         download-size="0"
+         install-size="0"
+         version="2.1.0.qualifier"
+         fragment="true"
          unpack="false"/>
 
    <plugin

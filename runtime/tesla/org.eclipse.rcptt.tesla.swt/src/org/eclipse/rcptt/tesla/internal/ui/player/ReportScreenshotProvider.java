@@ -20,7 +20,7 @@ import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
-import org.eclipse.rcptt.tesla.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
