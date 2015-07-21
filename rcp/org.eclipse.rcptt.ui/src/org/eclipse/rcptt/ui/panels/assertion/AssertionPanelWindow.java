@@ -18,6 +18,10 @@ import java.util.Map.Entry;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -91,9 +95,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.progress.ProgressManager;
 
+@SuppressWarnings("restriction")
 public class AssertionPanelWindow extends Dialog {
 
 	private static final String SETTINGS_KEY = "AssertionPanelWindow"; //$NON-NLS-1$
@@ -126,7 +133,7 @@ public class AssertionPanelWindow extends Dialog {
 
 		@Override
 		public void run() {
-			viewer.expandToLevel(2);
+			expandAll();
 		};
 	};
 
@@ -911,5 +918,74 @@ public class AssertionPanelWindow extends Dialog {
 			currentInput = null;
 		}
 	}
-
+	
+	private List<TreeItem> collapsed = null;
+	private List<TreeItem> references = null;
+	
+	@SuppressWarnings("restriction")
+	private void expandAll() {
+		if (collapsed == null) {
+			collapsed = new ArrayList<TreeItem>();
+		}
+		if (references == null) {
+			references = new ArrayList<TreeItem>();
+		}
+		collectCollapsed(viewer.getTree().getItems());
+		if (collapsed.isEmpty()) {
+			final Display viewerDisplay = viewer.getControl().getDisplay();
+			final Job job = new Job("Expand All") {
+				@Override
+				public IStatus run(IProgressMonitor monitor) {
+					monitor.beginTask("Expand All", references.size());
+					for (final TreeItem item : references) {
+						if (monitor.isCanceled()) {
+							references.clear();
+							return Status.CANCEL_STATUS;
+						}
+						viewerDisplay.syncExec(new Runnable() {
+							@Override
+							public void run() {
+								viewer.setExpandedState(item.getData(), true);
+								viewer.refresh();
+							}
+						});
+						monitor.worked(1);
+					}
+					monitor.done();
+					references.clear();
+					return Status.OK_STATUS;
+				}
+			};
+			ProgressManager.getInstance().showInDialog(getShell(), job);
+			job.schedule();
+		} else {
+			for (final TreeItem item : collapsed) {
+				viewer.setExpandedState(item.getData(), true);
+			}
+			collapsed.clear();
+			references.clear();
+		}
+	}
+	
+	private void collectCollapsed(final TreeItem[] treeItems) {
+		if (treeItems == null) {
+			return;
+		}
+		for (final TreeItem item : treeItems) {
+			if (item != null && item.getData() instanceof AssertGroup) {
+				if (
+					item.getItems().length != 1 ||
+					item.getItems()[0] == null ||
+					item.getItems()[0].getData() != null
+				) {
+					collectCollapsed(item.getItems());
+					if (!item.getExpanded()) {
+						collapsed.add(item);
+					}
+				} else if (!item.getExpanded()) {
+					references.add(item);
+				}
+			}
+		}
+	}
 }
