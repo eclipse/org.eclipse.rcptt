@@ -19,6 +19,7 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.maven.plugin.AbstractMojo;
@@ -207,19 +208,18 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	}
 
 	protected File getResolvedRcpLocation(File baseDir) throws MojoFailureException {
-		if (!baseDir.exists() || !baseDir.isDirectory()) {
-			throw new MojoFailureException(String.format("Invalid RCP location %s", baseDir));
+		Stack<File> stack = new Stack<File>();
+		stack.push(baseDir);
+		while (!stack.isEmpty()) {
+			final File file = stack.pop();
+			if (file.exists() && file.isDirectory() && Arrays.asList(file.list()).contains("plugins")) {
+				return file;
+			}
+			for (final File child : file.listFiles()) {
+				stack.push(child);
+			}
 		}
-
-		File result = baseDir;
-		while (result.list().length == 1) {
-			result = new File(result, result.list()[0]);
-		}
-		List<String> resChildren = Arrays.asList(result.list());
-		if (!resChildren.contains("plugins")) {
-			throw new MojoFailureException(String.format("Invalid RCP location %s", baseDir));
-		}
-		return result;
+		throw new MojoFailureException(String.format("Invalid RCP location %s", baseDir));
 	}
 
 	private File q7location;
