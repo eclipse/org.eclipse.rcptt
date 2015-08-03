@@ -736,6 +736,52 @@ public interface CommandsPackage extends EPackage {
 	int READ_PROPERTIES_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadFileImpl <em>Read File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.data.commands.impl.ReadFileImpl
+	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getReadFile()
+	 * @generated
+	 */
+	int READ_FILE = 12;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READ_FILE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READ_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READ_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Read File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READ_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.IgnoreColumnsMode <em>Ignore Columns Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -743,7 +789,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getIgnoreColumnsMode()
 	 * @generated
 	 */
-	int IGNORE_COLUMNS_MODE = 12;
+	int IGNORE_COLUMNS_MODE = 13;
 
 
 	/**
@@ -754,7 +800,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getRowMatchMode()
 	 * @generated
 	 */
-	int ROW_MATCH_MODE = 13;
+	int ROW_MATCH_MODE = 14;
 
 
 	/**
@@ -1153,6 +1199,27 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getReadProperties_Uri();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.ReadFile <em>Read File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Read File</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.commands.ReadFile
+	 * @generated
+	 */
+	EClass getReadFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.data.commands.ReadFile#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.commands.ReadFile#getUri()
+	 * @see #getReadFile()
+	 * @generated
+	 */
+	EAttribute getReadFile_Uri();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.ecl.data.commands.IgnoreColumnsMode <em>Ignore Columns Mode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1513,6 +1580,24 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute READ_PROPERTIES__URI = eINSTANCE.getReadProperties_Uri();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadFileImpl <em>Read File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.data.commands.impl.ReadFileImpl
+		 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getReadFile()
+		 * @generated
+		 */
+		EClass READ_FILE = eINSTANCE.getReadFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute READ_FILE__URI = eINSTANCE.getReadFile_Uri();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.IgnoreColumnsMode <em>Ignore Columns Mode</em>}' enum.

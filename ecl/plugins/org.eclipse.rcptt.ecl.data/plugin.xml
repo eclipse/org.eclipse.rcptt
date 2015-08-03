@@ -62,6 +62,11 @@
             namespace="http://www.eclipse.org/ecl/data/commands.ecore">
       </scriptlet>
       <scriptlet
+            class="org.eclipse.rcptt.ecl.data.internal.commands.ReadFileService"
+            name="ReadFile"
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore">
+      </scriptlet>
+      <scriptlet
             class="org.eclipse.rcptt.ecl.data.internal.commands.AsTableDataService"
             name="AsTableData"
             namespace="http://www.eclipse.org/ecl/data/commands.ecore">

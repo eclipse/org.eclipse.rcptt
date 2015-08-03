@@ -30,10 +30,10 @@ import org.eclipse.rcptt.ecl.data.commands.CommandsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.AsTableDataImpl#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -31,13 +31,13 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.SelectRowsImpl#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.SelectRowsImpl#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.SelectRowsImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.SelectRowsImpl#getMatch <em>Match</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

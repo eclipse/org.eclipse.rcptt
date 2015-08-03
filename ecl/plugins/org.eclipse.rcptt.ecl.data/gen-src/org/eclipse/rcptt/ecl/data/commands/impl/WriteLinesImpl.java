@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.data.commands.WriteLines;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteLinesImpl#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteLinesImpl#isAppend <em>Append</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

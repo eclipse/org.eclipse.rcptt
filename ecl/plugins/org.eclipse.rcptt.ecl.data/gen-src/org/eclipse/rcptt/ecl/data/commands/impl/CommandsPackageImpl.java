@@ -31,6 +31,7 @@ import org.eclipse.rcptt.ecl.data.commands.ExcludeRows;
 import org.eclipse.rcptt.ecl.data.commands.IgnoreColumnsMode;
 import org.eclipse.rcptt.ecl.data.commands.Print;
 import org.eclipse.rcptt.ecl.data.commands.ReadCsvFile;
+import org.eclipse.rcptt.ecl.data.commands.ReadFile;
 import org.eclipse.rcptt.ecl.data.commands.ReadLines;
 import org.eclipse.rcptt.ecl.data.commands.ReadProperties;
 import org.eclipse.rcptt.ecl.data.commands.RowMatchMode;
@@ -130,6 +131,13 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	private EClass readPropertiesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass readFileEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -548,6 +556,24 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getReadFile() {
+		return readFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReadFile_Uri() {
+		return (EAttribute)readFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getIgnoreColumnsMode() {
 		return ignoreColumnsModeEEnum;
 	}
@@ -638,6 +664,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		readPropertiesEClass = createEClass(READ_PROPERTIES);
 		createEAttribute(readPropertiesEClass, READ_PROPERTIES__URI);
 
+		readFileEClass = createEClass(READ_FILE);
+		createEAttribute(readFileEClass, READ_FILE__URI);
+
 		// Create enums
 		ignoreColumnsModeEEnum = createEEnum(IGNORE_COLUMNS_MODE);
 		rowMatchModeEEnum = createEEnum(ROW_MATCH_MODE);
@@ -688,6 +717,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		excludeRowsEClass.getESuperTypes().add(theCorePackage.getCommand());
 		asTableDataEClass.getESuperTypes().add(theCorePackage.getCommand());
 		readPropertiesEClass.getESuperTypes().add(theCorePackage.getCommand());
+		readFileEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(readCsvFileEClass, ReadCsvFile.class, "ReadCsvFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -738,6 +768,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 
 		initEClass(readPropertiesEClass, ReadProperties.class, "ReadProperties", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadProperties_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, ReadProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(readFileEClass, ReadFile.class, "ReadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getReadFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(ignoreColumnsModeEEnum, IgnoreColumnsMode.class, "IgnoreColumnsMode");
@@ -994,6 +1027,19 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "URI to a file to read. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
+		   });	
+		addAnnotation
+		  (readFileEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Reads file identified by uri and writes it contents into output pipe",
+			 "example", "//Displays alert with file content\r\nshow-alert [read-file \"file:/path/to/your/file\"]\r\n\r\n\r\n\r\n"
+		   });	
+		addAnnotation
+		  (getReadFile_Uri(), 
+		   source, 
+		   new String[] {
+			 "description", "URI to read file from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
 		   });
 	}
 
@@ -1057,6 +1103,11 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   });	
 		addAnnotation
 		  (getAsTableData_Input(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getReadFile_Uri(), 
 		   source, 
 		   new String[] {
 		   });
