@@ -20,10 +20,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.SaveScreenshot#getOut <em>Out</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage#getSaveScreenshot()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Saves the screenshot.' returns='Nothing' example='get-eclipse-window | get-object | save-screenshot [substitute-variables \"${workspace_loc}/images/actual.png\"]'"

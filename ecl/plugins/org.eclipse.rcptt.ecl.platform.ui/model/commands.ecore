@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands"
-    nsURI="http://www.eclipse.org/ecl/platform.ui/commands.ecore" nsPrefix="org.eclipse.rcptt.ecl.platform.ui">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands" nsURI="http://www.eclipse.org/ecl/platform.ui/commands.ecore"
+    nsPrefix="org.eclipse.rcptt.ecl.platform.ui">
   <eClassifiers xsi:type="ecore:EClass" name="Alert" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
@@ -72,5 +71,20 @@
       <details key="example" value="get-eclipse-window | get-object | save-screenshot [substitute-variables &quot;${workspace_loc}/images/actual.png&quot;]"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="out" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ToClipboard" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Puts input string to the clipboard."/>
+      <details key="returns" value="Nothing"/>
+      <details key="example" value="to-clipboard &quot;Content&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FromClipboard" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets input string from the clipboard."/>
+      <details key="returns" value="Return current clipboard content or empty string if no content"/>
+      <details key="example" value="show-alert [from-clipboard]"/>
+    </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>
