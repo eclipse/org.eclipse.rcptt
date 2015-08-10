@@ -878,21 +878,15 @@ public final class SWTUIPlayer {
 						clickMenuItem(w, isDefault, widget);
 						break;
 					}
-					boolean isRadioButton = (widget.getStyle() & SWT.RADIO) != 0;
-					if (widget instanceof Button && isRadioButton) {
-						if (!Platform.getOS().equals(Platform.OS_WIN32)) {
-							sendEventsToRadioButtons(widget);
-						} else if (!((Button) widget).getSelection()) {
-							events.sendFocus(widget);
-							sendEventsToRadioButtons(widget);
-							events.sendUnfocus(widget);
-							break;
-						}
-					} else {
-						events.sendFocus(widget);
+					final boolean isButton = widget instanceof Button;
+					final boolean isRadioButton = isButton && (widget.getStyle() & SWT.RADIO) != 0;
+					final boolean isWin32 = Platform.getOS().equals(Platform.OS_WIN32);
+					final boolean isSelectionButton = isButton && ((Button) widget).getSelection();
+					events.sendFocus(widget);
+					if (isRadioButton && (!isWin32 || !isSelectionButton)) {
+						sendEventsToRadioButtons(widget);
 					}
-					if (widget instanceof Button
-							&& ((widget.getStyle() & SWT.CHECK) != 0)) {
+					if (isButton && ((widget.getStyle() & SWT.CHECK) != 0)) {
 						Button b = (Button) widget;
 						b.setSelection(!b.getSelection());
 					}
@@ -912,13 +906,15 @@ public final class SWTUIPlayer {
 					if (isToggleButton(widget)) {
 						((Button) widget).setSelection(!((Button) widget).getSelection());
 					}
-					Event event = events.createEvent(w);
-					if (arrow) {
-						event.detail = SWT.ARROW;
+					if (!isRadioButton || !isWin32 || isSelectionButton) {
+						Event event = events.createEvent(w);
+						if (arrow) {
+							event.detail = SWT.ARROW;
+						}
+						event.type = isDefault ? SWT.DefaultSelection
+								: SWT.Selection;
+						events.sendEvent(w, event);
 					}
-					event.type = isDefault ? SWT.DefaultSelection
-							: SWT.Selection;
-					events.sendEvent(w, event);
 
 					events.sendEvent(w, SWT.MouseUp, clickPoint, 1);
 					events.sendEvent(w, SWT.MouseExit);
