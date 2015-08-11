@@ -212,7 +212,10 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 		stack.push(baseDir);
 		while (!stack.isEmpty()) {
 			final File file = stack.pop();
-			if (file.exists() && file.isDirectory() && Arrays.asList(file.list()).contains("plugins")) {
+			if (!file.exists() || !file.isDirectory()) {
+				continue;
+			}
+			if (Arrays.asList(file.list()).contains("plugins")) {
 				return file;
 			}
 			for (final File child : file.listFiles()) {
