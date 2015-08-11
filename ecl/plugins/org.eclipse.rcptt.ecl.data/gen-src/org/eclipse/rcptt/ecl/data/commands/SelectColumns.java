@@ -23,11 +23,11 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectColumns#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectColumns#getColumns <em>Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectColumns()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table containing only columns passed into <code>columns</code> argument.' returns='Copy of input table object with only columns with names listed in <code>columns</code>' example='get-view \"Error Log\" | get-tree | get-table-data | select-columns \"Message\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\" '"

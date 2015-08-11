@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.ReadLines#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getReadLines()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Reads lines from file identified by uri and writes them one-by-one into output pipe' example='//Displays alert with lines count\nshow-alert [concat \"The number of lines is \"[read-lines -uri \"workspace:/Project/Folder/file.txt\" | length | str]]\n\n'"

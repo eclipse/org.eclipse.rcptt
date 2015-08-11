@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#isAppend <em>Append</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getWriteLines()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Reads objects from input pipe and writes them into file line-by-line as strings' example='//writes a list of launch configuration into a file line-by-line\nlist-launch-configurations | write-lines -uri \"workspace:/Project/Folder/file.txt\"\n// appends \"New line\" into a file. \nstr \"New line\" | write-lines -uri \"workspace:/Project/Folder/file.txt\" -append\n'"

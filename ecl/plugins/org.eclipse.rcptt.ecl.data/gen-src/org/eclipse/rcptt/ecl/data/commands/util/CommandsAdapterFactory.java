@@ -126,6 +126,10 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 				return createReadPropertiesAdapter();
 			}
 			@Override
+			public Adapter caseReadFile(ReadFile object) {
+				return createReadFileAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -314,6 +318,20 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReadPropertiesAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.ReadFile <em>Read File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.ReadFile
+	 * @generated
+	 */
+	public Adapter createReadFileAdapter() {
 		return null;
 	}
 

@@ -77,6 +77,7 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.EXCLUDE_ROWS: return createExcludeRows();
 			case CommandsPackage.AS_TABLE_DATA: return createAsTableData();
 			case CommandsPackage.READ_PROPERTIES: return createReadProperties();
+			case CommandsPackage.READ_FILE: return createReadFile();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -234,6 +235,16 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public ReadProperties createReadProperties() {
 		ReadPropertiesImpl readProperties = new ReadPropertiesImpl();
 		return readProperties;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReadFile createReadFile() {
+		ReadFileImpl readFile = new ReadFileImpl();
+		return readFile;
 	}
 
 	/**

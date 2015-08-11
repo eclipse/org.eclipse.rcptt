@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,45 +10,31 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.commands.impl;
 
-
-
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
+
 import org.eclipse.rcptt.ecl.data.commands.CommandsPackage;
-import org.eclipse.rcptt.ecl.data.commands.WriteCsvFile;
-import org.eclipse.rcptt.ecl.data.objects.Table;
+import org.eclipse.rcptt.ecl.data.commands.ReadFile;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Write Csv File</b></em>'.
+ * An implementation of the model object '<em><b>Read File</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getTable <em>Table</em>}</li>
- *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadFileImpl#getUri <em>Uri</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
-	/**
-	 * The cached value of the '{@link #getTable() <em>Table</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTable()
-	 * @generated
-	 * @ordered
-	 */
-	protected Table table;
-
+public class ReadFileImpl extends CommandImpl implements ReadFile {
 	/**
 	 * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -74,7 +60,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected WriteCsvFileImpl() {
+	protected ReadFileImpl() {
 		super();
 	}
 
@@ -85,45 +71,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return CommandsPackage.Literals.WRITE_CSV_FILE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Table getTable() {
-		if (table != null && table.eIsProxy()) {
-			InternalEObject oldTable = (InternalEObject)table;
-			table = (Table)eResolveProxy(oldTable);
-			if (table != oldTable) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CommandsPackage.WRITE_CSV_FILE__TABLE, oldTable, table));
-			}
-		}
-		return table;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Table basicGetTable() {
-		return table;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTable(Table newTable) {
-		Table oldTable = table;
-		table = newTable;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.WRITE_CSV_FILE__TABLE, oldTable, table));
+		return CommandsPackage.Literals.READ_FILE;
 	}
 
 	/**
@@ -144,7 +92,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 		String oldUri = uri;
 		uri = newUri;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.WRITE_CSV_FILE__URI, oldUri, uri));
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.READ_FILE__URI, oldUri, uri));
 	}
 
 	/**
@@ -155,10 +103,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case CommandsPackage.WRITE_CSV_FILE__TABLE:
-				if (resolve) return getTable();
-				return basicGetTable();
-			case CommandsPackage.WRITE_CSV_FILE__URI:
+			case CommandsPackage.READ_FILE__URI:
 				return getUri();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -172,10 +117,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case CommandsPackage.WRITE_CSV_FILE__TABLE:
-				setTable((Table)newValue);
-				return;
-			case CommandsPackage.WRITE_CSV_FILE__URI:
+			case CommandsPackage.READ_FILE__URI:
 				setUri((String)newValue);
 				return;
 		}
@@ -190,10 +132,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case CommandsPackage.WRITE_CSV_FILE__TABLE:
-				setTable((Table)null);
-				return;
-			case CommandsPackage.WRITE_CSV_FILE__URI:
+			case CommandsPackage.READ_FILE__URI:
 				setUri(URI_EDEFAULT);
 				return;
 		}
@@ -208,9 +147,7 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case CommandsPackage.WRITE_CSV_FILE__TABLE:
-				return table != null;
-			case CommandsPackage.WRITE_CSV_FILE__URI:
+			case CommandsPackage.READ_FILE__URI:
 				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
 		}
 		return super.eIsSet(featureID);
@@ -232,4 +169,4 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 		return result.toString();
 	}
 
-} //WriteCsvFileImpl
+} //ReadFileImpl

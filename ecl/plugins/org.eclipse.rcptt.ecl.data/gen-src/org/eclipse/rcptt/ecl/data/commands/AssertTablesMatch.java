@@ -21,13 +21,13 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.AssertTablesMatch#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.AssertTablesMatch#getRight <em>Right</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.AssertTablesMatch#isIgnoreColumnOrder <em>Ignore Column Order</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.AssertTablesMatch#getIgnoreMissingColumns <em>Ignore Missing Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getAssertTablesMatch()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Compares contents of two tables. If contents are not the same, fails with a descriptive message' example='assert-tables-match [get-editor \"context\" | get-section Parameters | get-table | get-table-data ]\n                    [get-editor \"context2\" | get-section Parameters | get-table | get-table-data]'"

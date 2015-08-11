@@ -23,11 +23,11 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.ExcludeColumns#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.ExcludeColumns#getColumns <em>Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getExcludeColumns()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the same table which has some columns excluded. ' returns='Copy of input table object without columns with names listed in <code>columns</code>' example='get-view \"Error Log\" | get-tree | get-table-data | exclude-columns \"Message\" \"Plug-in\" | write-csv-file \"workspace:/MyProject/AssertData/table.csv\"'"
