@@ -19,7 +19,11 @@ public class JavaFileResolver implements EclFileResolver {
 
 	@Override
 	public EclFile resolve(URI uri) {
-		if (uri.getScheme().equals("file"))
+		final String scheme = uri.getScheme();
+		if (scheme == null) {
+			return null;
+		}
+		if (scheme.equals("file"))
 			return new JavaFile(new File(uri));
 		return null;
 	}

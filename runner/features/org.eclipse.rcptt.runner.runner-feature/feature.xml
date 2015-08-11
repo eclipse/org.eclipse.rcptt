@@ -25,13 +25,13 @@
          version="2.1.0.qualifier"/>
 
    <requires>
-      <import feature="org.eclipse.rcptt.tesla.ecl" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.tesla.ecl" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.pde"/>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.0.0.qualifier"/>
       <import feature="org.eclipse.emf.workspace"/>
       <import feature="org.eclipse.rcptt.watson" version="2.0.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.ecl.ide" version="2.0.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.ecl.platform" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.ide" version="2.1.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.platform" version="2.1.0.qualifier"/>
    </requires>
 
    <plugin
