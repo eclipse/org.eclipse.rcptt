@@ -22,8 +22,6 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.ListWorkingSets;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>List Working Sets</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

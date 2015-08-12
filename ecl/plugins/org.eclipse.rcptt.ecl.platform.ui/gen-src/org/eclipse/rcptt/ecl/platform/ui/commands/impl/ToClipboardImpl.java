@@ -1,14 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2014 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
-
+/**
+ */
 package org.eclipse.rcptt.ecl.platform.ui.commands.impl;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -19,49 +10,49 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
 
-import org.eclipse.rcptt.ecl.platform.ui.commands.Alert;
 import org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage;
+import org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Alert</b></em>'.
+ * An implementation of the model object '<em><b>To Clipboard</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.AlertImpl#getMessage <em>Message</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.ToClipboardImpl#getInput <em>Input</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class AlertImpl extends CommandImpl implements Alert {
+public class ToClipboardImpl extends CommandImpl implements ToClipboard {
 	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
+	 * The default value of the '{@link #getInput() <em>Input</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMessage()
+	 * @see #getInput()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String MESSAGE_EDEFAULT = null;
+	protected static final String INPUT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
+	 * The cached value of the '{@link #getInput() <em>Input</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMessage()
+	 * @see #getInput()
 	 * @generated
 	 * @ordered
 	 */
-	protected String message = MESSAGE_EDEFAULT;
+	protected String input = INPUT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AlertImpl() {
+	protected ToClipboardImpl() {
 		super();
 	}
 
@@ -72,7 +63,7 @@ public class AlertImpl extends CommandImpl implements Alert {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return CommandsPackage.Literals.ALERT;
+		return CommandsPackage.Literals.TO_CLIPBOARD;
 	}
 
 	/**
@@ -80,8 +71,8 @@ public class AlertImpl extends CommandImpl implements Alert {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getMessage() {
-		return message;
+	public String getInput() {
+		return input;
 	}
 
 	/**
@@ -89,11 +80,11 @@ public class AlertImpl extends CommandImpl implements Alert {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMessage(String newMessage) {
-		String oldMessage = message;
-		message = newMessage;
+	public void setInput(String newInput) {
+		String oldInput = input;
+		input = newInput;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.ALERT__MESSAGE, oldMessage, message));
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.TO_CLIPBOARD__INPUT, oldInput, input));
 	}
 
 	/**
@@ -104,8 +95,8 @@ public class AlertImpl extends CommandImpl implements Alert {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case CommandsPackage.ALERT__MESSAGE:
-				return getMessage();
+			case CommandsPackage.TO_CLIPBOARD__INPUT:
+				return getInput();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,8 +109,8 @@ public class AlertImpl extends CommandImpl implements Alert {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case CommandsPackage.ALERT__MESSAGE:
-				setMessage((String)newValue);
+			case CommandsPackage.TO_CLIPBOARD__INPUT:
+				setInput((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,8 +124,8 @@ public class AlertImpl extends CommandImpl implements Alert {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case CommandsPackage.ALERT__MESSAGE:
-				setMessage(MESSAGE_EDEFAULT);
+			case CommandsPackage.TO_CLIPBOARD__INPUT:
+				setInput(INPUT_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -148,8 +139,8 @@ public class AlertImpl extends CommandImpl implements Alert {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case CommandsPackage.ALERT__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
+			case CommandsPackage.TO_CLIPBOARD__INPUT:
+				return INPUT_EDEFAULT == null ? input != null : !INPUT_EDEFAULT.equals(input);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -164,10 +155,10 @@ public class AlertImpl extends CommandImpl implements Alert {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (message: ");
-		result.append(message);
+		result.append(" (input: ");
+		result.append(input);
 		result.append(')');
 		return result.toString();
 	}
 
-} //AlertImpl
+} //ToClipboardImpl

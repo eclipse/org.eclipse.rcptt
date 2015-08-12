@@ -13,6 +13,7 @@ Export-Package: org.eclipse.rcptt.ecl.platform.ui.commands,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
+ org.eclipse.rcptt.ecl.platform.ui;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.rcptt.util.swt;bundle-version="[2.0.0,3.0.0)"
 Bundle-ActivationPolicy: lazy

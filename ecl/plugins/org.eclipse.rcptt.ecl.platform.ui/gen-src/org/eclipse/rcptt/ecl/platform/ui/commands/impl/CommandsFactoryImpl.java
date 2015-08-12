@@ -36,7 +36,7 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	 */
 	public static CommandsFactory init() {
 		try {
-			CommandsFactory theCommandsFactory = (CommandsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/platform.ui/commands.ecore"); 
+			CommandsFactory theCommandsFactory = (CommandsFactory)EPackage.Registry.INSTANCE.getEFactory(CommandsPackage.eNS_URI);
 			if (theCommandsFactory != null) {
 				return theCommandsFactory;
 			}
@@ -73,6 +73,8 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.CLEAR_LOG_VIEW: return createClearLogView();
 			case CommandsPackage.GET_HOTKEY: return createGetHotkey();
 			case CommandsPackage.SAVE_SCREENSHOT: return createSaveScreenshot();
+			case CommandsPackage.TO_CLIPBOARD: return createToClipboard();
+			case CommandsPackage.FROM_CLIPBOARD: return createFromClipboard();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -156,6 +158,26 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public SaveScreenshot createSaveScreenshot() {
 		SaveScreenshotImpl saveScreenshot = new SaveScreenshotImpl();
 		return saveScreenshot;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToClipboard createToClipboard() {
+		ToClipboardImpl toClipboard = new ToClipboardImpl();
+		return toClipboard;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FromClipboard createFromClipboard() {
+		FromClipboardImpl fromClipboard = new FromClipboardImpl();
+		return fromClipboard;
 	}
 
 	/**
