@@ -1,0 +1,27 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.ecl
+Element-Name: ClipboardContext
+Element-Type: context
+Element-Version: 2.0
+Id: _iFwbYEAFEeWXj5q2GlW5Zw
+Runtime-Version: 2.0.0.201508111345
+Save-Time: 8/12/15 12:26 PM
+
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998
+Content-Type: text/ecl
+Entry-Name: .ecl.context
+
+to-clipboard "Copyright (c) 2009, 2014 Xored Software Inc and others.\n"
+    + "All rights reserved. This program and the accompanying materials\n"
+    + "are made available under the terms of the Eclipse Public License v1.0\n"
+    + "which accompanies this distribution, and is available at\n"
+    + "http://www.eclipse.org/legal/epl-v10.html\n\n"
+    + "Contributors:\n"
+    + "    Xored Software Inc - initial creation and/or initial documentation\n"
+    + "--------------------------------------------------------------------------------\n\n"
+    + "TEST STEPS\n\n"
+    + "1. Put any text to a clipboard using to-clipboard command;\n"
+    + "2. Paste into any text area;\n"
+    + "3. Make sure that text has pasted correctly."
+------=_.ecl.context-718f04b4-ed39-33e3-af62-0995e4561998--
