@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem.internal;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -199,6 +200,11 @@ public class ResourceFile implements EclFile {
 	@Override
 	public String toString() {
 		return path.makeAbsolute().toPortableString();
+	}
+
+	@Override
+	public File toFile() {
+		return new File(root.getLocation().append(path).makeAbsolute().toPortableString()); 
 	}
 
 }

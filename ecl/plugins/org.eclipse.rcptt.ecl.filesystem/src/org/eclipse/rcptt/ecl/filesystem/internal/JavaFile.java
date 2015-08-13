@@ -214,4 +214,9 @@ public class JavaFile implements EclFile {
 		return file.toString();
 	}
 
+	@Override
+	public File toFile() {
+		return file;
+	}
+
 }
