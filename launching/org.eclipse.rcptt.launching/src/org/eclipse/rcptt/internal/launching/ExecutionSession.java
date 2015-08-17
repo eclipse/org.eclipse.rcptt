@@ -35,8 +35,6 @@ public class ExecutionSession implements IExecutionSession {
 
 	private Executable executable;
 
-	private int finishedCount;
-	private int failedCount;
 	private Date endTime;
 	private final SherlockReportSession reportSession;
 	private final Q7TestLaunch launch;
@@ -153,20 +151,35 @@ public class ExecutionSession implements IExecutionSession {
 	}
 
 	public int getFailedCount() {
-		return failedCount;
+		return getScenariosByStatus(executables, IStatus.ERROR, false);
 	}
-
-	public int getStoppedCount() {
+	
+	private int getScenariosByStatus(IExecutable[] executables, int status, boolean matchOk) {
 		int count = 0;
 		for (IExecutable executable : executables) {
-			if (executable.getResultStatus().matches(IStatus.CANCEL))
-				count++;
+			if (executable instanceof PrepareExecutionWrapper) {
+				if (
+					executable.getStatus() == IExecutable.State.COMPLETED &&
+					(
+						executable.getResultStatus().matches(status) ||
+						(matchOk && executable.getResultStatus().isOK())
+					)
+				) {
+					count++;
+				}
+			} else if (executable instanceof TestSuiteExecutable) {
+				count += getScenariosByStatus(executable.getChildren(), status, matchOk);
+			}
 		}
 		return count;
 	}
 
+	public int getStoppedCount() {
+		return getScenariosByStatus(executables, IStatus.CANCEL, false);
+	}
+
 	public int getFinishedCount() {
-		return finishedCount;
+		return getScenariosByStatus(executables, IStatus.ERROR | IStatus.INFO, true);
 	}
 
 	public int getTotalCount() {
@@ -174,23 +187,18 @@ public class ExecutionSession implements IExecutionSession {
 	}
 
 	public void resetCounters() {
-		finishedCount = 0;
-		failedCount = 0;
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).statisticsUpdate();
 		}
 	}
 
 	public void oneFailed() {
-		finishedCount++;
-		failedCount++;
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).statisticsUpdate();
 		}
 	}
 
 	public void oneFinished() {
-		finishedCount++;
 		for (Object o : listeners.getListeners()) {
 			((IExecutionSessionListener) o).statisticsUpdate();
 		}
