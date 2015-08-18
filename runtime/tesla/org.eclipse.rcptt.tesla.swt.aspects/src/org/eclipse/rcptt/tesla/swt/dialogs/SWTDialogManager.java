@@ -55,24 +55,32 @@ public class SWTDialogManager {
 	}
 
 	public static String getFileDialogFilterPath() {
+		final String value = fileDialogValues.get(0);
+		if (value == null) {
+			return null;
+		}
 		IPath filterPath = new Path(fileDialogValues.get(0));
 		return filterPath.removeLastSegments(1).toOSString();
 	}
 
 	public static String[] getFileDialogFilesList(String filterPath) {
 		List<String> files = new ArrayList<String>();
-		IPath nextFile = new Path(fileDialogValues.get(0));
-		while (!fileDialogValues.isEmpty()
-				&& nextFile.toOSString().startsWith(filterPath)) {
+		while (!fileDialogValues.isEmpty()) {
+			final String nextValue = fileDialogValues.get(0);
+			if (nextValue == null) {
+				fileDialogValues.remove(0);
+				break;
+			}
+			final IPath nextFile = new Path(nextValue);
+			if (!nextFile.toOSString().startsWith(filterPath)) {
+				break;
+			}
 			fileDialogValues.remove(0);
 			files.add(nextFile.lastSegment());
-			if (!fileDialogValues.isEmpty()) {
-				nextFile = new Path(fileDialogValues.get(0));
-			}
 		}
 		return files.toArray(new String[files.size()]);
 	}
-
+	
 	public static void resetFileDialogInfo() {
 		fileDialogValues.clear();
 	}

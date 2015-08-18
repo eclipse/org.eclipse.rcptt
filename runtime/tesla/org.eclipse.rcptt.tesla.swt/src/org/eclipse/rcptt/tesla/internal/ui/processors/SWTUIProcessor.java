@@ -1569,46 +1569,67 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	}
 
 	private Response handleSetSWTDialogInfo(final SetSWTDialogInfo command) {
+		final boolean isCanceled = command.getPath() == null || command.getPath().size() == 0;
 		switch (command.getKind()) {
 		case FILE_SELECTOR:
-			boolean fileProcessSuccess = true;
-			String problemPath = "";
-			for (String currentPath : command.getPath()) {
-				fileProcessSuccess = fileProcessSuccess
-						&& processFileDialogValue(currentPath);
-				if (!fileProcessSuccess) {
-					problemPath = currentPath;
-					break;
+			if (isCanceled) {
+				SWTDialogManager.addFileDialogInfo(null);
+			} else {
+				boolean fileProcessSuccess = true;
+				String problemPath = "";
+				for (String currentPath : command.getPath()) {
+					fileProcessSuccess = fileProcessSuccess
+							&& processFileDialogValue(currentPath);
+					if (!fileProcessSuccess) {
+						problemPath = currentPath;
+						break;
+					}
 				}
-			}
-
-			if (!fileProcessSuccess) {
-				SWTDialogManager.resetFileDialogInfo();
-				final BooleanResponse response = factory
-						.createBooleanResponse();
-				response.setResult(false);
-				response.setMessage("Failed to map file location:"
-						+ problemPath + " to workspace location");
-				response.setStatus(ResponseStatus.FAILED);
-				return response;
+	
+				if (!fileProcessSuccess) {
+					SWTDialogManager.resetFileDialogInfo();
+					final BooleanResponse response = factory
+							.createBooleanResponse();
+					response.setResult(false);
+					response.setMessage("Failed to map file location:"
+							+ problemPath + " to workspace location");
+					response.setStatus(ResponseStatus.FAILED);
+					return response;
+				}
 			}
 			break;
 		case FOLDER_SELECTOR:
-			String resolvedPath = resolvePath(command.getPath().get(0));
-			if (resolvedPath != null) {
-				SWTDialogManager.addFolderDialogInfo(resolvedPath);
+			if (isCanceled) {
+				SWTDialogManager.addFolderDialogInfo(null);
+			} else {
+				String resolvedPath = resolvePath(command.getPath().get(0));
+				if (resolvedPath != null) {
+					SWTDialogManager.addFolderDialogInfo(resolvedPath);
+				}
 			}
 			break;
 		case MESSAGE_BOX:
-			SWTDialogManager.addMessageBoxInfo(Integer.valueOf(command
-					.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addMessageBoxInfo(SWT.CANCEL);
+			} else {
+				SWTDialogManager.addMessageBoxInfo(Integer.valueOf(command
+						.getPath().get(0)));
+			}
 			break;
 		case FONT_DIALOG:
-			SWTDialogManager
-					.addFontInfo(new FontData(command.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addFontInfo(null);
+			} else {
+				SWTDialogManager
+						.addFontInfo(new FontData(command.getPath().get(0)));
+			}
 			break;
 		case COLOR:
-			SWTDialogManager.addColorInfo(getColor(command.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addColorInfo(null);
+			} else {
+				SWTDialogManager.addColorInfo(getColor(command.getPath().get(0)));
+			}
 			break;
 		}
 		final BooleanResponse response = factory.createBooleanResponse();
