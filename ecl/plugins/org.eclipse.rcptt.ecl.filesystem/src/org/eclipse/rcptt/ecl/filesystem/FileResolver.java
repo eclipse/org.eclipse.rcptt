@@ -55,6 +55,7 @@ public class FileResolver {
 	}
 
 	public static EclFile resolve(String uri) throws CoreException {
+		uri = uri.replaceAll("(/{2,})|(\\\\{2,})", "/");
 		try {
 			return resolve(new URI(uri));
 		} catch (URISyntaxException e) {

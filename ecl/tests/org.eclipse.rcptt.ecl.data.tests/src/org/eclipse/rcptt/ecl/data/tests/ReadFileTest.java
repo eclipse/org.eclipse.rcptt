@@ -28,16 +28,6 @@ public class ReadFileTest extends TestWithSession{
 	}
 
 	@Test
-	public void testWrongUri() {
-		try {
-			runScript("read-file \"%s\"", workspacePath);
-		} catch (CoreException exc) {
-			String message = exc.getMessage();
-			Assert.assertTrue(message != null && message.equals("Failed to resolve project/folder/data.txt"));
-		}
-	}
-
-	@Test
 	public void testNotExists() {
 		try {
 			runScript("read-file \"file:/unknown\"");

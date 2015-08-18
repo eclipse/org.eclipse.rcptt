@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.filesystem;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collection;
@@ -35,4 +36,6 @@ public interface EclFile {
 	void write(InputStream data) throws CoreException;
 
 	InputStream read() throws CoreException;
+	
+	File toFile();
 }
