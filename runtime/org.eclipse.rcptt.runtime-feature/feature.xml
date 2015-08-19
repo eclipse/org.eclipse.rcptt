@@ -19,7 +19,7 @@
 
    <requires>
       <import feature="org.eclipse.rcptt.tesla" version="2.0.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.tesla.runtime" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.tesla.runtime" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.tesla.ecl" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.tesla.ecl.runtime" version="2.0.0.qualifier"/>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.0.0.qualifier"/>
@@ -60,14 +60,14 @@
          id="org.eclipse.rcptt.tesla.ecl"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.ecl.impl"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin

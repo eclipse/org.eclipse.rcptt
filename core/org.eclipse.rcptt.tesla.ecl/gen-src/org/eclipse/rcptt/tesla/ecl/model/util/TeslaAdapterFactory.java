@@ -77,6 +77,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
 import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
+import org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox;
 import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetLink;
 import org.eclipse.rcptt.tesla.ecl.model.GetList;
@@ -114,6 +115,7 @@ import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
 import org.eclipse.rcptt.tesla.ecl.model.KeyType;
 import org.eclipse.rcptt.tesla.ecl.model.Matches;
 import org.eclipse.rcptt.tesla.ecl.model.Maximize;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
 import org.eclipse.rcptt.tesla.ecl.model.Minimize;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
 import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
@@ -794,6 +796,14 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseRestartAut(RestartAut object) {
 				return createRestartAutAdapter();
+			}
+			@Override
+			public Adapter caseMessageBoxInfo(MessageBoxInfo object) {
+				return createMessageBoxInfoAdapter();
+			}
+			@Override
+			public Adapter caseGetLastMessageBox(GetLastMessageBox object) {
+				return createGetLastMessageBoxAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -2836,6 +2846,34 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRestartAutAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo <em>Message Box Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo
+	 * @generated
+	 */
+	public Adapter createMessageBoxInfoAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox <em>Get Last Message Box</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox
+	 * @generated
+	 */
+	public Adapter createGetLastMessageBoxAdapter() {
 		return null;
 	}
 

@@ -15,13 +15,17 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
+import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.MessageBox;
 
 public class SWTDialogManager {
 	private static List<String> fileDialogValues = new ArrayList<String>();
 	private static List<String> folderDialogValues = new ArrayList<String>();
 	private static List<Integer> messageBoxValues = new ArrayList<Integer>();
+	private static MessageBoxInfo lastMessageBoxInfo = null;
 	private static List<RGB> colorValues = new ArrayList<RGB>();
 	private static List<FontData> fontValues = new ArrayList<FontData>();
 	private static boolean cancelMessageBoxesDisplay = false;
@@ -88,6 +92,10 @@ public class SWTDialogManager {
 	public static Integer getMessageBoxResult() {
 		return messageBoxValues.remove(0);
 	}
+	
+	public static MessageBoxInfo getMessageBoxInfo() {
+		return lastMessageBoxInfo;
+	}
 
 	public static void addFileDialogInfo(String value) {
 		fileDialogValues.add(0, value);
@@ -97,8 +105,14 @@ public class SWTDialogManager {
 		folderDialogValues.add(0, value);
 	}
 
-	public static void addMessageBoxInfo(int value) {
-		messageBoxValues.add(0, value);
+	public static void addMessageBoxInfo(int result) {
+		messageBoxValues.add(0, result);
+	}
+	
+	public static void setMessageBoxInfo(MessageBox dialog) {
+		lastMessageBoxInfo = TeslaFactory.eINSTANCE.createMessageBoxInfo();
+		lastMessageBoxInfo.setTitle(dialog.getText());
+		lastMessageBoxInfo.setMessage(dialog.getMessage());
 	}
 
 	public static void addFontInfo(FontData value) {
@@ -113,6 +127,7 @@ public class SWTDialogManager {
 		fileDialogValues.clear();
 		folderDialogValues.clear();
 		messageBoxValues.clear();
+		lastMessageBoxInfo = null;
 		colorValues.clear();
 		fontValues.clear();
 	}
