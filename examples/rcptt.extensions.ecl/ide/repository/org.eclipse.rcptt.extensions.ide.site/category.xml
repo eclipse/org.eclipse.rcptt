@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.rcptt.extensions.ide.feature_2.0.0.qualifier.jar" id="org.eclipse.rcptt.extensions.ide.feature" version="2.0.0.qualifier">
+   <feature url="features/org.eclipse.rcptt.extensions.ide.feature_2.0.1.qualifier.jar" id="org.eclipse.rcptt.extensions.ide.feature" version="2.0.1.qualifier">
       <category name="org.eclipse.rcptt.extensions"/>
    </feature>
    <category-def name="org.eclipse.rcptt.extensions" label="RCPTT Extensions"/>
