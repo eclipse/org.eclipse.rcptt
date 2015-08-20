@@ -2,8 +2,7 @@
 set -x -e
 
 : ${WORKSPACE:=$PWD}
-#: ${downloadsHome:=/home/data/httpd/download.eclipse.org/rcptt}
-: ${downloadsHome:=C:/Work/rcptt}
+: ${downloadsHome:=/home/data/httpd/download.eclipse.org/rcptt}
 : ${type:=release}
 : ${buildsToKeep:=5}
 
