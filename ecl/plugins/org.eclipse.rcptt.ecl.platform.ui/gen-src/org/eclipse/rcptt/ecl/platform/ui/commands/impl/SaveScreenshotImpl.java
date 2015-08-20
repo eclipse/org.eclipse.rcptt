@@ -28,10 +28,10 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.SaveScreenshot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.SaveScreenshotImpl#getOut <em>Out</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

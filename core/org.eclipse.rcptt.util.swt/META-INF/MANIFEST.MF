@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWT RCPTT Utiilties
-Bundle-SymbolicName: org.eclipse.rcptt.util.swt
+Bundle-SymbolicName: org.eclipse.rcptt.util.swt;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.eclipse.rcptt.util.swt.internal.SwtUtilPlugin
 Bundle-Vendor: Eclipse RCP Testing Tool Project
@@ -11,4 +11,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.rcptt.util.swt
+Export-Package: org.eclipse.rcptt.util.swt,
+ org.eclipse.rcptt.util.swt.internal.ui

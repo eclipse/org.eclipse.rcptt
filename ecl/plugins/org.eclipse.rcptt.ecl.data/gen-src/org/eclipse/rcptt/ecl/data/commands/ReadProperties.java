@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.ReadProperties#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getReadProperties()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Parses given .properties file. Fails if file is not found or format is invalid' returns='ECL map with values from properties file' example='...get-item \"General Registers/pc\" | get-property \"values[\\\'Value\\\']\"\n| matches [format \"%s.*\" [read-properties -uri \"file:/C:/Users/Administrator/Desktop/p.properties\" | get myKey]] | verify-true\n'"

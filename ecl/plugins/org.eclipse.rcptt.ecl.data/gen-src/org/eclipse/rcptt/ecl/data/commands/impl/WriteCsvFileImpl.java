@@ -30,11 +30,11 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

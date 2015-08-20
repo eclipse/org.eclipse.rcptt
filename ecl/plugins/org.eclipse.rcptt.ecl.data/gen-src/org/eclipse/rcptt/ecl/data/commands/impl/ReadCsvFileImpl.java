@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.data.commands.ReadCsvFile;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadCsvFileImpl#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

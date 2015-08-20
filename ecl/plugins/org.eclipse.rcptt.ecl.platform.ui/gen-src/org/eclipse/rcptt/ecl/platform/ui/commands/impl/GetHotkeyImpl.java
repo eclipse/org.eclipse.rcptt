@@ -28,10 +28,10 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.GetHotkey;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.GetHotkeyImpl#getCommandId <em>Command Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

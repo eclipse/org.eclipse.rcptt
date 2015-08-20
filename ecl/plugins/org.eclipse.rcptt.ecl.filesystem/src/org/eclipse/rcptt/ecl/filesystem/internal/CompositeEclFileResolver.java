@@ -12,6 +12,7 @@ package org.eclipse.rcptt.ecl.filesystem.internal;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +27,30 @@ public class CompositeEclFileResolver implements EclFileResolver {
 	}
 	
 	@Override
-	public EclFile resolve(URI uri) throws IOException {
-		for (EclFileResolver child : children) {
-			EclFile rv = child.resolve(uri);
-			if (rv != null)
-				return rv;
+ 	public EclFile resolve(URI uri) throws IOException {
+		EclFile result = resolveRaw(uri);
+		if (result != null) {
+			return result;
+		}
+		try {
+			uri = new URI("file", null, uri.getPath(), null);
+		} catch (URISyntaxException e) {
+			throw new IOException(e.getMessage());
+		}
+		result = resolveRaw(uri);
+		if (result != null) {
+			return result;
 		}
 		throw new IOException("failed to resolve " + uri);
 	}
+	
+	private EclFile resolveRaw(URI uri) throws IOException {
+ 		for (EclFileResolver child : children) {
+ 			EclFile rv = child.resolve(uri);
+ 			if (rv != null)
+ 				return rv;
+ 		}
+		return null;
+ 	}
 
 }

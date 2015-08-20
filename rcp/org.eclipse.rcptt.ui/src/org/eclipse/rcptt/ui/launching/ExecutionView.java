@@ -25,7 +25,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
@@ -141,7 +140,6 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 
 	private Composite evParent;
 
-	private AdvancedInformation advInfo;
 	private Report report;
 	private Button advInfoButton;
 
@@ -281,7 +279,6 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 					if (isConnectionTerminatedStatus(exec)) {
 						failureTrace
 								.setText(Messages.ExecutionView_NoConnectionEMsg);
-						advInfo = null;
 						advInfoButton.setEnabled(false);
 					} else if (status != null && !status.isOK()) {
 						setMessage(exec.getActualElement(), status, 0);
@@ -289,16 +286,12 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 							ExecutionStatus st = (ExecutionStatus) status;
 							AdvancedInformation info = st.getInfo();
 							if (info != null) {
-								advInfo = EcoreUtil
-										.copy(info);
 								advInfoButton.setEnabled(true);
 							} else {
-								advInfo = null;
 								advInfoButton.setEnabled(false);
 							}
 						}
 					} else {
-						advInfo = null;
 						advInfoButton.setEnabled(false);
 					}
 					// Also enable advanced info if report are available
@@ -642,8 +635,7 @@ public class ExecutionView extends ViewPart implements IExecutionSessionListener
 		advInfoButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Dialog dialog = new DetailsDialog(failureTrace.getShell(),
-						advInfo, report);
+				Dialog dialog = new DetailsDialog(failureTrace.getShell(), report);
 				dialog.open();
 			}
 		});

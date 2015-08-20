@@ -20,9 +20,9 @@
   </properties>
   <repositories>
     <repository>
-      <id>indigo</id>
+      <id>mars</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/indigo</url>
+      <url>http://download.eclipse.org/releases/mars</url>
     </repository>
     <repository>
       <id>orbit</id>

@@ -24,7 +24,6 @@ import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.reporting.core.ImageEntry;
 import org.eclipse.rcptt.reporting.util.RcpttReportGenerator;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
-import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -43,17 +42,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public final class DetailsDialog extends Dialog {
-	@SuppressWarnings("unused")
-	private AdvancedInformation info;
 	static final String LINE_SEPARATOR = System
 			.getProperty("line.separator"); //$NON-NLS-1$
 	private StyledText text;
 	private Report report;
 
-	public DetailsDialog(Shell parentShell, AdvancedInformation info,
-			Report report) {
+	public DetailsDialog(Shell parentShell, Report report) {
 		super(parentShell);
-		this.info = info;
 		this.report = report;
 		setShellStyle(getShellStyle() | SWT.SHEET);
 	}

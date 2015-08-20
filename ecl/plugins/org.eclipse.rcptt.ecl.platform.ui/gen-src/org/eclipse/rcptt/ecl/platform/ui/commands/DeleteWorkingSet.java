@@ -22,10 +22,10 @@ import org.eclipse.rcptt.ecl.platform.ui.objects.WorkingSet;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.DeleteWorkingSet#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage#getDeleteWorkingSet()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Deletes working set' returns='Nothing' example='list-working-sets | foreach {delete-working-set}'"

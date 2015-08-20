@@ -409,6 +409,90 @@ public interface CommandsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.ToClipboardImpl <em>To Clipboard</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.ToClipboardImpl
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.CommandsPackageImpl#getToClipboard()
+	 * @generated
+	 */
+	int TO_CLIPBOARD = 8;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_CLIPBOARD__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_CLIPBOARD__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_CLIPBOARD__INPUT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>To Clipboard</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_CLIPBOARD_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.FromClipboardImpl <em>From Clipboard</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.FromClipboardImpl
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.CommandsPackageImpl#getFromClipboard()
+	 * @generated
+	 */
+	int FROM_CLIPBOARD = 9;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_CLIPBOARD__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_CLIPBOARD__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The number of structural features of the '<em>From Clipboard</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_CLIPBOARD_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.ui.commands.Alert <em>Alert</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -564,6 +648,37 @@ public interface CommandsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSaveScreenshot_Out();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard <em>To Clipboard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>To Clipboard</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard
+	 * @generated
+	 */
+	EClass getToClipboard();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard#getInput()
+	 * @see #getToClipboard()
+	 * @generated
+	 */
+	EAttribute getToClipboard_Input();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.ui.commands.FromClipboard <em>From Clipboard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>From Clipboard</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.ui.commands.FromClipboard
+	 * @generated
+	 */
+	EClass getFromClipboard();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -722,6 +837,34 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SAVE_SCREENSHOT__OUT = eINSTANCE.getSaveScreenshot_Out();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.ToClipboardImpl <em>To Clipboard</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.ToClipboardImpl
+		 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.CommandsPackageImpl#getToClipboard()
+		 * @generated
+		 */
+		EClass TO_CLIPBOARD = eINSTANCE.getToClipboard();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TO_CLIPBOARD__INPUT = eINSTANCE.getToClipboard_Input();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.FromClipboardImpl <em>From Clipboard</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.FromClipboardImpl
+		 * @see org.eclipse.rcptt.ecl.platform.ui.commands.impl.CommandsPackageImpl#getFromClipboard()
+		 * @generated
+		 */
+		EClass FROM_CLIPBOARD = eINSTANCE.getFromClipboard();
 
 	}
 

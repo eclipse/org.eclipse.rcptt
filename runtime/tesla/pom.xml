@@ -9,8 +9,6 @@
   </parent>
 
   <modules>
-    <module>org.eclipse.rcptt.tesla.swt.win32</module>
-    <module>org.eclipse.rcptt.tesla.swt.win64</module>
     <module>org.eclipse.rcptt.tesla.core.am</module>
     <module>org.eclipse.rcptt.tesla.canvas</module>
     <module>org.eclipse.rcptt.tesla.gef</module>

@@ -23,10 +23,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.AsTableData#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getAsTableData()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its input to table data format, exactly the same as <code>get-table-data</code> returns.' returns='Table data.' example='get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\"'"

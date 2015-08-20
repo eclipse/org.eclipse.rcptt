@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
+import java.lang.reflect.Field;
 import java.util.AbstractList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -29,6 +30,7 @@ import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
 import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.VerifyHandler;
 
@@ -38,17 +40,27 @@ public class GetPropertyService implements ICommandService {
 			throws InterruptedException, CoreException {
 		TeslaBridge.waitDelay();
 		GetProperty gp = (GetProperty) command;
-		if (gp.isRaw()) {
-			return serviceRawGet(gp, context);
-		}
-		VerifyHandler handler = TeslaFactory.eINSTANCE.createVerifyHandler();
 		EObject object = gp.getObject();
 		if (object instanceof ControlHandler) {
+			if (gp.isRaw()) {
+				return serviceRawGet(gp, context);
+			}
+			VerifyHandler handler = TeslaFactory.eINSTANCE.createVerifyHandler();
 			Element element = TeslaBridge.find((ControlHandler) object);
 			handler.setElement(element);
 			handler.setAttribute(gp.getName());
 			handler.setIndex(gp.getIndex());
 			context.getOutput().write(handler);
+			return Status.OK_STATUS;
+		} else if (object instanceof MessageBoxInfo) {
+			final MessageBoxInfo info = (MessageBoxInfo) object;
+			try {
+				final Field field = info.getClass().getDeclaredField(gp.getName());
+			    field.setAccessible(true);
+				context.getOutput().write(field.get(info).toString());
+			} catch (Exception e) {
+				return propertyGetError(gp.getName());
+			}
 			return Status.OK_STATUS;
 		}
 		return propertyGetError(gp.getName());

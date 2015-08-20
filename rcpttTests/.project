@@ -3,6 +3,7 @@
 	<name>rcpttTests</name>
 	<comment></comment>
 	<projects>
+		<project>Q7QualityTests</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

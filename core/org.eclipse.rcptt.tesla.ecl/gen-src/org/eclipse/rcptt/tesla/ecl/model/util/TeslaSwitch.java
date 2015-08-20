@@ -77,6 +77,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
 import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
+import org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox;
 import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetLink;
 import org.eclipse.rcptt.tesla.ecl.model.GetList;
@@ -114,6 +115,7 @@ import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
 import org.eclipse.rcptt.tesla.ecl.model.KeyType;
 import org.eclipse.rcptt.tesla.ecl.model.Matches;
 import org.eclipse.rcptt.tesla.ecl.model.Maximize;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
 import org.eclipse.rcptt.tesla.ecl.model.Minimize;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
 import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
@@ -1322,6 +1324,19 @@ public class TeslaSwitch<T> {
 				RestartAut restartAut = (RestartAut)theEObject;
 				T result = caseRestartAut(restartAut);
 				if (result == null) result = caseCommand(restartAut);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.MESSAGE_BOX_INFO: {
+				MessageBoxInfo messageBoxInfo = (MessageBoxInfo)theEObject;
+				T result = caseMessageBoxInfo(messageBoxInfo);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.GET_LAST_MESSAGE_BOX: {
+				GetLastMessageBox getLastMessageBox = (GetLastMessageBox)theEObject;
+				T result = caseGetLastMessageBox(getLastMessageBox);
+				if (result == null) result = caseCommand(getLastMessageBox);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -3486,6 +3501,36 @@ public class TeslaSwitch<T> {
 	 * @generated
 	 */
 	public T caseRestartAut(RestartAut object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Message Box Info</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Message Box Info</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMessageBoxInfo(MessageBoxInfo object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Last Message Box</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Last Message Box</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetLastMessageBox(GetLastMessageBox object) {
 		return null;
 	}
 

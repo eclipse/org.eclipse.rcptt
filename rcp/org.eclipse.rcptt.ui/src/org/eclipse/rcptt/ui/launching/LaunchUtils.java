@@ -62,6 +62,7 @@ import org.eclipse.rcptt.ui.actions.SyncProgressMonitor;
 import org.eclipse.rcptt.ui.launching.aut.AUTConnectionErrorDialog;
 import org.eclipse.rcptt.ui.launching.aut.AUTSelectionDialog;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
@@ -406,7 +407,11 @@ public class LaunchUtils {
 					aut.getConfig());
 			return;
 		}
-		shell.forceActive();
+		try {
+			ShellUtilsProvider.getShellUtils().forceActive(shell);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static void runInUI(Display display, Runnable runnable) {

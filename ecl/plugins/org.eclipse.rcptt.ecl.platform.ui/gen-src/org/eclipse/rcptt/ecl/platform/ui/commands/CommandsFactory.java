@@ -103,6 +103,24 @@ public interface CommandsFactory extends EFactory {
 	SaveScreenshot createSaveScreenshot();
 
 	/**
+	 * Returns a new object of class '<em>To Clipboard</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>To Clipboard</em>'.
+	 * @generated
+	 */
+	ToClipboard createToClipboard();
+
+	/**
+	 * Returns a new object of class '<em>From Clipboard</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>From Clipboard</em>'.
+	 * @generated
+	 */
+	FromClipboard createFromClipboard();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

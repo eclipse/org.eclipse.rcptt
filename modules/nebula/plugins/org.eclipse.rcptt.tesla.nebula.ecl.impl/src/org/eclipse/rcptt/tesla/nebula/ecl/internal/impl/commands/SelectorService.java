@@ -39,6 +39,7 @@ public class SelectorService implements ICommandService {
 		Selector selector = (Selector) command;
 		handler.setParent(selector.getParent());
 		handler.setAfter(selector.getAfter());
+		handler.setIndex(selector.getIndex());
 
 		handler.setKind(ElementKind.Custom);
 		handler.setCustomKindId(customKindIdFrom(selector));

@@ -23,10 +23,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.Print#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getPrint()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a list of objects from input pipe and prints them as a plain-text table into output pipe.' returns='Series of string objects'"

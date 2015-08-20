@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
@@ -76,6 +77,7 @@ import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 import org.eclipse.rcptt.tesla.ui.IViewerItem;
 import org.eclipse.rcptt.util.swt.Bounds;
 import org.eclipse.rcptt.util.swt.Events;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.util.swt.TabCTabUtil;
 import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
@@ -876,21 +878,15 @@ public final class SWTUIPlayer {
 						clickMenuItem(w, isDefault, widget);
 						break;
 					}
-					boolean isRadioButton = (widget.getStyle() & SWT.RADIO) != 0;
-					if (widget instanceof Button && isRadioButton) {
-						if (!Platform.getOS().equals(Platform.OS_WIN32)) {
-							sendEventsToRadioButtons(widget);
-						} else if (!((Button) widget).getSelection()) {
-							events.sendFocus(widget);
-							sendEventsToRadioButtons(widget);
-							events.sendUnfocus(widget);
-							break;
-						}
-					} else {
-						events.sendFocus(widget);
+					final boolean isButton = widget instanceof Button;
+					final boolean isRadioButton = isButton && (widget.getStyle() & SWT.RADIO) != 0;
+					final boolean isWin32 = Platform.getOS().equals(Platform.OS_WIN32);
+					final boolean isSelectionButton = isButton && ((Button) widget).getSelection();
+					events.sendFocus(widget);
+					if (isRadioButton && (!isWin32 || !isSelectionButton)) {
+						sendEventsToRadioButtons(widget);
 					}
-					if (widget instanceof Button
-							&& ((widget.getStyle() & SWT.CHECK) != 0)) {
+					if (isButton && ((widget.getStyle() & SWT.CHECK) != 0)) {
 						Button b = (Button) widget;
 						b.setSelection(!b.getSelection());
 					}
@@ -910,13 +906,15 @@ public final class SWTUIPlayer {
 					if (isToggleButton(widget)) {
 						((Button) widget).setSelection(!((Button) widget).getSelection());
 					}
-					Event event = events.createEvent(w);
-					if (arrow) {
-						event.detail = SWT.ARROW;
+					if (!isRadioButton || !isWin32 || isSelectionButton) {
+						Event event = events.createEvent(w);
+						if (arrow) {
+							event.detail = SWT.ARROW;
+						}
+						event.type = isDefault ? SWT.DefaultSelection
+								: SWT.Selection;
+						events.sendEvent(w, event);
 					}
-					event.type = isDefault ? SWT.DefaultSelection
-							: SWT.Selection;
-					events.sendEvent(w, event);
 
 					events.sendEvent(w, SWT.MouseUp, clickPoint, 1);
 					events.sendEvent(w, SWT.MouseExit);
@@ -1271,6 +1269,10 @@ public final class SWTUIPlayer {
 		}
 
 		//
+		
+		if (s instanceof SWTUIElement) {
+			return (SWTUIElement) s;
+		}
 
 		if (s instanceof IWorkbenchPart) {
 			IWorkbenchPart part = (IWorkbenchPart) s;
@@ -2038,7 +2040,11 @@ public final class SWTUIPlayer {
 					Control ctrl = (Control) widget;
 					if (fromDisplay) {
 						// Necessary for setting focus to control
-						ctrl.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(ctrl.getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 					}
 					events.sendFocus(widget);
 					if (ctrl instanceof CCombo) {
@@ -2186,7 +2192,11 @@ public final class SWTUIPlayer {
 						break;
 					if (fromDisplay) {
 						// Necessary for setting focus to control
-						((Control) widget).getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(((Control) widget).getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 					}
 					events.sendFocus(widget);
 
@@ -2684,7 +2694,11 @@ public final class SWTUIPlayer {
 			public void run() {
 				if (widget instanceof Shell) {
 					((Shell) widget).setMaximized(true);
-					((Shell) widget).forceActive();
+					try {
+						ShellUtilsProvider.getShellUtils().forceActive((Shell) widget);
+					} catch (CoreException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				processTabFolderButton(widget,
 						IWorkbenchPage.STATE_MAXIMIZED);
