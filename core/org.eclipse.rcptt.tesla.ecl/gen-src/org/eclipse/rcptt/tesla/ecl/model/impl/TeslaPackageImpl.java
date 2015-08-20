@@ -85,6 +85,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
 import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
+import org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox;
 import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetLink;
 import org.eclipse.rcptt.tesla.ecl.model.GetList;
@@ -122,6 +123,7 @@ import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
 import org.eclipse.rcptt.tesla.ecl.model.KeyType;
 import org.eclipse.rcptt.tesla.ecl.model.Matches;
 import org.eclipse.rcptt.tesla.ecl.model.Maximize;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
 import org.eclipse.rcptt.tesla.ecl.model.Minimize;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
 import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
@@ -1187,6 +1189,20 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	private EClass restartAutEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass messageBoxInfoEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getLastMessageBoxEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -4373,6 +4389,42 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMessageBoxInfo() {
+		return messageBoxInfoEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMessageBoxInfo_Title() {
+		return (EAttribute)messageBoxInfoEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMessageBoxInfo_Message() {
+		return (EAttribute)messageBoxInfoEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetLastMessageBox() {
+		return getLastMessageBoxEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
 	}
@@ -4902,6 +4954,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		restartAutEClass = createEClass(RESTART_AUT);
 
+		messageBoxInfoEClass = createEClass(MESSAGE_BOX_INFO);
+		createEAttribute(messageBoxInfoEClass, MESSAGE_BOX_INFO__TITLE);
+		createEAttribute(messageBoxInfoEClass, MESSAGE_BOX_INFO__MESSAGE);
+
+		getLastMessageBoxEClass = createEClass(GET_LAST_MESSAGE_BOX);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
 
@@ -5088,6 +5146,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		unfocusEClass.getESuperTypes().add(this.getControlCommand());
 		decryptEClass.getESuperTypes().add(theCorePackage.getCommand());
 		restartAutEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getLastMessageBoxEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5577,6 +5636,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		initEAttribute(getDecryptResult_Value(), theEcorePackage.getEString(), "value", null, 1, 1, DecryptResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(restartAutEClass, RestartAut.class, "RestartAut", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(messageBoxInfoEClass, MessageBoxInfo.class, "MessageBoxInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMessageBoxInfo_Title(), theEcorePackage.getEString(), "title", null, 0, 1, MessageBoxInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMessageBoxInfo_Message(), theEcorePackage.getEString(), "message", null, 0, 1, MessageBoxInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getLastMessageBoxEClass, GetLastMessageBox.class, "GetLastMessageBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
@@ -7261,6 +7326,14 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   new String[] {
 			 "description", "Restarts AUT.\nCan be used if there in no File/Restart option in AUT.\n\nPlease note that <a href=\"#wait-until-eclipse-is-ready\">wait-until-eclipse-is-ready</a> command should be used \nimmidiately after restart-aut command. ",
 			 "example", "get-view \"Package Explorer\" | get-tree | get-menu \"New/Java Project\" | click\nwith [get-window \"New Java Project\"] {\n    with [get-editbox -after [get-label \"Project name:\"]] {\n        set-text MyProjec\n        set-text MyProject\n    }\n    get-button Finish | click\n}\n\nrestart-aut\n\nwait-until-eclipse-is-ready\n\nget-view \"Package Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true"
+		   });	
+		addAnnotation
+		  (getLastMessageBoxEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets last shown MessageBox info. If MessageBox was not shown, then error is returned.",
+			 "returns", "MessageBoxInfo",
+			 "example", "set-dialog-result MessageBox 128\r\nget-view \"Q7 Quality Mockups\" | get-group \"MessageBox Test\" | get-button \"Message Box with YES/NO Buttons\" | click\r\nwith [get-last-message-box] {\r\n    get-property title | equals \"Warning\" | verify-true\r\n    get-property message | equals \"Yes or No?\" | verify-true\r\n}"
 		   });
 	}
 

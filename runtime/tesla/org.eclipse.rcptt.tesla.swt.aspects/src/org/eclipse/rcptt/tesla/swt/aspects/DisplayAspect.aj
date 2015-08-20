@@ -169,6 +169,7 @@ public aspect DisplayAspect {
 		if (!TeslaEventManager.getManager().getShowingAlert()) {
 			try {
 				if (TeslaEventManager.getManager().hasListeners()) {
+					SWTDialogManager.setMessageBoxInfo(dialog);
 					if (SWTDialogManager.hasMessageBoxInfo()) {
 						return SWTDialogManager.getMessageBoxResult();
 					}
