@@ -87,6 +87,7 @@ import org.eclipse.rcptt.launching.injection.Directory;
 import org.eclipse.rcptt.launching.injection.Entry;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
 import org.eclipse.rcptt.launching.injection.UpdateSite;
+import org.eclipse.rcptt.launching.internal.target.Q7Target.AutInstall;
 import org.eclipse.rcptt.launching.p2utils.P2Utils;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
@@ -328,6 +329,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public String getTargetPlatformProfilePath() {
 		ProfileBundleContainer container = (ProfileBundleContainer) getInstanceContainer();
+		if (container == null) {
+			return "";
+		}
 		try {
 			return container.getLocation(true).toString();
 		} catch (CoreException e) {
@@ -1245,7 +1249,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	ProfileBundleContainer getInstanceContainer() {
-		return getQ7Target().getInstall().container;
+		final Q7Target target = getQ7Target();
+		if (target == null) {
+			return null;
+		}
+		final AutInstall install = target.getInstall();
+		if (install == null) {
+			return null;
+		}
+		return install.container;
 	}
 
 	public void setBundleContainers(ITargetLocation[] containers) {

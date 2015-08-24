@@ -225,10 +225,10 @@ public class Q7TargetPlatformInitializer {
 	public static void logError(TargetPlatformHelper info) {
 		Q7ExtLaunchingPlugin.log(new MultiStatus(PLUGIN_ID, 0, new IStatus[]{info.getStatus()}, "Target platform initialization error", null));
 	}
-
+	
 	public static Q7Info getInfo(ITargetPlatformHelper target, Map<String, Version> versions) throws CoreException {
 		Map<String, Version> map = versions;
-		MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Invalid eclipse product location: " + target.getTargetPlatformProfilePath(), null);
+		MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Invalid eclipse target platform: " + target.toString(), null);
 		Version platform = map.get(AUTInformation.VERSION);
 		Version osgi = map.get(AUTInformation.OSGI);
 		if (platform == null)
