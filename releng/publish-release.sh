@@ -38,7 +38,7 @@ cp -r $repositorySource $buildDestination
 
 # copy rcptt repository archive
 repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt.repository-$productVersion-SNAPSHOT.zip
-cp $repositoryArchiveSource $buildDestination/repository.zip
+cp $repositoryArchiveSource $buildDestination/repository-$productVersion.zip
 
 # copy runtimes
 cp -r $WORKSPACE/runtime/updates/org.eclipse.rcptt.updates.runtime/q7 $buildDestination/runtime3x
