@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -57,7 +56,6 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 	private TestSuiteTableViewer testCasesviewer;
 	private TestSuiteButtonsPanel suiteButtonsPanel;
 	private boolean needCheckReferences = true;
-	private boolean allowManualOrdering = false;
 
 	public TestSuiteEditorPage(NamedElementEditor editor) {
 		super(editor, "test.suite", Messages.TestSuiteEditorPage_Name); //$NON-NLS-1$
@@ -80,9 +78,6 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 	@Override
 	protected void createSpecificContent(Composite parent, FormToolkit toolkit,
 			IManagedForm form) {
-		allowManualOrdering = getElement().isManuallyOrdered()
-				|| isManualOrderingEnabled();
-
 		Section testCasesSection = new SectionWithComposite("Test Cases",
 				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED)
 				.numColumns(2).create(parent, toolkit);
@@ -90,16 +85,14 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 
 		createSuiteTable(testCasesComposite);
 
-		suiteButtonsPanel = new TestSuiteButtonsPanel(testCasesComposite,
-				allowManualOrdering, allowManualOrdering);
+		suiteButtonsPanel = new TestSuiteButtonsPanel(testCasesComposite, true);
 		addButtonsListeners();
 
 		testCasesviewer.setInput(getElement().getItems());
 		suiteButtonsPanel.updateButtons(testCasesviewer);
 
-		if (allowManualOrdering)
-			suiteButtonsPanel.getResetOrderLink().setVisible(
-					getElement().isManuallyOrdered());
+		suiteButtonsPanel.getResetOrderLink().setVisible(
+				getElement().isManuallyOrdered());
 	}
 
 	private void createSuiteTable(Composite parent) {
@@ -169,77 +162,48 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 					}
 				});
 
-		if (allowManualOrdering) {
-			suiteButtonsPanel.getMoveUpBtn().addSelectionListener(
-					new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							if (!getElement().isManuallyOrdered()) {
-								if (!continueWithManualOrdering())
-									return;
-
-								getElement().setManuallyOrdered(true);
-								suiteButtonsPanel.getResetOrderLink()
-										.setVisible(true);
-							}
-
-							testCasesviewer.moveUp();
-							suiteButtonsPanel.updateButtons(testCasesviewer);
+		suiteButtonsPanel.getMoveUpBtn().addSelectionListener(
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						if (!getElement().isManuallyOrdered()) {
+							getElement().setManuallyOrdered(true);
+							suiteButtonsPanel.getResetOrderLink()
+									.setVisible(true);
 						}
-					});
-			suiteButtonsPanel.getMoveDownBtn().addSelectionListener(
-					new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							if (!getElement().isManuallyOrdered()) {
-								if (!continueWithManualOrdering())
-									return;
 
-								getElement().setManuallyOrdered(true);
-								suiteButtonsPanel.getResetOrderLink()
-										.setVisible(true);
-							}
-
-							testCasesviewer.moveDown();
-							suiteButtonsPanel.updateButtons(testCasesviewer);
+						testCasesviewer.moveUp();
+						suiteButtonsPanel.updateButtons(testCasesviewer);
+					}
+				});
+		suiteButtonsPanel.getMoveDownBtn().addSelectionListener(
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						if (!getElement().isManuallyOrdered()) {
+							getElement().setManuallyOrdered(true);
+							suiteButtonsPanel.getResetOrderLink()
+									.setVisible(true);
 						}
-					});
-			suiteButtonsPanel.getResetOrderLink().addSelectionListener(
-					new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							if (getElement().isManuallyOrdered()) {
-								getElement().setManuallyOrdered(false);
-								suiteButtonsPanel.getResetOrderLink()
-										.setVisible(false);
-							}
-							testCasesviewer
-									.setComparator(new TestSuiteComparator());
-							suiteButtonsPanel.updateButtons(testCasesviewer);
+
+						testCasesviewer.moveDown();
+						suiteButtonsPanel.updateButtons(testCasesviewer);
+					}
+				});
+		suiteButtonsPanel.getResetOrderLink().addSelectionListener(
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						if (getElement().isManuallyOrdered()) {
+							getElement().setManuallyOrdered(false);
+							suiteButtonsPanel.getResetOrderLink()
+									.setVisible(false);
 						}
-					});
-		}
-	}
-
-	private boolean continueWithManualOrdering() {
-		MessageDialog box = new MessageDialog(
-				this.getSite().getShell(),
-				"Manual Ordering Warning",
-				null,
-				"WARNING: Manual ordering of test cases is a very bad practice.\n\n"
-						+
-
-						"RCPTT treats each test case as an independent and isolated unit of "
-						+ "execution, so order of execution should not matter. That is really "
-						+ "a great thing when you want to parallel test suite execution on multiple "
-						+ "machines or execute a random subset of test cases.\n\n"
-						+
-
-						"If it turns out that the order does matter, it is better to factor out "
-						+ "the shared state using RCPTT contexts.",
-				MessageDialog.WARNING, new String[] { "Continue", "Cancel" }, 1);
-
-		return box.open() == 0;
+						testCasesviewer
+								.setComparator(new TestSuiteComparator());
+						suiteButtonsPanel.updateButtons(testCasesviewer);
+					}
+				});
 	}
 
 	private void addTestCase() {
@@ -309,9 +273,8 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 	public void refreshPage() {
 		testCasesviewer.refresh();
 		suiteButtonsPanel.updateButtons(testCasesviewer);
-		if (allowManualOrdering)
-			suiteButtonsPanel.getResetOrderLink().setVisible(
-					getElement().isManuallyOrdered());
+		suiteButtonsPanel.getResetOrderLink().setVisible(
+				getElement().isManuallyOrdered());
 	}
 
 	@Override
@@ -364,11 +327,6 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 				return 3;
 			}
 		};
-	}
-
-	private static boolean isManualOrderingEnabled() {
-		return Boolean.valueOf(System.getProperty(
-				"org.eclipse.rcptt.legacy.testSuite.manualOrdering", "false"));
 	}
 
 	private class TestSuiteComparator extends ViewerComparator {

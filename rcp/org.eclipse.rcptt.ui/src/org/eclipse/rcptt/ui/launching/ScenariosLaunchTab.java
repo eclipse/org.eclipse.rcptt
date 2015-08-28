@@ -198,7 +198,7 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createPanel(Composite parent) {
-		testSuiteButtonsPanel = new TestSuiteButtonsPanel(parent, true, false);
+		testSuiteButtonsPanel = new TestSuiteButtonsPanel(parent, false);
 
 		testSuiteButtonsPanel.getAddTestCaseBtn().addSelectionListener(
 				new SelectionAdapter() {
