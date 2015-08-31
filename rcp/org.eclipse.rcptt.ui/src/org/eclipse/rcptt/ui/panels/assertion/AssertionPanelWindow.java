@@ -605,16 +605,18 @@ public class AssertionPanelWindow extends Dialog {
 	private interface ITreeViewerFilter {
 		public boolean isVisible(AssertImpl object);
 	}
+	
+	Composite treeViewerComposite = null;
 
 	protected Control createTreeViewer(Composite parent) {
-		final Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		composite.setLayout(new GridLayout());
+		treeViewerComposite = new Composite(parent, SWT.NONE);
+		treeViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		treeViewerComposite.setLayout(new GridLayout());
 
-		final Composite filterComposite = createFilterComposite(composite);
+		final Composite filterComposite = createFilterComposite(treeViewerComposite);
 		filterComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-		final Composite treeComposite = new Composite(composite, SWT.NONE);
+		final Composite treeComposite = new Composite(treeViewerComposite, SWT.NONE);
 		final TreeColumnLayout layout = new TreeColumnLayout();
 		treeComposite.setLayout(layout);
 		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -688,7 +690,7 @@ public class AssertionPanelWindow extends Dialog {
 			}
 		});
 
-		return composite;
+		return treeViewerComposite;
 	}
 
 	public AutLaunch getAut() {
@@ -1084,10 +1086,12 @@ public class AssertionPanelWindow extends Dialog {
 				final Job job = new Job("Expand All") {
 					@Override
 					public IStatus run(IProgressMonitor monitor) {
+						enableButtons(false);
 						monitor.beginTask("Expand All", references.size());
 						for (final TreeItem item : references) {
 							if (monitor.isCanceled()) {
 								references.clear();
+								enableButtons(true);
 								return Status.CANCEL_STATUS;
 							}
 							viewerDisplay.syncExec(new Runnable() {
@@ -1101,7 +1105,20 @@ public class AssertionPanelWindow extends Dialog {
 						}
 						monitor.done();
 						references.clear();
+						enableButtons(true);
 						return Status.OK_STATUS;
+					}
+					private void enableButtons(final boolean enabled) {
+						viewerDisplay.syncExec(new Runnable() {
+							@Override
+							public void run() {
+								treeViewerComposite.setEnabled(enabled);
+								selectAll.setEnabled(enabled);
+								deselectAll.setEnabled(enabled);
+								collapseAll.setEnabled(enabled);
+								expandAll.setEnabled(enabled);
+							}
+						});
 					}
 				};
 				ProgressManager.getInstance().showInDialog(getShell(), job);
