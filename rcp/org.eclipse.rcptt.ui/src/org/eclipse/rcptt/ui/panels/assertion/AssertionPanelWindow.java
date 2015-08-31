@@ -90,6 +90,7 @@ import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -98,6 +99,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -687,6 +690,23 @@ public class AssertionPanelWindow extends Dialog {
 					return true;
 				}
 				return false;
+			}
+		});
+		viewer.getTree().addListener(SWT.EraseItem, new Listener() {
+			public void handleEvent(Event event) {
+				if (filterValue.isEmpty() || (event.detail & SWT.SELECTED) != 0) {
+					return; 
+				}
+				if (((TreeItem) event.item).getData() instanceof AssertImpl) {
+					final GC gc = event.gc;
+					gc.setBackground(
+						new org.eclipse.swt.graphics.Color(
+							viewer.getControl().getDisplay(),
+							new RGB(168, 182, 223)
+						)
+					);
+					gc.fillRectangle(0, event.y, viewer.getTree().getClientArea().width, event.height);
+				}
 			}
 		});
 
