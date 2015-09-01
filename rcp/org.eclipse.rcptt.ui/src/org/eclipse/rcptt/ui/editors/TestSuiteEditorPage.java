@@ -113,6 +113,8 @@ public class TestSuiteEditorPage extends NamedElementEditorPage {
 							getEditor().checkMissingReferences();
 						}
 						suiteButtonsPanel.updateButtons(testCasesviewer);
+						suiteButtonsPanel.getResetOrderLink().setVisible(
+								getElement().isManuallyOrdered());
 					}
 				});
 
