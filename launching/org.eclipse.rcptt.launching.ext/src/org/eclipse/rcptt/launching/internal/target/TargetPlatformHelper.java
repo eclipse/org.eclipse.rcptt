@@ -105,7 +105,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public static final String PRODUCT_PROPERTY = "eclipse.product"; //$NON-NLS-1$
 	private static final String ID_PROPERTY = "id"; //$NON-NLS-1$
 	private static final String OSGI_BUNDLES = "osgi.bundles";
-	private static final String SIMPLECONFIGURATOR = "org.eclipse.equinox.simpleconfigurator"; //$NON-NLS-1$
+	public static final String SIMPLECONFIGURATOR = "org.eclipse.equinox.simpleconfigurator"; //$NON-NLS-1$
 	private static final String SC_BUNDLES_PATH = "configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"; //$NON-NLS-1$
 	private IStatus status = Status.OK_STATUS;
 	private final ITargetDefinition target;

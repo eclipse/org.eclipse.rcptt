@@ -67,6 +67,7 @@ import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.core.PDEState;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
+import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.launching.PDEMessages;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
@@ -600,7 +601,7 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
-		BundlesToLaunch bundlesToLaunch = collectBundles(target.getQ7Target(), subm.newChild(50));
+		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), subm.newChild(50), configuration);
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
@@ -730,10 +731,49 @@ public class Q7ExternalLaunchDelegate extends
 		return true;
 	}
 
+	public static boolean isAutConfigSimpleconfiguratorSet(Q7Target target) {
+		return target.getInstall().configIniBundles().containsKey(TargetPlatformHelper.SIMPLECONFIGURATOR);
+	}
+
+	public static void setBundlesLevels(Q7Target target, Map<String, String> levelMap) {
+		final ProfileBundleContainer profileBundleContainer = target.getInstall().container;
+		if (profileBundleContainer != null) {
+			for (TargetBundle bundle : target.getInstall().getBundles()) {
+				String bundleLevels = levelMap.get(bundle.getBundleInfo().getSymbolicName());
+				if (bundleLevels != null) {
+					try {
+						String[] strings = bundleLevels.split(":");
+						int level = Integer.parseInt(strings[0]);
+						boolean started = Boolean.parseBoolean(strings[1]);
+						bundle.getBundleInfo().setStartLevel(level);
+						bundle.getBundleInfo().setMarkedAsStarted(started);
+					} catch (Exception e) {
+						// ignore parsing exception
+					}
+				}
+			}
+		} else {
+			log(status("Profile Bundle Container is EMPTY.")); //$NON-NLS-1$
+		}
+
+	}
+
+	public static BundlesToLaunch collectBundlesCheck(Q7Target target, IProgressMonitor monitor, ILaunchConfiguration configuration) {
+		if (target.getInstall() != null && isAutConfigSimpleconfiguratorSet(target)) {
+			final CachedInfo info = LaunchInfoCache.getInfo(configuration);
+			TargetPlatformHelper targetHelper = (TargetPlatformHelper) ((ITargetPlatformHelper) info.target);
+			Map<String, String> levelMap = targetHelper.getRunlevelsMap();
+			setBundlesLevels(target, levelMap);
+		}
+
+		return collectBundles(target, monitor);
+	}
+
 	public static BundlesToLaunch collectBundles(Q7Target target, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
 		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
 		SubMonitor install = subm.newChild(1000);
+
 		if (target.getInstall() != null) {
 			Map<String, BundleStart> bundlesFromConfig = target.getInstall().configIniBundles();
 			TargetBundle[] installationBundles = target.getInstall().getBundles();
@@ -775,9 +815,9 @@ public class Q7ExternalLaunchDelegate extends
 
 	/**
 	 * Represents result of collection of bundles to launch
-	 * 
+	 *
 	 * @author ivaninozemtsev
-	 * 
+	 *
 	 */
 	public static class BundlesToLaunch {
 		public BundlesToLaunch(Set<String> rejectedBundles,
