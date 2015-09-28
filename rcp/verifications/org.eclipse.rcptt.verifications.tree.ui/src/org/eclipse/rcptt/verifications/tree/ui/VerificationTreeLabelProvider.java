@@ -16,11 +16,9 @@ import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.rcptt.ui.utils.RangeUtils;
 import org.eclipse.rcptt.util.swt.StyleRangeUtils;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.rcptt.verifications.tree.Cell;
 import org.eclipse.rcptt.verifications.tree.ItemData;
 import org.eclipse.rcptt.verifications.tree.Row;
@@ -59,17 +57,6 @@ public class VerificationTreeLabelProvider extends StyledCellLabelProvider {
 			Row row = (Row) cell.getElement();
 			int ind = cell.getColumnIndex();
 
-			if (ind == 0) {
-				ItemData data = row.getData();
-				Display display = cell.getItem().getDisplay();
-
-				TableTreeUtil.setRowChecked(cell.getItem(), row.isChecked());
-				TableTreeUtil.setRowGrayed(cell.getItem(), row.isGrayed());
-				TableTreeUtil.setBackground(cell.getItem(),
-						RangeUtils.colorFromEMF(data.getBackgroundColor(), display));
-				TableTreeUtil.setForeground(cell.getItem(),
-						RangeUtils.colorFromEMF(data.getForegroundColor(), display));
-			}
 			if (row.getValues().size() > ind) {
 				Cell cellValue = row.getValues().get(ind);
 				ItemData cellData = cellValue.getData();

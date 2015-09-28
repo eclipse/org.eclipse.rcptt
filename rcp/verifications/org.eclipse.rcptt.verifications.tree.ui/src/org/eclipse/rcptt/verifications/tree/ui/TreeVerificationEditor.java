@@ -23,11 +23,20 @@ import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -49,10 +58,12 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
 import org.eclipse.rcptt.ui.controls.SectionWithComposite;
 import org.eclipse.rcptt.ui.editors.EditorHeader;
 import org.eclipse.rcptt.ui.verification.WidgetVerificationEditor;
 import org.eclipse.rcptt.util.swt.ImageUtil;
+import org.eclipse.rcptt.verifications.tree.Cell;
 import org.eclipse.rcptt.verifications.tree.Column;
 import org.eclipse.rcptt.verifications.tree.Row;
 import org.eclipse.rcptt.verifications.tree.Tree;
@@ -64,6 +75,7 @@ import org.eclipse.rcptt.verifications.tree.VerifyStyleType;
 public class TreeVerificationEditor extends WidgetVerificationEditor {
 	Binding treeDataBinding = null;
 	TreeTableObservable widgetObservable = null;
+	Combo verifyStyleCombo = null;
 
 	public TreeVerification getVerificationElement() {
 		try {
@@ -98,6 +110,16 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 				.spacing(16, 4)
 				.applyTo(box);
 		createControls(toolkit, box);
+		
+		header.getRecordButton().addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				Boolean defaultValue = (Boolean) TreePackage.Literals.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE
+						.getDefaultValue();
+				getVerificationElement().setEnableVerifyStyle(defaultValue);
+			}	
+		});
+		
 		return section;
 	}
 
@@ -128,18 +150,20 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 	private void createPropertiesControls(final FormToolkit toolkit,
 			final Composite parent) {
 
+		GridDataFactory align = GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER);
+
 		Label verifyStyleLabel = toolkit.createLabel(parent,
 				"Verify styles:");
 		verifyStyleLabel
 				.setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
 		verifyStyleLabel.setBackground(null);
-
-		GridDataFactory align = GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER);
 		align.applyTo(verifyStyleLabel);
 
-		final Combo verifyStyleCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+		verifyStyleCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		int selectedStyleInd = 0;
-		align.applyTo(verifyStyleCombo);
+		dbc.bindValue(SWTObservables.observeSelection(verifyStyleCombo),
+				EMFObservables.observeValue(getVerificationElement(),
+						TreePackage.Literals.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE));
 		for (VerifyStyleType type : VerifyStyleType.values()) {
 			verifyStyleCombo.add(type.getLiteral());
 			if (type.getValue() == getVerificationElement().getVerifyStyle().getValue()) {
@@ -148,7 +172,6 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 		}
 		verifyStyleCombo.select(selectedStyleInd);
 		verifyStyleCombo.addSelectionListener(new SelectionListener() {
-
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getVerificationElement().setVerifyStyle(VerifyStyleType.get(verifyStyleCombo.getText()));
@@ -159,7 +182,8 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-
+		align.applyTo(verifyStyleCombo);
+		
 		Button unverifiedChildrenCheck = new Button(parent, SWT.CHECK);
 		unverifiedChildrenCheck.setText("Allow uncaptured children");
 		unverifiedChildrenCheck
@@ -168,8 +192,8 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 		dbc.bindValue(SWTObservables.observeSelection(unverifiedChildrenCheck),
 				EMFObservables.observeValue(getVerificationElement(),
 						TreePackage.Literals.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN));
-
 		align.applyTo(unverifiedChildrenCheck);
+
 		// Button missingColumnsCheck = new Button(parent, SWT.CHECK);
 		// missingColumnsCheck.setText("Allow missing columns");
 		// missingColumnsCheck.setToolTipText("This verification may contain columns, which are not present in UI");
@@ -225,17 +249,19 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 			labelProvider.setIgnoreStyle(getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLES);
 			labelProvider
 					.setSkipStyledText(getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLED_TEXT);
-			viewer.refresh();
 			TreeColumn[] cols = viewer.getTree().getColumns();
 			if (getVerificationElement().isVerifyIcons()) {
 				for (int i = 0; i < cols.length; i++) {
-					cols[i].setImage(columnImages.get(i));
+					if (i<columnImages.size())
+						cols[i].setImage(columnImages.get(i));
 				}
 			} else {
 				for (int i = 0; i < cols.length; i++) {
 					cols[i].setImage(null);
 				}
 			}
+			viewer.refresh();
+			verifyStyleCombo.setEnabled(getVerificationElement().isEnableVerifyStyle());
 			treeComposite.setRedraw(true);
 		}
 
@@ -279,25 +305,8 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 						.getImages());
 
 				treeComposite.setRedraw(false);
-				viewer = createTreeWidget(treeComposite, treeData);
+				viewer = createTreeWidget(treeComposite, treeData, images);
 
-				for (Column column : treeData.getColumns()) {
-					TreeViewerColumn viewerColumn = new TreeViewerColumn(viewer, column.getStyle());
-					viewerColumn.getColumn().setText(column.getName());
-					viewerColumn.getColumn().setWidth(column.getWidth());
-					viewerColumn.getColumn().setToolTipText(column.getTooltip());
-
-					String imgPath = TreeVerificationUtils.getDecoratedImagePath(column.getImage());
-					if (images.containsKey(imgPath)) {
-						Image img = images.get(imgPath);
-						columnImages.add(img);
-						if (getVerificationElement().isVerifyIcons()) {
-							viewerColumn.getColumn().setImage(img);
-						}
-					} else {
-						columnImages.add(null);
-					}
-				}
 				if (treeData.getSortColumnInd() != -1) {
 					viewer.getTree().setSortColumn(viewer.getTree().getColumn(treeData.getSortColumnInd()));
 					viewer.getTree().setSortDirection(treeData.getSortDirection());
@@ -309,6 +318,11 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 				viewer.setLabelProvider(labelProvider);
 				viewer.setContentProvider(new VerificationTreeContentProvider());
 				viewer.setInput(treeData.getRows());
+
+				viewer.expandAll();
+
+				widgetObservable.updateOutputFormat();
+				
 				treeComposite.setRedraw(true);
 			}
 		}
@@ -321,11 +335,11 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 			return result;
 		}
 
-		private TreeViewer createTreeWidget(Composite parent, Tree treeData) {
+		private TreeViewer createTreeWidget(Composite parent, Tree treeData, Map<String, Image> images) {
 			for (Control control : parent.getChildren()) {
 				control.dispose();
 			}
-			TreeViewer viewer = new TreeViewer(parent, treeData.getStyle());
+			TreeViewer viewer = new TreeViewer(parent, treeData.getStyle() | SWT.FULL_SELECTION);
 			org.eclipse.swt.widgets.Tree tree = viewer.getTree();
 			tree.setEnabled(treeData.isEnabled());
 			tree.setHeaderVisible(treeData.isHeaderVisible());
@@ -339,13 +353,84 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 				}
 			});
 
-			GridDataFactory.fillDefaults().
-					grab(true, true).
-					hint(100, 10).
-					applyTo(viewer.getTree());
+			TreeViewerEditor.create(viewer, new ColumnViewerEditorActivationStrategy(viewer) {
+				protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
+					return (super.isEditorActivationEvent(event) && (getVerificationElement().getVerifyStyle()
+							.getValue() == VerifyStyleType.IGNORE_STYLED_TEXT_VALUE));
+				}
+			}, ColumnViewerEditor.DEFAULT);
+
+			String[] columnProperties = new String[treeData.getColumns().size()];
+			CellEditor[] cellEditors = new CellEditor[treeData.getColumns().size()];
+
+			for (int columnNum = 0; columnNum < treeData.getColumns().size(); columnNum++) {
+				final TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.NONE);
+
+				// apply only for table verifications
+				Column treeColumn = treeData.getColumns().get(columnNum);
+				column.getColumn().setText(treeColumn.getName());
+				column.getColumn().setWidth(treeColumn.getWidth());
+				column.getColumn().setToolTipText(treeColumn.getTooltip());
+
+				String imgPath = TreeVerificationUtils.getDecoratedImagePath(treeColumn.getImage());
+				if (images.containsKey(imgPath)) {
+					Image img = images.get(imgPath);
+					columnImages.add(img);
+					if (getVerificationElement().isVerifyIcons()) {
+						column.getColumn().setImage(img);
+					}
+				} else {
+					columnImages.add(null);
+				}
+				column.setLabelProvider(new ColumnLabelProvider());
+				columnProperties[columnNum] = "" + columnNum;
+				cellEditors[columnNum] = new TextCellEditor(tree);
+			}
+
+			if (treeData.getColumns().size() == 0) {
+				//  initial for tree
+				viewer.setColumnProperties(new String[] { "0" });
+				viewer.setCellEditors(new CellEditor[] { new TextCellEditor(tree) });
+			} else {
+				viewer.setColumnProperties(columnProperties);
+				viewer.setCellEditors(cellEditors);
+			}
+
+			viewer.setCellModifier(new ICellModifier() {
+				public void modify(Object element, String property, Object value) {
+					String newValue = (String) value;
+					int index = Integer.parseInt(property);
+					if (((TreeItem) element).getData() instanceof Row) {
+						Cell cellItem = ((Row) ((TreeItem) element).getData()).getValues().get(index);
+						if (newValue != null && !cellItem.getData().getText().equals(newValue)) {
+							cellItem.getData().setText(newValue);
+							cellItem.getStyle().clear();
+							getVerificationElement().setEnableVerifyStyle(false);
+							updateOutputFormat();
+						}
+					}
+				}
+
+				public Object getValue(Object element, String property) {
+					String result = "";
+					if (element instanceof Row) {
+						int index = Integer.parseInt(property);
+						Cell cellItem = ((Row) element).getValues().get(index);
+						result = WidgetModels.getTextWithoutStyle(cellItem.getStyle(), cellItem.getData().getText());
+					}
+					return result;
+				}
+
+				public boolean canModify(Object element, String property) {
+					return getVerificationElement().getVerifyStyle()
+							.getValue() == VerifyStyleType.IGNORE_STYLED_TEXT_VALUE;
+				}
+			});
+
+			GridDataFactory.fillDefaults().grab(true, true).hint(100, 10).applyTo(viewer.getTree());
 			parent.layout(true, true);
+
 			return viewer;
 		}
 	}
-
 }

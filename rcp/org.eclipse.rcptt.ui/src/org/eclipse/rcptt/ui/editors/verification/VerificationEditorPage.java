@@ -136,7 +136,6 @@ public class VerificationEditorPage extends NamedElementEditorPage implements IG
 				((VerificationEditor) getEditor()).setVerificationActions(((IQ7EditorActionsProvider) editor)
 						.createActions());
 			}
-
 			ImageDescriptor descriptor = viewer.getIcon();
 			if (descriptor != null) {
 				Image img = imageManager.getImage(descriptor);
@@ -185,7 +184,6 @@ public class VerificationEditorPage extends NamedElementEditorPage implements IG
 			imageManager.dispose();
 			imageManager = null;
 		}
-
 	}
 
 	@Override
