@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.rcptt.tesla.core.protocol.GetState;
 import org.eclipse.rcptt.tesla.core.protocol.Nop;
 import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
+import org.eclipse.rcptt.tesla.core.protocol.UpdateControlCommand;
 import org.eclipse.rcptt.tesla.core.protocol.WaitForState;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
 import org.eclipse.rcptt.tesla.core.protocol.raw.CommandToElementEntry;
@@ -52,12 +53,11 @@ public class TeslaScenarioContainer {
 		this.scenario = scenario;
 	}
 
-	public synchronized void add(Command command, List<Element> elements,
-			List<Widget> controls, List<RawEvent> rawEvents) {
+	public synchronized void add(Command command, List<Element> elements, List<Widget> controls,
+			List<RawEvent> rawEvents) {
 		// eclipse 3.4 compatibility:
 		// EcoreUtil.copy raise exception if argument is null
-		Command copy = (command != null) ? (Command) EcoreUtil.copy(command)
-				: null;
+		Command copy = (command != null) ? (Command) EcoreUtil.copy(command) : null;
 		if (copy != null) {
 			scenario.getCommands().add(copy);
 			setElements(elements, copy, controls);
@@ -65,38 +65,30 @@ public class TeslaScenarioContainer {
 		}
 	}
 
-	public synchronized void add(int index, Command command,
-			List<Element> elements, List<Widget> controls,
+	public synchronized void add(int index, Command command, List<Element> elements, List<Widget> controls,
 			List<RawEvent> rawEvents) {
 		// eclipse 3.4 compatibility:
 		// EcoreUtil.copy raise exception if argument is null
-		Command copy = (command != null) ? (Command) EcoreUtil.copy(command)
-				: null;
+		Command copy = (command != null) ? (Command) EcoreUtil.copy(command) : null;
 		scenario.getCommands().add(index, copy);
 		setElements(elements, copy, controls);
 		setEvents(copy, rawEvents);
 	}
 
-	private synchronized void setElements(List<Element> elements, Command copy,
-			List<Widget> controls) {
+	private synchronized void setElements(List<Element> elements, Command copy, List<Widget> controls) {
 		if (elements != null && elements.size() > 0) {
-			CommandToElementEntry entry = RawFactory.eINSTANCE
-					.createCommandToElementEntry();
+			CommandToElementEntry entry = RawFactory.eINSTANCE.createCommandToElementEntry();
 			entry.setCommand(copy);
 			for (Element element : elements) {
 				// eclipse 3.4 compatibility:
 				// EcoreUtil.copy raise exception if argument is null
-				entry.getElements().add(
-						(element != null) ? (Element) EcoreUtil.copy(element)
-								: null);
+				entry.getElements().add((element != null) ? (Element) EcoreUtil.copy(element) : null);
 			}
 			if (controls != null) {
 				for (Widget control : controls) {
 					// eclipse 3.4 compatibility:
 					// EcoreUtil.copy raise exception if argument is null
-					entry.getControls().add(
-							(control != null) ? (Widget) EcoreUtil
-									.copy(control) : null);
+					entry.getControls().add((control != null) ? (Widget) EcoreUtil.copy(control) : null);
 				}
 			}
 			scenario.getElementMapping().add(entry);
@@ -105,15 +97,12 @@ public class TeslaScenarioContainer {
 
 	private synchronized void setEvents(Command copy, List<RawEvent> events) {
 		if (events != null && events.size() > 0) {
-			CommandToRawEntry entry = RawFactory.eINSTANCE
-					.createCommandToRawEntry();
+			CommandToRawEntry entry = RawFactory.eINSTANCE.createCommandToRawEntry();
 			entry.setCommand(copy);
 			for (RawEvent event : events) {
 				// eclipse 3.4 compatibility:
 				// EcoreUtil.copy raise exception if argument is null
-				entry.getRawEvents().add(
-						(event != null) ? (RawEvent) EcoreUtil.copy(event)
-								: null);
+				entry.getRawEvents().add((event != null) ? (RawEvent) EcoreUtil.copy(event) : null);
 			}
 			scenario.getRawMapping().add(entry);
 		}
@@ -143,8 +132,7 @@ public class TeslaScenarioContainer {
 	}
 
 	public synchronized List<Element> getElements(Command cmd) {
-		EList<CommandToElementEntry> elementMapping = scenario
-				.getElementMapping();
+		EList<CommandToElementEntry> elementMapping = scenario.getElementMapping();
 		for (CommandToElementEntry commandToElementEntry : elementMapping) {
 			if (commandToElementEntry.getCommand().equals(cmd)) {
 				return commandToElementEntry.getElements();
@@ -154,8 +142,7 @@ public class TeslaScenarioContainer {
 	}
 
 	public synchronized List<Widget> getControls(Command cmd) {
-		EList<CommandToElementEntry> elementMapping = scenario
-				.getElementMapping();
+		EList<CommandToElementEntry> elementMapping = scenario.getElementMapping();
 		for (CommandToElementEntry commandToElementEntry : elementMapping) {
 			if (commandToElementEntry.getCommand().equals(cmd)) {
 				return commandToElementEntry.getControls();
@@ -167,8 +154,7 @@ public class TeslaScenarioContainer {
 	public synchronized TeslaScenario getScenarioCopy() {
 		// eclipse 3.4 compatibility:
 		// EcoreUtil.copy raise exception if argument is null
-		return (scenario != null) ? (TeslaScenario) EcoreUtil.copy(scenario)
-				: null;
+		return (scenario != null) ? (TeslaScenario) EcoreUtil.copy(scenario) : null;
 	}
 
 	public boolean isEmpty() {
@@ -289,16 +275,19 @@ public class TeslaScenarioContainer {
 		this.scenario.setId(name);
 	}
 
-	public void processTransfer(Command command, List<Element> elements,
-			CommandTransferKind kind, List<Widget> controls, int index,
-			List<RawEvent> rawEvents) {
+	public void processTransfer(Command command, List<Element> elements, CommandTransferKind kind,
+			List<Widget> controls, int index, List<RawEvent> rawEvents) {
+
+		if (isSystemFilteredCommand(command)) {
+			// Doesn't pass to container since command is system one.
+			return;
+		}
 		switch (kind) {
 		case REMOVE:
 			this.remove(index);
 			break;
 		case INSERT_BEFORE:
-			this.add(this.size() - index, command, elements, controls,
-					rawEvents);
+			this.add(this.size() - index, command, elements, controls, rawEvents);
 			break;
 		case REPLACE_PREVIOUS:
 			if (rawEvents != null && scenario.getCommands().size() > 0) {
@@ -312,8 +301,8 @@ public class TeslaScenarioContainer {
 			EList<Command> commands = scenario.getCommands();
 			for (int i = commands.size() - 1; i >= 0; i--) {
 				Command cmd = commands.get(i);
-				if (cmd instanceof SelectCommand || cmd instanceof WaitForState
-						|| cmd instanceof GetState || cmd instanceof Nop) {
+				if (cmd instanceof SelectCommand || cmd instanceof WaitForState || cmd instanceof GetState
+						|| cmd instanceof Nop) {
 					continue;
 				}
 				this.add(i, command, elements, controls, rawEvents);
@@ -324,6 +313,10 @@ public class TeslaScenarioContainer {
 			this.add(command, elements, controls, rawEvents);
 			break;
 		}
+	}
+
+	private boolean isSystemFilteredCommand(Command command) {
+		return command instanceof UpdateControlCommand;
 	}
 
 	public int size() {
