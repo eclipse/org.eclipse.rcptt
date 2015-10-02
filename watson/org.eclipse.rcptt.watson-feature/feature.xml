@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.watson"
-      label="RCPTT Eclipse runtime information collectors (Incubation)"
+      label="RCPTT Eclipse runtime information collectors"
       version="2.0.0.qualifier"
       provider-name="Eclipse RCP Testing Tool Project">
 

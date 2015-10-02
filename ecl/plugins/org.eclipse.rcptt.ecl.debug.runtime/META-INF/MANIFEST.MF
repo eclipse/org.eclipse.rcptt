@@ -17,7 +17,7 @@ Export-Package: org.eclipse.rcptt.ecl.debug.commands,
  org.eclipse.rcptt.ecl.internal.debug.runtime
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.rcptt.ecl.core;visibility:=reexport,
- org.eclipse.rcptt.ecl.parser
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
+ org.eclipse.rcptt.ecl.parser;bundle-version="[2.0.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.ecl.internal.debug.runtime.EclDebugRuntimePlugin

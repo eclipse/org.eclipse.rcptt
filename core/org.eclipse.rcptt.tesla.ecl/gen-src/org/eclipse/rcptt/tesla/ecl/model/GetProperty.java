@@ -21,13 +21,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetProperty#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetProperty#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetProperty#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetProperty#isRaw <em>Raw</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetProperty()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets property of UI control. Assertion mode and assertion window can be used for discovering of actual property names' returns='Property handler for further verification (like during recording), or actual property value as string, when <code>-raw</code> option is specified' recorded='true' example='get-view Tasks | get-tree | get-property itemCount | equals 1 | verify-true'"

@@ -1,17 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Record/Replay support for forms (Incubation)
+Bundle-Name: Record/Replay support for forms
 Bundle-SymbolicName: org.eclipse.rcptt.forms.impl;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Xored Software Inc.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.rcptt.tesla.core,
- org.eclipse.rcptt.tesla.swt,
+ org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.swt;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.ui.forms,
- org.eclipse.rcptt.tesla.recording.core,
- org.eclipse.rcptt.tesla.recording.aspects.swt,
- org.eclipse.rcptt.tesla.recording.swt,
- org.eclipse.rcptt.tesla.recording.aspects.forms,
- org.eclipse.rcptt.ecl.core
+ org.eclipse.rcptt.tesla.recording.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.recording.aspects.swt;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.recording.swt;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.recording.aspects.forms;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)"
 

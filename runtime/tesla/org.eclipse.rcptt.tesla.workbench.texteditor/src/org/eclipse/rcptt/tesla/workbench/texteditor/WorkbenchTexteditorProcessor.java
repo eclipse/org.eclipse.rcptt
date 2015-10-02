@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.util.swt.Events;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -478,7 +478,11 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 				player.addMouseWidgetInfo(control, x, y);
 				styledText.forceFocus();
-				styledText.getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
 				while (display.readAndDispatch())
 					;
 				eventSender.sendFocus(control);
@@ -570,7 +574,11 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 						e.x = point.x;
 						e.y = point.y;
 						getPlayer().addMouseWidgetInfo(styledText, e.x, e.y);
-						styledText.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
+						} catch (CoreException exc) {
+							throw new RuntimeException(exc);
+						}
 						styledText.forceFocus();
 						e.stateMask = SWT.MOD1;
 						e.count = 1;
@@ -623,7 +631,11 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 				e.y = point.y;
 				getPlayer().addMouseWidgetInfo(styledText, e.x, e.y);
 				events.sendEvent(styledText.getShell(), SWT.Deactivate);
-				styledText.getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
+				} catch (CoreException exc) {
+					throw new RuntimeException(exc);
+				}
 				styledText.forceFocus();
 				e.stateMask = command.getStateMask();
 				e.type = SWT.MouseMove;

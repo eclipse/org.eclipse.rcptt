@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetText#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets text content of a control. If this text doesn\'t exist, then error is returned.' returns='text content of a control' recorded='true' example='get-editor \"WorkbenchContext\" | get-control -kind \"Label\" | get-text | equals \"Name:\" | verify-true'"

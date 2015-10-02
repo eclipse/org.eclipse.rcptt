@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverRuler#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverRuler#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverRuler#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getHoverRuler()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Perform mouse hover at specific text position.' returns='value of *control* parameter'"

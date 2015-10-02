@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isNowait <em>Nowait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isArrow <em>Arrow</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClick()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a control.' returns='value of <code>control</code> parameter' recorded='true' example='get-editor TestSuite | get-section \"Test Cases\" | get-button \"Add Test Case\" | click'"

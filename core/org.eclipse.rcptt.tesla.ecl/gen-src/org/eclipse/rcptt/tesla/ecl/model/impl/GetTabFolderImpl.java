@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTabFolderImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTabFolderImpl#getAfter <em>After</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTabFolderImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTabFolderImpl#getParent <em>Parent</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

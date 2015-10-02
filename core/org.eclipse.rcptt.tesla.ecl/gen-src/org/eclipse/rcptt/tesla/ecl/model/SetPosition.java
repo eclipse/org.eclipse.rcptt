@@ -17,10 +17,10 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetPosition#getIndex <em>Index</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetPosition()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets position of a table column.' returns='value of <code>control</code> parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-position 4'"

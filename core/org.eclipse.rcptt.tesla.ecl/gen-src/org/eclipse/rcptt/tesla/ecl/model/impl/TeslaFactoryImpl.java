@@ -77,6 +77,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
 import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
+import org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox;
 import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetLink;
 import org.eclipse.rcptt.tesla.ecl.model.GetList;
@@ -114,6 +115,7 @@ import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
 import org.eclipse.rcptt.tesla.ecl.model.KeyType;
 import org.eclipse.rcptt.tesla.ecl.model.Matches;
 import org.eclipse.rcptt.tesla.ecl.model.Maximize;
+import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
 import org.eclipse.rcptt.tesla.ecl.model.Minimize;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
 import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
@@ -175,7 +177,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	 */
 	public static TeslaFactory init() {
 		try {
-			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/tesla/ecl"); 
+			TeslaFactory theTeslaFactory = (TeslaFactory)EPackage.Registry.INSTANCE.getEFactory(TeslaPackage.eNS_URI);
 			if (theTeslaFactory != null) {
 				return theTeslaFactory;
 			}
@@ -342,6 +344,8 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 			case TeslaPackage.DECRYPT: return createDecrypt();
 			case TeslaPackage.DECRYPT_RESULT: return createDecryptResult();
 			case TeslaPackage.RESTART_AUT: return createRestartAut();
+			case TeslaPackage.MESSAGE_BOX_INFO: return createMessageBoxInfo();
+			case TeslaPackage.GET_LAST_MESSAGE_BOX: return createGetLastMessageBox();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -1636,6 +1640,26 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	public RestartAut createRestartAut() {
 		RestartAutImpl restartAut = new RestartAutImpl();
 		return restartAut;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageBoxInfo createMessageBoxInfo() {
+		MessageBoxInfoImpl messageBoxInfo = new MessageBoxInfoImpl();
+		return messageBoxInfo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetLastMessageBox createGetLastMessageBox() {
+		GetLastMessageBoxImpl getLastMessageBox = new GetLastMessageBoxImpl();
+		return getLastMessageBox;
 	}
 
 	/**

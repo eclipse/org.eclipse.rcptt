@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SelectRange#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SelectRange#getLine <em>Line</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SelectRange#getEndLine <em>End Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SelectRange#getEndColumn <em>End Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelectRange()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of *control* parameter' example='with [get-editor \"file.txt\" | get-text-viewer] {\n    select-range 1 2 5 8\n    get-menu Cut | click\n}'"

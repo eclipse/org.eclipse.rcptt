@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Runtime ECL Implementation (Incubation)
+Bundle-Name: RCPTT Runtime ECL Implementation
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.ecl.impl;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.rcptt.tesla.ecl;bundle-version="[2.0.0,3.0.0)",
@@ -18,12 +18,12 @@ Require-Bundle: org.eclipse.rcptt.tesla.ecl;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.watson.core;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.rcptt.reporting;bundle-version="[2.0.0,3.0.0)",
  org.eclipse.debug.core;resolution:=optional;x-installation:=greedy,
- org.eclipse.rcptt.util.swt;bundle-version="1.0.0",
- org.eclipse.rcptt.util;bundle-version="1.0.0",
- org.eclipse.rcptt.ecl.data;bundle-version="1.0.0",
- org.eclipse.rcptt.core.ecl.core,
- org.eclipse.rcptt.ecl.dispatch;bundle-version="1.1.0",
- org.eclipse.rcptt.tesla.recording.swt
+ org.eclipse.rcptt.util.swt;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.util;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.data;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.core.ecl.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.ecl.dispatch;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.recording.swt;bundle-version="[2.0.0,3.0.0)"
 Bundle-Activator: org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.tesla.ecl.impl,

@@ -30,6 +30,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetPaletteEntryImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetPaletteEntryImpl#getAfter <em>After</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetPaletteEntryImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetPaletteEntryImpl#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

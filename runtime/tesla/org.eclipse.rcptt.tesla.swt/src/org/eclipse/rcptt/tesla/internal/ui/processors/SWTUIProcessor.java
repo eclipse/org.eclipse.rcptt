@@ -183,6 +183,7 @@ import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 import org.eclipse.rcptt.tesla.ui.describers.IWidgetDescriber;
 import org.eclipse.rcptt.tesla.ui.describers.WidgetDescriber;
 import org.eclipse.rcptt.util.StringUtils;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.util.swt.StringLines;
 import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
@@ -953,7 +954,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
 						if (command.isValue()) {
-							control.getShell().forceActive();
+							try {
+								ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+							} catch (CoreException e) {
+								throw new RuntimeException(e);
+							}
 							control.setFocus();
 							control.forceFocus();
 							events.sendEvent(control, SWT.MouseEnter);
@@ -1020,7 +1025,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					public void run() {
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
-						control.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 						events.sendFocus(control);
 						control.setSelection(start, end);
 						// Do a mouse Down/Up for a selected position
@@ -1084,7 +1093,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					public void run() {
 						SWTEvents events = new SWTEvents(getPlayer()
 								.getDisplay());
-						control.getShell().forceActive();
+						try {
+							ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
+						} catch (CoreException e) {
+							throw new RuntimeException(e);
+						}
 						events.sendFocus(control);
 						control.setSelection(finalStart, finalEnd);
 
@@ -1423,7 +1436,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				e.y = point.y;
 				getPlayer().addMouseWidgetInfo(styledText, e.x, e.y);
 				events.sendEvent(styledText.getShell(), SWT.Deactivate);
-				styledText.getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
+				} catch (CoreException exc) {
+					throw new RuntimeException(exc);
+				}
 				styledText.forceFocus();
 				e.type = SWT.MouseMove;
 				events.sendEvent(styledText, e);
@@ -1552,46 +1569,67 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	}
 
 	private Response handleSetSWTDialogInfo(final SetSWTDialogInfo command) {
+		final boolean isCanceled = command.getPath() == null || command.getPath().size() == 0;
 		switch (command.getKind()) {
 		case FILE_SELECTOR:
-			boolean fileProcessSuccess = true;
-			String problemPath = "";
-			for (String currentPath : command.getPath()) {
-				fileProcessSuccess = fileProcessSuccess
-						&& processFileDialogValue(currentPath);
-				if (!fileProcessSuccess) {
-					problemPath = currentPath;
-					break;
+			if (isCanceled) {
+				SWTDialogManager.addFileDialogInfo(null);
+			} else {
+				boolean fileProcessSuccess = true;
+				String problemPath = "";
+				for (String currentPath : command.getPath()) {
+					fileProcessSuccess = fileProcessSuccess
+							&& processFileDialogValue(currentPath);
+					if (!fileProcessSuccess) {
+						problemPath = currentPath;
+						break;
+					}
 				}
-			}
-
-			if (!fileProcessSuccess) {
-				SWTDialogManager.resetFileDialogInfo();
-				final BooleanResponse response = factory
-						.createBooleanResponse();
-				response.setResult(false);
-				response.setMessage("Failed to map file location:"
-						+ problemPath + " to workspace location");
-				response.setStatus(ResponseStatus.FAILED);
-				return response;
+	
+				if (!fileProcessSuccess) {
+					SWTDialogManager.resetFileDialogInfo();
+					final BooleanResponse response = factory
+							.createBooleanResponse();
+					response.setResult(false);
+					response.setMessage("Failed to map file location:"
+							+ problemPath + " to workspace location");
+					response.setStatus(ResponseStatus.FAILED);
+					return response;
+				}
 			}
 			break;
 		case FOLDER_SELECTOR:
-			String resolvedPath = resolvePath(command.getPath().get(0));
-			if (resolvedPath != null) {
-				SWTDialogManager.addFolderDialogInfo(resolvedPath);
+			if (isCanceled) {
+				SWTDialogManager.addFolderDialogInfo(null);
+			} else {
+				String resolvedPath = resolvePath(command.getPath().get(0));
+				if (resolvedPath != null) {
+					SWTDialogManager.addFolderDialogInfo(resolvedPath);
+				}
 			}
 			break;
 		case MESSAGE_BOX:
-			SWTDialogManager.addMessageBoxInfo(Integer.valueOf(command
-					.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addMessageBoxInfo(SWT.CANCEL);
+			} else {
+				SWTDialogManager.addMessageBoxInfo(Integer.valueOf(command
+						.getPath().get(0)));
+			}
 			break;
 		case FONT_DIALOG:
-			SWTDialogManager
-					.addFontInfo(new FontData(command.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addFontInfo(null);
+			} else {
+				SWTDialogManager
+						.addFontInfo(new FontData(command.getPath().get(0)));
+			}
 			break;
 		case COLOR:
-			SWTDialogManager.addColorInfo(getColor(command.getPath().get(0)));
+			if (isCanceled) {
+				SWTDialogManager.addColorInfo(null);
+			} else {
+				SWTDialogManager.addColorInfo(getColor(command.getPath().get(0)));
+			}
 			break;
 		}
 		final BooleanResponse response = factory.createBooleanResponse();

@@ -29,11 +29,11 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.TypeCommandKeyImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.TypeCommandKeyImpl#getCommandId <em>Command Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

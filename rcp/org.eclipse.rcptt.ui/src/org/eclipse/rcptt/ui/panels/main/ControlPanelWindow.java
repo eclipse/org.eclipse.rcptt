@@ -78,6 +78,7 @@ import org.eclipse.rcptt.ui.recording.RecordingSupport;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -882,7 +883,11 @@ public class ControlPanelWindow extends Dialog {
 			dbc.dispose();
 			parentShell.removeShellListener(closeListener);
 			parentShell.setMinimized(false);
-			parentShell.forceActive();
+			try {
+				ShellUtilsProvider.getShellUtils().forceActive(parentShell);
+			} catch (CoreException e) {
+				throw new RuntimeException(e);
+			}
 			parentShell.setFocus();
 			ITestCase model = getModel();
 			if (model != null && model.exists()) {

@@ -149,6 +149,20 @@ public class CommandsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CommandsPackage.TO_CLIPBOARD: {
+				ToClipboard toClipboard = (ToClipboard)theEObject;
+				T result = caseToClipboard(toClipboard);
+				if (result == null) result = caseCommand(toClipboard);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CommandsPackage.FROM_CLIPBOARD: {
+				FromClipboard fromClipboard = (FromClipboard)theEObject;
+				T result = caseFromClipboard(fromClipboard);
+				if (result == null) result = caseCommand(fromClipboard);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -270,6 +284,36 @@ public class CommandsSwitch<T> {
 	 * @generated
 	 */
 	public T caseSaveScreenshot(SaveScreenshot object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>To Clipboard</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>To Clipboard</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseToClipboard(ToClipboard object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>From Clipboard</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>From Clipboard</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFromClipboard(FromClipboard object) {
 		return null;
 	}
 

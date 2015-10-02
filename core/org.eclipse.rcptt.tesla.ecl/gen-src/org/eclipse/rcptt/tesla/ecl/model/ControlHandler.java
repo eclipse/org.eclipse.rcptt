@@ -25,6 +25,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ControlHandler#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ControlHandler#getCustomKindId <em>Custom Kind Id</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ControlHandler#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ControlHandler#getRawImage <em>Raw Image</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getControlHandler()
  * @model

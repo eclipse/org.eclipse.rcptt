@@ -23,10 +23,10 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <em><b>Show Alert</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ShowAlertImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.tesla.ecl.runtime"
-      label="RCPTT Runtime ECL Support (Incubation)"
-      version="2.0.0.qualifier"
+      label="RCPTT Runtime ECL Support"
+      version="2.1.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -19,8 +19,8 @@
 
    <requires>
       <import feature="org.eclipse.rcptt.tesla" version="2.0.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.tesla.runtime" version="2.0.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.ecl.core" version="2.0.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.tesla.runtime" version="2.1.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="2.1.0.qualifier"/>
       <import plugin="org.eclipse.rcptt.tesla.ecl"/>
    </requires>
 
@@ -28,7 +28,7 @@
          id="org.eclipse.rcptt.tesla.ecl.impl"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
 </feature>

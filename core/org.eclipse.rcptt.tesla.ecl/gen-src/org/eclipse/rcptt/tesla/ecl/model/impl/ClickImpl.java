@@ -29,13 +29,13 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isNowait <em>Nowait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isArrow <em>Arrow</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

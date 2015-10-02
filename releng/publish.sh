@@ -11,8 +11,8 @@ set -x -e
 source $WORKSPACE/repository/full/target/publisher.properties
 echo "productVersion: $productVersion"
 echo "productQualifier: $productQualifier"
-qualifiedDecoration=incubation-$productVersion-$typeAbbr$productQualifier
-unqualifiedDecoration=incubation-$productVersion-$type
+qualifiedDecoration=$productVersion-$typeAbbr$productQualifier
+unqualifiedDecoration=$productVersion-$type
 
 # where all downloads of this branch reside
 test -d $downloadsHome/$type || exit 1 #folder for type should already exist

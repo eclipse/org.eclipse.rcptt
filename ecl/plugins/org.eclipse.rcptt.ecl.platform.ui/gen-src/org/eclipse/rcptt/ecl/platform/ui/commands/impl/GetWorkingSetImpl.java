@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.GetWorkingSet;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.GetWorkingSetImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

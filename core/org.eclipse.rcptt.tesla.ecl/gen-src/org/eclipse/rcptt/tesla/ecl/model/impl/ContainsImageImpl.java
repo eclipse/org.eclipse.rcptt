@@ -25,12 +25,12 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <em><b>Contains Image</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ContainsImageImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ContainsImageImpl#getImageURI <em>Image URI</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ContainsImageImpl#getRawImage <em>Raw Image</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Recognize#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Recognize#getX <em>X</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Recognize#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Recognize#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getRecognize()
  * @model

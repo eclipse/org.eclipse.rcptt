@@ -7,8 +7,8 @@ Bundle-Activator: org.eclipse.rcptt.verifications.text.Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.rcptt.core,
- org.eclipse.rcptt.tesla.core
+ org.eclipse.rcptt.core;bundle-version="[2.0.0,3.0.0)",
+ org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.verifications.text

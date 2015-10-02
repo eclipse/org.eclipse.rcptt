@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.bindings.keys.KeySequence;
@@ -49,7 +50,6 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.rcptt.logging.IQ7ActivityLogs;
 import org.eclipse.rcptt.logging.Q7LoggingManager;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
@@ -72,6 +72,7 @@ import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessor;
 import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 
 public class SWTAssertManager implements IRecordingProcessor,
 		IAssertSWTEventListener, ISkipAwareEventListener {
@@ -154,7 +155,11 @@ public class SWTAssertManager implements IRecordingProcessor,
 					public void run() {
 						Shell shell = display.getActiveShell();
 						if (shell != null) {
-							shell.forceActive();
+							try {
+								ShellUtilsProvider.getShellUtils().forceActive(shell);
+							} catch (CoreException e) {
+								throw new RuntimeException(e);
+							}
 							if (beforeFreezeFocus != null) {
 								// beforeFreezeFocus.forceFocus();
 								// beforeFreezeFocus = null;
@@ -164,7 +169,11 @@ public class SWTAssertManager implements IRecordingProcessor,
 											.getManager().getShellCreationMethod(s);
 									if ("AbstractTableInformationControl.<init>()"
 											.equals(creationMethod)) {
-										s.forceActive();
+										try {
+											ShellUtilsProvider.getShellUtils().forceActive(s);
+										} catch (CoreException e) {
+											throw new RuntimeException(e);
+										}
 										s.forceFocus();
 										// new SWTEvents(display).sendEvent(s,
 										// SWT.Activate);

@@ -62,6 +62,16 @@
             name="SaveScreenshot"
             namespace="http://www.eclipse.org/ecl/platform.ui/commands.ecore">
       </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.platform.internal.ui.commands.ToClipboardService"
+            name="ToClipboard"
+            namespace="http://www.eclipse.org/ecl/platform.ui/commands.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.platform.internal.ui.commands.FromClipboardService"
+            name="FromClipboard"
+            namespace="http://www.eclipse.org/ecl/platform.ui/commands.ecore">
+      </scriptlet>
    </extension>
 
 </plugin>

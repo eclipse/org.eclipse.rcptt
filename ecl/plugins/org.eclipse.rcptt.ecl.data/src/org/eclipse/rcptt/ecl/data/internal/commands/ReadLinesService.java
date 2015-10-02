@@ -38,10 +38,6 @@ public class ReadLinesService implements ICommandService {
 		try {
 			URI uri = new URI(((ReadLines) command).getUri());
 			EclFile file = FileResolver.resolve(uri);
-
-			if (file != null) {
-				uri = file.toURI();
-			}
 			br = new BufferedReader(new InputStreamReader(file.read()));
 			String line = "";
 			while ((line = br.readLine()) != null) {

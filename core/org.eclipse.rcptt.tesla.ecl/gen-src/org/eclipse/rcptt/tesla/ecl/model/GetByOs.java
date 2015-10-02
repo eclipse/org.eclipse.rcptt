@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetByOs#getDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetByOs#getWin <em>Win</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetByOs#getLinux <em>Linux</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetByOs#getMacosx <em>Macosx</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetByOs()
  * @model annotation="http://www.eclipse.org/ecl/docs description='<p>Returns value depending on current operating system. This allows to create cross-platform tests in cases when assertion values slightly differ on various operating system &ndash; this command can be used as an argument for commands like <code>equals</code>:</p>\r\n<pre>\r\n... | get-property \"text\" | equals [\r\n      get-by-os -macosx \"Mac value\" -win \"Windows value\" -linux \"Linux value\"\r\n    ] | verify-true\r\n</pre>\r\n<p>When two platforms have the same value, it is convenient to use <code>-default</code> argument. For example, if some value is the same on Linux and Mac OS X, but differs on Windows, <code>get-by-os</code> can be used like this:</p>\r\n<pre>\r\n  get-by-os -win \"Windows value\" -default \"Mac OS X and Linux value\"\r\n</pre>\r\n' returns='Value of an argument corresponding to current platform, or value of <code>default</code> argument.'"

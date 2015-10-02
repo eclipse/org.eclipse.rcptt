@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Get Advanced Info</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

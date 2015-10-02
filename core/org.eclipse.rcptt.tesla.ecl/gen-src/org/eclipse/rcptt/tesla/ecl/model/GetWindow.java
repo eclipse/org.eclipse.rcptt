@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetWindow#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetWindow#getFrom <em>From</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetWindow#getClass_ <em>Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetWindow()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Get window with defined name. If this window doesn\'t exist, then error is returned.' returns='window' recorded='true' example='get-window \"Select context\" | get-table | select \"ECL Context \\\\(Q7Project\\\\)\" | click -default'"

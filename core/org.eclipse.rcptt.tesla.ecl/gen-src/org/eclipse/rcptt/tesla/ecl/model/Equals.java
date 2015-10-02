@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Equals#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Equals#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getEquals()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Compares <code>input</code> with <code>value</code>' input='EObject input' returns='true if values are equal or false otherwise' example='get-view \"Q7 Explorer\" | get-tree | get-item Project | get-property childCount | equals 3 | verify-true'"

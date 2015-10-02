@@ -20,10 +20,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.GetHotkey#getCommandId <em>Command Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage#getGetHotkey()
  * @model

@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetItem#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetItem#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetItem()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets item at the specified path. If this item doesn\'t exist, then error is returned.' returns='item' recorded='true' example='get-view Breakpoints | get-tree  |  get-item CreateJavaProject  | get-property checked | equals false | verify-true'"

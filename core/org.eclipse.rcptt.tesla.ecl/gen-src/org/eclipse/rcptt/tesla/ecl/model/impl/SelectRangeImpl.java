@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectRangeImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectRangeImpl#getLine <em>Line</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectRangeImpl#getEndLine <em>End Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectRangeImpl#getEndColumn <em>End Column</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

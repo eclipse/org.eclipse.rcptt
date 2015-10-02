@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetTextSelection#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetTextSelection#getOffset <em>Offset</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetTextSelection#getEndLine <em>End Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetTextSelection#getEndOffset <em>End Offset</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of <code>control</code> parameter' example='get-editor Q7Project | get-section Script | get-editbox |  set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1'"

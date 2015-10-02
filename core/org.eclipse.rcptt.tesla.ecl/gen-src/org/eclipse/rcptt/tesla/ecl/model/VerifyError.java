@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyError#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getVerifyError()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Checks <code>input</code> conditions. \r\nIf the specified condition is not met (for example, the object is not returned), the verification is passed. \r\nIf the condition is met (for example, the object is selected), the verification is failed.' input='EObject condition' example='get-view \"Project Explorer\" | get-tree | verify-error {get-item \"TestProject\"}'"

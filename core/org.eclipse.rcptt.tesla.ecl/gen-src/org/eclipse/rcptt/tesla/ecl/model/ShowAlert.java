@@ -18,10 +18,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ShowAlert#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowAlert()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Displays a message.' returns='Nothing.' example='show-alert \"Hello!\"'"

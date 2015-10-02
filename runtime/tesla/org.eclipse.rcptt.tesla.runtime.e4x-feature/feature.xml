@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.rcptt.tesla.runtime"
-      label="RCPTT Runtime Eclipse 4.x (Incubation)"
-      version="2.0.0.qualifier"
+      label="RCPTT Runtime Eclipse 4.x"
+      version="2.1.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -27,14 +27,14 @@
          id="org.eclipse.rcptt.tesla.swt.e4x"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.workbench.aspects.e4x"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -245,7 +245,7 @@
          id="org.eclipse.rcptt.tesla.recording.swt"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -259,14 +259,14 @@
          id="org.eclipse.rcptt.tesla.swt"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.swt.aspects"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -295,7 +295,7 @@
          id="org.eclipse.rcptt.tesla.workbench.texteditor"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -309,28 +309,28 @@
          id="org.eclipse.rcptt.tesla.variables"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.properties.view"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.jdt"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.jdt.aspects"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
 </feature>

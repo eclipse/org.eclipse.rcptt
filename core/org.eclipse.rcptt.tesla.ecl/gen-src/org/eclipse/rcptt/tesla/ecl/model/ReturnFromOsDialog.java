@@ -20,11 +20,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ReturnFromOsDialog#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ReturnFromOsDialog#getResult <em>Result</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getReturnFromOsDialog()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates result returning from native dialog.' returns='nothing'"

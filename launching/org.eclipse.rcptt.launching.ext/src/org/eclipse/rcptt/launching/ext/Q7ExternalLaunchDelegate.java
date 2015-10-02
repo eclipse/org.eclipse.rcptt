@@ -530,6 +530,10 @@ public class Q7ExternalLaunchDelegate extends
 					+ IPath.SEPARATOR + SECURE_STORAGE_FILE_NAME);
 		}
 
+		IVMInstall install = VMHelper.getVMInstall(configuration);
+		programArgs.add("-vm");
+		programArgs.add(install.getInstallLocation().toString());
+
 		info.programArgs = programArgs.toArray(new String[programArgs.size()]);
 		Q7ExtLaunchingPlugin.getDefault().info(
 				Q7_LAUNCHING_AUT + configuration.getName()

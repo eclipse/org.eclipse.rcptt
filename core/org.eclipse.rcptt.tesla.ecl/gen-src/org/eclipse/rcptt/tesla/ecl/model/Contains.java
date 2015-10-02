@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Contains#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Contains#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getContains()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if <code>input</code> has <code>value</code> within  ' input='EObject input' returns='true if the content of control contains the specified value or false otherwise' example='get-editor TestCase1 | get-editbox | get-property value | contains a22 | verify-true'"

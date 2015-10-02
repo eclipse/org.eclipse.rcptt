@@ -21,13 +21,13 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectRows#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectRows#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectRows#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.SelectRows#getMatch <em>Match</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectRows()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table from input and returns the table with rows filtered by column and criteria.' returns='Copy of input table object with filtered rows.' example='select-rows -column \"columnName\" -value \"value\" -match exact|glob|regexp'"

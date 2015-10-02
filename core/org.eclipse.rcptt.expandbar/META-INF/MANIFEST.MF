@@ -14,7 +14,7 @@ Export-Package: org.eclipse.rcptt.expandbar,
  org.eclipse.rcptt.expandbar.widgets
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.rcptt.tesla.core;visibility:=reexport,
- org.eclipse.rcptt.ecl.core;visibility:=reexport,
- org.eclipse.rcptt.tesla.ecl;visibility:=reexport
+ org.eclipse.rcptt.tesla.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
+ org.eclipse.rcptt.ecl.core;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
+ org.eclipse.rcptt.tesla.ecl;bundle-version="[2.0.0,3.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy

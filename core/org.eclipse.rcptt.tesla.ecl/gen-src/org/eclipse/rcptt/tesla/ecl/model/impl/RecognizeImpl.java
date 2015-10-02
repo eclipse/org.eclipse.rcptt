@@ -27,6 +27,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.RecognizeImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.RecognizeImpl#getX <em>X</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.RecognizeImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.RecognizeImpl#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.TypeText#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.TypeText#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.TypeText#isDisplay <em>Display</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTypeText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Types text to the control.' returns='value of <code>control</code> parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  type-text \"wait 200\"'"

@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SetTextSelectionImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SetTextSelectionImpl#getOffset <em>Offset</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SetTextSelectionImpl#getEndLine <em>End Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SetTextSelectionImpl#getEndOffset <em>End Offset</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

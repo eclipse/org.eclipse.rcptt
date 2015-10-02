@@ -20,11 +20,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.CreateWorkingSet#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.CreateWorkingSet#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage#getCreateWorkingSet()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Creates working set with a given name.' returns='Nothing' example='create-working-set \"MyWorkingSet\"'"

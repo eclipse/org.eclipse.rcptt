@@ -439,7 +439,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	public void terminateProcess(int exitCode) {
 		// launch ask for restart
-		if (exitCode == 23 || (exitCode == 24 && locationOnRestart != null)) {
+		// Eclipse mars can return exit code 24 on restart if -vm argument was set
+		if (exitCode == 23 || (exitCode == 24/* && locationOnRestart != null*/)) {
 			restart();
 		} else {
 			terminated(exitCode);

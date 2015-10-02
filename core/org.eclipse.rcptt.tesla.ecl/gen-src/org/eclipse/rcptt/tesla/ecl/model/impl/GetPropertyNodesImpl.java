@@ -25,11 +25,11 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <em><b>Get Property Nodes</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyNodesImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetPropertyNodesImpl#getNodePath <em>Node Path</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

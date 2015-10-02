@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler#getButton <em>Button</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDoubleClickRuler()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Double clicks ruler on given line with specified modifiers and mouse button' returns='value of control parameter' example='with [get-editor t | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {\n    double-click-ruler 1\n}'"

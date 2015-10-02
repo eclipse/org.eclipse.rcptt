@@ -35,13 +35,13 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectImpl#isAll <em>All</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.SelectImpl#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetRegionTextImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetRegionTextImpl#getX <em>X</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetRegionTextImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetRegionTextImpl#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

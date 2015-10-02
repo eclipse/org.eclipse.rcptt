@@ -50,6 +50,7 @@ import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -470,7 +471,11 @@ public class Q7ResourceDropAdapterAssistant extends
 		// while the operation executes. Fixes bug 16478.
 		Display.getCurrent().asyncExec(new Runnable() {
 			public void run() {
-				getShell().forceActive();
+				try {
+					ShellUtilsProvider.getShellUtils().forceActive(getShell());
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
 				new CopyFilesAndFoldersOperation(getShell()).copyOrLinkFiles(
 						names, target, currentOperation);
 			}

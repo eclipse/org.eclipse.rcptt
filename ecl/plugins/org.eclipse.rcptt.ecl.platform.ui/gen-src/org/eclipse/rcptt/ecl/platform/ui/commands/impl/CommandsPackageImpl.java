@@ -27,11 +27,13 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.CommandsFactory;
 import org.eclipse.rcptt.ecl.platform.ui.commands.CommandsPackage;
 import org.eclipse.rcptt.ecl.platform.ui.commands.CreateWorkingSet;
 import org.eclipse.rcptt.ecl.platform.ui.commands.DeleteWorkingSet;
+import org.eclipse.rcptt.ecl.platform.ui.commands.FromClipboard;
 import org.eclipse.rcptt.ecl.platform.ui.commands.GetHotkey;
 import org.eclipse.rcptt.ecl.platform.ui.commands.GetWorkingSet;
 import org.eclipse.rcptt.ecl.platform.ui.commands.ListWorkingSets;
 import org.eclipse.rcptt.ecl.platform.ui.commands.SaveScreenshot;
 
+import org.eclipse.rcptt.ecl.platform.ui.commands.ToClipboard;
 import org.eclipse.rcptt.ecl.platform.ui.objects.ObjectsPackage;
 
 /**
@@ -96,6 +98,20 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	private EClass saveScreenshotEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass toClipboardEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass fromClipboardEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -302,6 +318,33 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getToClipboard() {
+		return toClipboardEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getToClipboard_Input() {
+		return (EAttribute)toClipboardEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFromClipboard() {
+		return fromClipboardEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public CommandsFactory getCommandsFactory() {
 		return (CommandsFactory)getEFactoryInstance();
 	}
@@ -347,6 +390,11 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 
 		saveScreenshotEClass = createEClass(SAVE_SCREENSHOT);
 		createEAttribute(saveScreenshotEClass, SAVE_SCREENSHOT__OUT);
+
+		toClipboardEClass = createEClass(TO_CLIPBOARD);
+		createEAttribute(toClipboardEClass, TO_CLIPBOARD__INPUT);
+
+		fromClipboardEClass = createEClass(FROM_CLIPBOARD);
 	}
 
 	/**
@@ -389,6 +437,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		clearLogViewEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getHotkeyEClass.getESuperTypes().add(theCorePackage.getCommand());
 		saveScreenshotEClass.getESuperTypes().add(theCorePackage.getCommand());
+		toClipboardEClass.getESuperTypes().add(theCorePackage.getCommand());
+		fromClipboardEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(alertEClass, Alert.class, "Alert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -414,6 +464,11 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(saveScreenshotEClass, SaveScreenshot.class, "SaveScreenshot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSaveScreenshot_Out(), theEcorePackage.getEString(), "out", null, 0, 1, SaveScreenshot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(toClipboardEClass, ToClipboard.class, "ToClipboard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getToClipboard_Input(), theEcorePackage.getEString(), "input", null, 0, 1, ToClipboard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(fromClipboardEClass, FromClipboard.class, "FromClipboard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Create resource
 		createResource(eNS_URI);
 
@@ -431,7 +486,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (listWorkingSetsEClass, 
 		   source, 
@@ -439,7 +494,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Returns a list of all working sets available",
 			 "returns", "Working set objects",
 			 "example", "list-working-sets | foreach {delete-working-set}"
-		   });		
+		   });	
 		addAnnotation
 		  (createWorkingSetEClass, 
 		   source, 
@@ -447,19 +502,19 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Creates working set with a given name.",
 			 "returns", "Nothing",
 			 "example", "create-working-set \"MyWorkingSet\""
-		   });			
+		   });	
 		addAnnotation
 		  (getCreateWorkingSet_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Working set name"
-		   });		
+		   });	
 		addAnnotation
 		  (getCreateWorkingSet_Type(), 
 		   source, 
 		   new String[] {
 			 "description", "Working set type id. Default value is <code>org.eclipse.ui.resourceWorkingSetPage</code>, which corresponds to Resource Working Set. The short name <code>java</code> can be used to identify type <code>org.eclipse.jdt.ui.JavaWorkingSetPage</code>"
-		   });		
+		   });	
 		addAnnotation
 		  (deleteWorkingSetEClass, 
 		   source, 
@@ -467,33 +522,33 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Deletes working set",
 			 "returns", "Nothing",
 			 "example", "list-working-sets | foreach {delete-working-set}"
-		   });			
+		   });	
 		addAnnotation
 		  (getDeleteWorkingSet_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Working set object"
-		   });		
+		   });	
 		addAnnotation
 		  (getWorkingSetEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Finds working set by name",
 			 "returns", "Working set object"
-		   });		
+		   });	
 		addAnnotation
 		  (getGetWorkingSet_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Working set name"
-		   });		
+		   });	
 		addAnnotation
 		  (clearLogViewEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Clears error log. If Error log is open, then it is closed before log clearing and then open again.",
 			 "returns", "Nothing"
-		   });		
+		   });	
 		addAnnotation
 		  (saveScreenshotEClass, 
 		   source, 
@@ -501,6 +556,22 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "description", "Saves the screenshot.",
 			 "returns", "Nothing",
 			 "example", "get-eclipse-window | get-object | save-screenshot [substitute-variables \"${workspace_loc}/images/actual.png\"]"
+		   });	
+		addAnnotation
+		  (toClipboardEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Puts input string to the clipboard.",
+			 "returns", "Nothing",
+			 "example", "to-clipboard \"Content\""
+		   });	
+		addAnnotation
+		  (fromClipboardEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets input string from the clipboard.",
+			 "returns", "Return current clipboard content or empty string if no content",
+			 "example", "show-alert [from-clipboard]"
 		   });
 	}
 
@@ -511,17 +582,17 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";				
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getCreateWorkingSet_Name(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });	
 		addAnnotation
 		  (getDeleteWorkingSet_Input(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });
 	}
 
 } //CommandsPackageImpl

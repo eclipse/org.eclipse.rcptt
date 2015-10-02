@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickColumn#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickColumn#getIndex <em>Index</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickColumn()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a header of table or tree column. The column is identified by <code>name</code> and <code>index</code>. If name is empty, then column is identified by zero-based index. If there is more than one column with a given name, then <code>index</code> can be used. In this case <code>index</code> is used to identify the column within all other columns with the same name. If there are no columns with given name, then command tries to interpret <code>name</code> as Java regular expression pattern and search for a column. ' returns='<code>Table</code> object or <code>Tree</code> control' recorded='true' example='get-table | click-column Description //clicks on a header of column Description\nget-table | click-column -index 5 //clicks on 6th column header (since index is 0-based)\nget-table | click-column -name \"D.*\" -index 1 //clicks on a second column starting with \"D\" '"

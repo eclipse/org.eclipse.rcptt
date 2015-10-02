@@ -27,7 +27,11 @@ public class ResourceFileResolver implements EclFileResolver {
 	@Override
 	public EclFile resolve(URI uri) throws IOException {
 		IPath path = toPath(uri);
-		if (uri.getScheme().equals("workspace")) {
+		final String scheme = uri.getScheme();
+		if (scheme == null) {
+			return null;
+		}
+		if (scheme.equals("workspace")) {
 			return new ResourceFile(path);
 		}
 		return null;

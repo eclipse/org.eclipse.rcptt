@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.GetObject#getObject <em>Object</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetObject()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets interop object from UI control.' returns='Interop object.' example='get-view \"Package Explorer\" | get-tree | get-object | my-custom-tree-command'"

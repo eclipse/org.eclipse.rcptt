@@ -21,13 +21,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Select#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Select#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Select#isAll <em>All</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Select#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelect()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Selects items.' returns='value of <code>control</code> parameter' example='get-view \"Q7 Explorer\" | get-tree | select \"TestQ7Prj/Test scenario\" | double-click'"

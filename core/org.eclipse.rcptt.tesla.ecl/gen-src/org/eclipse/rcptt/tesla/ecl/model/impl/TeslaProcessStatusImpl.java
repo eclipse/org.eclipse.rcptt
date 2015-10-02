@@ -29,10 +29,10 @@ import org.eclipse.rcptt.ecl.core.impl.ProcessStatusImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.TeslaProcessStatusImpl#getInfo <em>Info</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

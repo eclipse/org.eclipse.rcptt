@@ -31,10 +31,10 @@ import org.eclipse.rcptt.ecl.platform.ui.objects.WorkingSet;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.DeleteWorkingSetImpl#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

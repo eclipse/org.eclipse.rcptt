@@ -18,10 +18,10 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getActivateCellEdit()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Activates cell editing.' returns='value of <code>control</code> parameter' example='get-editor Test | get-section Preferences | get-tree |  select \"EXECUTION_TIMEOUT\" | activate-cell-edit -column 1'"

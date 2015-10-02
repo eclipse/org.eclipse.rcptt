@@ -1281,6 +1281,24 @@ public interface TeslaFactory extends EFactory {
 	RestartAut createRestartAut();
 
 	/**
+	 * Returns a new object of class '<em>Message Box Info</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Message Box Info</em>'.
+	 * @generated
+	 */
+	MessageBoxInfo createMessageBoxInfo();
+
+	/**
+	 * Returns a new object of class '<em>Get Last Message Box</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Last Message Box</em>'.
+	 * @generated
+	 */
+	GetLastMessageBox createGetLastMessageBox();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

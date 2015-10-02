@@ -17,10 +17,10 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetWidth#getWidth <em>Width</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetWidth()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets width of a table column.' returns='value of <code>control</code> parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-width 256'"

@@ -25,6 +25,7 @@ import org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart;
  * <em><b>Get Edit Part</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getAfter <em>After</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

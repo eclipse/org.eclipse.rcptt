@@ -31,13 +31,13 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.AssertTablesMatchImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.AssertTablesMatchImpl#getRight <em>Right</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.AssertTablesMatchImpl#isIgnoreColumnOrder <em>Ignore Column Order</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.AssertTablesMatchImpl#getIgnoreMissingColumns <em>Ignore Missing Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

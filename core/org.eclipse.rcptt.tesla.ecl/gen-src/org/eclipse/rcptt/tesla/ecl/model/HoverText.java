@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverText#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverText#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverText#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.HoverText#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getHoverText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Perform mouse hover at specific text position.' returns='value of *control* parameter'"

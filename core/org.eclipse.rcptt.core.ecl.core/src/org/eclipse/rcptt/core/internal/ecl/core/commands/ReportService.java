@@ -39,7 +39,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportContainer;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 
 public class ReportService implements ICommandService {
-	private final Stack<INodeBuilder> stack = new Stack<INodeBuilder>();
+	private static final Stack<INodeBuilder> stack = new Stack<INodeBuilder>();
 
 	public ReportService() {
 	}

@@ -243,6 +243,15 @@ public interface TeslaPackage extends EPackage {
 	int TESLA_PROCESS_STATUS__EXCEPTION = CorePackage.PROCESS_STATUS__EXCEPTION;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TESLA_PROCESS_STATUS__CHILDREN = CorePackage.PROCESS_STATUS__CHILDREN;
+
+	/**
 	 * The feature id for the '<em><b>Info</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9932,6 +9941,80 @@ public interface TeslaPackage extends EPackage {
 	int RESTART_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.MessageBoxInfoImpl <em>Message Box Info</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.MessageBoxInfoImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getMessageBoxInfo()
+	 * @generated
+	 */
+	int MESSAGE_BOX_INFO = 144;
+
+	/**
+	 * The feature id for the '<em><b>Title</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_BOX_INFO__TITLE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_BOX_INFO__MESSAGE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Message Box Info</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_BOX_INFO_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetLastMessageBoxImpl <em>Get Last Message Box</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetLastMessageBoxImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetLastMessageBox()
+	 * @generated
+	 */
+	int GET_LAST_MESSAGE_BOX = 145;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_LAST_MESSAGE_BOX__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_LAST_MESSAGE_BOX__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The number of structural features of the '<em>Get Last Message Box</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_LAST_MESSAGE_BOX_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9939,7 +10022,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getButton()
 	 * @generated
 	 */
-	int BUTTON = 144;
+	int BUTTON = 146;
 
 	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
@@ -9949,7 +10032,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 145;
+	int ELEMENT_KIND = 147;
 
 
 	/**
@@ -13593,6 +13676,48 @@ public interface TeslaPackage extends EPackage {
 	EClass getRestartAut();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo <em>Message Box Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Message Box Info</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo
+	 * @generated
+	 */
+	EClass getMessageBoxInfo();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo#getTitle <em>Title</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Title</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo#getTitle()
+	 * @see #getMessageBoxInfo()
+	 * @generated
+	 */
+	EAttribute getMessageBoxInfo_Title();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo#getMessage()
+	 * @see #getMessageBoxInfo()
+	 * @generated
+	 */
+	EAttribute getMessageBoxInfo_Message();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox <em>Get Last Message Box</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Last Message Box</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox
+	 * @generated
+	 */
+	EClass getGetLastMessageBox();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16674,6 +16799,42 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EClass RESTART_AUT = eINSTANCE.getRestartAut();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.MessageBoxInfoImpl <em>Message Box Info</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.MessageBoxInfoImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getMessageBoxInfo()
+		 * @generated
+		 */
+		EClass MESSAGE_BOX_INFO = eINSTANCE.getMessageBoxInfo();
+
+		/**
+		 * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MESSAGE_BOX_INFO__TITLE = eINSTANCE.getMessageBoxInfo_Title();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MESSAGE_BOX_INFO__MESSAGE = eINSTANCE.getMessageBoxInfo_Message();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetLastMessageBoxImpl <em>Get Last Message Box</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetLastMessageBoxImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetLastMessageBox()
+		 * @generated
+		 */
+		EClass GET_LAST_MESSAGE_BOX = eINSTANCE.getGetLastMessageBox();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.

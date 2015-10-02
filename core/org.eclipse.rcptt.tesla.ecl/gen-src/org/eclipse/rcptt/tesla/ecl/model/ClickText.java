@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickText#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickText#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ClickText#getButton <em>Button</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='<p>Clicks on editbox to set cursor position (when only <code>start</code> argument specified) or text selection (when both <code>start</code> and <code>end</code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends mouse down and up events</li>\r\n  <li>Sets caret position or text selection based on arguments</li>\r\n</ol>\r\n<p>\r\n  <code>start</code> and <code>end</code> arguments have different forms depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>' returns='input item' example='with [get-editbox -after [get-label \"Location:\"]] {\n        click-text 3\n    }'"

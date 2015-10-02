@@ -30,12 +30,12 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ExecWithOptionsImpl#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ExecWithOptionsImpl#isAllowStatusDialog <em>Allow Status Dialog</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ExecWithOptionsImpl#isDisableJobWaiting <em>Disable Job Waiting</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

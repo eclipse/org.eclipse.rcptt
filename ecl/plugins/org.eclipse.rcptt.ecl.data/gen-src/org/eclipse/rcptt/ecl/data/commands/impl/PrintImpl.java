@@ -25,10 +25,10 @@ import org.eclipse.rcptt.ecl.data.commands.Print;
  * <em><b>Print</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.PrintImpl#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

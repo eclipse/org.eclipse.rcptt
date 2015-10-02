@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.KeyTypeImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.KeyTypeImpl#getKey <em>Key</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.KeyTypeImpl#isDisplay <em>Display</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.KeyTypeImpl#getTimes <em>Times</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickText#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClickText#getButton <em>Button</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDoubleClickText()
  * @model annotation="http://www.eclipse.org/ecl/docs description='<p>Double-clicks on editbox to set cursor position and/or selection. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends double-click event</li>\r\n</ol>\r\n<p>\r\n  <code>position</code> argument have different form depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>' returns='input item' example='with [get-editbox -after [get-label \"Project name:\"]] {\n        set-text Project1\n        double-click-text 9 1\n    }'"

@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Uncheck#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getUncheck()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Unchecks the control.' returns='value of <code>control</code> parameter' example='with [get-editor Wb | get-section Workbench] {\n    get-button \"Close all modal dialogs\" | uncheck\n    get-button \"Clear clipboard\" | uncheck\n}'"

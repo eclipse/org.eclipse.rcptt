@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ControlHandlerImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ControlHandlerImpl#getCustomKindId <em>Custom Kind Id</em>}</li>
@@ -48,7 +49,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ControlHandlerImpl#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ControlHandlerImpl#getRawImage <em>Raw Image</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

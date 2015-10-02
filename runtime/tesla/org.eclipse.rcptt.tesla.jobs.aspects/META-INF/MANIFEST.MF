@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RCPTT Runtime Eclipse Core Jobs Support Aspects (Incubation)
+Bundle-Name: RCPTT Runtime Eclipse Core Jobs Support Aspects
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.jobs.aspects;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project

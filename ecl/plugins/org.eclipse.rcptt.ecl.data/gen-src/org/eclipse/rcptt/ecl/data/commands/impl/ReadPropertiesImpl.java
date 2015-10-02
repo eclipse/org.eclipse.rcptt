@@ -27,10 +27,10 @@ import org.eclipse.rcptt.ecl.data.commands.ReadProperties;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadPropertiesImpl#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

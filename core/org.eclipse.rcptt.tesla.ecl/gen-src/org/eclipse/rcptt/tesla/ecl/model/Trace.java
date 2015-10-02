@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Trace#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTrace()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Appends a tracing message to Q7 report collected during execution, so that it can be used later in report renderer.' example='trace \"Project created\"\ntrace [get-view \"Package Explorer\" | get-tree | get-item \"Other Projects/sample\" | get-property \"getData().isOpen()\" -raw]'"

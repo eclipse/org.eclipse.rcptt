@@ -19,10 +19,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.IsDisabled#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getIsDisabled()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if the control is disabled or not' returns='true if the control is disabled or false otherwise' recorded='true' example='get-menu \"File/Save\" | is-disabled | assert-true'"

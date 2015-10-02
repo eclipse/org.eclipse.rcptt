@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getOpenDeclaration()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Perform open declaration command in the current text position (CTRL+Left click)' returns='value of *control* parameter' example='with [get-editor t | get-section Script | get-text-viewer] {\n    \tset-caret-pos 4 3\n\topen-declaration\n}'"

@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetCaretPos#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetCaretPos#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetCaretPos#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetCaretPos()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the text offset.\nFor specified line.' returns='value of *control* parameter' example='with [get-editor \"q7enterprise.license\" | get-text-viewer] {\n    set-caret-pos 3 5\n}'"

@@ -25,13 +25,13 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
  * <em><b>Ruler Double Click</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickRulerImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickRulerImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickRulerImpl#getButton <em>Button</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickRulerImpl#getWith <em>With</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

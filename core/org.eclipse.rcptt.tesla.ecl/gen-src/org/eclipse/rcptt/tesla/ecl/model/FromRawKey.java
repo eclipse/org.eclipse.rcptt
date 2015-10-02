@@ -19,12 +19,12 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.FromRawKey#getMask <em>Mask</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.FromRawKey#getKeyCode <em>Key Code</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.FromRawKey#getMeta <em>Meta</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getFromRawKey()
  * @model

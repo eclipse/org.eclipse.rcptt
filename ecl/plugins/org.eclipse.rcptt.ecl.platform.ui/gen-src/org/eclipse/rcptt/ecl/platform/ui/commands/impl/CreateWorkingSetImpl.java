@@ -28,11 +28,11 @@ import org.eclipse.rcptt.ecl.platform.ui.commands.CreateWorkingSet;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.CreateWorkingSetImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.platform.ui.commands.impl.CreateWorkingSetImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

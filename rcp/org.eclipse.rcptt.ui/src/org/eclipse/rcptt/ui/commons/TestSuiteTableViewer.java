@@ -60,6 +60,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -622,7 +623,7 @@ public class TestSuiteTableViewer extends TableViewer implements IContentNamer,
 	}
 
 	public void moveUp() {
-		resetTableSort();
+		flushAndResetTableSort();
 		Table table = getTable();
 		int indices[] = table.getSelectionIndices();
 		int newSelection[] = new int[indices.length];
@@ -639,7 +640,7 @@ public class TestSuiteTableViewer extends TableViewer implements IContentNamer,
 	}
 
 	public void moveDown() {
-		resetTableSort();
+		flushAndResetTableSort();
 		Table table = getTable();
 		int[] indices = table.getSelectionIndices();
 		if (indices.length < 1) {
@@ -736,7 +737,12 @@ public class TestSuiteTableViewer extends TableViewer implements IContentNamer,
 		}
 	}
 
-	private void resetTableSort() {
+	private void flushAndResetTableSort() {
+		final TableItem[] tableItems = getTable().getItems();
+		final EList<TestSuiteItem> items = testSuite.getItems();
+		for (int i = 0; i < tableItems.length; ++i) {
+			items.move(i, (TestSuiteItem) tableItems[i].getData());
+		}
 		getTable().setSortColumn(null);
 		getTable().setSortDirection(ColumnViewerSorter.NONE);
 		setSorter(null);

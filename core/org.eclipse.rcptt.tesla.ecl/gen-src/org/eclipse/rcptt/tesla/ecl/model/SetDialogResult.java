@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetDialogResult#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.SetDialogResult#getResult <em>Result</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetDialogResult()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates result returning from native dialog.' returns='nothing' example='set-dialog-result File \"/Users/Ulik_MacAir/Downloads/MyLicense.license\"\nget-menu \"File/Open File...\" | click'"

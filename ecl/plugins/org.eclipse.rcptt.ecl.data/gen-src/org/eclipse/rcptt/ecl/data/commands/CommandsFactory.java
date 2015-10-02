@@ -138,6 +138,15 @@ public interface CommandsFactory extends EFactory {
 	ReadProperties createReadProperties();
 
 	/**
+	 * Returns a new object of class '<em>Read File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Read File</em>'.
+	 * @generated
+	 */
+	ReadFile createReadFile();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

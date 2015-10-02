@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.VerifyFalse#getCondition <em>Condition</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getVerifyFalse()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Checks <code>input</code> condition\'s falsity. If falsity is not confirmed, then error is returned' input='EObject condition' example='get-editor \"Test scenario\" | get-section Script | get-editbox | get-property value | equals test | verify-false'"
