@@ -708,12 +708,6 @@
           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
           sequence="ALT+SHIFT+0">
     </key>
-    <key
-          commandId="org.eclipse.rcptt.ui.actions.open.declaration"
-          contextId="org.eclipse.ui.textEditorScope"
-          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-          sequence="F3">
-    </key>
  </extension>
  <extension
        point="org.eclipse.ui.contexts">
@@ -965,6 +959,12 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+F">
       </key>
+      <key
+          commandId="org.eclipse.rcptt.ui.actions.open.declaration"
+          contextId="org.eclipse.rcptt.ui.eclEditor"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+          sequence="F3">
+	  </key>  
    </extension>
    
   <extension
