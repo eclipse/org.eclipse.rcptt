@@ -26,21 +26,21 @@
          id="org.eclipse.rcptt.ecl.core"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.client.tcp"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.parser"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -54,21 +54,21 @@
          id="org.eclipse.rcptt.ecl.perf"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.debug.runtime"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.operations"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -82,14 +82,14 @@
          id="org.eclipse.rcptt.ecl.interop"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ecl.doc"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -103,7 +103,7 @@
          id="org.eclipse.rcptt.ecl.dispatch"
          download-size="0"
          install-size="0"
-         version="2.0.0.qualifier"
+         version="2.1.0.qualifier"
          unpack="false"/>
 
 </feature>
