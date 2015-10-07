@@ -14,7 +14,7 @@
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcptt.updates.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/rcptt/nightly/2.0.0/latest/repository"/>
+<repository location="http://download.eclipse.org/rcptt/nightly/2.1.0/latest/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.edit.ui.feature.group" version="2.11.0.v20141110-0530"/>

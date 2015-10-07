@@ -61,6 +61,6 @@
 		<rcptt-version>2.1.0-SNAPSHOT</rcptt-version>
 		<rcptt-runner-version>2.1.0-SNAPSHOT</rcptt-runner-version>
 		<rcptt-maven-group>org.eclipse.rcptt</rcptt-maven-group>
-		<rcptt-maven-version>2.0.0-SNAPSOT</rcptt-maven-version>
+		<rcptt-maven-version>2.1.0-SNAPSOT</rcptt-maven-version>
 	</properties>
 </project>
