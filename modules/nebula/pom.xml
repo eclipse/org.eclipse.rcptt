@@ -23,7 +23,7 @@
     <repository>
       <id>nebula-nat-table</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/nattable/releases/1.2.0/repository/</url>
+      <url>http://download.eclipse.org/nattable/releases/1.3.0/repository/</url>
     </repository>
     <repository>
       <id>orbit-glazed-list</id>
