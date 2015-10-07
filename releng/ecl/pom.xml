@@ -23,9 +23,9 @@
 
   <repositories>
     <repository>
-      <id>mars</id>
+      <id>helios</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/mars</url>
+      <url>http://download.eclipse.org/releases/helios</url>
     </repository>
     <repository>
       <id>orbit</id>
