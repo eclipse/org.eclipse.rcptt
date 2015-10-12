@@ -12,6 +12,7 @@ modules/nebula/plugins/org.eclipse.rcptt.module.nebula.updates/runtime/
 .DS_Store
 /workspace/
 .settings/
+m2
 *.log
 !*verifications.log*
 /ecl/tests/org.eclipse.ecl.doc.tests/output/core.html
