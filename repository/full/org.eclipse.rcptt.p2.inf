@@ -1,6 +1,6 @@
 instructions.configure=\
-  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/mars,name:Indigo);\
-  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/mars,name:Indigo);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/mars,name:Mars);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/mars,name:Mars);\
   addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);\
   addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);\
   setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/rcpttWorkspace);\
