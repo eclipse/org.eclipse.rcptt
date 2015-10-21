@@ -120,13 +120,22 @@ public interface InteropPackage extends EPackage {
 	int INVOKE__ARGS = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>No Result</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE__NO_RESULT = CorePackage.COMMAND_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Invoke</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INVOKE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
+	int INVOKE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl <em>Exec Process</em>}' class.
@@ -489,6 +498,15 @@ public interface InteropPackage extends EPackage {
 	int INVOKE_UI__ARGS = INVOKE__ARGS;
 
 	/**
+	 * The feature id for the '<em><b>No Result</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_UI__NO_RESULT = INVOKE__NO_RESULT;
+
+	/**
 	 * The number of structural features of the '<em>Invoke Ui</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -540,6 +558,17 @@ public interface InteropPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInvoke_Args();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.interop.Invoke#isNoResult <em>No Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>No Result</em>'.
+	 * @see org.eclipse.rcptt.ecl.interop.Invoke#isNoResult()
+	 * @see #getInvoke()
+	 * @generated
+	 */
+	EAttribute getInvoke_NoResult();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.interop.ExecProcess <em>Exec Process</em>}'.
@@ -821,6 +850,14 @@ public interface InteropPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INVOKE__ARGS = eINSTANCE.getInvoke_Args();
+
+		/**
+		 * The meta object literal for the '<em><b>No Result</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVOKE__NO_RESULT = eINSTANCE.getInvoke_NoResult();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl <em>Exec Process</em>}' class.

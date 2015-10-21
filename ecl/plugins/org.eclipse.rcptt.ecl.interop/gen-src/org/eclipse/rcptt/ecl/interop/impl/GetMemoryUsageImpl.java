@@ -21,8 +21,6 @@ import org.eclipse.rcptt.ecl.interop.InteropPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Get Memory Usage</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

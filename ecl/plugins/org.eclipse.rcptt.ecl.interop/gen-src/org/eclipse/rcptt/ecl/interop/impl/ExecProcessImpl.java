@@ -33,6 +33,7 @@ import org.eclipse.rcptt.ecl.interop.InteropPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl#getArgs <em>Args</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.rcptt.ecl.interop.InteropPackage;
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl#isIgnoreStderr <em>Ignore Stderr</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessImpl#getStdin <em>Stdin</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
