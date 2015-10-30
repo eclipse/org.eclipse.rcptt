@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcessResult#getExitCode <em>Exit Code</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcessResult#getStdout <em>Stdout</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcessResult#getStderr <em>Stderr</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getExecProcessResult()
  * @model

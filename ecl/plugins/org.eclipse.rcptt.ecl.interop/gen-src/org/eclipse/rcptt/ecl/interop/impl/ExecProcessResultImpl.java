@@ -26,12 +26,12 @@ import org.eclipse.rcptt.ecl.interop.InteropPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessResultImpl#getExitCode <em>Exit Code</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessResultImpl#getStdout <em>Stdout</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.ExecProcessResultImpl#getStderr <em>Stderr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

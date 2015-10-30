@@ -21,6 +21,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcess#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcess#getArgs <em>Args</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcess#isIgnoreStderr <em>Ignore Stderr</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.ExecProcess#getStdin <em>Stdin</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getExecProcess()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Executes shell command.' returns='ExecProcessResult filled with execution results: exit code, captured stdout and stderr.' example='exec-process \"\\\"C:\\\\Program Files\\\\Sikuli X\\\\Sikuli-IDE.exe\\\"\"\"-r\" [substitute-variables \"\\\"${resource_loc:sikuli/MistypeClassName.sikuli}\\\"\"]\"-s\"-ignoreExitCode'"

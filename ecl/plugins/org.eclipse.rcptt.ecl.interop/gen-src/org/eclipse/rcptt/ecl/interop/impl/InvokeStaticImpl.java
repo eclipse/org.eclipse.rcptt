@@ -33,13 +33,13 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl#getPluginId <em>Plugin Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl#getMethodName <em>Method Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeStaticImpl#getArgs <em>Args</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
