@@ -1367,31 +1367,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	}
 
 	private Response handleSetTextOffset(final SetTextOffset command) {
-		final Element element = command.getElement();
-		final SWTUIElement widget = getMapper().get(element);
-		if (widget != null) {
-			final Widget control = unwrapWidget(widget);
-			if (control instanceof StyledText) {
-				getPlayer().exec("Set text offset", new Runnable() {
-					public void run() {
-						int offset = command.getOffset();
-						int line = command.getLine();
-						StyledText styledText = (StyledText) control;
-						getPlayer().getEvents().sendFocus(styledText);
-						// styledText.setFocus();// forced focus (see QS-910)
-						// Point selectionRange = styledText.getSelection();
-						if (line != -1) {
-							offset += styledText.getOffsetAtLine(line);
-						}
-						styledText.setCaretOffset(offset);
-						if (styledText.getAccessible() != null) {
-							styledText.getAccessible().textCaretMoved(offset);
-						}
-						// styledText.setSelection(selectionRange.x,
-						// selectionRange.y);
-					}
-				});
-			}
+		Element element = command.getElement();
+		SWTUIElement widget = getMapper().get(element);
+		Widget control = unwrapWidget(widget);
+		if (control instanceof StyledText) {
+			getPlayer().setTextOffset((StyledText) control, command.getOffset(), command.getLine());
 		}
 		return factory.createBooleanResponse();
 	}

@@ -822,6 +822,33 @@ public final class SWTUIPlayer {
 		return null;
 	}
 
+	/**
+	 * Put the caret at the given position in the styled text widget by clicking there. This also clears the current
+	 * text selection.
+	 */
+	public void setTextOffset(final StyledText styledText, final int offset, final int line) {
+		exec("Set text offset", new Runnable() {
+			@Override
+			public void run() {
+				// styledText.setFocus();// forced focus (see QS-910)
+				// Point selectionRange = styledText.getSelection();
+				events.sendFocus(styledText);
+				int actualOffset = offset;
+				if (line != -1) {
+					actualOffset += styledText.getOffsetAtLine(line);
+				}
+				Point clickPoint = styledText.getLocationAtOffset(actualOffset);
+				styledText.setCaretOffset(actualOffset);
+				styledText.getAccessible().textCaretMoved(offset);
+				events.sendEvent(styledText, SWT.MouseDown, clickPoint, 1);
+				events.sendEvent(styledText, SWT.MouseUp, clickPoint, 1);
+				styledText.setSelectionRange(actualOffset, 0);
+				// styledText.setSelection(selectionRange.x,
+				// selectionRange.y);
+			}
+		});
+	}
+
 	public void click(final SWTUIElement w) {
 		click(w, false, false, false);
 	}
