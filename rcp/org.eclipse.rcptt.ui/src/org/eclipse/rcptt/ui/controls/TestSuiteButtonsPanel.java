@@ -63,7 +63,7 @@ public class TestSuiteButtonsPanel extends Composite {
 
 	private Link resetOrderLink;
 
-	public TestSuiteButtonsPanel(Composite parent, boolean needMove, boolean needOrderReset) {
+	public TestSuiteButtonsPanel(Composite parent, boolean needOrderReset) {
 		super(parent, SWT.NONE);
 		setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false, false));
 
@@ -74,10 +74,10 @@ public class TestSuiteButtonsPanel extends Composite {
 		layout.marginLeft = 0;
 		layout.marginRight = 0;
 		setLayout(layout);
-		createButtons(needMove, needOrderReset);
+		createButtons(needOrderReset);
 	}
 
-	private void createButtons(boolean needMove, boolean needOrderReset) {
+	private void createButtons(boolean needOrderReset) {
 		addTestCaseBtn = new Button(this, SWT.PUSH);
 		addTestCaseBtn.setText(Messages.ScenariosLaunchTab_AddTestCaseButton);
 		addTestCaseBtn.setImage(Images.getImageDescriptor(Images.SCENARIO)
@@ -105,24 +105,22 @@ public class TestSuiteButtonsPanel extends Composite {
 				.getImageDescriptor(ISharedImages.IMG_ETOOL_DELETE)
 				.createImage());
 
-		if (needMove) {
-			new Label(this, SWT.HORIZONTAL | SWT.SEPARATOR);
-			moveUpBtn = new Button(this, SWT.PUSH);
-			moveUpBtn.setText(Messages.ScenariosLaunchTab_MoveUpButton);
+		new Label(this, SWT.HORIZONTAL | SWT.SEPARATOR);
+		moveUpBtn = new Button(this, SWT.PUSH);
+		moveUpBtn.setText(Messages.ScenariosLaunchTab_MoveUpButton);
 
-			moveDownBtn = new Button(this, SWT.PUSH);
-			moveDownBtn.setText(Messages.ScenariosLaunchTab_MoveDownButton);
+		moveDownBtn = new Button(this, SWT.PUSH);
+		moveDownBtn.setText(Messages.ScenariosLaunchTab_MoveDownButton);
 
-			if (needOrderReset) {
-				Composite holder = new Composite(this, SWT.NONE);
-				GridLayoutFactory.fillDefaults().applyTo(holder);
-				resetOrderLink = new Link(holder, SWT.NONE);
-				GridDataFactory.fillDefaults().
-						grab(true, true).
-						align(SWT.CENTER, SWT.CENTER).
-						applyTo(resetOrderLink);
-				resetOrderLink.setText("<a>Reset to default order</a>");
-			}
+		if (needOrderReset) {
+			Composite holder = new Composite(this, SWT.NONE);
+			GridLayoutFactory.fillDefaults().applyTo(holder);
+			resetOrderLink = new Link(holder, SWT.NONE);
+			GridDataFactory.fillDefaults().
+					grab(true, true).
+					align(SWT.CENTER, SWT.CENTER).
+					applyTo(resetOrderLink);
+			resetOrderLink.setText("<a>Reset to default order</a>");
 		}
 	}
 

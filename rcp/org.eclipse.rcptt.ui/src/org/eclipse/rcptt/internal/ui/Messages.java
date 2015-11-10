@@ -43,6 +43,10 @@ public class Messages extends NLS {
 	public static String AssertionPanelWindow_Title;
 	public static String AssertionPanelWindow_ValueOperationName;
 	public static String AssertionPanelWindow_ValueOperationToolTip;
+	public static String AssertionPanelWindow_FilterMessage;
+	public static String AssertionPanelWindow_FilterToolTip;
+	public static String AssertionPanelWindow_FilterByProperty;
+	public static String AssertionPanelWindow_FilterByValue;
 	public static String AUTComposite_AddButton;
 	public static String AUTComposite_RemoveButton;
 	public static String AUTSelectionDialog_Title;

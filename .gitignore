@@ -29,3 +29,4 @@ bin/
 target/
 ecl/plugins/org.eclipse.rcptt.ecl.parser/antlr/Ecl__.g
 ecl/plugins/org.eclipse.rcptt.ecl.parser/src/org/eclipse/rcptt/ecl/internal/parser/Ecl.tokens
+m2

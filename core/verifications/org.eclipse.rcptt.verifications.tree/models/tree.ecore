@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tree"
-    nsURI="http://eclipse.org/rcptt/verifications/tree" nsPrefix="org.eclipse.rcptt.verifications.tree">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tree" nsURI="http://eclipse.org/rcptt/verifications/tree" nsPrefix="org.eclipse.rcptt.verifications.tree">
   <eClassifiers xsi:type="ecore:EClass" name="TreeVerification" eSuperTypes="#//CaptureTreeVerificationData #//VerifyTreeData"/>
   <eClassifiers xsi:type="ecore:EClass" name="Tree">
     <eStructuralFeatures xsi:type="ecore:EReference" name="columns" upperBound="-1"
@@ -80,5 +78,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowUncapturedChildren"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enableVerifyStyle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
   </eClassifiers>
 </ecore:EPackage>

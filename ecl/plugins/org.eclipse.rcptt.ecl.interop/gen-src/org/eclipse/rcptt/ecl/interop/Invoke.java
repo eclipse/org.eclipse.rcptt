@@ -21,12 +21,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.Invoke#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.Invoke#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.Invoke#getArgs <em>Args</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.interop.Invoke#isNoResult <em>No Result</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getInvoke()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Invokes method on Java object.' returns='Value returned by method.' example='get-eclipse-window | get-object | invoke setSize 700 700'"
@@ -103,5 +104,31 @@ public interface Invoke extends Command {
 	 * @generated
 	 */
 	EList<Object> getArgs();
+
+	/**
+	 * Returns the value of the '<em><b>No Result</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>No Result</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>No Result</em>' attribute.
+	 * @see #setNoResult(boolean)
+	 * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getInvoke_NoResult()
+	 * @model
+	 * @generated
+	 */
+	boolean isNoResult();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.interop.Invoke#isNoResult <em>No Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>No Result</em>' attribute.
+	 * @see #isNoResult()
+	 * @generated
+	 */
+	void setNoResult(boolean value);
 
 } // Invoke

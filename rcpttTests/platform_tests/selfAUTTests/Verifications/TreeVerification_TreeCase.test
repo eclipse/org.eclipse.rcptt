@@ -1,0 +1,61 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _IFNjAFuCEeW3sah-fvxvew,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: TreeVerification_TreeCase
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _Q2c2kHC0EeWSWbs-lsDmUA
+Runtime-Version: 2.1.0.201510070509
+Save-Time: 10/12/15 3:53 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Test Explorer" | get-tree] {
+    select "MyProject/Verification" | double-click
+    select "MyProject/TreeVerification" | double-click
+}
+get-editor TreeVerification | get-button Verify | click
+with [get-view "Execution View"] {
+    get-label "1/1"-after [get-label "Runs:"]
+    get-label 0 -after [get-label "Failures:"]
+}
+with [get-editor TreeVerification] {
+    with [get-section "Widget Tree"] {
+        get-combo -after [get-label "Verify styles:"] | select "Ignore Styled Text"
+        with [get-tree] {
+            select "Launch configurations/Application Under Test \\(RCPTT\\)" | activate-cell-edit
+            get-editbox | set-text ".*"
+            apply-cell-edit -deactivate
+            select "Launch configurations/RCPTT Test Suite" | activate-cell-edit -column 1
+            apply-cell-edit -deactivate
+            select "Launch configurations/RCPTT Test Suite" | activate-cell-edit -column 1
+            get-editbox | set-text ".*"
+            apply-cell-edit -deactivate
+            key-type "M1+s"
+        }
+    }
+    get-button Verify | click
+    
+    with [get-view "Execution View"] {
+    get-label "1/1"-after [get-label "Runs:"]
+    get-label 0 -after [get-label "Failures:"]
+}
+    
+    with [get-section "Widget Tree" | get-tree] {
+        select "Launch configurations/RCPTT Test Suite/TestCase" | activate-cell-edit -column 1
+        get-editbox | set-text aaa
+        apply-cell-edit -deactivate
+    }
+    get-button Verify | click
+}
+get-window "Save Resource" | get-button Yes | click
+
+with [get-view "Execution View"] {
+    get-label "1/1"-after [get-label "Runs:"]
+    get-label 0 -after [get-label "Failures:"]
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

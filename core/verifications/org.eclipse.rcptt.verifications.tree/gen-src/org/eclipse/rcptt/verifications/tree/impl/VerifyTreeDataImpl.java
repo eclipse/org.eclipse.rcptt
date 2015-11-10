@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.VerifyTreeDataImpl#getVerifyStyle <em>Verify Style</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.VerifyTreeDataImpl#isVerifyIcons <em>Verify Icons</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.VerifyTreeDataImpl#isAllowUncapturedChildren <em>Allow Uncaptured Children</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.VerifyTreeDataImpl#isEnableVerifyStyle <em>Enable Verify Style</em>}</li>
  * </ul>
  * </p>
  *
@@ -137,6 +138,26 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 	 * @ordered
 	 */
 	protected boolean allowUncapturedChildren = ALLOW_UNCAPTURED_CHILDREN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isEnableVerifyStyle() <em>Enable Verify Style</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnableVerifyStyle()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ENABLE_VERIFY_STYLE_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isEnableVerifyStyle() <em>Enable Verify Style</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnableVerifyStyle()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean enableVerifyStyle = ENABLE_VERIFY_STYLE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -267,6 +288,27 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isEnableVerifyStyle() {
+		return enableVerifyStyle;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnableVerifyStyle(boolean newEnableVerifyStyle) {
+		boolean oldEnableVerifyStyle = enableVerifyStyle;
+		enableVerifyStyle = newEnableVerifyStyle;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE, oldEnableVerifyStyle, enableVerifyStyle));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -280,6 +322,8 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 				return isVerifyIcons();
 			case TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN:
 				return isAllowUncapturedChildren();
+			case TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE:
+				return isEnableVerifyStyle();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -306,6 +350,9 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 				return;
 			case TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN:
 				setAllowUncapturedChildren((Boolean)newValue);
+				return;
+			case TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE:
+				setEnableVerifyStyle((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -334,6 +381,9 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 			case TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN:
 				setAllowUncapturedChildren(ALLOW_UNCAPTURED_CHILDREN_EDEFAULT);
 				return;
+			case TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE:
+				setEnableVerifyStyle(ENABLE_VERIFY_STYLE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -356,6 +406,8 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 				return verifyIcons != VERIFY_ICONS_EDEFAULT;
 			case TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN:
 				return allowUncapturedChildren != ALLOW_UNCAPTURED_CHILDREN_EDEFAULT;
+			case TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE:
+				return enableVerifyStyle != ENABLE_VERIFY_STYLE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -380,6 +432,8 @@ public class VerifyTreeDataImpl extends CommonTreeVerificationDataImpl implement
 		result.append(verifyIcons);
 		result.append(", allowUncapturedChildren: ");
 		result.append(allowUncapturedChildren);
+		result.append(", enableVerifyStyle: ");
+		result.append(enableVerifyStyle);
 		result.append(')');
 		return result.toString();
 	}

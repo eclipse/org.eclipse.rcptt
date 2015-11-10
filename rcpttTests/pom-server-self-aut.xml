@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.xored.q7</groupId>
     <artifactId>q7tests_server_self_aut</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>rcpttTest</packaging>
     <properties>
         <q7Server>http://192.168.2.64:8090</q7Server>
@@ -13,10 +13,10 @@
     <parent>
         <groupId>com.xored.q7</groupId>
         <artifactId>q7tests-base</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.2-SNAPSHOT</version>
         <relativePath>./pom-base.xml</relativePath>
     </parent>
-    <!--dependencies><dependency><groupId>com.xored.q7</groupId><artifactId>com.xored.q7.pro</artifactId><version>2.0.1-SNAPSHOT</version></dependency></dependencies -->
+    <!--dependencies><dependency><groupId>com.xored.q7</groupId><artifactId>com.xored.q7.pro</artifactId><version>2.0.2-SNAPSHOT</version></dependency></dependencies -->
     <build>
         <plugins>
             <plugin>

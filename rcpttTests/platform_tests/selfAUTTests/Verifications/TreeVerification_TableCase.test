@@ -1,0 +1,65 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _IFNjAFuCEeW3sah-fvxvew,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: TreeVerification_TableCase
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _xVknEG0AEeWCMLmV-Godvw
+Runtime-Version: 2.1.0.201510070509
+Save-Time: 10/15/15 10:17 AM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view "Test Explorer" | get-tree] {
+	select "MyProject/Verification" | double-click
+	select "MyProject/TestCase" | double-click
+}
+get-editor TestCase | get-button Replay | click
+
+get-aut selfQ7 | eval {
+    get-view "Test Explorer" | get-tree | get-item "MyProject/Params" | double-click
+}
+
+get-view "Test Explorer" | get-tree | select "MyProject/Verification" | double-click
+with [get-editor Verification] {
+	with [get-section "Widget Tree"] {
+		get-editbox -after [get-label "Widget:"] | set-text-offset 35 0
+		get-button "Pick..." | click
+	}
+}
+
+get-aut selfQ7 | eval {
+	get-view "Test Explorer" | get-tree | get-editor Params | get-table | click
+}
+with [get-editor Verification | get-section "Widget Tree"] {
+	get-tree | select p1
+	get-combo -after [get-label "Verify styles:"] | select "Ignore Styled Text"
+	with [get-tree] {
+		select p3 | activate-cell-edit
+		with [get-editbox] {
+			key-type Right
+			set-text "p.*"
+		}
+		apply-cell-edit -deactivate
+		select "p.\\*" | activate-cell-edit -column 1
+		apply-cell-edit -deactivate
+		select "p.\\*" | activate-cell-edit -column 1
+		with [get-editbox] {
+			key-type Right
+			set-text "v.*"
+		}
+		apply-cell-edit -deactivate
+		key-type "M1+s"
+	}
+}
+
+get-editor Verification | get-button Verify | click
+with [get-view "Execution View"] {
+	get-label "1/1" -after [get-label "Runs:"]
+	get-label 0 -after [get-label "Failures:"]
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

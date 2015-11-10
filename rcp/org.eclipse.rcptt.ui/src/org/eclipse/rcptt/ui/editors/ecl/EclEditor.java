@@ -1428,9 +1428,14 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 
 	private void addGoToDeclarationAction(IMenuManager menu) {
 		removeActionActivationCode(GO_TO_DECLARATION_ACTION);
-		setAction(GO_TO_DECLARATION_ACTION, new EclOpenDeclarationAction(this));
-		addGroup(menu, ITextEditorActionConstants.GROUP_EDIT, GO_TO_DECLARATION_GROUP);
-		addAction(menu, GO_TO_DECLARATION_GROUP, GO_TO_DECLARATION_ACTION);
+		EclOpenDeclarationAction action = new EclOpenDeclarationAction(this);
+		action.setActionDefinitionId(GO_TO_DECLARATION_ACTION);
+		setAction(GO_TO_DECLARATION_ACTION, action);
+		
+		if (menu != null) {
+			addGroup(menu, ITextEditorActionConstants.GROUP_EDIT, GO_TO_DECLARATION_GROUP);
+			addAction(menu, GO_TO_DECLARATION_GROUP, GO_TO_DECLARATION_ACTION);
+		}
 	}
 
 	private static final String GO_TO_DECLARATION_ACTION = "org.eclipse.rcptt.ui.actions.open.declaration";

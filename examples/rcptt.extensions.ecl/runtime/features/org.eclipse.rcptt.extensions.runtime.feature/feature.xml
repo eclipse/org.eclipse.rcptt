@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.extensions.runtime.feature"
       label="RCPTT ECL extensions example - Runtime"
-      version="2.0.1.qualifier"
+      version="2.0.2.qualifier"
       provider-name="Eclipse RCP Testing Tool Project"
       plugin="org.eclipse.rcptt.extensions.ecl.impl">
 
@@ -20,13 +20,13 @@
 
    <includes
          id="org.eclipse.rcptt.extensions.common.feature"
-         version="2.0.1.qualifier"/>
+         version="2.0.2.qualifier"/>
 
    <plugin
          id="org.eclipse.rcptt.extensions.ecl.impl"
          download-size="0"
          install-size="0"
-         version="2.0.1.qualifier"
+         version="2.0.2.qualifier"
          unpack="false"/>
 
 </feature>

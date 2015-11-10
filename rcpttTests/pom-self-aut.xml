@@ -5,18 +5,18 @@
 
 	<groupId>com.xored.q7</groupId>
 	<artifactId>q7tests_self_aut</artifactId>
-	<version>2.0.1-SNAPSHOT</version>
+	<version>2.0.2-SNAPSHOT</version>
 	<packaging>rcpttTest</packaging>
 
 	<parent>
 		<groupId>com.xored.q7</groupId>
 		<artifactId>q7tests-base</artifactId>
-		<version>2.0.1-SNAPSHOT</version>
+		<version>2.0.2-SNAPSHOT</version>
 		<relativePath>./pom-base.xml</relativePath>
 	</parent>
 
 	<properties>
-		<runner-version>2.0.1</runner-version>
+		<runner-version>2.0.2</runner-version>
 	</properties>
 
 	<build>

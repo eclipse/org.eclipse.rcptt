@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.GetJavaProperty#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.GetJavaProperty#getDefault <em>Default</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getGetJavaProperty()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Gets the Java system property indicated by the specified key.' returns='The string value of the system property.' example='get-java-property \"java.home\" | log'"

@@ -18,6 +18,10 @@ import java.util.Map.Entry;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -44,6 +48,8 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.rcptt.core.recording.CommandSet;
 import org.eclipse.rcptt.ecl.core.BoxedValue;
@@ -53,6 +59,7 @@ import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.tesla.core.protocol.Assert;
+import org.eclipse.rcptt.tesla.core.protocol.impl.AssertImpl;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.ui.Color;
 import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
@@ -69,17 +76,21 @@ import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.ImageManager;
 import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -88,12 +99,20 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.progress.ProgressManager;
 
+@SuppressWarnings("restriction")
 public class AssertionPanelWindow extends Dialog {
 
 	private static final String SETTINGS_KEY = "AssertionPanelWindow"; //$NON-NLS-1$
@@ -126,7 +145,7 @@ public class AssertionPanelWindow extends Dialog {
 
 		@Override
 		public void run() {
-			viewer.expandToLevel(2);
+			expandAll(true);
 		};
 	};
 
@@ -167,6 +186,10 @@ public class AssertionPanelWindow extends Dialog {
 
 	private final RecordingSupport recordingSupport;
 	private final Shell parentShell;
+
+	private CCombo filterCombo = null; 
+	private Text filterText = null;
+	private String filterValue = "";
 
 	public AssertionPanelWindow(RecordingSupport recordingSupport,
 			Shell parentShell) {
@@ -511,11 +534,95 @@ public class AssertionPanelWindow extends Dialog {
 		return composite;
 	}
 
-	protected Control createTreeViewer(Composite parent) {
-		final Composite treeComposite = new Composite(parent, SWT.NONE);
+	private void doFilter() {
+		filterValue = filterText.getText().toLowerCase();
+		viewer.refresh();
+		expandAll(false);
+	}
 
+	protected Composite createFilterComposite(Composite parent) {
+		final Composite filterComposite = new Composite(parent, SWT.BORDER);
+		final GridLayout filteredCompositeLayout = new GridLayout(3, false);
+		filteredCompositeLayout.marginWidth = 0;
+		filteredCompositeLayout.marginHeight = 0;
+		filterComposite.setLayout(filteredCompositeLayout);
+
+		filterCombo = new CCombo(filterComposite, SWT.READ_ONLY);
+		filterCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		filterCombo.setItems(
+			new String[] {
+				Messages.AssertionPanelWindow_FilterByProperty,
+				Messages.AssertionPanelWindow_FilterByValue
+			}
+		);
+		filterCombo.select(1);
+		filterCombo.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				doFilter();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				doFilter();
+			}
+		});
+
+		filterText = new Text(filterComposite, SWT.SINGLE);
+		filterText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		filterText.setMessage(Messages.AssertionPanelWindow_FilterMessage);
+		filterText.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.character == SWT.CR) {
+					doFilter();
+				}
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+
+		final ToolBar filterToolBar = new ToolBar(filterComposite, SWT.FLAT);
+		filterToolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		final ToolItem filterItem = new ToolItem(filterToolBar, SWT.FLAT | SWT.PUSH);
+		filterItem.setImage(Images.getImageDescriptor(Images.PANEL_FILTER).createImage());
+		filterItem.setToolTipText(Messages.AssertionPanelWindow_FilterToolTip);
+		filterItem.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				doFilter();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				doFilter();
+			}
+		});
+
+		final org.eclipse.swt.graphics.Color background = filterText.getBackground();
+		filterComposite.setBackground(background);
+		filterCombo.setBackground(background);
+		filterToolBar.setBackground(background);
+		return filterComposite;
+	}
+
+	private interface ITreeViewerFilter {
+		public boolean isVisible(AssertImpl object);
+	}
+	
+	Composite treeViewerComposite = null;
+
+	protected Control createTreeViewer(Composite parent) {
+		treeViewerComposite = new Composite(parent, SWT.NONE);
+		treeViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		treeViewerComposite.setLayout(new GridLayout());
+
+		final Composite filterComposite = createFilterComposite(treeViewerComposite);
+		filterComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+		final Composite treeComposite = new Composite(treeViewerComposite, SWT.NONE);
 		final TreeColumnLayout layout = new TreeColumnLayout();
 		treeComposite.setLayout(layout);
+		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		final Tree tree = new Tree(treeComposite, SWT.BORDER | SWT.CHECK
 				| SWT.FULL_SELECTION);
@@ -532,8 +639,78 @@ public class AssertionPanelWindow extends Dialog {
 				processCheck(event.getElement(), event.getChecked());
 			}
 		});
+		viewer.addFilter(new ViewerFilter() {
+			@Override
+			public boolean select(Viewer viewer, Object parentElement, Object element) {
+				if (filterValue.isEmpty()) {
+					return true;
+				}
+				if (filterCombo.getSelectionIndex() == 0) {
+					return select(
+						(CheckboxTreeViewer) viewer,
+						element,
+						new ITreeViewerFilter() {
+							@Override
+							public boolean isVisible(AssertImpl object) {
+								final String[] attributes = object.getAttribute().split("\\.");
+								final String name = attributes[attributes.length - 1];
+								return name.toLowerCase().contains(filterValue);
+							}
+						}
+					);
+				}
+				if (filterCombo.getSelectionIndex() == 1) {
+					return select(
+						(CheckboxTreeViewer) viewer,
+						element,
+						new ITreeViewerFilter() {
+							@Override
+							public boolean isVisible(AssertImpl object) {
+								return object.getValue().toLowerCase().contains(filterValue);
+							}
+						}
+					);
+				}
+				return true;
+			}
+			private boolean select(CheckboxTreeViewer viewer, Object element, ITreeViewerFilter filter) {
+				if (element instanceof AssertGroup) {
+					AssertGroup group = (AssertGroup) element;
+					for (final Object child : group.getAsserts()) {
+						if (select(viewer, child, filter)) {
+							return true;
+						}
+					}
+				} else if (element instanceof AssertImpl) {
+					final AssertImpl assertElement = (AssertImpl) element;
+					if (filter.isVisible(assertElement)) {
+						return true;
+					}
+				} else {
+					return true;
+				}
+				return false;
+			}
+		});
+		viewer.getTree().addListener(SWT.EraseItem, new Listener() {
+			public void handleEvent(Event event) {
+				if (filterValue.isEmpty() || (event.detail & SWT.SELECTED) != 0) {
+					return; 
+				}
+				if (((TreeItem) event.item).getData() instanceof AssertImpl) {
+					final GC gc = event.gc;
+					gc.setBackground(
+						new org.eclipse.swt.graphics.Color(
+							viewer.getControl().getDisplay(),
+							new RGB(168, 182, 223)
+						)
+					);
+					gc.fillRectangle(0, event.y, viewer.getTree().getClientArea().width, event.height);
+				}
+			}
+		});
 
-		return treeComposite;
+		return treeViewerComposite;
 	}
 
 	public AutLaunch getAut() {
@@ -911,5 +1088,90 @@ public class AssertionPanelWindow extends Dialog {
 			currentInput = null;
 		}
 	}
-
+	
+	private List<TreeItem> collapsed = null;
+	private List<TreeItem> references = null;
+	
+	private void expandAll(boolean allowExpandReferences) {
+		if (collapsed == null) {
+			collapsed = new ArrayList<TreeItem>();
+		}
+		if (references == null) {
+			references = new ArrayList<TreeItem>();
+		}
+		collectCollapsed(viewer.getTree().getItems());
+		if (collapsed.isEmpty()) {
+			if (allowExpandReferences) {
+				final Display viewerDisplay = viewer.getControl().getDisplay();
+				final Job job = new Job("Expand All") {
+					@Override
+					public IStatus run(IProgressMonitor monitor) {
+						enableButtons(false);
+						monitor.beginTask("Expand All", references.size());
+						for (final TreeItem item : references) {
+							if (monitor.isCanceled()) {
+								references.clear();
+								enableButtons(true);
+								return Status.CANCEL_STATUS;
+							}
+							viewerDisplay.syncExec(new Runnable() {
+								@Override
+								public void run() {
+									viewer.setExpandedState(item.getData(), true);
+									viewer.refresh();
+								}
+							});
+							monitor.worked(1);
+						}
+						monitor.done();
+						references.clear();
+						enableButtons(true);
+						return Status.OK_STATUS;
+					}
+					private void enableButtons(final boolean enabled) {
+						viewerDisplay.syncExec(new Runnable() {
+							@Override
+							public void run() {
+								treeViewerComposite.setEnabled(enabled);
+								selectAll.setEnabled(enabled);
+								deselectAll.setEnabled(enabled);
+								collapseAll.setEnabled(enabled);
+								expandAll.setEnabled(enabled);
+							}
+						});
+					}
+				};
+				ProgressManager.getInstance().showInDialog(getShell(), job);
+				job.schedule();
+			}
+		} else {
+			for (final TreeItem item : collapsed) {
+				viewer.setExpandedState(item.getData(), true);
+			}
+			collapsed.clear();
+			references.clear();
+		}
+	}
+	
+	private void collectCollapsed(final TreeItem[] treeItems) {
+		if (treeItems == null) {
+			return;
+		}
+		for (final TreeItem item : treeItems) {
+			if (item != null && item.getData() instanceof AssertGroup) {
+				if (
+					item.getItems().length != 1 ||
+					item.getItems()[0] == null ||
+					item.getItems()[0].getData() != null
+				) {
+					collectCollapsed(item.getItems());
+					if (!item.getExpanded()) {
+						collapsed.add(item);
+					}
+				} else if (!item.getExpanded()) {
+					references.add(item);
+				}
+			}
+		}
+	}
 }

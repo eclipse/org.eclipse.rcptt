@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.updates.e3x"
       label="RCPTT Runtime Sites"
-      version="2.0.1.qualifier"
+      version="2.0.2.qualifier"
       provider-name="%proiderName">
 
    <description>
@@ -21,7 +21,7 @@
          id="org.eclipse.rcptt.updates.runtime"
          download-size="0"
          install-size="0"
-         version="2.0.1.qualifier"
+         version="2.0.2.qualifier"
          unpack="false"/>
 
 </feature>

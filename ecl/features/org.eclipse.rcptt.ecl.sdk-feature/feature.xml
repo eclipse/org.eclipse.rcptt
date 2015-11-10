@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.ecl.sdk"
       label="ECL SDK"
-      version="2.0.1.qualifier"
+      version="2.0.2.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -19,6 +19,6 @@
 
    <includes
          id="org.eclipse.rcptt.ecl.core"
-         version="2.0.1.qualifier"/>
+         version="2.0.2.qualifier"/>
 
 </feature>

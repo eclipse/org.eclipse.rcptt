@@ -240,6 +240,9 @@ public class UIJobCollector implements IJobChangeListener {
 			if (job.belongsTo(getFamilyAutoBuild())) {
 				status = JobStatus.REQUIRED;
 			}
+			if (job.isUser()) {
+				status = JobStatus.REQUIRED;
+			}
 			// if (TeslaSWTAccess.isDefferedTreeContentProvider(job)) {
 			// status = JobStatus.REQUIRED;
 			// }
@@ -696,7 +699,7 @@ public class UIJobCollector implements IJobChangeListener {
 		Job[] find = Job.getJobManager().find(null);
 		for (Job job : find) {
 			if ((job instanceof UIJob && job.getState() != Job.SLEEPING)
-					|| job.belongsTo(getFamilyAutoBuild())) {
+					|| job.belongsTo(getFamilyAutoBuild()) || job.isUser()) {
 				JobStatus status = calcJobStatus(job, (long) 0);
 				if (JobStatus.REQUIRED.equals(status)) {
 					if (job.belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {

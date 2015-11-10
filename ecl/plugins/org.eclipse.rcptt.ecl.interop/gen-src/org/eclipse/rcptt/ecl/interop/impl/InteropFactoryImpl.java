@@ -35,7 +35,7 @@ public class InteropFactoryImpl extends EFactoryImpl implements InteropFactory {
 	 */
 	public static InteropFactory init() {
 		try {
-			InteropFactory theInteropFactory = (InteropFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/ecl/interop.ecore"); 
+			InteropFactory theInteropFactory = (InteropFactory)EPackage.Registry.INSTANCE.getEFactory(InteropPackage.eNS_URI);
 			if (theInteropFactory != null) {
 				return theInteropFactory;
 			}
