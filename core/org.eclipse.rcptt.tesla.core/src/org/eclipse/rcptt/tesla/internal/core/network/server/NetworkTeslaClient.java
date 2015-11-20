@@ -53,7 +53,6 @@ public class NetworkTeslaClient extends AbstractTeslaClient {
 
 	private DataOutputStream dataOutput;
 	private LocalEmptyStream stream;
-	private boolean active = true;
 
 	public NetworkTeslaClient(DataOutputStream dout, String id) {
 		super(id);
@@ -61,29 +60,8 @@ public class NetworkTeslaClient extends AbstractTeslaClient {
 	}
 
 	@Override
-	public Object getSyncObject() {
-		return this;
-	}
-
-	@Override
 	public boolean hasCommand() {
 		return localQueue.isEmpty();
-	}
-
-	@Override
-	public boolean isActive() {
-		return active;
-	}
-
-	@Override
-	public boolean isClosed() {
-		return !active;
-	}
-
-	@Override
-	public void shutdown() {
-		super.shutdown();
-		active = false;
 	}
 
 	@Override
@@ -95,7 +73,6 @@ public class NetworkTeslaClient extends AbstractTeslaClient {
 	}
 
 	public void waitForExecution(Command cmd) {
-
 	}
 
 	@Override

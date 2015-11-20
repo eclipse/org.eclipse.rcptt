@@ -22,6 +22,10 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
+import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
+import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
+import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -46,10 +50,6 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.rcptt.util.StringUtils;
-import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
-import org.eclipse.rcptt.tesla.swt.TeslaSWTMessages;
-import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 
 public class PlayerTextUtils {
 	// for static utility methods only
@@ -180,7 +180,7 @@ public class PlayerTextUtils {
 					/ Math.pow(10, ((Spinner) widget).getDigits()));
 		}
 		if (result == null) {
-			for (ISWTUIPlayerExtension ext : SWTUIPlayer.extensions) {
+			for (ISWTUIPlayerExtension ext : SWTUIPlayer.getExtensions()) {
 				String text = ext.getRawText(uiElement);
 				if (text != null) {
 					result = text;

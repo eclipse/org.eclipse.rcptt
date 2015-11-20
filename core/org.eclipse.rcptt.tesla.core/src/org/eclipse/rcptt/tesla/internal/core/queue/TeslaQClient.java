@@ -15,7 +15,6 @@ import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 
 public class TeslaQClient extends AbstractTeslaClient {
-	private boolean isClosed = false;
 	TeslaQStream qStream = new TeslaQStream(null);
 
 	@Override
@@ -25,27 +24,6 @@ public class TeslaQClient extends AbstractTeslaClient {
 
 	public TeslaQClient() {
 		super("myid:" + System.currentTimeMillis());
-	}
-
-	@Override
-	public boolean isClosed() {
-		return isClosed;
-	}
-
-	@Override
-	public Object getSyncObject() {
-		return this;
-	}
-
-	@Override
-	public boolean isActive() {
-		return !isClosed;
-	}
-
-	@Override
-	public void shutdown() {
-		super.shutdown();
-		isClosed = true;
 	}
 
 	@Override

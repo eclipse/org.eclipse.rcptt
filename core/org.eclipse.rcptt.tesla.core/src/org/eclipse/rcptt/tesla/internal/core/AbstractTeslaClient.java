@@ -52,6 +52,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	private final Map<Command, ITeslaCommandProcessor.PreExecuteStatus> preStatuses = new HashMap<Command, ITeslaCommandProcessor.PreExecuteStatus>();
 	private final TeslaProcessorManager processors = new TeslaProcessorManager();
 	private Context currentContext;
+	private boolean closed = false;
 
 	private final String id;
 	private final AtomicInteger hasEvents = new AtomicInteger(-1);
@@ -63,40 +64,32 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		processors.initializeProcessors(this, id);
 	}
 
-	public ElementGenerator getGenerator() {
-		return generator;
-	}
-
 	public String getID() {
 		return id;
 	}
 
-	public void shutdown() {
+	synchronized public void shutdown() {
 		processors.terminate();
-		elementProcessors = null;
+		elementProcessors.clear();
+		closed = true;
 	}
-
-	public abstract boolean isActive();
-
-	public abstract Object getSyncObject();
-
-	public abstract boolean isClosed();
 
 	protected abstract TeslaStream stream();
 
-	public void map(Element element, ITeslaCommandProcessor processor) {
+	@Override
+	synchronized public void map(Element element, ITeslaCommandProcessor processor) {
 		if (element != null && processor != null) {
 			putProcessor(element, processor);
 			processors.postSelect(element, new IElementProcessorMapper() {
-				public void map(Element element,
-						ITeslaCommandProcessor processor) {
+				@Override
+				public void map(Element element, ITeslaCommandProcessor processor) {
 					putProcessor(element, processor);
 				}
 			});
 		}
 	}
 
-	private void putProcessor(Element element, ITeslaCommandProcessor processor) {
+	synchronized private void putProcessor(Element element, ITeslaCommandProcessor processor) {
 		final String key = makeKey(element);
 		Set<ITeslaCommandProcessor> set = this.elementProcessors.get(key);
 		if (set == null) {
@@ -111,7 +104,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		this.elementProcessors.put(key, newSet);
 	}
 
-	protected SelectResponse handleSelect(SelectCommand cmd) {
+	private SelectResponse handleSelect(SelectCommand cmd) {
 		// Check for extensions first
 		String kind = cmd.getData().getKind();
 		SelectResponse response = processors.select(cmd, generator, this);
@@ -131,19 +124,9 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		return uiElement.getKind() + ":" + uiElement.getId();
 	}
 
-	public boolean processNext(Context context, Q7WaitInfoRoot info) {
-		if (isClosed()) {
-			return false;
-		}
-		synchronized (this) {
-			if (processing) { // Skip this event if we already processing one
-				// other
-				return false;
-			}
-		}
-
-		if (isActive() && (hasCommand() || !localQueue.isEmpty())
-				&& canProceed(context, info)) {
+	synchronized public boolean processNext(Context context, Q7WaitInfoRoot info) {
+		// Skip this event if we are already processing another one.
+		if (!closed && !processing && (hasCommand() || !localQueue.isEmpty()) && canProceed(context, info)) {
 			return doOneCommand(context, info);
 		}
 		return false;
@@ -173,13 +156,12 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		elementProcessors.clear();
 	}
 
-	protected boolean preExecute(Command command, Q7WaitInfoRoot info) {
+	private boolean preExecute(Command command, Q7WaitInfoRoot info) {
 		if (command instanceof ElementCommand) {
 			ElementCommand cmd = (ElementCommand) command;
 			Element element = cmd.getElement();
 			if (element != null) {
-				Set<ITeslaCommandProcessor> processors = elementProcessors
-						.get(makeKey(element));
+				Set<ITeslaCommandProcessor> processors = elementProcessors.get(makeKey(element));
 				if (processors != null) {
 					PreExecuteStatus preStatus = preStatuses.get(command);
 					for (ITeslaCommandProcessor processor : processors) {
@@ -212,7 +194,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		return true;
 	}
 
-	public void addCommand(Command cmd) {
+	synchronized public void addCommand(Command cmd) {
 		localQueue.add(cmd);
 		notifyUI();
 	}
@@ -272,8 +254,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 			Element element = cmd.getElement();
 
 			if (element != null) {
-				Set<ITeslaCommandProcessor> processors = elementProcessors
-						.get(makeKey(element));
+				Set<ITeslaCommandProcessor> processors = elementProcessors.get(makeKey(element));
 				if (processors != null) {
 					for (ITeslaCommandProcessor processor : processors) {
 						if (processor != null) {
@@ -300,8 +281,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 				return response;
 			}
 		}
-		if (command.eClass().getEPackage()
-				.equals(ProtocolFactory.eINSTANCE.getEPackage())) {
+		if (command.eClass().getEPackage().equals(ProtocolFactory.eINSTANCE.getEPackage())) {
 			switch (command.eClass().getClassifierID()) {
 			case ProtocolPackage.SELECT_COMMAND:
 				return handleSelect((SelectCommand) command);
@@ -337,31 +317,28 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 	private Response createErrorResponse(Throwable e) {
 		Response errorResponse = RawFactory.eINSTANCE.createResponse();
 		errorResponse.setStatus(ResponseStatus.FAILED);
-		errorResponse.setMessage("Exception happened:\n"
-				+ Exceptions.toString(e)); // not only class name, but also its
-		// message
+		errorResponse.setMessage("Exception happened:\n" + Exceptions.toString(e)); // class name and exception message
 		return errorResponse;
 	}
 
-	public AdvancedInformation getLastFailureInformation() {
+	synchronized public AdvancedInformation getLastFailureInformation() {
 		return lastFailureInformation;
 	}
 
-	public void clearLastFailureInformation() {
+	synchronized public void clearLastFailureInformation() {
 		lastFailureInformation = null;
 	}
 
-	protected void handleFailedResponse(Command command, Response response) {
+	private void handleFailedResponse(Command command, Response response) {
 		if (response != null) {
 			// Collect advanced information for this error
 			AdvancedInformation information = getAdvancedInformation(command);
 			this.lastFailureInformation = information;
-			response.setAdvancedInformation(EcoreUtil
-					.copy(information));
+			response.setAdvancedInformation(EcoreUtil.copy(information));
 		}
 	}
 
-	public AdvancedInformation getAdvancedInformation(Command command) {
+	synchronized public AdvancedInformation getAdvancedInformation(Command command) {
 		// Collect advanced information
 		AdvancedInformation information = InfoFactory.eINSTANCE.createAdvancedInformation();
 		processors.collectInformation(information, command);
@@ -370,7 +347,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 		return information;
 	}
 
-	public void collectLastFailureInformation() {
+	synchronized public void collectLastFailureInformation() {
 		AdvancedInformation information = getAdvancedInformation(null);
 		this.lastFailureInformation = information;
 	}
