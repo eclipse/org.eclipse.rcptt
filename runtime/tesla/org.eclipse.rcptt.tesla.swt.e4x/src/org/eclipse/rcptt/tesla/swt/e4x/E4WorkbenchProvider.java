@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.tesla.swt.e4x;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +26,15 @@ import org.eclipse.e4.ui.workbench.addons.minmax.TrimStack;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
+import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
+import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
+import org.eclipse.rcptt.tesla.swt.workbench.IEclipseWorkbenchProvider;
+import org.eclipse.rcptt.util.ReflectionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.widgets.Composite;
@@ -54,16 +62,6 @@ import org.eclipse.ui.internal.e4.compatibility.ActionBars;
 import org.eclipse.ui.internal.e4.compatibility.SelectionService;
 import org.eclipse.ui.internal.quickaccess.SearchField;
 import org.osgi.framework.Version;
-
-import org.eclipse.rcptt.util.ReflectionUtil;
-import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
-import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
-import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
-import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
-import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
-import org.eclipse.rcptt.tesla.swt.workbench.IEclipseWorkbenchProvider;
 
 public class E4WorkbenchProvider implements IEclipseWorkbenchProvider {
 
@@ -93,10 +91,6 @@ public class E4WorkbenchProvider implements IEclipseWorkbenchProvider {
 			man.createContextMenu(site.getShell());
 
 		return man.getMenu();
-	}
-
-	public List<?> getPaneFolderButtonListeners(Object paneFolder) {
-		return new ArrayList();
 	}
 
 	@SuppressWarnings("restriction")
@@ -157,26 +151,25 @@ public class E4WorkbenchProvider implements IEclipseWorkbenchProvider {
 		return references;
 	}
 
-	public void processTabFolderButton(Widget widget, int buttonId) {
-		if (!(widget instanceof CTabFolder)) {
-			if (widget.getData("modelElement") != null
-					&& widget instanceof Control) {
-				Composite parent = ((Control) widget).getParent();
-				if (!(parent instanceof CTabFolder)) {
-					parent = parent.getParent();
-					if (!(parent instanceof CTabFolder))
-						return;
-				}
-				widget = parent;
-			}
+	private CTabFolder getCTabFolder(Widget widget) {
+		if (widget instanceof CTabFolder) {
+			return (CTabFolder) widget;
 		}
+		if (widget instanceof Control && widget.getData("modelElement") != null) {
+			Composite parent = ((Control) widget).getParent();
+			if (parent == null || parent instanceof CTabFolder)
+				return (CTabFolder) parent;
+			parent = parent.getParent();
+			if (parent instanceof CTabFolder)
+				return (CTabFolder) parent;
+		}
+		return null;
+	}
 
-		if (!(widget instanceof CTabFolder))
+	public void processTabFolderButton(Widget widget, int buttonId) {
+		CTabFolder tabFolder = getCTabFolder(widget);
+		if (tabFolder == null)
 			return;
-
-		// --
-
-		CTabFolder tabFolder = (CTabFolder) widget;
 
 		ToolItem maxItem = null, minItem = null;
 		try {
@@ -222,25 +215,9 @@ public class E4WorkbenchProvider implements IEclipseWorkbenchProvider {
 	}
 
 	public void processTabShowList(Widget widget) {
-		if (!(widget instanceof CTabFolder)) {
-			if (widget.getData("modelElement") != null
-					&& widget instanceof Control) {
-				Composite parent = ((Control) widget).getParent();
-				if (!(parent instanceof CTabFolder)) {
-					parent = parent.getParent();
-					if (!(parent instanceof CTabFolder))
-						return;
-				}
-				widget = parent;
-			}
-		}
-
-		if (!(widget instanceof CTabFolder))
+		CTabFolder tabFolder = getCTabFolder(widget);
+		if (tabFolder == null)
 			return;
-
-		// --
-
-		CTabFolder tabFolder = (CTabFolder) widget;
 
 		ToolItem chevronItem = null;
 		try {
