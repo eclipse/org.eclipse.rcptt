@@ -18,5 +18,7 @@
         eType="#//LogEntryPredicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="required" upperBound="-1"
         eType="#//LogEntryPredicate" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeContexts" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
   </eClassifiers>
 </ecore:EPackage>

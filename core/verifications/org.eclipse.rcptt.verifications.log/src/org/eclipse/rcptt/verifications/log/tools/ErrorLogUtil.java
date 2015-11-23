@@ -13,11 +13,9 @@ package org.eclipse.rcptt.verifications.log.tools;
 import static org.eclipse.rcptt.util.StringUtils.nullToEmpty;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
-
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogFactory;
@@ -47,21 +45,10 @@ public class ErrorLogUtil {
 		return true;
 	}
 
-	public static LogEntryPredicate find(
-			Collection<LogEntryPredicate> predicates, IStatus status) {
+	public static LogEntryPredicate find(Iterable<LogEntryPredicate> predicates, IStatus status) {
 		for (LogEntryPredicate predicate : predicates) {
 			if (match(predicate, status))
 				return predicate;
-		}
-		return null;
-	}
-
-	public static IStatus find(Collection<IStatus> statuses,
-			LogEntryPredicate predicate) {
-		for (IStatus status : statuses) {
-			if (match(predicate, status)) {
-				return status;
-			}
 		}
 		return null;
 	}
@@ -98,7 +85,7 @@ public class ErrorLogUtil {
 				.eContainer();
 		if (parent == null)
 			throw new NullPointerException(
-					"Predicate should be stored in a verfication");
+					"Predicate should be stored in a verification");
 
 		List<LogEntryPredicate> content = getPredicates(parent);
 

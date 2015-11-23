@@ -13,12 +13,10 @@ package org.eclipse.rcptt.verifications.log.impl;
 import static java.lang.String.format;
 import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.createMatchingPredicate;
 import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.describe;
-import static org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil.find;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILogListener;
@@ -28,132 +26,104 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.VerificationProcessor;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.reporting.ItemKind;
+import org.eclipse.rcptt.reporting.Q7Info;
+import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportManager;
-import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
+import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogFactory;
+import org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil;
 import org.eclipse.rcptt.verifications.runtime.ErrorList;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+
 public class ErrorLogVerificationProcessor extends VerificationProcessor implements ILogListener {
-	
-	
-	private final Set<LogEntryPredicate> whiteList = new HashSet<LogEntryPredicate>();
-	private final List<IStatus> testLog = new ArrayList<IStatus>(); 
-	
-	
-	class State {
-		State onStart(){return this;}
-		State onRun() {return this;}
-		State onFinish(){return this;}
-	}
-	
-	private final State STARTED  = new  State() {
-		@Override
-		State onFinish() {
-			return FINISHED;
-		}
-		@Override
-		State onRun() {
-			return RUNNING;
-		}
-	};
-	
-	private final State FINISHED = new State() {
-		@Override
-		State onStart() {
-			reset();
-			return STARTED;
-		}
 
-	};
-	
-	private final State RUNNING = new State() {
-		@Override
-		State onStart() {
-			reset();
-			return STARTED;
-		}
-		@Override
-		State onFinish() {
-			return FINISHED;
-		}
-	};
+	/**
+	 * An entry in the error log, containing the error's {@link IStatus} and the {@link INodeBuilder} at the time of the
+	 * error.
+	 */
+	private static class LogEntry {
+		final IStatus status;
+		final INodeBuilder node;
 
-	private void reset() {
-		whiteList.clear();
-		testLog.clear();
+		LogEntry(IStatus status, INodeBuilder node) {
+			this.status = Preconditions.checkNotNull(status);
+			this.node = node;
+		}
 	}
-	
-	private State currentState = FINISHED;
+
+	private final List<LogEntry> testLog = new ArrayList<LogEntry>();
 
 	public ErrorLogVerificationProcessor() {
 		Platform.addLogListener(this);
 	}
 	
 	@Override
-	synchronized public Object start(Verification verification, IProcess process)
-			throws CoreException {
-		currentState = currentState.onStart();
-		ErrorLogVerification logVer = (ErrorLogVerification) verification;
-		whiteList.addAll(logVer.getAllowed());
-		whiteList.addAll(logVer.getRequired());
+	synchronized public Object start(Verification verification, IProcess process) {
+		testLog.clear();
 		return null;
 	}
 
 	@Override
-	synchronized public Object run(Verification verification, Object data, IProcess process)
-			throws CoreException {
-		currentState = currentState.onFinish();
+	synchronized public Object run(Verification verification, Object data, IProcess process) {
 		return data;
 	}
 
 	@Override
-	public void finish(Verification verification, Object data, IProcess process)
-			throws CoreException {
-		synchronized (process) {
-			currentState = currentState.onFinish();
-		}
-		final ErrorLogVerification logVerification = (ErrorLogVerification) verification;
-		ErrorList errors = UIRunnable.exec(new UIRunnable<ErrorList>() {
-			@Override
-			public ErrorList run() throws CoreException {
-				return findErrors(logVerification);
-			}
-		});
+	public void finish(Verification verification, Object data, IProcess process) throws CoreException {
+		ErrorList errors = findErrors((ErrorLogVerification) verification);
 		errors.throwIfAny(String.format("Error log verification '%s' failed:", verification.getName()), this.getClass()
 				.getPackage().getName(), verification.getId());
 	}
 
 	private ErrorList findErrors(ErrorLogVerification logVerification) {
+		Iterable<LogEntryPredicate> whiteList = Iterables.concat(
+				logVerification.getAllowed(),
+				logVerification.getRequired());
 		ErrorList errors = new ErrorList();
-		for (IStatus status: testLog) {
-			if (isWhiteListed(status))
+		for (LogEntry entry : testLog) {
+			boolean ignoreContext = !logVerification.isIncludeContexts() && isContext(entry.node);
+			if (ignoreContext || isWhiteListed(whiteList, entry.status)) {
 				continue;
-			LogEntryPredicate denied = find(logVerification.getDenied(), status);
+			}
+			LogEntryPredicate denied = ErrorLogUtil.find(logVerification.getDenied(), entry.status);
 			if (denied != null) {
 				errors.add(
 						"Log entry\n%s\nis denied by predicate\n%s",
-						describe(status),
+						describe(entry.status),
 						describe(denied));
 			}
 		}
-		
+
 		for (LogEntryPredicate predicate: logVerification.getRequired()) {
-			if (find(testLog, predicate) == null) {
+			if (!contains(testLog, predicate)) {
 				errors.add("Required \n%s\nnot found", describe(predicate));
 			}
 		}
 		return errors;
 	}
 
+	private static boolean contains(Collection<LogEntry> entries, LogEntryPredicate predicate) {
+		for (LogEntry entry : entries) {
+			if (ErrorLogUtil.match(predicate, entry.status)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	synchronized public void logging(IStatus status, String plugin) {
-		testLog.add(status);
+		INodeBuilder node = ReportManager.getCurrentReportNode();
+		testLog.add(new LogEntry(status, node));
 	}
 	
-	private boolean isWhiteListed(IStatus status) {
-		LogEntryPredicate rv = find(whiteList, status);
+	private boolean isWhiteListed(Iterable<LogEntryPredicate> whiteList, IStatus status) {
+		LogEntryPredicate rv = ErrorLogUtil.find(whiteList, status);
 		if (rv != null) {
 			ErrorLogVerification verification = (ErrorLogVerification) rv.eContainer();
 			ReportManager.appendLog(format("Log entry %s is allowed by verification %s with %s",
@@ -166,14 +136,29 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 	}
 
 	@Override
-	public Verification create(EObject param, IProcess process)
-			throws CoreException {
+	public Verification create(EObject param, IProcess process) throws CoreException {
 		ErrorLogVerification rv = LogFactory.eINSTANCE.createErrorLogVerification();
-		for (IStatus entry: testLog) {
-			rv.getAllowed().add(createMatchingPredicate(entry));
+		if (param instanceof ErrorLogVerification) {
+			rv.setIncludeContexts(((ErrorLogVerification) param).isIncludeContexts());
+		}
+		for (LogEntry entry : testLog) {
+			if (!rv.isIncludeContexts() && isContext(entry.node)) {
+				continue; // Error happened during context execution and the verification is configured to ignore them.
+			}
+			rv.getAllowed().add(createMatchingPredicate(entry.status));
 		}
 		return rv;
 	}
 
+	private static boolean isContext(INodeBuilder node) {
+		while (node != null) {
+			Q7Info info = (Q7Info) node.getProperty(IQ7ReportConstants.ROOT);
+			if (info != null && ItemKind.CONTEXT.equals(info.getType())) {
+				return true;
+			}
+			node = node.getParent();
+		}
+		return false;
+	}
 	
 }

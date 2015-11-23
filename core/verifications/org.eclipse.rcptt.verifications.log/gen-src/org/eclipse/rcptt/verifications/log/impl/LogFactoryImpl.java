@@ -13,12 +13,13 @@ package org.eclipse.rcptt.verifications.log.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.rcptt.verifications.log.*;
+import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
+import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
+import org.eclipse.rcptt.verifications.log.LogFactory;
+import org.eclipse.rcptt.verifications.log.LogPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -76,6 +77,7 @@ public class LogFactoryImpl extends EFactoryImpl implements LogFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LogEntryPredicate createLogEntryPredicate() {
 		LogEntryPredicateImpl logEntryPredicate = new LogEntryPredicateImpl();
 		return logEntryPredicate;
@@ -86,6 +88,7 @@ public class LogFactoryImpl extends EFactoryImpl implements LogFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ErrorLogVerification createErrorLogVerification() {
 		ErrorLogVerificationImpl errorLogVerification = new ErrorLogVerificationImpl();
 		return errorLogVerification;
@@ -96,6 +99,7 @@ public class LogFactoryImpl extends EFactoryImpl implements LogFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LogPackage getLogPackage() {
 		return (LogPackage)getEPackage();
 	}

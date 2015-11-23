@@ -12,18 +12,15 @@ package org.eclipse.rcptt.verifications.log.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.rcptt.core.scenario.impl.VerificationImpl;
-
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogPackage;
@@ -34,12 +31,13 @@ import org.eclipse.rcptt.verifications.log.LogPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.ErrorLogVerificationImpl#getAllowed <em>Allowed</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.ErrorLogVerificationImpl#getDenied <em>Denied</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.ErrorLogVerificationImpl#getRequired <em>Required</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.verifications.log.impl.ErrorLogVerificationImpl#isIncludeContexts <em>Include Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,6 +73,26 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 	protected EList<LogEntryPredicate> required;
 
 	/**
+	 * The default value of the '{@link #isIncludeContexts() <em>Include Contexts</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIncludeContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INCLUDE_CONTEXTS_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isIncludeContexts() <em>Include Contexts</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIncludeContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean includeContexts = INCLUDE_CONTEXTS_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -98,6 +116,7 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<LogEntryPredicate> getAllowed() {
 		if (allowed == null) {
 			allowed = new EObjectContainmentEList<LogEntryPredicate>(LogEntryPredicate.class, this, LogPackage.ERROR_LOG_VERIFICATION__ALLOWED);
@@ -110,6 +129,7 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<LogEntryPredicate> getDenied() {
 		if (denied == null) {
 			denied = new EObjectContainmentEList<LogEntryPredicate>(LogEntryPredicate.class, this, LogPackage.ERROR_LOG_VERIFICATION__DENIED);
@@ -122,11 +142,35 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<LogEntryPredicate> getRequired() {
 		if (required == null) {
 			required = new EObjectContainmentEList<LogEntryPredicate>(LogEntryPredicate.class, this, LogPackage.ERROR_LOG_VERIFICATION__REQUIRED);
 		}
 		return required;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isIncludeContexts() {
+		return includeContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setIncludeContexts(boolean newIncludeContexts) {
+		boolean oldIncludeContexts = includeContexts;
+		includeContexts = newIncludeContexts;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LogPackage.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS, oldIncludeContexts, includeContexts));
 	}
 
 	/**
@@ -161,6 +205,8 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 				return getDenied();
 			case LogPackage.ERROR_LOG_VERIFICATION__REQUIRED:
 				return getRequired();
+			case LogPackage.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS:
+				return isIncludeContexts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -186,6 +232,9 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 				getRequired().clear();
 				getRequired().addAll((Collection<? extends LogEntryPredicate>)newValue);
 				return;
+			case LogPackage.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS:
+				setIncludeContexts((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -207,6 +256,9 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 			case LogPackage.ERROR_LOG_VERIFICATION__REQUIRED:
 				getRequired().clear();
 				return;
+			case LogPackage.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS:
+				setIncludeContexts(INCLUDE_CONTEXTS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -225,8 +277,26 @@ public class ErrorLogVerificationImpl extends VerificationImpl implements ErrorL
 				return denied != null && !denied.isEmpty();
 			case LogPackage.ERROR_LOG_VERIFICATION__REQUIRED:
 				return required != null && !required.isEmpty();
+			case LogPackage.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS:
+				return includeContexts != INCLUDE_CONTEXTS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (includeContexts: ");
+		result.append(includeContexts);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ErrorLogVerificationImpl

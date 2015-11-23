@@ -47,6 +47,13 @@ public interface INodeBuilder {
 
 	void setProperty(String key, EObject value);
 
+	EObject getProperty(String key);
+
+	/**
+	 * Returns the parent node, or {@code null} if this is a root node.
+	 */
+	INodeBuilder getParent();
+
 	void addSnapshot(Snaphot snapshot);
 	
 	/** Direct node access
