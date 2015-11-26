@@ -83,12 +83,12 @@ public class TestsRunner {
 		System.out.println("Looking for tests...");
 
 		TestSuite[] tests;
-			tests = findScenarios();
-			if (tests.length > 0) {
-				return runTests(tests);
-			} else {
-				System.out.println("No tests to run.");
-			}
+		tests = findScenarios();
+		if (tests.length > 0) {
+			return runTests(tests);
+		} else {
+			System.out.println("No tests to run.");
+		}
 
 		return null;
 	}
@@ -168,7 +168,7 @@ public class TestsRunner {
 							skipBy = s;
 						}
 					}
-					System.out.println("-- Testcase is skiped by tag \""
+					System.out.println("-- Testcase is skipped by tag \""
 							+ skipBy + "\" -- " + tcase.getName());
 					continue;
 				}
@@ -234,8 +234,7 @@ public class TestsRunner {
 		}
 		if (unresolved.size() > 0) {
 			try {
-				System.out
-						.println("-- Testcase is skipped because incorrect dependencies -- "
+				System.out.println("-- Testcase is skipped because of incorrect dependencies -- "
 								+ tcase.getName()
 								+ ". Requires contexts: ["
 								+ Joiner.on(",").join(unresolved) + "]");
@@ -272,15 +271,15 @@ public class TestsRunner {
 		Set<String> failed = new HashSet<String>();
 		try {
 			int count = 0;
-			for (final TestSuite suit : tests) {
-				suit.setLimit(conf.limit);
-				count += suit.getScenarios().size();
+			for (final TestSuite suite : tests) {
+				suite.setLimit(conf.limit);
+				count += suite.getScenarios().size();
 			}
 			int artifacts = 0;
-			for (final TestSuite suit : tests) {
-				for (final IQ7NamedElement scenario : suit.getScenarios()) {
+			for (final TestSuite suite : tests) {
+				for (final IQ7NamedElement scenario : suite.getScenarios()) {
 					ScenarioRunnable runnable = new ScenarioRunnable(
-							resultsHandler, scenario, suit, "("
+							resultsHandler, scenario, suite, "("
 									+ Integer.valueOf(artifacts) + " from "
 									+ Integer.valueOf(count) + ")",
 							reportWriter);
@@ -306,7 +305,7 @@ public class TestsRunner {
 								thread.join();
 							} catch (InterruptedException e) {
 								HeadlessRunnerPlugin.getDefault().info(
-										"Exception during join for aut thread termination because of timeout", e);
+										"Exception during join for AUT thread termination because of timeout", e);
 							}
 						}
 					}

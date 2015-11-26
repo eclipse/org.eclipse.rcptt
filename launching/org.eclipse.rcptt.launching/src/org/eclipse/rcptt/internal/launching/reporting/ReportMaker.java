@@ -44,6 +44,7 @@ import com.google.common.base.Strings;
  * Creates cumulative sherlock report from IExecutionSession
  */
 public class ReportMaker implements IQ7ReportConstants {
+	public static final String FAILED_TO_CLOSE_REPORT_NODE = "Failed to close report node";
 
 	public static void beginReportNode(String node,
 			Map<String, EObject> properties, AutLaunch launch)
@@ -65,7 +66,8 @@ public class ReportMaker implements IQ7ReportConstants {
 			endReportNode(takeSnaphots, launch, ProcessStatusConverter.toProcessStatus(result));
 		} catch (CoreException e) {
 			IStatus[] children = new IStatus[] { result, e.getStatus() };
-			throw new CoreException(new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, "Failed to close report node", null));
+			throw new CoreException(
+					new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, FAILED_TO_CLOSE_REPORT_NODE, null));
 		}
 	}
 	

@@ -75,6 +75,7 @@ public class RunnerConfiguration {
 		TimeoutRestartTestCount(
 				"Restart AUT then specified amount of tests are failed with timeout (default value is 2, one by one)",
 				"timeoutRestartTestCount"), //
+		ConnectionResetRetry("Retry tests after connection reset errors", "connectionResetRetry"), //
 		OnlySpecified("Inject only specified sites", "injectSpecified"), //
 		NoSecurityStorage("Do not override secure storage location",
 				"noSecurityOverride"), //
@@ -123,6 +124,7 @@ public class RunnerConfiguration {
 	public String[] autArgs;
 	public String[] autVMArgs = new String[0];
 	public int timeoutRestart = 2;
+	public int connectionResetRetry = 3;
 	public boolean splitHTMLReport = false;
 	public boolean reuseExistingWorkspace = false;
 	public boolean outputMemoryUsage = false;
@@ -347,6 +349,14 @@ public class RunnerConfiguration {
 					HeadlessRunnerPlugin
 							.getDefault()
 							.info("WARNING: AUT Timeout Restart test count must be integer value.");
+				}
+				break;
+			case ConnectionResetRetry:
+				try {
+					connectionResetRetry = Integer.parseInt(i.next());
+				} catch (NumberFormatException e) {
+					HeadlessRunnerPlugin.getDefault()
+							.info("WARNING: AUT Connection Reset retry count must be an integer value.");
 				}
 				break;
 			case Count:

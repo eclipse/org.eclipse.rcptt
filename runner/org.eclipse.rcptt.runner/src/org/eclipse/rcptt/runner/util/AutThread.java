@@ -63,6 +63,7 @@ public class AutThread extends Thread {
 	private String outFilePath;
 	private boolean cancel = false;
 	private final List<ScenarioRunnable> runnables;
+	private ScenarioRunnable currentRunnable = null;
 
 	private final AUTsManager manager;
 	private final RunnerConfiguration conf;
@@ -129,12 +130,11 @@ public class AutThread extends Thread {
 			while (!runnables.isEmpty() && !cancel) {
 				checkAut();
 
-				ScenarioRunnable run = null;
 				synchronized (runnables) {
-					run = runnables.remove(0);
+					currentRunnable = runnables.remove(0);
 				}
-				if (run != null) {
-					run.run(this);
+				if (currentRunnable != null) {
+					currentRunnable.run(this);
 				}
 			}
 		} catch (InterruptedException e) {
@@ -477,6 +477,18 @@ public class AutThread extends Thread {
 		shutdown();
 		restartId++;
 		launchAut();
+	}
+
+	/**
+	 * Put the current {@link SessionRunnable} back in the queue so that it is run again.
+	 */
+	void retry() {
+		if (currentRunnable != null) {
+			synchronized (runnables) {
+				runnables.add(0, currentRunnable);
+			}
+			currentRunnable = null;
+		}
 	}
 
 	public void cancel() {

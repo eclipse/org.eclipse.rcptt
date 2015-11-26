@@ -11,13 +11,17 @@
 package org.eclipse.rcptt.runner.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
 import org.eclipse.rcptt.runner.RunnerConfiguration;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multiset;
 
 public class ResultsHandler {
 
@@ -25,10 +29,15 @@ public class ResultsHandler {
 	// results
 	public List<TestResult> results = new ArrayList<TestResult>();
 
-	private Map<AutThread, Integer> timeoutCount = new HashMap<AutThread, Integer>();
+	private Multiset<AutThread> timeoutCount = HashMultiset.create();
+	private Multiset<AutThread> retryCount = HashMultiset.create();
 
 	private RunnerConfiguration conf;
 	private final boolean autRestartOnFailures;
+
+	/** These error messages appear erratically on Hudson. Retrying the test is likely to succeed. */
+	private static final Set<String> RETRY_REASONS = ImmutableSet.of("Connection reset",
+			ReportMaker.FAILED_TO_CLOSE_REPORT_NODE);
 
 	public ResultsHandler(RunnerConfiguration conf, boolean restartAUTOnFailures) {
 		this.conf = conf;
@@ -36,35 +45,35 @@ public class ResultsHandler {
 	}
 
 	public void testCompleted(TestResult result, AutThread thread) throws CoreException, InterruptedException {
-		Integer timeoutC = null;
 		synchronized (results) {
-			results.add(result.withAdditionalInfo(conf, thread));
+			if (RETRY_REASONS.contains(result.reason) && retryCount.count(thread) < conf.connectionResetRetry) {
+				thread.retry();
+				retryCount.add(thread);
+				log(String.format("\nRetry %d of %d\n", retryCount.count(thread), conf.connectionResetRetry), null);
+				thread.restart();
+				return;
+			} else {
+				retryCount.setCount(thread, 0);
+				results.add(result.withAdditionalInfo(conf, thread));
+			}
 
-			if (thread != null) {
-				timeoutC = timeoutCount.get(thread);
-				if (timeoutC == null) {
-					timeoutC = Integer.valueOf(0);
-				}
-				if (result.timeout) {
-					timeoutC = Integer.valueOf(timeoutC.intValue() + 1);
-				} else {
-					timeoutC = Integer.valueOf(0);
-				}
-				timeoutCount.put(thread, timeoutC);
+			if (result.timeout) {
+				timeoutCount.add(thread);
+			} else {
+				timeoutCount.setCount(thread, 0);
 			}
 		}
 
 		if (result.connectionUnavailable) {
 			restartAutWithMessage(thread, "Connection to AUT is not available.");
-		}
-		else if (autRestartOnFailures && result.failed) {
+		} else if (autRestartOnFailures && result.failed) {
 			restartAutWithMessage(thread,
 					"Test is failed and restartAUTOnFailure=true test option is specified.");
-		}
-		else if (timeoutC != null && timeoutC.intValue() >= conf.timeoutRestart) {
-			timeoutCount.put(thread, Integer.valueOf(0));
+		} else if (timeoutCount.count(thread) >= conf.timeoutRestart) {
+			int tc = timeoutCount.count(thread);
+			timeoutCount.setCount(thread, 0);
 			restartAutWithMessage(thread, "Possible AUT hang detected, "
-					+ timeoutC.intValue()
+					+ tc
 					+ " tests are failed because of timeout.");
 		}
 	}
