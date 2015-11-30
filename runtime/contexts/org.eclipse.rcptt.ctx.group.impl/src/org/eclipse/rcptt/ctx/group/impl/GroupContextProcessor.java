@@ -11,6 +11,8 @@
 package org.eclipse.rcptt.ctx.group.impl;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.IContextProcessor;
@@ -28,7 +30,14 @@ public class GroupContextProcessor implements IContextProcessor, IEclAwareProces
 		for (Context refContext : groupContext.getContexts()) {
 			EnterContext childCommand = Q7CoreFactory.eINSTANCE.createEnterContext();
 			childCommand.setData(EcoreUtil.copy(refContext));
-			session.execute(childCommand);
+			try {
+				IStatus status = session.execute(childCommand).waitFor();
+				if (!status.isOK()) {
+					throw new CoreException(status);
+				}
+			} catch (InterruptedException ex) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex));
+			}
 		}
 	}
 
