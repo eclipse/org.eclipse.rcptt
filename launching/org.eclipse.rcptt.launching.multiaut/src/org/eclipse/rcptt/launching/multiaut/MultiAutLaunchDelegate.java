@@ -28,7 +28,7 @@ import org.eclipse.rcptt.internal.launching.Executable;
 import org.eclipse.rcptt.internal.launching.ExecutionSession;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
-import org.eclipse.rcptt.internal.launching.Q7LaunchManager.ExecutableFabric;
+import org.eclipse.rcptt.internal.launching.Q7LaunchManager.ExecutableFactory;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager.SessionRunnable;
 import org.eclipse.rcptt.internal.launching.Q7Process;
 import org.eclipse.rcptt.internal.launching.Q7TestLaunch;
@@ -63,7 +63,7 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 			Q7Process q7process = new Q7Process(launch, autLaunch);
 			processes.put(entry.aut, q7process);
 
-			ExecutableFabric f = new ExecutableFabric(autLaunch, null, q7process.getDebugger());
+			ExecutableFactory f = new ExecutableFactory(autLaunch, null, q7process.getDebugger());
 			Executable[] testExecs = f.map(new IQ7NamedElement[] { entry.element }, null);
 			for (int i = 0; i < testExecs.length; i++) {
 				Executable e = testExecs[i];

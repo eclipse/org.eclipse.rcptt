@@ -54,7 +54,7 @@ public class ReportMaker implements IQ7ReportConstants {
 		if (properties != null) {
 			Q7Info info = (Q7Info) properties.get(IQ7ReportConstants.ROOT);
 			Preconditions.checkArgument(!Strings.isNullOrEmpty(info.getId()), "Id can't be empty");
-			Preconditions.checkArgument(info.getResult() == null, "Can't create report with a preset  result");
+			Preconditions.checkArgument(info.getResult() == null, "Can't create report with a preset result");
 			reportNode.getProperties().putAll(properties);
 		}
 		launch.execute(reportNode);
@@ -68,9 +68,9 @@ public class ReportMaker implements IQ7ReportConstants {
 			throw new CoreException(new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, "Failed to close report node", null));
 		}
 	}
+	
 	/**
-	 * If snaphots contains elements, then only items will be used, overwize all
-	 * snaphots will be taken
+	 * If snapshots contain elements, then only items will be used, otherwise all snapshots will be taken.
 	 */
 	public static void endReportNode(boolean takeSnaphots, AutLaunch launch, ProcessStatus result)
 			throws CoreException {
