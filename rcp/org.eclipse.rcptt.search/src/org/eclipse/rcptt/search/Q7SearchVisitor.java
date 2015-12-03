@@ -30,17 +30,8 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.rcptt.ecl.core.Script;
-import org.eclipse.search.core.text.TextSearchMatchAccess;
-import org.eclipse.search.core.text.TextSearchRequestor;
-import org.eclipse.search.core.text.TextSearchScope;
-import org.eclipse.search.internal.core.text.FileCharSequenceProvider;
-import org.eclipse.search.internal.ui.Messages;
-import org.eclipse.search.internal.ui.SearchMessages;
-import org.eclipse.search.internal.ui.SearchPlugin;
-import org.eclipse.search.ui.NewSearchUI;
-
 import org.eclipse.rcptt.core.Scenarios;
+import org.eclipse.rcptt.core.ecl.context.EclContext;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -52,11 +43,19 @@ import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
-import org.eclipse.rcptt.core.ecl.context.EclContext;
+import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
 import org.eclipse.rcptt.internal.core.model.Q7InternalVerification;
 import org.eclipse.rcptt.parameters.Parameter;
 import org.eclipse.rcptt.parameters.ParametersContext;
+import org.eclipse.search.core.text.TextSearchMatchAccess;
+import org.eclipse.search.core.text.TextSearchRequestor;
+import org.eclipse.search.core.text.TextSearchScope;
+import org.eclipse.search.internal.core.text.FileCharSequenceProvider;
+import org.eclipse.search.internal.ui.Messages;
+import org.eclipse.search.internal.ui.SearchMessages;
+import org.eclipse.search.internal.ui.SearchPlugin;
+import org.eclipse.search.ui.NewSearchUI;
 
 /**
  * The visitor that does the actual work.
@@ -333,20 +332,11 @@ public class Q7SearchVisitor {
 	private String getScenarioContextsIds(IQ7NamedElement scenario)
 			throws ModelException {
 		String ContextList = "";
-		IContext[] contexts = null;
-		if (scenario instanceof ITestCase) {
-			contexts = RcpttCore.getInstance().getContexts((ITestCase) scenario,
-					WorkspaceFinder.getInstance(), true);
-		} else if (scenario instanceof IContext) {
-			contexts = RcpttCore.getInstance().getContexts((IContext) scenario,
-					WorkspaceFinder.getInstance(), true);
-		}
-		if (contexts != null) {
-			for (IContext contextId : contexts) {
-				if (contextId != null
-						&& !(contextId instanceof Q7InternalContext)) {
-					ContextList += contextId.getID() + " ";
-				}
+		IContext[] contexts = RcpttCore.getInstance().getContexts(scenario, WorkspaceFinder.getInstance(), true);
+		for (IContext contextId : contexts) {
+			if (contextId != null
+					&& !(contextId instanceof Q7InternalContext)) {
+				ContextList += contextId.getID() + " ";
 			}
 		}
 		return ContextList;
@@ -355,16 +345,11 @@ public class Q7SearchVisitor {
 	private String getScenarioVerificationIds(IQ7NamedElement scenario)
 			throws ModelException {
 		String verificationsList = "";
-		IVerification[] verifications = null;
 		if (scenario instanceof ITestCase) {
-			verifications = RcpttCore.getInstance().getVerifications((ITestCase) scenario,
+			IVerification[] verifications = RcpttCore.getInstance().getVerifications((ITestCase) scenario,
 					WorkspaceFinder.getInstance(), true);
-		}
-
-		if (verifications != null) {
 			for (IVerification v : verifications) {
-				if (v != null
-						&& !(v instanceof Q7InternalVerification)) {
+				if (v != null && !(v instanceof Q7InternalVerification)) {
 					verificationsList += v.getID() + " ";
 				}
 			}

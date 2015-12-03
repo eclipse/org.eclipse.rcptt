@@ -20,21 +20,17 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.model.Q7Status;
-import org.eclipse.rcptt.core.model.Q7Status.Q7StatusCode;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7InternalTestCase;
@@ -56,12 +52,10 @@ public final class ModelCycleDetector {
 		return buildCycles(elements, null, new NullProgressMonitor()).cycle;
 	}
 
-	public static boolean hasCycles(NamedElement[] elements,
-			IWorkspaceFinder finder) {
+	public static boolean hasCycles(NamedElement... elements) {
 		IQ7NamedElement[] els = new IQ7NamedElement[elements.length];
 		for (int i = 0; i < els.length; i++) {
-			els[i] = (IQ7NamedElement) RcpttCore.create(Q7Utils
-					.getLocation(elements[i]));
+			els[i] = (IQ7NamedElement) RcpttCore.create(Q7Utils.getLocation(elements[i]));
 		}
 		return hasCycles(els);
 	}
@@ -82,7 +76,7 @@ public final class ModelCycleDetector {
 				if (element instanceof ITestCase) {
 					addScenarioToGraph((ITestCase) element, gr, finder);
 				} else if (element instanceof IContext) {
-					addGroupContextToGraph((IContext) element, gr, finder);
+					addContextToGraph((IContext) element, gr, finder);
 				} else if (element instanceof ITestSuite) {
 					addTestSuiteToGraph((ITestSuite) element, gr, finder);
 				}
@@ -125,36 +119,22 @@ public final class ModelCycleDetector {
 		}
 	}
 
-	private static void addGroupContextToGraph(IContext context,
-			CycleGraph graph, IWorkspaceFinder finder) {
-		IContext[] childs = RcpttCore.getInstance().getContexts(context, finder, true);
+	private static void addContextToGraph(IContext context,	CycleGraph graph, IWorkspaceFinder finder) {
+		IContext[] children = RcpttCore.getInstance().getContexts(context, finder, true);
 		try {
 			String cid = getIdBy(context);
 			graph.elementsMap.put(cid, context);
-			if (childs != null) {
-				for (IContext child : childs) {
-					if (RcpttCore.getInstance().isNotGroupContext(child)) {
-						// Not a group context
+			for (IContext child : children) {
+				if (!RcpttCore.getInstance().getContextReferences(child).isEmpty()) {
+					List<String> childIds = graph.graph.get(cid);
+					if (childIds == null) {
+						childIds = new ArrayList<String>();
+						graph.graph.put(cid, childIds);
+					} else if (childIds.contains(getIdBy(child))) {
 						continue;
 					}
-					if (child.getNamedElement() instanceof GroupContext) {
-						GroupContext gchild = (GroupContext) child
-								.getNamedElement();
-						if (gchild.getContextReferences().size() > 0) {
-							List<String> childIds = graph.graph.get(cid);
-							if (childIds != null
-									&& childIds.contains(getIdBy(child))) {
-								continue;
-							} else {
-								if (childIds == null) {
-									childIds = new ArrayList<String>();
-									graph.graph.put(cid, childIds);
-								}
-								childIds.add(getIdBy(child));
-								addGroupContextToGraph(child, graph, finder);
-							}
-						}
-					}
+					childIds.add(getIdBy(child));
+					addContextToGraph(child, graph, finder);
 				}
 			}
 		} catch (ModelException e) {
@@ -173,34 +153,32 @@ public final class ModelCycleDetector {
 			try {
 				String cid = getIdBy(suite);
 				graph.elementsMap.put(cid, suite);
-				if (items != null) {
-					if (items != null && items.length > 0) {
-						List<String> childIds = graph.graph.get(cid);
-						for (TestSuiteItem testSuiteItem : items) {
-							String childID = testSuiteItem.getNamedElementId();
-							if (childIds != null && childIds.contains(childID)) {
-								continue;
-							} else {
-								if (childIds == null) {
-									childIds = new ArrayList<String>();
-									graph.graph.put(cid, childIds);
+				if (items != null && items.length > 0) {
+					List<String> childIds = graph.graph.get(cid);
+					for (TestSuiteItem testSuiteItem : items) {
+						String childID = testSuiteItem.getNamedElementId();
+						if (childIds != null && childIds.contains(childID)) {
+							continue;
+						} else {
+							if (childIds == null) {
+								childIds = new ArrayList<String>();
+								graph.graph.put(cid, childIds);
+							}
+							childIds.add(childID);
+							ITestCase[] cases = finder.findTestcase(suite,
+									childID);
+							if (cases != null) {
+								for (ITestCase iTestCase : cases) {
+									addScenarioToGraph(iTestCase, graph,
+											finder);
 								}
-								childIds.add(childID);
-								ITestCase[] cases = finder.findTestcase(suite,
-										childID);
-								if (cases != null) {
-									for (ITestCase iTestCase : cases) {
-										addScenarioToGraph(iTestCase, graph,
-												finder);
-									}
-								}
-								ITestSuite[] suites = finder.findTestsuites(
-										suite, childID);
-								if (suites != null) {
-									for (ITestSuite testSuite : suites) {
-										addTestSuiteToGraph(testSuite, graph,
-												finder);
-									}
+							}
+							ITestSuite[] suites = finder.findTestsuites(
+									suite, childID);
+							if (suites != null) {
+								for (ITestSuite testSuite : suites) {
+									addTestSuiteToGraph(testSuite, graph,
+											finder);
 								}
 							}
 						}
@@ -229,38 +207,18 @@ public final class ModelCycleDetector {
 			return;
 		}
 		try {
-			if( !scenario.exists()) {
+			if (!scenario.exists()) {
 				return;
 			}
 		} catch (Exception e) {
 			RcpttPlugin.log(e);
 			return;
 		}
-		try {
-			IContext[] contexts = RcpttCore.getInstance().getContexts(scenario,
-					finder, true);
-			for (IContext c : contexts) {
-				try {
-					if (RcpttCore.getInstance().isNotGroupContext(c)) {
-						// Not a group context
-						continue;
-					}
-					if (c.getNamedElement() instanceof GroupContext) {
-						addGroupContextToGraph(c, graph, finder);
-					}
-				} catch (ModelException e) {
-					if (e.getStatus() instanceof Q7Status
-							&& !((Q7Status) e.getStatus()).getStatusCode()
-									.equals(Q7StatusCode.OK)) {
-						// Skip this exception, file probable will be refreshed,
-						// and re-updated later.
-						return;
-					}
-					throw e;
-				}
+		IContext[] contexts = RcpttCore.getInstance().getContexts(scenario, finder, true);
+		for (IContext c : contexts) {
+			if (!RcpttCore.getInstance().isNotGroupOrSuperContext(c)) {
+				addContextToGraph(c, graph, finder);
 			}
-		} catch (ModelException e) {
-			RcpttPlugin.log(e);
 		}
 	}
 }

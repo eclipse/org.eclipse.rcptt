@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IParent;
 import org.eclipse.rcptt.core.model.IQ7Element;
@@ -37,7 +36,6 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.ISearchScope;
-import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -50,16 +48,16 @@ import org.eclipse.rcptt.internal.core.model.index.ProjectIndexerManager;
 
 public class ModelManager {
 	private static ModelManager instance;
-	public ModelCache cache;// = new ModelCache();
+	private ModelCache cache;// = new ModelCache();
 
 	public DeltaProcessingState deltaState = new DeltaProcessingState();
 
-	protected Map<Q7NamedElement, PerWorkingCopyInfo> perWorkingCopyInfos = new HashMap<Q7NamedElement, PerWorkingCopyInfo>(
+	private Map<Q7NamedElement, PerWorkingCopyInfo> perWorkingCopyInfos = new HashMap<Q7NamedElement, PerWorkingCopyInfo>(
 			5);
 	/**
 	 * Unique handle onto the Model
 	 */
-	final Q7Model model = new Q7Model();
+	private final Q7Model model = new Q7Model();
 	private IndexManager indexManager;
 	private Set<IProject> buildingProjects = new HashSet<IProject>();
 
@@ -124,7 +122,7 @@ public class ModelManager {
 		}
 	}
 
-	public synchronized Object removeInfoAndChildren(Q7Element element)
+	synchronized Object removeInfoAndChildren(Q7Element element)
 			throws ModelException {
 		Object info = this.cache.peekAtInfo(element);
 		if (info != null) {
@@ -142,7 +140,7 @@ public class ModelManager {
 		return null;
 	}
 
-	public static IQ7Element create(IFile file, IQ7Project project) {
+	private static IQ7Element create(IFile file, IQ7Project project) {
 		if (file == null) {
 			return null;
 		}
@@ -155,7 +153,7 @@ public class ModelManager {
 		return folder.getNamedElement(file.getName());
 	}
 
-	public static IQ7Element create(IFolder file, IQ7Project project) {
+	private static IQ7Element create(IFolder file, IQ7Project project) {
 		if (file == null) {
 			return null;
 		}
@@ -193,17 +191,17 @@ public class ModelManager {
 		return indexManager;
 	}
 
-	public Object peekAtInfo(IQ7Element element) {
+	Object peekAtInfo(IQ7Element element) {
 		return this.cache.peekAtInfo(element);
 	}
 
-	public static class PerWorkingCopyInfo {
-		int useCount = 0;
-		IQ7NamedElement workingCopy;
-		public Q7ResourceInfo resourceInfo;
-		public boolean complete = false;
+	static class PerWorkingCopyInfo {
+		private int useCount = 0;
+		private IQ7NamedElement workingCopy;
+		Q7ResourceInfo resourceInfo;
+		boolean complete = false;
 
-		public PerWorkingCopyInfo(IQ7NamedElement workingCopy) {
+		private PerWorkingCopyInfo(IQ7NamedElement workingCopy) {
 			this.workingCopy = workingCopy;
 		}
 
@@ -220,6 +218,7 @@ public class ModelManager {
 			return this.workingCopy;
 		}
 
+		@Override
 		public String toString() {
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("Info for "); //$NON-NLS-1$
@@ -230,14 +229,14 @@ public class ModelManager {
 			return buffer.toString();
 		}
 
-		public void close() {
+		private void close() {
 			if (resourceInfo != null) {
 				resourceInfo.unload();
 			}
 		}
 	}
 
-	public PerWorkingCopyInfo getPerWorkingCopyInfo(Q7NamedElement workingCopy,
+	PerWorkingCopyInfo getPerWorkingCopyInfo(Q7NamedElement workingCopy,
 			boolean create, boolean recordUsage) {
 		synchronized (this.perWorkingCopyInfos) { // use the
 			PerWorkingCopyInfo info = perWorkingCopyInfos.get(workingCopy);
@@ -255,7 +254,7 @@ public class ModelManager {
 		return this.deltaState.getDeltaProcessor();
 	}
 
-	public int discardPerWorkingCopyInfo(Q7NamedElement workingCopy)
+	int discardPerWorkingCopyInfo(Q7NamedElement workingCopy)
 			throws ModelException {
 		// create the delta builder (this remembers the current content of the
 		// working copy)
@@ -325,18 +324,7 @@ public class ModelManager {
 						if (contextId.equals(cid))
 							result.add(element);
 				} else if (element instanceof IContext) {
-					ContextType type = ((IContext) element).getType();
-					if (type == null
-							|| !"org.eclipse.rcptt.ctx.group".equals(type
-									.getId()))
-						continue;
-
-					GroupContext groupContext = (GroupContext) element
-							.getNamedElement();
-					if (groupContext == null)
-						continue;
-
-					for (String cid : groupContext.getContextReferences())
+					for (String cid : RcpttCore.getInstance().getContextReferences((IContext) element))
 						if (contextId.equals(cid))
 							result.add(element);
 				}
