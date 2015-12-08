@@ -199,8 +199,8 @@ public class Q7Launcher {
 
 	/**
 	 * Returns all named elements which are directly referenced from the given
-	 * one Thus, for test cases it returns its contexts, for tests suites it
-	 * returns its tests, for group contexts returns its children
+	 * one. Thus, for test cases it returns its contexts, for tests suites it
+	 * returns its tests, for group and super contexts returns its children.
 	 * 
 	 * @param element
 	 * @param resources
@@ -211,16 +211,8 @@ public class Q7Launcher {
 		if (element instanceof ITestSuite) {
 			return Q7SearchCore.getTestSuiteContent((ITestSuite) element);
 		}
-		if (element instanceof ITestCase) {
-			return RcpttCore.getInstance().getContexts((ITestCase) element,
-					finder, true);
-		}
-		if (element instanceof IContext) {
-			IQ7NamedElement[] elements = RcpttCore.getInstance().getContexts(
-					(IContext) element, finder, true);
-			if (elements == null) {
-				return new IQ7NamedElement[0];
-			}
+		if (element instanceof ITestCase || element instanceof IContext) {
+			return RcpttCore.getInstance().getContexts(element, finder, true);
 		}
 		return new IQ7NamedElement[0];
 	}

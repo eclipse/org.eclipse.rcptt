@@ -21,7 +21,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.IQ7Project;
@@ -30,8 +29,6 @@ import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.ISearchScope;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.core.scenario.GroupContext;
-import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 
@@ -81,15 +78,8 @@ public class NamedElementReferencesResolver {
 				resolveElementReferences(verificationId, current, references);
 			}
 		} else if (element instanceof IContext) {
-			if (RcpttCore.getInstance().isNotGroupContext((IContext)element)) {
-				return;
-			}
-			NamedElement namedElement = element.getNamedElement();
-			if (namedElement instanceof GroupContext) {
-				GroupContext group = (GroupContext) namedElement;
-				for (String contextId : group.getContextReferences()) {
-					resolveElementReferences(contextId, current, references);
-				}
+			for (String contextId : RcpttCore.getInstance().getContextReferences((IContext) element)) {
+				resolveElementReferences(contextId, current, references);
 			}
 		} else if (element instanceof ITestSuite) {
 			TestSuiteItem[] items = ((ITestSuite) element).getItems();
@@ -110,10 +100,12 @@ public class NamedElementReferencesResolver {
 		for (final IProject p : RcpttCore.getQ7Projects()) {
 			IQ7NamedElement[] elements = Q7SearchCore.findById(elementId,
 					new ISearchScope() {
+						@Override
 						public IPath[] getPaths() {
 							return new IPath[] { p.getFullPath() };
 						}
 
+						@Override
 						public boolean contains(IPath path) {
 							return false;
 						}

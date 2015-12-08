@@ -177,7 +177,7 @@ public class TestsRunner {
 					continue;
 				}
 
-				if (ensureEntegrity(tcase, finder, new HashSet<String>()))
+				if (ensureIntegrity(tcase, finder, new HashSet<String>()))
 					suite.add(tcase);
 
 			}
@@ -205,22 +205,12 @@ public class TestsRunner {
 		return false;
 	}
 
-	private boolean ensureEntegrity(IQ7NamedElement tcase,
+	private boolean ensureIntegrity(IQ7NamedElement tcase,
 			IWorkspaceFinder finder, Set<String> processedIds) {
-		IContext[] contexts = null;
 		if (!processedIds.add(tcase.getPath().toString())) {
 			return true;// Already processed
 		}
-		if (tcase instanceof ITestCase) {
-			contexts = RcpttCore.getInstance().getContexts((ITestCase) tcase,
-					finder, false);
-		} else if (tcase instanceof IContext) {
-			contexts = RcpttCore.getInstance().getContexts((IContext) tcase,
-					finder, false);
-		}
-		if (contexts == null) {
-			return true;
-		}
+		IContext[] contexts = RcpttCore.getInstance().getContexts(tcase, finder, false);
 		List<String> unresolved = new ArrayList<String>();
 		for (IContext ctx : contexts) {
 			if (ctx instanceof Q7InternalContext) {
@@ -237,7 +227,7 @@ public class TestsRunner {
 					return false;
 				}
 			} else {
-				if (!ensureEntegrity(ctx, finder, processedIds)) {
+				if (!ensureIntegrity(ctx, finder, processedIds)) {
 					return false;
 				}
 			}
@@ -245,7 +235,7 @@ public class TestsRunner {
 		if (unresolved.size() > 0) {
 			try {
 				System.out
-						.println("-- Testcase is skiped because incorrect dependencies -- "
+						.println("-- Testcase is skipped because incorrect dependencies -- "
 								+ tcase.getName()
 								+ ". Requires contexts: ["
 								+ Joiner.on(",").join(unresolved) + "]");

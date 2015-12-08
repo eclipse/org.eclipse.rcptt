@@ -15,8 +15,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter;
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter.ProblemType;
 import org.eclipse.rcptt.core.builder.IQ7Validator;
@@ -27,8 +25,6 @@ import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.core.scenario.GroupContext;
-import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
@@ -38,6 +34,7 @@ public class ContextReferenceValidator implements IQ7Validator {
 	public ContextReferenceValidator() {
 	}
 
+	@Override
 	public void validate(IQ7NamedElement element, IQ7ProblemReporter reporter,
 			IProgressMonitor monitor) {
 		try {
@@ -75,23 +72,11 @@ public class ContextReferenceValidator implements IQ7Validator {
 					RcpttPlugin.log(e);
 				}
 			} else if (element instanceof IContext) {
-				if (RcpttCore.getInstance().isNotGroupContext((IContext)element)) {
-					// Not a group context
-					return;
-				}
-
-				NamedElement namedElement = ((IContext) element)
-						.getNamedElement();
-				if (namedElement instanceof GroupContext) {
-					EList<String> contexts = ((GroupContext) namedElement)
-							.getContextReferences();
-					for (String cid : contexts) {
-						reportProjectContextUsed(element, reporter, lctxs, cid);
-
-						List<IContext> context = project.find(IContext.class, cid);
-						if (context.size() == 0) {
-							reportUnresolved(element, reporter, cid);
-						}
+				for (String cid : RcpttCore.getInstance().getContextReferences((IContext) element)) {
+					reportProjectContextUsed(element, reporter, lctxs, cid);
+					List<IContext> contexts = project.find(IContext.class, cid);
+					if (contexts.isEmpty()) {
+						reportUnresolved(element, reporter, cid);
 					}
 				}
 			} else if (element instanceof IQ7ProjectMetadata) {
@@ -140,6 +125,7 @@ public class ContextReferenceValidator implements IQ7Validator {
 				ProblemType.Error, "Unresolved context:" + cid, 0, 0, 0, 0);
 	}
 
+	@Override
 	public void reconcile(IQ7NamedElement content, String eclCode,
 			IQ7ProblemReporter reporter, IProgressMonitor nullProgressMonitor) {
 	}

@@ -29,12 +29,14 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.rcptt.ecl.core.Script;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.UIJob;
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.Scenarios;
 import org.eclipse.rcptt.core.VerificationType;
+import org.eclipse.rcptt.core.ecl.core.model.CreateReport;
+import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
+import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
+import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -44,19 +46,14 @@ import org.eclipse.rcptt.core.recording.CommandSet;
 import org.eclipse.rcptt.core.recording.IRecordingListener;
 import org.eclipse.rcptt.core.recording.IRecordingMonitor;
 import org.eclipse.rcptt.core.recording.NetworkRecorder;
-import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.core.utils.ModelCycleDetector;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
-import org.eclipse.rcptt.core.ecl.core.model.CreateReport;
-import org.eclipse.rcptt.core.ecl.core.model.ExecVerification;
-import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
-import org.eclipse.rcptt.core.ecl.core.model.Q7CoreFactory;
-import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
+import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.core.model.ModelManager;
 import org.eclipse.rcptt.internal.core.model.Q7InternalTestCase;
 import org.eclipse.rcptt.internal.launching.ExecutionStatus;
@@ -72,10 +69,6 @@ import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
-import org.eclipse.rcptt.ui.launching.LaunchUtils;
-import org.eclipse.rcptt.ui.launching.aut.AUTConnectionErrorDialog;
-import org.eclipse.rcptt.ui.launching.aut.AutElement;
-import org.eclipse.rcptt.ui.panels.main.ControlPanelWindow;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.features.IMLFeatures;
@@ -86,6 +79,12 @@ import org.eclipse.rcptt.tesla.core.utils.TeslaUtils;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.internal.core.network.DefaultConnectionMonitor;
 import org.eclipse.rcptt.tesla.recording.core.ecl.EclRecorder;
+import org.eclipse.rcptt.ui.launching.LaunchUtils;
+import org.eclipse.rcptt.ui.launching.aut.AUTConnectionErrorDialog;
+import org.eclipse.rcptt.ui.launching.aut.AutElement;
+import org.eclipse.rcptt.ui.panels.main.ControlPanelWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.UIJob;
 
 public class RecordingSupport {
 
@@ -577,9 +576,7 @@ public class RecordingSupport {
 				}
 				monitor.beginTask(name, elements.size() + 3);
 				synchronized (this) {
-					if (ModelCycleDetector.hasCycles(
-							new NamedElement[] { scenarioWorkingCopy },
-							getFinder())) {
+					if (ModelCycleDetector.hasCycles(scenarioWorkingCopy)) {
 						IStatus status = new Status(
 								IStatus.ERROR,
 								Q7UIPlugin.PLUGIN_ID,

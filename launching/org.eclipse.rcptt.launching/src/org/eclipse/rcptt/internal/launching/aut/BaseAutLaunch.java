@@ -120,7 +120,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	private AutEventInit autInit;
 	private AutEventStart autStart;
 
-	public BaseAutLaunch(ILaunch launch, BaseAut aut) {
+	BaseAutLaunch(ILaunch launch, BaseAut aut) {
 		id = UUID.randomUUID().toString();
 		this.aut = aut;
 		setLaunch(launch);
@@ -130,31 +130,38 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return lastActivateID;
 	}
 
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public BaseAut getAut() {
 		return aut;
 	}
 
+	@Override
 	public AutLaunchState getState() {
 		return state;
 	}
 
+	@Override
 	public void addListener(AutLaunchListener listener) {
 		listeners.add(listener);
 	}
 
+	@Override
 	public void removeListener(AutLaunchListener listener) {
 		listeners.remove(listener);
 	}
 
+	@Override
 	public synchronized Object execute(Command command) throws CoreException,
 			InterruptedException {
 		return execute(command, Q7Launcher.getLaunchTimeout() * 1000);
 	}
 
+	@Override
 	public synchronized Object execute(Command command, long timeout)
 			throws CoreException, InterruptedException {
 		return execute(command, timeout, new NullProgressMonitor());
@@ -185,6 +192,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		
 	}
 
+	@Override
 	public synchronized Object execute(Command command, long timeout,
 			IProgressMonitor monitor) throws CoreException,
 			InterruptedException {
@@ -209,6 +217,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		final Object[] result = new Object[] { null };
 		final Exception[] wrappedException = new Exception[] { null };
 		Thread execThread = new Thread() {
+			@Override
 			public void run() {
 				ISession session = null;
 				try {
@@ -328,6 +337,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		this.lastActivateID = UUID.randomUUID().toString();
 	}
 
+	@Override
 	public void ping() throws CoreException, InterruptedException {
 		try {
 			Object object = unsafeExecute(
@@ -409,6 +419,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
+	@Override
 	public ILaunch getLaunch() {
 		return launch;
 	}
@@ -504,17 +515,20 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return null;
 	}
 
+	@Override
 	public synchronized void run(IQ7NamedElement element, long timeout,
 			IProgressMonitor monitor, ExecutionPhase phase) throws CoreException {
 		execElement(element, timeout, monitor, null, phase);
 	}
 
+	@Override
 	public synchronized void debug(IQ7NamedElement element, long timeout,
 			IProgressMonitor monitor, TestCaseDebugger debugger, ExecutionPhase phase)
 			throws CoreException {
 		execElement(element, timeout, monitor, debugger, phase);
 	}
 
+	@Override
 	public void cancelTestExecution() {
 		if (currentTestMonitor != null) {
 			currentTestMonitor.setCanceled(true);
@@ -606,27 +620,15 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					ds.getBindings().addAll(
 							EcoreUtil.copyAll(ecl.getBindings()));
 
-					IContext[] contexts = null;
-					if (test instanceof ITestCase) {
-						contexts = RcpttCore.getInstance().getContexts((ITestCase) test,
-								null, true);
-					}
-					else if (test instanceof IContext) {
-						contexts = RcpttCore.getInstance().getContexts((IContext) test,
-								null, true);
-					}
-					if (contexts != null) {
-						for (IContext ctx : contexts) {
-							if (ctx.getResource() == null) {
-								continue;
-							}
-							String ctxId = ctx.getID();
-							String ctxPath = ctx.getResource().getFullPath().toPortableString();
-							ds.getPaths().put(ctxId, ctxPath);
-							idToPathMap.put(ctxId, ctxPath);
+					for (IContext ctx : RcpttCore.getInstance().getContexts(test, null, true)) {
+						if (ctx.getResource() == null) {
+							continue;
 						}
+						String ctxId = ctx.getID();
+						String ctxPath = ctx.getResource().getFullPath().toPortableString();
+						ds.getPaths().put(ctxId, ctxPath);
+						idToPathMap.put(ctxId, ctxPath);
 					}
-
 					ecl = ds;
 				}
 				doExecute(ecl, debugger, timeout, monitor, test.getID(), idToPathMap);
@@ -674,6 +676,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return null;
 	}
 
+	@Override
 	public synchronized void execute(Script script, long timeout,
 			IProgressMonitor progressMonitor) throws CoreException {
 		doExecute(script, null, timeout, progressMonitor, null, null);
@@ -761,6 +764,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
+	@Override
 	public void waitForRestart(IProgressMonitor monitor) throws CoreException {
 		// wait logic is launch specific -> delegate to executor
 		aut.getExecutor().waitForRestart(this, monitor);
@@ -774,6 +778,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		execute(TeslaFactory.eINSTANCE.createShoutdownPlayer());
 	}
 
+	@Override
 	public void shutdown() {
 		try {
 			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE
@@ -808,6 +813,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
+	@Override
 	public void terminate() {
 		if (launch.canTerminate()) {
 			try {
@@ -820,6 +826,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private SessionState currentState;
 
+	@Override
 	public void resetState() {
 		currentState = null;
 	}
@@ -989,6 +996,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	/**
 	 * For internal USE only
 	 */
+	@Override
 	public void retarget(BaseAut newAut) {
 		aut = newAut;
 	}

@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.core.workspace;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -27,7 +26,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -59,6 +57,7 @@ import org.eclipse.rcptt.core.nature.RcpttNature;
 import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
+import org.eclipse.rcptt.core.scenario.SuperContext;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.scenario.UnresolvedContext;
 import org.eclipse.rcptt.core.scenario.UnresolvedVerification;
@@ -70,7 +69,6 @@ import org.eclipse.rcptt.internal.core.model.Q7Folder;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
 import org.eclipse.rcptt.internal.core.model.Q7InternalVerification;
 import org.eclipse.rcptt.internal.core.model.Q7Model;
-import org.eclipse.rcptt.internal.core.model.index.ProjectIndexerManager;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
@@ -81,12 +79,12 @@ public class RcpttCore {
 
 	public static final String DEFAULT_WORKBENCH_CONTEXT_ID = "close.modal.dialogs";
 
-	public static final int Q7_PORT_INDEX = 7001;
+	private static RcpttCore instance;
 
-	public static RcpttCore getInstance() {
+	public static synchronized RcpttCore getInstance() {
 		if (instance == null) {
-			Bundle boundle = Platform.getBundle("org.eclipse.core.resources");
-			if (boundle == null) {
+			Bundle bundle = Platform.getBundle("org.eclipse.core.resources");
+			if (bundle == null) {
 				RcpttPlugin.log(
 						"There is no resources support. Q7Core could not be initialized...",
 						null);
@@ -106,6 +104,23 @@ public class RcpttCore {
 		return TeslaCore.getPlatformVersion();
 	}
 
+	/**
+	 * Returns an array of all contexts contained in the given scenario or context, or an empty array if the element is
+	 * neither a scenario nor a context.
+	 */
+	public IContext[] getContexts(IQ7NamedElement element, IWorkspaceFinder finder, boolean ignoreErrors) {
+		if (element instanceof ITestCase) {
+			return getContexts((ITestCase) element, finder, ignoreErrors);
+		} else if (element instanceof IContext) {
+			return getContexts((IContext) element, finder, ignoreErrors);
+		} else {
+			return new IContext[0];
+		}
+	}
+
+	/**
+	 * Returns an array of all contexts contained in the given scenario, or an empty array in case of an error.
+	 */
 	public IContext[] getContexts(ITestCase scenario, IWorkspaceFinder finder,
 			boolean ignoreErrors) {
 		try {
@@ -116,10 +131,87 @@ public class RcpttCore {
 			return getContexts(scenario, Arrays.asList(contexts), finder, ignoreErrors);
 		} catch (ModelException e) {
 			RcpttPlugin.log(e);
+			return new IContext[0];
 		}
-		return null;
 	}
 
+	/**
+	 * Returns an array of all child contexts. If the given context is neither a super context nor a group context, then
+	 * it doesn't have any children and an empty array is returned.
+	 */
+	public IContext[] getContexts(IContext context, IWorkspaceFinder finder, boolean ignoreErrors) {
+		return getContexts(context, getContextReferences(context), finder, ignoreErrors);
+	}
+
+	public IContext[] getContexts(IQ7NamedElement element, List<String> contextIds,
+			IWorkspaceFinder finder, boolean ignoreErrors) {
+		if (finder == null) {
+			finder = WorkspaceFinder.getInstance();
+		}
+		List<IContext> contexts = new ArrayList<IContext>();
+		Set<String> projectContexts = new HashSet<String>();
+		// Add project related contexts
+		try {
+			if (element instanceof ITestCase) {
+				IQ7Project project = element.getQ7Project();
+				IQ7ProjectMetadata metadata = project == null ? null : project.getMetadata();
+				if (metadata != null && metadata.exists()) {
+					String[] ctxs = metadata.getContexts();
+					if (ctxs != null) {
+						for (String ctx : ctxs) {
+							IContext result = findContext(element, ignoreErrors, ctx,
+									finder);
+							if (result != null) {
+								contexts.add(result);
+								projectContexts.add(result.getID());
+							}
+						}
+					}
+				}
+			}
+		} catch (ModelException e) {
+			RcpttPlugin.log(e);
+		}
+
+		for (String contextId : contextIds) {
+			if (projectContexts.contains(contextId)) {
+				continue;
+			}
+			IContext result = findContext(element, ignoreErrors, contextId, finder);
+			if (result != null) {
+				contexts.add(result);
+			}
+		}
+
+		// Add close modal dialogs context as first
+		addDefaultContext(contexts);
+		return contexts.toArray(new IContext[contexts.size()]);
+	}
+
+	/**
+	 * Returns a list of references to all child contexts. If the given context is neither a super context nor a group
+	 * context, then it doesn't have any children and an empty list is returned.
+	 */
+	public List<String> getContextReferences(IContext context) {
+		if (isNotGroupOrSuperContext(context)) {
+			return new ArrayList<String>();
+		}
+		try {
+			NamedElement namedElement = context.getNamedElement();
+			if (namedElement instanceof GroupContext) {
+				return ((GroupContext) namedElement).getContextReferences();
+			} else if (namedElement instanceof SuperContext) {
+				return ((SuperContext) namedElement).getContextReferences();
+			}
+		} catch (ModelException e) {
+			RcpttPlugin.log(e);
+		}
+		return new ArrayList<String>();
+	}
+
+	/**
+	 * Returns an array of all verifications in the given scenario, or an empty one in case of an error.
+	 */
 	public IVerification[] getVerifications(ITestCase scenario, IWorkspaceFinder finder,
 			boolean ignoreErrors) {
 		try {
@@ -130,32 +222,15 @@ public class RcpttCore {
 			return getVerifications(scenario, Arrays.asList(verifications), finder, ignoreErrors);
 		} catch (ModelException e) {
 			RcpttPlugin.log(e);
+			return new IVerification[0];
 		}
-		return null;
-	}
-
-	public IContext[] getContexts(IContext groupContext, IWorkspaceFinder finder,
-			boolean ignoreErrors) {
-		try {
-			if (RcpttCore.getInstance().isNotGroupContext(groupContext)) {
-				return null;
-			}
-			NamedElement namedElement = groupContext.getNamedElement();
-			if (namedElement instanceof GroupContext) {
-				return getContexts(groupContext,
-						((GroupContext) namedElement).getContextReferences(), finder,
-						ignoreErrors);
-			}
-		} catch (ModelException e) {
-			RcpttPlugin.log(e);
-		}
-		return null;
 	}
 
 	public Map<IQ7NamedElement, IFile> getCopyDestinationMap(
 			IQ7NamedElement[] namedElements, IContainer destination) {
 		Map<IQ7NamedElement, IFile> result = new TreeMap<IQ7NamedElement, IFile>(
 				new Comparator<IQ7NamedElement>() {
+					@Override
 					public int compare(IQ7NamedElement o1, IQ7NamedElement o2) {
 						if (o1.getName() == null) {
 							return -1;
@@ -180,6 +255,7 @@ public class RcpttCore {
 			final Map<IQ7NamedElement, IFile> destinations,
 			final Map<IQ7NamedElement, String> newNames) throws CoreException {
 		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				Map<String, String> updatedIds = new HashMap<String, String>();
 				List<ITestCase> scenarios = new ArrayList<ITestCase>();
@@ -287,51 +363,6 @@ public class RcpttCore {
 		}, new NullProgressMonitor());
 	}
 
-	public IContext[] getContexts(IQ7NamedElement element, List<String> contextIds,
-			IWorkspaceFinder finder, boolean ignoreErrors) {
-		if (finder == null) {
-			finder = WorkspaceFinder.getInstance();
-		}
-		List<IContext> contexts = new ArrayList<IContext>();
-		Set<String> projectContexts = new HashSet<String>();
-		// Add project related contexts
-		try {
-			if (element != null && element instanceof ITestCase) {
-				IQ7Project project = element.getQ7Project();
-				IQ7ProjectMetadata metadata = project == null ? null : project.getMetadata();
-				if (metadata != null && metadata.exists()) {
-					String[] ctxs = metadata.getContexts();
-					if (ctxs != null) {
-						for (String ctx : ctxs) {
-							IContext result = findContext(element, ignoreErrors, ctx,
-									finder);
-							if (result != null) {
-								contexts.add(result);
-								projectContexts.add(result.getID());
-							}
-						}
-					}
-				}
-			}
-		} catch (ModelException e) {
-			RcpttPlugin.log(e);
-		}
-
-		for (String contextId : contextIds) {
-			if (projectContexts.contains(contextId)) {
-				continue;
-			}
-			IContext result = findContext(element, ignoreErrors, contextId, finder);
-			if (result != null) {
-				contexts.add(result);
-			}
-		}
-
-		// Add close modal dialogs context as first
-		addDefaultContext(element, contexts);
-		return contexts.toArray(new IContext[contexts.size()]);
-	}
-
 	public IVerification[] getVerifications(IQ7NamedElement element, List<String> verificationIds,
 			IWorkspaceFinder finder, boolean ignoreErrors) {
 		if (finder == null) {
@@ -395,7 +426,7 @@ public class RcpttCore {
 		return result;
 	}
 
-	public IVerification findVerification(IQ7NamedElement element, boolean ignoreErrors,
+	private IVerification findVerification(IQ7NamedElement element, boolean ignoreErrors,
 			String verificationId, IWorkspaceFinder finder) {
 		IVerification[] verification = finder.findVerification(element, verificationId);
 		IVerification result = null;
@@ -415,7 +446,7 @@ public class RcpttCore {
 		return result;
 	}
 
-	private void addDefaultContext(IQ7NamedElement element, List<IContext> contexts) {
+	private void addDefaultContext(List<IContext> contexts) {
 		WorkbenchContext defaultWorkbenchContext = ScenarioFactory.eINSTANCE
 				.createWorkbenchContext();
 		defaultWorkbenchContext.setCloseEditors(false);
@@ -517,7 +548,9 @@ public class RcpttCore {
 
 			copy.commitWorkingCopy(true, new NullProgressMonitor());
 		} finally {
-			copy.discardWorkingCopy();
+			if (copy != null) {
+				copy.discardWorkingCopy();
+			}
 		}
 	}
 
@@ -559,11 +592,6 @@ public class RcpttCore {
 	private RcpttCore() {
 	}
 
-	private static RcpttCore instance;
-
-	public void clean() {
-	}
-
 	public static boolean hasRcpttNature(IProject project) {
 		try {
 			return project.isAccessible() && project.isOpen() && RcpttNature.isRcpttProject(project);
@@ -599,73 +627,6 @@ public class RcpttCore {
 			}
 		}
 		return result.toArray(new IProject[result.size()]);
-	}
-
-	public static int findFreePort(int nonPort) {
-		for (int port = Q7_PORT_INDEX; port < 30000; port++) {
-			if (port == nonPort) {
-				continue;
-			}
-			if (usedPorts.contains(port)) {
-				continue;
-			}
-			ServerSocket socket = null;
-			try {
-				socket = new ServerSocket(port);
-				usedPorts.add(port);
-				return port;
-			} catch (IOException e) {
-			} finally {
-				if (socket != null) {
-					try {
-						socket.close();
-					} catch (IOException e) {
-					}
-				}
-			}
-		}
-		return -1;
-	}
-
-	private static Set<Integer> usedPorts = new HashSet<Integer>();
-
-	public static int findFreePort() {
-		for (int port = Q7_PORT_INDEX; port < 30000; port++) {
-			if (usedPorts.contains(port)) {
-				continue;
-			}
-			ServerSocket socket = null;
-			try {
-				socket = new ServerSocket(port);
-				usedPorts.add(port);
-				return port;
-			} catch (IOException e) {
-			} finally {
-				if (socket != null) {
-					try {
-						socket.close();
-					} catch (IOException e) {
-					}
-				}
-			}
-		}
-		return -1;
-	}
-
-	public void reindex() {
-		final IQ7Project[] projects;
-		try {
-			projects = RcpttCore.create(ResourcesPlugin.getWorkspace().getRoot())
-					.getProjects();
-		} catch (Exception e) {
-			RcpttPlugin.log(e);
-			return;
-		}
-		for (int i = 0; i < projects.length; ++i) {
-			ProjectIndexerManager.indexProject(projects[i]);
-		}
-		ModelManager.getModelManager().getIndexManager()
-				.waitUntilReady(new NullProgressMonitor());
 	}
 
 	public void rename(IFile file, IPath newPath) {
@@ -705,16 +666,6 @@ public class RcpttCore {
 		if (Q7Features.supportQ7OptionsFile) {
 			return (path.segmentCount() == 2 && path.lastSegment().equals(
 					IQ7Project.METADATA_NAME));
-		}
-		return false;
-	}
-
-	public static boolean hasBuilder() {
-		IQ7Extension[] extensions = Q7ExtensionManager.getInstance().getExtensions();
-		for (IQ7Extension iq7Extension : extensions) {
-			if (iq7Extension.isBuilder()) {
-				return true;
-			}
 		}
 		return false;
 	}
@@ -777,7 +728,7 @@ public class RcpttCore {
 	}
 
 	// Listeners
-	public static void addElementChangedListener(IElementChangedListener listener,
+	private static void addElementChangedListener(IElementChangedListener listener,
 			int eventMask) {
 		ModelManager.getModelManager().deltaState.addElementChangedListener(listener,
 				eventMask);
@@ -792,48 +743,28 @@ public class RcpttCore {
 		ModelManager.getModelManager().deltaState.removeElementChangedListener(listener);
 	}
 
-	public static void addPreProcessingResourceChangedListener(
-			IResourceChangeListener listener, int eventMask) {
-		ModelManager.getModelManager().deltaState.addPreResourceChangedListener(listener,
-				eventMask);
-	}
-
 	public void findAllContexts(IQ7NamedElement element, Set<? super IContext> ctx) {
-		IContext[] contexts = null;
-		if (element instanceof ITestCase) {
-			contexts = getContexts((ITestCase) element,
-					WorkspaceFinder.getInstance(), true);
-		} else if (element instanceof IContext) {
-			contexts = getContexts((IContext) element,
-					WorkspaceFinder.getInstance(), true);
-		}
-		if (contexts != null) {
-			for (IContext cx : contexts) {
-				if (!(cx instanceof Q7InternalContext)) {
-					if (ctx.add(cx)) {
-						findAllContexts(cx, ctx);
-					}
+		for (IContext cx : getContexts(element, WorkspaceFinder.getInstance(), true)) {
+			if (!(cx instanceof Q7InternalContext)) {
+				if (ctx.add(cx)) {
+					findAllContexts(cx, ctx);
 				}
 			}
 		}
 	}
 
 	public void findAllVerifications(IQ7NamedElement element, Set<? super IVerification> verifications) {
-		IVerification[] result = null;
 		if (element instanceof ITestCase) {
-			result = getVerifications((ITestCase) element,
-					WorkspaceFinder.getInstance(), true);
-		}
-
-		if (result != null)
+			IVerification[] result = getVerifications((ITestCase) element, WorkspaceFinder.getInstance(), true);
 			verifications.addAll(Arrays.asList(result));
+		}
 	}
 
-	public boolean isNotGroupContext(IContext context) {
+	public boolean isNotGroupOrSuperContext(IContext context) {
 		String type = Q7SearchCore.findContextTypeByDocument(context);
-		if (type == null && context instanceof IContext) {
+		if (type == null && context != null) {
 			try {
-				type = ((IContext) context).getType().getId();
+				type = context.getType().getId();
 			} catch (ModelException e) {
 				RcpttPlugin.log(e);
 			}
@@ -841,7 +772,7 @@ public class RcpttCore {
 		if (type == null) {
 			return false;
 		}
-		if (!"org.eclipse.rcptt.ctx.group".equals(type)) {
+		if (!"org.eclipse.rcptt.ctx.group".equals(type) && !"org.eclipse.rcptt.ctx.super".equals(type)) {
 			return true;
 		}
 		return false;
