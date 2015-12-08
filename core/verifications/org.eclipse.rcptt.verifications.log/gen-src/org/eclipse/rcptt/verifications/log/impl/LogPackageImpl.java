@@ -14,11 +14,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-
 import org.eclipse.rcptt.verifications.log.ErrorLogVerification;
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogFactory;
@@ -114,6 +111,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLogEntryPredicate() {
 		return logEntryPredicateEClass;
 	}
@@ -123,6 +121,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLogEntryPredicate_SeverityMask() {
 		return (EAttribute)logEntryPredicateEClass.getEStructuralFeatures().get(0);
 	}
@@ -132,6 +131,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLogEntryPredicate_Code() {
 		return (EAttribute)logEntryPredicateEClass.getEStructuralFeatures().get(1);
 	}
@@ -141,6 +141,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLogEntryPredicate_PluginPattern() {
 		return (EAttribute)logEntryPredicateEClass.getEStructuralFeatures().get(2);
 	}
@@ -150,6 +151,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLogEntryPredicate_MessagePattern() {
 		return (EAttribute)logEntryPredicateEClass.getEStructuralFeatures().get(3);
 	}
@@ -159,6 +161,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getErrorLogVerification() {
 		return errorLogVerificationEClass;
 	}
@@ -168,6 +171,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getErrorLogVerification_Allowed() {
 		return (EReference)errorLogVerificationEClass.getEStructuralFeatures().get(0);
 	}
@@ -177,6 +181,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getErrorLogVerification_Denied() {
 		return (EReference)errorLogVerificationEClass.getEStructuralFeatures().get(1);
 	}
@@ -186,6 +191,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getErrorLogVerification_Required() {
 		return (EReference)errorLogVerificationEClass.getEStructuralFeatures().get(2);
 	}
@@ -195,6 +201,17 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getErrorLogVerification_IncludeContexts() {
+		return (EAttribute)errorLogVerificationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public LogFactory getLogFactory() {
 		return (LogFactory)getEFactoryInstance();
 	}
@@ -228,6 +245,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 		createEReference(errorLogVerificationEClass, ERROR_LOG_VERIFICATION__ALLOWED);
 		createEReference(errorLogVerificationEClass, ERROR_LOG_VERIFICATION__DENIED);
 		createEReference(errorLogVerificationEClass, ERROR_LOG_VERIFICATION__REQUIRED);
+		createEAttribute(errorLogVerificationEClass, ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS);
 	}
 
 	/**
@@ -274,6 +292,7 @@ public class LogPackageImpl extends EPackageImpl implements LogPackage {
 		initEReference(getErrorLogVerification_Allowed(), this.getLogEntryPredicate(), null, "allowed", null, 0, -1, ErrorLogVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getErrorLogVerification_Denied(), this.getLogEntryPredicate(), null, "denied", null, 0, -1, ErrorLogVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getErrorLogVerification_Required(), this.getLogEntryPredicate(), null, "required", null, 0, -1, ErrorLogVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getErrorLogVerification_IncludeContexts(), ecorePackage.getEBoolean(), "includeContexts", "true", 1, 1, ErrorLogVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

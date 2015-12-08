@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.log.LogEntryPredicate#getSeverityMask <em>Severity Mask</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.LogEntryPredicate#getCode <em>Code</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.LogEntryPredicate#getPluginPattern <em>Plugin Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.LogEntryPredicate#getMessagePattern <em>Message Pattern</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.verifications.log.LogPackage#getLogEntryPredicate()
  * @model

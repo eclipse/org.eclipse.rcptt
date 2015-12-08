@@ -114,8 +114,19 @@ public class ReportBuilder implements IReportBuilder {
 				node.getProperties().put(key, copy);
 			}
 		}
-
 		
+		@Override
+		public EObject getProperty(String key) {
+			synchronized (report) {
+				return node.getProperties().get(key);
+			}
+		}
+
+		@Override
+		public NodeBuilder getParent() {
+			return parent;
+		}
+
 		@Override
 		public void addSnapshot(Snaphot snapshot) {
 			Snaphot copy = EcoreUtil.copy(snapshot);

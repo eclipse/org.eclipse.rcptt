@@ -96,6 +96,16 @@ public class ReportManager implements IQ7ReportConstants {
 		}
 
 		@Override
+		public EObject getProperty(String key) {
+			return null;
+		}
+
+		@Override
+		public DummyReportNode getParent() {
+			return null;
+		}
+
+		@Override
 		public void addSnapshot(Snaphot snapshot) {
 		}
 
@@ -203,7 +213,8 @@ public class ReportManager implements IQ7ReportConstants {
 	public static void appendLogExtra(String msg) {
 		appendLog(msg, LoggingCategory.ADVANCED);
 	}
-	public static void appendLog(final String msg, final LoggingCategory cat) {
+
+	public synchronized static void appendLog(final String msg, final LoggingCategory cat) {
 		getCurrentReportNode().appendLog(cat, msg + "\n");
 	}
 

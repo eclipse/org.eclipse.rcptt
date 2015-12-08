@@ -16,11 +16,14 @@ import static com.google.common.base.Strings.nullToEmpty;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -33,22 +36,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IWorkbenchSite;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.ide.IGotoMarker;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.ui.commons.EObjectTable;
 import org.eclipse.rcptt.ui.controls.SectionWithToolbar;
 import org.eclipse.rcptt.ui.editors.EditorHeader;
@@ -60,6 +52,19 @@ import org.eclipse.rcptt.verifications.log.LogFactory;
 import org.eclipse.rcptt.verifications.log.LogPackage;
 import org.eclipse.rcptt.verifications.log.LogPackage.Literals;
 import org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.ide.IGotoMarker;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
 public class ErrorLogVerificationEditor extends BaseVerificationEditor implements IGotoMarker {
 
@@ -79,7 +84,7 @@ public class ErrorLogVerificationEditor extends BaseVerificationEditor implement
 
 	};
 
-	public ErrorLogVerification getVerification() {
+	private ErrorLogVerification getVerification() {
 		try {
 			return (ErrorLogVerification) super.getElement().getNamedElement();
 		} catch (ModelException e) {
@@ -377,24 +382,28 @@ public class ErrorLogVerificationEditor extends BaseVerificationEditor implement
 	PredicateTable deniedTable;
 	
 	@Override
-	public Control create(Composite parent, FormToolkit toolkit,
-			IWorkbenchSite site, EditorHeader header) {
-		int style = Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED;
+	public Control create(Composite parent, FormToolkit toolkit, IWorkbenchSite site, EditorHeader header) {
+		int style = ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED;
+		Button includeContextsCheckbox = toolkit.createButton(parent, "Take into account Context events", SWT.CHECK);
+		GridDataFactory.swtDefaults().hint(SWT.DEFAULT, 50).applyTo(includeContextsCheckbox);
+		dbc.bindValue(WidgetProperties.selection().observe(includeContextsCheckbox), EMFObservables.observeValue(
+				getVerification(), LogPackage.Literals.ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS));
 		requiredTable = new PredicateTable(
 				LogPackage.Literals.ERROR_LOG_VERIFICATION__REQUIRED,
 				"Require"
 				);
-		new SectionWithToolbar(requiredTable, style).create(parent, toolkit).setToolTipText("Every pattern should match at least one log entry for verification to succeed");
+		new SectionWithToolbar(requiredTable, style).create(parent, toolkit)
+				.setToolTipText("Every pattern should match at least one log entry for verification to succeed");
 		allowedTable = new PredicateTable(
 				LogPackage.Literals.ERROR_LOG_VERIFICATION__ALLOWED,
-				"Allow"
-				);
-		new SectionWithToolbar(allowedTable, style).create(parent, toolkit).setToolTipText("These patterns are not denied by next section");
+				"Allow");
+		new SectionWithToolbar(allowedTable, style).create(parent, toolkit)
+				.setToolTipText("These patterns are not denied by next section");
 		deniedTable = new PredicateTable(
 				LogPackage.Literals.ERROR_LOG_VERIFICATION__DENIED,
-				"Deny"
-				);
-		new SectionWithToolbar(deniedTable, style).create(parent, toolkit).setToolTipText("A log entry matching any of these patterns causes verification to fail if it is not allowed by the previous section");
+				"Deny");
+		new SectionWithToolbar(deniedTable, style).create(parent, toolkit).setToolTipText(
+				"A log entry matching any of these patterns causes verification to fail if it is not allowed by the previous section");
 		return null;
 	}
 	
@@ -440,6 +449,13 @@ public class ErrorLogVerificationEditor extends BaseVerificationEditor implement
 		deniedTable.dispose();
 		requiredTable.dispose();
 		super.dispose();
+	}
+
+	@Override
+	public EObject getCreateParam(AutLaunch launch) {
+		ErrorLogVerification param = LogFactory.eINSTANCE.createErrorLogVerification();
+		param.setIncludeContexts(getVerification().isIncludeContexts());
+		return param;
 	}
 
 }
