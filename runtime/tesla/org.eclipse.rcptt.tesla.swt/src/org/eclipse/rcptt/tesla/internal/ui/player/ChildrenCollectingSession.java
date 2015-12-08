@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -43,9 +46,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.WorkbenchPartReference;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 @SuppressWarnings("restriction")
 public class ChildrenCollectingSession {
@@ -87,8 +87,7 @@ public class ChildrenCollectingSession {
 		started = true;
 
 		// check extensions
-
-		for (ISWTUIPlayerExtension ext : SWTUIPlayer.extensions) {
+		for (ISWTUIPlayerExtension ext : SWTUIPlayer.getExtensions()) {
 			IChildrenCollectingExtension cce = ext.getChildrenCollectingExtension(this);
 			if (cce != null)
 				cce.collect();

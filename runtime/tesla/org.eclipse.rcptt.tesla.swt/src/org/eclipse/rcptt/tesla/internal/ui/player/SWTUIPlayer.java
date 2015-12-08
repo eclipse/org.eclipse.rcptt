@@ -170,7 +170,7 @@ public final class SWTUIPlayer {
 
 	protected static Map<Class<?>, ElementKind> elementKinds = new LinkedHashMap<Class<?>, ElementKind>();
 	private final ITimerExecHelper timerListener;
-	static List<ISWTUIPlayerExtension> extensions = new ArrayList<ISWTUIPlayerExtension>();
+	private static List<ISWTUIPlayerExtension> extensions = new ArrayList<ISWTUIPlayerExtension>();
 	static {
 		elementKinds.put(Shell.class, ElementKind.Window);
 		elementKinds.put(CBanner.class, ElementKind.CBanner);
@@ -236,6 +236,7 @@ public final class SWTUIPlayer {
 
 	private ITimerExecHelper getTimerExecHelper() {
 		return new ITimerExecHelper() {
+			@Override
 			public boolean needNullify(Runnable run, int time) {
 				String clName = null;
 				if (run instanceof SherlockTimerRunnable) {
@@ -291,7 +292,7 @@ public final class SWTUIPlayer {
 	public SWTUIElement select(PlayerSelectionFilter filter) {
 		SWTUIElement result = null;
 
-		for (ISWTUIPlayerExtension ext : extensions) {
+		for (ISWTUIPlayerExtension ext : getExtensions()) {
 			result = ext.select(this, filter);
 			if (result != null) {
 				return result;
@@ -856,8 +857,9 @@ public final class SWTUIPlayer {
 	public void click(final SWTUIElement w, final boolean isDefault,
 			final boolean doubleClick, final boolean arrow) {
 		exec("click", new Runnable() {
+			@Override
 			public void run() {
-				for (ISWTUIPlayerExtension ext : extensions) {
+				for (ISWTUIPlayerExtension ext : getExtensions()) {
 					if (ext.canClick(w, isDefault, doubleClick, arrow)) {
 						ext.click(w, isDefault, doubleClick, arrow);
 						return;
@@ -1183,6 +1185,7 @@ public final class SWTUIPlayer {
 		final Point itemCenter = centerAbs(column >= 0 ? getItemBounds(item,
 				column) : getItemBounds(item));
 		w.getPlayer().exec("click cell", new Runnable() {
+			@Override
 			public void run() {
 				if (doubleClick) {
 					getEvents().sendFocus(itemParent);
@@ -1288,7 +1291,7 @@ public final class SWTUIPlayer {
 	 */
 	public SWTUIElement wrap(Object s) {
 
-		for (ISWTUIPlayerExtension ext : extensions) {
+		for (ISWTUIPlayerExtension ext : getExtensions()) {
 			SWTUIElement result = ext.wrap(s, this);
 			if (result != null) {
 				return result;
@@ -1500,6 +1503,7 @@ public final class SWTUIPlayer {
 		final Widget widget = unwrapWidget(uiElement);
 		if (widget instanceof Control && !widget.isDisposed()) {
 			exec("setBackground", new Runnable() {
+				@Override
 				public void run() {
 					if (!widget.isDisposed()) {
 						((Control) widget).setBackground(((SWTUIColor) color)
@@ -1515,6 +1519,7 @@ public final class SWTUIPlayer {
 			final int second) {
 		final Widget widget = unwrapWidget(uiElement);
 		exec("setDateTime", new Runnable() {
+			@Override
 			public void run() {
 				if (widget.isDisposed()) {
 					return;
@@ -1569,6 +1574,7 @@ public final class SWTUIPlayer {
 			final boolean select) {
 		final Widget widget = unwrapWidget(uiElement);
 		exec("setText", new Runnable() {
+			@Override
 			public void run() {
 				if (widget.isDisposed()) {
 					return;
@@ -1694,7 +1700,7 @@ public final class SWTUIPlayer {
 		ElementKind kind = elementKinds.get(widget.getClass());
 		if (kind == null) {
 			// Try to find superclass for custom widget in extensions
-			for (ISWTUIPlayerExtension extension : extensions) {
+			for (ISWTUIPlayerExtension extension : getExtensions()) {
 				Class<?> searchableClass = extension.getSearchableClass(widget);
 				if (searchableClass != null) {
 					return searchableClass;
@@ -1716,7 +1722,7 @@ public final class SWTUIPlayer {
 		if (w == null)
 			return GenericElementKind.Unknown;
 
-		for (ISWTUIPlayerExtension extension : extensions) {
+		for (ISWTUIPlayerExtension extension : getExtensions()) {
 			GenericElementKind kind = extension.getKind(w);
 			if (kind != null) {
 				return kind;
@@ -1740,6 +1746,7 @@ public final class SWTUIPlayer {
 
 	public void close(final SWTUIElement uiElement) {
 		exec("close", new Runnable() {
+			@Override
 			public void run() {
 				if (uiElement instanceof WorkbenchUIElement) {
 					IWorkbenchPartReference reference = ((WorkbenchUIElement) uiElement)
@@ -2058,6 +2065,7 @@ public final class SWTUIPlayer {
 	public void typeText(final SWTUIElement element, final String text,
 			final int mask, final boolean fromDisplay) {
 		exec("typeText", new Runnable() {
+			@Override
 			public void run() {
 				switch (element.getKind().kind) {
 				default:
@@ -2140,6 +2148,7 @@ public final class SWTUIPlayer {
 	public void traverse(final SWTUIElement element, final int code,
 			final char character, final int times) {
 		exec("traverse", new Runnable() {
+			@Override
 			public void run() {
 				Widget widget = unwrapWidget(element);
 				if (!(widget instanceof Control))
@@ -2211,6 +2220,7 @@ public final class SWTUIPlayer {
 			final int mask, final boolean fromDisplay, final char character,
 			final int times) {
 		exec("type", new Runnable() {
+			@Override
 			public void run() {
 				switch (element.getKind().kind) {
 				default:
@@ -2286,7 +2296,9 @@ public final class SWTUIPlayer {
 
 	public void typeAction(final SWTUIElement element, final String actionId) {
 		exec("typeAction", new Runnable() {
+			@Override
 			public void run() {
+				@SuppressWarnings("cast") // IServiceLocator.getService was not generic in Eclipse 4.4 and older.
 				IHandlerService handlerService = (IHandlerService) PlatformUI
 						.getWorkbench().getService(IHandlerService.class);
 				try {
@@ -2319,6 +2331,7 @@ public final class SWTUIPlayer {
 	public void save(final SWTUIElement w) {
 		exec("save", new Runnable() {
 
+			@Override
 			public void run() {
 				if (w.getKind().kind == ElementKind.Editor) {
 					IEditorReference editor = (IEditorReference) (((WorkbenchUIElement) w).reference);
@@ -2342,7 +2355,7 @@ public final class SWTUIPlayer {
 	}
 
 	private static Widget parentFromExtension(Widget current) {
-		for (ISWTUIPlayerExtension ext : extensions) {
+		for (ISWTUIPlayerExtension ext : getExtensions()) {
 			Widget result = ext.getIndirectParent(current);
 			if (result != null) {
 				return result;
@@ -2457,7 +2470,7 @@ public final class SWTUIPlayer {
 
 	public static SWTUIElement getShell(SWTUIElement element) {
 
-		for (ISWTUIPlayerExtension ext : extensions) {
+		for (ISWTUIPlayerExtension ext : getExtensions()) {
 			SWTUIElement result = ext.getShell(element);
 			if (result != null) {
 				return result;
@@ -2506,6 +2519,7 @@ public final class SWTUIPlayer {
 		TeslaEventManager.getManager().setLastWidget(canvas, x, y);
 		widgetToMouseForMenus.put(canvas, new Point(x, y));
 		canvas.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				widgetToMouseForMenus.remove(canvas);
 				try {
@@ -2707,6 +2721,7 @@ public final class SWTUIPlayer {
 	public void minimize(SWTUIElement uiElement) {
 		final Widget widget = unwrapWidget(uiElement);
 		exec("minimize", new Runnable() {
+			@Override
 			public void run() {
 				processTabFolderButton(widget,
 						IWorkbenchPage.STATE_MINIMIZED);
@@ -2718,6 +2733,7 @@ public final class SWTUIPlayer {
 		final Widget widget = unwrapWidget(uiElement);
 
 		exec("maximize", new Runnable() {
+			@Override
 			public void run() {
 				if (widget instanceof Shell) {
 					((Shell) widget).setMaximized(true);
@@ -2736,6 +2752,7 @@ public final class SWTUIPlayer {
 	public void restore(SWTUIElement uiElement) {
 		final Widget widget = unwrapWidget(uiElement);
 		exec("restore", new Runnable() {
+			@Override
 			public void run() {
 				processTabFolderButton(widget,
 						IWorkbenchPage.STATE_RESTORED);
@@ -2751,6 +2768,7 @@ public final class SWTUIPlayer {
 	public void showTabList(SWTUIElement uiElement) {
 		final Widget widget = unwrapWidget(uiElement);
 		exec("showTabList", new Runnable() {
+			@Override
 			public void run() {
 				processTabShowList(widget);
 			}
@@ -2763,6 +2781,7 @@ public final class SWTUIPlayer {
 
 	public void setPerspective(final String perspectiveId) {
 		exec("setPerspective", new Runnable() {
+			@Override
 			public void run() {
 				IPerspectiveDescriptor persectiveDescriptor = PlatformUI
 						.getWorkbench().getPerspectiveRegistry()
@@ -2795,6 +2814,7 @@ public final class SWTUIPlayer {
 			return errorMethod;
 		}
 
+		@Override
 		public void run() {
 			// ReportBuilder builder = ReportManager.getBuilder();
 			// if (builder != null) {
@@ -2827,6 +2847,7 @@ public final class SWTUIPlayer {
 	}
 
 	private static class NotifyUINullRunnable implements Runnable {
+		@Override
 		public void run() {
 		}
 	};
@@ -2842,9 +2863,12 @@ public final class SWTUIPlayer {
 		extensions.add(extension);
 	}
 
-	public static synchronized void removeExtension(
-			ISWTUIPlayerExtension extension) {
+	public static synchronized void removeExtension(ISWTUIPlayerExtension extension) {
 		extensions.remove(extension);
+	}
+
+	public static synchronized List<ISWTUIPlayerExtension> getExtensions() {
+		return new ArrayList<ISWTUIPlayerExtension>(extensions);
 	}
 
 	public boolean cleanMenus(final Q7WaitInfoRoot info) {
@@ -2855,6 +2879,7 @@ public final class SWTUIPlayer {
 			return false;
 		}
 		curDisplay.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				for (WeakReference<Menu> weakReference : shownMenus) {
 					Menu menu = weakReference.get();
