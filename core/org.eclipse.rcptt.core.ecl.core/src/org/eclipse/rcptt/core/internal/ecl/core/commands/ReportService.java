@@ -52,6 +52,7 @@ public class ReportService implements ICommandService {
 		} else if (command instanceof GetReport) {
 			Report reportCopy = ReportManager.getReportCopy();
 			ReportManager.clear();
+			stack.clear();
 			ECLBinaryResourceImpl res = new ECLBinaryResourceImpl();
 			if (reportCopy != null) {
 				res.getContents().add(reportCopy);
