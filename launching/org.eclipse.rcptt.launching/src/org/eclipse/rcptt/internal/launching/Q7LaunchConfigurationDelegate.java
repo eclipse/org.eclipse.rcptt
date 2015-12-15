@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.internal.launching;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +23,6 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -40,6 +36,9 @@ import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.Q7Launcher.LaunchData;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 
 public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		implements IQ7Launch {
@@ -122,6 +121,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		return new Q7TestLaunch(configuration, mode);
 	}
 
+	@Override
 	public void launch(ILaunchConfiguration config, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Launching RCPTT tests...", 3);
@@ -143,7 +143,6 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 									+ "' launch configuration "));
 		}
 
-		@SuppressWarnings("unchecked")
 		Map<String, String> variants = config.getAttribute(
 				IQ7Launch.ATTR_VARIANTS, new HashMap<String, String>());
 
@@ -151,15 +150,12 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		for (IQ7NamedElement namedElement : elements) {
 			String var = variants.get(namedElement.getID());
 			if (var != null) {
-				List<String> rawValues = Arrays.asList(Iterables.toArray(Splitter
-						.on(IQ7Launch.VARIANTS_SEPARATOR).split(var),
-						String.class));
+				List<String> rawValues = ImmutableList.copyOf(Splitter.on(IQ7Launch.VARIANTS_SEPARATOR).split(var));
 				if (rawValues != null) {
 					List<List<String>> values = new ArrayList<List<String>>();
 					for (String rawValue : rawValues) {
-						values.add(Arrays.asList(Iterables.toArray(Splitter
-								.on(IQ7Launch.VARIANT_NAME_SEPARATOR).split(rawValue),
-								String.class)));
+						values.add(ImmutableList.copyOf(
+								Splitter.on(IQ7Launch.VARIANT_NAME_SEPARATOR).omitEmptyStrings().split(rawValue)));
 					}
 					namedVariants.put(namedElement, values);
 				}
