@@ -45,6 +45,19 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.IQ7Element;
+import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.internal.core.model.ModelManager;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Messages;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.actions.SelectionAction;
+import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
+import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
+import org.eclipse.rcptt.ui.panels.Actions;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
@@ -64,19 +77,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ResourceTransfer;
 
 import com.google.common.collect.Iterables;
-import org.eclipse.rcptt.core.model.IContext;
-import org.eclipse.rcptt.core.model.IQ7Element;
-import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.internal.core.model.ModelManager;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.ui.actions.SelectionAction;
-import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
-import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
-import org.eclipse.rcptt.ui.panels.Actions;
 
 public abstract class EObjectTable extends AbstractEmbeddedComposite implements
 		IContentNamer, ISelectionActionsHandler, INamedElementActions {
@@ -170,24 +170,12 @@ public abstract class EObjectTable extends AbstractEmbeddedComposite implements
 		contentObservable = EMFObservables.observeValue(content, feature);
 		contentObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				viewer.getControl().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						if (!viewer.getTable().isDisposed())
-							viewer.refresh();
-					}
-				});
+				refresh(false);
 			}
 		});
 		contentObservable.addValueChangeListener(new IValueChangeListener() {
 			public void handleValueChange(ValueChangeEvent event) {
-				viewer.getControl().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						if (!viewer.getControl().isDisposed()) {
-							viewer.refresh();
-						}
-					}
-				});
-
+				refresh(false);
 			}
 		});
 
@@ -215,13 +203,7 @@ public abstract class EObjectTable extends AbstractEmbeddedComposite implements
 			protected IStatus run(IProgressMonitor monitor) {
 				ModelManager.getModelManager().getIndexManager()
 						.waitUntilReady(monitor);
-				viewer.getControl().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						if (!viewer.getControl().isDisposed()) {
-							viewer.refresh();
-						}
-					}
-				});
+				refresh(false);
 				return Status.OK_STATUS;
 			}
 
@@ -238,13 +220,19 @@ public abstract class EObjectTable extends AbstractEmbeddedComposite implements
 	}
 
 	public void refresh() {
+		refresh(true);
+	}
+
+	private void refresh(final boolean setInput) {
 		if (getControl().isDisposed()) {
 			return;
 		}
 		getControl().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (!viewer.getTable().isDisposed()) {
-					viewer.setInput(getViewerContents());
+					if (setInput) {
+						viewer.setInput(getViewerContents());
+					}
 					viewer.refresh(true);
 				}
 			}
