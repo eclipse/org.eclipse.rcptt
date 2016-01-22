@@ -70,8 +70,7 @@ public class ReportUtils {
 	}
 
 	public static Q7Statistics calculateStatistics(Iterator<Report> iterator) {
-		Q7Statistics statistics = ReportingFactory.eINSTANCE
-				.createQ7Statistics();
+		Q7Statistics statistics = ReportingFactory.eINSTANCE.createQ7Statistics();
 
 		long startTime = Long.MAX_VALUE;
 		long endTime = Long.MIN_VALUE;
@@ -93,8 +92,7 @@ public class ReportUtils {
 			}
 
 			total += 1;
-			Q7Info q7info = (Q7Info) localRoot.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info q7info = (Q7Info) localRoot.getProperties().get(IQ7ReportConstants.ROOT);
 			SimpleSeverity severity = SimpleSeverity.create(q7info);
 			switch (severity) {
 			case CANCEL:
@@ -127,8 +125,7 @@ public class ReportUtils {
 	 * @param session
 	 * @return
 	 */
-	public static Report combineReports(Iterable<Report> reports, int len,
-			IProgressMonitor monitor) {
+	public static Report combineReports(Iterable<Report> reports, int len, IProgressMonitor monitor) {
 
 		monitor.beginTask("Combine Q7 testcase reports", len * 10);
 		Report report = ReportFactory.eINSTANCE.createReport();
@@ -169,8 +166,7 @@ public class ReportUtils {
 		return report;
 	}
 
-	private static boolean compareSources(EventSource source,
-			EventSource rootSource) {
+	private static boolean compareSources(EventSource source, EventSource rootSource) {
 		if (source == null || rootSource == null) {
 			return false;
 		}
@@ -191,8 +187,7 @@ public class ReportUtils {
 		return true;
 	}
 
-	private static void updateSource(Report copy, EventSource source,
-			EventSource rootSource) {
+	private static void updateSource(Report copy, EventSource source, EventSource rootSource) {
 		TreeIterator<EObject> contents = copy.eAllContents();
 		List<Event> eventsToUpdate = new ArrayList<Event>();
 		while (contents.hasNext()) {
@@ -214,8 +209,7 @@ public class ReportUtils {
 	public static String getScenarioTags(Node item) {
 		EList<Node> children = item.getChildren();
 		for (Node node : children) {
-			Q7Info info = (Q7Info) node.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info info = (Q7Info) node.getProperties().get(IQ7ReportConstants.ROOT);
 			if (info != null && info.getType() == ItemKind.SCRIPT) {
 				return info.getTags();
 			}
@@ -226,8 +220,7 @@ public class ReportUtils {
 	public static String getScenarioDescription(Node item) {
 		EList<Node> children = item.getChildren();
 		for (Node node : children) {
-			Q7Info info = (Q7Info) node.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info info = (Q7Info) node.getProperties().get(IQ7ReportConstants.ROOT);
 			if (info != null && info.getType() == ItemKind.SCRIPT) {
 				return info.getDescription();
 			}
@@ -237,7 +230,7 @@ public class ReportUtils {
 
 	/**
 	 * Is it a 'trace' or 'take-screenshot' command?
-	 * */
+	 */
 	public static boolean isLoggedCommand(String name) {
 		return isTraceCommand(name) || isScreenshotCommand(name);
 	}
@@ -258,8 +251,7 @@ public class ReportUtils {
 		if (text == null) {
 			return null;
 		}
-		return text.replace("\"", "&quot;").replace("<", "&lt;")
-				.replace(">", "&gt;");
+		return text.replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 
 	public static List<Screenshot> findScreenshots(Node node) {
@@ -357,10 +349,23 @@ public class ReportUtils {
 	 * @return
 	 */
 	private static String maskIllegalChars(String str) {
+		StringBuilder sb = new StringBuilder();
 		if (str == null || str.length() == 0) {
 			return str;
 		}
-		return str.replace("\0", "\\0").replace("]]>", "]] >");
+		for (char c : str.toCharArray()) {
+			boolean isControl = c == '\t' || c == ' ' || c == '\r' || c == '\n' || c == '.' || c == ';' || c == ':'
+					|| c == '-' || c == '+' || c == '=' || c == '#' || c == '$' || c == '%' || c == '^' || c == '*'
+					|| c == '(' || c == ')' || c == '{' || c == '}' || c == '\"' || c == '\'' || c == '|' || c == '\\'
+					|| c == '/' || c == '<' || c == '>' || c == '!' || c == '@' || c == ',' || c == '_' || c == '['
+					|| c == ']';
+			if (!(Character.isLetterOrDigit(c) || isControl || Character.isAlphabetic(c))) {
+				sb.append("(0x").append(Integer.toHexString(c)).append(")");
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString().replace("\0", "\\0").replace("]]>", "]] >");
 	}
 
 	public static String combineNames(EList<String> list, String separator) {
