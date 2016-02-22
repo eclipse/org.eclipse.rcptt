@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target includeMode="feature" name="ide-mars" sequenceNumber="72">
+<?pde version="3.8"?><target includeMode="feature" name="ide-mars" sequenceNumber="73">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.google.guava" version="15.0.0.v201212092141"/>
+<unit id="com.google.guava" version="15.0.0.v201403281430"/>
 <unit id="com.google.gson" version="2.2.4.v201311231704"/>
 <unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
 <unit id="org.jsoup" version="1.7.2.v201304221138"/>
@@ -17,19 +17,19 @@
 <repository location="http://download.eclipse.org/rcptt/nightly/2.0.0/latest/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.edit.ui.feature.group" version="2.11.0.v20141110-0530"/>
-<unit id="org.eclipse.emf.common.ui.feature.group" version="2.9.0.v20141110-0530"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.11.0.v20141110-0530"/>
-<unit id="org.eclipse.pde.feature.group" version="3.11.0.v20141029-2000"/>
-<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.9.0.201409241440"/>
-<unit id="epp.package.java" version="4.5.0.20141112-1754"/>
-<unit id="org.eclipse.platform.sdk" version="4.5.0.I20141029-2000"/>
-<unit id="org.eclipse.gmf.feature.group" version="1.9.0.201409241816"/>
+<unit id="org.eclipse.emf.edit.ui.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.common.ui.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="0.0.0"/>
+<unit id="epp.package.java" version="0.0.0"/>
+<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
+<unit id="org.eclipse.gmf.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/releases/mars/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.ajdt.sdk.feature.group" version="2.2.4.e44x-20141118-0700"/>
-<unit id="org.eclipse.contribution.weaving.feature.group" version="2.2.4.e44x-20141118-0700"/>
+<unit id="org.eclipse.ajdt.sdk.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.contribution.weaving.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/tools/ajdt/44/dev/update/"/>
 </location>
 </locations>
