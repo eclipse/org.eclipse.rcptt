@@ -45,7 +45,7 @@ public class PackageMojo extends AbstractRCPTTMojo {
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		createMainArtifact();
-		if (skipTests) {
+		if (skipTests()) {
 			return;
 		}
 		if (!projectHasTests()) {

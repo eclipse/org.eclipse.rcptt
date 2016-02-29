@@ -35,7 +35,7 @@ import org.eclipse.rcptt.maven.util.CoordResolver;
 public class PrepareMojo extends AbstractRCPTTMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		if (skipTests) {
+		if (skipTests()) {
 			return;
 		}
 

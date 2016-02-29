@@ -83,7 +83,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		if (skipTests) {
+		if (skipTests()) {
 			getLog().info("Tests are skipped");
 			return;
 		}

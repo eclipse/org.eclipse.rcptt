@@ -82,6 +82,13 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	 */
 	protected boolean skipTests = false;
 	/**
+	 * Same as {@link #skipTests}
+	 *
+	 * @parameter expression="${maven.test.skip}" default-value="false"
+	 */
+	private boolean skip;
+
+	/**
 	 * @parameter
 	 */
 	protected int limit = -1;
@@ -392,6 +399,15 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 			project.getProperties().put(HAS_TESTS_KEY, scenarioFiles.length > contextScenarioCount);
 		}
 		return (Boolean) project.getProperties().get(HAS_TESTS_KEY);
+	}
+
+	/**
+	 * Returns true when tests should be skipped.
+	 *
+	 * @return true if the tests should be skipped
+	 */
+	protected boolean skipTests () {
+		return skip || skipTests;
 	}
 
 	/**
