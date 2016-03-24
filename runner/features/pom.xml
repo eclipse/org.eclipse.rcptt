@@ -9,10 +9,6 @@
 	</parent>
 	<modules>
 		<!-- Lite version of features -->
-		<module>org.eclipse.rcptt.rcp.lite-feature</module>
-		<module>org.eclipse.rcptt.platform.lite-feature</module>
-		<module>org.eclipse.rcptt.jdt.lite-feature</module>
-		<module>org.eclipse.rcptt.pde.lite-feature</module>
 		<module>org.eclipse.rcptt.runner.runner-feature</module>
 		<module>org.eclipse.rcptt.runner.integration-feature</module>
 	</modules>

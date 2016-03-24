@@ -37,8 +37,9 @@
           <execution>
             <id>compile</id>
             <configuration>
-              <source>1.6</source>
-              <target>1.6</target>
+              <source>${ajJavaSource}</source>
+              <target>${ajJavaTarget}</target>
+              <complianceLevel>${ajJavaCompilance}</complianceLevel>
               <aspectDirectory>src</aspectDirectory>
               <Xlint>ignore</Xlint>
               <Xreweavable>true</Xreweavable>

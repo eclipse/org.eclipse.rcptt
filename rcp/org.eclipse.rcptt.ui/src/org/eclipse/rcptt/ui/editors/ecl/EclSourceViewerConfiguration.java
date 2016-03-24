@@ -12,6 +12,7 @@ package org.eclipse.rcptt.ui.editors.ecl;
 
 import java.util.Map;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.text.AbstractReusableInformationControlCreator;
 import org.eclipse.jface.text.DefaultInformationControl;
 import org.eclipse.jface.text.IDocument;
@@ -32,12 +33,10 @@ import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.reconciler.MonoReconciler;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.rcptt.ui.editors.quickfix.EclSourceQuickAssistProcessor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.texteditor.ITextEditor;
-
-import org.eclipse.rcptt.ui.editors.quickfix.EclSourceQuickAssistProcessor;
 
 public class EclSourceViewerConfiguration extends
 		EnhancedSourceViewerConfiguration {
@@ -154,14 +153,13 @@ public class EclSourceViewerConfiguration extends
 		return SWT.MOD1;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected Map<String, ITextEditor> getHyperlinkDetectorTargets(ISourceViewer sourceViewer) {
+	protected Map<String, IAdaptable> getHyperlinkDetectorTargets(ISourceViewer sourceViewer) {
 		if (textEditor == null) {
 			return super.getHyperlinkDetectorTargets(sourceViewer);
 		}
 
-		Map<String, ITextEditor> targets = super.getHyperlinkDetectorTargets(sourceViewer);
+		Map<String, IAdaptable> targets = super.getHyperlinkDetectorTargets(sourceViewer);
 		targets.put("org.eclipse.rcptt.ui.ecltexthyperlinkdetectortarget", textEditor); //$NON-NLS-1$
 
 		return targets;

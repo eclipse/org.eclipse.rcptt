@@ -22,6 +22,7 @@ Not used in runtime.
    <requires>
       <import plugin="org.eclipse.emf.transaction"/>
       <import plugin="org.eclipse.emf.workspace"/>
+      <import plugin="com.google.guava"/>
       <import feature="org.eclipse.rcptt.ecl.core" version="2.1.0.qualifier"/>
    </requires>
 
@@ -262,13 +263,6 @@ Not used in runtime.
          download-size="0"
          install-size="0"
          version="2.1.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="com.google.guava"
-         download-size="0"
-         install-size="0"
-         version="15.0.0"
          unpack="false"/>
 
 </feature>
