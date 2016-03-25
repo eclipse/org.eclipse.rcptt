@@ -1,7 +1,7 @@
 instructions.configure=\
-  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/mars,name:Indigo);\
-  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/mars,name:Indigo);\
-  addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);\
-  addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.5,name:The Eclipse Project Updates);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/neon,name:Neon);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/neon,name:Neon);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.6,name:The Eclipse Project Updates);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.6,name:The Eclipse Project Updates);\
   setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/rcpttWorkspace);\
   setProgramProperty(propName:org.eclipse.update.reconcile,propValue:false);

@@ -8,7 +8,7 @@
       <text>
          RCP Testing Tool IDE
 
-Version: 2.0.0
+Version: 2.1.0
 
 Copyright (c) Xored Software Inc and others.
 Visit http://eclipse.org/rcptt
@@ -50,12 +50,11 @@ Apache Software Foundation http://www.apache.org/
       startupMessageRect="298,200,175,21"
       startupForegroundColor="ffffff" />
    <launcher name="rcptt">
-      <linux icon="../../../../../rcp/products/icons/rcptt.xpm"/>
-      <macosx icon="../../../../../rcp/products/icons/rcptt.icns"/>
+      <linux icon="../../rcp/products/icons/rcptt.xpm"/>
+      <macosx icon="../../rcp/products/icons/rcptt.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="../../../../../rcp/products/icons/rcptt.ico"/>
-         <bmp/>
+         <ico path="../../rcp/products/icons/rcptt.ico"/>
       </win>
    </launcher>
 

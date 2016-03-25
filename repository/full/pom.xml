@@ -42,6 +42,9 @@
         <version>${tycho-version}</version>
         <configuration>
           <repositoryName>RCPTT IDE</repositoryName>
+          <profileProperties>
+            <macosx-bundled>true</macosx-bundled>
+          </profileProperties>
         </configuration>
       </plugin>
       <plugin>
@@ -68,9 +71,18 @@
           <products>
             <product>
               <id>org.eclipse.rcptt.platform.product</id>
-              <rootFolder>rcptt</rootFolder>
+              <rootFolders>
+                <win32>rcptt</win32>
+                <macosx>rcptt.app</macosx>
+                <linux>rcptt</linux>
+              </rootFolders>
             </product>
           </products>
+          <formats>
+            <win32>zip</win32>
+            <linux>zip</linux>
+            <macosx>zip</macosx>
+          </formats>
         </configuration>
       </plugin>
       <plugin>
