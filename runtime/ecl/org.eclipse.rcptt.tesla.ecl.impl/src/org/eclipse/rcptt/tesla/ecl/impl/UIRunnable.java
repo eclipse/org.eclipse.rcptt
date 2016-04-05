@@ -41,7 +41,7 @@ public abstract class UIRunnable<T> {
 	@SuppressWarnings("unchecked")
 	public static <T> T exec(final UIRunnable<T> runnable) throws CoreException {
 		final Object[] result = new Object[1];
-		final AtomicReference<RunningState> processed = new AtomicReference<>(RunningState.Starting);
+		final AtomicReference processed = new AtomicReference(RunningState.Starting);
 		final Throwable[] exception = new Throwable[] { null };
 		final UIJobCollector collector = new UIJobCollector();
 		final Display display = PlatformUI.getWorkbench().getDisplay();
