@@ -12,6 +12,8 @@ package org.eclipse.rcptt.tesla.ecl.impl;
 
 import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.PLUGIN_ID;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -39,7 +41,7 @@ public abstract class UIRunnable<T> {
 	@SuppressWarnings("unchecked")
 	public static <T> T exec(final UIRunnable<T> runnable) throws CoreException {
 		final Object[] result = new Object[1];
-		final RunningState[] processed = new RunningState[] { RunningState.Starting };
+		final AtomicReference<RunningState> processed = new AtomicReference<>(RunningState.Starting);
 		final Throwable[] exception = new Throwable[] { null };
 		final UIJobCollector collector = new UIJobCollector();
 		final Display display = PlatformUI.getWorkbench().getDisplay();
@@ -51,7 +53,7 @@ public abstract class UIRunnable<T> {
 			listener = new ITeslaEventListener() {
 				public synchronized boolean doProcessing(
 						org.eclipse.rcptt.tesla.core.context.ContextManagement.Context currentContext) {
-					boolean tick = processed[0].equals(RunningState.Starting) || processed[0].equals(RunningState.Execution);
+					boolean tick = processed.get().equals(RunningState.Starting) || processed.get().equals(RunningState.Execution);
 					Q7WaitInfoRoot info = TeslaBridge.getCurrentWaitInfo(tick);
 					
 					boolean resultValue = true;
@@ -75,8 +77,8 @@ public abstract class UIRunnable<T> {
 					if( !resultValue ) {
 						return false;
 					}
-					if (processed[0].equals(RunningState.Starting)) {
-						processed[0] = RunningState.Execution;
+					if (processed.get().equals(RunningState.Starting)) {
+						processed.set(RunningState.Execution);
 						try {
 							result[0] = runnable.run();
 						} catch (Throwable e) {
@@ -84,15 +86,15 @@ public abstract class UIRunnable<T> {
 							// Do not collect anything on error
 							collector.setNeedDisable();
 							// collector.clean();
-							processed[0] = RunningState.Finished;
+							processed.set(RunningState.Finished);
 							return true;
 						}
-						processed[0] = RunningState.Done;
+						processed.set(RunningState.Done);
 						return true;
 					}
-					if (processed[0].equals(RunningState.Done)) {
+					if (processed.get().equals(RunningState.Done)) {
 						collector.setNeedDisable();
-						processed[0] = RunningState.Finished;
+						processed.set(RunningState.Finished);
 						return true;
 					}
 					return false;
@@ -103,12 +105,12 @@ public abstract class UIRunnable<T> {
 			};
 			TeslaEventManager.getManager().addEventListener(listener);
 			long start = System.currentTimeMillis();
-			while (!processed[0].equals(RunningState.Finished)) {
+			while (!processed.get().equals(RunningState.Finished)) {
 				if (display.isDisposed())
 					throw new CoreException(Status.CANCEL_STATUS);
 				// Perform wakeup async
 				SWTUIPlayer.notifyUI(display);
-				Thread.sleep(50);
+				Thread.sleep(1);// Just to wait min time.
 				if (exception[0] != null) {
 					if (exception[0] instanceof CoreException)
 						throw (CoreException)exception[0];
@@ -116,7 +118,7 @@ public abstract class UIRunnable<T> {
 				}
 				long time = System.currentTimeMillis();
 				if (time > start + (getTimeout() / 2)) {
-					if (processed[0].equals(RunningState.Starting)) {
+					if (processed.get().equals(RunningState.Starting)) {
 						// try to close all modal dialogs and clean job
 						// processor
 						display.asyncExec(new Runnable() {
