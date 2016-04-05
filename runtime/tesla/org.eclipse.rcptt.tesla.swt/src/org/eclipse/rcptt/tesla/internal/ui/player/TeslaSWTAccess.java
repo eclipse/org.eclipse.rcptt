@@ -89,16 +89,29 @@ public class TeslaSWTAccess {
 			if (listener instanceof TypedListener) {
 				lookFor = ((TypedListener) listener).getEventListener();
 			}
-			try {
-				Field this$0 = lookFor.getClass().getDeclaredField("this$0");
+			Object viewer = getFromField(lookFor, "this$0");
+			if (clazz.isInstance(viewer)) {
+				return clazz.cast(viewer);
+			}
+			viewer = getFromField(lookFor, "arg$1");
+			if (clazz.isInstance(viewer)) {
+				return clazz.cast(viewer);
+			}
+
+		}
+		return null;
+	}
+
+	private static Object getFromField(Object lookFor, String arg) {
+		try {
+			Field this$0 = lookFor.getClass().getDeclaredField(arg);
+			if (this$0 != null) {
 				this$0.setAccessible(true);
 				Object viewer = this$0.get(lookFor);
-				if (clazz.isInstance(viewer)) {
-					return clazz.cast(viewer);
-				}
-			} catch (Throwable e) {
-				// ignore exceptions
+				return viewer;
 			}
+		} catch (Throwable e) {
+			// Ignore
 		}
 		return null;
 	}
@@ -142,13 +155,11 @@ public class TeslaSWTAccess {
 	}
 
 	public static CheckboxTreeViewer getCheckBoxTreeViewer(SWTUIElement parent) {
-		return getThis(CheckboxTreeViewer.class,
-				PlayerWrapUtils.unwrapWidget(parent), SWT.Expand);
+		return getThis(CheckboxTreeViewer.class, PlayerWrapUtils.unwrapWidget(parent), SWT.Expand);
 	}
 
 	public static Object getPropertySheet(Control tree) {
-		return getThis("org.eclipse.ui.views.properties.PropertySheetViewer",
-				tree, SWT.MouseDown);
+		return getThis("org.eclipse.ui.views.properties.PropertySheetViewer", tree, SWT.MouseDown);
 	}
 
 	public static ControlEditor getControlEditor(Composite parent) {
@@ -159,16 +170,14 @@ public class TeslaSWTAccess {
 		try {
 			Field listeners = CellEditor.class.getDeclaredField("listeners");
 			listeners.setAccessible(true);
-			ListenerList listenersList = (ListenerList) listeners
-					.get(cellEditor);
+			ListenerList listenersList = (ListenerList) listeners.get(cellEditor);
 			if (listenersList != null) {
 				Object[] objects = listenersList.getListeners();
 				for (Object object : objects) {
 					if (object instanceof ICellEditorListener) {
 						ICellEditorListener list = (ICellEditorListener) object;
 						try {
-							Field this$0 = list.getClass().getDeclaredField(
-									"this$0");
+							Field this$0 = list.getClass().getDeclaredField("this$0");
 							this$0.setAccessible(true);
 							Object viewer = this$0.get(list);
 							if (viewer instanceof ColumnViewerEditor) {
@@ -186,8 +195,7 @@ public class TeslaSWTAccess {
 		return null;
 	}
 
-	public static CellEditor getCellEditorFromColumnEditor(
-			ColumnViewerEditor editor) {
+	public static CellEditor getCellEditorFromColumnEditor(ColumnViewerEditor editor) {
 		Class<? extends ColumnViewerEditor> class1 = ColumnViewerEditor.class;
 		Field field;
 		CellEditor cEditor = null;
@@ -249,8 +257,7 @@ public class TeslaSWTAccess {
 		}
 	}
 
-	public static <T> T getField(Class<T> targetClass, Object object,
-			String fieldName) {
+	public static <T> T getField(Class<T> targetClass, Object object, String fieldName) {
 		if (object == null)
 			return null;
 		try {
@@ -290,8 +297,7 @@ public class TeslaSWTAccess {
 		}
 	}
 
-	public static void setField(Class<?> class_, Object object,
-			String fieldName, Object value) {
+	public static void setField(Class<?> class_, Object object, String fieldName, Object value) {
 		try {
 			Field field = class_.getDeclaredField(fieldName);
 			field.setAccessible(true);
@@ -303,9 +309,7 @@ public class TeslaSWTAccess {
 
 	public static boolean ignoreMarkersView(Object data) {
 		if (data != null) {
-			if (data.getClass()
-					.getName()
-					.equals("org.eclipse.ui.internal.views.markers.MarkerEntry")) {
+			if (data.getClass().getName().equals("org.eclipse.ui.internal.views.markers.MarkerEntry")) {
 				return true;
 				// Avoild calling expand
 				// for MarkerEntry. This
@@ -332,29 +336,24 @@ public class TeslaSWTAccess {
 		return null;
 	}
 
-	public static void fireCheckStateChanged(final CheckboxTreeViewer viewer,
-			final boolean state, Object elementToCheck) {
+	public static void fireCheckStateChanged(final CheckboxTreeViewer viewer, final boolean state,
+			Object elementToCheck) {
 		Method method;
 		try {
-			method = CheckboxTreeViewer.class.getDeclaredMethod(
-					"fireCheckStateChanged", CheckStateChangedEvent.class);
+			method = CheckboxTreeViewer.class.getDeclaredMethod("fireCheckStateChanged", CheckStateChangedEvent.class);
 			method.setAccessible(true);
-			method.invoke(viewer, new CheckStateChangedEvent(viewer,
-					elementToCheck, !state));
+			method.invoke(viewer, new CheckStateChangedEvent(viewer, elementToCheck, !state));
 		} catch (Throwable e) {
 			TeslaCore.log(e);
 		}
 	}
 
-	public static void fireCheckStateChanged(final CheckboxTableViewer viewer,
-			final boolean newState, Object cur) {
+	public static void fireCheckStateChanged(final CheckboxTableViewer viewer, final boolean newState, Object cur) {
 		Method method;
 		try {
-			method = CheckboxTableViewer.class.getDeclaredMethod(
-					"fireCheckStateChanged", CheckStateChangedEvent.class);
+			method = CheckboxTableViewer.class.getDeclaredMethod("fireCheckStateChanged", CheckStateChangedEvent.class);
 			method.setAccessible(true);
-			method.invoke(viewer, new CheckStateChangedEvent(viewer, cur,
-					newState));
+			method.invoke(viewer, new CheckStateChangedEvent(viewer, cur, newState));
 		} catch (Throwable e) {
 			TeslaCore.log(e);
 		}
@@ -380,14 +379,12 @@ public class TeslaSWTAccess {
 		return false;
 	}
 
-	public static void callMethod(final Object vv, final String name,
-			final Object... args) {
+	public static void callMethod(final Object vv, final String name, final Object... args) {
 		callMethod(CellEditor.class, vv, name, args);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Object callMethod(Class clazz, final Object vv,
-			final String name, final Object... args) {
+	public static Object callMethod(Class clazz, final Object vv, final String name, final Object... args) {
 		try {
 			final Class<?> argTypes[] = new Class<?>[args.length];
 			for (int i = 0; i < argTypes.length; i++) {
@@ -403,8 +400,8 @@ public class TeslaSWTAccess {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Object callMethod(Class clazz, final Object vv,
-			final String name, final Class[] argTypes, final Object... args) {
+	public static Object callMethod(Class clazz, final Object vv, final String name, final Class[] argTypes,
+			final Object... args) {
 		try {
 			final Method method = clazz.getDeclaredMethod(name, argTypes);
 			method.setAccessible(true);
@@ -415,8 +412,8 @@ public class TeslaSWTAccess {
 		return null;
 	}
 
-	public static void callMethodValueChanged(final Object vv,
-			final String name, final boolean val1, final boolean val2) {
+	public static void callMethodValueChanged(final Object vv, final String name, final boolean val1,
+			final boolean val2) {
 		try {
 			final Method method = CellEditor.class.getDeclaredMethod(name,
 					new Class<?>[] { boolean.class, boolean.class });
@@ -427,11 +424,9 @@ public class TeslaSWTAccess {
 		}
 	}
 
-	public static void callHandleSelect(final Object vv,
-			final TreeItem[] selection) {
+	public static void callHandleSelect(final Object vv, final TreeItem[] selection) {
 		try {
-			final Method method = vv.getClass().getDeclaredMethod(
-					"handleSelect", new Class[] { TreeItem.class });
+			final Method method = vv.getClass().getDeclaredMethod("handleSelect", new Class[] { TreeItem.class });
 			method.setAccessible(true);
 			method.invoke(vv, selection[0]);
 		} catch (final Throwable e) {
@@ -439,11 +434,9 @@ public class TeslaSWTAccess {
 		}
 	}
 
-	public static void callHandleSelect(final Object vv,
-			final TableItem[] selection) {
+	public static void callHandleSelect(final Object vv, final TableItem[] selection) {
 		try {
-			final Method method = vv.getClass().getDeclaredMethod(
-					"handleSelect", new Class[] { TreeItem.class });
+			final Method method = vv.getClass().getDeclaredMethod("handleSelect", new Class[] { TreeItem.class });
 			method.setAccessible(true);
 			method.invoke(vv, selection[0]);
 		} catch (final Throwable e) {
@@ -534,8 +527,7 @@ public class TeslaSWTAccess {
 
 	public static int getRunnables(Synchronizer synchronizer) {
 		try {
-			Field locationField = Synchronizer.class
-					.getDeclaredField("messageCount");
+			Field locationField = Synchronizer.class.getDeclaredField("messageCount");
 			locationField.setAccessible(true);
 			return ((Integer) locationField.get(synchronizer)).intValue();
 		} catch (Throwable e) {
@@ -546,8 +538,7 @@ public class TeslaSWTAccess {
 
 	public static boolean getWizardDialogHasActiveOperations(WizardDialog dialog) {
 		try {
-			Field locationField = WizardDialog.class
-					.getDeclaredField("activeRunningOperations");
+			Field locationField = WizardDialog.class.getDeclaredField("activeRunningOperations");
 			locationField.setAccessible(true);
 			return ((Long) locationField.get(dialog)).longValue() > 0;
 		} catch (Throwable e) {
@@ -556,11 +547,9 @@ public class TeslaSWTAccess {
 		return false;
 	}
 
-	public static void setWizardDialogHasActiveOperations(WizardDialog dialog,
-			long count) {
+	public static void setWizardDialogHasActiveOperations(WizardDialog dialog, long count) {
 		try {
-			Field locationField = WizardDialog.class
-					.getDeclaredField("activeRunningOperations");
+			Field locationField = WizardDialog.class.getDeclaredField("activeRunningOperations");
 			locationField.setAccessible(true);
 			locationField.set(dialog, count);
 		} catch (Throwable e) {
@@ -570,8 +559,7 @@ public class TeslaSWTAccess {
 
 	public static ProgressMonitorPart getProgressMonitorPart(WizardDialog dialog) {
 		try {
-			Field locationField = WizardDialog.class
-					.getDeclaredField("progressMonitorPart");
+			Field locationField = WizardDialog.class.getDeclaredField("progressMonitorPart");
 			locationField.setAccessible(true);
 			return ((ProgressMonitorPart) locationField.get(dialog));
 		} catch (Throwable e) {
@@ -609,8 +597,7 @@ public class TeslaSWTAccess {
 	@SuppressWarnings("restriction")
 	public static Map getDecorationResultMap(org.eclipse.ui.internal.decorators.DecorationScheduler manager) {
 		try {
-			Field field = org.eclipse.ui.internal.decorators.DecorationScheduler.class
-					.getDeclaredField("resultCache");
+			Field field = org.eclipse.ui.internal.decorators.DecorationScheduler.class.getDeclaredField("resultCache");
 			field.setAccessible(true);
 			return (Map) field.get(manager);
 		} catch (Throwable e) {
@@ -638,12 +625,10 @@ public class TeslaSWTAccess {
 
 	public static CTabFolderEvent createCTabFolderEvent(Widget widget) {
 		try {
-			Class<?> eventClassDefinition = Class
-					.forName("org.eclipse.swt.custom.CTabFolderEvent");
+			Class<?> eventClassDefinition = Class.forName("org.eclipse.swt.custom.CTabFolderEvent");
 			Class<?>[] ArgsClass = new Class<?>[] { Widget.class };
 			Object[] Args = new Object[] { widget };
-			Constructor<?> classConstructor = eventClassDefinition
-					.getDeclaredConstructor(ArgsClass);
+			Constructor<?> classConstructor = eventClassDefinition.getDeclaredConstructor(ArgsClass);
 			classConstructor.setAccessible(true);
 			return (CTabFolderEvent) classConstructor.newInstance(Args);
 
