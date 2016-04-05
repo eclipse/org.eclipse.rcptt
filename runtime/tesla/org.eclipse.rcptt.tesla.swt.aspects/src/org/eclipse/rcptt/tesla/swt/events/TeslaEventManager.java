@@ -19,8 +19,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rcptt.tesla.core.am.RecordingModeFeature;
+import org.eclipse.rcptt.tesla.core.context.ContextManagement;
+import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
@@ -28,11 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
-
-import org.eclipse.rcptt.tesla.core.am.RecordingModeFeature;
-import org.eclipse.rcptt.tesla.core.context.ContextManagement;
-import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
-import org.eclipse.rcptt.tesla.swt.aspects.SWTAspectActivator;
 
 public class TeslaEventManager {
 	private static TeslaEventManager manager = new TeslaEventManager();
@@ -232,6 +229,13 @@ public class TeslaEventManager {
 	}
 
 	public synchronized void syncExecEnd(Context ctx) {
+		for( int i =0; i< syncExecs.size(); i++) {
+			if( syncExecs.get(i) == ctx) {
+				syncExecs.remove(i);
+				return;
+			}
+		}
+		// Backup based on equals
 		syncExecs.remove(ctx);
 	}
 
