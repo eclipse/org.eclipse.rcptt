@@ -396,9 +396,9 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 					}
 				}
 			}
-			project.getProperties().put(HAS_TESTS_KEY, scenarioFiles.length > contextScenarioCount);
+			project.getProperties().setProperty(HAS_TESTS_KEY, Boolean.toString(scenarioFiles.length > contextScenarioCount));
 		}
-		return (Boolean) project.getProperties().get(HAS_TESTS_KEY);
+		return (Boolean) Boolean.valueOf(project.getProperties().getProperty(HAS_TESTS_KEY));
 	}
 
 	/**
