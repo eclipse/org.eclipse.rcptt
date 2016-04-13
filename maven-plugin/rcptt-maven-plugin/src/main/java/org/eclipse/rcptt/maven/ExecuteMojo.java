@@ -249,12 +249,16 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 						throw new MojoFailureException("There are test failures");
 					}
 				} else {
-					throw new MojoFailureException(format("Runner exit code is: %d", exitCode));
+					throw new MojoExecutionException(format("Failed to launch RCPTT runner. Runner exit code is: %d", exitCode));
 				}
 			}
 			Runtime.getRuntime().removeShutdownHook(ShutdownHook);
 			outConsumer.done();
 			errConsumer.done();
+		} catch (MojoExecutionException e) {
+			throw e;
+		} catch (MojoFailureException e) {
+			throw e;
 		} catch (/* CommandLine */Exception e) {
 			throw new MojoExecutionException("Failed to launch RCPTT runner", e);
 		}
