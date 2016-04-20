@@ -71,8 +71,7 @@ public class Q7TargetPlatformManager {
 			throws CoreException {
 		String location = config.getAttribute(IQ7Launch.AUT_LOCATION, "");
 
-		File loc = new File(location);
-		if (!loc.exists()) {
+		if (!PDELocationUtils.validateProductLocation(location).isOK()) {
 			return newTargetPlatform(config, monitor, location);
 		}
 
