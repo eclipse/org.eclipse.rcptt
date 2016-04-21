@@ -13,7 +13,6 @@ package org.eclipse.rcptt.internal.launching.ext.ui.wizards;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -24,10 +23,8 @@ import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.Observables;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.variables.IStringVariableManager;
@@ -53,6 +50,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
+import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.launching.ext.ui.Activator;
@@ -192,24 +190,9 @@ public class NewAUTPage extends WizardPage {
 		IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
 		try {
 			location = manager.performStringSubstitution(location);
+			return PDELocationUtils.validateProductLocation(location);
 		} catch (CoreException e) {
 			return e.getStatus();
-		}
-		IPath pluginsPath = new Path(location).append("plugins");
-		location = pluginsPath.toOSString();
-		File pluginsDir = new File(pluginsPath.toOSString());
-		if (pluginsDir.exists() && pluginsDir.isDirectory()
-				&& pluginsDir.canRead()) {
-			return Status.OK_STATUS;
-		} else if (!pluginsDir.exists()) {
-			return new Status(IStatus.ERROR, PLUGIN_ID,
-					"Directory \"" + location + "\" does not exist");
-		} else if (!pluginsDir.isDirectory()) {
-			return new Status(IStatus.ERROR, PLUGIN_ID,
-					"The specified path \"" + location + "\" is not a directory");
-		} else {
-			return new Status(IStatus.ERROR, PLUGIN_ID,
-					"Cannot read directory \"" + location + "\": Permission denied");
 		}
 	}
 

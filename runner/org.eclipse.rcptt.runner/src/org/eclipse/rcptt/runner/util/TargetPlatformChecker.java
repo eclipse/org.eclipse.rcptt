@@ -12,7 +12,6 @@ package org.eclipse.rcptt.runner.util;
 
 import static org.eclipse.rcptt.runner.HeadlessRunnerPlugin.PLUGIN_ID;
 
-import java.io.File;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -21,6 +20,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer.Q7Info;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
@@ -60,9 +60,8 @@ public class TargetPlatformChecker {
 			return false;
 		}
 
-		final File file = new File(conf.location);
-		if (!file.exists()) {
-			System.out.println("AUT location doesn't exist: " + file);
+		if (!PDELocationUtils.validateProductLocation(conf.location).isOK()) {
+			System.out.println("AUT location doesn't exist: " + conf.location);
 			return false;
 		}
 
@@ -75,9 +74,10 @@ public class TargetPlatformChecker {
 
 	private void initializeTargetPlatform() throws CoreException {
 		targetPlatform = null;
+		String location = PDELocationUtils.getProductLocation(conf.location).getAbsolutePath();
 		if (conf.config != null) {
 			targetPlatform = TargetPlatformManager.createTargetPlatform(
-					conf.location, new PrintStreamMonitor());
+					location, new PrintStreamMonitor());
 			Map<String, Version> versions = targetPlatform.getVersions();
 			Q7Info q7Info = Q7TargetPlatformInitializer.getInfo(targetPlatform, versions);
 			if (!conf.onlySpecified) {
@@ -110,7 +110,7 @@ public class TargetPlatformChecker {
 			}
 		} else { // Try to initialize using Q7 bundled runtime
 			targetPlatform = Q7TargetPlatformManager.createTargetPlatform(
-					conf.location, new PrintStreamMonitor());
+					location, new PrintStreamMonitor());
 			targetPlatform.setTargetName("AUT");
 		}
 		targetPlatform.save();
