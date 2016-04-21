@@ -78,8 +78,8 @@ public class ExecProcessService implements ICommandService {
 					result.setStderr(executor.stderr);
 
 					if (!cmd.isIgnoreExitCode() && result.getExitCode() != 0)
-						return error("Execution failed, exit code: %s.",
-								result.getExitCode());
+						return error("Execution failed, exit code: %s. stderr:\n %s",
+								result.getExitCode(), result.getStderr());
 
 					if (!cmd.isIgnoreStderr()
 							&& result.getStderr().length() > 0)
