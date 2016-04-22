@@ -112,11 +112,6 @@ public final class PDELocationUtils {
 					"Cannot read directory \"" + file.getPath() + "\": Permission denied"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		if (file.list().length == 0) {
-			return new Status(IStatus.ERROR, PLUGIN_ID,
-					"The directory \"" + file.getPath() + "\" is empty."); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
 		return Status.OK_STATUS;
 	}
 
