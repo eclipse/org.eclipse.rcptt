@@ -16,21 +16,20 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-
 import org.eclipse.rcptt.core.model.IElementChangedListener;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.Q7ElementChangedEvent;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.core.workspace.WorkspaceSynchronizer;
 import org.eclipse.rcptt.ui.utils.ModelUtils;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class Q7LabelProvider extends LabelProvider implements
 		IElementChangedListener {

@@ -86,7 +86,6 @@
             <iu><id>org.eclipse.emf.query.feature.group</id></iu>
             <iu><id>org.eclipse.emf.transaction.feature.group</id></iu>
             <iu><id>org.eclipse.emf.validation.feature.group</id></iu>
-            <iu><id>org.eclipse.emf.workspace.feature.group</id></iu>
             <iu><id>org.eclipse.emf.feature.group</id></iu>
 	  </ius>
 	</configuration>

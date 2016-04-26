@@ -52,7 +52,6 @@ public class Q7TargetPlatformInitializer {
 	private static final String EMF_FEATURE_GROUP = "org.eclipse.emf.feature.group";
 	private static final String EMF_VALIDATION_FEATURE_GROUP = "org.eclipse.emf.validation.feature.group";
 	private static final String EMF_TRANSACTION_FEATURE_GROUP = "org.eclipse.emf.transaction.feature.group";
-	private static final String EMF_WORKSPACE_FEATURE_GROUP = "org.eclipse.emf.workspace.feature.group";
 	public static final String P2_GROUP_FEATURE = "org.eclipse.equinox.p2.type.group";
 	public static final String P2_CATEGORY_FEATURE = "org.eclipse.equinox.p2.type.category";
 
@@ -154,9 +153,6 @@ public class Q7TargetPlatformInitializer {
 		q7Deps.setUri(q7Info.deps.toString());
 		if (!hasEMF || !hasEMFWorkspace || !hasEMFTransaction
 				|| !hasEMFValidation) {
-			if (!hasEMFWorkspace) {
-				q7Deps.getUnits().add(EMF_WORKSPACE_FEATURE_GROUP);
-			}
 			if (!hasEMFTransaction) {
 				q7Deps.getUnits().add(EMF_TRANSACTION_FEATURE_GROUP);
 			}

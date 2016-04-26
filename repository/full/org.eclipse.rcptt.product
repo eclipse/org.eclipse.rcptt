@@ -311,7 +311,6 @@ Apache Software Foundation http://www.apache.org/
       <feature id="org.eclipse.rcptt.ecl.platform.ui"/>
       <feature id="org.eclipse.rcptt.watson"/>
       <feature id="org.eclipse.rcptt.tesla"/>
-      <feature id="org.eclipse.emf.workspace"/>
       <feature id="org.eclipse.rcptt.ecl.server"/>
       <feature id="org.eclipse.rcptt.tesla.ecl"/>
       <feature id="org.eclipse.emf.databinding"/>

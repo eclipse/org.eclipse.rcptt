@@ -21,7 +21,6 @@ Not used in runtime.
 
    <requires>
       <import plugin="org.eclipse.emf.transaction"/>
-      <import plugin="org.eclipse.emf.workspace"/>
       <import plugin="com.google.guava"/>
       <import feature="org.eclipse.rcptt.ecl.core" version="2.1.0.qualifier"/>
    </requires>

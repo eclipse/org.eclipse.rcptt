@@ -25,8 +25,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;

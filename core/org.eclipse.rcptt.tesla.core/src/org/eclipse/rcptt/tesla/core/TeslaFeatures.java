@@ -33,8 +33,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	};
 
 	public static enum EscapeMode {
-		ExactString,
-		EscapedRegex
+		ExactString, EscapedRegex
 	}
 
 	public final static String ACTIVITY_LOGS = "com.xored.runtime.enable.activity.logs";
@@ -55,6 +54,8 @@ public class TeslaFeatures extends AbstractFeatureManager {
 
 	public static String CAT_REPORTING = "Reporting";
 	public final static String REPORT_PASSED_TEST_DETAILS = "com.xored.reporting.passed.test.details";
+	public final static String REPORT_LOGGING_SIZE_OF_INITIAL_PART = "com.xored.reporting.logging.initial.size";
+	public final static String REPORT_LOGGING_SIZE_OF_ROTATION_PART = "com.xored.reporting.logging.rotation.size";
 	public final static String REPORT_INCLUDE_IGNORED_WAIT_DETAILS = "com.xored.reporting.include.ignored.wait.details";
 	public final static String REPORT_PASSED_WAIT_DETAILS = "com.xored.reporting.include.passed.wait.details";
 
@@ -111,6 +112,24 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
 						"Command 'trace' and 'take-screenshot' can be used to add data into test report")
+				.editable(true).showIn(ADV_OPTIONS);
+
+		option(REPORT_LOGGING_SIZE_OF_INITIAL_PART).category(CAT_REPORTING)
+				.name("The size of log initial part(in MB)")
+				.value("5")
+				.defaultValue("5")
+				.values(AbstractFeatureManager.INT_VALUES)
+				.description(
+						"The initial part size of logs")
+				.editable(true).showIn(ADV_OPTIONS);
+
+		option(REPORT_LOGGING_SIZE_OF_ROTATION_PART).category(CAT_REPORTING)
+				.name("The size of log rotation part(in MB)")
+				.value("5")
+				.defaultValue("5")
+				.values(AbstractFeatureManager.INT_VALUES)
+				.description(
+						"The rotation size of log. At overflow works by the principle of queue.")
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(REPORT_INCLUDE_IGNORED_WAIT_DETAILS).category(CAT_REPORTING)

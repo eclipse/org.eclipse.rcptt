@@ -28,7 +28,6 @@
       <import feature="org.eclipse.rcptt.tesla.ecl" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.pde"/>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.1.0.qualifier"/>
-      <import feature="org.eclipse.emf.workspace"/>
       <import feature="org.eclipse.rcptt.watson" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.ecl.ide" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.ecl.platform" version="2.1.0.qualifier"/>
@@ -120,7 +119,7 @@
          id="org.eclipse.jdt.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.12.0.v20160315-2126"
          unpack="false"/>
    
    <plugin

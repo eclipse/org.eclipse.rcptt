@@ -23,7 +23,6 @@
       <import feature="org.eclipse.rcptt.tesla.ecl" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.tesla.ecl.runtime" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.1.0.qualifier"/>
-      <import feature="org.eclipse.emf.workspace"/>
       <import feature="org.eclipse.rcptt.watson" version="2.1.0.qualifier"/>
       <import feature="org.eclipse.rcptt.watson.runtime" version="2.1.0.qualifier"/>
    </requires>

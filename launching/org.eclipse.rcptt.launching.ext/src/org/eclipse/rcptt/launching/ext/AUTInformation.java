@@ -48,7 +48,6 @@ public class AUTInformation {
 	public static final String JDT = "JDT";
 	public static final String PLATFORM = "Platform";
 
-	private static final String EMF_WORKSPACE_PLUGIN = "org.eclipse.emf.workspace";
 	private static final String TESLA_PLUGIN = "org.eclipse.rcptt.tesla";
 	private static final String Q7_PLUGIN = "org.eclipse.rcptt";
 	private static final String PDE_PLUGIN = "org.eclipse.pde";
@@ -153,9 +152,6 @@ public class AUTInformation {
 			}
 			if (iFeature.getId().equals(TESLA_PLUGIN)) {
 				values.put("Tesla", iFeature.getVersion());
-			}
-			if (iFeature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
-				values.put(EMF_WORKSPACE, iFeature.getVersion());
 			}
 		}
 		if (!warnings.isOK())
