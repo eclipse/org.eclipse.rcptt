@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _wFTf0KDsEeKGc-nsvHJqGA,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
 Element-Name: TerminateExistingLaunches
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _yTuaYasMEeKPyJLvtvYvAw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.1.0.qualifier
+Save-Time: 4/30/16 6:16 PM
 Tags: Context, LaunchContext, selfAUT
 Testcase-Type: ecl
 
@@ -45,6 +44,9 @@ with [get-editor LaunchContextTest] {
     click
     get-button Apply | click
 }
+try {
+get-view "RCPTT Debug" | get-button "Yes" | click
+} -catch {}
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext" | double-click
 get-editor EmptyLaunchContext | get-section Options | get-button "Terminate existing launches" | get-property selected 
     | equals true | verify-true
