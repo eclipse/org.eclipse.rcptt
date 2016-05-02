@@ -138,6 +138,11 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	protected String[] suites;
+	
+	/**
+	 * @parameter
+	 */
+	protected String[] tests;
 
 	/**
 	 * @parameter

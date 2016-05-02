@@ -69,6 +69,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String SHUTDOWN_LISTENER_PORT = "-shutdownListenerPort";
 	private static final String SKIP_TAGS = "-skipTags";
 	private static final String SUITES = "-suites";
+	private static final String TESTS = "-tests";
 	private static final String LIMIT = "-limit";
 	private static final String SPLIT_HTML_REPORT = "-splitHtmlReport";
 	private static final String NO_SECURITY_OVERRIDE = "-noSecurityOverride";
@@ -223,6 +224,10 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		if (suites != null && suites.length > 0) {
 			cmd.createArg().setValue(SUITES);
 			cmd.createArg().setValue(StringUtils.join(suites, ";"));
+		}
+		if (tests != null && tests.length > 0) {
+			cmd.createArg().setValue(TESTS);
+			cmd.createArg().setValue(StringUtils.join(tests, ";"));
 		}
 		// whoo, almost ready to launch
 		getLog().info(format("Runner command line is %s", cmd.toString()));
