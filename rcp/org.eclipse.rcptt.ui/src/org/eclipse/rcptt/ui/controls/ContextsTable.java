@@ -196,8 +196,7 @@ public class ContextsTable extends EObjectTable {
 						if (elementID == null) {
 							elementID = element.getID();
 						}
-						needRefresh = Arrays.asList(contexts).contains(
-								elementID);
+						needRefresh = lc.contains(elementID);
 						if (needRefresh) {
 							break;
 						}

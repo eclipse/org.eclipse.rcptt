@@ -186,8 +186,7 @@ public class VerificationsTable extends EObjectTable {
 						if (elementID == null) {
 							elementID = element.getID();
 						}
-						needRefresh = Arrays.asList(verifications).contains(
-								elementID);
+						needRefresh = lc.contains(elementID);
 						if (needRefresh) {
 							break;
 						}
