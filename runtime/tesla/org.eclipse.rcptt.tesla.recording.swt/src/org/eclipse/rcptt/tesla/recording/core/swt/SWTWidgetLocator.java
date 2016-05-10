@@ -869,6 +869,12 @@ public final class SWTWidgetLocator {
 							return true;
 						}
 					}
+					// e46 checks.
+					Object o = control.getData("modelElement");
+					if (o != null && o.getClass().getName()
+							.contains("org.eclipse.e4.ui.model.application.ui.basic.impl.PartStackImpl")) {
+						return true;
+					}
 					break;
 				}
 			}

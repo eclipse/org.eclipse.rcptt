@@ -139,4 +139,8 @@ public class TeslaCore extends Plugin {
 		Version version = getPlatformVersion();
 		return version.getMajor() == 3 && version.getMinor() >= 103;
 	}
+	public static boolean isEclipse46() {
+		Version version = getPlatformVersion();
+		return version.getMajor() == 3 && version.getMinor() >= 107;
+	}
 }

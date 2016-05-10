@@ -128,15 +128,13 @@ public class DebugContextProcessor implements IContextProcessor {
 		private Launch captureLaunch(ILaunch launch) throws CoreException {
 
 			if (launch.getLaunchConfiguration() == null) {
-				throw new UnsupportedOperationException(
-						"Launches without configuration are not suppported");
+				throw new UnsupportedOperationException("Launches without configuration are not suppported");
 			}
 			LaunchConfiguration modelConfiguration = getOrCapture(launch.getLaunchConfiguration());
 			LaunchType modelType = (LaunchType) modelConfiguration.eContainer();
 			if (!modelType.getId().equals(launch.getLaunchConfiguration().getType().getIdentifier()))
 				throw new IllegalArgumentException("Launch type differs from the one stored in model");
-			LaunchConfiguration workingCopy = captureLaunchConfigurationRaw(launch
-					.getLaunchConfiguration());
+			LaunchConfiguration workingCopy = captureLaunchConfigurationRaw(launch.getLaunchConfiguration());
 			removeEqualAttributes(modelConfiguration.getAttributes(), workingCopy.getAttributes());
 			Launch rv = DebugFactory.eINSTANCE.createLaunch();
 			rv.setConfiguration(modelConfiguration);
@@ -158,15 +156,13 @@ public class DebugContextProcessor implements IContextProcessor {
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void applyLaunch(Launch modelLaunch) throws CoreException {
-			ILaunchConfiguration configuration = launchConfigurationByName(modelLaunch
-					.getConfiguration().getName());
+			ILaunchConfiguration configuration = launchConfigurationByName(modelLaunch.getConfiguration().getName());
 			for (Launch running : runningLaunches) {
 				EqualityHelper helper = new EqualityHelper();
 				if (helper.equals(running, modelLaunch))
 					return;
 			}
-			ILaunchConfigurationWorkingCopy workingCopy = configuration
-					.getWorkingCopy();
+			ILaunchConfigurationWorkingCopy workingCopy = configuration.getWorkingCopy();
 			Map attributes = workingCopy.getAttributes();
 			for (NamedElement e : modelLaunch.getConfigurationDelta()) {
 				attributes.put(e.getName(), unbox(e));
@@ -194,10 +190,9 @@ public class DebugContextProcessor implements IContextProcessor {
 			return etype;
 		}
 
-		private LaunchConfiguration captureLaunchConfigurationRaw(
-				ILaunchConfiguration configuration) throws CoreException {
-			LaunchConfiguration rv = DebugFactory.eINSTANCE
-					.createLaunchConfiguration();
+		private LaunchConfiguration captureLaunchConfigurationRaw(ILaunchConfiguration configuration)
+				throws CoreException {
+			LaunchConfiguration rv = DebugFactory.eINSTANCE.createLaunchConfiguration();
 			rv.setName(configuration.getName());
 			rv.setTypeId(configuration.getType().getIdentifier());
 			Map<?, ?> capturedAttributes = configuration.getAttributes();
@@ -209,8 +204,8 @@ public class DebugContextProcessor implements IContextProcessor {
 			return rv;
 		}
 
-		private LaunchConfiguration captureLaunchConfiguration(
-				ILaunchConfiguration configuration) throws CoreException {
+		private LaunchConfiguration captureLaunchConfiguration(ILaunchConfiguration configuration)
+				throws CoreException {
 			LaunchConfiguration rv = captureLaunchConfigurationRaw(configuration);
 			getOrCapture(configuration.getType()).getConfigurations().add(rv);
 			configurations.put(rv.getName(), rv);
@@ -278,17 +273,14 @@ public class DebugContextProcessor implements IContextProcessor {
 		}
 	}
 
-	private void applyLaunchConfigurations(EList<LaunchType> launchTypes)
-			throws CoreException {
+	private void applyLaunchConfigurations(EList<LaunchType> launchTypes) throws CoreException {
 		for (LaunchType modelType : launchTypes) {
-			ILaunchConfigurationType type = DebugPlugin.getDefault()
-					.getLaunchManager()
+			ILaunchConfigurationType type = DebugPlugin.getDefault().getLaunchManager()
 					.getLaunchConfigurationType(modelType.getId());
 			if (type == null)
-				throw new CoreException(createError("Launch configuration type " + modelType.getId()
-						+ " is not installed."));
-			for (LaunchConfiguration configuration : modelType
-					.getConfigurations())
+				throw new CoreException(
+						createError("Launch configuration type " + modelType.getId() + " is not installed."));
+			for (LaunchConfiguration configuration : modelType.getConfigurations())
 				applyLaunchConfiguration(type, configuration);
 		}
 	}
@@ -303,8 +295,7 @@ public class DebugContextProcessor implements IContextProcessor {
 			public void run() {
 				Patterns patterns = new Patterns();
 				patterns.setFromCommaSeparated(exceptions);
-				final ILaunchManager launches = DebugPlugin.getDefault()
-						.getLaunchManager();
+				final ILaunchManager launches = DebugPlugin.getDefault().getLaunchManager();
 				for (final ILaunch launch : launches.getLaunches()) {
 					String name = "";
 					if (launch.getLaunchConfiguration() != null) {
@@ -313,13 +304,19 @@ public class DebugContextProcessor implements IContextProcessor {
 							continue;
 					}
 					try {
-						try {
-							launch.terminate();
-						} finally {
-							launches.removeLaunch(launch);
+						for (int i = 0; i < 3; i++) {
+							if (launch.isTerminated()) {
+								break;
+							}
+							try {
+								launch.terminate();
+							} catch (Exception e) {
+								result.add(new Status(Status.ERROR, Q7DebugRuntime.PLUGIN_ID,
+										"Failed to terminate " + name, e));
+							}
 						}
-					} catch (Exception e) {
-						result.add(new Status(Status.ERROR, Q7DebugRuntime.PLUGIN_ID, "Failed to terminate " + name, e));
+					} finally {
+						launches.removeLaunch(launch);
 					}
 				}
 			}
@@ -370,15 +367,13 @@ public class DebugContextProcessor implements IContextProcessor {
 		return false;
 	}
 
-	private void cleanLaunchShortcuts(final String exceptions)
-			throws CoreException {
+	private void cleanLaunchShortcuts(final String exceptions) throws CoreException {
 		final Exception[] resultE = new Exception[] { null };
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				Patterns exceptPatterns = new Patterns();
 				exceptPatterns.setFromCommaSeparated(exceptions);
-				final ILaunchManager launches = DebugPlugin.getDefault()
-						.getLaunchManager();
+				final ILaunchManager launches = DebugPlugin.getDefault().getLaunchManager();
 				ILaunchConfiguration[] configurations;
 				try {
 					configurations = launches.getLaunchConfigurations();
@@ -404,9 +399,8 @@ public class DebugContextProcessor implements IContextProcessor {
 			RcpttPlugin.log(e);
 		}
 		if (resultE[0] != null) {
-			throw new CoreException(new Status(Status.ERROR,
-					Q7DebugRuntime.PLUGIN_ID, resultE[0].getMessage(),
-					resultE[0]));
+			throw new CoreException(
+					new Status(Status.ERROR, Q7DebugRuntime.PLUGIN_ID, resultE[0].getMessage(), resultE[0]));
 		}
 	}
 
@@ -414,11 +408,9 @@ public class DebugContextProcessor implements IContextProcessor {
 		final Exception[] resultE = new Exception[] { null };
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-				final IBreakpointManager breakpoints = DebugPlugin.getDefault()
-						.getBreakpointManager();
+				final IBreakpointManager breakpoints = DebugPlugin.getDefault().getBreakpointManager();
 				try {
-					breakpoints.removeBreakpoints(breakpoints.getBreakpoints(),
-							true);
+					breakpoints.removeBreakpoints(breakpoints.getBreakpoints(), true);
 				} catch (Exception e) {
 					resultE[0] = e;
 				}
@@ -431,9 +423,8 @@ public class DebugContextProcessor implements IContextProcessor {
 			RcpttPlugin.log(e);
 		}
 		if (resultE[0] != null) {
-			throw new CoreException(new Status(Status.ERROR,
-					Q7DebugRuntime.PLUGIN_ID, resultE[0].getMessage(),
-					resultE[0]));
+			throw new CoreException(
+					new Status(Status.ERROR, Q7DebugRuntime.PLUGIN_ID, resultE[0].getMessage(), resultE[0]));
 		}
 	}
 
@@ -501,20 +492,17 @@ public class DebugContextProcessor implements IContextProcessor {
 		} else if (value instanceof PrimitiveValue) {
 			Object rv = BoxedValues.unbox(((PrimitiveValue) value).getValue());
 			if (rv instanceof String) {
-				rv = VariablesPlugin.getDefault().getStringVariableManager()
-						.performStringSubstitution((String) rv, false);
+				rv = VariablesPlugin.getDefault().getStringVariableManager().performStringSubstitution((String) rv,
+						false);
 			}
 			return rv;
 		}
-		throw new IllegalArgumentException("Can't unbox "
-				+ value.getClass().getName());
+		throw new IllegalArgumentException("Can't unbox " + value.getClass().getName());
 	}
 
-	private void removeEqualAttributes(EList<NamedElement> pattern,
-			EList<NamedElement> cleaned) {
+	private void removeEqualAttributes(EList<NamedElement> pattern, EList<NamedElement> cleaned) {
 		ArrayList<NamedElement> toRemove = new ArrayList<NamedElement>();
-		HashMap<String, NamedElement> patternMap = new HashMap<String, NamedElement>(
-				pattern.size());
+		HashMap<String, NamedElement> patternMap = new HashMap<String, NamedElement>(pattern.size());
 		for (NamedElement a : pattern) {
 			patternMap.put(a.getName(), a);
 		}
@@ -530,10 +518,8 @@ public class DebugContextProcessor implements IContextProcessor {
 		}
 	}
 
-	private ILaunchConfiguration launchConfigurationByName(String name)
-			throws CoreException {
-		for (ILaunchConfiguration conf : getLaunchManager()
-				.getLaunchConfigurations()) {
+	private ILaunchConfiguration launchConfigurationByName(String name) throws CoreException {
+		for (ILaunchConfiguration conf : getLaunchManager().getLaunchConfigurations()) {
 			if (conf.getName().equals(name))
 				return conf;
 		}
@@ -548,8 +534,8 @@ public class DebugContextProcessor implements IContextProcessor {
 		return stream.toByteArray();
 	}
 
-	private void applyLaunchConfiguration(ILaunchConfigurationType type,
-			LaunchConfiguration launch) throws CoreException {
+	private void applyLaunchConfiguration(ILaunchConfigurationType type, LaunchConfiguration launch)
+			throws CoreException {
 		if (type == null)
 			throw new NullPointerException("Null type");
 		if (launch == null)
@@ -561,8 +547,7 @@ public class DebugContextProcessor implements IContextProcessor {
 			if (conf.getName().equals(launch.getName()))
 				conf.delete();
 		}
-		ILaunchConfigurationWorkingCopy conf = type.newInstance(null,
-				launch.getName());
+		ILaunchConfigurationWorkingCopy conf = type.newInstance(null, launch.getName());
 
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		for (NamedElement e : launch.getAttributes()) {
@@ -572,8 +557,7 @@ public class DebugContextProcessor implements IContextProcessor {
 		conf.doSave();
 	}
 
-	private Breakpoint captureBreakpoint(IBreakpoint breakpoint)
-			throws CoreException {
+	private Breakpoint captureBreakpoint(IBreakpoint breakpoint) throws CoreException {
 		// See org.eclipse.debug.ui.actions.ExportBreakpointsOperation.run() for
 		// native implementation
 		Breakpoint rv = DebugFactory.eINSTANCE.createBreakpoint();
@@ -590,12 +574,11 @@ public class DebugContextProcessor implements IContextProcessor {
 			Object value = e.getValue();
 			rv.getAttributes().add(box(key, value));
 		}
-		IWorkingSetManager mgr = PlatformUI.getWorkbench()
-				.getWorkingSetManager();
+		IWorkingSetManager mgr = PlatformUI.getWorkbench().getWorkingSetManager();
 		IWorkingSet[] sets = mgr.getWorkingSets();
 		for (int i = 0; i < sets.length; i++) {
-			if (IDebugUIConstants.BREAKPOINT_WORKINGSET_ID.equals(sets[i]
-					.getId()) && containsBreakpoint(sets[i], breakpoint)) {
+			if (IDebugUIConstants.BREAKPOINT_WORKINGSET_ID.equals(sets[i].getId())
+					&& containsBreakpoint(sets[i], breakpoint)) {
 				rv.getWorkingSets().add(sets[i].getName());
 			}
 		}
@@ -603,8 +586,7 @@ public class DebugContextProcessor implements IContextProcessor {
 	}
 
 	@SuppressWarnings({ "restriction", "unused" })
-	private void applyBreakpoints(List<BreakpointResource> list)
-			throws CoreException {
+	private void applyBreakpoints(List<BreakpointResource> list) throws CoreException {
 		org.eclipse.debug.internal.core.BreakpointManager manager = (org.eclipse.debug.internal.core.BreakpointManager) DebugPlugin
 				.getDefault().getBreakpointManager();
 		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
@@ -613,20 +595,17 @@ public class DebugContextProcessor implements IContextProcessor {
 			pathSet.add(modelResource.getPath());
 		}
 		for (IBreakpoint existing : manager.getBreakpoints()) {
-			if (pathSet.contains(existing.getMarker().getResource()
-					.getFullPath().toPortableString()))
+			if (pathSet.contains(existing.getMarker().getResource().getFullPath().toPortableString()))
 				existing.delete();
 		}
 		for (BreakpointResource modelResource : list) {
 			IResource resource = workspace.findMember(modelResource.getPath());
 			if (resource == null) {
-				throw new IllegalArgumentException("Can't find resource "
-						+ modelResource.getPath());
+				throw new IllegalArgumentException("Can't find resource " + modelResource.getPath());
 			}
 			for (Breakpoint eobject : modelResource.getBreakpoints()) {
 				if (eobject.getType() == null)
-					throw new NullPointerException(
-							"Breakpoint has null marker type");
+					throw new NullPointerException("Breakpoint has null marker type");
 				IMarker marker = resource.createMarker(eobject.getType());
 				Map<String, Object> attributes = new HashMap<String, Object>();
 				for (NamedElement e : eobject.getAttributes()) {
@@ -664,20 +643,16 @@ public class DebugContextProcessor implements IContextProcessor {
 				RcpttPlugin.log(e);
 			}
 		}
-		for (IBreakpoint breakpoint : debug.getBreakpointManager()
-				.getBreakpoints()) {
+		for (IBreakpoint breakpoint : debug.getBreakpointManager().getBreakpoints()) {
 			BreakpointResource resource = null;
 			// TODO: optimize search inefficiency
 			for (BreakpointResource r : context.getBreakpointResources()) {
-				if (r.getPath().equals(
-						breakpoint.getMarker().getResource().getFullPath()
-								.toPortableString()))
+				if (r.getPath().equals(breakpoint.getMarker().getResource().getFullPath().toPortableString()))
 					resource = r;
 			}
 			if (resource == null) {
 				resource = DebugFactory.eINSTANCE.createBreakpointResource();
-				resource.setPath(breakpoint.getMarker().getResource()
-						.getFullPath().toPortableString());
+				resource.setPath(breakpoint.getMarker().getResource().getFullPath().toPortableString());
 				context.getBreakpointResources().add(resource);
 			}
 			try {

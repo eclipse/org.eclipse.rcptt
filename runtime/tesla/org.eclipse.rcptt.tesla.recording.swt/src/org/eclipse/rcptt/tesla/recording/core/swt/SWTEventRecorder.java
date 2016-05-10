@@ -144,6 +144,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.keys.IBindingService;
+import org.eclipse.ui.testing.TestableObject;
 import org.osgi.framework.Bundle;
 
 /**
@@ -151,8 +152,7 @@ import org.osgi.framework.Bundle;
  * 
  */
 @SuppressWarnings("restriction")
-public class SWTEventRecorder implements IRecordingProcessor,
-		IExtendedSWTEventListener, IRecordingModeListener {
+public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventListener, IRecordingModeListener {
 	// private Map<Widget, String> variables = new HashMap<Widget, String>();
 	// private Map<String, Integer> varCounters = new HashMap<String,
 	// Integer>();
@@ -187,8 +187,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 			Context context = ContextManagement.currentContext();
 			// TODO: This is Eclipse version dependent test
-			if (!context.contains("org.eclipse.swt.custom.CTabFolder",
-					"onMouse")) {
+			if (!context.contains("org.eclipse.swt.custom.CTabFolder", "onMouse")) {
 				return;
 			}
 			if (!TeslaCore.isEclipse4()) {
@@ -204,8 +203,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 					return;
 				}
 			}
-			PartUIElement resultPart = getLocator()
-					.findPartElement(part, false);
+			PartUIElement resultPart = getLocator().findPartElement(part, false);
 			if (resultPart != null) {
 				resultPart.close();
 			}
@@ -221,35 +219,35 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			if (!getRecorder().hasListeners()) {
 				return;
 			}
+			boolean hashMouseUp = false;
 			Context context = ContextManagement.currentContext();
 
-			if (!TeslaCore.isEclipse4()) {
-				if (!context.contains("org.eclipse.swt.custom.CTabFolder",
-						"onMouse"))
-					return;
-			} else {
+			if (context.contains("org.eclipse.swt.custom.CTabFolder", "onMouse")) {
+				hashMouseUp = true;
+			}
+			if (!hashMouseUp) {
 				StackTraceElement[] stack = context.getStackTrace();
-				boolean hashMouseUp = false;
 				for (StackTraceElement e : stack) {
-					if (e.getMethodName().equals("mouseUp")) {
+					if (e.getMethodName().equals("mouseUp") || e.getMethodName().equals("handleEvent")
+							|| e.getMethodName().equals("activate")) {
 						String className = e.getClassName();
 						int dollarPos = className.indexOf('$');
 						if (dollarPos > 0)
 							className = className.substring(0, dollarPos);
-						if ("org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer"
-								.equals(className)) {
+						if ("org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer".equals(className)) {
 							hashMouseUp = true;
 							break;
 						}
 					}
 				}
-				if (!hashMouseUp) {
-					return;// Skip, because not used click
-				}
+			}
+			if (!hashMouseUp) {
+				return;// Skip, because not used click
 			}
 
-			if (context.contains("org.eclipse.ui.internal.WorkbenchPage",
-					"hideView")) {
+			if (context.contains("org.eclipse.ui.internal.WorkbenchPage", "hideView"))
+
+			{
 				// View was activated programmatically, so ignore.
 				return;
 			}
@@ -261,12 +259,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				}
 			}
 
-			PartUIElement resultPart = getLocator()
-					.findPartElement(part, false);
+			PartUIElement resultPart = getLocator().findPartElement(part, false);
 			if (resultPart != null) {
 				resultPart.click();
 			}
 		}
+
 	}
 
 	public SWTWidgetLocator getLocator() {
@@ -275,12 +273,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 	public static boolean isModal(Shell shell) {
 		int style = shell.getStyle();
-		int mask = SWT.SYSTEM_MODAL | SWT.APPLICATION_MODAL | SWT.PRIMARY_MODAL
-				| SWT.MODELESS;
+		int mask = SWT.SYSTEM_MODAL | SWT.APPLICATION_MODAL | SWT.PRIMARY_MODAL | SWT.MODELESS;
 		String text = shell.getText();
-		if (text != null
-				&& (text.trim().equalsIgnoreCase("problem occurred") || text
-						.trim().equalsIgnoreCase("Operation failed"))) {
+		if (text != null && (text.trim().equalsIgnoreCase("problem occurred")
+				|| text.trim().equalsIgnoreCase("Operation failed"))) {
 			return true;
 		}
 		return (style & mask) > 0;
@@ -371,16 +367,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 			if (type == SWT.KeyUp) {
 				if (lastTraverseEvent != null) {
-					RecordedEvent toRecordingTraverse = new RecordedEvent(
-							getPlayer(), event, type, widget);
+					RecordedEvent toRecordingTraverse = new RecordedEvent(getPlayer(), event, type, widget);
 					lastTraverseEvent.detail = lastTraverseDetail;
 
 					// Don't record traverse events for Browser - key pressing
 					// recorded on KeyUp event
 					if (!(widget instanceof Browser)) {
 						addToPressed(lastTraverseEvent);
-						processTraverse(lastTraverseEvent.widget,
-								lastTraverseEvent, toRecordingTraverse);
+						processTraverse(lastTraverseEvent.widget, lastTraverseEvent, toRecordingTraverse);
 						lastEvents.add(toRecordingTraverse);
 					}
 					lastTraverseEvent = null;
@@ -390,18 +384,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 		// fix of fix on Windows, see
 		// org.eclipse.swt.widgets.Text.setText(String)
-		if (type == SWT.Modify && widget instanceof Text
-				&& Platform.getOS().equals(Platform.OS_WIN32)) {
+		if (type == SWT.Modify && widget instanceof Text && Platform.getOS().equals(Platform.OS_WIN32)) {
 			Text text = (Text) widget;
 			if ((text.getStyle() & SWT.MULTI) != 0
-					&& ContextManagement.currentContext().contains(
-							"org.eclipse.swt.widgets.Text", "setText"))
+					&& ContextManagement.currentContext().contains("org.eclipse.swt.widgets.Text", "setText"))
 				return;
 		}
 
 		// Check for extension to ignore recording against one of controls
-		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(
-				IRecordingProcessorExtension.class);
+		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(IRecordingProcessorExtension.class);
 		for (IRecordingProcessorExtension ext : list) {
 			if (ext.isIgnored(widget, type, event)) {
 				return;
@@ -413,9 +404,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 		if (Platform.getOS().equals(Platform.OS_MACOSX)) {
 			if (event != null && lastEvent != null) {
-				if (event.time == lastEvent.time
-						&& event.widget == lastEvent.widget
-						&& event.type == lastEvent.type) {
+				if (event.time == lastEvent.time && event.widget == lastEvent.widget && event.type == lastEvent.type) {
 					// Same event captured twice
 					// System.out.println("ALREADY_PROCESSED_EVENT");
 					return;
@@ -427,22 +416,18 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// special case when menu is shown on MouseDown, so we can not
 			// record click properly on "some" platforms
 
-			if (lastEvent != null && lastEvent.widget instanceof Button
-					&& lastEvent.type == SWT.MouseDown) {
+			if (lastEvent != null && lastEvent.widget instanceof Button && lastEvent.type == SWT.MouseDown) {
 				SWTEventManager.setMenuSource((Menu) widget, lastEvent.widget);
 
 				if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
 					// it is recorded on Mac "automatically"
-					FindResult result = getLocator().findElement(
-							lastEvent.widget, false, false, true);
+					FindResult result = getLocator().findElement(lastEvent.widget, false, false, true);
 					if (result != null) {
-						ControlUIElement e = new ControlUIElement(
-								result.element, getRecorder());
+						ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 						e.clickAndWait();
 					}
 				}
-			} else if (lastEvent != null && lastEvent.widget instanceof Button
-					&& lastEvent.type == SWT.Selection) {
+			} else if (lastEvent != null && lastEvent.widget instanceof Button && lastEvent.type == SWT.Selection) {
 				SWTEventManager.setMenuSource((Menu) widget, lastEvent.widget);
 			}
 		}
@@ -477,8 +462,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				String textValue = event.text;
 				StringBuilder textResult = new StringBuilder();
 				for (char c : textValue.toCharArray()) {
-					if (!Character.isLetterOrDigit(c)
-							&& !Character.isWhitespace(c)) {
+					if (!Character.isLetterOrDigit(c) && !Character.isWhitespace(c)) {
 						textResult.append(' ');
 					} else {
 						textResult.append(c);
@@ -536,11 +520,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 	public static int lastTraverseDetail = 0;
 
 	private void recordEvent_(Widget widget, int type, Event event) {
-		if (type == DND.DragStart || type == DND.DragEnd
-				|| type == DND.DragEnter || type == DND.DragOver
-				|| type == DND.DragLeave || type == DND.Drop
-				|| type == DND.DragOperationChanged || type == DND.DropAccept
-				|| type == DND.DragSetData) {
+		if (type == DND.DragStart || type == DND.DragEnd || type == DND.DragEnter || type == DND.DragOver
+				|| type == DND.DragLeave || type == DND.Drop || type == DND.DragOperationChanged
+				|| type == DND.DropAccept || type == DND.DragSetData) {
 			if (event.widget == null) {
 				event.widget = widget;
 			}
@@ -598,13 +580,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// to make sure of correct flow filtering.
 			if (ctx.contains("org.eclipse.swt.widgets.Combo", "removeAll")
 					|| ctx.contains("org.eclipse.swt.widgets.Combo", "setItems")
-					|| ctx.contains("org.eclipse.swt.widgets.Combo",
-							"deselectAll")
+					|| ctx.contains("org.eclipse.swt.widgets.Combo", "deselectAll")
 					|| ctx.contains("org.eclipse.swt.widgets.Combo", "select")
 					|| ctx.contains("org.eclipse.swt.widgets.Combo", "setText")
-					|| ctx.contains(
-							"org.eclipse.jface.internal.databinding.swt.TextTextProperty",
-							"doSetStringValue")
+					|| ctx.contains("org.eclipse.jface.internal.databinding.swt.TextTextProperty", "doSetStringValue")
 					|| ctx.contains("org.eclipse.swt.widgets.Text", "paste")) {
 				return;
 			}
@@ -619,9 +598,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		} else if (type == SWT.MouseDown) {
 			processMouseDown(widget, event, toRecording);
 		} else if (type == SWT.KeyDown) {
-			if (ctx.contains(
-					"com.xored.swt.internal.composer.GeckoEditor$KeyAdapter",
-					"handleEvent")) {
+			if (ctx.contains("com.xored.swt.internal.composer.GeckoEditor$KeyAdapter", "handleEvent")) {
 				return; // this event is duplicate, see QS-882
 			}
 
@@ -633,17 +610,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 			lastEvents.add(toRecording);
 		} else if (type == SWT.KeyUp) {
-			if (ctx.contains(
-					"com.xored.swt.internal.composer.GeckoEditor$KeyAdapter",
-					"handleEvent")) {
+			if (ctx.contains("com.xored.swt.internal.composer.GeckoEditor$KeyAdapter", "handleEvent")) {
 				return; // this event is duplicate, see QS-882
 			}
 
 			if (widget instanceof Combo)
 				return;
 
-			String v = KeyStroke.getInstance(event.stateMask, event.keyCode)
-					.toString().toLowerCase();
+			String v = KeyStroke.getInstance(event.stateMask, event.keyCode).toString().toLowerCase();
 			String[] values = v.split("\\+");
 			boolean contains = false;
 			for (String val : values) {
@@ -654,8 +628,8 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// On MacOSX after press Enter in dialog with default selection,
 			// no
 			// KeyDown and Traverse event but unnecessary KeyUp
-			boolean isEnterOnMac = Platform.getOS().equals(Platform.OS_MACOSX)
-					&& (event.character == SWT.CR) && event.stateMask == 0;
+			boolean isEnterOnMac = Platform.getOS().equals(Platform.OS_MACOSX) && (event.character == SWT.CR)
+					&& event.stateMask == 0;
 
 			if (!contains && !isEnterOnMac) {
 				// This is just key-up event
@@ -674,8 +648,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		} else if (type == SWT.Traverse) {
 			keysSeen = false;
 
-			if (event.detail != SWT.TRAVERSE_PAGE_NEXT
-					&& event.detail != SWT.TRAVERSE_PAGE_PREVIOUS) {
+			if (event.detail != SWT.TRAVERSE_PAGE_NEXT && event.detail != SWT.TRAVERSE_PAGE_PREVIOUS) {
 				// Don't record traverse events for Browser - key pressing
 				// recorded on KeyUp event
 				if (!(widget instanceof Browser)) {
@@ -690,38 +663,27 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 		} else if (type == SWT.MouseDoubleClick) {
 			Listener[] listeners = widget.getListeners(SWT.MouseDoubleClick);
-			if (listeners.length != 0 && !(widget instanceof ViewForm)
-					&& !(widget instanceof Sash)) {
-				FindResult result = getLocator().findElement(widget, true,
-						false, false);
+			if (listeners.length != 0 && !(widget instanceof ViewForm) && !(widget instanceof Sash)) {
+				FindResult result = getLocator().findElement(widget, true, false, false);
 
 				// System.out.println("RESULT is:" + result);
 				if (result != null && result.element != null) {
-					if (result.realElement.isTree()
-							|| result.realElement.isTable()
-							|| result.realElement.isList()) {
+					if (result.realElement.isTree() || result.realElement.isTable() || result.realElement.isList()) {
 						String[] sel = result.realElement.getPathSelection();
-						ViewerUIElement v = new ViewerUIElement(result.element,
-								getRecorder());
+						ViewerUIElement v = new ViewerUIElement(result.element, getRecorder());
 						// Do not pass set selection if previous command is
 						// click,
 						// so double click will override it
 						Command last = getRecorder().getContainer().getLast();
-						if (sel != null
-								&& !(last instanceof Click && ((Click) last)
-										.isDefault())) {
+						if (sel != null && !(last instanceof Click && ((Click) last).isDefault())) {
 							v.setSelection(sel);
 						}
 						v.doubleClick();
 					} else {
 						// Check for not a canvas
 						if (!(isCanvas(widget, type))
-								&& !widget
-										.getClass()
-										.getName()
-										.equals("org.eclipse.draw2d.FigureCanvas")) {
-							ControlUIElement e = new ControlUIElement(
-									result.element, getRecorder());
+								&& !widget.getClass().getName().equals("org.eclipse.draw2d.FigureCanvas")) {
+							ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 							e.doubleClickAndWait();
 						}
 					}
@@ -773,8 +735,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				return;
 			}
 		}
-		FindResult element = getLocator()
-				.findElement(widget, true, false, true);
+		FindResult element = getLocator().findElement(widget, true, false, true);
 		if (element == null || element.element == null) {
 			return;
 		}
@@ -792,24 +753,21 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 	}
 
-	private void processDateTime(Control dateTime, Control c, int type,
-			Event event) {
+	private void processDateTime(Control dateTime, Control c, int type, Event event) {
 		DateTime dt = (DateTime) dateTime;
 		FindResult element;
 		switch (type) {
 		case SWT.Selection:
 			element = getLocator().findElement(dateTime, false, false, true);
 			if (element != null && element.element != null) {
-				TextUIElement e = new TextUIElement(element.element,
-						getRecorder());
+				TextUIElement e = new TextUIElement(element.element, getRecorder());
 				e.setText(PlayerTextUtils.getDateTimeValue(dt));
 			}
 			break;
 		case SWT.MouseDoubleClick:
 			element = getLocator().findElement(dateTime, false, false, true);
 			if (element != null && element.element != null) {
-				ControlUIElement e = new ControlUIElement(element.element,
-						getRecorder());
+				ControlUIElement e = new ControlUIElement(element.element, getRecorder());
 				e.doubleClickAndWait();
 			}
 			break;
@@ -820,22 +778,19 @@ public class SWTEventRecorder implements IRecordingProcessor,
 	}
 
 	public boolean isCanvas(Widget widget, int type) {
-		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(
-				IRecordingProcessorExtension.class);
+		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(IRecordingProcessorExtension.class);
 		for (IRecordingProcessorExtension ext : list) {
 			if (widget instanceof Canvas && ext.isNotCanvas(widget, type, null)) {
 				return false;
 			}
 		}
 
-		if (widget instanceof Canvas && !(widget instanceof Shell)
-				&& !(widget instanceof StyledText)
+		if (widget instanceof Canvas && !(widget instanceof Shell) && !(widget instanceof StyledText)
 				&& !(widget instanceof Browser) && !(widget instanceof CLabel)) {
 			// Fiter events came to EditDomain
-			if (type == SWT.MouseDown || type == SWT.MouseUp
-					|| type == SWT.MouseMove || type == SWT.MouseDoubleClick
-					|| type == SWT.MouseEnter || type == SWT.MouseExit
-					|| type == SWT.MouseHover || type == SWT.MouseWheel) {
+			if (type == SWT.MouseDown || type == SWT.MouseUp || type == SWT.MouseMove || type == SWT.MouseDoubleClick
+					|| type == SWT.MouseEnter || type == SWT.MouseExit || type == SWT.MouseHover
+					|| type == SWT.MouseWheel) {
 				String clName = widget.getClass().getName();
 				if (!clName.equals("org.eclipse.draw2d.FigureCanvas")) {
 					return true;
@@ -864,18 +819,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		if (ctx.contains("org.eclipse.swt.widgets.TreeItem", "setExpanded")) {
 			return true;
 		}
-		if (ctx.contains("org.eclipse.ui.views.properties.PropertySheetViewer",
-				"removeItem")) {
+		if (ctx.contains("org.eclipse.ui.views.properties.PropertySheetViewer", "removeItem")) {
 			return true;
 		}
 
 		if (ctx.contains("org.eclipse.swt.widgets.TabFolder", "createItem")
-				|| ctx.contains("org.eclipse.swt.widgets.TabFolder",
-						"destroyItem")) {
+				|| ctx.contains("org.eclipse.swt.widgets.TabFolder", "destroyItem")) {
 			return true;
 		}
-		if (ctx.containsClass("org.eclipse.swt.custom.CCombo")
-				&& !(widget instanceof CCombo)) {
+		if (ctx.containsClass("org.eclipse.swt.custom.CCombo") && !(widget instanceof CCombo)) {
 			return true;
 		}
 
@@ -885,8 +837,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 		// if (Platform.getOS().equals(Platform.OS_MACOSX)) {
 		if (!ctx.contains("org.eclipse.swt.widgets.Display", "windowProc")
-				&& !ctx.contains("org.eclipse.swt.widgets.Display",
-						"runDeferredEvents")
+				&& !ctx.contains("org.eclipse.swt.widgets.Display", "runDeferredEvents")
 				&& !ctx.contains("org.eclipse.swt.widgets.Control", "traverse")) {
 			return true;
 		}
@@ -899,17 +850,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	private void processCCombo(Widget widget, CCombo cCombo, int type,
-			Event event) {
+	private void processCCombo(Widget widget, CCombo cCombo, int type, Event event) {
 		switch (type) {
 		case SWT.Selection:
 			if (widget instanceof org.eclipse.swt.widgets.List) {
-				FindResult result = getLocator().findElement(cCombo, true,
-						false, false);
+				FindResult result = getLocator().findElement(cCombo, true, false, false);
 				if (result != null) {
 					org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
-					TextUIElement e = new TextUIElement(result.element,
-							getRecorder());
+					TextUIElement e = new TextUIElement(result.element, getRecorder());
 					String[] selection = l.getSelection();
 					if (selection.length == 1) {
 						String value = selection[0];
@@ -934,11 +882,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		// break;
 
 		case SWT.Modify:
-			FindResult result = getLocator().findElement(cCombo, true, false,
-					false);
+			FindResult result = getLocator().findElement(cCombo, true, false, false);
 			if (result != null) {
-				TextUIElement e = new TextUIElement(result.element,
-						getRecorder());
+				TextUIElement e = new TextUIElement(result.element, getRecorder());
 				String text = cCombo.getText();
 				if (Arrays.asList(cCombo.getItems()).contains(text))
 					e.select(text);
@@ -955,22 +901,17 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return bundle != null;
 	}
 
-	public static boolean isIgnoreSelection(Widget widget, Event event,
-			int type, Context ctx) {
-		SWTUIElement swtuiElement = SWTRecordingHelper.getHelper().getLocator().
-				getPlayer().wrap(widget);
+	public static boolean isIgnoreSelection(Widget widget, Event event, int type, Context ctx) {
+		SWTUIElement swtuiElement = SWTRecordingHelper.getHelper().getLocator().getPlayer().wrap(widget);
 		if (swtuiElement != null && swtuiElement.getKind().is(ElementKind.Unknown))
 			return true;
 
 		if ((widget instanceof Canvas && !(widget instanceof StyledText))
-				&& Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(
-						type)) {
+				&& Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(type)) {
 			return true;
 		}
 
-		if (widget instanceof Combo
-				&& Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(
-						type)) {
+		if (widget instanceof Combo && Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(type)) {
 			return true;
 		}
 
@@ -982,8 +923,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// Ignore radio buttons it's recorded on MouseUp (on some radio on
 			// MacOSX selection event not appear)
 			// for example see radio buttons on Install/Update preference page
-			if (widget instanceof Button
-					&& (((Button) widget).getStyle() & SWT.RADIO) != 0) {
+			if (widget instanceof Button && (((Button) widget).getStyle() & SWT.RADIO) != 0) {
 				return true;
 			}
 		}
@@ -991,36 +931,28 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	private void processSelection(Widget widget, Event event, int type,
-			Context ctx) {
-		boolean isRadioWidget = widget instanceof Button
-				&& (((Button) widget).getStyle() & SWT.RADIO) != 0;
-		boolean isTabFolder = widget instanceof TabFolder
-				|| widget instanceof CTabFolder;
-		boolean isTreeOrTableOrList = (widget instanceof Tree
-				|| widget instanceof Table || widget instanceof org.eclipse.swt.widgets.List);
+	private void processSelection(Widget widget, Event event, int type, Context ctx) {
+		boolean isRadioWidget = widget instanceof Button && (((Button) widget).getStyle() & SWT.RADIO) != 0;
+		boolean isTabFolder = widget instanceof TabFolder || widget instanceof CTabFolder;
+		boolean isTreeOrTableOrList = (widget instanceof Tree || widget instanceof Table
+				|| widget instanceof org.eclipse.swt.widgets.List);
 		boolean clean = true;
 
 		if (EclipseWorkbenchProvider.getProvider().isViewOrEditorButton(widget)) {
 			ToolItem button = (ToolItem) widget;
 			String tip = button.getToolTipText();
-			CTabFolder ctabFolder = EclipseWorkbenchProvider.getProvider()
-					.getTabFolderFromButton(button);
+			CTabFolder ctabFolder = EclipseWorkbenchProvider.getProvider().getTabFolderFromButton(button);
 			if (ctabFolder != null && tip != null) {
 				if (tip.equals("Maximize")) {
-					SWTEventManager.recordTabFolderEvent(ctabFolder,
-							SWTEventManager.EVENT_TAB_MAXIMIZE);
+					SWTEventManager.recordTabFolderEvent(ctabFolder, SWTEventManager.EVENT_TAB_MAXIMIZE);
 				} else if (tip.equals("Minimize")) {
-					SWTEventManager.recordTabFolderEvent(ctabFolder,
-							SWTEventManager.EVENT_TAB_MINIMIZE);
+					SWTEventManager.recordTabFolderEvent(ctabFolder, SWTEventManager.EVENT_TAB_MINIMIZE);
 				} else if (tip.equals("Restore")) {
-					SWTEventManager.recordTabFolderEvent(ctabFolder,
-							SWTEventManager.EVENT_TAB_RESTORE);
+					SWTEventManager.recordTabFolderEvent(ctabFolder, SWTEventManager.EVENT_TAB_RESTORE);
 				} else if (tip.equals("View Menu")) {
 					// do nothing
 				} else if (tip.equals("Show List")) {
-					SWTEventManager.recordTabFolderEvent(ctabFolder,
-							SWTEventManager.EVENT_TAB_SHOW_LIST);
+					SWTEventManager.recordTabFolderEvent(ctabFolder, SWTEventManager.EVENT_TAB_SHOW_LIST);
 				}
 				return;
 			}
@@ -1036,14 +968,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 
 		if (widget instanceof org.eclipse.swt.widgets.Link) {
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null && result.element != null) {
-				LinkUIElement e = new LinkUIElement(result.element,
-						getRecorder());
-				String[] links = LinkUIElement
-						.parse(((org.eclipse.swt.widgets.Link) widget)
-								.getText());
+				LinkUIElement e = new LinkUIElement(result.element, getRecorder());
+				String[] links = LinkUIElement.parse(((org.eclipse.swt.widgets.Link) widget).getText());
 				if (links.length == 1 && links[0].equals(event.text)) {
 					// There's only one clickable segment in the
 					// link, so 'click-link' command will be recorded without
@@ -1056,90 +984,68 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			return;
 		}
 
-		if ((widget instanceof MenuItem)
-				&& SWTWidgetLocator.isCTabFolderListMenuItem((MenuItem) widget)) {
-			CTabFolder miTabFolder = SWTWidgetLocator
-					.getCTabFolder((MenuItem) widget);
-			FindResult result = getLocator().findElement(miTabFolder, true,
-					false, false);
-			ProcessCTabFolderItemSelection(miTabFolder, result,
-					((MenuItem) widget).getText());
+		if ((widget instanceof MenuItem) && SWTWidgetLocator.isCTabFolderListMenuItem((MenuItem) widget)) {
+			CTabFolder miTabFolder = SWTWidgetLocator.getCTabFolder((MenuItem) widget);
+			FindResult result = getLocator().findElement(miTabFolder, true, false, false);
+			ProcessCTabFolderItemSelection(miTabFolder, result, ((MenuItem) widget).getText());
 			return;
 		}
 
 		if (widget instanceof Slider) {
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null && result.element != null) {
-				TextUIElement e = new TextUIElement(result.element,
-						getRecorder());
+				TextUIElement e = new TextUIElement(result.element, getRecorder());
 				e.setText(Integer.toString(((Slider) widget).getSelection()));
 			}
 			return;
 		}
 
-		boolean isCheckable = Platform.getOS().equals(Platform.OS_WIN32)
-				&& isTreeOrTableOrList;
-		boolean isMouseOrKeyOps = lastEvents.checkType(widget, SWT.MouseUp, SWT.MouseDown,
-				SWT.Arm, SWT.KeyDown, SWT.KeyUp, SWT.MouseDoubleClick, SWT.MouseMove);
+		boolean isCheckable = Platform.getOS().equals(Platform.OS_WIN32) && isTreeOrTableOrList;
+		boolean isMouseOrKeyOps = lastEvents.checkType(widget, SWT.MouseUp, SWT.MouseDown, SWT.Arm, SWT.KeyDown,
+				SWT.KeyUp, SWT.MouseDoubleClick, SWT.MouseMove);
 
-		boolean isFromFilteredItemsSelectionDialog = ctx.contains(
-				"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog",
+		boolean isFromFilteredItemsSelectionDialog = ctx.contains("org.eclipse.ui.dialogs.FilteredItemsSelectionDialog",
 				"refresh");
 		if (isFromFilteredItemsSelectionDialog)
 			return;
 
-		boolean isWidgetSendSelectionNonWin32 = ctx.contains(
-				"org.eclipse.swt.widgets.Widget", "sendSelectionEvent")
+		boolean isWidgetSendSelectionNonWin32 = ctx.contains("org.eclipse.swt.widgets.Widget", "sendSelectionEvent")
 				&& !Platform.getOS().equals(Platform.OS_WIN32);
 
-		boolean isRunDefferedEventsOSX = ctx.contains(
-				"org.eclipse.swt.widgets.Display", "runDeferredEvents")
+		boolean isRunDefferedEventsOSX = ctx.contains("org.eclipse.swt.widgets.Display", "runDeferredEvents")
 				&& Platform.getOS().equals(Platform.OS_MACOSX);
 
 		boolean isButtonFocusEvent = widget instanceof Button
 				&& (lastEvents.checkType(widget, SWT.FocusIn) || ((Button) widget).isFocusControl());
-		boolean isListTreeTableActivate = (widget instanceof Table
-				|| widget instanceof Tree || widget instanceof org.eclipse.swt.widgets.List)
-				&& lastEvents.checkType(widget, SWT.Activate);
+		boolean isListTreeTableActivate = (widget instanceof Table || widget instanceof Tree
+				|| widget instanceof org.eclipse.swt.widgets.List) && lastEvents.checkType(widget, SWT.Activate);
 		if (widget instanceof Sash) {
 			return;
 		}
 		try {
 			if (widget instanceof Spinner) {
-				FindResult result = getLocator().findElement(widget, true,
-						false, false);
+				FindResult result = getLocator().findElement(widget, true, false, false);
 				// System.out.println("RESULT is:" + result);
 				if (result != null && result.element != null) {
-					TextUIElement e = new TextUIElement(result.element,
-							getRecorder());
-					e.setText(Integer.toString(((Spinner) widget)
-							.getSelection()));
+					TextUIElement e = new TextUIElement(result.element, getRecorder());
+					e.setText(Integer.toString(((Spinner) widget).getSelection()));
 				}
 			}
-			if (widget instanceof Text || widget instanceof StyledText
-					|| widget instanceof Browser) {
+			if (widget instanceof Text || widget instanceof StyledText || widget instanceof Browser) {
 				processTextWidgetSelectionEvent(widget);
 				return;
 			}
 			// Radio MenuItem (first event from previous selected item, second
 			// event from item that was selected)
-			if (widget instanceof MenuItem
-					&& (((MenuItem) widget).getStyle() & SWT.RADIO) != 0) {
-				FindResult result = getLocator().findElement(widget, true,
-						false, false);
-				if (((MenuItem) widget).getSelection() && result != null
-						&& result.element != null) {
-					ControlUIElement e = new ControlUIElement(result.element,
-							getRecorder());
+			if (widget instanceof MenuItem && (((MenuItem) widget).getStyle() & SWT.RADIO) != 0) {
+				FindResult result = getLocator().findElement(widget, true, false, false);
+				if (((MenuItem) widget).getSelection() && result != null && result.element != null) {
+					ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 					e.clickAndWait(type == SWT.DefaultSelection);
 				}
-			} else if ((isMouseOrKeyOps || isWidgetSendSelectionNonWin32
-					|| isRunDefferedEventsOSX || isButtonFocusEvent
-					|| isListTreeTableActivate || isCheckable)
-					&& !(isRadioWidget && !((Button) widget).getSelection())
-					&& !isTabFolder
-					|| (type == SWT.DefaultSelection && isTreeOrTableOrList)) {
+			} else if ((isMouseOrKeyOps || isWidgetSendSelectionNonWin32 || isRunDefferedEventsOSX || isButtonFocusEvent
+					|| isListTreeTableActivate || isCheckable) && !(isRadioWidget && !((Button) widget).getSelection())
+					&& !isTabFolder || (type == SWT.DefaultSelection && isTreeOrTableOrList)) {
 				if (widget instanceof MenuItem) {
 					MenuItem mi = (MenuItem) widget;
 					Object data = mi.getData();
@@ -1150,18 +1056,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						}
 					}
 				}
-				FindResult result = getLocator().findElement(widget, true,
-						false, false);
+				FindResult result = getLocator().findElement(widget, true, false, false);
 
 				if (result != null && result.element != null) {
-					if (result.realElement.isTree()
-							|| result.realElement.isTable()
-							|| result.realElement.isList()) {
+					if (result.realElement.isTree() || result.realElement.isTable() || result.realElement.isList()) {
 						processViewers(event, type, result);
 					} else {
 						if (!result.realElement.isText()) {
-							ControlUIElement e = new ControlUIElement(
-									result.element, getRecorder());
+							ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 							boolean skipEvent = false;
 							if (Platform.getOS().equals(Platform.OS_MACOSX)) {
 								if (widget instanceof Button) {
@@ -1173,8 +1075,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 							if (!skipEvent) {
 								if (event != null && event.detail == SWT.ARROW) {
 									e.clickArrowAndWait(type == SWT.DefaultSelection);
-								} else if (widget instanceof Button
-										&& (widget.getStyle() & SWT.CHECK) != 0) {
+								} else if (widget instanceof Button && (widget.getStyle() & SWT.CHECK) != 0) {
 									e.check(((Button) widget).getSelection());
 								} else {
 									e.clickAndWait(type == SWT.DefaultSelection);
@@ -1184,23 +1085,20 @@ public class SWTEventRecorder implements IRecordingProcessor,
 					}
 				}
 			} else {
-				if (widget instanceof ToolItem
-						&& (lastEvents.checkType(((ToolItem) widget).getParent(), SWT.MouseUp)
+				if (widget instanceof ToolItem && (lastEvents.checkType(((ToolItem) widget).getParent(), SWT.MouseUp)
 						|| Platform.getOS().equals(Platform.OS_WIN32))) {
 					processToolItem(widget, event);
 				} else if (widget instanceof CoolItem
 						&& (lastEvents.checkType(((CoolItem) widget).getParent(), SWT.MouseUp)
-						|| Platform.getOS().equals(Platform.OS_WIN32))) {
+								|| Platform.getOS().equals(Platform.OS_WIN32))) {
 					processCoolItem(widget);
 				} else if (isRadioWidget) {
 					if (!Platform.getOS().equals(Platform.OS_WIN32)) {
 						Button radio = (Button) widget;
 						if (radio.getSelection()) {
-							FindResult result = getLocator().findElement(
-									widget, true, false, false);
+							FindResult result = getLocator().findElement(widget, true, false, false);
 							// System.out.println("RESULT is:" + result);
-							ControlUIElement e = new ControlUIElement(
-									result.element, getRecorder());
+							ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 							e.clickAndWait();
 							lastEvents.clear();
 							// System.out.println("_1_Clean Events" + index++);
@@ -1222,31 +1120,24 @@ public class SWTEventRecorder implements IRecordingProcessor,
 	}
 
 	private void processColumnHeaderSelection(Widget widget) {
-		FindResult result = getLocator().findElement(widget, false, false,
-				false);
+		FindResult result = getLocator().findElement(widget, false, false, false);
 		new ControlUIElement(result.element, getRecorder()).click();
 	}
 
 	private boolean isIgnoredAction(IAction action) {
 		if (action.getId() != null && action.getId().equals("preferences")) {
-			if ((action.getActionDefinitionId() != null && action
-					.getActionDefinitionId().equals(
-							"org.eclipse.ui.window.preferences"))
-					&& !action
-							.getClass()
-							.getName()
-							.equals("org.eclipse.ui.internal.OpenPreferencesAction")) {
+			if ((action.getActionDefinitionId() != null
+					&& action.getActionDefinitionId().equals("org.eclipse.ui.window.preferences"))
+					&& !action.getClass().getName().equals("org.eclipse.ui.internal.OpenPreferencesAction")) {
 				return true;
 			}
 		} else if (action.getId() != null && action.getId().equals("about")) {
 			if (action.getActionDefinitionId() != null
-					&& action.getActionDefinitionId().equals(
-							"org.eclipse.ui.help.aboutAction")) {
+					&& action.getActionDefinitionId().equals("org.eclipse.ui.help.aboutAction")) {
 				return true;
 			}
 		}
-		if (action.getClass().getName()
-				.equals("org.eclipse.ui.internal.OpenPreferencesAction")) {
+		if (action.getClass().getName().equals("org.eclipse.ui.internal.OpenPreferencesAction")) {
 			// Do
 			// getRecorder().safeExecuteCommand(
 			// ProtocolFactory.eINSTANCE.createClickPreferencesMenu());
@@ -1261,11 +1152,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 			Object this1 = TeslaSWTAccess.getThis(widget);
 
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null) {
-				TextUIElement textCtrl = new TextUIElement(result.element,
-						getRecorder());
+				TextUIElement textCtrl = new TextUIElement(result.element, getRecorder());
 				if (widget instanceof StyledText) {
 					StyledText styledText = ((StyledText) widget);
 					Point selection = styledText.getSelectionRange();
@@ -1273,46 +1162,39 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						Command last = getRecorder().getContainer().getLast();
 						if (last instanceof SetTextOffset) {
 							SetTextOffset offset = (SetTextOffset) last;
-							if (EcoreUtil.equals(offset.getElement(),
-									result.element)) {
+							if (EcoreUtil.equals(offset.getElement(), result.element)) {
 								getRecorder().removeLast();
 							}
 						}
 
 						int startLine = styledText.getLineAtOffset(selection.x);
-						int startOffset = selection.x
-								- styledText.getOffsetAtLine(startLine);
+						int startOffset = selection.x - styledText.getOffsetAtLine(startLine);
 
-						int endLine = styledText.getLineAtOffset(selection.x
-								+ selection.y);
-						int endOffset = (selection.x + selection.y)
-								- styledText.getOffsetAtLine(endLine);
+						int endLine = styledText.getLineAtOffset(selection.x + selection.y);
+						int endOffset = (selection.x + selection.y) - styledText.getOffsetAtLine(endLine);
 
 						int caretOffset = styledText.getCaretOffset();
 						if (caretOffset == selection.x) {
-							textCtrl.setSelection(endLine, endOffset,
-									startLine, startOffset);
+							textCtrl.setSelection(endLine, endOffset, startLine, startOffset);
 						} else {
-							textCtrl.setSelection(startLine, startOffset,
-									endLine, endOffset);
+							textCtrl.setSelection(startLine, startOffset, endLine, endOffset);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	private boolean processTabFolder(Widget widget, boolean tabFolder) {
 		if (!(widget instanceof TabFolder) && !(widget instanceof CTabFolder)) {
 			return tabFolder;
 		}
-		FindResult result = getLocator()
-				.findElement(widget, true, false, false);
+		FindResult result = getLocator().findElement(widget, true, false, false);
 
 		if (result == null) {
 			return tabFolder;
 		}
-		
+
 		String tabName = null;
 		if (widget instanceof TabFolder) {
 			TabFolder tabFolderWidget = (TabFolder) widget;
@@ -1385,7 +1267,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 			tabName = PlayerTextUtils.removeAcceleratorFromText(selectedItem.getText());
 		}
-		
+
 		if (lastTabItemSelection.containsKey(widget)) {
 			String v = lastTabItemSelection.get(widget);
 			if (v.equals(tabName)) {
@@ -1393,8 +1275,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 		}
 
-		CompositeUIElement v = new CompositeUIElement(result.element,
-				getRecorder());
+		CompositeUIElement v = new CompositeUIElement(result.element, getRecorder());
 		ControlUIElement tabItem = v.tabItem(tabName);
 		tabItem.clickAndWait();
 		return false;
@@ -1403,11 +1284,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 	private void processCoolItem(Widget widget) {
 		// System.out.println("$");
-		FindResult result = getLocator().findElement(widget, false, false,
-				false);
+		FindResult result = getLocator().findElement(widget, false, false, false);
 		if (result != null) {
-			ControlUIElement ctrl = new ControlUIElement(result.element,
-					getRecorder());
+			ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
 			ctrl.clickAndWait();
 		}
 	}
@@ -1418,11 +1297,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			return;
 
 		boolean arrow = (event != null && event.detail == SWT.ARROW);
-		FindResult result = getLocator().findElement(widget, false, false,
-				false);
+		FindResult result = getLocator().findElement(widget, false, false, false);
 		if (result != null && result.element != null) {
-			ControlUIElement ctrl = new ControlUIElement(result.element,
-					getRecorder());
+			ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
 			if (arrow) {
 				ctrl.clickArrowAndWait();
 			} else {
@@ -1433,8 +1310,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 	private void processViewers(Event event, int type, FindResult result) {
 		if (result.realElement.isSupportMultipleSelections()) {
-			ViewerUIElement v = new ViewerUIElement(result.element,
-					getRecorder());
+			ViewerUIElement v = new ViewerUIElement(result.element, getRecorder());
 			if (event.detail == SWT.CHECK && event.item != null) {
 				String[] sel = null;
 				if (event.item instanceof TableItem) {
@@ -1474,8 +1350,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			if (sel == null) {
 				sel = result.realElement.getPathSelection();
 			}
-			if (event != null && event.item != null
-					&& event.detail == SWT.CHECK) {
+			if (event != null && event.item != null && event.detail == SWT.CHECK) {
 				// Try to extract selection from event.
 				if (event.item instanceof TableItem) {
 					TableItem tItem = (TableItem) event.item;
@@ -1486,8 +1361,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				}
 			}
 			if (sel != null && sel.length > 0) {
-				ViewerUIElement v = new ViewerUIElement(result.element,
-						getRecorder());
+				ViewerUIElement v = new ViewerUIElement(result.element, getRecorder());
 				if (event != null && event.detail == SWT.CHECK) {
 					boolean checked = true;
 					if (event.item instanceof TreeItem) {
@@ -1503,8 +1377,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						} else {
 							if (recordClickInSeletion) {
 								recordClickInSeletion = false;
-								String[] path = Viewers
-										.getPathByItem(event.item);
+								String[] path = Viewers.getPathByItem(event.item);
 								v.item(path).click();
 							} else
 								v.setSelection(sel);
@@ -1515,8 +1388,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 	}
 
-	private static void processComboSelection(TextUIElement e, String[] items,
-			String text) {
+	private static void processComboSelection(TextUIElement e, String[] items, String text) {
 		if (Arrays.asList(items).contains(text))
 			e.select(text);
 		else
@@ -1530,13 +1402,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// fields.
 			return;
 		}
-		if (lastEvents.checkType(widget, SWT.KeyDown, SWT.KeyUp, SWT.MouseDown)
-				&& !(widget instanceof Combo)) {
-			FindResult element = getLocator().findElement(widget, true, false,
-					false);
+		if (lastEvents.checkType(widget, SWT.KeyDown, SWT.KeyUp, SWT.MouseDown) && !(widget instanceof Combo)) {
+			FindResult element = getLocator().findElement(widget, true, false, false);
 			if (element != null) {
-				TextUIElement e = new TextUIElement(element.element,
-						getRecorder());
+				TextUIElement e = new TextUIElement(element.element, getRecorder());
 				String currentText = element.realElement.getModificationText();
 				if (currentText.trim().length() == 0) {
 					// try obtain one character from keydown
@@ -1545,14 +1414,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						currentText = new String(new char[] { e2.event.character });
 					}
 				}
-				if (beforeTextState == null
-						|| !beforeTextState.equals(currentText)) {
+				if (beforeTextState == null || !beforeTextState.equals(currentText)) {
 					if (widget != JFaceRecordingProcessor.lastCellEditorControl) {
 						if (!(widget instanceof Combo)) {
 							e.setText(currentText, false, isPasswordField(widget));
 						} else {
-							processComboSelection(e,
-									((Combo) widget).getItems(), currentText);
+							processComboSelection(e, ((Combo) widget).getItems(), currentText);
 						}
 					}
 				}
@@ -1566,13 +1433,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			if (!ctrl.getShell().isVisible()) {
 				return;
 			}
-			FindResult element = getLocator().findElement(widget, true, false,
-					false);
+			FindResult element = getLocator().findElement(widget, true, false, false);
 			if (element != null && element.element != null) {
-				TextUIElement e = new TextUIElement(element.element,
-						getRecorder());
-				processComboSelection(e, ((Combo) widget).getItems(),
-						element.realElement.getModificationText());
+				TextUIElement e = new TextUIElement(element.element, getRecorder());
+				processComboSelection(e, ((Combo) widget).getItems(), element.realElement.getModificationText());
 				lastEvents.clear();
 				// System.out.println("_4_Clean Events" + index++);
 			}
@@ -1593,13 +1457,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		Object menuSource = null;
 
 		// try to find column
-		if (lastEvent != null
-				&& lastEvent.type == SWT.MenuDetect
+		if (lastEvent != null && lastEvent.type == SWT.MenuDetect
 				&& (lastEvent.widget instanceof Tree || lastEvent.widget instanceof Table)) {
-			Point point = lastEvent.widget.getDisplay().map(null,
-					(Control) lastEvent.widget, lastEvent.x, lastEvent.y);
-			menuSource = TableTreeUtil.getColumnFromPoint(lastEvent.widget,
-					point);
+			Point point = lastEvent.widget.getDisplay().map(null, (Control) lastEvent.widget, lastEvent.x, lastEvent.y);
+			menuSource = TableTreeUtil.getColumnFromPoint(lastEvent.widget, point);
 		}
 
 		if (menuSource == null) {
@@ -1669,44 +1530,33 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		boolean shift = (event.stateMask & SWT.SHIFT) != 0;
 		boolean ctrlb = (event.stateMask & SWT.CTRL) != 0;
 		boolean alt = (event.stateMask & SWT.ALT) != 0;
-		boolean check1 = ((event.stateMask & SWT.MODIFIER_MASK) != 0)
-				&& (!shift || ctrlb || alt);
+		boolean check1 = ((event.stateMask & SWT.MODIFIER_MASK) != 0) && (!shift || ctrlb || alt);
 		boolean enter = (event.character == SWT.CR) && event.stateMask == 0;
 		boolean helpKey = event.keyCode == SWT.F1;
-		boolean arrayKey = event.keyCode == SWT.ARROW_UP
-				|| event.keyCode == SWT.ARROW_DOWN
-				|| event.keyCode == SWT.ARROW_LEFT
-				|| event.keyCode == SWT.ARROW_RIGHT;
+		boolean arrayKey = event.keyCode == SWT.ARROW_UP || event.keyCode == SWT.ARROW_DOWN
+				|| event.keyCode == SWT.ARROW_LEFT || event.keyCode == SWT.ARROW_RIGHT;
 
-		FindResult result = getLocator()
-				.findElement(widget, true, false, false);
+		FindResult result = getLocator().findElement(widget, true, false, false);
 		if (result != null) {
 			if (isSimpleTextControl(widget)) {
 				beforeTextState = result.realElement.getModificationText();
 				if (enter || helpKey || arrayKey) {
-					ControlUIElement ctrl = new ControlUIElement(
-							result.element, getRecorder());
-					ctrl.press(event.keyCode, event.stateMask,
-							widget instanceof Browser || helpKey,
-							event.character, getMeta(event.stateMask));
+					ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
+					ctrl.press(event.keyCode, event.stateMask, widget instanceof Browser || helpKey, event.character,
+							getMeta(event.stateMask));
 					return;
 				}
 			}
 			if (!isSimpleTextControl(widget) || check1) {
-				ControlUIElement ctrl = new ControlUIElement(result.element,
-						getRecorder());
-				if (!(event.keyCode == SWT.SHIFT || event.keyCode == SWT.CTRL
-						|| event.keyCode == SWT.ALT || event.keyCode == SWT.COMMAND)) {
-					if ((event.keyCode & SWT.KEYCODE_BIT) == 0
-							&& event.stateMask == 0
+				ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
+				if (!(event.keyCode == SWT.SHIFT || event.keyCode == SWT.CTRL || event.keyCode == SWT.ALT
+						|| event.keyCode == SWT.COMMAND)) {
+					if ((event.keyCode & SWT.KEYCODE_BIT) == 0 && event.stateMask == 0
 							&& !Character.isISOControl(event.character)) {
-						if (widget instanceof StyledText
-								|| widget instanceof Browser
+						if (widget instanceof StyledText || widget instanceof Browser
 								|| widget.getListeners(SWT.KeyDown).length > 0
 								|| widget.getListeners(SWT.KeyUp).length > 0) {
-							ctrl.type(
-									new String(new char[] { event.character }),
-									widget instanceof Browser);
+							ctrl.type(new String(new char[] { event.character }), widget instanceof Browser);
 						}
 					} else {
 						// TODO record shortcut with command binding
@@ -1715,22 +1565,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 						// if (typeActionId != null) {
 						// ctrl.typeAction(typeActionId);
 						// } else {
-						if (widget instanceof StyledText
-								|| widget instanceof Browser) {
-							if (event.stateMask == SWT.SHIFT
-									&& !Character.isISOControl(event.character)) {
-								ctrl.type(new String(
-										new char[] { event.character }),
-										widget instanceof Browser);
+						if (widget instanceof StyledText || widget instanceof Browser) {
+							if (event.stateMask == SWT.SHIFT && !Character.isISOControl(event.character)) {
+								ctrl.type(new String(new char[] { event.character }), widget instanceof Browser);
 							} else {
-								ctrl.press(event.keyCode, event.stateMask,
-										widget instanceof Browser,
-										event.character,
+								ctrl.press(event.keyCode, event.stateMask, widget instanceof Browser, event.character,
 										getMeta(event.stateMask));
 							}
 						} else {
-							ctrl.press(event.keyCode, event.stateMask,
-									widget instanceof Browser, event.character,
+							ctrl.press(event.keyCode, event.stateMask, widget instanceof Browser, event.character,
 									getMeta(event.stateMask));
 						}
 						// }
@@ -1751,8 +1594,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	public void processTraverse(Widget widget, Event event,
-			RecordedEvent toRecording) {
+	public void processTraverse(Widget widget, Event event, RecordedEvent toRecording) {
 		// === traverse types ===
 		// - SWT.TRAVERSE_NONE
 		// * SWT.TRAVERSE_ESCAPE (event chain)
@@ -1780,22 +1622,13 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			SWTAssertManager assertManager = recorder.getProcessor(SWTAssertManager.class);
 
 			if (assertManager != null) {
-				boolean assertRequest = assertManager.isShortcutRequest(event,
-						assertShortcuts);
-				boolean recordingRequest = assertManager.isShortcutRequest(
-						event, recordShortcuts);
-				boolean startRecordRequest = assertManager.isShortcutRequest(
-						event, startRecordShortcuts);
-				boolean stopRecordRequest = assertManager.isShortcutRequest(
-						event, stopRecordShortcuts);
-				boolean replayRequest = assertManager.isShortcutRequest(
-						event, replayShortcuts);
+				boolean assertRequest = assertManager.isShortcutRequest(event, assertShortcuts);
+				boolean recordingRequest = assertManager.isShortcutRequest(event, recordShortcuts);
+				boolean startRecordRequest = assertManager.isShortcutRequest(event, startRecordShortcuts);
+				boolean stopRecordRequest = assertManager.isShortcutRequest(event, stopRecordShortcuts);
+				boolean replayRequest = assertManager.isShortcutRequest(event, replayShortcuts);
 
-				if (assertRequest
-						|| recordingRequest
-						|| startRecordRequest
-						|| stopRecordRequest
-						|| replayRequest) {
+				if (assertRequest || recordingRequest || startRecordRequest || stopRecordRequest || replayRequest) {
 					assertManager.setFreeze(assertRequest, null);
 
 					Type type = ProtocolFactory.eINSTANCE.createType();
@@ -1811,8 +1644,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			}
 		}
 
-		boolean radioWidgetIgnored = widget instanceof Button
-				&& (((Button) widget).getStyle() & SWT.RADIO) != 0
+		boolean radioWidgetIgnored = widget instanceof Button && (((Button) widget).getStyle() & SWT.RADIO) != 0
 				&& (event.detail == SWT.TRAVERSE_ARROW_NEXT || event.detail == SWT.TRAVERSE_ARROW_PREVIOUS);
 
 		boolean isEscapeChain = false;
@@ -1820,10 +1652,8 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		RecordedEvent lastRecorded = lastEvents.lastRecorded();
 		if (lastRecorded != null) {
 
-			isEscapeChain = event.detail == SWT.TRAVERSE_ESCAPE
-					&& lastRecorded.type == SWT.Traverse
-					&& lastRecorded.event.doit == true
-					&& lastRecorded.event.detail == SWT.TRAVERSE_ESCAPE;
+			isEscapeChain = event.detail == SWT.TRAVERSE_ESCAPE && lastRecorded.type == SWT.Traverse
+					&& lastRecorded.event.doit == true && lastRecorded.event.detail == SWT.TRAVERSE_ESCAPE;
 
 			// boolean isReturnChain = event.detail == SWT.TRAVERSE_RETURN
 			// && lastRecorded.type == SWT.Traverse
@@ -1831,14 +1661,11 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			// && lastRecorded.event.detail == SWT.TRAVERSE_RETURN;
 		}
 
-		if (event.doit && event.detail != SWT.TRAVERSE_NONE
-				&& event.detail != SWT.TRAVERSE_RETURN && !isEscapeChain
+		if (event.doit && event.detail != SWT.TRAVERSE_NONE && event.detail != SWT.TRAVERSE_RETURN && !isEscapeChain
 				&& !radioWidgetIgnored) {
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null) {
-				ControlUIElement ctrl = new ControlUIElement(result.element,
-						getRecorder());
+				ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
 				ctrl.traverse(event.detail, event.character);
 			}
 		}
@@ -1885,12 +1712,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 	@SuppressWarnings("unused")
 	private String checkForActionCommand(int mask, int keyCode) {
-		KeyStroke hotKey = KeyStroke.getInstance(mask,
-				Character.toUpperCase(keyCode));
-		IBindingService bindingService = (IBindingService) PlatformUI
-				.getWorkbench().getService(IBindingService.class);
-		Binding binding = bindingService.getPerfectMatch(KeySequence
-				.getInstance(hotKey));
+		KeyStroke hotKey = KeyStroke.getInstance(mask, Character.toUpperCase(keyCode));
+		IBindingService bindingService = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
+		Binding binding = bindingService.getPerfectMatch(KeySequence.getInstance(hotKey));
 		if (binding != null && binding.getParameterizedCommand() != null
 				&& binding.getParameterizedCommand().getId() != null) {
 			return binding.getParameterizedCommand().getId();
@@ -1898,8 +1722,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return null;
 	}
 
-	private void processMouseUp(Widget widget, Event event,
-			RecordedEvent toRecording) {
+	private void processMouseUp(Widget widget, Event event, RecordedEvent toRecording) {
 		if (widget instanceof Table || widget instanceof Tree) {
 			Viewer viewer = TeslaSWTAccess.getViewer((Control) widget);
 			if (viewer != null && viewer instanceof ColumnViewer) {
@@ -1909,17 +1732,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				ViewerCell cell = cview.getCell(new Point(event.x, event.y));
 				if (cell != null && editors != null) {
 					int index = cell.getColumnIndex();
-					if (editors[index] != null
-							&& editors[index] instanceof CheckboxCellEditor) {
-						recordCellAccess(widget, event,
-								RecordCellAccessSource.MouseUp);
+					if (editors[index] != null && editors[index] instanceof CheckboxCellEditor) {
+						recordCellAccess(widget, event, RecordCellAccessSource.MouseUp);
 						return;
 					}
 				}
 			}
 			Listener[] listenersUp = widget.getListeners(SWT.MouseUp);
-			if ((listenersUp != null && hasNonPlatformListeners(listenersUp,
-					SWT.MouseUp)) || mouseDownRecorded) {
+			if ((listenersUp != null && hasNonPlatformListeners(listenersUp, SWT.MouseUp)) || mouseDownRecorded) {
 				mouseDownRecorded = false;
 				recordCellAccess(widget, event, RecordCellAccessSource.MouseUp);
 			}
@@ -1932,19 +1752,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		if (Platform.getOS().equals(Platform.OS_MACOSX)) {
 			if (widget instanceof Button) {
 				if ((widget.getStyle() & SWT.CHECK) != 0) {
-					FindResult result = getLocator().findElement(widget, false,
-							false, true);
+					FindResult result = getLocator().findElement(widget, false, false, true);
 					if (result != null) {
-						ControlUIElement e = new ControlUIElement(
-								result.element, getRecorder());
+						ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 						e.check(((Button) widget).getSelection());
 					}
 				} else if ((widget.getStyle() & SWT.RADIO) != 0) {
-					FindResult result = getLocator().findElement(widget, false,
-							false, true);
+					FindResult result = getLocator().findElement(widget, false, false, true);
 					if (result != null) {
-						ControlUIElement e = new ControlUIElement(
-								result.element, getRecorder());
+						ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 						e.clickAndWait();
 					}
 				}
@@ -1954,11 +1770,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		// click on FilteredTree or Q7 SearchControl clear button
 		if (widget instanceof Label && isSearchControlLabel((Label) widget)
 				&& lastEvents.checkType(widget, SWT.MouseDown)) {
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null) {
-				ControlUIElement e = new ControlUIElement(result.element,
-						getRecorder());
+				ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 				e.clickAndWait();
 				beforeTextState = "";
 			}
@@ -1968,16 +1782,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 	}
 
 	private boolean isSearchControlLabel(Label label) {
-		if (label.getParent() instanceof Composite
-				&& label.getParent().getParent() != null
-				&& label.getParent().getParent().getClass().getName()
-						.equals("org.eclipse.ui.dialogs.FilteredTree")) {
+		if (label.getParent() instanceof Composite && label.getParent().getParent() != null
+				&& label.getParent().getParent().getClass().getName().equals("org.eclipse.ui.dialogs.FilteredTree")) {
 			return true;
 		}
-		if (label.getParent() instanceof Composite
-				&& label.getParent().getParent() != null
-				&& label.getParent().getParent().getClass().getName()
-						.equals("org.eclipse.rcptt.ui.commons.SearchControl")) {
+		if (label.getParent() instanceof Composite && label.getParent().getParent() != null && label.getParent()
+				.getParent().getClass().getName().equals("org.eclipse.rcptt.ui.commons.SearchControl")) {
 			return true;
 		}
 		return false;
@@ -1990,8 +1800,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		MouseDown, MouseUp
 	}
 
-	private void recordCellAccess(Widget widget, Event event,
-			RecordCellAccessSource source) {
+	private void recordCellAccess(Widget widget, Event event, RecordCellAccessSource source) {
 		if (!(widget instanceof Table) && !(widget instanceof Tree)) {
 			return;
 		}
@@ -2003,8 +1812,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 		boolean hasColumns = TableTreeUtil.getColumnCount(widget) > 0;
 
-		FindResult result = getLocator()
-				.findElement(widget, true, false, false);
+		FindResult result = getLocator().findElement(widget, true, false, false);
 
 		// if (isDublicateCellClick(column, row)) {
 		// return;
@@ -2016,16 +1824,14 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 			// record click if it has no columns and it is single selection or
 			// multiple but selection is replaced
-			recordClickInSeletion = !hasColumns
-					&& ((widget.getStyle() & SWT.MULTI) == 0 || ((event.stateMask & SWT.SHIFT) == 0 && (event.stateMask & SWT.CTRL) == 0));
+			recordClickInSeletion = !hasColumns && ((widget.getStyle() & SWT.MULTI) == 0
+					|| ((event.stateMask & SWT.SHIFT) == 0 && (event.stateMask & SWT.CTRL) == 0));
 
 			if (widget instanceof Tree && hasColumns) {
-				List<String> path = Arrays.asList(Viewers
-						.getPathByItem(TableTreeUtil.getItem(widget, row)));
+				List<String> path = Arrays.asList(Viewers.getPathByItem(TableTreeUtil.getItem(widget, row)));
 
 				if (path.size() > 1) {
-					ve.item(path.subList(0, path.size() - 1).toArray(
-							new String[0])).expand();
+					ve.item(path.subList(0, path.size() - 1).toArray(new String[0])).expand();
 				}
 			}
 		}
@@ -2039,11 +1845,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			int column = cell.y;
 
 			recordMouseEvent(ve.item(column, row), event,
-					source == RecordCellAccessSource.MouseDown ? SWT.MouseDown
-							: SWT.MouseUp);
+					source == RecordCellAccessSource.MouseDown ? SWT.MouseDown : SWT.MouseUp);
 			// ve.item(column, row).click();
-		} else if (source == RecordCellAccessSource.MouseUp
-				&& recordClickInSeletion) {
+		} else if (source == RecordCellAccessSource.MouseUp && recordClickInSeletion) {
 			recordClickInSeletion = false;
 			Object[] selection = TableTreeUtil.getSelection(widget);
 
@@ -2051,8 +1855,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			if (selection.length == 1)
 				path = Arrays.asList(Viewers.getPathByItem(selection[0]));
 			else
-				path = Arrays.asList(Viewers.getPathByItem(TableTreeUtil
-						.getItem(widget, row)));
+				path = Arrays.asList(Viewers.getPathByItem(TableTreeUtil.getItem(widget, row)));
 			ve.item(path.toArray(new String[0])).click();
 
 		}
@@ -2106,14 +1909,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				}
 			}
 
-			new ControlUIElement(getLocator().findElement(widget, true, false,
-					false).element, getRecorder()).clickText(start, end,
-					TeslaUtils.intToButtonName(button));
+			new ControlUIElement(getLocator().findElement(widget, true, false, false).element, getRecorder())
+					.clickText(start, end, TeslaUtils.intToButtonName(button));
 		}
 	}
 
-	private void recordMouseEvent(ControlUIElement element, Event event,
-			int type) {
+	private void recordMouseEvent(ControlUIElement element, Event event, int type) {
 		MouseEvent me = ProtocolFactory.eINSTANCE.createMouseEvent();
 		me.setButton(event.button);
 		me.setCount(isDefaultCount(event) ? -1 : event.count);
@@ -2158,16 +1959,13 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		boolean itemClickCmdFound = false;
 		for (int i = 1; i <= getRecorder().getContainer().size(); i++) {
 			Command cmd = getRecorder().getContainer().getLastCommand(i);
-			if (cmd instanceof Click
-					&& ElementKind.Item.toString().equals(
-							((Click) cmd).getElement().getKind())) {
+			if (cmd instanceof Click && ElementKind.Item.toString().equals(((Click) cmd).getElement().getKind())) {
 				itemClickCmdFound = true;
 				continue;
 			}
 			if (cmd instanceof SelectCommand && itemClickCmdFound) {
 				SelectData data = ((SelectCommand) cmd).getData();
-				if (data.getIndexes() != null && data.getIndexes().size() == 2
-						&& data.getIndexes().get(0) == col
+				if (data.getIndexes() != null && data.getIndexes().size() == 2 && data.getIndexes().get(0) == col
 						&& data.getIndexes().get(1) == row) {
 					return true;
 				}
@@ -2179,23 +1977,20 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	private static boolean hasNonPlatformListeners(Listener[] listenersDown,
-			int kind) {
+	private static boolean hasNonPlatformListeners(Listener[] listenersDown, int kind) {
 		if (listenersDown == null) {
 			return false;
 		}
 		for (Listener listener : listenersDown) {
 			if (listener instanceof TypedListener) {
-				SWTEventListener eventListener = ((TypedListener) listener)
-						.getEventListener();
+				SWTEventListener eventListener = ((TypedListener) listener).getEventListener();
 				if (eventListener != null) {
 					String lName = eventListener.getClass().getName();
 					if (kind == SWT.MouseUp
 							&& lName.contains("org.eclipse.ui.internal.quickaccess.QuickAccessDialog")) {
 						return true;
 					}
-					if (lName.contains("org.eclipse.swt")
-							|| lName.contains("org.eclipse.ui")
+					if (lName.contains("org.eclipse.swt") || lName.contains("org.eclipse.ui")
 							|| lName.contains("org.eclipse.jface")) {
 						continue;
 					}
@@ -2203,8 +1998,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				return true;
 			}
 			String lName = listener.getClass().getName();
-			if (lName.contains("org.eclipse.swt")
-					|| lName.contains("org.eclipse.ui")
+			if (lName.contains("org.eclipse.swt") || lName.contains("org.eclipse.ui")
 					|| lName.contains("org.eclipse.jface")) {
 				continue;
 			}
@@ -2213,28 +2007,24 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		return false;
 	}
 
-	private void processMouseDown(Widget widget, Event event,
-			RecordedEvent toRecording) {
+	private void processMouseDown(Widget widget, Event event, RecordedEvent toRecording) {
 		if ((widget instanceof TabFolder || widget instanceof CTabFolder)) {
 			// Check for workbench internal element click
 			boolean skip = false;
 			if (!TeslaCore.isEclipse4()) {
 				// eclipse 3.x
 
-				IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench()
-						.getWorkbenchWindows();
+				IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench().getWorkbenchWindows();
 				Control ctrl = (Control) widget;
 				Shell shell = ctrl.getShell();
 				for (IWorkbenchWindow iWorkbenchWindow : workbenchWindows) {
 					Shell wshell = iWorkbenchWindow.getShell();
 
 					if (wshell == shell) {
-						WorkbenchPage page = (WorkbenchPage) iWorkbenchWindow
-								.getActivePage();
+						WorkbenchPage page = (WorkbenchPage) iWorkbenchWindow.getActivePage();
 						Composite composite = page.getClientComposite();
 						Composite p1 = ctrl.getParent();
-						if (p1.equals(composite)
-								|| p1.getParent().equals(composite)) {
+						if (p1.equals(composite) || p1.getParent().equals(composite)) {
 							// Skip click on views/editors tab folder
 							// hasViewEditorCTabFolderClick = true;
 							skip = true;
@@ -2244,16 +2034,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				}
 			} else if (widget instanceof CTabFolder) {
 				// eclipse 4.x
-				skip = EclipseWorkbenchProvider.getProvider()
-						.extractViewOrEditorControl((CTabFolder) widget) != null;
+				skip = EclipseWorkbenchProvider.getProvider().extractViewOrEditorControl((CTabFolder) widget) != null;
 			}
 
 			if (!skip) {
-				FindResult result = getLocator().findElement(widget, true,
-						false, false);
-				if (result != null
-						&& result.realElement.getKind().is(
-								ElementKind.TabFolder)) {
+				FindResult result = getLocator().findElement(widget, true, false, false);
+				if (result != null && result.realElement.getKind().is(ElementKind.TabFolder)) {
 					String tabName = null;
 					boolean closeAction = false;
 					if (widget instanceof TabFolder) {
@@ -2276,8 +2062,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 								// close command for tab item.
 								// Set selection on selected widget.
 								tabName = PlayerTextUtils.removeAcceleratorFromText(tabItem.getText());
-								Rectangle rect = TeslaSWTAccess
-										.getCTabItemCloseRect(tabItem);
+								Rectangle rect = TeslaSWTAccess.getCTabItemCloseRect(tabItem);
 								if (rect != null) {
 									if (rect.contains(event.x, event.y)) {
 										closeAction = true;
@@ -2290,12 +2075,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 					if (tabName != null) {
 						if (!closeAction) {
 							if (widget instanceof CTabFolder) {
-								ProcessCTabFolderItemSelection(
-										(CTabFolder) widget, result, tabName);
+								ProcessCTabFolderItemSelection((CTabFolder) widget, result, tabName);
 							}
 						} else {
-							CompositeUIElement v = new CompositeUIElement(
-									result.element, getRecorder());
+							CompositeUIElement v = new CompositeUIElement(result.element, getRecorder());
 							ControlUIElement tabItem = v.tabItem(tabName);
 							tabItem.close();
 						}
@@ -2311,20 +2094,15 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			getLocator().findElement(widget, false, false, false);
 
 		Listener[] listenersDown = widget.getListeners(SWT.MouseDown);
-		if ((listenersDown != null && hasNonPlatformListeners(listenersDown,
-				SWT.MouseDown))) {
+		if ((listenersDown != null && hasNonPlatformListeners(listenersDown, SWT.MouseDown))) {
 			recordCellAccess(widget, event, RecordCellAccessSource.MouseDown);
 		}
 		Listener[] listenersUp = widget.getListeners(SWT.MouseUp);
-		if (widget instanceof Label
-				&& ((listenersDown != null && hasNonPlatformListeners(
-						listenersDown, SWT.MouseDown)) || (listenersUp != null && hasNonPlatformListeners(
-						listenersUp, SWT.MouseUp)))) {
-			FindResult result = getLocator().findElement(widget, true, false,
-					false);
+		if (widget instanceof Label && ((listenersDown != null && hasNonPlatformListeners(listenersDown, SWT.MouseDown))
+				|| (listenersUp != null && hasNonPlatformListeners(listenersUp, SWT.MouseUp)))) {
+			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null) {
-				ControlUIElement e = new ControlUIElement(result.element,
-						getRecorder());
+				ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 				e.clickAndWait();
 				beforeTextState = "";
 			}
@@ -2332,8 +2110,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		lastEvents.add(toRecording);
 	}
 
-	private void ProcessCTabFolderItemSelection(CTabFolder tabFolder,
-			FindResult result, String tabName) {
+	private void ProcessCTabFolderItemSelection(CTabFolder tabFolder, FindResult result, String tabName) {
 		boolean needSelection = true;
 		if (lastTabItemSelection.containsKey(tabFolder)) {
 			String v = lastTabItemSelection.get(tabFolder);
@@ -2343,8 +2120,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 		if (needSelection) {
 			lastTabItemSelection.put(tabFolder, tabName);
-			CompositeUIElement v = new CompositeUIElement(result.element,
-					getRecorder());
+			CompositeUIElement v = new CompositeUIElement(result.element, getRecorder());
 			ControlUIElement tabItem = v.tabItem(tabName);
 			tabItem.clickAndWait();
 		}
@@ -2356,11 +2132,9 @@ public class SWTEventRecorder implements IRecordingProcessor,
 				&& ((Type) lastCmd).getCode() == SWT.TRAVERSE_ESCAPE) {
 			return;
 		}
-		FindResult result = getLocator()
-				.findElement(widget, true, false, false);
+		FindResult result = getLocator().findElement(widget, true, false, false);
 		if (result != null) {
-			ControlUIElement e = new ControlUIElement(result.element,
-					getRecorder());
+			ControlUIElement e = new ControlUIElement(result.element, getRecorder());
 			e.close();
 		}
 	}
@@ -2405,8 +2179,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 	public synchronized void clear() {
 		SWTRecordingHelper.getHelper().clear();
-		SWTModelMapper.initializeExtensions(getRecorder().getProcessors(
-				ISWTModelMapperExtension.class));
+		SWTModelMapper.initializeExtensions(getRecorder().getProcessors(ISWTModelMapperExtension.class));
 		this.lastEvents.clear();
 		// this.varCounters.clear();
 		// this.variables.clear();
@@ -2437,8 +2210,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		if (!getRecorder().hasListeners()) {
 			return;
 		}
-		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE
-				.createSetSWTDialogInfo();
+		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE.createSetSWTDialogInfo();
 		if (dialog instanceof FileDialog) {
 			info.setKind(SWTDialogKind.FILE_SELECTOR);
 		} else if (dialog instanceof DirectoryDialog) {
@@ -2490,16 +2262,12 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			return;
 		}
 		try {
-			IPath workspaceLocation = ResourcesPlugin.getWorkspace().getRoot()
-					.getLocation();
+			IPath workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation();
 			File f = new File(pathStr);
 			IPath path = new Path(f.getCanonicalPath());
 			if (workspaceLocation.isPrefixOf(path)) {
-				info.getPath().add(
-						"platform:/resource/"
-								+ path.removeFirstSegments(
-										workspaceLocation.segmentCount())
-										.setDevice(null));
+				info.getPath().add("platform:/resource/"
+						+ path.removeFirstSegments(workspaceLocation.segmentCount()).setDevice(null));
 			} else {
 				info.getPath().add(pathStr);
 			}
@@ -2532,8 +2300,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			enable();
 		}
 		// Check for extension to ignore recording against one of controls
-		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(
-				IRecordingProcessorExtension.class);
+		List<IRecordingProcessorExtension> list = getRecorder().getProcessors(IRecordingProcessorExtension.class);
 		for (IRecordingProcessorExtension ext : list) {
 			if (ext.isIgnored(text, SWT.Selection, null)) {
 				return;
@@ -2544,50 +2311,36 @@ public class SWTEventRecorder implements IRecordingProcessor,
 		}
 		Context context = ContextManagement.currentContext();
 		if (!context.contains("org.eclipse.swt.custom.StyledText", "doContent")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"setContent")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"reset")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"handleKey")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"setSelectionRange")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"setSelection")
-				&& !context.contains("org.eclipse.swt.custom.StyledText",
-						"setStyleRanges")) {
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "setContent")
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "reset")
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "handleKey")
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "setSelectionRange")
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "setSelection")
+				&& !context.contains("org.eclipse.swt.custom.StyledText", "setStyleRanges")) {
 			Command last = getRecorder().getContainer().getLast();
 			if (last instanceof Type) {
 				Type type = (Type) last;
-				if (type.getCode() != null
-						&& type.getCode().intValue() == SWT.BS
-						&& type.getState() != null
+				if (type.getCode() != null && type.getCode().intValue() == SWT.BS && type.getState() != null
 						&& type.getState().intValue() == SWT.CTRL) {
 					// This is Ctrl+Backspace. Ignore position change.
 					return;
 				}
-				if (type.getCode() != null
-						&& type.getCode().intValue() == SWT.TAB
-						&& type.getState() != null
+				if (type.getCode() != null && type.getCode().intValue() == SWT.TAB && type.getState() != null
 						&& type.getState().intValue() == 0) {
 					// This is Tab. Ignore position change.
 					return;
 				}
 			}
-			FindResult element = getLocator().findElement(text, false,
-					false, false);
+			FindResult element = getLocator().findElement(text, false, false, false);
 			if (element != null) {
-				TextUIElement textCtrl = new TextUIElement(element.element,
-						getRecorder());
+				TextUIElement textCtrl = new TextUIElement(element.element, getRecorder());
 				int offset = text.getCaretOffset();
 				int lineAtOffset = text.getLineAtOffset(offset);
 				int offsetAtLine = text.getOffsetAtLine(lineAtOffset);
-				if (!(last instanceof SetTextSelection && EcoreUtil.equals(
-						((SetTextSelection) last).getElement(),
-						element.element))) {
+				if (!(last instanceof SetTextSelection
+						&& EcoreUtil.equals(((SetTextSelection) last).getElement(), element.element))) {
 					// Ignore after setSelection
-					textCtrl.setTextOffset(lineAtOffset, offset
-							- offsetAtLine);
+					textCtrl.setTextOffset(lineAtOffset, offset - offsetAtLine);
 
 				}
 			}
@@ -2639,11 +2392,10 @@ public class SWTEventRecorder implements IRecordingProcessor,
 
 		if (tabControl instanceof CTabFolder) {
 			CTabFolder tabFolder = (CTabFolder) tabControl;
-			Widget w = EclipseWorkbenchProvider.getProvider()
-					.extractViewOrEditorControl(tabFolder);
+			Widget w = EclipseWorkbenchProvider.getProvider().extractViewOrEditorControl(tabFolder);
 			if (w != null) {
-				Map<Control, SWTUIElement> references = EclipseWorkbenchProvider
-						.getProvider().getWorkbenchReference(getPlayer());
+				Map<Control, SWTUIElement> references = EclipseWorkbenchProvider.getProvider()
+						.getWorkbenchReference(getPlayer());
 				SWTUIElement element = references.get(w);
 
 				result = getLocator().findElement(element, false, false, true);
@@ -2654,8 +2406,7 @@ public class SWTEventRecorder implements IRecordingProcessor,
 			result = getLocator().findElement(tabControl, false, false, true);
 
 		if (result != null) {
-			ControlUIElement ctrl = new ControlUIElement(result.element,
-					getRecorder());
+			ControlUIElement ctrl = new ControlUIElement(result.element, getRecorder());
 			switch (eventId) {
 			case SWTEventManager.EVENT_TAB_MINIMIZE:
 				ctrl.minimize();
