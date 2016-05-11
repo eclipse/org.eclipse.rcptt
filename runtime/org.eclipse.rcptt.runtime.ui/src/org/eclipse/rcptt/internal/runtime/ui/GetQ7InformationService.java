@@ -29,7 +29,7 @@ public class GetQ7InformationService implements ICommandService {
 
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		IPipe output = context.getOutput();
-		Q7Information info = Q7CoreFactory.eINSTANCE.createQ7Information();
+		final Q7Information info = Q7CoreFactory.eINSTANCE.createQ7Information();
 		// eclipse 3.4 compatibility:
 		// getVersion().toString() replaced with
 		// getHeaders().get("Bundle-Version")
