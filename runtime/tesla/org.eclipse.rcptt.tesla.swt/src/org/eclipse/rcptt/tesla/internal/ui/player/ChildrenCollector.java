@@ -52,7 +52,7 @@ public class ChildrenCollector {
 		if (i != -1) {
 			List<SWTUIElement> subList = list.subList(i + 1, list.size());
 			for (SWTUIElement widget : subList) {
-				addItem(results, widget, ignores, classes);
+				addItem(results, widget, ignores, classes, player);
 			}
 		}
 		return results.toArray(new SWTUIElement[results.size()]);
@@ -76,7 +76,7 @@ public class ChildrenCollector {
 	//
 
 	public static void addItem(List<SWTUIElement> results, SWTUIElement control,
-			SWTUIElement[] ignores, Class<?>[] classes) {
+			SWTUIElement[] ignores, Class<?>[] classes, SWTUIPlayer player) {
 		if (ignores != null) {
 			for (SWTUIElement widget : ignores) {
 				if (widget.equals(control)) {
@@ -85,7 +85,7 @@ public class ChildrenCollector {
 			}
 		}
 
-		if (classes == null || isInstanceOf(control, classes)) {
+		if (player.isCollectable(control, classes) || classes == null || isInstanceOf(control, classes)) {
 			results.add(control);
 		}
 	}

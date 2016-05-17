@@ -810,7 +810,7 @@ public final class SWTUIPlayer {
 		if (type != null)
 			for (IEditorDescriptor desc : ((EditorRegistry) PlatformUI
 					.getWorkbench().getEditorRegistry())
-					.getSortedEditorsFromPlugins())
+							.getSortedEditorsFromPlugins())
 				if (matches(desc.getLabel(), type))
 					id = desc.getId();
 
@@ -1140,8 +1140,7 @@ public final class SWTUIPlayer {
 			events.sendFocus(widget);
 			events.sendAll(widget, Events.createDoubleClick());
 			events.sendUnfocus(widget);
-		}
-		else {
+		} else {
 			events.sendAll(widget, new Event[] { createMouseDown(),
 					createSelection(), createMouseUp() });
 		}
@@ -1286,7 +1285,7 @@ public final class SWTUIPlayer {
 	 * <p>
 	 * The functionality of this method can be extended by {@link ISWTUIPlayerExtension#wrap(Object, SWTUIPlayer)}
 	 * method.
-	 * 
+	 *
 	 * @see SWTUIElement
 	 */
 	public SWTUIElement wrap(Object s) {
@@ -1299,7 +1298,7 @@ public final class SWTUIPlayer {
 		}
 
 		//
-		
+
 		if (s instanceof SWTUIElement) {
 			return (SWTUIElement) s;
 		}
@@ -1977,8 +1976,7 @@ public final class SWTUIPlayer {
 					lastTimeSucessStep = System.currentTimeMillis();
 					printTimers(waitFor);
 					return false; // Do a step mode.
-				}
-				else {
+				} else {
 					if ((System.currentTimeMillis() - lastTimeSucessStep) > TeslaLimits
 							.getTimerExecsTotalWaitTimeStep()) {
 						lastTimeSucessStep = System.currentTimeMillis();
@@ -2167,8 +2165,7 @@ public final class SWTUIPlayer {
 							if (code == SWT.TRAVERSE_TAB_NEXT) {
 								ee.keyCode = SWT.TAB;
 								ee.stateMask = 0;
-							}
-							else if (code == SWT.TRAVERSE_TAB_PREVIOUS) {
+							} else if (code == SWT.TRAVERSE_TAB_PREVIOUS) {
 								ee.keyCode = SWT.TAB;
 								ee.stateMask = SWT.SHIFT;
 							}
@@ -2179,8 +2176,7 @@ public final class SWTUIPlayer {
 
 							try {
 								traverseResult = control.traverse(code, ee);
-							}
-							catch (Exception e) {
+							} catch (Exception e) {
 								// In case of invalid method
 								try {
 									Method method = Control.class.getDeclaredMethod("traverse", Event.class);
@@ -2905,5 +2901,21 @@ public final class SWTUIPlayer {
 		getBrowserManager().clear();
 		cleanMenus(null);
 		error = null;
+	}
+
+	public boolean isCollectable(SWTUIElement element, Class<?>[] classes) {
+		if (element == null)
+			return false;
+
+		if (classes == null)
+			return true;
+
+		for (ISWTUIPlayerExtension extension : getExtensions()) {
+			if (extension.isCollectable(element, classes)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

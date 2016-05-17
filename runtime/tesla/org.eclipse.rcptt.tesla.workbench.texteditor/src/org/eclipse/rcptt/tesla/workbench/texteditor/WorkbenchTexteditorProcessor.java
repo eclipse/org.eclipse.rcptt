@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.workbench.texteditor;
 
+import static java.lang.Integer.parseInt;
 import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.failResponse;
 import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.okResponse;
-import static java.lang.Integer.parseInt;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,15 +31,6 @@ import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.OverviewRuler;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.rcptt.util.swt.Events;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -82,6 +73,15 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.rcptt.tesla.jface.text.JFaceTextManager;
 import org.eclipse.rcptt.tesla.jface.text.JFaceTextProcessor;
+import org.eclipse.rcptt.util.swt.Events;
+import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Widget;
 
 public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		ISWTModelMapperExtension {
@@ -92,6 +92,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	// private String id;
 
 	private ISWTUIPlayerExtension extension = new AbstractSWTUIPlayerExtension() {
+		@Override
 		public GenericElementKind getKind(Object w) {
 			if (useTextViewer.get() == 1) {
 				if (isTextEditorStyledText(w)) {
@@ -105,6 +106,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 			return null;
 		}
 
+		@Override
 		public SWTUIElement select(SWTUIPlayer swtuiPlayer,
 				PlayerSelectionFilter f) {
 			if (f.kind.is(ElementKind.TextViewer)) {
@@ -117,6 +119,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 			return null;
 		}
 
+		@Override
 		public String getRawText(SWTUIElement element) {
 			return getTextEditorRulerText(element.unwrap());
 		}
@@ -124,6 +127,11 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 	public WorkbenchTexteditorProcessor() {
 		SWTUIPlayer.addExtension(extension);
+	}
+
+	@Override
+	public int getPriority() {
+		return 25;
 	}
 
 	private static ElementKind getTextEditorRulerKind(Object widget) {
@@ -189,7 +197,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param widget
 	 * @return Ruler object corresponding to given widget. <code>null</code> if
 	 *         widget is not a canvas or ruler cannot be found
@@ -230,10 +238,12 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return false;
 	}
 
+	@Override
 	public String getFeatureID() {
 		return "swt.workbench.texteditor";
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		if (kind.equals(ElementKind.TextViewer.name())) {
 			return true;
@@ -247,6 +257,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		try {
@@ -257,6 +268,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		}
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		if (cmd instanceof SetCaretPosition || cmd instanceof SelectRange
 				|| cmd instanceof HoverAtText || cmd instanceof OpenDeclaration
@@ -275,6 +287,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return swtUIProcessor;
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		if (command instanceof SetCursorOffset) {
@@ -310,7 +323,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 	/**
 	 * x is line, y is column. If there is only one digit then line is set to 1
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -371,6 +384,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		}
 
 		getPlayer().exec("Click text", new Runnable() {
+			@Override
 			public void run() {
 				int line = styledText.getLineAtOffset(visibleOffset);
 				styledText.setTopIndex(line);
@@ -411,6 +425,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 					+ "hidden, or out of document bounds");
 
 		getPlayer().exec("Double-click text", new Runnable() {
+			@Override
 			public void run() {
 				int line = styledText.getLineAtOffset(visibleOffset);
 				styledText.setTopIndex(line);
@@ -444,7 +459,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	 * <li>{@link Event#y}</li>
 	 * </ul>
 	 * Before sending, sets
-	 * 
+	 *
 	 */
 	private Response sendRulerEvents(Element element, final int line,
 			String operationName, final Event... events) {
@@ -471,6 +486,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec(operationName, new Runnable() {
 
+			@Override
 			public void run() {
 				SWTUIPlayer player = getPlayer();
 				Display display = player.getDisplay();
@@ -494,7 +510,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 					event.y = y;
 					eventSender.sendEvent(control, event);
 				}
-				//eventSender.sendUnfocus(control);
+				// eventSender.sendUnfocus(control);
 			}
 		});
 		return result;
@@ -562,6 +578,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 			final Widget control = PlayerWrapUtils.unwrapWidget(widget);
 			if (control instanceof StyledText) {
 				getPlayer().exec("Open declaration", new Runnable() {
+					@Override
 					public void run() {
 						StyledText styledText = (StyledText) control;
 						int currentOffset = styledText.getCaretOffset();
@@ -621,6 +638,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 			return result;
 		}
 		getPlayer().exec("Hover at text offset", new Runnable() {
+			@Override
 			public void run() {
 				int line = styledText.getLineAtOffset(visibleOffset);
 				styledText.setTopIndex(line);
@@ -658,6 +676,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec("set text selection", new Runnable() {
 
+			@Override
 			public void run() {
 
 				Widget rawWidget = element.widget;
@@ -693,6 +712,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 			final Widget control = PlayerWrapUtils.unwrapWidget(widget);
 			if (control instanceof StyledText) {
 				getPlayer().exec("Set text offset", new Runnable() {
+					@Override
 					public void run() {
 						int offset = command.getOffset();
 						int line = command.getLine();
@@ -720,7 +740,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	/**
 	 * Transforms user-friendly coords into coords corresponding to styled text
 	 * control
-	 * 
+	 *
 	 * @param control
 	 *            Styled text
 	 * @param line
@@ -765,22 +785,27 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return getSWTUIProcessor().getPlayer();
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return getSWTUIProcessor().preExecute(command, previousStatus, info);
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		List<AbstractHoverInformationControlManager> managers = JFaceTextManager.isSomeHoverManagerActive();
 		for (AbstractHoverInformationControlManager mgr : managers) {
@@ -789,20 +814,25 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return managers.isEmpty();
 	}
 
+	@Override
 	public void clean() {
 	}
 
+	@Override
 	public void terminate() {
 		SWTUIPlayer.removeExtension(extension);
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 	}
 
+	@Override
 	public void notifyUI() {
 	}
 
@@ -831,6 +861,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		return result;
 	}
 
+	@Override
 	public org.eclipse.rcptt.tesla.core.ui.Widget mapExtraValues(SWTUIElement element,
 			org.eclipse.rcptt.tesla.core.ui.Widget result) {
 		return TextEditorMapper.mapExtraValues(element, result);

@@ -36,7 +36,6 @@ import org.eclipse.gmf.runtime.diagram.ui.handles.CompartmentCollapseHandle;
 import org.eclipse.gmf.runtime.diagram.ui.internal.handles.CompartmentResizeHandle;
 import org.eclipse.gmf.runtime.gef.ui.internal.tools.DelegatingDragEditPartsTracker;
 import org.eclipse.gmf.runtime.notation.View;
-
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
@@ -71,6 +70,12 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 	public GMFProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 225;
+	}
+
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		EClass eClass = command.eClass();
@@ -102,15 +107,18 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		return null;
 	}
 
+	@Override
 	public String getFeatureID() {
 		return "org.eclipse.rcptt.tesla.gmf";
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		// this.id = id;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		EClass ecl = cmd.eClass();
 		for (EClass cl : commandsSupported) {
@@ -121,20 +129,24 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		return false;
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return null;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 		if (element.getKind().equals(ElementKind.DiagramViewer.name())
 				|| element.getKind().equals(ElementKind.PaletteViewer.name())) {
@@ -166,21 +178,26 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		}
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return true;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		return true;
 	}
 
+	@Override
 	public void clean() {
 	}
 
+	@Override
 	public void terminate() {
 		client = null;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public IFigure getFigure(List<Integer> path,
 			org.eclipse.gef.GraphicalEditPart part) {
@@ -247,7 +264,7 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		List<AbstractHandle> handles = new ArrayList<AbstractHandle>();
 		List children = rootFigure.getChildren();
 		findHandlesLoop(handles, children);
-		return (AbstractHandle[]) handles.toArray(new AbstractHandle[handles
+		return handles.toArray(new AbstractHandle[handles
 				.size()]);
 	}
 
@@ -285,15 +302,18 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		return te;
 	}
 
+	@Override
 	public org.eclipse.rcptt.tesla.core.ui.Widget getModel(EditPart part) {
 		return GMFModelMapper.map(part,
 				client.getProcessor(SWTUIProcessor.class).getPlayer());
 	}
 
+	@Override
 	public boolean isGMFMapped(EditPart part) {
 		return GMFModelMapper.isGMFMapped(part);
 	}
 
+	@Override
 	public String getPropertyValue(EditPart part, String nodePath)
 			throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
@@ -304,17 +324,20 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		return false;
 	}
 
+	@Override
 	public void checkHang() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updateDragParts(Set<EditPart> dragParts, DragTracker dragTracker) {
 		if (dragTracker instanceof DelegatingDragEditPartsTracker) {
 			Object part = TeslaGMFAccess
@@ -325,6 +348,7 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		}
 	}
 
+	@Override
 	public EObject getEMFMode(EditPart part) {
 		return getGMFEMFModel(part);
 	}
@@ -346,6 +370,7 @@ public class GMFProcessor implements ITeslaCommandProcessor, IGefReplayHelper {
 		return null;
 	}
 
+	@Override
 	public void notifyUI() {
 		// TODO Auto-generated method stub
 
