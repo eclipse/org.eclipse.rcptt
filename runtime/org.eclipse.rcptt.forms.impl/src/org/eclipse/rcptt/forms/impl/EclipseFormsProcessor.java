@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.forms.impl;
 
-import static org.eclipse.rcptt.forms.impl.internal.Plugin.UTILS;
-
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
@@ -42,6 +40,11 @@ import org.eclipse.ui.internal.forms.widgets.FormTextModel;
 public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelMapperExtension {
 
 	private final ISWTUIPlayerExtension extension = new EclipseFormsPlayerExtension();
+
+	@Override
+	public int getPriority() {
+		return 300;
+	}
 
 	@Override
 	public void initialize(AbstractTeslaClient client, String id) {

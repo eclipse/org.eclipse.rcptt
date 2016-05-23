@@ -314,7 +314,7 @@ public class ChildrenCollectingSession {
 	}
 
 	public void addItem(SWTUIElement control) {
-		ChildrenCollector.addItem(results, control, ignores, classes);
+		ChildrenCollector.addItem(results, control, ignores, classes, player);
 	}
 
 	private static boolean containClass(Class<?> cl, Class<?>[] classes) {

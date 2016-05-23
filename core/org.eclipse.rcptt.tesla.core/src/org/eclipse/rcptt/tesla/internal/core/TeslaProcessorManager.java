@@ -11,7 +11,9 @@
 package org.eclipse.rcptt.tesla.internal.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -31,10 +33,10 @@ import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor;
 import org.eclipse.rcptt.tesla.internal.core.processing.ITeslaCommandProcessor.PreExecuteStatus;
 
 public class TeslaProcessorManager {
-	private final List<ITeslaCommandProcessor> processors;
+	private final TreeSet<ITeslaCommandProcessor> processors;
 
 	public TeslaProcessorManager() {
-		processors = new ArrayList<ITeslaCommandProcessor>();
+		processors = new TreeSet<ITeslaCommandProcessor>(new ProcessorComparator());
 
 		IConfigurationElement[] elements = Platform
 				.getExtensionRegistry()
@@ -56,7 +58,7 @@ public class TeslaProcessorManager {
 			processor.collectInformation(collector, command);
 		}
 	}
-	
+
 	public void initializeProcessors(AbstractTeslaClient client, String clientId) {
 		for (ITeslaCommandProcessor processor : processors) {
 			processor.initialize(client, clientId);
@@ -95,7 +97,8 @@ public class TeslaProcessorManager {
 		return null;
 	}
 
-	public Response executeCommand(Command command, IElementProcessorMapper abstractTeslaClient, boolean returnOnFirstResult) {
+	public Response executeCommand(Command command, IElementProcessorMapper abstractTeslaClient,
+			boolean returnOnFirstResult) {
 		for (ITeslaCommandProcessor processor : processors) {
 			if (!processor.isCommandSupported(command))
 				continue;
@@ -156,5 +159,14 @@ public class TeslaProcessorManager {
 		for (ITeslaCommandProcessor processor : processors) {
 			processor.notifyUI();
 		}
+	}
+
+	private static class ProcessorComparator implements Comparator<ITeslaCommandProcessor> {
+
+		@Override
+		public int compare(ITeslaCommandProcessor first, ITeslaCommandProcessor second) {
+			return (-1) * Integer.compare(first.getPriority(), second.getPriority());
+		}
+
 	}
 }

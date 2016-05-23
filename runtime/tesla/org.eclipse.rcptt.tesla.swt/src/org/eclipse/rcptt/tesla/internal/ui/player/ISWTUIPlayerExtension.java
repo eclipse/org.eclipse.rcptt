@@ -10,17 +10,17 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player;
 
+import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
+import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
-import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 
 public interface ISWTUIPlayerExtension {
 
 	/**
 	 * Extends the wrapping functionality of SWTUIPlayer.
-	 * 
+	 *
 	 * @see SWTUIPlayer#wrap(Object)
 	 * @see SWTUIElement
 	 */
@@ -29,7 +29,7 @@ public interface ISWTUIPlayerExtension {
 	/**
 	 * For extending element kinds set with custom kinds. This method can also
 	 * be used to associate built-in element kinds with custom UI elements.
-	 * 
+	 *
 	 * @see SWTUIPlayer#getKind(Object)
 	 * @see SWTUIElement#getKind()
 	 */
@@ -37,7 +37,7 @@ public interface ISWTUIPlayerExtension {
 
 	/**
 	 * Extends SWTUIPlayer's selecting functionality.
-	 * 
+	 *
 	 * @see SWTUIPlayer#select(PlayerSelectionFilter)
 	 */
 	SWTUIElement select(SWTUIPlayer swtuiPlayer, PlayerSelectionFilter filter);
@@ -55,7 +55,7 @@ public interface ISWTUIPlayerExtension {
 	 * the collection.
 	 * <p>
 	 * Find the references of {@link SWTUIPlayer#children} for more details.
-	 * 
+	 *
 	 * @see ChildrenCollectingSession#collect()
 	 */
 	IChildrenCollectingExtension getChildrenCollectingExtension(ChildrenCollectingSession s);
@@ -63,7 +63,7 @@ public interface ISWTUIPlayerExtension {
 	/**
 	 * Extends SWTUIPlayer getShell method (to support custom element kinds),
 	 * which is used to activate element's shell on preExecute stage.
-	 * 
+	 *
 	 * @see SWTUIProcessor#activateViewEditor(SWTUIElement, boolean)
 	 */
 	SWTUIElement getShell(SWTUIElement element);
@@ -71,7 +71,7 @@ public interface ISWTUIPlayerExtension {
 	/**
 	 * Returns a logical parent of a given widget. Example -- controls in {@link ExpandItem} have {@link ExpandBar} as a
 	 * parent, but should be accessed via item
-	 * 
+	 *
 	 * @param current
 	 * @return
 	 */
@@ -79,7 +79,7 @@ public interface ISWTUIPlayerExtension {
 
 	/**
 	 * Returns real class for supported widget
-	 * 
+	 *
 	 * @param widget
 	 * @return
 	 */
@@ -87,7 +87,7 @@ public interface ISWTUIPlayerExtension {
 
 	/**
 	 * Return true if extension has click handler
-	 * 
+	 *
 	 * @param widget
 	 * @return
 	 */
@@ -96,10 +96,18 @@ public interface ISWTUIPlayerExtension {
 
 	/**
 	 * Click handler
-	 * 
+	 *
 	 * @param widget
 	 */
 	void click(final SWTUIElement widget, final boolean isDefault,
 			final boolean doubleClick, final boolean arrow);
 
+    /**
+     * Check the element is collectable.
+     *
+     * @param element the checked element.
+     * @param collectableTypes the avaliable types.
+     * @return return <code>true</code> if this element is collectable, <code>false</code> otherwise.
+     */
+    boolean isCollectable(SWTUIElement element, Class<?>[] collectableTypes);
 }

@@ -52,11 +52,15 @@ public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCom
 	}
 
 	@Override
+	public int getPriority() {
+		return 325;
+	}
+
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		SWTUIPlayer.addExtension(ext);
 	}
-
 
 	@Override
 	public void collectInformation(AdvancedInformation information, Command lastCommand) {
@@ -153,13 +157,15 @@ public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCom
 			final org.eclipse.swt.widgets.Widget widget = PlayerWrapUtils.unwrapWidget(element);
 
 			if (widget instanceof ExpandBar) {
-				return failResponse("'collapse' can be used only with ExpandBar items. Use 'collapse-all' to collapse all items.");
+				return failResponse(
+						"'collapse' can be used only with ExpandBar items. Use 'collapse-all' to collapse all items.");
 			}
 			if (!(widget instanceof ExpandItem)) {
 				return null; // let other processor to handle this
 			}
 			final ExpandItem item = (ExpandItem) widget;
 			getPlayer().exec("Collapsing ExpandItem", new Runnable() {
+				@Override
 				public void run() {
 					getPlayer().getEvents().sendEvent(item.getParent(), item, SWT.Collapse);
 					item.setExpanded(false);
@@ -172,7 +178,8 @@ public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCom
 			final org.eclipse.swt.widgets.Widget widget = PlayerWrapUtils.unwrapWidget(element);
 
 			if (widget instanceof ExpandBar) {
-				return failResponse("'expand' can be used only with ExpandBar items. Use 'expand-all' to expand all items.");
+				return failResponse(
+						"'expand' can be used only with ExpandBar items. Use 'expand-all' to expand all items.");
 			}
 
 			if (!(widget instanceof ExpandItem)) {
@@ -180,6 +187,7 @@ public class ExpandBarUIProcessor implements ISWTModelMapperExtension, ITeslaCom
 			}
 			final ExpandItem item = (ExpandItem) widget;
 			getPlayer().exec("Expanding ExpandItem", new Runnable() {
+				@Override
 				public void run() {
 					getPlayer().getEvents().sendEvent(item.getParent(), item, SWT.Expand);
 					item.setExpanded(true);

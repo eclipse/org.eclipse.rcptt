@@ -69,21 +69,6 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.TypedListener;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
-
-import org.eclipse.rcptt.util.Function;
-import org.eclipse.rcptt.util.ListUtil;
-import org.eclipse.rcptt.util.Predicate;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
@@ -145,6 +130,20 @@ import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.IModelMapperHelper;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
+import org.eclipse.rcptt.util.Function;
+import org.eclipse.rcptt.util.ListUtil;
+import org.eclipse.rcptt.util.Predicate;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TypedListener;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper {
 	private final EClass[] commandsSupported = {
@@ -173,8 +172,14 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 	private String id;
 	private final Set<EditPart> dragParts = new HashSet<EditPart>();
 
+	@Override
 	public String getFeatureID() {
 		return "org.eclipse.rcptt.tesla.gef";
+	}
+
+	@Override
+	public int getPriority() {
+		return 250;
 	}
 
 	private SelectResponse toResponse(Element e) {
@@ -188,6 +193,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return client.getProcessor(SWTUIProcessor.class);
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof SelectCommand) {
@@ -219,11 +225,13 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		this.id = id;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		EClass ecl = cmd.eClass();
 		for (EClass cl : commandsSupported) {
@@ -252,6 +260,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return false;
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		if (command instanceof GetBounds) {
@@ -414,7 +423,8 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		} catch (Exception e) {
 			throw new CoreException(new Status(IStatus.ERROR,
 					SWTTeslaActivator.PLUGIN_ID, String.format(
-							"Failed to get propety '%s'", property), e));
+							"Failed to get propety '%s'", property),
+					e));
 		}
 	}
 
@@ -521,7 +531,8 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 
 			if (PropertySourceBasedModelMapper.map(
 					((WorkbenchUIElement) semanticParent).reference
-							.getPart(true), part, map)) {
+							.getPart(true),
+					part, map)) {
 				model = map;
 			}
 		}
@@ -545,10 +556,12 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		if (semanticParent instanceof WorkbenchUIElement) {
 			if (PropertySourceBasedModelMapper.isPropertyBasedMapped(
 					((WorkbenchUIElement) semanticParent).reference
-							.getPart(true), part)) {
+							.getPart(true),
+					part)) {
 				String value = PropertySourceBasedModelMapper.getPropertyValue(
 						((WorkbenchUIElement) semanticParent).reference
-								.getPart(true), part, nodePath);
+								.getPart(true),
+						part, nodePath);
 				if (value != null) {
 					return value;
 				}
@@ -614,6 +627,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		final MouseEvent mouseEvent = new MouseEvent(e);
 		getPlayer().exec("Set bounds and location", new Runnable() {
 
+			@Override
 			public void run() {
 				if (command.getBoundsHeight() != 0
 						&& command.getBoundsWidth() != 0) {
@@ -625,6 +639,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		});
 		getPlayer().exec("Tesla Gef runnable", new Runnable() {
 
+			@Override
 			public void run() {
 				getPlayer().addMouseWidgetInfo(canvas, mouseEvent.x,
 						mouseEvent.y);
@@ -678,6 +693,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 				}
 				getPlayer().exec("One more hover event", new Runnable() {
 
+					@Override
 					public void run() {
 						dispatcher.dispatchMouseHover(mouseEvent);
 						try {
@@ -744,6 +760,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		// canvas.getBounds();
 		getPlayer().exec("Tesla Gef runnable", new Runnable() {
 
+			@Override
 			@SuppressWarnings("restriction")
 			public void run() {
 				int horizontalBarVisibility = -1;
@@ -1189,6 +1206,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 	}
 
 	Conditional findAtCondition = new Conditional() {
+		@Override
 		public boolean evaluate(EditPart editpart) {
 			while (editpart != null) {
 				if (dragParts.contains(editpart)) {
@@ -1303,6 +1321,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 						.internalGetEventDispatcher();
 				getPlayer().exec("Set bounds and location", new Runnable() {
 
+					@Override
 					public void run() {
 						scrollToFigure(canvas, figure);
 					}
@@ -1313,6 +1332,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 
 				getPlayer().exec("Tesla Gef runnable", new Runnable() {
 
+					@Override
 					public void run() {
 						Event e = new Event();
 						Rectangle bounds = figure.getBounds();
@@ -1567,6 +1587,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 							getPlayer().exec("Commit direct edit",
 									new Runnable() {
 
+										@Override
 										public void run() {
 											container.commit();
 										}
@@ -1586,6 +1607,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 							getPlayer().exec("Commit direct edit",
 									new Runnable() {
 
+										@Override
 										public void run() {
 											container.commit();
 										}
@@ -1628,6 +1650,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 							getPlayer().exec("Cancel direct edit",
 									new Runnable() {
 
+										@Override
 										public void run() {
 											container.bringDown();
 										}
@@ -1647,6 +1670,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 							getPlayer().exec("Cancel direct edit",
 									new Runnable() {
 
+										@Override
 										public void run() {
 											container.bringDown();
 										}
@@ -1740,7 +1764,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 					|| (model != null && partModel != null
 							&& model instanceof EObject
 							&& partModel instanceof EObject && EcoreUtil
-								.equals((EObject) model, (EObject) partModel))) {
+									.equals((EObject) model, (EObject) partModel))) {
 				activeDE = true;
 				break;
 			} else {
@@ -1754,6 +1778,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 			if (!activeDE) {
 				getPlayer().exec("Perform direct edit", new Runnable() {
 
+					@Override
 					public void run() {
 						// Just force request
 						Request request = new Request(
@@ -1790,6 +1815,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 			if (!activeDE) {
 				getPlayer().exec("Perform direct edit", new Runnable() {
 
+					@Override
 					public void run() {
 						// Just force request
 						Request request = new Request(
@@ -1986,6 +2012,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		viewer.getViewer().deselectAll();
 		getPlayer().exec("Hide direct editors", new Runnable() {
 
+			@Override
 			public void run() {
 				DirectEditorContainer[] editors = TeslaDirectEditManager
 						.getInstance().getEditors();
@@ -2085,6 +2112,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		viewer.getViewer().deselectAll();
 		getPlayer().exec("Hide direct editors", new Runnable() {
 
+			@Override
 			public void run() {
 				DirectEditorContainer[] editors = TeslaDirectEditManager
 						.getInstance().getEditors();
@@ -2125,6 +2153,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return requiredEntry;
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		if (kind.equals(ElementKind.DiagramViewer.name())
 				|| kind.equals(ElementKind.DiagramFigure.name())
@@ -2135,6 +2164,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		String kind = cmd.getData().getKind();
@@ -2331,7 +2361,8 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 							uiEl,
 							"by address: "
 									+ Arrays.toString(data.getIndexes()
-											.toArray()), part);
+											.toArray()),
+							part);
 				}
 				if (p0.equals("editpart") && p1.equals("name")) {
 					List children = uiEl.getViewer().getRootEditPart()
@@ -2438,6 +2469,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		EditPart result = find(
 				ListUtil.filter(children, new Predicate<EditPart>() {
 
+					@Override
 					public boolean apply(EditPart input) {
 						return input instanceof GraphicalEditPart;
 					}
@@ -2453,7 +2485,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 
 	/**
 	 * Attempts to find value by exact match or regex
-	 * 
+	 *
 	 * @param values
 	 * @param pattern
 	 * @param index
@@ -2463,6 +2495,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 			int index, final Function<T, String> toStr) {
 		Predicate<T> exact = new Predicate<T>() {
 
+			@Override
 			public boolean apply(T input) {
 				return pattern.equals(PlayerTextUtils.unifyMultilines(toStr
 						.apply(input)));
@@ -2471,6 +2504,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 
 		Predicate<T> regex = new Predicate<T>() {
 
+			@Override
 			public boolean apply(T input) {
 				String str = PlayerTextUtils.unifyMultilines(toStr.apply(input));
 				return str != null && PlayerTextUtils.safeMatches(str, pattern);
@@ -2508,6 +2542,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return selectBy(uiEl, data, children, "name",
 				new Function<EditPart, String>() {
 
+					@Override
 					public String apply(EditPart input) {
 						return getPartEMFName(getModelObject(input), "name",
 								true);
@@ -2521,6 +2556,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return selectBy(uiEl, data, children, "text",
 				new Function<EditPart, String>() {
 
+					@Override
 					public String apply(EditPart input) {
 						return getPartText(getMappedModel(input));
 					}
@@ -2533,6 +2569,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return selectBy(uiEl, data, children, "classname",
 				new Function<EditPart, String>() {
 
+					@Override
 					public String apply(EditPart input) {
 						return getPartClassName(input);
 					}
@@ -2546,6 +2583,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 				String.format("feature %s", feature),
 				new Function<EditPart, String>() {
 
+					@Override
 					public String apply(EditPart input) {
 						return getPartEMFName(getModelObject(input), feature,
 								false);
@@ -2886,6 +2924,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return null;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 		SWTUIProcessor processor = client.getProcessor(SWTUIProcessor.class);
 		SWTElementMapper elementMapper = SWTElementMapper.getMapper(processor
@@ -2896,14 +2935,17 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		}
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return true;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		return true;
 	}
 
+	@Override
 	public void clean() {
 		getMapper().clear();
 		getRawMapper().clear();
@@ -2921,6 +2963,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return RawFigureElementMapper.getMapper(getFeatureID());
 	}
 
+	@Override
 	public void terminate() {
 		FigureElementMapper.remove(getFeatureID());
 		RawFigureElementMapper.remove(getFeatureID());
@@ -2998,9 +3041,11 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return RawFigureElementMapper.getMapper(getFeatureID());
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 		Node root = InfoUtils.newNode("gef.editparts").add(information);
@@ -3136,6 +3181,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return null;
 	}
 
+	@Override
 	public void notifyUI() {
 		// TODO Auto-generated method stub
 
