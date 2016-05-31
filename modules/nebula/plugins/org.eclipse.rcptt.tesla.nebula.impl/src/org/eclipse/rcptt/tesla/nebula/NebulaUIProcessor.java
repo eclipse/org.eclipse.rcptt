@@ -105,6 +105,11 @@ public class NebulaUIProcessor extends SWTUIProcessor implements
 	public NebulaUIProcessor() {
 		SWTUIPlayer.addExtension(extension);
 	}
+	
+	@Override
+	public int getPriority() {
+		return 114;
+	}
 
 	@Override
 	public void terminate() {
