@@ -6,6 +6,7 @@
 		<groupId>org.eclipse.rcptt</groupId>
 		<version>2.1.0</version>
 	</parent>
+	<version>2.1.0</version>
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>rcptt-maven-util</artifactId>
