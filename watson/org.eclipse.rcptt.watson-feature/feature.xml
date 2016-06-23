@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.watson"
       label="RCPTT Eclipse runtime information collectors"
-      version="2.1.0.qualifier"
+      version="2.2.0.qualifier"
       provider-name="Eclipse RCP Testing Tool Project">
 
    <description>
@@ -21,21 +21,21 @@
          id="org.eclipse.rcptt.watson.core"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jface"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.watson.jobs"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.2.0.qualifier"
          unpack="false"/>
 
 </feature>

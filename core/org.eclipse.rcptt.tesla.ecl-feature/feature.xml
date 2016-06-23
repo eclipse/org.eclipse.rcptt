@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rcptt.tesla.ecl"
       label="RCPTT Runtime ECL Support"
-      version="2.1.0.qualifier"
+      version="2.2.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -18,22 +18,22 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rcptt.tesla" version="2.1.0.qualifier"/>
-      <import feature="org.eclipse.rcptt.ecl.core" version="2.1.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.tesla" version="2.2.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="2.2.0.qualifier"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.tesla.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.core.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.2.0.qualifier"
          unpack="false"/>
 
 </feature>
