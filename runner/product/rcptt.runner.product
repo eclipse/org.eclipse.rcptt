@@ -274,6 +274,9 @@
 <plugin id="org.eclipse.rcptt.ecl.client.tcp"/>
 <plugin id="org.eclipse.rcptt.ecl.core"/>
 <plugin id="org.eclipse.rcptt.ecl.data"/>
+<plugin id="org.eclipse.rcptt.core.swt"/>
+<plugin id="org.eclipse.rcptt.core.swt.win32"/>
+<plugin id="org.eclipse.rcptt.core.swt.win64"/>
 <plugin id="org.eclipse.rcptt.ecl.debug.core"/>
 <plugin id="org.eclipse.rcptt.ecl.debug.runtime"/>
 <!-- <plugin id="org.eclipse.rcptt.ecl.debug.ui"/> -->
@@ -316,8 +319,6 @@
 <plugin id="org.eclipse.rcptt.updates.runtime.e4x"/>
 <plugin id="org.eclipse.rcptt.updates.runtime"/>
 <plugin id="org.eclipse.rcptt.util.resources"/>
-<plugin id="org.eclipse.rcptt.util.swt.win32"/>
-<plugin id="org.eclipse.rcptt.util.swt.win64"/>
 <plugin id="org.eclipse.rcptt.util.swt"/>
 <plugin id="org.eclipse.rcptt.util"/>
 <plugin id="org.eclipse.rcptt.verifications.log"/>
