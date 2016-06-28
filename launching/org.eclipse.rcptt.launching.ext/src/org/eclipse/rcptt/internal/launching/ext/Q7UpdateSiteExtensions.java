@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.p2.metadata.VersionRange;
 import org.osgi.framework.Bundle;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
@@ -32,12 +33,20 @@ public enum Q7UpdateSiteExtensions {
 	instance;
 
 	public static class Q7RuntimeInfo {
+		public static final String SWT_PLATFORM = "swt"; //$NON-NLS-1$
+		public static final String RAP_PLATFORM = "rap"; //$NON-NLS-1$
+
 		public final String kind;
 		public final URI path;
 		public final Bundle bundle;
 		public final VersionRange version;
+		public final String platform;
 
 		public Q7RuntimeInfo(String kind, URI path, Bundle bundle, VersionRange version) {
+			this(kind, path, bundle, version, SWT_PLATFORM);
+		}
+
+		public Q7RuntimeInfo(String kind, URI path, Bundle bundle, VersionRange version, String platform) {
 			checkArgument(bundle != null);
 			checkArgument(version != null);
 			checkArgument(!isNullOrEmpty(kind));
@@ -46,6 +55,7 @@ public enum Q7UpdateSiteExtensions {
 			this.path = path;
 			this.bundle = bundle;
 			this.version = version;
+			this.platform = Strings.isNullOrEmpty(platform) ? SWT_PLATFORM : platform;
 		}
 
 		@Override
@@ -91,7 +101,8 @@ public enum Q7UpdateSiteExtensions {
 						config.getAttribute("kind"),
 						path,
 						bundle,
-						version);
+						version,
+						config.getAttribute("platform"));
 			} catch (IllegalArgumentException e) {
 				Q7ExtLaunchingPlugin
 						.getDefault()

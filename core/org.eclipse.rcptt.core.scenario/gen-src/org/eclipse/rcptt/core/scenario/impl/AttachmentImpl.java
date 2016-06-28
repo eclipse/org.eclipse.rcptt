@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.AttachmentImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.AttachmentImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.AttachmentImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -21,11 +21,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SelectCommand#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SelectCommand#getContainChildren <em>Contain Children</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSelectCommand()
  * @model

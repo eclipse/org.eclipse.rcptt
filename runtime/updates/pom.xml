@@ -10,30 +10,18 @@
     <profile>
       <id>runtime3x</id>
       <modules>
-	<module>org.eclipse.rcptt.updates.runtime</module>
-	<module>org.eclipse.rcptt.updates.e3x-feature</module>
+	      <module>org.eclipse.rcptt.updates.runtime</module>
+	      <module>org.eclipse.rcptt.updates.e3x-feature</module>
       </modules>
     </profile>
     <profile>
       <id>runtime4x</id>
       <modules>
-	<module>org.eclipse.rcptt.updates.runtime.e4x</module>
-	<module>org.eclipse.rcptt.updates.e4x-feature</module>
+	      <module>org.eclipse.rcptt.updates.runtime.e4x</module>
+	      <module>org.eclipse.rcptt.updates.e4x-feature</module>
       </modules>
     </profile>
-    <profile>
-      <id>full</id>
-      <modules>
-	<module>org.eclipse.rcptt.updates.helios</module>
-	<module>org.eclipse.rcptt.updates.kepler</module>
-	<module>org.eclipse.rcptt.updates-feature</module>
-	
-	<module>org.eclipse.rcptt.updates.aspectj.e3x</module>
-	<module>org.eclipse.rcptt.updates.aspectj.e38x</module>
-	<module>org.eclipse.rcptt.updates.aspectj.e44x</module>
-      </modules>
-    </profile>
-  </profiles>
+  </profiles> 
   <groupId>org.eclipse.rcptt</groupId>
   <version>2.2.0-SNAPSHOT</version>
   <artifactId>rcptt.runtime.updates</artifactId>

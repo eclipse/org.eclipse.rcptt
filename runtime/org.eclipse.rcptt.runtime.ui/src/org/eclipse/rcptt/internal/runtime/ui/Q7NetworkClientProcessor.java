@@ -13,17 +13,17 @@ package org.eclipse.rcptt.internal.runtime.ui;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
 import org.eclipse.rcptt.tesla.core.protocol.raw.TeslaMode;
 import org.eclipse.rcptt.tesla.internal.core.network.server.ITeslaNetworkClientProcessor;
 import org.eclipse.rcptt.tesla.internal.core.network.server.NetworkTeslaClient;
 import org.eclipse.rcptt.tesla.internal.core.network.server.TeslaNetworkClientConnection;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 public class Q7NetworkClientProcessor implements ITeslaNetworkClientProcessor {
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>runtime</artifactId>
+    <groupId>org.eclipse.rcptt.module.rap</groupId>
+    <version>2.2.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>org.eclipse.rcptt.module.rap</groupId>
+  <version>2.2.0-SNAPSHOT</version>
+  <artifactId>rcptt.runtime.contexts</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <!-- CONTEXT PLUGINS -->
+    <module>org.eclipse.rcptt.ctx.preferences.aspects.rap</module>
+    <module>org.eclipse.rcptt.ctx.preferences.impl.rap</module>
+    <module>org.eclipse.rcptt.ctx.resources.impl.rap</module>
+    <module>org.eclipse.rcptt.ctx.script.impl.rap</module>
+    <module>org.eclipse.rcptt.ctx.workbench.impl.rap</module>
+    <module>org.eclipse.rcptt.ctx.workbench.aspect.rap</module>
+    <module>org.eclipse.rcptt.ctx.parameters.impl.rap</module>
+    <module>org.eclipse.rcptt.ctx.filesystem.impl.rap</module>
+  </modules>
+  
+ 
+</project>

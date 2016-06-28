@@ -131,7 +131,7 @@ public class ContextManagement {
 
 		public boolean containsClass(String clName) {
 			for (StackTraceElement e : getStack()) {
-				if (e.getClassName().equals(clName)) {
+				if (e.getClassName().contains(clName)) {
 					return true;
 				}
 			}

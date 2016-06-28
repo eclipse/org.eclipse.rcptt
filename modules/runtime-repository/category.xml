@@ -24,6 +24,9 @@
   <feature id="org.eclipse.rcptt.watson">
     <category name="rcptt.runtime"/>
   </feature>
+   <feature id="org.eclipse.rcptt.watson.runtime">
+    <category name="rcptt.runtime"/>
+  </feature>
   <feature id="org.eclipse.rcptt.sherlock.model">
     <category name="rcptt.runtime"/>
   </feature>

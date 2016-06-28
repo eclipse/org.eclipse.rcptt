@@ -19,12 +19,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.ProjectMetadata#getContexts <em>Contexts</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.ProjectMetadata#getIgnores <em>Ignores</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.ProjectMetadata#getVerifications <em>Verifications</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getProjectMetadata()
  * @model

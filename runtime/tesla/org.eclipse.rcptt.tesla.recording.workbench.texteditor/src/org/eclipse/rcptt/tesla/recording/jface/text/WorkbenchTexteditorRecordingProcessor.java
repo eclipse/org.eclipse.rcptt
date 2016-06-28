@@ -70,7 +70,7 @@ import org.eclipse.rcptt.tesla.recording.core.swt.SWTRecordingHelper;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.LastEvents;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
 import org.eclipse.rcptt.tesla.workbench.texteditor.TextEditorMapper;
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
+import org.eclipse.rcptt.util.KeysAndButtons;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.StyledText;

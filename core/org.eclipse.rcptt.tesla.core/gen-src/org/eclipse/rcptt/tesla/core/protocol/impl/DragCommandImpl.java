@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.DragCommandImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.DragCommandImpl#getElement <em>Element</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.DragCommandImpl#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.DragCommandImpl#getStyle <em>Style</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

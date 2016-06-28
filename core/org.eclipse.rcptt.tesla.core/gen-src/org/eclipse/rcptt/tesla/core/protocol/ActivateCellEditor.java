@@ -19,13 +19,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getPattern <em>Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getActivateCellEditor()
  * @model

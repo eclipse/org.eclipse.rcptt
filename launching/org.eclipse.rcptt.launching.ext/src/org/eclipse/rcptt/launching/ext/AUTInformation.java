@@ -46,6 +46,7 @@ public class AUTInformation {
 	public static final String GMF = "GMF";
 	public static final String GEF = "GEF";
 	public static final String JDT = "JDT";
+	public static final String RAP = "RAP";
 	public static final String PLATFORM = "Platform";
 
 	private static final String TESLA_PLUGIN = "org.eclipse.rcptt.tesla";
@@ -58,6 +59,7 @@ public class AUTInformation {
 	private static final String GMF_PLUGIN = "org.eclipse.gmf.runtime.diagram.ui";
 	private static final String GEF_PLUGIN = "org.eclipse.gef";
 	private static final String JDT_PLUGIN = "org.eclipse.jdt";
+	private static final String RAP_PLUGIN = "org.eclipse.rap.rwt";
 
 	@SuppressWarnings("serial")
 	static class VersionMap extends TreeMap<String, Version> {
@@ -81,7 +83,7 @@ public class AUTInformation {
 	/**
 	 * Return information properties map. Constants could be used to check
 	 * plugin versions available.
-	 * 
+	 *
 	 * @return
 	 * @throws CoreException
 	 */
@@ -91,7 +93,8 @@ public class AUTInformation {
 		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0, "Detected potential problems in target platform "
 				+ platform, null);
 		if (platform.getTargetLocations().length <= 0)
-			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
+			throw new CoreException(
+					new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
 		// Calculate target platform version
 		TargetBundle[] allBundles = platform.getAllBundles();
 		Map<String, BundleInfo> resolvedBundles = new HashMap<String, BundleInfo>();
@@ -108,7 +111,12 @@ public class AUTInformation {
 		BundleInfo bundleInfo = resolvedBundles.get(SWT_PLUGIN);
 		if (bundleInfo != null) {
 			putSwtVersion(values, create(bundleInfo.getVersion()));
+		} else {
+			bundleInfo = resolvedBundles.get(RAP_PLUGIN);
+			putRwtVersion(values, create(bundleInfo.getVersion()));
+			values.putPluginVersion(RAP, bundleInfo);
 		}
+
 		values.putPluginVersion(GEF, resolvedBundles.get(GEF_PLUGIN));
 		values.putPluginVersion(GMF, resolvedBundles.get(GMF_PLUGIN));
 		values.putPluginVersion(OSGI, resolvedBundles.get(OSGI_PLUGIN));
@@ -198,6 +206,22 @@ public class AUTInformation {
 			values.put(VERSION, "4.5");
 		} else if (minor == 105) {
 			values.put(VERSION, "4.6");
+		}
+	}
+
+	private static void putRwtVersion(VersionMap values, Version swtVersion) {
+		if (!(swtVersion instanceof OSGiVersion))
+			return;
+		int major = ((OSGiVersion) swtVersion).getMajor();
+		if (major != 3)
+			return;
+		int minor = ((OSGiVersion) swtVersion).getMinor();
+
+		switch (minor) {
+		case 0:
+		case 1:
+			values.put(VERSION, "4.3");
+			break;
 		}
 	}
 

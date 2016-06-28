@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Type#getState <em>State</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Type#getCode <em>Code</em>}</li>
@@ -27,7 +28,6 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Type#isTraverse <em>Traverse</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Type#getTimes <em>Times</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getType()
  * @model

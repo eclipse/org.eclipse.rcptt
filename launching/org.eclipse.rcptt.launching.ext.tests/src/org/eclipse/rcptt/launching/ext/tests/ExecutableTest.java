@@ -214,6 +214,11 @@ public class ExecutableTest {
 				// TODO Auto-generated method stub
 
 			}
+
+			@Override
+			public String getCapability() {
+				return null;
+			}
 		};
 
 	}

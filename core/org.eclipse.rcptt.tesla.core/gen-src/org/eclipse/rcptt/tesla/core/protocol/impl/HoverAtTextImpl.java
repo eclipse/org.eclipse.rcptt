@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.HoverAtTextImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.HoverAtTextImpl#getElement <em>Element</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.HoverAtTextImpl#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.HoverAtTextImpl#getStateMask <em>State Mask</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

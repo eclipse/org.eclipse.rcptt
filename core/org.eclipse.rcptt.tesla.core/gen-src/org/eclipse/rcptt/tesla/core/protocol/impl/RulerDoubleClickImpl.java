@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerDoubleClickImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerDoubleClickImpl#getElement <em>Element</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerDoubleClickImpl#getButton <em>Button</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerDoubleClickImpl#getStateMask <em>State Mask</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

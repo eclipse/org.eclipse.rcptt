@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+    /*******************************************************************************
+     * Copyright (c) 2009, 2016 Xored Software Inc and others.
+     * All rights reserved. This program and the accompanying materials
+     * are made available under the terms of the Eclipse Public License v1.0
+     * which accompanies this distribution, and is available at
+     * http://www.eclipse.org/legal/epl-v10.html
+     *
+     * Contributors:
+     *     Xored Software Inc - initial API and implementation and/or initial documentation
+     *******************************************************************************/
+ -->
+
+<plugin>
+
+   <extension
+        point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+     <launchConfigurationTypeImage
+           configTypeID="org.eclipse.rcptt.launching.rap"
+           icon="images/launcher.gif"
+           id="org.eclipse.rcptt.launching.launchConfigurationTabGroup.rap">
+     </launchConfigurationTypeImage>
+  </extension>
+
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+     <launchConfigurationTabGroup
+           class="org.eclipse.rcptt.internal.launching.rap.ui.RcpttRapTabGroup"
+           id="org.eclipse.rcptt.launching.launchConfigurationTabGroup.rap"
+           type="org.eclipse.rcptt.launching.rap">
+     </launchConfigurationTabGroup>
+  </extension>
+  <extension
+        point="org.eclipse.rcptt.launching.rap.browserLaunchDelegate">
+     <browserDelegate
+           class="org.eclipse.rcptt.internal.launching.rap.ui.BrowserLaucherDelegate">
+     </browserDelegate>
+  </extension>
+  <extension
+        point="org.eclipse.ui.startup">
+     <startup
+           class="org.eclipse.rcptt.internal.launching.rap.ui.CleanBundlePoolStartup">
+     </startup>
+  </extension>
+
+<!--
+  <extension
+        point="org.eclipse.ui.startup">
+     <startup
+           class="org.eclipse.rcptt.internal.launching.ext.ui.CleanBundlePoolStartup">
+     </startup>
+  </extension>
+  -->
+
+</plugin>

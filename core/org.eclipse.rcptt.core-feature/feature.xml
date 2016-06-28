@@ -180,14 +180,14 @@ Not used in runtime.
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt"
+         id="org.eclipse.rcptt.core.swt"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt.win32"
+         id="org.eclipse.rcptt.core.swt.win32"
          os="win32"
          ws="win32"
          arch="x86"
@@ -198,7 +198,7 @@ Not used in runtime.
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt.win64"
+         id="org.eclipse.rcptt.core.swt.win64"
          os="win32"
          ws="win32"
          arch="x86_64"
@@ -210,6 +210,13 @@ Not used in runtime.
 
    <plugin
          id="org.eclipse.rcptt.ctx.super"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.ctx.capability"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"

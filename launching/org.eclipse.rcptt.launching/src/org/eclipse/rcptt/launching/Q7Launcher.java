@@ -134,7 +134,22 @@ public class Q7Launcher {
 			List<IResource> resources = elementsToResources(elements);
 
 			List<IResource> extras = elementsToResources(collectReferences(
-					elements, null));
+					elements, null, null));
+			int resourcesToExec = resources.size();
+			resources.addAll(extras);
+			temporary.setAttribute(IQ7Launch.EXEC_RESOURCES, resourcesToExec);
+
+			temporary.setMappedResources(resources
+					.toArray(new IResource[resources.size()]));
+		}
+	}
+
+	private static void setMappedResources(ILaunchConfigurationWorkingCopy temporary,
+			IQ7NamedElement[] elements, String capability) throws CoreException {
+		if (elements.length > 0 && elements[0].getQ7Project() != null) {
+			List<IResource> resources = elementsToResources(elements);
+
+			List<IResource> extras = elementsToResources(collectReferences(elements, null, capability));
 			int resourcesToExec = resources.size();
 			resources.addAll(extras);
 			temporary.setAttribute(IQ7Launch.EXEC_RESOURCES, resourcesToExec);
@@ -148,6 +163,13 @@ public class Q7Launcher {
 			IQ7NamedElement[] elements) throws CoreException {
 		ILaunchConfigurationWorkingCopy temporary = config.getWorkingCopy();
 		setMappedResources(temporary, elements);
+		temporary.doSave();
+	}
+
+	public static void setMappedResources(ILaunchConfiguration config,
+			IQ7NamedElement[] elements, String capability) throws CoreException {
+		ILaunchConfigurationWorkingCopy temporary = config.getWorkingCopy();
+		setMappedResources(temporary, elements, capability);
 		temporary.doSave();
 	}
 
@@ -201,28 +223,27 @@ public class Q7Launcher {
 	 * Returns all named elements which are directly referenced from the given
 	 * one. Thus, for test cases it returns its contexts, for tests suites it
 	 * returns its tests, for group and super contexts returns its children.
-	 * 
+	 *
 	 * @param element
 	 * @param resources
 	 * @throws ModelException
 	 */
 	private static IQ7NamedElement[] findReferences(IQ7NamedElement element,
-			IWorkspaceFinder finder) throws ModelException {
+			IWorkspaceFinder finder, String capability) throws ModelException {
 		if (element instanceof ITestSuite) {
 			return Q7SearchCore.getTestSuiteContent((ITestSuite) element);
 		}
 		if (element instanceof ITestCase || element instanceof IContext) {
-			return RcpttCore.getInstance().getContexts(element, finder, true);
+			return RcpttCore.getInstance().getContexts(element, finder, true, capability);
 		}
 		return new IQ7NamedElement[0];
 	}
 
-	private static IQ7NamedElement[] collectReferences(
-			IQ7NamedElement[] elements, IWorkspaceFinder finder)
+	private static IQ7NamedElement[] collectReferences(IQ7NamedElement[] elements, IWorkspaceFinder finder,
+			String capability)
 			throws ModelException {
 		Set<IQ7NamedElement> result = new HashSet<IQ7NamedElement>();
-		collectReferences(elements, result, new HashSet<IQ7NamedElement>(),
-				finder);
+		collectReferences(elements, result, new HashSet<IQ7NamedElement>(), finder, capability);
 		return result.toArray(new IQ7NamedElement[result.size()]);
 	}
 
@@ -255,15 +276,15 @@ public class Q7Launcher {
 
 	private static void collectReferences(IQ7NamedElement[] elements,
 			Set<IQ7NamedElement> result, Set<IQ7NamedElement> traversed,
-			IWorkspaceFinder finder) throws ModelException {
+			IWorkspaceFinder finder, String capability) throws ModelException {
 		for (IQ7NamedElement element : elements) {
 			if (traversed.contains(element)) {
 				continue;
 			}
 			traversed.add(element);
-			IQ7NamedElement[] references = findReferences(element, finder);
+			IQ7NamedElement[] references = findReferences(element, finder, capability);
 			result.addAll(Arrays.asList(references));
-			collectReferences(references, result, traversed, finder);
+			collectReferences(references, result, traversed, finder, capability);
 		}
 	}
 

@@ -35,14 +35,11 @@
     </repository>
   </repositories>
 
-  <modules>
-    <module>../../runtime</module>
-  </modules>
-
   <profiles>
     <profile>
       <id>runtime3x</id>
       <modules>
+        <module>../../runtime</module>
         <module>../../repository/e3x</module>
       </modules>
     </profile>
@@ -50,15 +47,16 @@
     <profile>
       <id>runtime4x</id>
       <modules>
+        <module>../../runtime</module>
         <module>../../repository/e4x</module>
       </modules>
       <repositories>
         <repository>
-          <id>juno</id>
+          <id>neon</id>
           <layout>p2</layout>
           <url>http://download.eclipse.org/releases/neon</url>
         </repository>
       </repositories>
-    </profile>    
+    </profile>
   </profiles>
 </project>

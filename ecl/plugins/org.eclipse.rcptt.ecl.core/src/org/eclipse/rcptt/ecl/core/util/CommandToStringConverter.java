@@ -118,6 +118,7 @@ public class CommandToStringConverter {
 				.eClass());
 
 		boolean forced = false;
+		boolean bigTextCommand = commandName.equals("set-download-result-file");
 
 		for (EStructuralFeature feature : attributes) {
 			if (feature.getEAnnotation(CoreUtils.INTERNAL_ANN) != null)
@@ -154,7 +155,10 @@ public class CommandToStringConverter {
 							String value = convertValue(val, type);
 							if (value != null) {
 								formatter.addAttrName(name, forced);
-								formatter.addAttrValue(value);
+								if (bigTextCommand)
+									formatter.addAttrValueWithLineBreak(value);
+								else
+									formatter.addAttrValue(value);
 								skippped = false;
 							}
 						}

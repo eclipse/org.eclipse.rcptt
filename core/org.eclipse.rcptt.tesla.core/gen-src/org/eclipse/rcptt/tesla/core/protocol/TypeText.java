@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.TypeText#getState <em>State</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.TypeText#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.TypeText#isFromDisplay <em>From Display</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getTypeText()
  * @model

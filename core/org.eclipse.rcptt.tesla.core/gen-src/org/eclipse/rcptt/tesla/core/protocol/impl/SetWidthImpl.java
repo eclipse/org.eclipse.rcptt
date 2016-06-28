@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetWidthImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetWidthImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetWidthImpl#getWidth <em>Width</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

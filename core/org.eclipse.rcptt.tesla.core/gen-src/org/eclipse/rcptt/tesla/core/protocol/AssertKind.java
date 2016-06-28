@@ -368,6 +368,8 @@ public enum AssertKind implements Enumerator {
 	 * Returns the '<em><b>Assert Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AssertKind get(String literal) {
@@ -384,6 +386,8 @@ public enum AssertKind implements Enumerator {
 	 * Returns the '<em><b>Assert Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AssertKind getByName(String name) {
@@ -400,6 +404,8 @@ public enum AssertKind implements Enumerator {
 	 * Returns the '<em><b>Assert Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AssertKind get(int value) {

@@ -31,6 +31,7 @@ import org.eclipse.rcptt.core.scenario.ScenarioPackage;
  * <em><b>Scenario</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getContexts <em>Contexts</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getContent <em>Content</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.rcptt.core.scenario.ScenarioPackage;
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getExternalReference <em>External Reference</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getVerifications <em>Verifications</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -49,6 +49,7 @@ import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.ClickText;
 import org.eclipse.rcptt.tesla.ecl.model.Close;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
@@ -90,7 +91,7 @@ import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DirectEdit;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction;
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
+import org.eclipse.rcptt.util.KeysAndButtons;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 
@@ -185,14 +186,22 @@ public class ActionService extends AbstractActionService {
 		else if (command instanceof DoubleClickText)
 			handleDoubleClickText((DoubleClickText) command);
 		else if (command instanceof Decrypt)
-			return handleDecrypt((Decrypt)command);
+			return handleDecrypt((Decrypt) command);
 		// Options
 		else if (command instanceof Options)
 			handleOptions((Options) command);
+		else if(command instanceof GetRuntimeTarget)
+			return handleRuntimeTarget((GetRuntimeTarget)command);
 		return result;
 	}
 
-	private DecryptResult  handleDecrypt(Decrypt command) {
+	private Object handleRuntimeTarget(GetRuntimeTarget command) {
+		EclString result = CoreFactory.eINSTANCE.createEclString();
+		result.setValue("swt"); //$NON-NLS-1$
+		return result;
+	}
+
+	private DecryptResult handleDecrypt(Decrypt command) {
 		DecryptResult result = TeslaFactory.eINSTANCE.createDecryptResult();
 		result.setValue(command.getValue());
 		return result;
@@ -947,6 +956,7 @@ public class ActionService extends AbstractActionService {
 		getControlUIElement(c.getControl()).setFocus();
 		return c.getControl();
 	}
+
 	private ControlHandler handleUnfocus(Unfocus c) throws CoreException {
 		getControlUIElement(c.getControl()).unfocus();
 		return c.getControl();
@@ -1067,13 +1077,13 @@ public class ActionService extends AbstractActionService {
 
 	/**
 	 * Convert string to character.
-	 * 
+	 *
 	 * String must contain single character or unicode escape sequence.
-	 * 
+	 *
 	 * If string contains single character method returns it as is. If string is
 	 * unicode escape sequence method encode it to character. Otherwise method
 	 * return throws ParseException.
-	 * 
+	 *
 	 * @param s
 	 *            string presentation of character
 	 * @return character or null if string format is invalid

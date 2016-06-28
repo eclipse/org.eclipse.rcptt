@@ -144,12 +144,11 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.keys.IBindingService;
-import org.eclipse.ui.testing.TestableObject;
 import org.osgi.framework.Bundle;
 
 /**
  * Simple event collector Each used widget will be added as variable.
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventListener, IRecordingModeListener {

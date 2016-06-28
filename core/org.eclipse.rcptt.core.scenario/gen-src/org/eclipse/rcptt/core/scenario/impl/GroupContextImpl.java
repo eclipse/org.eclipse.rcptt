@@ -33,11 +33,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.GroupContextImpl#getContextReferences <em>Context References</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.GroupContextImpl#getContexts <em>Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

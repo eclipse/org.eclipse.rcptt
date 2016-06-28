@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
 import org.eclipse.rcptt.core.launching.events.AutEventStart;
@@ -90,12 +90,16 @@ public class Q7ExtLaunchMonitor {
 			}
 		});
 		long start = currentTimeMillis();
-		AutEventStart startup = doWait(new SubProgressMonitor(monitor, 1), seconds);
-		aut.activate(IQ7Launch.DEFAULT_HOST, startup.getEclPort(),
-				startup.getTeslaPort(), (start - currentTimeMillis()) / 1000 + seconds, new SubProgressMonitor(monitor,
-						1));
-		monitor.done();
+		AutEventStart startup = doWait(SubMonitor.convert(monitor, 1), seconds);
 
+		final String platform = startup.getPlatform().getLiteral().toLowerCase();
+		final String capability = startup.getCapability().getLiteral().toLowerCase();
+		seconds = ((int) (start - currentTimeMillis()) / 1000) + seconds;
+
+		aut.activate(IQ7Launch.DEFAULT_HOST, startup.getEclPort(), startup.getTeslaPort(), platform, capability,
+				seconds, SubMonitor.convert(monitor, 1));
+
+		monitor.done();
 		status = Status.OK_STATUS;
 	}
 

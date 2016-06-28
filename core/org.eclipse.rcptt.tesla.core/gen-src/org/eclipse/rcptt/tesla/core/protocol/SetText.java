@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetText#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetText#isSelect <em>Select</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetText#isHidden <em>Hidden</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetText()
  * @model

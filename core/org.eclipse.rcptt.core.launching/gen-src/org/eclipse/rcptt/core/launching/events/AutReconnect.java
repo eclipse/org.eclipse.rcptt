@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutReconnect#getQ7EclPort <em>Q7 Ecl Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutReconnect#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutReconnect()
  * @model

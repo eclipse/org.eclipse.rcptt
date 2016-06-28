@@ -22,6 +22,8 @@ public interface ICommandFormatter {
 
 	void addAttrValue(String value);
 
+	void addAttrValueWithLineBreak(String value);
+
 	void openGroup(boolean singleLine);
 
 	void closeGroup(boolean singleLine);

@@ -18,10 +18,10 @@ package org.eclipse.rcptt.core.launching.events;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventPing#getLocation <em>Location</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutEventPing()
  * @model

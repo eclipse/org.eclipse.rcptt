@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSortColumn#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSortColumn#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSortColumn#isDescending <em>Descending</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetSortColumn()
  * @model

@@ -36,7 +36,7 @@ public class EventsFactoryImpl extends EFactoryImpl implements EventsFactory {
 	 */
 	public static EventsFactory init() {
 		try {
-			EventsFactory theEventsFactory = (EventsFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/core/launching.ecore"); 
+			EventsFactory theEventsFactory = (EventsFactory)EPackage.Registry.INSTANCE.getEFactory(EventsPackage.eNS_URI);
 			if (theEventsFactory != null) {
 				return theEventsFactory;
 			}
@@ -89,6 +89,10 @@ public class EventsFactoryImpl extends EFactoryImpl implements EventsFactory {
 		switch (eDataType.getClassifierID()) {
 			case EventsPackage.AUT_START_STATE:
 				return createAutStartStateFromString(eDataType, initialValue);
+			case EventsPackage.PLATFORM:
+				return createPlatformFromString(eDataType, initialValue);
+			case EventsPackage.CAPABILITY:
+				return createCapabilityFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -104,6 +108,10 @@ public class EventsFactoryImpl extends EFactoryImpl implements EventsFactory {
 		switch (eDataType.getClassifierID()) {
 			case EventsPackage.AUT_START_STATE:
 				return convertAutStartStateToString(eDataType, instanceValue);
+			case EventsPackage.PLATFORM:
+				return convertPlatformToString(eDataType, instanceValue);
+			case EventsPackage.CAPABILITY:
+				return convertCapabilityToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -216,6 +224,46 @@ public class EventsFactoryImpl extends EFactoryImpl implements EventsFactory {
 	 * @generated
 	 */
 	public String convertAutStartStateToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Platform createPlatformFromString(EDataType eDataType, String initialValue) {
+		Platform result = Platform.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPlatformToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Capability createCapabilityFromString(EDataType eDataType, String initialValue) {
+		Capability result = Capability.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCapabilityToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

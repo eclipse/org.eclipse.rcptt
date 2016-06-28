@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.external.dependencies.rap.feature"
+      label="RCPTT External Dependensies for RAP"
+      version="2.2.0.qualifier"
+      provider-name="%proiderName">
+
+   <description>
+      RCPTT External Dependensies for RAP AUTs
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+         
+   <plugin
+         id="org.eclipse.rcptt.updates.external.dependencies.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+</feature>

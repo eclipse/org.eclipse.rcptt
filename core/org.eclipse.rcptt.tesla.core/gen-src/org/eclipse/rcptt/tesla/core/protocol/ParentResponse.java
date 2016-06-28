@@ -20,10 +20,10 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ParentResponse#getParent <em>Parent</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getParentResponse()
  * @model

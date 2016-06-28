@@ -216,7 +216,7 @@ public final class ModelCycleDetector {
 		}
 		IContext[] contexts = RcpttCore.getInstance().getContexts(scenario, finder, true);
 		for (IContext c : contexts) {
-			if (!RcpttCore.getInstance().isNotGroupOrSuperContext(c)) {
+			if (!RcpttCore.getInstance().isNotGroupOrSuperOrCapabilityContext(c)) {
 				addContextToGraph(c, graph, finder);
 			}
 		}

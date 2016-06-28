@@ -5420,6 +5420,61 @@ public interface ProtocolPackage extends EPackage {
 	int UPDATE_CONTROL_COMMAND_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.RapDownloadFileImpl <em>Rap Download File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.RapDownloadFileImpl
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getRapDownloadFile()
+	 * @generated
+	 */
+	int RAP_DOWNLOAD_FILE = 106;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_DOWNLOAD_FILE__ID = RawPackage.COMMAND__ID;
+
+	/**
+	 * The feature id for the '<em><b>Url</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_DOWNLOAD_FILE__URL = RawPackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Handler</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_DOWNLOAD_FILE__HANDLER = RawPackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_DOWNLOAD_FILE__CONTENT = RawPackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Rap Download File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_DOWNLOAD_FILE_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 3;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5427,7 +5482,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getSWTDialogKind()
 	 * @generated
 	 */
-	int SWT_DIALOG_KIND = 106;
+	int SWT_DIALOG_KIND = 107;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.AssertKind <em>Assert Kind</em>}' enum.
@@ -5437,7 +5492,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getAssertKind()
 	 * @generated
 	 */
-	int ASSERT_KIND = 107;
+	int ASSERT_KIND = 108;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.DragKind <em>Drag Kind</em>}' enum.
@@ -5447,7 +5502,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getDragKind()
 	 * @generated
 	 */
-	int DRAG_KIND = 108;
+	int DRAG_KIND = 109;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.MouseEventKind <em>Mouse Event Kind</em>}' enum.
@@ -5457,7 +5512,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getMouseEventKind()
 	 * @generated
 	 */
-	int MOUSE_EVENT_KIND = 109;
+	int MOUSE_EVENT_KIND = 110;
 
 
 	/**
@@ -8303,6 +8358,49 @@ public interface ProtocolPackage extends EPackage {
 	EReference getUpdateControlCommand_Elements();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile <em>Rap Download File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rap Download File</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile
+	 * @generated
+	 */
+	EClass getRapDownloadFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getUrl <em>Url</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Url</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getUrl()
+	 * @see #getRapDownloadFile()
+	 * @generated
+	 */
+	EAttribute getRapDownloadFile_Url();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getHandler <em>Handler</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Handler</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getHandler()
+	 * @see #getRapDownloadFile()
+	 * @generated
+	 */
+	EAttribute getRapDownloadFile_Handler();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getContent <em>Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Content</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile#getContent()
+	 * @see #getRapDownloadFile()
+	 * @generated
+	 */
+	EAttribute getRapDownloadFile_Content();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10719,6 +10817,40 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UPDATE_CONTROL_COMMAND__ELEMENTS = eINSTANCE.getUpdateControlCommand_Elements();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.RapDownloadFileImpl <em>Rap Download File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.RapDownloadFileImpl
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getRapDownloadFile()
+		 * @generated
+		 */
+		EClass RAP_DOWNLOAD_FILE = eINSTANCE.getRapDownloadFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAP_DOWNLOAD_FILE__URL = eINSTANCE.getRapDownloadFile_Url();
+
+		/**
+		 * The meta object literal for the '<em><b>Handler</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAP_DOWNLOAD_FILE__HANDLER = eINSTANCE.getRapDownloadFile_Handler();
+
+		/**
+		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAP_DOWNLOAD_FILE__CONTENT = eINSTANCE.getRapDownloadFile_Content();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.

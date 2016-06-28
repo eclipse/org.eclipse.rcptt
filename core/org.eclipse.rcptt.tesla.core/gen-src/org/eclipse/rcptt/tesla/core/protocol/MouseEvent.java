@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MouseEvent#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MouseEvent#getButton <em>Button</em>}</li>
@@ -26,7 +27,6 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MouseEvent#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MouseEvent#getY <em>Y</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getMouseEvent()
  * @model

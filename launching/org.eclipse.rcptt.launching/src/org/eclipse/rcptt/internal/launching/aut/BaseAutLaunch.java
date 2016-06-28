@@ -177,19 +177,17 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			for (AutLaunchListener listener : listeners) {
 				listener.autStarted(this, this.autStart.getEclPort(), this.autStart.getTeslaPort());
 			}
-		}
-		else if (autEvent instanceof AutEventInit) {
+		} else if (autEvent instanceof AutEventInit) {
 			this.autInit = (AutEventInit) autEvent;
 			for (AutLaunchListener listener : listeners) {
 				listener.autInit(this, this.autInit.getBundleState());
 			}
-		}
-		else if (autEvent instanceof AutEventLocation) {
+		} else if (autEvent instanceof AutEventLocation) {
 			for (AutLaunchListener listener : listeners) {
 				listener.autLocationChange(this, ((AutEventLocation) autEvent).getLocation());
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -231,8 +229,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					result[0] = out.take(timeout);
 				} catch (Exception e) {
 					wrappedException[0] = e;
-				}
-				finally {
+				} finally {
 					if (session != null) {
 						safeClose(session);
 					}
@@ -292,14 +289,17 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	public void activate(String host, int ecl, int tesla, float seconds, IProgressMonitor monitor) throws CoreException {
+	public void activate(String host, int ecl, int tesla, String platform, String capability, float seconds,
+			IProgressMonitor monitor)
+			throws CoreException {
 		Q7LaunchingPlugin.logInfo("Activating AUT at host %s. ECL port: %d. Tesla port: %d", host, ecl, tesla);
 		monitor.beginTask("AUT pinging", (int) seconds);
 		synchronized (launch) {
 			launch.setAttribute(IQ7Launch.ATTR_HOST, host);
 			launch.setAttribute(IQ7Launch.ATTR_ECL_PORT, Integer.toString(ecl));
-			launch.setAttribute(IQ7Launch.ATTR_TESLA_PORT,
-					Integer.toString(tesla));
+			launch.setAttribute(IQ7Launch.ATTR_TESLA_PORT, Integer.toString(tesla));
+			launch.setAttribute(IQ7Launch.ATTR_AUT_PLATFORM, platform);
+			launch.setAttribute(IQ7Launch.ATTR_AUT_CAPABILITY, capability);
 		}
 		// make sure connection available
 		long start = System.currentTimeMillis();
@@ -451,7 +451,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	public void terminateProcess(int exitCode) {
 		// launch ask for restart
 		// Eclipse mars can return exit code 24 on restart if -vm argument was set
-		if (exitCode == 23 || (exitCode == 24/* && locationOnRestart != null*/)) {
+		if (exitCode == 23 || (exitCode == 24/* && locationOnRestart != null */)) {
 			restart();
 		} else {
 			terminated(exitCode);
@@ -575,8 +575,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private void execVerification(IVerification verificationElement,
 			IProgressMonitor monitor, ExecutionPhase phase) throws CoreException {
-		Verification verification =
-				(Verification) EcoreUtil.copy(verificationElement.getModifiedNamedElement());
+		Verification verification = (Verification) EcoreUtil.copy(verificationElement.getModifiedNamedElement());
 		if (!(verificationElement instanceof Q7InternalVerification)) {
 			VerificationType type = verificationElement.getType();
 			if (type != null)
@@ -883,7 +882,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		s[0] = Status.OK_STATUS;
 		TeslaNetworkReplayer player = new TeslaNetworkReplayer(getHost(),
 				getTeslaPort(), progressMonitor, new TeslaScenarioContainer(
-						scenario), new Q7TeslaProblemInformer(s));
+						scenario),
+				new Q7TeslaProblemInformer(s));
 		try {
 			player.exec();
 		} catch (Exception e) {
@@ -1010,5 +1010,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			return new ArrayList<AutBundleState>(this.autInit.getBundleState());
 		}
 		return null;
+	}
+
+	@Override
+	public String getCapability() {
+		return autStart != null ? autStart.getCapability().getLiteral().toLowerCase() : null;
 	}
 }

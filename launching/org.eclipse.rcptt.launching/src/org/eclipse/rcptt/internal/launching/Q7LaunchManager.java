@@ -261,7 +261,7 @@ public class Q7LaunchManager {
 
 		// create executable elements
 		ExecutableFactory executableFabric = new ExecutableFactory(aut, finder, process.getDebugger());
-		Executable[] executables = executableFabric.map(elements, namedVariants);
+		Executable[] executables = executableFabric.map(elements, namedVariants, aut.getCapability());
 		if (executableFabric.unresolvedItems.size() > 0) {
 			if (!checkContinueOnUnresolved())
 				return;
@@ -486,15 +486,13 @@ public class Q7LaunchManager {
 				}
 				List<Executable> plan = new ArrayList<Executable>();
 				addContextExecutables(plan, children, variant);
-				Executable root = !debug ?
-						new EclContextExecutable(launch, context, debug)
+				Executable root = !debug ? new EclContextExecutable(launch, context, debug)
 						: new EclDebugContextExecutable(launch, context, debugger);
 				return new GroupExecutable(root, plan);
 			} else if (element instanceof UnresolvedContext) {
 				return new UnresolvedContextExecutable(launch, context, debug);
 			} else {
-				return !debug ?
-						new EclContextExecutable(launch, context, debug)
+				return !debug ? new EclContextExecutable(launch, context, debug)
 						: new EclDebugContextExecutable(launch, context, debugger);
 			}
 		}
@@ -515,8 +513,7 @@ public class Q7LaunchManager {
 			if (verification.getNamedElement() instanceof UnresolvedVerification) {
 				return new UnresolvedVerificationExecutable(launch, verification, debug, phase);
 			} else {
-				return !debug ?
-						new EclVerificationExecutable(launch, verification, debug, phase)
+				return !debug ? new EclVerificationExecutable(launch, verification, debug, phase)
 						: new EclDebugVerificationExecutable(launch, verification, debugger, phase);
 			}
 		}
@@ -613,7 +610,7 @@ public class Q7LaunchManager {
 		}
 
 		public Executable[] map(final IQ7NamedElement[] elements,
-				Map<IQ7NamedElement, List<List<String>>> namedVariants)
+				Map<IQ7NamedElement, List<List<String>>> namedVariants, String capability)
 				throws CoreException {
 			List<Executable> executables = new ArrayList<Executable>();
 			boolean debug = debugger != null;
@@ -627,7 +624,8 @@ public class Q7LaunchManager {
 					if (element instanceof ITestCase) {
 						final ITestCase test = (ITestCase) element;
 
-						IContext[] contexts = RcpttCore.getInstance().getContexts(test, finder, false);
+						IContext[] contexts = RcpttCore.getInstance().getContexts(test, finder, false, capability);
+
 						IVerification[] verifications = RcpttCore.getInstance().getVerifications(test, finder, false);
 						assert !Arrays.asList(verifications).contains(null) : "Null verification in "
 								+ test.getElementName();
@@ -649,7 +647,8 @@ public class Q7LaunchManager {
 							SortingUtils.sortNamedElements(testSuiteItems);
 
 						Executable[] children = map(
-								testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants);
+								testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants,
+								capability);
 						executables.add(new TestSuiteExecutable(launch, (ITestSuite) element, children, debug));
 					} else if (element instanceof IContext) {
 						IContext context = (IContext) element;

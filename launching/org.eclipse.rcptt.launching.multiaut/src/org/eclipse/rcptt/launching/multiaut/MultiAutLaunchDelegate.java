@@ -1,6 +1,5 @@
 package org.eclipse.rcptt.launching.multiaut;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,7 +63,7 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 			processes.put(entry.aut, q7process);
 
 			ExecutableFactory f = new ExecutableFactory(autLaunch, null, q7process.getDebugger());
-			Executable[] testExecs = f.map(new IQ7NamedElement[] { entry.element }, null);
+			Executable[] testExecs = f.map(new IQ7NamedElement[] { entry.element }, null, autLaunch.getCapability());
 			for (int i = 0; i < testExecs.length; i++) {
 				Executable e = testExecs[i];
 				if (e instanceof PrepareExecutionWrapper) {
@@ -290,7 +289,11 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		public void handleAutEvent(org.eclipse.rcptt.core.launching.events.AutEvent autEvent) {
 			launch.handleAutEvent(autEvent);
 		}
-		
-		
+
+		@Override
+		public String getCapability() {
+			return launch.getCapability();
+		}
+
 	}
 }

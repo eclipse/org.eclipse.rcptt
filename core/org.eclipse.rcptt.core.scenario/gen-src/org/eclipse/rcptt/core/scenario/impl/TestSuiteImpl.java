@@ -35,11 +35,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.TestSuiteImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.TestSuiteImpl#isManuallyOrdered <em>Manually Ordered</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

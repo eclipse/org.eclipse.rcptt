@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.rcptt.launching.rap.feature"
+      label="RCPTT RAP launching"
+      version="2.2.0.qualifier"
+      provider-name="%proiderName">
+
+   <description>
+    des
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+   
+   <requires>
+      <import feature="org.eclipse.rcptt.external.dependencies.rap.feature" version="2.2.0.qualifier"/>
+   </requires>
+
+ <plugin
+         id="org.eclipse.rcptt.updates.runtime.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.launching.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+    
+   <plugin
+         id="org.eclipse.rcptt.tesla.ecl.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.ecl.platform.ui.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+   
+   <plugin
+         id="org.eclipse.rcptt.tesla.recording.core.ecl.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+     <plugin
+         id="org.eclipse.rcptt.updates.external.dependencies.rap"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+</feature>

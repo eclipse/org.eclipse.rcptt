@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.WorkbenchContext#getPerspectiveId <em>Perspective Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.WorkbenchContext#isNoModalDialogs <em>No Modal Dialogs</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.core.scenario.WorkbenchContext#isResetPerspective <em>Reset Perspective</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.WorkbenchContext#isClearClipboard <em>Clear Clipboard</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getWorkbenchContext()
  * @model

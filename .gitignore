@@ -1,12 +1,17 @@
+# runtime bundles
 runtime/updates/org.eclipse.rcptt.updates.runtime/q7/
 runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7/
-runtime/updates/org.eclipse.rcptt.updates.rap.runtime/q7/
-runtime/updates/org.eclipse.rcptt.updates.helios/dependencies
+modules/rap/bundles/runtime/updates/org.eclipse.rcptt.updates.runtime.rap/q7/
+modules/rap/bundles/runtime/updates/org.eclipse.rcptt.updates.runtime.rap/q7
 
-runtime/updates/org.eclipse.rcptt.updates.kepler/dependencies
-runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x/dependencies
-runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x/dependencies
-runtime/updates/org.eclipse.rcptt.updates.aspectj.e44x/dependencies
+# external dependencies bundles
+dependencies/bundles/org.eclipse.rcptt.updates.external.dependencies.rap/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.kepler/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.helios/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e3x/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e38x/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e44x/dependencies
+
 modules/nebula/plugins/org.eclipse.rcptt.module.nebula.updates/runtime/
 *~
 .DS_Store

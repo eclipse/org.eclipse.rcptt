@@ -28,8 +28,8 @@ import org.eclipse.rcptt.ecl.interop.InvokeUi;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.rcptt.util.DisplayUtils;
+import org.eclipse.rcptt.util.DisplayUtilsProvider;
 
 public class InvokeService implements ICommandService {
 
@@ -67,9 +67,8 @@ public class InvokeService implements ICommandService {
 				}
 				result = getFieldValue(class_, object, name);
 			} else {
-
-				if (object instanceof Widget || cmd instanceof InvokeUi) {
-					Display display = object instanceof Widget ? ((Widget) object).getDisplay() : Display.getDefault();
+				DisplayUtils utils = DisplayUtilsProvider.getDisplayUtils();
+				if (utils.isWidget(object) || cmd instanceof InvokeUi) {
 
 					// no reason to go into generics here, everything is just
 					// Object
@@ -80,10 +79,10 @@ public class InvokeService implements ICommandService {
 					});
 
 					if (cmd.isNoResult() || method.getReturnType() == Void.TYPE) {
-						display.asyncExec(future);
+						utils.asyncExec(object, future);
 						result = Status.OK_STATUS;
 					} else {
-						display.syncExec(future);
+						utils.syncExec(object, future);
 						result = future.get();
 					}
 				} else
@@ -173,13 +172,13 @@ public class InvokeService implements ICommandService {
 
 	/*
 	 * TODO:
-	 * 
+	 *
 	 * 1. Null handling. 2. Proper overloading resolution.
-	 * 
+	 *
 	 * Standard says we must select the most "specific" method.
-	 * 
+	 *
 	 * 3. What will happen if arrays passed?
-	 * 
+	 *
 	 * Useful reading:
 	 * http://geekexplains.blogspot.com/2009/06/choosing-most-specific
 	 * -method-tricky.html

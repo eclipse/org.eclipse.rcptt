@@ -27,10 +27,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetTextResponseImpl#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

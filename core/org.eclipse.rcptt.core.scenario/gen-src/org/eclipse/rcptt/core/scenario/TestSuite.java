@@ -19,11 +19,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.TestSuite#getItems <em>Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.TestSuite#isManuallyOrdered <em>Manually Ordered</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getTestSuite()
  * @model

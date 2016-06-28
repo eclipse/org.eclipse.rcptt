@@ -28,7 +28,7 @@ package org.eclipse.rcptt.tesla.recording.core.internal.ecl;
  * although we typically will not withdraw support for a <em>HINT</em> once it
  * is made available.
  * </p>
- * 
+ *
  * @see <a href="http://www.eclipse.org/swt/">Sample code and further
  *      information</a>
  */
@@ -46,18 +46,18 @@ public class SWTCopy {
 
 	/**
 	 * The null event type (value is 0).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int None = 0;
 
 	/**
 	 * The key down event type (value is 1).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addKeyListener
 	 * @see org.eclipse.swt.widgets.Tracker#addKeyListener
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed
@@ -67,11 +67,11 @@ public class SWTCopy {
 
 	/**
 	 * The key up event type (value is 2).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addKeyListener
 	 * @see org.eclipse.swt.widgets.Tracker#addKeyListener
 	 * @see org.eclipse.swt.events.KeyListener#keyReleased
@@ -81,11 +81,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse down event type (value is 3).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseListener
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -94,11 +94,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse up event type (value is 4).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseListener
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -107,11 +107,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse move event type (value is 5).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseMoveListener
 	 * @see org.eclipse.swt.events.MouseMoveListener#mouseMove
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -120,11 +120,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse enter event type (value is 6).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseTrackListener
 	 * @see org.eclipse.swt.events.MouseTrackListener#mouseEnter
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -133,11 +133,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse exit event type (value is 7).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseTrackListener
 	 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -146,11 +146,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse double click event type (value is 8).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseListener
 	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -159,11 +159,11 @@ public class SWTCopy {
 
 	/**
 	 * The paint event type (value is 9).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addPaintListener
 	 * @see org.eclipse.swt.events.PaintListener#paintControl
 	 * @see org.eclipse.swt.events.PaintEvent
@@ -172,11 +172,11 @@ public class SWTCopy {
 
 	/**
 	 * The move event type (value is 10).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addControlListener
 	 * @see org.eclipse.swt.widgets.TableColumn#addControlListener
 	 * @see org.eclipse.swt.widgets.Tracker#addControlListener
@@ -188,11 +188,11 @@ public class SWTCopy {
 
 	/**
 	 * The resize event type (value is 11).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addControlListener
 	 * @see org.eclipse.swt.widgets.TableColumn#addControlListener
 	 * @see org.eclipse.swt.widgets.Tracker#addControlListener
@@ -204,12 +204,12 @@ public class SWTCopy {
 
 	/**
 	 * The dispose event type (value is 12).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addDisposeListener
 	 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed
 	 * @see org.eclipse.swt.events.DisposeEvent
@@ -218,11 +218,11 @@ public class SWTCopy {
 
 	/**
 	 * The selection event type (value is 13).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Button#addSelectionListener
 	 * @see org.eclipse.swt.widgets.Combo#addSelectionListener
 	 * @see org.eclipse.swt.widgets.CoolItem#addSelectionListener
@@ -247,11 +247,11 @@ public class SWTCopy {
 
 	/**
 	 * The default selection event type (value is 14).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Combo#addSelectionListener
 	 * @see org.eclipse.swt.widgets.List#addSelectionListener
 	 * @see org.eclipse.swt.widgets.Spinner#addSelectionListener
@@ -266,11 +266,11 @@ public class SWTCopy {
 
 	/**
 	 * The focus in event type (value is 15).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addFocusListener
 	 * @see org.eclipse.swt.events.FocusListener#focusGained
 	 * @see org.eclipse.swt.events.FocusEvent
@@ -279,11 +279,11 @@ public class SWTCopy {
 
 	/**
 	 * The focus out event type (value is 16).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addFocusListener
 	 * @see org.eclipse.swt.events.FocusListener#focusLost
 	 * @see org.eclipse.swt.events.FocusEvent
@@ -292,11 +292,11 @@ public class SWTCopy {
 
 	/**
 	 * The expand event type (value is 17).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Tree#addTreeListener
 	 * @see org.eclipse.swt.events.TreeListener#treeExpanded
 	 * @see org.eclipse.swt.events.TreeEvent
@@ -305,11 +305,11 @@ public class SWTCopy {
 
 	/**
 	 * The collapse event type (value is 18).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Tree#addTreeListener
 	 * @see org.eclipse.swt.events.TreeListener#treeCollapsed
 	 * @see org.eclipse.swt.events.TreeEvent
@@ -318,11 +318,11 @@ public class SWTCopy {
 
 	/**
 	 * The iconify event type (value is 19).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Shell#addShellListener
 	 * @see org.eclipse.swt.events.ShellListener#shellIconified
 	 * @see org.eclipse.swt.events.ShellEvent
@@ -331,11 +331,11 @@ public class SWTCopy {
 
 	/**
 	 * The de-iconify event type (value is 20).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Shell#addShellListener
 	 * @see org.eclipse.swt.events.ShellListener#shellDeiconified
 	 * @see org.eclipse.swt.events.ShellEvent
@@ -344,12 +344,12 @@ public class SWTCopy {
 
 	/**
 	 * The close event type (value is 21).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Shell#addShellListener
 	 * @see org.eclipse.swt.events.ShellListener#shellClosed
 	 * @see org.eclipse.swt.events.ShellEvent
@@ -358,11 +358,11 @@ public class SWTCopy {
 
 	/**
 	 * The show event type (value is 22).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Menu#addMenuListener
 	 * @see org.eclipse.swt.events.MenuListener#menuShown
 	 * @see org.eclipse.swt.events.MenuEvent
@@ -371,11 +371,11 @@ public class SWTCopy {
 
 	/**
 	 * The hide event type (value is 23).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Menu#addMenuListener
 	 * @see org.eclipse.swt.events.MenuListener#menuHidden
 	 * @see org.eclipse.swt.events.MenuEvent
@@ -384,11 +384,11 @@ public class SWTCopy {
 
 	/**
 	 * The modify event type (value is 24).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Combo#addModifyListener
 	 * @see org.eclipse.swt.widgets.Spinner#addModifyListener
 	 * @see org.eclipse.swt.widgets.Text#addModifyListener
@@ -399,11 +399,11 @@ public class SWTCopy {
 
 	/**
 	 * The verify event type (value is 25).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.custom.CCombo#addVerifyListener
 	 * @see org.eclipse.swt.widgets.Combo#addVerifyListener
 	 * @see org.eclipse.swt.custom.StyledText#addVerifyListener
@@ -415,11 +415,11 @@ public class SWTCopy {
 
 	/**
 	 * The activate event type (value is 26).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Shell#addShellListener
 	 * @see org.eclipse.swt.events.ShellListener#shellActivated
 	 * @see org.eclipse.swt.events.ShellEvent
@@ -428,11 +428,11 @@ public class SWTCopy {
 
 	/**
 	 * The deactivate event type (value is 27).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Shell#addShellListener
 	 * @see org.eclipse.swt.events.ShellListener#shellDeactivated
 	 * @see org.eclipse.swt.events.ShellEvent
@@ -441,11 +441,11 @@ public class SWTCopy {
 
 	/**
 	 * The help event type (value is 28).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addHelpListener
 	 * @see org.eclipse.swt.widgets.Menu#addHelpListener
 	 * @see org.eclipse.swt.widgets.MenuItem#addHelpListener
@@ -456,11 +456,11 @@ public class SWTCopy {
 
 	/**
 	 * The drag detect event type (value is 29).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addDragDetectListener
 	 * @see org.eclipse.swt.events.DragDetectListener#dragDetected
 	 * @see org.eclipse.swt.events.DragDetectEvent
@@ -470,11 +470,11 @@ public class SWTCopy {
 
 	/**
 	 * The arm event type (value is 30).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#addArmListener
 	 * @see org.eclipse.swt.events.ArmListener#widgetArmed
 	 * @see org.eclipse.swt.events.ArmEvent
@@ -483,11 +483,11 @@ public class SWTCopy {
 
 	/**
 	 * The traverse event type (value is 31).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addTraverseListener
 	 * @see org.eclipse.swt.events.TraverseListener#keyTraversed
 	 * @see org.eclipse.swt.events.TraverseEvent
@@ -496,11 +496,11 @@ public class SWTCopy {
 
 	/**
 	 * The mouse hover event type (value is 32).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseTrackListener
 	 * @see org.eclipse.swt.events.MouseTrackListener#mouseHover
 	 * @see org.eclipse.swt.events.MouseEvent
@@ -509,7 +509,7 @@ public class SWTCopy {
 
 	/**
 	 * The hardware key down event type (value is 33).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
@@ -518,7 +518,7 @@ public class SWTCopy {
 
 	/**
 	 * The hardware key up event type (value is 34).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
@@ -527,47 +527,47 @@ public class SWTCopy {
 
 	/**
 	 * The menu detect event type (value is 35).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int MenuDetect = 35;
 
 	/**
 	 * The set data event type (value is 36).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Table
 	 * @see org.eclipse.swt.widgets.Tree
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int SetData = 36;
 
 	/**
 	 * The mouse vertical wheel event type (value is 37).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseWheelListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int MouseVerticalWheel = 37;
 
 	/**
 	 * The mouse horizontal wheel event type (value is 38).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int MouseHorizontalWheel = 38;
@@ -577,11 +577,11 @@ public class SWTCopy {
 	 * {@link #MouseVerticalWheel} (value is 37). Newer applications should use
 	 * {@link #MouseVerticalWheel} instead of {@link #MouseWheel} to make code
 	 * more understandable.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#addMouseWheelListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int MouseWheel = MouseVerticalWheel;
@@ -598,43 +598,43 @@ public class SWTCopy {
 	 * cached value. The operating system automatically redraws and lays out all
 	 * widgets after this event is sent.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int Settings = 39;
 
 	/**
 	 * The erase item event type (value is 40).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int EraseItem = 40;
 
 	/**
 	 * The measure item event type (value is 41).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int MeasureItem = 41;
 
 	/**
 	 * The paint item event type (value is 42).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int PaintItem = 42;
@@ -645,7 +645,7 @@ public class SWTCopy {
 	 * The IME composition event is sent to allow custom text editors to
 	 * implement in-line editing of international text.
 	 * </p>
-	 * 
+	 *
 	 * The detail field indicates the action to be taken:
 	 * <p>
 	 * <ul>
@@ -654,11 +654,11 @@ public class SWTCopy {
 	 * <li>{@link SWTCopy#COMPOSITION_SELECTION}</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int ImeComposition = 43;
@@ -670,75 +670,75 @@ public class SWTCopy {
 	 * keyboard shortcut. The application can use the <code>doit</code> field of
 	 * the event to stop the change from happening.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int OrientationChange = 44;
 
 	/**
 	 * The skin event type (value is 45).
-	 * 
+	 *
 	 * <p>
 	 * The skin event is sent by the display when a widget needs to be skinned.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#addListener
 	 * @see org.eclipse.swt.widgets.Display#addFilter
 	 * @see org.eclipse.swt.widgets.Event
 	 * @see org.eclipse.swt.widgets.Widget#reskin(int)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int Skin = 45;
 
 	/**
 	 * The open document event type (value is 46).
-	 * 
+	 *
 	 * <p>
 	 * This event is sent when SWT receives notification that a document should
 	 * be opened.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int OpenDocument = 46;
 
 	/**
 	 * The touch event type (value is 47).
-	 * 
+	 *
 	 * <p>
 	 * This event is sent when a touch has been performed on a touch-based input
 	 * source.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Event
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int Touch = 47;
 
 	/**
 	 * The gesture event type (value is 48).
-	 * 
+	 *
 	 * <p>
 	 * This event is sent when a gesture has been performed.
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Display#addListener
 	 * @see org.eclipse.swt.widgets.Event
 	 * @see SWTCopy#GESTURE_MAGNIFY
 	 * @see SWTCopy#GESTURE_PAN
 	 * @see SWTCopy#GESTURE_ROTATE
 	 * @see SWTCopy#GESTURE_SWIPE
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int Gesture = 48;
@@ -751,9 +751,9 @@ public class SWTCopy {
 	 * start and end indicate the offsets where the composition text should be
 	 * inserted. The styles and ranges are stored in the IME object (value is
 	 * 1).
-	 * 
+	 *
 	 * @see SWTCopy#ImeComposition
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int COMPOSITION_CHANGED = 1;
@@ -762,14 +762,14 @@ public class SWTCopy {
 	 * The IME composition event detail that indicates that the IME needs the
 	 * offset for a given location. The x and y fields of the event are used by
 	 * the application to determine the offset.
-	 * 
+	 *
 	 * The index field of the event should be set to the text offset at that
 	 * location. The count field should be set to indicate whether the location
 	 * is closer to the leading edge (0) or the trailing edge (1) (value is 2).
-	 * 
+	 *
 	 * @see SWTCopy#ImeComposition
 	 * @see org.eclipse.swt.graphics.TextLayout#getOffset(int, int, int[])
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int COMPOSITION_OFFSET = 2;
@@ -777,9 +777,9 @@ public class SWTCopy {
 	/**
 	 * The IME composition event detail that indicates that IME needs the
 	 * selected text and its start and end offsets (value is 3).
-	 * 
+	 *
 	 * @see SWTCopy#ImeComposition
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int COMPOSITION_SELECTION = 3;
@@ -793,7 +793,7 @@ public class SWTCopy {
 	/**
 	 * Event detail field that indicates a user-interface component state is
 	 * selected (value is 1&lt;&lt;1).
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int SELECTED = 1 << 1;
@@ -801,7 +801,7 @@ public class SWTCopy {
 	/**
 	 * Event detail field that indicates a user-interface component state is
 	 * focused (value is 1&lt;&lt;2).
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int FOCUSED = 1 << 2;
@@ -809,7 +809,7 @@ public class SWTCopy {
 	/**
 	 * Event detail field that indicates a user-interface component draws the
 	 * background (value is 1&lt;&lt;3).
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int BACKGROUND = 1 << 3;
@@ -817,7 +817,7 @@ public class SWTCopy {
 	/**
 	 * Event detail field that indicates a user-interface component draws the
 	 * foreground (value is 1&lt;&lt;4).
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int FOREGROUND = 1 << 4;
@@ -825,7 +825,7 @@ public class SWTCopy {
 	/**
 	 * Event detail field that indicates a user-interface component state is hot
 	 * (value is 1&lt;&lt;5).
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int HOT = 1 << 5;
@@ -913,7 +913,7 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a continuous gesture is
 	 * about to begin.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_BEGIN = 1 << 1;
@@ -921,7 +921,7 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a continuous gesture has
 	 * ended.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_END = 1 << 2;
@@ -929,7 +929,7 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a rotation gesture has
 	 * happened. Only the rotation field of the event is valid.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_ROTATE = 1 << 3;
@@ -937,7 +937,7 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a swipe gesture has
 	 * happened.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_SWIPE = 1 << 4;
@@ -945,7 +945,7 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a magnification gesture
 	 * has happened.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_MAGNIFY = 1 << 5;
@@ -953,51 +953,51 @@ public class SWTCopy {
 	/**
 	 * Gesture event detail field value indicating that a panning (two-finger
 	 * scroll) gesture has happened.
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int GESTURE_PAN = 1 << 6;
 
 	/**
 	 * A constant indicating that a finger touched the device.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Touch#state
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int TOUCHSTATE_DOWN = 1 << 0;
 
 	/**
 	 * A constant indicating that a finger moved on the device.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Touch#state
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int TOUCHSTATE_MOVE = 1 << 1;
 
 	/**
 	 * A constant indicating that a finger was lifted from the device.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Touch#state
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int TOUCHSTATE_UP = 1 << 2;
 
 	/**
 	 * A constant indicating that widgets have changed. (value is 1&lt;&lt;1).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Composite</code> layout</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Composite#layout(org.eclipse.swt.widgets.Control[],
 	 *      int)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int CHANGED = 1 << 1;
@@ -1005,17 +1005,17 @@ public class SWTCopy {
 	/**
 	 * A constant indicating that a given operation should be deferred. (value
 	 * is 1&lt;&lt;2).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Composite</code> layout</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Composite#layout(org.eclipse.swt.widgets.Control[],
 	 *      int)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int DEFER = 1 << 2;
@@ -1039,28 +1039,28 @@ public class SWTCopy {
 
 	/**
 	 * Indicates that a property is off (value is 0).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int OFF = 0;
 
 	/**
 	 * Indicates that a property is on (value is 1).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int ON = 1;
 
 	/**
 	 * Indicates low quality (value is 1).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int LOW = 1;
 
 	/**
 	 * Indicates high quality (value is 2).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int HIGH = 2;
@@ -1123,7 +1123,7 @@ public class SWTCopy {
 	 * <li><code>ToolItem.setWidth()</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int SEPARATOR_FILL = -2;
@@ -1267,7 +1267,7 @@ public class SWTCopy {
 	 * <li><code>Text</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int SEARCH = 1 << 7;
@@ -1292,7 +1292,7 @@ public class SWTCopy {
 	 * <li><code>Text</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int PASSWORD = 1 << 22;
@@ -1500,14 +1500,14 @@ public class SWTCopy {
 	 * When neither H_SCROLL or V_SCROLL are specified, controls are free to
 	 * create the default scroll bars for the control. Using NO_SCROLL overrides
 	 * the default and forces the control to have no scroll bars.
-	 * 
+	 *
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Tree</code></li>
 	 * <li><code>Table</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int NO_SCROLL = 1 << 4;
@@ -1580,7 +1580,7 @@ public class SWTCopy {
 	 * <li><code>Shell</code> and subclasses</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int SHEET = 1 << 28;
@@ -1744,7 +1744,7 @@ public class SWTCopy {
 	 * tool bars and sashes, don't normally take focus when the mouse is clicked
 	 * or accept focus when assigned from within the program. This style allows
 	 * Composites to implement "no focus" mouse behavior.
-	 * 
+	 *
 	 * <br>
 	 * Note that this is a <em>HINT</em>.
 	 * </p>
@@ -1765,7 +1765,7 @@ public class SWTCopy {
 	 * gets smaller, the SWT.Paint event is not sent. When it gets bigger, an
 	 * SWT.Paint event is sent with a GC clipped to only the new areas to be
 	 * painted. Without this style, the entire client area will be repainted.
-	 * 
+	 *
 	 * <br>
 	 * Note that this is a <em>HINT</em>.
 	 * </p>
@@ -1781,7 +1781,7 @@ public class SWTCopy {
 	/**
 	 * Style constant for no paint event merging behavior (value is
 	 * 1&lt;&lt;21).
-	 * 
+	 *
 	 * <br>
 	 * Note that this is a <em>HINT</em>.
 	 * <p>
@@ -1823,7 +1823,7 @@ public class SWTCopy {
 	 * <li><code>GC</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 2.1.2
 	 */
 	public static final int LEFT_TO_RIGHT = 1 << 25;
@@ -1845,7 +1845,7 @@ public class SWTCopy {
 	 * <li><code>GC</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 2.1.2
 	 */
 	public static final int RIGHT_TO_LEFT = 1 << 26;
@@ -1859,7 +1859,7 @@ public class SWTCopy {
 	 * <li><code>Menu</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 2.1.2
 	 */
 	public static final int MIRRORED = 1 << 27;
@@ -1872,7 +1872,7 @@ public class SWTCopy {
 	 * <li><code>Composite</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int EMBEDDED = 1 << 24;
@@ -1886,7 +1886,7 @@ public class SWTCopy {
 	 * <li><code>Tree</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int VIRTUAL = 1 << 28;
@@ -1899,7 +1899,7 @@ public class SWTCopy {
 	 * <li><code>Control</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int DOUBLE_BUFFERED = 1 << 29;
@@ -1917,9 +1917,9 @@ public class SWTCopy {
 	 * <li><code>Composite</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
-	 * 
+	 *
 	 *        WARNING: THIS API IS UNDER CONSTRUCTION AND SHOULD NOT BE USED
 	 */
 	public static final int TRANSPARENT = 1 << 30;
@@ -1947,7 +1947,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int UNDERLINE_SINGLE = 0;
@@ -1960,7 +1960,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int UNDERLINE_DOUBLE = 1;
@@ -1973,7 +1973,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int UNDERLINE_ERROR = 2;
@@ -1986,7 +1986,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int UNDERLINE_SQUIGGLE = 3;
@@ -2007,7 +2007,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int UNDERLINE_LINK = 4;
@@ -2020,7 +2020,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int BORDER_SOLID = 1;
@@ -2033,7 +2033,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int BORDER_DASH = 2;
@@ -2046,7 +2046,7 @@ public class SWTCopy {
 	 * <li><code>TextStyle</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int BORDER_DOT = 4;
@@ -2103,7 +2103,7 @@ public class SWTCopy {
 	 * <li><code>FormAttachment</code> in a <code>FormLayout</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 2.1.2
 	 */
 	public static final int LEAD = 1 << 14;
@@ -2132,7 +2132,7 @@ public class SWTCopy {
 	 * <li><code>FormAttachment</code> in a <code>FormLayout</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 2.1.2
 	 */
 	public static final int TRAIL = 1 << 17;
@@ -2212,7 +2212,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int DATE = 1 << 5;
@@ -2225,7 +2225,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int TIME = 1 << 7;
@@ -2238,7 +2238,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int CALENDAR = 1 << 10;
@@ -2256,7 +2256,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int SHORT = 1 << 15;
@@ -2274,7 +2274,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int MEDIUM = 1 << 16;
@@ -2292,7 +2292,7 @@ public class SWTCopy {
 	 * <li><code>DateTime</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int LONG = 1 << 28;
@@ -2307,7 +2307,7 @@ public class SWTCopy {
 	 * <li><code>Browser</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int MOZILLA = 1 << 15;
@@ -2322,7 +2322,7 @@ public class SWTCopy {
 	 * <li><code>Browser</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int WEBKIT = 1 << 16;
@@ -2335,7 +2335,7 @@ public class SWTCopy {
 	 * <li><code>ToolTip</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int BALLOON = 1 << 12;
@@ -2427,7 +2427,7 @@ public class SWTCopy {
 	/**
 	 * ASCII character convenience constant for the tab character (value is the
 	 * <code>char</code> '\t').
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final char TAB = '\t';
@@ -2435,7 +2435,7 @@ public class SWTCopy {
 	/**
 	 * ASCII character convenience constant for the space character (value is
 	 * the <code>char</code> ' ').
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final char SPACE = ' ';
@@ -2469,7 +2469,7 @@ public class SWTCopy {
 	 * Keyboard and/or mouse event mask indicating that the COMMAND key was
 	 * pushed on the keyboard when the event was generated (value is
 	 * 1&lt;&lt;22).
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final int COMMAND = 1 << 22;
@@ -2477,14 +2477,14 @@ public class SWTCopy {
 	/**
 	 * Keyboard and/or mouse event mask indicating all possible keyboard
 	 * modifiers.
-	 * 
+	 *
 	 * To allow for the future, this mask is intended to be used in place of
 	 * code that references each individual keyboard mask. For example, the
 	 * following expression will determine whether any modifier is pressed and
 	 * will continue to work as new modifier masks are added.
-	 * 
+	 *
 	 * <code>(stateMask & SWT.MODIFIER_MASK) != 0</code>.
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final int MODIFIER_MASK;
@@ -2510,7 +2510,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard and/or mouse event mask indicating that mouse button four was
 	 * pushed when the event was generated. (value is 1&lt;&lt;23).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int BUTTON4 = 1 << 23;
@@ -2518,21 +2518,21 @@ public class SWTCopy {
 	/**
 	 * Keyboard and/or mouse event mask indicating that mouse button five was
 	 * pushed when the event was generated. (value is 1&lt;&lt;25).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int BUTTON5 = 1 << 25;
 
 	/**
 	 * Keyboard and/or mouse event mask indicating all possible mouse buttons.
-	 * 
+	 *
 	 * To allow for the future, this mask is intended to be used in place of
 	 * code that references each individual button mask. For example, the
 	 * following expression will determine whether any button is pressed and
 	 * will continue to work as new button masks are added.
-	 * 
+	 *
 	 * <code>(stateMask & SWT.BUTTON_MASK) != 0</code>.
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final int BUTTON_MASK;
@@ -2546,7 +2546,7 @@ public class SWTCopy {
 	 * <li><code>Control</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int SCROLL_LINE = 1;
@@ -2559,7 +2559,7 @@ public class SWTCopy {
 	 * <li><code>Control</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int SCROLL_PAGE = 2;
@@ -2567,21 +2567,21 @@ public class SWTCopy {
 	/**
 	 * Accelerator constant used to differentiate a key code from a unicode
 	 * character.
-	 * 
+	 *
 	 * If this bit is set, then the key stroke portion of an accelerator
 	 * represents a key code. If this bit is not set, then the key stroke
 	 * portion of an accelerator is a unicode character.
-	 * 
+	 *
 	 * The following expression is false:
-	 * 
+	 *
 	 * <code>((SWT.MOD1 | SWT.MOD2 | 'T') & SWT.KEYCODE_BIT) != 0</code>.
-	 * 
+	 *
 	 * The following expression is true:
-	 * 
+	 *
 	 * <code>((SWT.MOD3 | SWT.F2) & SWT.KEYCODE_BIT) != 0</code>.
-	 * 
+	 *
 	 * (value is (1&lt;&lt;24))
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final int KEYCODE_BIT = (1 << 24);
@@ -2589,10 +2589,10 @@ public class SWTCopy {
 	/**
 	 * Accelerator constant used to extract the key stroke portion of an
 	 * accelerator.
-	 * 
+	 *
 	 * The key stroke may be a key code or a unicode value. If the key stroke is
 	 * a key code <code>KEYCODE_BIT</code> will be set.
-	 * 
+	 *
 	 * @since 2.1
 	 */
 	public static final int KEY_MASK = KEYCODE_BIT + 0xFFFF;
@@ -2726,7 +2726,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F13 key (value is
 	 * (1&lt;&lt;24)+22).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int F13 = KEYCODE_BIT + 22;
@@ -2734,7 +2734,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F14 key (value is
 	 * (1&lt;&lt;24)+23).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int F14 = KEYCODE_BIT + 23;
@@ -2742,7 +2742,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F15 key (value is
 	 * (1&lt;&lt;24)+24).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int F15 = KEYCODE_BIT + 24;
@@ -2750,7 +2750,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F16 key (value is
 	 * (1&lt;&lt;25)+25).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int F16 = KEYCODE_BIT + 25;
@@ -2758,7 +2758,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F17 key (value is
 	 * (1&lt;&lt;26)+26).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int F17 = KEYCODE_BIT + 26;
@@ -2766,7 +2766,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F18 key (value is
 	 * (1&lt;&lt;27)+27).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int F18 = KEYCODE_BIT + 27;
@@ -2774,7 +2774,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F19 key (value is
 	 * (1&lt;&lt;28)+28).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int F19 = KEYCODE_BIT + 28;
@@ -2782,7 +2782,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the F20 key (value is
 	 * (1&lt;&lt;29)+29).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int F20 = KEYCODE_BIT + 29;
@@ -2790,7 +2790,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the keypad location. (value is
 	 * 1&lt;&lt;1).
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int KEYPAD = 1 << 1;
@@ -2798,7 +2798,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad multiply key
 	 * (value is (1&lt;&lt;24)+42).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_MULTIPLY = KEYCODE_BIT + 42;
@@ -2806,7 +2806,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad add key (value
 	 * is (1&lt;&lt;24)+43).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_ADD = KEYCODE_BIT + 43;
@@ -2814,7 +2814,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad subtract key
 	 * (value is (1&lt;&lt;24)+45).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_SUBTRACT = KEYCODE_BIT + 45;
@@ -2822,7 +2822,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad decimal key
 	 * (value is (1&lt;&lt;24)+46).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_DECIMAL = KEYCODE_BIT + 46;
@@ -2830,7 +2830,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad divide key
 	 * (value is (1&lt;&lt;24)+47).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_DIVIDE = KEYCODE_BIT + 47;
@@ -2838,7 +2838,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad zero key (value
 	 * is (1&lt;&lt;24)+48).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_0 = KEYCODE_BIT + 48;
@@ -2846,7 +2846,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad one key (value
 	 * is (1&lt;&lt;24)+49).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_1 = KEYCODE_BIT + 49;
@@ -2854,7 +2854,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad two key (value
 	 * is (1&lt;&lt;24)+50).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_2 = KEYCODE_BIT + 50;
@@ -2862,7 +2862,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad three key (value
 	 * is (1&lt;&lt;24)+51).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_3 = KEYCODE_BIT + 51;
@@ -2870,7 +2870,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad four key (value
 	 * is (1&lt;&lt;24)+52).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_4 = KEYCODE_BIT + 52;
@@ -2878,7 +2878,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad five key (value
 	 * is (1&lt;&lt;24)+53).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_5 = KEYCODE_BIT + 53;
@@ -2886,7 +2886,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad six key (value
 	 * is (1&lt;&lt;24)+54).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_6 = KEYCODE_BIT + 54;
@@ -2894,7 +2894,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad seven key (value
 	 * is (1&lt;&lt;24)+55).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_7 = KEYCODE_BIT + 55;
@@ -2902,7 +2902,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad eight key (value
 	 * is (1&lt;&lt;24)+56).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_8 = KEYCODE_BIT + 56;
@@ -2910,7 +2910,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad nine key (value
 	 * is (1&lt;&lt;24)+57).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_9 = KEYCODE_BIT + 57;
@@ -2918,7 +2918,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad equal key (value
 	 * is (1&lt;&lt;24)+61).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_EQUAL = KEYCODE_BIT + 61;
@@ -2926,7 +2926,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the numeric key pad enter key (value
 	 * is (1&lt;&lt;24)+80).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int KEYPAD_CR = KEYCODE_BIT + 80;
@@ -2934,13 +2934,13 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the help key (value is
 	 * (1&lt;&lt;24)+81).
-	 * 
+	 *
 	 * NOTE: The HELP key maps to the key labeled "help", not "F1". If your
 	 * keyboard does not have a HELP key, you will never see this key press. To
 	 * listen for help on a control, use SWT.Help.
-	 * 
+	 *
 	 * @since 3.0
-	 * 
+	 *
 	 * @see SWTCopy#Help
 	 */
 	public static final int HELP = KEYCODE_BIT + 81;
@@ -2948,7 +2948,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the caps lock key (value is
 	 * (1&lt;&lt;24)+82).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int CAPS_LOCK = KEYCODE_BIT + 82;
@@ -2956,7 +2956,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the num lock key (value is
 	 * (1&lt;&lt;24)+83).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int NUM_LOCK = KEYCODE_BIT + 83;
@@ -2964,7 +2964,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the scroll lock key (value is
 	 * (1&lt;&lt;24)+84).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int SCROLL_LOCK = KEYCODE_BIT + 84;
@@ -2972,7 +2972,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the pause key (value is
 	 * (1&lt;&lt;24)+85).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int PAUSE = KEYCODE_BIT + 85;
@@ -2980,7 +2980,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the break key (value is
 	 * (1&lt;&lt;24)+86).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int BREAK = KEYCODE_BIT + 86;
@@ -2988,7 +2988,7 @@ public class SWTCopy {
 	/**
 	 * Keyboard event constant representing the print screen key (value is
 	 * (1&lt;&lt;24)+87).
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int PRINT_SCREEN = KEYCODE_BIT + 87;
@@ -3028,17 +3028,17 @@ public class SWTCopy {
 	 * <code>Text</code> in combination with <code>SWT.SEARCH
 	 * </code> (value is 1&lt;&lt;9). <br>
 	 * Note that this is a <em>HINT</em>.
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Text</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see #SEARCH
 	 * @see #ICON_CANCEL
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int ICON_SEARCH = 1 << 9;
@@ -3048,17 +3048,17 @@ public class SWTCopy {
 	 * <code>Text</code> in combination with <code>SWT.SEARCH
 	 * </code> (value is 1&lt;&lt;8). <br>
 	 * Note that this is a <em>HINT</em>.
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Text</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see #SEARCH
 	 * @see #ICON_SEARCH
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int ICON_CANCEL = 1 << 8;
@@ -3085,7 +3085,7 @@ public class SWTCopy {
 	 * The <code>MessageBox</code> style constant for a CANCEL button; valid
 	 * combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is
 	 * 1&lt;&lt;8).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
@@ -3128,7 +3128,7 @@ public class SWTCopy {
 	/**
 	 * The <code>Composite</code> constant to indicate that an attribute (such
 	 * as background) is not inherited by the children (value is 0).
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int INHERIT_NONE = 0;
@@ -3139,7 +3139,7 @@ public class SWTCopy {
 	 * "default" (value is 1). For example, a label child will typically choose
 	 * to inherit the background color of a composite while a list or table will
 	 * not.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int INHERIT_DEFAULT = 1;
@@ -3147,7 +3147,7 @@ public class SWTCopy {
 	/**
 	 * The <code>Composite</code> constant to indicate that an attribute (such
 	 * as background) is inherited by all children.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public static final int INHERIT_FORCE = 2;
@@ -3234,14 +3234,14 @@ public class SWTCopy {
 
 	/*
 	 * System Colors
-	 * 
+	 *
 	 * Dealing with system colors is an area where there are many platform
 	 * differences. On some platforms, system colors can change dynamically
 	 * while the program is running. On other platforms, system colors can be
 	 * changed for all instances of a particular widget. Therefore, the only
 	 * truly portable method to obtain a widget color query is to query the
 	 * color from an instance of the widget.
-	 * 
+	 *
 	 * It is expected that the list of supported colors will grow over time.
 	 */
 
@@ -3368,17 +3368,17 @@ public class SWTCopy {
 	/**
 	 * Selection constant indicating that a line delimiter should be drawn
 	 * (value is 1&lt;&lt;17).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>TextLayout</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see #FULL_SELECTION
 	 * @see #LAST_LINE_SELECTION
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int DELIMITER_SELECTION = 1 << 17;
@@ -3387,17 +3387,17 @@ public class SWTCopy {
 	 * Selection constant indicating that the last line is selected to the end
 	 * and should be drawn using either a line delimiter or full line selection
 	 * (value is 1&lt;&lt;20).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>TextLayout</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see #DELIMITER_SELECTION
 	 * @see #FULL_SELECTION
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int LAST_LINE_SELECTION = 1 << 20;
@@ -3459,7 +3459,7 @@ public class SWTCopy {
 	/**
 	 * SWT error constant indicating that the matrix is not invertible (value is
 	 * 10).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int ERROR_CANNOT_INVERT_MATRIX = 10;
@@ -3607,10 +3607,10 @@ public class SWTCopy {
 	 * SWT error constant indicating that an attempt was made to subclass an SWT
 	 * widget class without implementing the <code>checkSubclass()</code> method
 	 * (value is 43).
-	 * 
+	 *
 	 * For additional information see the comment in
 	 * <code>Widget.checkSubclass()</code>.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#checkSubclass
 	 */
 	public static final int ERROR_INVALID_SUBCLASS = 43;
@@ -3637,14 +3637,14 @@ public class SWTCopy {
 	/**
 	 * SWT error constant indicating that an unsatisfied link error occurred
 	 * while attempting to load a library (value is 47).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int ERROR_FAILED_LOAD_LIBRARY = 47;
 
 	/**
 	 * SWT error constant indicating that a font is not valid (value is 48).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int ERROR_INVALID_FONT = 48;
@@ -3652,7 +3652,7 @@ public class SWTCopy {
 	/**
 	 * SWT error constant indicating that an attempt was made to use an
 	 * BrowserFunction object which had already been disposed (value is 49).
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int ERROR_FUNCTION_DISPOSED = 49;
@@ -3660,7 +3660,7 @@ public class SWTCopy {
 	/**
 	 * SWT error constant indicating that an exception happened when evaluating
 	 * a javascript expression (value is 50).
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int ERROR_FAILED_EVALUATE = 50;
@@ -3668,7 +3668,7 @@ public class SWTCopy {
 	/**
 	 * SWT error constant indicating that an invalid value was returned (value
 	 * is 51).
-	 * 
+	 *
 	 * @since 3.5
 	 */
 	public static final int ERROR_INVALID_RETURN_VALUE = 51;
@@ -3714,7 +3714,7 @@ public class SWTCopy {
 	 * <li><code>ProgressBar</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int ERROR = 1;
@@ -3727,7 +3727,7 @@ public class SWTCopy {
 	 * <li><code>ProgressBar</code></li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @since 3.4
 	 */
 	public static final int PAUSED = 1 << 2;
@@ -3868,60 +3868,60 @@ public class SWTCopy {
 
 	/**
 	 * Line drawing style for flat end caps (value is 1).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineCap(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineCap()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int CAP_FLAT = 1;
 
 	/**
 	 * Line drawing style for rounded end caps (value is 2).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineCap(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineCap()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int CAP_ROUND = 2;
 
 	/**
 	 * Line drawing style for square end caps (value is 3).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineCap(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineCap()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int CAP_SQUARE = 3;
 
 	/**
 	 * Line drawing style for miter joins (value is 1).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineJoin(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineJoin()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int JOIN_MITER = 1;
 
 	/**
 	 * Line drawing style for rounded joins (value is 2).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineJoin(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineJoin()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int JOIN_ROUND = 2;
 
 	/**
 	 * Line drawing style for bevel joins (value is 3).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineJoin(int)
 	 * @see org.eclipse.swt.graphics.GC#getLineJoin()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int JOIN_BEVEL = 3;
@@ -3953,24 +3953,24 @@ public class SWTCopy {
 
 	/**
 	 * Line drawing style for custom dashed lines (value is 6).
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.GC#setLineDash(int[])
 	 * @see org.eclipse.swt.graphics.GC#getLineDash()
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int LINE_CUSTOM = 6;
 
 	/**
 	 * Path constant that represents a "move to" operation (value is 1).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int PATH_MOVE_TO = 1;
 
 	/**
 	 * Path constant that represents a "line to" operation (value is 2).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int PATH_LINE_TO = 2;
@@ -3978,35 +3978,35 @@ public class SWTCopy {
 	/**
 	 * Path constant that represents a "quadratic curve to" operation (value is
 	 * 3).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int PATH_QUAD_TO = 3;
 
 	/**
 	 * Path constant that represents a "cubic curve to" operation (value is 4).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int PATH_CUBIC_TO = 4;
 
 	/**
 	 * Path constant that represents a "close" operation (value is 5).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int PATH_CLOSE = 5;
 
 	/**
 	 * Even odd rule for filling operations (value is 1).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int FILL_EVEN_ODD = 1;
 
 	/**
 	 * Winding rule for filling operations (value is 2).
-	 * 
+	 *
 	 * @since 3.1
 	 */
 	public static final int FILL_WINDING = 2;
@@ -4110,10 +4110,10 @@ public class SWTCopy {
 	/**
 	 * The character movement type (value is 1&lt;&lt;0). This constant is used
 	 * to move a text offset over a character.
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.TextLayout#getNextOffset(int, int)
 	 * @see org.eclipse.swt.graphics.TextLayout#getPreviousOffset(int, int)
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int MOVEMENT_CHAR = 1 << 0;
@@ -4123,10 +4123,10 @@ public class SWTCopy {
 	 * move a text offset over a cluster. A cluster groups one or more
 	 * characters. A cluster is undivisible, this means that a caret offset can
 	 * not be placed in the middle of a cluster.
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.TextLayout#getNextOffset(int, int)
 	 * @see org.eclipse.swt.graphics.TextLayout#getPreviousOffset(int, int)
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int MOVEMENT_CLUSTER = 1 << 1;
@@ -4138,10 +4138,10 @@ public class SWTCopy {
 	 * Windows the stop is always at the start of the word. On GTK and Mac the
 	 * stop is at the end of the word if the direction is next and at the start
 	 * of the word if the direction is previous.
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.TextLayout#getNextOffset(int, int)
 	 * @see org.eclipse.swt.graphics.TextLayout#getPreviousOffset(int, int)
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final int MOVEMENT_WORD = 1 << 2;
@@ -4150,11 +4150,11 @@ public class SWTCopy {
 	 * The word end movement type (value is 1&lt;&lt;3). This constant is used
 	 * to move a text offset to the next or previous word end. The behavior of
 	 * this constant does not depend on the platform.
-	 * 
-	 * 
+	 *
+	 *
 	 * @see org.eclipse.swt.graphics.TextLayout#getNextOffset(int, int)
 	 * @see org.eclipse.swt.graphics.TextLayout#getPreviousOffset(int, int)
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int MOVEMENT_WORD_END = 1 << 3;
@@ -4163,10 +4163,10 @@ public class SWTCopy {
 	 * The word start movement type (value is 1&lt;&lt;4). This constant is used
 	 * to move a text offset to the next or previous word start. The behavior of
 	 * this constant does not depend on the platform.
-	 * 
+	 *
 	 * @see org.eclipse.swt.graphics.TextLayout#getNextOffset(int, int)
 	 * @see org.eclipse.swt.graphics.TextLayout#getPreviousOffset(int, int)
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	public static final int MOVEMENT_WORD_START = 1 << 4;
@@ -4174,100 +4174,102 @@ public class SWTCopy {
 	/**
 	 * A constant indicating that a given operation should be performed on all
 	 * widgets (value is 1&lt;&lt;0).
-	 * 
+	 *
 	 * <p>
 	 * <b>Used By:</b>
 	 * <ul>
 	 * <li><code>Composite</code> layout</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Composite#layout(org.eclipse.swt.widgets.Control[],
 	 *      int)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final int ALL = 1 << 0;
 
 	/**
 	 * ID for the About menu item (value is -1).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_ABOUT = -1;
 
 	/**
 	 * ID for the Preferences menu item (value is -2).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_PREFERENCES = -2;
 
 	/**
 	 * ID for the Hide menu item (value is -3).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_HIDE = -3;
 
 	/**
 	 * ID for the Hide Others menu item (value is -4).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_HIDE_OTHERS = -4;
 
 	/**
 	 * ID for the Show All menu item (value is -5).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_SHOW_ALL = -5;
 
 	/**
 	 * ID for the Quit menu item (value is -6).
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.MenuItem#setID(int)
 	 * @see org.eclipse.swt.widgets.MenuItem#getID()
-	 * 
+	 *
 	 * @since 3.7
 	 */
 	public static final int ID_QUIT = -6;
 
 	/**
 	 * Key value for setting and getting the skin class of a widget.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#getData(String)
 	 * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final String SKIN_CLASS = "org.eclipse.swt.skin.class";
 
 	/**
 	 * Key value for setting and getting the skin id of a widget.
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#getData(String)
 	 * @see org.eclipse.swt.widgets.Widget#setData(String, Object)
-	 * 
+	 *
 	 * @since 3.6
 	 */
 	public static final String SKIN_ID = "org.eclipse.swt.skin.id";
+
+
 
 	static {
 		/*

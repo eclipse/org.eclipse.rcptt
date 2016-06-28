@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+          point="org.eclipse.rcptt.util.keysExtension">
+       <keysExtension
+             class="org.eclipse.rcptt.core.swt.internal.ui.DefaultKeysAndButtonExtension">
+       </keysExtension>
+    </extension>
+    <extension
+          point="org.eclipse.rcptt.util.shellUtils">
+       <shellUtils
+             class="org.eclipse.rcptt.core.swt.internal.ui.DefaultShellUtils">
+       </shellUtils>
+    </extension>
+    <extension
+          point="org.eclipse.rcptt.tesla.recording.core.ecl.keyStrokeExtension">
+       <keyStrokeExtension
+             class="org.eclipse.rcptt.core.swt.internal.ui.DefaultKeyStrokeManagerExtension">
+       </keyStrokeExtension>
+    </extension>
+    <extension
+          point="org.eclipse.rcptt.util.displayUtils">
+       <displayUtils
+             class="org.eclipse.rcptt.core.swt.internal.ui.DefaultDisplayUtils">
+       </displayUtils>
+    </extension>
+</plugin>

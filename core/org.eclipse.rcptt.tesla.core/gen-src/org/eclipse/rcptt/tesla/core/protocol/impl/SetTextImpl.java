@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextImpl#getElement <em>Element</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextImpl#isSelect <em>Select</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextImpl#isHidden <em>Hidden</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

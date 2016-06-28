@@ -23,7 +23,7 @@ import org.eclipse.rcptt.core.recording.NetworkRecorder;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.utils.TeslaUtils;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.rcptt.tesla.core.protocol.Type;
 import org.eclipse.rcptt.tesla.internal.core.network.DefaultConnectionMonitor;
 

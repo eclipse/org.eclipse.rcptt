@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getContexts <em>Contexts</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getContent <em>Content</em>}</li>
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getExternalReference <em>External Reference</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getVerifications <em>Verifications</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getScenario()
  * @model

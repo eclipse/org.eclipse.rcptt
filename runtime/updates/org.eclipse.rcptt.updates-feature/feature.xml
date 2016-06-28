@@ -17,6 +17,10 @@
       %license
    </license>
 
+   <requires>
+      <import feature="org.eclipse.rcptt.external.dependencies.feature" version="2.2.0.qualifier"/>
+   </requires>
+
    <plugin
          id="org.eclipse.rcptt.updates.runtime"
          download-size="0"
@@ -31,6 +35,7 @@
          version="2.2.0.qualifier"
          unpack="false"/>
 
+
    <plugin
          id="org.eclipse.rcptt.updates.helios"
          download-size="0"
@@ -44,29 +49,42 @@
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.rcptt.updates.kepler"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+   
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e3x"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+   
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e38x"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+   
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e44x"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+
+
+   <plugin
+         id="org.eclipse.rcptt.util.swt"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+         
 </feature>

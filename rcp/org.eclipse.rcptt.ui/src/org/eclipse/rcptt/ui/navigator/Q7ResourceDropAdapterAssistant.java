@@ -50,7 +50,7 @@ import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -71,10 +71,10 @@ import org.eclipse.ui.navigator.resources.ResourceDropAdapterAssistant;
 import org.eclipse.ui.part.ResourceTransfer;
 
 /**
- * 
+ *
  * Derived from {@link org.eclipse.ui.navigator.resources.ResourceDropAdapterAssistant} to allow copy resources post
  * instructions
- * 
+ *
  */
 @SuppressWarnings("restriction")
 public class Q7ResourceDropAdapterAssistant extends
@@ -87,7 +87,7 @@ public class Q7ResourceDropAdapterAssistant extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(
 	 * CommonDropAdapter, DropTargetEvent, Object)
 	 */
@@ -163,7 +163,7 @@ public class Q7ResourceDropAdapterAssistant extends
 
 	/**
 	 * Returns the resource selection from the LocalSelectionTransfer.
-	 * 
+	 *
 	 * @return the resource selection from the LocalSelectionTransfer
 	 */
 	private IResource[] getSelectedResources() {
@@ -178,7 +178,7 @@ public class Q7ResourceDropAdapterAssistant extends
 
 	/**
 	 * Returns the resource selection from the LocalSelectionTransfer.
-	 * 
+	 *
 	 * @return the resource selection from the LocalSelectionTransfer
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })

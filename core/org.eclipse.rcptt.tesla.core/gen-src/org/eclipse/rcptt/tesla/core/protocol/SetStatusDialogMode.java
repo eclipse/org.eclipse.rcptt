@@ -19,10 +19,10 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetStatusDialogMode#isEnabled <em>Enabled</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetStatusDialogMode()
  * @model

@@ -30,9 +30,9 @@
 		<module>org.eclipse.rcptt.reporting</module>
 		<module>org.eclipse.rcptt.util</module>
 		<module>org.eclipse.rcptt.util.resources</module>
-		<module>org.eclipse.rcptt.util.swt</module>
-		<module>org.eclipse.rcptt.util.swt.win32</module>
-		<module>org.eclipse.rcptt.util.swt.win64</module>
+		<module>org.eclipse.rcptt.core.swt</module>
+		<module>org.eclipse.rcptt.core.swt.win32</module>
+		<module>org.eclipse.rcptt.core.swt.win64</module>
 		<module>org.eclipse.rcptt.core-feature</module>
 		<!-- ECL modules -->
 		<module>org.eclipse.rcptt.core.ecl.core</module>

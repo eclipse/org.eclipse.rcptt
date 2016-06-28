@@ -2,7 +2,6 @@
 <site>
 	<!-- Watson Stuff -->
 	<feature id="org.eclipse.rcptt.watson" />
-	<feature id="org.eclipse.rcptt.watson.runtime" />
 	<!-- Core feature -->
 	<feature id="org.eclipse.rcptt.tesla.ecl" />
 	<feature id="org.eclipse.rcptt.tesla" />

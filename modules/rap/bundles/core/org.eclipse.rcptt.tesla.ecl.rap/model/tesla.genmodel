@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.ecl.rap/gen-src" modelPluginID="org.eclipse.rcptt.tesla.ecl.rap"
+    modelName="Tesla" editPluginClass="org.eclipse.rcptt.tesla.ecl.rap.model.provider.RapTeslaEditPlugin"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.tesla.core/models/controls.genmodel#//ui ../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.rcptt.tesla.core/models/info.genmodel#//info ../../org.eclipse.rcptt.tesla.core/models/rawProtocol.genmodel#//raw ../../org.eclipse.rcptt.tesla.core/models/protocol.genmodel#//protocol">
+  <foreignModel>tesla.ecore</foreignModel>
+  <genPackages prefix="RapTesla" basePackage="org.eclipse.rcptt.tesla.ecl.rap" disposableProviderFactory="true"
+      fileExtensions="tesla" ecorePackage="tesla.ecore#/">
+    <genClasses ecoreClass="tesla.ecore#//RunJs">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//RunJs/jsCode"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//ExecWithoutJs">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tesla.ecore#//ExecWithoutJs/command"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//SetDownloadResultFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//SetDownloadResultFile/file"/>
+    </genClasses>
+    <genClasses ecoreClass="tesla.ecore#//VerifyDownloadFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//VerifyDownloadFile/url"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

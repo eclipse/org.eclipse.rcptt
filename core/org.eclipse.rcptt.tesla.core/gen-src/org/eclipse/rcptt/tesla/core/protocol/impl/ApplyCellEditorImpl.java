@@ -36,13 +36,13 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl#isDeactivate <em>Deactivate</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

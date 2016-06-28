@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<!-- Runtime feature -->
+	<feature id="org.eclipse.rcptt.launching.rap.feature">
+		<category name="rcptt"/>
+	</feature>
+	<feature id="org.eclipse.rcptt.rap.ui.feature">
+		<category name="rcptt"/>
+	</feature>
+	<category-def label="RCP Testing Tool RAP Support" name="rcptt"/>
+</site>

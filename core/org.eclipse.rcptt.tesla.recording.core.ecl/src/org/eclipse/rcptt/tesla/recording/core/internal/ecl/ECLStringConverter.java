@@ -12,12 +12,11 @@
 package org.eclipse.rcptt.tesla.recording.core.internal.ecl;
 
 import org.eclipse.rcptt.ecl.core.util.CommandToStringConverter;
-
 import org.eclipse.rcptt.tesla.recording.core.ecl.ISelectorParserExtension;
 
 /**
  * @author Yuri Strot
- * 
+ *
  */
 public class ECLStringConverter extends CommandToStringConverter {
 
@@ -42,7 +41,8 @@ public class ECLStringConverter extends CommandToStringConverter {
 			new String[] { null, "width" },
 			new String[] { null, "detail" },
 			new String[] { null, "operation" },
-			new String[] { null, "with" } };
+			new String[] { null, "with" },
+			new String[] { "verify-download-file", null } };
 
 	@Override
 	protected boolean isForced(String commandName, String paramName) {

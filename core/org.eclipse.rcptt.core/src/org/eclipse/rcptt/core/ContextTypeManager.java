@@ -60,6 +60,7 @@ public class ContextTypeManager {
 		legacyTypes.put("com.xored.q7.preferences.context", "org.eclipse.rcptt.ctx.preferences");
 		legacyTypes.put("com.xored.q7.ecl.context", "org.eclipse.rcptt.ctx.ecl");
 	}
+
 	public ContextType getTypeByContext(Context context) {
 		init();
 		return classToType.get(context.eClass());
@@ -80,7 +81,7 @@ public class ContextTypeManager {
 
 	/**
 	 * Apply context
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 * @throws CoreException

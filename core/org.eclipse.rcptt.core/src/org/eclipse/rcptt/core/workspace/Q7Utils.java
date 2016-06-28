@@ -54,7 +54,7 @@ public class Q7Utils {
 	}
 
 	public static IFile getLocation(Resource resource) {
-		if (resource == null /* || resource.getResourceSet() == null */) {
+		if (resource == null) {
 			return null;
 		}
 		if (resource.getURI() == null) {

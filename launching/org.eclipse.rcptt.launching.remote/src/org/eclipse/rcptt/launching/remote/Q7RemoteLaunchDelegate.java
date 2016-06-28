@@ -24,9 +24,9 @@ import org.eclipse.rcptt.launching.events.AutEventManager;
 
 /**
  * Version of this plugin is strictly requires eclipse 3.6
- * 
+ *
  * @author haiodo
- * 
+ *
  */
 public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 
@@ -35,11 +35,11 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 
 		int ecl = configuration.getAttribute(IQ7Launch.ATTR_ECL_PORT, -1);
 		int tesla = configuration.getAttribute(IQ7Launch.ATTR_TESLA_PORT, -1);
-		String host = configuration.getAttribute(IQ7Launch.ATTR_HOST,
-				IQ7Launch.DEFAULT_HOST);
-
+		String host = configuration.getAttribute(IQ7Launch.ATTR_HOST, IQ7Launch.DEFAULT_HOST);
+		String platform = configuration.getAttribute(IQ7Launch.ATTR_AUT_PLATFORM, IQ7Launch.DEFAULT_PLATFORM);
+		String capability = configuration.getAttribute(IQ7Launch.ATTR_AUT_CAPABILITY, IQ7Launch.DEFAULT_CAPABILITY);
 		BaseAutLaunch aut = BaseAutManager.INSTANCE.getByLaunch(launch);
-		aut.activate(host, ecl, tesla, 2, monitor);
+		aut.activate(host, ecl, tesla, platform, capability, 2, monitor);
 
 		AutReconnect reconnect = EventsFactory.eINSTANCE.createAutReconnect();
 		reconnect.setQ7EclPort(AutEventManager.INSTANCE.getPort());

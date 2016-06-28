@@ -49,8 +49,7 @@ public class CleanBundlePoolStartup implements IStartup {
 
 				IPreferenceStore store = Activator.getDefault()
 						.getPreferenceStore();
-				String lastRuntimeVersion = store
-						.getString(LAST_RUNTIME_VERSION);
+				String lastRuntimeVersion = store.getString(LAST_RUNTIME_VERSION);
 				if (version == null || !version.equals(lastRuntimeVersion)) {
 					if (version != null) {
 						store.putValue(LAST_RUNTIME_VERSION, version);
@@ -70,10 +69,8 @@ public class CleanBundlePoolStartup implements IStartup {
 											String platform = Q7TargetPlatformManager.getTargetPlatformName(cfg);
 											LaunchInfoCache.remove(cfg);
 											if (platform.length() > 0) {
-												TargetPlatformManager
-														.deleteTargetPlatform(platform);
-												Q7LaunchUtils
-														.deleteConfigFiles(cfg);
+												TargetPlatformManager.deleteTargetPlatform(platform);
+												Q7LaunchUtils.deleteConfigFiles(cfg);
 												Q7TargetPlatformManager.clear();
 											}
 										}

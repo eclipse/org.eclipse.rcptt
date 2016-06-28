@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSelection#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSelection#getPattern <em>Pattern</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSelection#getAdditionalItems <em>Additional Items</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetSelection#isAll <em>All</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetSelection()
  * @model

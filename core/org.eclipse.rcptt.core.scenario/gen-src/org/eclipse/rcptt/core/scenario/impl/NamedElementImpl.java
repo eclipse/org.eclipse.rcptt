@@ -33,6 +33,7 @@ import org.eclipse.rcptt.core.scenario.ScenarioPackage;
  * <em><b>Named Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.NamedElementImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.NamedElementImpl#getVersion <em>Version</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.rcptt.core.scenario.ScenarioPackage;
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.NamedElementImpl#getTags <em>Tags</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.NamedElementImpl#getAttachments <em>Attachments</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

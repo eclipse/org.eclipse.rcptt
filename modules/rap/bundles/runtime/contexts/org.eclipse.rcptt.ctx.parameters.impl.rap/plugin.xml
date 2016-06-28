@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+    /*******************************************************************************
+     * Copyright (c) 2009, 2016 Xored Software Inc and others.
+     * All rights reserved. This program and the accompanying materials
+     * are made available under the terms of the Eclipse Public License v1.0
+     * which accompanies this distribution, and is available at
+     * http://www.eclipse.org/legal/epl-v10.html
+     *
+     * Contributors:
+     *     Xored Software Inc - initial API and implementation and/or initial documentation
+     *******************************************************************************/
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.core.contextProcessors">
+      <processor
+            class="org.eclipse.rcptt.ctx.parameters.impl.rap.ParametersContextProcessor"
+            type="org.eclipse.rcptt.ctx.parameters">
+      </processor>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.rap.ResetParamsService"
+            name="ResetParams"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.rap.SetParamService"
+            name="SetParam"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ctx.parameters.impl.rap.GetParamService"
+            name="GetParam"
+            namespace="http://eclipse.org/rcptt/ctx/parameters">
+      </scriptlet>
+   </extension>
+
+</plugin>

@@ -23,154 +23,6 @@ import org.eclipse.rcptt.tesla.core.info.InfoPackage;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
-import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Button;
-import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.Check;
-import org.eclipse.rcptt.tesla.ecl.model.Click;
-import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
-import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
-import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.ClickText;
-import org.eclipse.rcptt.tesla.ecl.model.Close;
-import org.eclipse.rcptt.tesla.ecl.model.Collapse;
-import org.eclipse.rcptt.tesla.ecl.model.CollapseAll;
-import org.eclipse.rcptt.tesla.ecl.model.Contains;
-import org.eclipse.rcptt.tesla.ecl.model.ContainsImage;
-import org.eclipse.rcptt.tesla.ecl.model.ControlCommand;
-import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
-import org.eclipse.rcptt.tesla.ecl.model.ControlNotFound;
-import org.eclipse.rcptt.tesla.ecl.model.DeactivateCellEdit;
-import org.eclipse.rcptt.tesla.ecl.model.Decrypt;
-import org.eclipse.rcptt.tesla.ecl.model.DecryptResult;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClick;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickRuler;
-import org.eclipse.rcptt.tesla.ecl.model.DoubleClickText;
-import org.eclipse.rcptt.tesla.ecl.model.DragAccept;
-import org.eclipse.rcptt.tesla.ecl.model.DragAction;
-import org.eclipse.rcptt.tesla.ecl.model.DragDetect;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnd;
-import org.eclipse.rcptt.tesla.ecl.model.DragEnter;
-import org.eclipse.rcptt.tesla.ecl.model.DragExit;
-import org.eclipse.rcptt.tesla.ecl.model.DragOver;
-import org.eclipse.rcptt.tesla.ecl.model.DragSetData;
-import org.eclipse.rcptt.tesla.ecl.model.DragStart;
-import org.eclipse.rcptt.tesla.ecl.model.Drop;
-import org.eclipse.rcptt.tesla.ecl.model.Equals;
-import org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions;
-import org.eclipse.rcptt.tesla.ecl.model.Expand;
-import org.eclipse.rcptt.tesla.ecl.model.ExpandAll;
-import org.eclipse.rcptt.tesla.ecl.model.FromRawKey;
-import org.eclipse.rcptt.tesla.ecl.model.GetAboutMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetAdvancedInfo;
-import org.eclipse.rcptt.tesla.ecl.model.GetBanner;
-import org.eclipse.rcptt.tesla.ecl.model.GetButton;
-import org.eclipse.rcptt.tesla.ecl.model.GetByOs;
-import org.eclipse.rcptt.tesla.ecl.model.GetCanvas;
-import org.eclipse.rcptt.tesla.ecl.model.GetCell;
-import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
-import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
-import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
-import org.eclipse.rcptt.tesla.ecl.model.GetControl;
-import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
-import org.eclipse.rcptt.tesla.ecl.model.GetEclipseWindow;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditbox;
-import org.eclipse.rcptt.tesla.ecl.model.GetEditor;
-import org.eclipse.rcptt.tesla.ecl.model.GetGroup;
-import org.eclipse.rcptt.tesla.ecl.model.GetItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetItems;
-import org.eclipse.rcptt.tesla.ecl.model.GetLabel;
-import org.eclipse.rcptt.tesla.ecl.model.GetLastMessageBox;
-import org.eclipse.rcptt.tesla.ecl.model.GetLeftRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetLink;
-import org.eclipse.rcptt.tesla.ecl.model.GetList;
-import org.eclipse.rcptt.tesla.ecl.model.GetMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetObject;
-import org.eclipse.rcptt.tesla.ecl.model.GetPreferencesMenu;
-import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyNodes;
-import org.eclipse.rcptt.tesla.ecl.model.GetPropertyTab;
-import org.eclipse.rcptt.tesla.ecl.model.GetQuickAccess;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
-import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
-import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
-import org.eclipse.rcptt.tesla.ecl.model.GetSection;
-import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
-import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
-import org.eclipse.rcptt.tesla.ecl.model.GetTable;
-import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
-import org.eclipse.rcptt.tesla.ecl.model.GetText;
-import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
-import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
-import org.eclipse.rcptt.tesla.ecl.model.GetTree;
-import org.eclipse.rcptt.tesla.ecl.model.GetVerticalRuler;
-import org.eclipse.rcptt.tesla.ecl.model.GetView;
-import org.eclipse.rcptt.tesla.ecl.model.GetWidgetDetails;
-import org.eclipse.rcptt.tesla.ecl.model.GetWindow;
-import org.eclipse.rcptt.tesla.ecl.model.HoverAtTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.HoverRuler;
-import org.eclipse.rcptt.tesla.ecl.model.HoverText;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisabled;
-import org.eclipse.rcptt.tesla.ecl.model.IsDisposed;
-import org.eclipse.rcptt.tesla.ecl.model.IsEmpty;
-import org.eclipse.rcptt.tesla.ecl.model.KeyType;
-import org.eclipse.rcptt.tesla.ecl.model.Matches;
-import org.eclipse.rcptt.tesla.ecl.model.Maximize;
-import org.eclipse.rcptt.tesla.ecl.model.MessageBoxInfo;
-import org.eclipse.rcptt.tesla.ecl.model.Minimize;
-import org.eclipse.rcptt.tesla.ecl.model.Mouse;
-import org.eclipse.rcptt.tesla.ecl.model.OpenDeclaration;
-import org.eclipse.rcptt.tesla.ecl.model.Options;
-import org.eclipse.rcptt.tesla.ecl.model.PathSelector;
-import org.eclipse.rcptt.tesla.ecl.model.Recognize;
-import org.eclipse.rcptt.tesla.ecl.model.RecognizeResponse;
-import org.eclipse.rcptt.tesla.ecl.model.RestartAut;
-import org.eclipse.rcptt.tesla.ecl.model.Restore;
-import org.eclipse.rcptt.tesla.ecl.model.ReturnFromOsDialog;
-import org.eclipse.rcptt.tesla.ecl.model.Select;
-import org.eclipse.rcptt.tesla.ecl.model.SelectItem;
-import org.eclipse.rcptt.tesla.ecl.model.SelectRange;
-import org.eclipse.rcptt.tesla.ecl.model.Selector;
-import org.eclipse.rcptt.tesla.ecl.model.SetCaretPos;
-import org.eclipse.rcptt.tesla.ecl.model.SetDialogResult;
-import org.eclipse.rcptt.tesla.ecl.model.SetFocus;
-import org.eclipse.rcptt.tesla.ecl.model.SetPosition;
-import org.eclipse.rcptt.tesla.ecl.model.SetText;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextOffset;
-import org.eclipse.rcptt.tesla.ecl.model.SetTextSelection;
-import org.eclipse.rcptt.tesla.ecl.model.SetValue;
-import org.eclipse.rcptt.tesla.ecl.model.SetWidth;
-import org.eclipse.rcptt.tesla.ecl.model.SetupPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShoutdownPlayer;
-import org.eclipse.rcptt.tesla.ecl.model.ShowAlert;
-import org.eclipse.rcptt.tesla.ecl.model.ShowContentAssist;
-import org.eclipse.rcptt.tesla.ecl.model.ShowTabList;
-import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
-import org.eclipse.rcptt.tesla.ecl.model.TakeScreenshot;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
-import org.eclipse.rcptt.tesla.ecl.model.TeslaProcessStatus;
-import org.eclipse.rcptt.tesla.ecl.model.TextSelector;
-import org.eclipse.rcptt.tesla.ecl.model.ToControlHandle;
-import org.eclipse.rcptt.tesla.ecl.model.Trace;
-import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
-import org.eclipse.rcptt.tesla.ecl.model.TypeText;
-import org.eclipse.rcptt.tesla.ecl.model.Uncheck;
-import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
-import org.eclipse.rcptt.tesla.ecl.model.Unsupported;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyFalse;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyHandler;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyTrue;
-import org.eclipse.rcptt.tesla.ecl.model.Wait;
-import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
-import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.model.*;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.impl.DiagramPackageImpl;
@@ -1209,6 +1061,20 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass checkDownloadResultEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getRuntimeTargetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum buttonEEnum = null;
 
 	/**
@@ -1246,7 +1112,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link TeslaPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -1282,7 +1148,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		// Mark meta-data to indicate it can't be changed
 		theTeslaPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(TeslaPackage.eNS_URI, theTeslaPackage);
 		return theTeslaPackage;
@@ -4425,6 +4291,42 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCheckDownloadResult() {
+		return checkDownloadResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCheckDownloadResult_ContentOnBase64() {
+		return (EAttribute)checkDownloadResultEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCheckDownloadResult_FileName() {
+		return (EAttribute)checkDownloadResultEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetRuntimeTarget() {
+		return getRuntimeTargetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
 	}
@@ -4960,6 +4862,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		getLastMessageBoxEClass = createEClass(GET_LAST_MESSAGE_BOX);
 
+		checkDownloadResultEClass = createEClass(CHECK_DOWNLOAD_RESULT);
+		createEAttribute(checkDownloadResultEClass, CHECK_DOWNLOAD_RESULT__CONTENT_ON_BASE64);
+		createEAttribute(checkDownloadResultEClass, CHECK_DOWNLOAD_RESULT__FILE_NAME);
+
+		getRuntimeTargetEClass = createEClass(GET_RUNTIME_TARGET);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
 
@@ -5147,6 +5055,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		decryptEClass.getESuperTypes().add(theCorePackage.getCommand());
 		restartAutEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getLastMessageBoxEClass.getESuperTypes().add(theCorePackage.getCommand());
+		checkDownloadResultEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getRuntimeTargetEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5643,6 +5553,12 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		initEClass(getLastMessageBoxEClass, GetLastMessageBox.class, "GetLastMessageBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(checkDownloadResultEClass, CheckDownloadResult.class, "CheckDownloadResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCheckDownloadResult_ContentOnBase64(), theEcorePackage.getEString(), "contentOnBase64", null, 1, 1, CheckDownloadResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCheckDownloadResult_FileName(), theEcorePackage.getEString(), "fileName", null, 0, 1, CheckDownloadResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getRuntimeTargetEClass, GetRuntimeTarget.class, "GetRuntimeTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
 		addEEnumLiteral(buttonEEnum, Button.NONE);
@@ -5676,1660 +5592,1660 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";	
+		String source = "http://www.eclipse.org/ecl/docs";
 		addAnnotation
-		  (waitEClass, 
-		   source, 
+		  (waitEClass,
+		   source,
 		   new String[] {
 			 "description", "Suspend execution for a given number of milliseconds.",
 			 "returns", "nothing",
 			 "recorded", "false",
 			 "example", "wait 100"
-		   });	
+		   });
 		addAnnotation
-		  (getWait_Ms(), 
-		   source, 
+		  (getWait_Ms(),
+		   source,
 		   new String[] {
 			 "description", "Number of milliseconds. Must be integer value greater than zero."
-		   });	
+		   });
 		addAnnotation
-		  (getPropertyEClass, 
-		   source, 
+		  (getPropertyEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets property of UI control. Assertion mode and assertion window can be used for discovering of actual property names",
 			 "returns", "Property handler for further verification (like during recording), or actual property value as string, when <code>-raw</code> option is specified",
 			 "recorded", "true",
 			 "example", "get-view Tasks | get-tree | get-property itemCount | equals 1 | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getGetProperty_Object(), 
-		   source, 
+		  (getGetProperty_Object(),
+		   source,
 		   new String[] {
 			 "description", "UI control to get property from"
-		   });	
+		   });
 		addAnnotation
-		  (getGetProperty_Name(), 
-		   source, 
+		  (getGetProperty_Name(),
+		   source,
 		   new String[] {
 			 "description", "Property name"
-		   });	
+		   });
 		addAnnotation
-		  (getGetProperty_Index(), 
-		   source, 
+		  (getGetProperty_Index(),
+		   source,
 		   new String[] {
 			 "description", "Property index for list values"
-		   });	
+		   });
 		addAnnotation
-		  (getGetProperty_Raw(), 
-		   source, 
+		  (getGetProperty_Raw(),
+		   source,
 		   new String[] {
 			 "description", "When true, command returns property value\nWhen false, command returns internal property verification handle"
-		   });	
+		   });
 		addAnnotation
-		  (verifyTrueEClass, 
-		   source, 
+		  (verifyTrueEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks <code>input</code> condition\'s verity. If verity is not confirmed, then error is returned",
 			 "input", "EObject condition",
 			 "example", "get-editor \"Test scenario\" | get-section Script | get-editbox | get-property value | equals test | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getVerifyTrue_Condition(), 
-		   source, 
+		  (getVerifyTrue_Condition(),
+		   source,
 		   new String[] {
 			 "description", "<code>input</code> condition that has to be true"
-		   });	
+		   });
 		addAnnotation
-		  (verifyFalseEClass, 
-		   source, 
+		  (verifyFalseEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks <code>input</code> condition\'s falsity. If falsity is not confirmed, then error is returned",
 			 "input", "EObject condition",
 			 "example", "get-editor \"Test scenario\" | get-section Script | get-editbox | get-property value | equals test | verify-false"
-		   });	
+		   });
 		addAnnotation
-		  (getVerifyFalse_Condition(), 
-		   source, 
+		  (getVerifyFalse_Condition(),
+		   source,
 		   new String[] {
 			 "description", "<code>input</code> condition that has to be false"
-		   });	
+		   });
 		addAnnotation
-		  (verifyErrorEClass, 
-		   source, 
+		  (verifyErrorEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks <code>input</code> conditions. \r\nIf the specified condition is not met (for example, the object is not returned), the verification is passed. \r\nIf the condition is met (for example, the object is selected), the verification is failed.",
 			 "input", "EObject condition",
 			 "example", "get-view \"Project Explorer\" | get-tree | verify-error {get-item \"TestProject\"}"
-		   });	
+		   });
 		addAnnotation
-		  (equalsEClass, 
-		   source, 
+		  (equalsEClass,
+		   source,
 		   new String[] {
 			 "description", "Compares <code>input</code> with <code>value</code>",
 			 "input", "EObject input",
 			 "returns", "true if values are equal or false otherwise",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | get-item Project | get-property childCount | equals 3 | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getEquals_Input(), 
-		   source, 
+		  (getEquals_Input(),
+		   source,
 		   new String[] {
 			 "description", "Property value extracted with <code>get-property</code>"
-		   });	
+		   });
 		addAnnotation
-		  (getEquals_Value(), 
-		   source, 
+		  (getEquals_Value(),
+		   source,
 		   new String[] {
 			 "description", "Expected property value"
-		   });	
+		   });
 		addAnnotation
-		  (containsEClass, 
-		   source, 
+		  (containsEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks if <code>input</code> has <code>value</code> within  ",
 			 "input", "EObject input",
 			 "returns", "true if the content of control contains the specified value or false otherwise",
 			 "example", "get-editor TestCase1 | get-editbox | get-property value | contains a22 | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getContains_Input(), 
-		   source, 
+		  (getContains_Input(),
+		   source,
 		   new String[] {
 			 "description", "Property value extracted with <code>get-property</code>"
-		   });	
+		   });
 		addAnnotation
-		  (getContains_Value(), 
-		   source, 
+		  (getContains_Value(),
+		   source,
 		   new String[] {
 			 "description", "Value, which is expected to be included"
-		   });	
+		   });
 		addAnnotation
-		  (matchesEClass, 
-		   source, 
+		  (matchesEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks if <code>input</code> matches to a regular expression <code>value</code>",
 			 "input", "Result of <code>get-property</code> command",
 			 "example", "get-editor TestCase1 | get-editbox | get-property value | matches \"\\\\d+\" | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (isEmptyEClass, 
-		   source, 
+		  (isEmptyEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks if content of control is empty",
 			 "returns", "true if the content of control is empty or false otherwise",
 			 "example", "get-editor WorkbenchContext |  get-section Workbench | get-editbox -after [get-label \"Perspective id:\"] | get-property text | is-empty  | verify-false"
-		   });	
+		   });
 		addAnnotation
-		  (getIsEmpty_Input(), 
-		   source, 
+		  (getIsEmpty_Input(),
+		   source,
 		   new String[] {
 			 "description", "Path to control which emptyness has to be checked"
-		   });	
+		   });
 		addAnnotation
-		  (getControlHandler_Type(), 
-		   source, 
+		  (getControlHandler_Type(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the type of a control, if there are any types."
-		   });	
+		   });
 		addAnnotation
-		  (getEclipseWindowEClass, 
-		   source, 
+		  (getEclipseWindowEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets Eclipse window.",
 			 "returns", "Eclipse window",
 			 "recorded", "true",
 			 "example", "get-eclipse-window | key-type F8"
-		   });	
+		   });
 		addAnnotation
-		  (getSelector_After(), 
-		   source, 
+		  (getSelector_After(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the element after which the necessary element is present. "
-		   });	
+		   });
 		addAnnotation
-		  (getSelector_Type(), 
-		   source, 
+		  (getSelector_Type(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the type of a control, if there are any types."
-		   });	
+		   });
 		addAnnotation
-		  (getSelector_Index(), 
-		   source, 
+		  (getSelector_Index(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the number of control in list. If element is first in list, then this parameter is not present and default is equal 0."
-		   });	
+		   });
 		addAnnotation
-		  (getSelector_Parent(), 
-		   source, 
+		  (getSelector_Parent(),
+		   source,
 		   new String[] {
 			 "description", ""
-		   });	
+		   });
 		addAnnotation
-		  (getPathSelector_Path(), 
-		   source, 
+		  (getPathSelector_Path(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the path to the item. This parameter is used by default, so <code>-path</code> word is not written at the recording of the test."
-		   });	
+		   });
 		addAnnotation
-		  (getTextSelector_Text(), 
-		   source, 
+		  (getTextSelector_Text(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the text\\name of this element. This parameter is used by default, so <code>-text</code> word is not written at the recording of the test."
-		   });	
+		   });
 		addAnnotation
-		  (getControlEClass, 
-		   source, 
+		  (getControlEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets control with defined caption or index. If this control doesn\'t exist, then error is returned.",
 			 "returns", "link to the control",
 			 "recorded", "true",
 			 "example", "//writes \'Perspective id:\' into log\nget-editor WorkbanchContext | get-section Workbench | get-control -kind \"Label\" -index 1 | get-property text -raw| str | log"
-		   });	
+		   });
 		addAnnotation
-		  (getButtonEClass, 
-		   source, 
+		  (getButtonEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets button with defined caption. If this button doesn\'t exist, then error is returned.",
 			 "returns", "link to the button",
 			 "recorded", "true",
 			 "example", "get-button Replay | click"
-		   });	
+		   });
 		addAnnotation
-		  (getCanvasEClass, 
-		   source, 
+		  (getCanvasEClass,
+		   source,
 		   new String[] {
 			 "description", "",
 			 "returns", "",
 			 "recorded", "true",
 			 "example", "with [get-editor CreateQ7Project | get-section Script | get-canvas] {<br>\r\n        mouse-press 24 53 button1<br>\r\n        mouse-release 24 53 button1 524288<br>\r\n    }"
-		   });	
+		   });
 		addAnnotation
-		  (getCheckboxEClass, 
-		   source, 
+		  (getCheckboxEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets checkbox with defined parameter. If this checkbox doesn\'t exist, then error is returned.",
 			 "returns", "link to the checkbox",
 			 "recorded", "true",
 			 "example", "get-editor Wb | get-section Workbench | get-checkbox -text \"Clear clipboard\" | check"
-		   });	
+		   });
 		addAnnotation
-		  (getComboEClass, 
-		   source, 
+		  (getComboEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets combobox with defined parameter. If this combobox doesn\'t exist, then error is returned.",
 			 "returns", "link to the combobox",
 			 "recorded", "true",
 			 "example", "get-window \"Q7 Control Panel - Test\" | get-window \"Find/Replace\" | get-combo -after [get-label \"Replace with:\"] | get-property enablement | equals false"
-		   });	
+		   });
 		addAnnotation
-		  (getEditboxEClass, 
-		   source, 
+		  (getEditboxEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets editbox with defined parameter. If this editbox doesn\'t exist, then error is returned.",
 			 "returns", "link to the editbox",
 			 "recorded", "true",
 			 "example", "get-view \"Execution View\" | get-editbox -after [get-label \"Message:\"] | get-property text | equals \"\" | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getGroupEClass, 
-		   source, 
+		  (getGroupEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets group with defined parameter. If this group doesn\'t exist, then error is returned.",
 			 "returns", "group ",
 			 "recorded", "true",
 			 "example", "get-window Search | get-group \"Search in\" | get-button Tags | click"
-		   });	
+		   });
 		addAnnotation
-		  (getItemEClass, 
-		   source, 
+		  (getItemEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets item at the specified path. If this item doesn\'t exist, then error is returned.",
 			 "returns", "item",
 			 "recorded", "true",
 			 "example", "get-view Breakpoints | get-tree  |  get-item CreateJavaProject  | get-property checked | equals false | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getGetItem_Path(), 
-		   source, 
+		  (getGetItem_Path(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the path to the item. This parameter is used by default, so <code>-path</code> word is not written at the recording of the test."
-		   });	
+		   });
 		addAnnotation
-		  (getLabelEClass, 
-		   source, 
+		  (getLabelEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets label with defined text. If this label doesn\'t exist, then error is returned.",
 			 "returns", "link to the label",
 			 "recorded", "true",
 			 "example", "get-view \"Execution View\" | get-label -after [get-label \"Runs:\"] | get-property caption | equals \"3/3\" | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getLinkEClass, 
-		   source, 
+		  (getLinkEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets link with defined text. If this link doesn\'t exist, then error is returned.",
 			 "returns", "link",
 			 "recorded", "true",
 			 "example", "get-window \"Delete Resources\" | get-link \"See 3 reference(s) found.\" | click"
-		   });	
+		   });
 		addAnnotation
-		  (getListEClass, 
-		   source, 
+		  (getListEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets list with specified parameter. If this list doesn\'t exist, then error is returned.",
 			 "returns", "list",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (getMenuEClass, 
-		   source, 
+		  (getMenuEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the path to the section menu. If this section menu doesn\'t exist, then error is returned.",
 			 "returns", "path to the section menu",
 			 "recorded", "true",
 			 "example", "get-window \"Q7 Control Panel - Test\" |  get-toolbar | get-menu \"Save As...\" | click"
-		   });	
+		   });
 		addAnnotation
-		  (getTabFolderEClass, 
-		   source, 
+		  (getTabFolderEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets all tabs of editor. If this editor doesn\'t contain tabs, then error is returned.",
 			 "returns", "all tabs of editor",
 			 "recorded", "true",
 			 "example", "get-editor SO | get-tab-folder | get-tab-item Documentation | click"
-		   });	
+		   });
 		addAnnotation
-		  (getTabItemEClass, 
-		   source, 
+		  (getTabItemEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets tab of editor with defined name. If this tab doesn\'t exist, then error is returned.",
 			 "returns", "tab",
 			 "recorded", "true",
 			 "example", "get-editor SO | get-tab-folder | get-tab-item Documentation | click"
-		   });	
+		   });
 		addAnnotation
-		  (getTableEClass, 
-		   source, 
+		  (getTableEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the table with specified parameter. If this table doesn\'t exist, then error is returned.",
 			 "returns", "table",
 			 "recorded", "true",
 			 "example", "get-editor test |  get-section Contexts | get-table | get-property itemCount | equals 2 | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getToolbarEClass, 
-		   source, 
+		  (getToolbarEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets toolbar with specified parameter. If toolbar doesn\'t exist, then error is returned.",
 			 "returns", "toolbar",
 			 "recorded", "true",
 			 "example", "get-window \"Q7 Control Panel - Test\" |   get-toolbar | get-menu Save | click <br> get-toolbar -index 11 | key-type \"M1+s\" "
-		   });	
+		   });
 		addAnnotation
-		  (getTreeEClass, 
-		   source, 
+		  (getTreeEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the tree with specified parameter. If this tree doesn\'t exist, then error is returned.",
 			 "returns", "tree",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | select \"Q7Project/ECL Context\" | double-click"
-		   });	
+		   });
 		addAnnotation
-		  (getWindowEClass, 
-		   source, 
+		  (getWindowEClass,
+		   source,
 		   new String[] {
 			 "description", "Get window with defined name. If this window doesn\'t exist, then error is returned.",
 			 "returns", "window",
 			 "recorded", "true",
 			 "example", "get-window \"Select context\" | get-table | select \"ECL Context \\\\(Q7Project\\\\)\" | click -default"
-		   });	
+		   });
 		addAnnotation
-		  (getGetWindow_Text(), 
-		   source, 
+		  (getGetWindow_Text(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the name of this window. This parameter is used by default, so <code>-text</code> word is not written at the recording of the test."
-		   });	
+		   });
 		addAnnotation
-		  (getGetWindow_From(), 
-		   source, 
+		  (getGetWindow_From(),
+		   source,
 		   new String[] {
 			 "description", "Indicates the method (in the form of <code>\"ClassName.methodName()\"</code>) where this window is created."
-		   });	
+		   });
 		addAnnotation
-		  (getGetWindow_Class(), 
-		   source, 
+		  (getGetWindow_Class(),
+		   source,
 		   new String[] {
 			 "description", "Indicates name of the JFace Window subclass defining this window."
-		   });	
+		   });
 		addAnnotation
-		  (getViewEClass, 
-		   source, 
+		  (getViewEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets view with defined name. If this view doesn\'t exist, then error is returned.",
 			 "returns", "view",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | select \"Q7Project/CheckSetCommand\" | double-click"
-		   });	
+		   });
 		addAnnotation
-		  (getEditorEClass, 
-		   source, 
+		  (getEditorEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets editor with defined parameter. If editor doesn\'t exist, then error is returned.",
 			 "returns", "editor",
 			 "recorded", "true",
 			 "example", "get-editor EclContext | get-section Script | get-editbox | get-property text | equals \"wait 1000\" | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getSectionEClass, 
-		   source, 
+		  (getSectionEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets section with defined parameter. If this section doesn\'t exist, then error is returned.",
 			 "returns", "section",
 			 "recorded", "true",
 			 "example", "get-editor CheckSetCommand |  get-section Contexts | key-type \"M1+s\""
-		   });	
+		   });
 		addAnnotation
-		  (getCellEClass, 
-		   source, 
+		  (getCellEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets cell with defined parameter. If this cell doesn\'t exist, then error is returned.",
 			 "returns", "cell",
 			 "recorded", "true",
 			 "example", "get-editor context | get-section Parameters | get-table | get-cell -row 1 -column 1 | \n get-property text -raw | str  | log"
-		   });	
+		   });
 		addAnnotation
-		  (clickEClass, 
-		   source, 
+		  (clickEClass,
+		   source,
 		   new String[] {
 			 "description", "Clicks on a control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "true",
 			 "example", "get-editor TestSuite | get-section \"Test Cases\" | get-button \"Add Test Case\" | click"
-		   });	
+		   });
 		addAnnotation
-		  (getClick_Control(), 
-		   source, 
+		  (getClick_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getClick_Default(), 
-		   source, 
+		  (getClick_Default(),
+		   source,
 		   new String[] {
 			 "description", "Specifies if clicking causes default selection.",
 			 "default", "false"
-		   });	
+		   });
 		addAnnotation
-		  (getClick_Arrow(), 
-		   source, 
+		  (getClick_Arrow(),
+		   source,
 		   new String[] {
 			 "description", "Specifies arrow button behavior.",
 			 "default", "false"
-		   });	
+		   });
 		addAnnotation
-		  (doubleClickEClass, 
-		   source, 
+		  (doubleClickEClass,
+		   source,
 		   new String[] {
 			 "description", "Double clicks on a control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | select \"TestProject/Test\" | double-click"
-		   });	
+		   });
 		addAnnotation
-		  (getTextEClass, 
-		   source, 
+		  (getTextEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets text content of a control. If this text doesn\'t exist, then error is returned.",
 			 "returns", "text content of a control",
 			 "recorded", "true",
 			 "example", "get-editor \"WorkbenchContext\" | get-control -kind \"Label\" | get-text | equals \"Name:\" | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getGetText_Control(), 
-		   source, 
+		  (getGetText_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (isDisabledEClass, 
-		   source, 
+		  (isDisabledEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks if the control is disabled or not",
 			 "returns", "true if the control is disabled or false otherwise",
 			 "recorded", "true",
 			 "example", "get-menu \"File/Save\" | is-disabled | assert-true"
-		   });	
+		   });
 		addAnnotation
-		  (getIsDisabled_Control(), 
-		   source, 
+		  (getIsDisabled_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (isDisposedEClass, 
-		   source, 
+		  (isDisposedEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks if the control is disposed or not",
 			 "returns", "true if the control is disposed or false otherwise",
 			 "recorded", "true",
 			 "example", "get-editor \"WorkbenchContext\" | is-disposed | verify-false"
-		   });	
+		   });
 		addAnnotation
-		  (getIsDisposed_Control(), 
-		   source, 
+		  (getIsDisposed_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (typeTextEClass, 
-		   source, 
+		  (typeTextEClass,
+		   source,
 		   new String[] {
 			 "description", "Types text to the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor \"Test scenario\" | get-section Script | get-editbox |  type-text \"wait 200\""
-		   });	
+		   });
 		addAnnotation
-		  (getTypeText_Control(), 
-		   source, 
+		  (getTypeText_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getTypeText_Text(), 
-		   source, 
+		  (getTypeText_Text(),
+		   source,
 		   new String[] {
 			 "description", "Text to type."
-		   });	
+		   });
 		addAnnotation
-		  (keyTypeEClass, 
-		   source, 
+		  (keyTypeEClass,
+		   source,
 		   new String[] {
 			 "description", "Type key to the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor \"Test scenario\" | get-section Script | get-editbox |  key-type \"M1+s\""
-		   });	
+		   });
 		addAnnotation
-		  (getKeyType_Control(), 
-		   source, 
+		  (getKeyType_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getKeyType_Key(), 
-		   source, 
+		  (getKeyType_Key(),
+		   source,
 		   new String[] {
 			 "description", "Key to type."
-		   });	
+		   });
 		addAnnotation
-		  (getKeyType_Char(), 
-		   source, 
+		  (getKeyType_Char(),
+		   source,
 		   new String[] {
 			 "description", "Character that corresponds to the *key*.  In most cases this parameter is not necessary.",
 			 "default", "calculated from the *key*"
-		   });	
+		   });
 		addAnnotation
-		  (typeCommandKeyEClass, 
-		   source, 
+		  (typeCommandKeyEClass,
+		   source,
 		   new String[] {
 			 "description", "Type key to the control.",
 			 "returns", "value of <code>control</code> parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getTypeCommandKey_Control(), 
-		   source, 
+		  (getTypeCommandKey_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (setTextEClass, 
-		   source, 
+		  (setTextEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets text content of the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-window Properties |  get-combo -after [get-label \"Priority:\"] | set-text High"
-		   });	
+		   });
 		addAnnotation
-		  (getSetText_Control(), 
-		   source, 
+		  (getSetText_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getSetText_Text(), 
-		   source, 
+		  (getSetText_Text(),
+		   source,
 		   new String[] {
 			 "description", "Text to set."
-		   });	
+		   });
 		addAnnotation
-		  (setTextSelectionEClass, 
-		   source, 
+		  (setTextSelectionEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor Q7Project | get-section Script | get-editbox |  set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1"
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_Control(), 
-		   source, 
+		  (getSetTextSelection_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_Offset(), 
-		   source, 
+		  (getSetTextSelection_Offset(),
+		   source,
 		   new String[] {
 			 "description", "Zero-based selection starting position. Must be in <code>0..length-1</code> range"
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_Length(), 
-		   source, 
+		  (getSetTextSelection_Length(),
+		   source,
 		   new String[] {
 			 "description", "Length of selection. Must not be less that zero."
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_StartLine(), 
-		   source, 
+		  (getSetTextSelection_StartLine(),
+		   source,
 		   new String[] {
 			 "description", "For multiline text boxes the starting line of a selection. If set, then the <code>offset</code> value will be relative to given line."
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_EndLine(), 
-		   source, 
+		  (getSetTextSelection_EndLine(),
+		   source,
 		   new String[] {
 			 "description", "For multiline textboxes the ending line of a selection."
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_EndOffset(), 
-		   source, 
+		  (getSetTextSelection_EndOffset(),
+		   source,
 		   new String[] {
 			 "description", "Selection end offset relative to <code>endLine</code>. Don\'t use this argument along with <code>length</code> argument."
-		   });	
+		   });
 		addAnnotation
-		  (setTextOffsetEClass, 
-		   source, 
+		  (setTextOffsetEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the text offset.\nFor specified line.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-window \"Q7 Control Panel - Test\" | get-editbox |  set-text-offset 8 0"
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextOffset_Control(), 
-		   source, 
+		  (getSetTextOffset_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextOffset_Value(), 
-		   source, 
+		  (getSetTextOffset_Value(),
+		   source,
 		   new String[] {
 			 "description", "Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextOffset_Line(), 
-		   source, 
+		  (getSetTextOffset_Line(),
+		   source,
 		   new String[] {
 			 "description", "Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "
-		   });	
+		   });
 		addAnnotation
-		  (checkEClass, 
-		   source, 
+		  (checkEClass,
+		   source,
 		   new String[] {
 			 "description", "Checks the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor Wb | get-section Workbench] {\n    get-button \"Clear clipboard\" | check\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getCheck_Control(), 
-		   source, 
+		  (getCheck_Control(),
+		   source,
 		   new String[] {
 			 "description", "Item of table, list or tree."
-		   });	
+		   });
 		addAnnotation
-		  (uncheckEClass, 
-		   source, 
+		  (uncheckEClass,
+		   source,
 		   new String[] {
 			 "description", "Unchecks the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor Wb | get-section Workbench] {\n    get-button \"Close all modal dialogs\" | uncheck\n    get-button \"Clear clipboard\" | uncheck\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getUncheck_Control(), 
-		   source, 
+		  (getUncheck_Control(),
+		   source,
 		   new String[] {
 			 "description", "Item of table, list or tree."
-		   });	
+		   });
 		addAnnotation
-		  (selectEClass, 
-		   source, 
+		  (selectEClass,
+		   source,
 		   new String[] {
 			 "description", "Selects items.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | select \"TestQ7Prj/Test scenario\" | double-click"
-		   });	
+		   });
 		addAnnotation
-		  (getSelect_Control(), 
-		   source, 
+		  (getSelect_Control(),
+		   source,
 		   new String[] {
 			 "description", "Table, list or tree."
-		   });	
+		   });
 		addAnnotation
-		  (getSelect_Items(), 
-		   source, 
+		  (getSelect_Items(),
+		   source,
 		   new String[] {
 			 "description", "Path of item to select."
-		   });	
+		   });
 		addAnnotation
-		  (getSelect_All(), 
-		   source, 
+		  (getSelect_All(),
+		   source,
 		   new String[] {
 			 "description", "If true, command selects all items matched by provided regular expression. For Example, <code>get-tree | select \"Foo.*/Bar.*\" -all</code> will select all items starting with \"Bar\", if their parents starts with \"Foo\"."
-		   });	
+		   });
 		addAnnotation
-		  (getCellEdit_Control(), 
-		   source, 
+		  (getCellEdit_Control(),
+		   source,
 		   new String[] {
 			 "description", "Item of table, list or tree."
-		   });	
+		   });
 		addAnnotation
-		  (activateCellEditEClass, 
-		   source, 
+		  (activateCellEditEClass,
+		   source,
 		   new String[] {
 			 "description", "Activates cell editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor Test | get-section Preferences | get-tree |  select \"EXECUTION_TIMEOUT\" | activate-cell-edit -column 1"
-		   });	
+		   });
 		addAnnotation
-		  (getActivateCellEdit_Column(), 
-		   source, 
+		  (getActivateCellEdit_Column(),
+		   source,
 		   new String[] {
 			 "description", ""
-		   });	
+		   });
 		addAnnotation
-		  (applyCellEditEClass, 
-		   source, 
+		  (applyCellEditEClass,
+		   source,
 		   new String[] {
 			 "description", "Applies cell editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor context | get-section Parameters | get-table] {\n    select parameter1 | activate-cell-edit -column 1\n    get-editbox | set-text value\n    apply-cell-edit -deactivate\n}"
-		   });	
+		   });
 		addAnnotation
-		  (cancelCellEditEClass, 
-		   source, 
+		  (cancelCellEditEClass,
+		   source,
 		   new String[] {
 			 "description", "Cancels cell editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor context | get-section Parameters | get-table] {\n    select \"Add new parameter\" | activate-cell-edit\n    get-editbox | set-text \"this text won\'t be applied\"\n    cancel-cell-edit\n   }"
-		   });	
+		   });
 		addAnnotation
-		  (deactivateCellEditEClass, 
-		   source, 
+		  (deactivateCellEditEClass,
+		   source,
 		   new String[] {
 			 "description", "Applies cell editing.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-editor context2 | get-section Parameters | get-table] {\n    select parameter | activate-cell-edit -column 1\n    get-editbox | set-text \"value\"\n    cancel-cell-edit\n    deactivate-cell-edit\n}"
-		   });	
+		   });
 		addAnnotation
-		  (closeEClass, 
-		   source, 
+		  (closeEClass,
+		   source,
 		   new String[] {
 			 "description", "Closes the control.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-window \"Q7 Control Panel - Test\" | close"
-		   });	
+		   });
 		addAnnotation
-		  (getClose_Control(), 
-		   source, 
+		  (getClose_Control(),
+		   source,
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });	
+		   });
 		addAnnotation
-		  (returnFromOsDialogEClass, 
-		   source, 
+		  (returnFromOsDialogEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates result returning from native dialog.",
 			 "returns", "nothing"
-		   });	
+		   });
 		addAnnotation
-		  (getReturnFromOsDialog_Kind(), 
-		   source, 
+		  (getReturnFromOsDialog_Kind(),
+		   source,
 		   new String[] {
 			 "description", "Must be one of followings: FILE_SELECTOR, FOLDER_SELECTOR, MESSAGE_BOX, FONT_DIALOG, COLOR"
-		   });	
+		   });
 		addAnnotation
-		  (getReturnFromOsDialog_Result(), 
-		   source, 
+		  (getReturnFromOsDialog_Result(),
+		   source,
 		   new String[] {
 			 "description", "String presentation of returned value (platform specific)."
-		   });	
+		   });
 		addAnnotation
-		  (waitUntilEclipseIsReadyEClass, 
-		   source, 
+		  (waitUntilEclipseIsReadyEClass,
+		   source,
 		   new String[] {
 			 "description", "Suspend execution until Eclipse is ready.",
 			 "returns", "nothing",
 			 "recorded", "true",
 			 "example", "get-menu \"File/Restart\" | click\nwait-until-eclipse-is-ready\nget-view \"Q7 Explorer\" | get-tree | select Project"
-		   });	
+		   });
 		addAnnotation
-		  (showContentAssistEClass, 
-		   source, 
+		  (showContentAssistEClass,
+		   source,
 		   new String[] {
 			 "description", "Shows content assist.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "true",
 			 "example", "with [get-editor t | get-section Script | get-text-viewer] {\n    set-caret-pos 1 1\n    type-text \"get-\"\n    show-content-assist\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getShowContentAssist_Control(), 
-		   source, 
+		  (getShowContentAssist_Control(),
+		   source,
 		   new String[] {
 			 "description", "Must be editor."
-		   });	
+		   });
 		addAnnotation
-		  (dragActionEClass, 
-		   source, 
+		  (dragActionEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag action event.",
 			 "returns", "value of <code>control</code> parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Control(), 
-		   source, 
+		  (getDragAction_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_X(), 
-		   source, 
+		  (getDragAction_X(),
+		   source,
 		   new String[] {
 			 "description", "X coordinate relative to left top corner of the control.",
 			 "default", "0"
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Y(), 
-		   source, 
+		  (getDragAction_Y(),
+		   source,
 		   new String[] {
 			 "description", "Y coordinate relative to left top corner of the control.",
 			 "default", "0"
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Button(), 
-		   source, 
+		  (getDragAction_Button(),
+		   source,
 		   new String[] {
 			 "description", "Mouse button pressed. Must be one of followings: none, button1, button2, button3.",
 			 "default", "none"
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Mask(), 
-		   source, 
+		  (getDragAction_Mask(),
+		   source,
 		   new String[] {
 			 "default", "0"
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Detail(), 
-		   source, 
+		  (getDragAction_Detail(),
+		   source,
 		   new String[] {
 			 "description", "Kind of DND operation to perform: <code>copy</code>, <code>move</code>, <code>link</code>, <code>target-move</code> (move to non-SWT application) or <code>none</code> (if not applicable)."
-		   });	
+		   });
 		addAnnotation
-		  (dragStartEClass, 
-		   source, 
+		  (dragStartEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag start event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-item \"Project/t.test\" | drag-start 23 5"
-		   });	
+		   });
 		addAnnotation
-		  (dragEndEClass, 
-		   source, 
+		  (dragEndEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag end event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-view \"Project Explorer\" | get-tree] {\n    drag-end -detail copy\n    select \"Project/Folder/t.test\" | get-menu Delete | click\n}"
-		   });	
+		   });
 		addAnnotation
-		  (dragEnterEClass, 
-		   source, 
+		  (dragEnterEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag enter event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-item \"Project/t.test\" | drag-enter 23 11 -detail copy"
-		   });	
+		   });
 		addAnnotation
-		  (dragExitEClass, 
-		   source, 
+		  (dragExitEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag exit event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-item \"Project/t.test\" | drag-exit"
-		   });	
+		   });
 		addAnnotation
-		  (dragSetDataEClass, 
-		   source, 
+		  (dragSetDataEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag set event.",
 			 "returns", "value of <code>control</code> parameter"
-		   });	
+		   });
 		addAnnotation
-		  (dragAcceptEClass, 
-		   source, 
+		  (dragAcceptEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag accept event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-item \"Project/Folder\" | drag-accept 18 11 -detail copy"
-		   });	
+		   });
 		addAnnotation
-		  (dragDetectEClass, 
-		   source, 
+		  (dragDetectEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag detect event.",
 			 "returns", "value of <code>control</code> parameter"
-		   });	
+		   });
 		addAnnotation
-		  (dragOverEClass, 
-		   source, 
+		  (dragOverEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drag over event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "with [get-view \"Project Explorer\" | get-tree] {\n    select \"Project/t.test\"\n    get-item \"Project/t.test\" | drag-start 23 5\n    get-item \"Project/t.test\" | drag-enter 23 11 -detail copy\n    get-item \"Project/t.test\" | drag-over 23 11 -detail copy\n    get-item \"Project/q7.properties\" | drag-over 21 2 -detail copy\n    drag-over 70 84 -detail copy\n    get-item \"Project/file.csv\" | drag-over 19 0 -detail copy\n    get-item \"Project/context2.ctx\" | drag-over 18 0 -detail copy\n    drag-over 69 33 -detail copy\n    get-item \"Project/Folder\" | drag-over 18 11 -detail copy\n    get-item \"Project/t.test\" | drag-exit\n    get-item \"Project/Folder\" | drag-accept 18 11 -detail copy\n    drag-set-data\n    get-item \"Project/Folder\" | drop 18 11 -detail copy\n}"
-		   });	
+		   });
 		addAnnotation
-		  (dropEClass, 
-		   source, 
+		  (dropEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates drop event.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor t | get-section Contexts | get-table | drop 111 52 -detail move"
-		   });	
+		   });
 		addAnnotation
-		  (getContainsImage_Control(), 
-		   source, 
+		  (getContainsImage_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getGetRegionText_Control(), 
-		   source, 
+		  (getGetRegionText_Control(),
+		   source,
 		   new String[] {
 			 "description", "Any control is appropriate."
-		   });	
+		   });
 		addAnnotation
-		  (getGetRegionText_X(), 
-		   source, 
+		  (getGetRegionText_X(),
+		   source,
 		   new String[] {
 			 "description", "X coordinate relative to left top corner of the control.",
 			 "default", "0"
-		   });	
+		   });
 		addAnnotation
-		  (getGetRegionText_Y(), 
-		   source, 
+		  (getGetRegionText_Y(),
+		   source,
 		   new String[] {
 			 "description", "Y coordinate relative to left top corner of the control.",
 			 "default", "0"
-		   });	
+		   });
 		addAnnotation
-		  (getAboutMenuEClass, 
-		   source, 
+		  (getAboutMenuEClass,
+		   source,
 		   new String[] {
 			 "description", "Returns the \"About\" menu.",
 			 "returns", "About menu\r\n",
 			 "recorded", "true",
 			 "example", "get-about-menu | click\nget-window \"About Q7\" | get-button OK | click"
-		   });	
+		   });
 		addAnnotation
-		  (getPreferencesMenuEClass, 
-		   source, 
+		  (getPreferencesMenuEClass,
+		   source,
 		   new String[] {
 			 "description", "Returns the \"Preferences\" menu.",
 			 "returns", "Preferences menu",
 			 "recorded", "true",
 			 "example", "get-preferences-menu | click\nwith [get-window Preferences] {\n    get-tree | select \"General/Content Types\"\n    get-button Cancel | click\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getDateTimeEClass, 
-		   source, 
+		  (getDateTimeEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets pop-up window of calendar. If this pop-up window doesn\'t exist, then error is returned.",
 			 "returns", "calendar pop-up window ",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (getSliderEClass, 
-		   source, 
+		  (getSliderEClass,
+		   source,
 		   new String[] {
 			 "description", "",
 			 "returns", "",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (setValueEClass, 
-		   source, 
+		  (setValueEClass,
+		   source,
 		   new String[] {
 			 "description", "Set value of the control.",
 			 "returns", "",
 			 "example", "get-combo -after [get-label \"Mouse move recording mode\"] | set-value Never"
-		   });	
+		   });
 		addAnnotation
-		  (getSetValue_Control(), 
-		   source, 
+		  (getSetValue_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getSetValue_Value(), 
-		   source, 
+		  (getSetValue_Value(),
+		   source,
 		   new String[] {
 			 "description", "Text to set."
-		   });	
+		   });
 		addAnnotation
-		  (minimizeEClass, 
-		   source, 
+		  (minimizeEClass,
+		   source,
 		   new String[] {
 			 "description", "Minimize the tab folder.\nSee more details about <a href=\"http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a\">How to resize a window.</a>",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-window \"New Project\" | minimize"
-		   });	
+		   });
 		addAnnotation
-		  (getMinimize_Control(), 
-		   source, 
+		  (getMinimize_Control(),
+		   source,
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });	
+		   });
 		addAnnotation
-		  (maximizeEClass, 
-		   source, 
+		  (maximizeEClass,
+		   source,
 		   new String[] {
 			 "description", "Maximize the tab folder.\nSee more details about <a href=\"http://xored.freshdesk.com/solution/categories/58375/folders/95402/articles/3000008200-resize-a\">How to resize a window.</a>",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-window \"New Project\" | maximize\n\n"
-		   });	
+		   });
 		addAnnotation
-		  (getMaximize_Control(), 
-		   source, 
+		  (getMaximize_Control(),
+		   source,
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });	
+		   });
 		addAnnotation
-		  (restoreEClass, 
-		   source, 
+		  (restoreEClass,
+		   source,
 		   new String[] {
 			 "description", "Restore the tab folder.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-view \"Q7 Explorer\" | minimize\nget-view \"Q7 Explorer\" | restore"
-		   });	
+		   });
 		addAnnotation
-		  (getRestore_Control(), 
-		   source, 
+		  (getRestore_Control(),
+		   source,
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });	
+		   });
 		addAnnotation
-		  (showTabListEClass, 
-		   source, 
+		  (showTabListEClass,
+		   source,
 		   new String[] {
 			 "description", "Show the list of tabs from tab folder.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-editor SO | show-tab-list "
-		   });	
+		   });
 		addAnnotation
-		  (getShowTabList_Control(), 
-		   source, 
+		  (getShowTabList_Control(),
+		   source,
 		   new String[] {
 			 "description", "Window, view or editor."
-		   });	
+		   });
 		addAnnotation
-		  (getOptions_Command(), 
-		   source, 
+		  (getOptions_Command(),
+		   source,
 		   new String[] {
 			 "description", "Command to execute."
-		   });	
+		   });
 		addAnnotation
-		  (getExecWithOptions_Command(), 
-		   source, 
+		  (getExecWithOptions_Command(),
+		   source,
 		   new String[] {
 			 "description", "Command to execute."
-		   });	
+		   });
 		addAnnotation
-		  (setDialogResultEClass, 
-		   source, 
+		  (setDialogResultEClass,
+		   source,
 		   new String[] {
 			 "description", "Emulates result returning from native dialog.",
 			 "returns", "nothing",
 			 "example", "set-dialog-result File \"/Users/Ulik_MacAir/Downloads/MyLicense.license\"\nget-menu \"File/Open File...\" | click"
-		   });	
+		   });
 		addAnnotation
-		  (getSetDialogResult_Kind(), 
-		   source, 
+		  (getSetDialogResult_Kind(),
+		   source,
 		   new String[] {
 			 "description", "Must be one of followings: File, Folder, MessageBox, Font, Color"
-		   });	
+		   });
 		addAnnotation
-		  (getSetDialogResult_Result(), 
-		   source, 
+		  (getSetDialogResult_Result(),
+		   source,
 		   new String[] {
 			 "description", "String presentation of returned value (platform specific)."
-		   });	
+		   });
 		addAnnotation
-		  (getByOsEClass, 
-		   source, 
+		  (getByOsEClass,
+		   source,
 		   new String[] {
 			 "description", "<p>Returns value depending on current operating system. This allows to create cross-platform tests in cases when assertion values slightly differ on various operating system &ndash; this command can be used as an argument for commands like <code>equals</code>:</p>\r\n<pre>\r\n... | get-property \"text\" | equals [\r\n      get-by-os -macosx \"Mac value\" -win \"Windows value\" -linux \"Linux value\"\r\n    ] | verify-true\r\n</pre>\r\n<p>When two platforms have the same value, it is convenient to use <code>-default</code> argument. For example, if some value is the same on Linux and Mac OS X, but differs on Windows, <code>get-by-os</code> can be used like this:</p>\r\n<pre>\r\n  get-by-os -win \"Windows value\" -default \"Mac OS X and Linux value\"\r\n</pre>\r\n",
 			 "returns", "Value of an argument corresponding to current platform, or value of <code>default</code> argument."
-		   });	
+		   });
 		addAnnotation
-		  (getGetByOs_Default(), 
-		   source, 
+		  (getGetByOs_Default(),
+		   source,
 		   new String[] {
 			 "description", "Value to use when no platform-specific argument specified"
-		   });	
+		   });
 		addAnnotation
-		  (getGetByOs_Win(), 
-		   source, 
+		  (getGetByOs_Win(),
+		   source,
 		   new String[] {
 			 "description", "Value to use on Windows"
-		   });	
+		   });
 		addAnnotation
-		  (getGetByOs_Linux(), 
-		   source, 
+		  (getGetByOs_Linux(),
+		   source,
 		   new String[] {
 			 "description", "Value to use on Linux"
-		   });	
+		   });
 		addAnnotation
-		  (getGetByOs_Macosx(), 
-		   source, 
+		  (getGetByOs_Macosx(),
+		   source,
 		   new String[] {
 			 "description", "Value to use on Mac OS X"
-		   });	
+		   });
 		addAnnotation
-		  (hoverAtTextOffsetEClass, 
-		   source, 
+		  (hoverAtTextOffsetEClass,
+		   source,
 		   new String[] {
 			 "description", "Perform mouse hover at specific text position.",
 			 "returns", "value of <code>control</code> parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getHoverAtTextOffset_Control(), 
-		   source, 
+		  (getHoverAtTextOffset_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getHoverAtTextOffset_Offset(), 
-		   source, 
+		  (getHoverAtTextOffset_Offset(),
+		   source,
 		   new String[] {
 			 "description", "Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "
-		   });	
+		   });
 		addAnnotation
-		  (getHoverAtTextOffset_Line(), 
-		   source, 
+		  (getHoverAtTextOffset_Line(),
+		   source,
 		   new String[] {
 			 "description", "Value of offset to be set. Must not be less than 0 and greater than the number of characters in the text control. "
-		   });	
+		   });
 		addAnnotation
-		  (getTextViewerEClass, 
-		   source, 
+		  (getTextViewerEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the text viewer. If text viewer doesn\'t exist, then error is returned.",
 			 "returns", "text viewer",
 			 "recorded", "true",
 			 "example", "with [get-section Script | get-text-viewer] {\n        set-caret-pos 1 20\n        type-text MyText\n    }"
-		   });	
+		   });
 		addAnnotation
-		  (selectRangeEClass, 
-		   source, 
+		  (selectRangeEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.",
 			 "returns", "value of *control* parameter",
 			 "example", "with [get-editor \"file.txt\" | get-text-viewer] {\n    select-range 1 2 5 8\n    get-menu Cut | click\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getSelectRange_Control(), 
-		   source, 
+		  (getSelectRange_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (setCaretPosEClass, 
-		   source, 
+		  (setCaretPosEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the text offset.\nFor specified line.",
 			 "returns", "value of *control* parameter",
 			 "example", "with [get-editor \"q7enterprise.license\" | get-text-viewer] {\n    set-caret-pos 3 5\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getSetCaretPos_Control(), 
-		   source, 
+		  (getSetCaretPos_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (hoverTextEClass, 
-		   source, 
+		  (hoverTextEClass,
+		   source,
 		   new String[] {
 			 "description", "Perform mouse hover at specific text position.",
 			 "returns", "value of *control* parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getHoverText_Control(), 
-		   source, 
+		  (getHoverText_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getHoverText_With(), 
-		   source, 
+		  (getHoverText_With(),
+		   source,
 		   new String[] {
 			 "desciption", "Modfier keys joined by \'+\', for example \'M1+M2\', or \'M3\'. "
-		   });	
+		   });
 		addAnnotation
-		  (openDeclarationEClass, 
-		   source, 
+		  (openDeclarationEClass,
+		   source,
 		   new String[] {
 			 "description", "Perform open declaration command in the current text position (CTRL+Left click)",
 			 "returns", "value of *control* parameter",
 			 "example", "with [get-editor t | get-section Script | get-text-viewer] {\n    \tset-caret-pos 4 3\n\topen-declaration\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getOpenDeclaration_Control(), 
-		   source, 
+		  (getOpenDeclaration_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getVerticalRulerEClass, 
-		   source, 
+		  (getVerticalRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the vertical ruler of editor.",
 			 "returns", "vertical ruler",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (getLeftRulerEClass, 
-		   source, 
+		  (getLeftRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the left ruler of editor.",
 			 "returns", "left ruler",
 			 "recorded", "true",
 			 "example", "get-editor CreateProject | get-section Script | get-left-ruler | get-ruler-column -index 1 | click-ruler -line 4"
-		   });	
+		   });
 		addAnnotation
-		  (getRulerColumnEClass, 
-		   source, 
+		  (getRulerColumnEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the ruler column of the editor.",
 			 "returns", "ruler column",
 			 "recorded", "true",
 			 "example", "get-editor CreateProject | get-section Script | get-left-ruler | get-ruler-column -index 1 | click-ruler -line 4"
-		   });	
+		   });
 		addAnnotation
-		  (getRightRulerEClass, 
-		   source, 
+		  (getRightRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the right ruler of editor.",
 			 "returns", "right ruler",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (clickRulerEClass, 
-		   source, 
+		  (clickRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Clicks a ruler at given position with specified button and modifiers",
 			 "returns", "value of control parameter",
 			 "example", "with [get-left-ruler | get-ruler-column AnnotationColumn] {\n        click-ruler -line 2\n    }"
-		   });	
+		   });
 		addAnnotation
-		  (getClickRuler_Control(), 
-		   source, 
+		  (getClickRuler_Control(),
+		   source,
 		   new String[] {
 			 "description", "Editor ruler"
-		   });	
+		   });
 		addAnnotation
-		  (getClickRuler_Button(), 
-		   source, 
+		  (getClickRuler_Button(),
+		   source,
 		   new String[] {
 			 "desciption", "Mouse button: Left, Right or Middle"
-		   });	
+		   });
 		addAnnotation
-		  (getClickRuler_With(), 
-		   source, 
+		  (getClickRuler_With(),
+		   source,
 		   new String[] {
 			 "desciption", "Modfier keys joined by \'+\', for example \'M1+M2\', or \'M3\'. "
-		   });	
+		   });
 		addAnnotation
-		  (doubleClickRulerEClass, 
-		   source, 
+		  (doubleClickRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Double clicks ruler on given line with specified modifiers and mouse button",
 			 "returns", "value of control parameter",
 			 "example", "with [get-editor t | get-section Script | get-left-ruler | get-ruler-column AnnotationColumn] {\n    double-click-ruler 1\n}"
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickRuler_Control(), 
-		   source, 
+		  (getDoubleClickRuler_Control(),
+		   source,
 		   new String[] {
 			 "description", "Editor ruler"
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickRuler_Button(), 
-		   source, 
+		  (getDoubleClickRuler_Button(),
+		   source,
 		   new String[] {
 			 "desciption", "Mouse button: Left, Right or Middle"
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickRuler_With(), 
-		   source, 
+		  (getDoubleClickRuler_With(),
+		   source,
 		   new String[] {
 			 "desciption", "Modfier keys joined by \'+\', for example \'M1+M2\', or \'M3\'. "
-		   });	
+		   });
 		addAnnotation
-		  (hoverRulerEClass, 
-		   source, 
+		  (hoverRulerEClass,
+		   source,
 		   new String[] {
 			 "description", "Perform mouse hover at specific text position.",
 			 "returns", "value of *control* parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getHoverRuler_Control(), 
-		   source, 
+		  (getHoverRuler_Control(),
+		   source,
 		   new String[] {
 			 "description", "Text control: editbox, editor or combo."
-		   });	
+		   });
 		addAnnotation
-		  (getHoverRuler_With(), 
-		   source, 
+		  (getHoverRuler_With(),
+		   source,
 		   new String[] {
 			 "desciption", "Modfier keys joined by \'+\', for example \'M1+M2\', or \'M3\'. "
-		   });	
+		   });
 		addAnnotation
-		  (clickLinkEClass, 
-		   source, 
+		  (clickLinkEClass,
+		   source,
 		   new String[] {
 			 "description", "Clicks on a link.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "true",
 			 "example", "with [get-window Preferences] {\n    get-tree | select \"Ant/Editor\"\n    get-link \"See <a href=\\\"org.eclipse.ui.preferencePages.GeneralTextEditor\\\">\\\'Text Editors\\\'</a> for general text editor preferences and <a href=\\\"org.eclipse.ui.preferencePages.ColorsAndFonts\\\">\\\'Colors and Fonts\\\'</a> to configure the font.\" \n        | click-link \"org.eclipse.ui.preferencePages.GeneralTextEditor\"\n    get-button OK | click\n}"
-		   });	
+		   });
 		addAnnotation
-		  (expandEClass, 
-		   source, 
+		  (expandEClass,
+		   source,
 		   new String[] {
 			 "description", "Expands a tree item. Item must be acquired by using <code>get-item</code> command. ",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "false",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | get-item Project | expand"
-		   });	
+		   });
 		addAnnotation
-		  (collapseEClass, 
-		   source, 
+		  (collapseEClass,
+		   source,
 		   new String[] {
 			 "description", "Collapses a tree item. Item must be acquired by using <code>get-item</code> command. ",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "false",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | get-item \"Project/folder\" | collapse"
-		   });	
+		   });
 		addAnnotation
-		  (setFocusEClass, 
-		   source, 
+		  (setFocusEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the focus in specified editbox.",
 			 "returns", "Nothing",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Testing\" | get-section \"CellEdit Tree Test\" | get-tree | get-editbox | set-focus"
-		   });	
+		   });
 		addAnnotation
-		  (getTableDataEClass, 
-		   source, 
+		  (getTableDataEClass,
+		   source,
 		   new String[] {
 			 "description", "Takes a data from table or tree and returns <code>Table</code> EMF object. When table or tree does not have columns, then it is assumed that there\'s one column named \'text\'.",
 			 "returns", "<code>Table</code> object",
 			 "recorded", "false",
 			 "example", "get-table | get-table-data | write-csv-file \"workspace:/project/file.csv\""
-		   });	
+		   });
 		addAnnotation
-		  (getGetTableData_IncludeChecked(), 
-		   source, 
+		  (getGetTableData_IncludeChecked(),
+		   source,
 		   new String[] {
 			 "description", "When true, adds a column named \'checked\' which contains <code>true</code> or <code>false</code> depending on checked state of row"
-		   });	
+		   });
 		addAnnotation
-		  (getGetTableData_ExcludeHidden(), 
-		   source, 
+		  (getGetTableData_ExcludeHidden(),
+		   source,
 		   new String[] {
 			 "description", "When true, output table does not include columns with width=0"
-		   });	
+		   });
 		addAnnotation
-		  (clickColumnEClass, 
-		   source, 
+		  (clickColumnEClass,
+		   source,
 		   new String[] {
 			 "description", "Clicks on a header of table or tree column. The column is identified by <code>name</code> and <code>index</code>. If name is empty, then column is identified by zero-based index. If there is more than one column with a given name, then <code>index</code> can be used. In this case <code>index</code> is used to identify the column within all other columns with the same name. If there are no columns with given name, then command tries to interpret <code>name</code> as Java regular expression pattern and search for a column. ",
 			 "returns", "<code>Table</code> object or <code>Tree</code> control",
 			 "recorded", "true",
 			 "example", "get-table | click-column Description //clicks on a header of column Description\nget-table | click-column -index 5 //clicks on 6th column header (since index is 0-based)\nget-table | click-column -name \"D.*\" -index 1 //clicks on a second column starting with \"D\" "
-		   });	
+		   });
 		addAnnotation
-		  (getClickColumn_Name(), 
-		   source, 
+		  (getClickColumn_Name(),
+		   source,
 		   new String[] {
 			 "desciption", "Column name or regular expression pattern. When empty, column is identified by <code>index</code>."
-		   });	
+		   });
 		addAnnotation
-		  (getClickColumn_Index(), 
-		   source, 
+		  (getClickColumn_Index(),
+		   source,
 		   new String[] {
 			 "desciption", "Index of a column within all columns matching a given name. When <code>name</code> is empty, this is a column index in table or tree"
-		   });	
+		   });
 		addAnnotation
-		  (traceEClass, 
-		   source, 
+		  (traceEClass,
+		   source,
 		   new String[] {
 			 "description", "Appends a tracing message to Q7 report collected during execution, so that it can be used later in report renderer.",
 			 "example", "trace \"Project created\"\ntrace [get-view \"Package Explorer\" | get-tree | get-item \"Other Projects/sample\" | get-property \"getData().isOpen()\" -raw]"
-		   });	
+		   });
 		addAnnotation
-		  (mouseEClass, 
-		   source, 
+		  (mouseEClass,
+		   source,
 		   new String[] {
 			 "description", "Sends a mouse event to control. Returns the same control, so that mouse commands can be chained: <pre>... | get-text \"Foo\" | mouse down -button Right | mouse up -buton Right</pre>",
 			 "returns", "value of control parameter"
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_Event(), 
-		   source, 
+		  (getMouse_Event(),
+		   source,
 		   new String[] {
 			 "description", "Mouse event: <ul><li>up</li><li>down</li><li>move</li><li>enter</li><li>exit</li><li>hover</li><li>double-click</li></ul>"
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_Button(), 
-		   source, 
+		  (getMouse_Button(),
+		   source,
 		   new String[] {
 			 "description", "Mouse button: Left, Right or Middle"
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_With(), 
-		   source, 
+		  (getMouse_With(),
+		   source,
 		   new String[] {
 			 "description", "Modfier keys and holded mouse buttons joined by \'+\', for example \'M1+M2\', or \'M3\'. "
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_Count(), 
-		   source, 
+		  (getMouse_Count(),
+		   source,
 		   new String[] {
 			 "description", "The \'count\' to be set in mouse event. When omitted, reasonable default is used"
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_X(), 
-		   source, 
+		  (getMouse_X(),
+		   source,
 		   new String[] {
 			 "description", "The \'x\' coordinate of mouse event. Can be omitted"
-		   });	
+		   });
 		addAnnotation
-		  (getMouse_Y(), 
-		   source, 
+		  (getMouse_Y(),
+		   source,
 		   new String[] {
 			 "description", "The \'y\' coordinate of mouse event. Can be omitted"
-		   });	
+		   });
 		addAnnotation
-		  (getObjectEClass, 
-		   source, 
+		  (getObjectEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets interop object from UI control.",
 			 "returns", "Interop object.",
 			 "example", "get-view \"Package Explorer\" | get-tree | get-object | my-custom-tree-command"
-		   });	
+		   });
 		addAnnotation
-		  (getGetObject_Object(), 
-		   source, 
+		  (getGetObject_Object(),
+		   source,
 		   new String[] {
 			 "description", "UI control to get object for."
-		   });	
+		   });
 		addAnnotation
-		  (getItemsEClass, 
-		   source, 
+		  (getItemsEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets item list of a table, or visible items of a tree, or visible children of a tree item.",
 			 "returns", "List of items.",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | get-items | foreach {get-property caption -raw | str | log}"
-		   });	
+		   });
 		addAnnotation
-		  (expandAllEClass, 
-		   source, 
+		  (expandAllEClass,
+		   source,
 		   new String[] {
 			 "description", "Expands a tree item and all its children, or a whole tree.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | get-item Project | expand-all"
-		   });	
+		   });
 		addAnnotation
-		  (collapseAllEClass, 
-		   source, 
+		  (collapseAllEClass,
+		   source,
 		   new String[] {
 			 "description", "Collapses a tree item and all its children, or a whole tree.",
 			 "returns", "value of <code>control</code> parameter",
 			 "example", "get-view \"Q7 Explorer\" | get-tree | collapse-all"
-		   });	
+		   });
 		addAnnotation
-		  (takeScreenshotEClass, 
-		   source, 
+		  (takeScreenshotEClass,
+		   source,
 		   new String[] {
 			 "description", "Takes a screenshot and attaches it to test report.\nNote: please make sure you enabled \"Include \'trace\' and \'take-screenshot\' in HTML report\" option (Q7 Advanced options/Reporting). ",
 			 "returns", "Nothing."
-		   });	
+		   });
 		addAnnotation
-		  (getTakeScreenshot_Message(), 
-		   source, 
+		  (getTakeScreenshot_Message(),
+		   source,
 		   new String[] {
 			 "description", "Optional message to be attached to the screenshot."
-		   });	
+		   });
 		addAnnotation
-		  (selectItemEClass, 
-		   source, 
+		  (selectItemEClass,
+		   source,
 		   new String[] {
 			 "description", "Takes a table or tree item and sets it as a selection of tree or table. Usage: <pre>get-tree | get-item \"foo\" | select-item</pre>",
 			 "returns", "input item"
-		   });	
+		   });
 		addAnnotation
-		  (clickTextEClass, 
-		   source, 
+		  (clickTextEClass,
+		   source,
 		   new String[] {
 			 "description", "<p>Clicks on editbox to set cursor position (when only <code>start</code> argument specified) or text selection (when both <code>start</code> and <code>end</code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends mouse down and up events</li>\r\n  <li>Sets caret position or text selection based on arguments</li>\r\n</ol>\r\n<p>\r\n  <code>start</code> and <code>end</code> arguments have different forms depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>",
 			 "returns", "input item",
 			 "example", "with [get-editbox -after [get-label \"Location:\"]] {\n        click-text 3\n    }"
-		   });	
+		   });
 		addAnnotation
-		  (getClickText_Start(), 
-		   source, 
+		  (getClickText_Start(),
+		   source,
 		   new String[] {
 			 "description", "Cursor location when <code>end</code> is not set or selection start otherwise"
-		   });	
+		   });
 		addAnnotation
-		  (getClickText_End(), 
-		   source, 
+		  (getClickText_End(),
+		   source,
 		   new String[] {
 			 "description", "Selection end"
-		   });	
+		   });
 		addAnnotation
-		  (getClickText_Button(), 
-		   source, 
+		  (getClickText_Button(),
+		   source,
 		   new String[] {
 			 "description", "Mouse button: left, right or middle."
-		   });	
+		   });
 		addAnnotation
-		  (getQuickAccessEClass, 
-		   source, 
+		  (getQuickAccessEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets Eclipse 4 quick access text box.",
 			 "returns", "quick access text box",
 			 "recorded", "true",
 			 "example", "get-quick-access | set-text \"Open Resource\""
-		   });	
+		   });
 		addAnnotation
-		  (getColumnHeaderEClass, 
-		   source, 
+		  (getColumnHeaderEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets column of a table or tree control.",
 			 "returns", "column",
 			 "example", "get-table | get-column-header Name | click // sorts by Name column",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (setPositionEClass, 
-		   source, 
+		  (setPositionEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets position of a table column.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "false",
 			 "example", "get-nebula-grid | get-column-header Name | set-position 4"
-		   });	
+		   });
 		addAnnotation
-		  (setWidthEClass, 
-		   source, 
+		  (setWidthEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets width of a table column.",
 			 "returns", "value of <code>control</code> parameter",
 			 "recorded", "false",
 			 "example", "get-nebula-grid | get-column-header Name | set-width 256"
-		   });	
+		   });
 		addAnnotation
-		  (getPropertyTabEClass, 
-		   source, 
+		  (getPropertyTabEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets the tab of the Properties View.",
 			 "returns", "The tab of the Properties View.",
 			 "example", "with [get-view Properties] {\n    get-property-tab Description | click\n}"
-		   });	
+		   });
 		addAnnotation
-		  (showAlertEClass, 
-		   source, 
+		  (showAlertEClass,
+		   source,
 		   new String[] {
 			 "description", "Displays a message.",
 			 "returns", "Nothing.",
 			 "example", "show-alert \"Hello!\""
-		   });	
+		   });
 		addAnnotation
-		  (getShowAlert_Message(), 
-		   source, 
+		  (getShowAlert_Message(),
+		   source,
 		   new String[] {
 			 "description", "Message to display."
-		   });	
+		   });
 		addAnnotation
-		  (doubleClickTextEClass, 
-		   source, 
+		  (doubleClickTextEClass,
+		   source,
 		   new String[] {
 			 "description", "<p>Double-clicks on editbox to set cursor position and/or selection. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends double-click event</li>\r\n</ol>\r\n<p>\r\n  <code>position</code> argument have different form depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>",
 			 "returns", "input item",
 			 "example", "with [get-editbox -after [get-label \"Project name:\"]] {\n        set-text Project1\n        double-click-text 9 1\n    }"
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickText_Position(), 
-		   source, 
+		  (getDoubleClickText_Position(),
+		   source,
 		   new String[] {
 			 "description", "Cursor location where the double-click will occur."
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickText_Button(), 
-		   source, 
+		  (getDoubleClickText_Button(),
+		   source,
 		   new String[] {
 			 "description", "Mouse button: left, right or middle."
-		   });	
+		   });
 		addAnnotation
-		  (toControlHandleEClass, 
-		   source, 
+		  (toControlHandleEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets UI control handle from widget.",
 			 "returns", "UI control handle."
-		   });	
+		   });
 		addAnnotation
-		  (getToControlHandle_Widget(), 
-		   source, 
+		  (getToControlHandle_Widget(),
+		   source,
 		   new String[] {
 			 "description", "Widget to get UI control for."
-		   });	
+		   });
 		addAnnotation
-		  (unfocusEClass, 
-		   source, 
+		  (unfocusEClass,
+		   source,
 		   new String[] {
 			 "description", "Sets the focus in specified editbox.",
 			 "returns", "Nothing",
 			 "recorded", "true",
 			 "example", "get-view \"Q7 Testing\" | get-section \"CellEdit Tree Test\" | get-tree | get-editbox | set-focus"
-		   });	
+		   });
 		addAnnotation
-		  (decryptEClass, 
-		   source, 
+		  (decryptEClass,
+		   source,
 		   new String[] {
 			 "description", "Decrypts an encrypted string",
 			 "returns", "Decrypted string",
 			 "recorded", "true"
-		   });	
+		   });
 		addAnnotation
-		  (restartAutEClass, 
-		   source, 
+		  (restartAutEClass,
+		   source,
 		   new String[] {
 			 "description", "Restarts AUT.\nCan be used if there in no File/Restart option in AUT.\n\nPlease note that <a href=\"#wait-until-eclipse-is-ready\">wait-until-eclipse-is-ready</a> command should be used \nimmidiately after restart-aut command. ",
 			 "example", "get-view \"Package Explorer\" | get-tree | get-menu \"New/Java Project\" | click\nwith [get-window \"New Java Project\"] {\n    with [get-editbox -after [get-label \"Project name:\"]] {\n        set-text MyProjec\n        set-text MyProject\n    }\n    get-button Finish | click\n}\n\nrestart-aut\n\nwait-until-eclipse-is-ready\n\nget-view \"Package Explorer\" | get-tree | get-property itemCount | equals 1 | verify-true"
-		   });	
+		   });
 		addAnnotation
-		  (getLastMessageBoxEClass, 
-		   source, 
+		  (getLastMessageBoxEClass,
+		   source,
 		   new String[] {
 			 "description", "Gets last shown MessageBox info. If MessageBox was not shown, then error is returned.",
 			 "returns", "MessageBoxInfo",
@@ -7344,225 +7260,225 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";	
+		String source = "http://www.eclipse.org/ecl/input";
 		addAnnotation
-		  (getGetProperty_Object(), 
-		   source, 
+		  (getGetProperty_Object(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getVerifyTrue_Condition(), 
-		   source, 
+		  (getVerifyTrue_Condition(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getVerifyFalse_Condition(), 
-		   source, 
+		  (getVerifyFalse_Condition(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getEquals_Input(), 
-		   source, 
+		  (getEquals_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getContains_Input(), 
-		   source, 
+		  (getContains_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getMatches_Input(), 
-		   source, 
+		  (getMatches_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getIsEmpty_Input(), 
-		   source, 
+		  (getIsEmpty_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSelector_Parent(), 
-		   source, 
+		  (getSelector_Parent(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getClick_Control(), 
-		   source, 
+		  (getClick_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getGetText_Control(), 
-		   source, 
+		  (getGetText_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getIsDisabled_Control(), 
-		   source, 
+		  (getIsDisabled_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getIsDisposed_Control(), 
-		   source, 
+		  (getIsDisposed_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getTypeText_Control(), 
-		   source, 
+		  (getTypeText_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getKeyType_Control(), 
-		   source, 
+		  (getKeyType_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getTypeCommandKey_Control(), 
-		   source, 
+		  (getTypeCommandKey_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSetText_Control(), 
-		   source, 
+		  (getSetText_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextSelection_Control(), 
-		   source, 
+		  (getSetTextSelection_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSetTextOffset_Control(), 
-		   source, 
+		  (getSetTextOffset_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getCheck_Control(), 
-		   source, 
+		  (getCheck_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getUncheck_Control(), 
-		   source, 
+		  (getUncheck_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSelect_Control(), 
-		   source, 
+		  (getSelect_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getCellEdit_Control(), 
-		   source, 
+		  (getCellEdit_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getClose_Control(), 
-		   source, 
+		  (getClose_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getShowContentAssist_Control(), 
-		   source, 
+		  (getShowContentAssist_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getDragAction_Control(), 
-		   source, 
+		  (getDragAction_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getContainsImage_Control(), 
-		   source, 
+		  (getContainsImage_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getGetRegionText_Control(), 
-		   source, 
+		  (getGetRegionText_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSetValue_Control(), 
-		   source, 
+		  (getSetValue_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getMinimize_Control(), 
-		   source, 
+		  (getMinimize_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getMaximize_Control(), 
-		   source, 
+		  (getMaximize_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getRestore_Control(), 
-		   source, 
+		  (getRestore_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getShowTabList_Control(), 
-		   source, 
+		  (getShowTabList_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getHoverAtTextOffset_Control(), 
-		   source, 
+		  (getHoverAtTextOffset_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSelectRange_Control(), 
-		   source, 
+		  (getSelectRange_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSetCaretPos_Control(), 
-		   source, 
+		  (getSetCaretPos_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getHoverText_Control(), 
-		   source, 
+		  (getHoverText_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getOpenDeclaration_Control(), 
-		   source, 
+		  (getOpenDeclaration_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getClickRuler_Control(), 
-		   source, 
+		  (getClickRuler_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getDoubleClickRuler_Control(), 
-		   source, 
+		  (getDoubleClickRuler_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getHoverRuler_Control(), 
-		   source, 
+		  (getHoverRuler_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getControlCommand_Control(), 
-		   source, 
+		  (getControlCommand_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getGetObject_Object(), 
-		   source, 
+		  (getGetObject_Object(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getShowAlert_Message(), 
-		   source, 
+		  (getShowAlert_Message(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getToControlHandle_Widget(), 
-		   source, 
+		  (getToControlHandle_Widget(),
+		   source,
 		   new String[] {
 		   });
 	}
@@ -7574,50 +7490,50 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";	
+		String source = "http://www.eclipse.org/ecl/internal";
 		addAnnotation
-		  (getSelector_Id(), 
-		   source, 
+		  (getSelector_Id(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (returnFromOsDialogEClass, 
-		   source, 
+		  (returnFromOsDialogEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getAdvancedInfoEClass, 
-		   source, 
+		  (getAdvancedInfoEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (optionsEClass, 
-		   source, 
+		  (optionsEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (execWithOptionsEClass, 
-		   source, 
+		  (execWithOptionsEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (shutdownAutEClass, 
-		   source, 
+		  (shutdownAutEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getPropertyNodesEClass, 
-		   source, 
+		  (getPropertyNodesEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (fromRawKeyEClass, 
-		   source, 
+		  (fromRawKeyEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getWidgetDetailsEClass, 
-		   source, 
+		  (getWidgetDetailsEClass,
+		   source,
 		   new String[] {
 		   });
 	}
@@ -7629,10 +7545,10 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	protected void createDepricatedAnnotations() {
-		String source = "http://www.eclipse.org/ecl/depricated";	
+		String source = "http://www.eclipse.org/ecl/depricated";
 		addAnnotation
-		  (getClick_Nowait(), 
-		   source, 
+		  (getClick_Nowait(),
+		   source,
 		   new String[] {
 			 "description", "Specifies if execution must wait for all UI jobs to complete after clicking.",
 			 "default", "false"
@@ -7646,10 +7562,10 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	protected void createMetaAnnotations() {
-		String source = "http://www.eclipse.org/ecl/meta";	
+		String source = "http://www.eclipse.org/ecl/meta";
 		addAnnotation
-		  (getSelect_Items(), 
-		   source, 
+		  (getSelect_Items(),
+		   source,
 		   new String[] {
 			 "type", "string | org.eclipse.rcptt.tesla.ecl.model.ControlHandler"
 		   });

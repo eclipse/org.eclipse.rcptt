@@ -27,6 +27,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#getElement <em>Element</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#isWithWait <em>With Wait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#isArrow <em>Arrow</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

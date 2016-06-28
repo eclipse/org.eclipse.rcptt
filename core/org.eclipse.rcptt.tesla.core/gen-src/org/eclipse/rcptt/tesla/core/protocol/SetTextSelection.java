@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection#getLength <em>Length</em>}</li>
@@ -25,7 +26,6 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection#getEndline <em>Endline</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection#getEndoffset <em>Endoffset</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetTextSelection()
  * @model

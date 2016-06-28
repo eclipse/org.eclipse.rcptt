@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue#getAllowRawValues <em>Allow Raw Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getGetPropertyValue()
  * @model

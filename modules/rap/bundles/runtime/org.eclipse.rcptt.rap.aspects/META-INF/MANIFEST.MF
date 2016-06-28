@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RCPTT RAP Aspects
+Bundle-SymbolicName: org.eclipse.rcptt.rap.aspects;singleton:=true
+Bundle-Version: 2.2.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.aspectj.runtime;visibility:=reexport,
+ org.eclipse.rap.rwt,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.tesla.core.am.rap,
+ org.eclipse.rcptt.reporting,
+ org.eclipse.rcptt.runtime.ui.rap,
+ javax.servlet
+onEnvironment: JavaSE-1.6
+Import-Package: org.osgi.framework
+Eclipse-SupplementBundle: org.eclipse.rap.rwt
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.rcptt.rap.aspects
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Activator: org.eclipse.rcptt.rap.aspects.RapAspectActivator

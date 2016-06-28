@@ -24,14 +24,10 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.EclRefactoring;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.rcptt.util.Base64;
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor;
 import org.eclipse.rcptt.tesla.core.protocol.ApplyCellEditor;
 import org.eclipse.rcptt.tesla.core.protocol.Assert;
@@ -108,14 +104,23 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
 import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
+import org.eclipse.rcptt.tesla.recording.core.ecl.KeyStrokeManager;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaCommand;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaRecordingPlugin;
 import org.eclipse.rcptt.tesla.recording.core.internal.ecl.DiagramUtils;
 import org.eclipse.rcptt.tesla.recording.core.internal.ecl.KeyStrokeUtil;
 import org.eclipse.rcptt.tesla.recording.core.internal.ecl.SWTCopy;
 import org.eclipse.rcptt.tesla.recording.core.internal.ecl.TeslaSelectorParser;
+import org.eclipse.rcptt.util.Base64;
+import org.eclipse.rcptt.util.KeysAndButtons;
 
 public class TeslaParser extends TeslaScriptletFactory {
+
+	private final static int DROP_COPY = 1 << 0;
+	private final static int DROP_TARGET_MOVE = 1 << 3;
+	private final static int DROP_MOVE = 1 << 1;
+	private final static int DROP_LINK = 1 << 2;
+	private final static int DROP_DEFAULT = 1 << 4;
 
 	public static class RuleMap {
 
@@ -173,7 +178,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 					extensions.add(extension);
 				}
 			} catch (CoreException e) {
-				TeslaRecordingPlugin.log("Error while get tesla parser extension.", e); //$NON-NLS-1$			
+				TeslaRecordingPlugin.log("Error while get tesla parser extension.", e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -296,29 +301,29 @@ public class TeslaParser extends TeslaScriptletFactory {
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetText")
- 	protected Command setText(SetText c) {
- 		if (c.getElement().getKind().equals(ElementKind.DateTime.name())
- 				|| c.getElement().getKind().equals(ElementKind.Slider.name())) {
- 			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
- 					TeslaScriptletFactory.makeSetValue(c.getValue()));
- 		}
-		
+	protected Command setText(SetText c) {
+		if (c.getElement().getKind().equals(ElementKind.DateTime.name())
+				|| c.getElement().getKind().equals(ElementKind.Slider.name())) {
+			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+					TeslaScriptletFactory.makeSetValue(c.getValue()));
+		}
+
 		org.eclipse.rcptt.tesla.ecl.model.SetText cmd = TeslaFactory.eINSTANCE.createSetText();
 		if (c.isHidden()) {
 			bind(cmd, TeslaPackage.eINSTANCE.getSetText_Text(), decrypt(c.getValue()));
 		} else {
 			cmd.setText(c.getValue());
 		}
- 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
 				cmd);
 	}
-	
+
 	protected Command decrypt(String rawdata) {
 		Decrypt cmd = TeslaFactory.eINSTANCE.createDecrypt();
 		cmd.setValue(rawdata);
 		return cmd;
- 	}
- 
+	}
+
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetTextSelection")
 	protected Command setTextSelection(SetTextSelection c) {
 		if (c.getEndline() != null && c.getEndoffset() != null) {
@@ -387,7 +392,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 		if (!c.isTraverse()) {
 			try {
-				kt.setKey(KeyStrokeUtil.formatKeyWithMeta(mask, keyCode, meta));
+				kt.setKey(KeyStrokeManager.getUtils().formatKeyWithMeta(mask, keyCode, meta));
 			} catch (Throwable e) {
 				// jface is not available
 				FromRawKey frk = TeslaFactory.eINSTANCE.createFromRawKey();
@@ -430,7 +435,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 		} else {
 			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), c
 					.isState() ? TeslaScriptletFactory.makeCheck()
-					: TeslaScriptletFactory.makeUncheck());
+							: TeslaScriptletFactory.makeUncheck());
 		}
 	}
 
@@ -438,7 +443,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 	protected Command checkItem(Check c) {
 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), c
 				.isState() ? TeslaScriptletFactory.makeCheck()
-				: TeslaScriptletFactory.makeUncheck());
+						: TeslaScriptletFactory.makeUncheck());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Close")
@@ -504,15 +509,15 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	private static String formatDetail(int detail) {
 		switch (detail) {
-		case DND.DROP_COPY:
+		case DROP_COPY:
 			return "copy";
-		case DND.DROP_MOVE:
+		case DROP_MOVE:
 			return "move";
-		case DND.DROP_LINK:
+		case DROP_LINK:
 			return "link";
-		case DND.DROP_TARGET_MOVE:
+		case DROP_TARGET_MOVE:
 			return "target-move";
-		case DND.DROP_DEFAULT:
+		case DROP_DEFAULT:
 			return "any";
 		default:
 			return "none";
@@ -535,7 +540,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 				button = Button.values()[val];
 			if (strings[0].equals("mask"))
 				if (val != 0) {
-					mask = getMask(val);
+					mask = KeyStrokeManager.getUtils().getMask(val);
 				} else
 					mask = null;
 			if (strings[0].equals("operations"))
@@ -583,17 +588,6 @@ public class TeslaParser extends TeslaScriptletFactory {
 			break;
 		}
 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), drag);
-	}
-
-	private String getMask(int val) {
-		String mask;
-		try {
-			KeyStroke key = KeyStroke.getInstance(val);
-			mask = KeyStrokeUtil.formatModifier(key);
-		} catch (Throwable e) {
-			mask = KeyStrokeUtil.getMeta(val);
-		}
-		return mask;
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetSWTDialogInfo")
@@ -693,7 +687,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 		Command mouse = null;
 		String mask = null;
 		if (c.getStateMask() != 0) {
-			mask = getMask(c.getStateMask());
+			mask = KeyStrokeManager.getUtils().getMask(c.getStateMask());
 		} else
 			mask = null;
 
@@ -754,7 +748,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 		String mask = null;
 		if (c.getStateMask() != 0) {
-			mask = getMask(c.getStateMask());
+			mask = KeyStrokeManager.getUtils().getMask(c.getStateMask());
 		} else
 			mask = null;
 
@@ -904,14 +898,15 @@ public class TeslaParser extends TeslaScriptletFactory {
 			// } else {
 			return makePipe(s, makeContainsImage("base64://", fileContent),
 					makeVerifyTrue());
-			// }
+		// }
 		case IMAGE_CONTAINS_TEXT:
 			AssertImageData data = c.getImageData();
 			return makePipe(
 					s,
 					makeRegionContainsText(data.getX(), data.getY(),
 							data.getSx(), data.getSy(), data.getWidth(),
-							data.getHeight()), makeContains(c.getValue()),
+							data.getHeight()),
+					makeContains(c.getValue()),
 					makeVerifyTrue());
 		default:
 			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter
@@ -965,8 +960,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 			org.eclipse.rcptt.tesla.ecl.model.SetFocus result = TeslaFactory.eINSTANCE
 					.createSetFocus();
 			return makePipe(selectorOf(f.getElement()), result);
-		}
-		else {
+		} else {
 			org.eclipse.rcptt.tesla.ecl.model.Unfocus result = TeslaFactory.eINSTANCE
 					.createUnfocus();
 			return makePipe(selectorOf(f.getElement()), result);

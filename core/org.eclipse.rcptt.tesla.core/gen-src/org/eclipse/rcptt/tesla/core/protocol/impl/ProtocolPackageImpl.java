@@ -81,6 +81,7 @@ import org.eclipse.rcptt.tesla.core.protocol.ParentResponse;
 import org.eclipse.rcptt.tesla.core.protocol.PasteTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
+import org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile;
 import org.eclipse.rcptt.tesla.core.protocol.RecordingModeRequest;
 import org.eclipse.rcptt.tesla.core.protocol.ReplaceTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.Restore;
@@ -882,6 +883,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * @generated
 	 */
 	private EClass updateControlCommandEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rapDownloadFileEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -3393,6 +3401,42 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRapDownloadFile() {
+		return rapDownloadFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Url() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Handler() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Content() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSWTDialogKind() {
 		return swtDialogKindEEnum;
 	}
@@ -3826,6 +3870,11 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		updateControlCommandEClass = createEClass(UPDATE_CONTROL_COMMAND);
 		createEReference(updateControlCommandEClass, UPDATE_CONTROL_COMMAND__ELEMENTS);
 
+		rapDownloadFileEClass = createEClass(RAP_DOWNLOAD_FILE);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__URL);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__HANDLER);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__CONTENT);
+
 		// Create enums
 		swtDialogKindEEnum = createEEnum(SWT_DIALOG_KIND);
 		assertKindEEnum = createEEnum(ASSERT_KIND);
@@ -3967,6 +4016,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		setWidthEClass.getESuperTypes().add(this.getElementCommand());
 		setPositionEClass.getESuperTypes().add(this.getElementCommand());
 		updateControlCommandEClass.getESuperTypes().add(theRawPackage.getCommand());
+		rapDownloadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(selectDataEClass, SelectData.class, "SelectData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -4342,6 +4392,11 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 
 		initEClass(updateControlCommandEClass, UpdateControlCommand.class, "UpdateControlCommand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUpdateControlCommand_Elements(), theRawPackage.getElement(), null, "elements", null, 0, 1, UpdateControlCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rapDownloadFileEClass, RapDownloadFile.class, "RapDownloadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRapDownloadFile_Url(), theEcorePackage.getEString(), "url", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapDownloadFile_Handler(), theEcorePackage.getEString(), "handler", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapDownloadFile_Content(), theEcorePackage.getEString(), "content", null, 0, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(swtDialogKindEEnum, SWTDialogKind.class, "SWTDialogKind");

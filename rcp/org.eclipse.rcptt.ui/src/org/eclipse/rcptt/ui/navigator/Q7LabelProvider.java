@@ -38,10 +38,7 @@ public class Q7LabelProvider extends LabelProvider implements
 	private ProblemsLabelDecorator decorator;
 
 	public Q7LabelProvider() {
-		provider = /*
-					 * WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider
-					 * ()
-					 */new WorkbenchLabelProvider();
+		provider = new WorkbenchLabelProvider();
 		RcpttCore.addElementChangedListener(this);
 		decorator = new ProblemsLabelDecorator();
 	}
@@ -120,10 +117,6 @@ public class Q7LabelProvider extends LabelProvider implements
 		if (result == null) {
 			result = provider.getImage(element);
 		}
-		// if (result != null) {
-		// return PlatformUI.getWorkbench().getDecoratorManager()
-		// .decorateImage(result, element);
-		// }
 		if (result != null) {
 			Object el = element;
 			if (element instanceof NamedElement) {

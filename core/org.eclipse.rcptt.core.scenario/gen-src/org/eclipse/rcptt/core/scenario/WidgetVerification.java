@@ -18,10 +18,10 @@ package org.eclipse.rcptt.core.scenario;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.WidgetVerification#getSelector <em>Selector</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getWidgetVerification()
  * @model

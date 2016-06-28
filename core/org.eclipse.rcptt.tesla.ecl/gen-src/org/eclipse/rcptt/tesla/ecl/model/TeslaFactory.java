@@ -1299,6 +1299,24 @@ public interface TeslaFactory extends EFactory {
 	GetLastMessageBox createGetLastMessageBox();
 
 	/**
+	 * Returns a new object of class '<em>Check Download Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Check Download Result</em>'.
+	 * @generated
+	 */
+	CheckDownloadResult createCheckDownloadResult();
+
+	/**
+	 * Returns a new object of class '<em>Get Runtime Target</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Runtime Target</em>'.
+	 * @generated
+	 */
+	GetRuntimeTarget createGetRuntimeTarget();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

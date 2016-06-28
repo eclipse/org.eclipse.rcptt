@@ -30,13 +30,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerHoverImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerHoverImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerHoverImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.RulerHoverImpl#getStateMask <em>State Mask</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

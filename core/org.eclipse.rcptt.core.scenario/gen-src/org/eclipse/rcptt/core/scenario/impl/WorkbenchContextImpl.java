@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.WorkbenchContextImpl#getPerspectiveId <em>Perspective Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.WorkbenchContextImpl#isNoModalDialogs <em>No Modal Dialogs</em>}</li>
@@ -45,7 +46,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.WorkbenchContextImpl#isResetPerspective <em>Reset Perspective</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.WorkbenchContextImpl#isClearClipboard <em>Clear Clipboard</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

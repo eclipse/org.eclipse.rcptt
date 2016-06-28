@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <feature id="org.eclipse.rcptt.external.dependencies.feature">
+  	<category name="rcptt.lwt"/>
+  </feature>
+  <feature id="org.eclipse.rcptt.external.dependencies.rap.feature">
+  	<category name="rcptt.lwt"/>
+  </feature>
+  <category-def name="rcptt.dependencies" label="RCPTT Edternal Dependencies"/>
+</site>

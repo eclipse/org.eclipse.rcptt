@@ -26,6 +26,7 @@ import org.eclipse.rcptt.core.launching.events.AutEventInit;
 import org.eclipse.rcptt.core.launching.events.AutEventStart;
 import org.eclipse.rcptt.core.launching.events.AutSendEvent;
 import org.eclipse.rcptt.core.launching.events.AutStartState;
+import org.eclipse.rcptt.core.launching.events.Capability;
 import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.Command;
@@ -34,6 +35,8 @@ import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.internal.runtime.ui.Activator;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 
 public class AutEventManager {
@@ -123,14 +126,15 @@ public class AutEventManager {
 		int teslaPort = Q7ServerStarter.INSTANCE.getTeslaPort();
 		startEvent.setEclPort(eclPort);
 		startEvent.setTeslaPort(teslaPort);
+		startEvent.setPlatform(getPlatform());
+		startEvent.setCapability(getCapability());
+
 		if (eclPort != -1 && teslaPort != -1) {
 			startEvent.setState(AutStartState.OK);
-		}
-		else {
+		} else {
 			if (eclPort == -1) {
 				startEvent.setMessage("Failed to start ECL server");
-			}
-			else if (teslaPort == -1) {
+			} else if (teslaPort == -1) {
 				startEvent.setMessage("Failed to start Q7 Runtime server");
 			}
 			startEvent.setState(AutStartState.FAIL);
@@ -206,5 +210,25 @@ public class AutEventManager {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private static org.eclipse.rcptt.core.launching.events.Platform getPlatform() {
+		final String os = SWT.getPlatform();
+		if (os.indexOf("cocoa") >= 0) //$NON-NLS-1$
+			return org.eclipse.rcptt.core.launching.events.Platform.MAC_OS;
+		if (os.indexOf("win") >= 0) //$NON-NLS-1$
+			return org.eclipse.rcptt.core.launching.events.Platform.WINDOWS;
+		if (os.indexOf("gtk") >= 0) ////$NON-NLS-1$
+			return org.eclipse.rcptt.core.launching.events.Platform.LINUX;
+
+		return org.eclipse.rcptt.core.launching.events.Platform.OTHER;
+	}
+
+	private static Capability getCapability() {
+		if (TeslaCore.isEclipse4()) {
+			return Capability.E4;
+		}
+
+		return Capability.E3;
 	}
 }

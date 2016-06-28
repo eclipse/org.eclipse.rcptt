@@ -174,6 +174,24 @@ public interface ScenarioFactory extends EFactory {
 	WidgetVerification createWidgetVerification();
 
 	/**
+	 * Returns a new object of class '<em>Capability Context</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Capability Context</em>'.
+	 * @generated
+	 */
+	CapabilityContext createCapabilityContext();
+
+	/**
+	 * Returns a new object of class '<em>Capability Context Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Capability Context Item</em>'.
+	 * @generated
+	 */
+	CapabilityContextItem createCapabilityContextItem();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

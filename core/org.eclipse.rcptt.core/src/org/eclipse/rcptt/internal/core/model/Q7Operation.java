@@ -46,7 +46,7 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 	protected interface IPostAction {
 		/*
 		 * Returns the id of this action.
-		 * 
+		 *
 		 * @see ModelOperation#postAction
 		 */
 		String getID();
@@ -59,7 +59,7 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 
 	/*
 	 * Constants controlling the insertion mode of an action.
-	 * 
+	 *
 	 * @see ModelOperation#postAction
 	 */
 	protected static final int APPEND = 1; // insert at the end
@@ -207,7 +207,7 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 
 	/**
 	 * Common code used to verify the elements this operation is processing.
-	 * 
+	 *
 	 * @see Q7Operation#verify()
 	 */
 	protected Q7Status commonVerify() {
@@ -579,7 +579,8 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 	protected void postAction(IPostAction action, int insertionMode) {
 		if (POST_ACTION_VERBOSE) {
 			System.out
-					.print("(" + Thread.currentThread() + ") [ModelOperation.postAction(IPostAction, int)] Posting action " + action.getID()); //$NON-NLS-1$ //$NON-NLS-2$
+					.print("(" + Thread.currentThread() //$NON-NLS-1$
+							+ ") [ModelOperation.postAction(IPostAction, int)] Posting action " + action.getID()); //$NON-NLS-1$
 			switch (insertionMode) {
 			case REMOVEALL_APPEND:
 				System.out.println(" (REMOVEALL_APPEND)"); //$NON-NLS-1$
@@ -641,7 +642,8 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 	protected void removeAllPostAction(String actionID) {
 		if (POST_ACTION_VERBOSE) {
 			System.out
-					.println("(" + Thread.currentThread() + ") [ModelOperation.removeAllPostAction(String)] Removing actions " + actionID); //$NON-NLS-1$ //$NON-NLS-2$
+					.println("(" + Thread.currentThread() //$NON-NLS-1$
+							+ ") [ModelOperation.removeAllPostAction(String)] Removing actions " + actionID); //$NON-NLS-1$
 		}
 		Q7Operation topLevelOp = (Q7Operation) getCurrentOperationStack()
 				.get(0);
@@ -667,7 +669,7 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 
 	/**
 	 * Runs this operation and registers any deltas created.
-	 * 
+	 *
 	 * @see IWorkspaceRunnable
 	 * @exception CoreException
 	 *                if the operation fails
@@ -780,7 +782,8 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 			IPostAction postAction = this.actions[this.actionsStart++];
 			if (POST_ACTION_VERBOSE) {
 				System.out
-						.println("(" + Thread.currentThread() + ") [ModelOperation.runPostActions()] Running action " + postAction.getID()); //$NON-NLS-1$ //$NON-NLS-2$
+						.println("(" + Thread.currentThread() + ") [ModelOperation.runPostActions()] Running action " //$NON-NLS-1$ //$NON-NLS-2$
+								+ postAction.getID());
 			}
 			postAction.run();
 		}
@@ -804,7 +807,7 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 
 	/**
 	 * Sets whether this operation is nested or not.
-	 * 
+	 *
 	 * @see CreateElementInCUOperation#checkCanceled
 	 */
 	protected void setNested(boolean nested) {
@@ -826,10 +829,10 @@ public abstract class Q7Operation implements IWorkspaceRunnable,
 	/**
 	 * Returns a status indicating if there is any known reason this operation
 	 * will fail. Operations are verified before they are run.
-	 * 
+	 *
 	 * Subclasses must override if they have any conditions to verify before
 	 * this operation executes.
-	 * 
+	 *
 	 * @see IModelStatus
 	 */
 	protected Q7Status verify() {

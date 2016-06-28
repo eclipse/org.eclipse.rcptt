@@ -12,8 +12,6 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
-
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.core.protocol.MouseEvent;
 import org.eclipse.rcptt.tesla.core.protocol.MouseEventKind;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
@@ -23,6 +21,7 @@ import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
+import org.eclipse.rcptt.util.KeysAndButtons;
 
 public class MouseService extends AbstractActionService {
 

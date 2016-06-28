@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.launching;
 
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
-
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 
 public interface IQ7Launch {
@@ -19,6 +18,8 @@ public interface IQ7Launch {
 	public final static int TESLA_DEFAULT_PORT = 7926;
 	public final static int ECL_DEFAULT_PORT = EclTcpClientManager.DEFAULT_PORT;
 	public static final String DEFAULT_HOST = "localhost";
+	public static final String DEFAULT_CAPABILITY = "other";
+	public static final String DEFAULT_PLATFORM = "other";
 	public static final String ATTR_HEADLESS_LAUNCH = "q7.headless.launch";
 	public static final String ATTR_ALLOWED_BUNDLES = "q7.allowed.bunldels";
 
@@ -62,7 +63,7 @@ public interface IQ7Launch {
 	/**
 	 * Launch configuration attribute key. The value is a boolean specifying
 	 * whether the user should be prompted prior to clearing the workspace.
-	 * 
+	 *
 	 * @see IQ7Launch#DOCLEAR
 	 */
 	String ASKCLEAR = "askclear"; //$NON-NLS-1$
@@ -157,6 +158,16 @@ public interface IQ7Launch {
 	String ATTR_TESLA_PORT = Q7LaunchingPlugin.PLUGIN_ID + ".TESLA_PORT_ATTR"; //$NON-NLS-1$
 
 	/**
+	 * Launch configuration attribute key. Aut platform values: "windows", "linux", "macos", "other".
+	 */
+	String ATTR_AUT_PLATFORM = Q7LaunchingPlugin.PLUGIN_ID + ".AUT_PLATFORM_ATTR"; //$NON-NLS-1$
+
+	/**
+	 * Launch configuration attribute key. Aut capability values: "e3", "e4", "rap", "other".
+	 */
+	String ATTR_AUT_CAPABILITY = Q7LaunchingPlugin.PLUGIN_ID + ".AUT_CAPABILITY_ATTR"; //$NON-NLS-1$
+
+	/**
 	 * Launch configuration attribute key. Absolute location of file to append
 	 * AUT output and error streams.
 	 */
@@ -184,7 +195,7 @@ public interface IQ7Launch {
 
 	/**
 	 * Identifier prefix for all Q7 launch configurations.
-	 * 
+	 *
 	 * This prefix is used in AUT manager to locate correct launch
 	 * configurations.
 	 */

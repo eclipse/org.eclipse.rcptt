@@ -215,7 +215,7 @@ public class Q7LaunchDelegateUtils {
 
 	public static void setDelegateFields(
 			EclipseApplicationLaunchConfiguration delegate,
-			Map<IPluginModelBase, String> models, Map<String, Object> allBundles) throws CoreException {
+			Map<IPluginModelBase, String> models, Map<String, IPluginModelBase> allBundles) throws CoreException {
 		try {
 			Field field = EclipseApplicationLaunchConfiguration.class
 					.getDeclaredField("fModels");
@@ -289,7 +289,6 @@ public class Q7LaunchDelegateUtils {
 			args.addAll(userArgs);
 		return UpdateVMArgs.updateAttr(args);
 	}
-
 
 	/** Adds a key value pair, if this key is not already present */
 	private static void addIfAbsent(Collection<String> arguments, String key, String value) {

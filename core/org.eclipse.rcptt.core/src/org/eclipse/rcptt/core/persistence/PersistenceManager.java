@@ -72,8 +72,6 @@ public class PersistenceManager implements IPlainConstants {
 	public static final String TESLA_CONTENT_ENTRY = ".content.raw";
 
 	private static PersistenceManager persistenceManager;
-	// private Map<IFile, IPersistenceModel> models = new HashMap<IFile,
-	// IPersistenceModel>();
 	private Map<Resource, IPersistenceModel> resourceOnlyModels = Collections
 			.synchronizedMap(new HashMap<Resource, IPersistenceModel>());
 
@@ -128,7 +126,7 @@ public class PersistenceManager implements IPlainConstants {
 	static {
 		legacyNamespaces.put("http://com/xored/q7/scenario.ecore", ScenarioPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/q7/scenario.ecore", ScenarioPackage.eNS_URI);
-		
+
 		legacyNamespaces.put("http://com/xored/q7/filesystem.ecore", "http://eclipse.org/rcptt/ctx/filesystem");
 		legacyNamespaces.put("http://xored.com/q7/debug", "http://eclipse.org/rcptt/ctx/debug");
 		legacyNamespaces.put("http:///com/xored/q7/workspace.ecore", "http://eclipse.org/rcptt/ctx/workspace");
@@ -143,7 +141,7 @@ public class PersistenceManager implements IPlainConstants {
 				"http://eclipse.org/rcptt/verifications/time");
 		legacyNamespaces.put("http://com/xored/q7/verifications/tree.ecore",
 				"http://eclipse.org/rcptt/verifications/tree");
-		
+
 		legacyNamespaces.put("http:///com/xored/tesla/core/protocol/raw.ecore", RawPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/tesla/core/ui.ecore", UiPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/tesla/core/protocol.ecore", ProtocolPackage.eNS_URI);
@@ -271,7 +269,7 @@ public class PersistenceManager implements IPlainConstants {
 
 	/**
 	 * Store scenario content/teslaContent in separate resources
-	 * 
+	 *
 	 * @param element
 	 * @param model
 	 */

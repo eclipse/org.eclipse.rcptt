@@ -13,18 +13,18 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
+import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
+import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
-import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
-import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 
 public class SWTEvents {
 	private Display display;
@@ -367,9 +367,8 @@ public class SWTEvents {
 					sendEvent(lastFocusControl, SWT.FocusIn);
 				}
 			}
-		}
-		else {
-			//ctrl.getShell().forceActive();
+		} else {
+			// ctrl.getShell().forceActive();
 			if (!ctrl.isFocusControl()) {
 				try {
 					ShellUtilsProvider.getShellUtils().forceActive(ctrl.getShell());

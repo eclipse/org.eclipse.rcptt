@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.GetTextRange#getStartOffset <em>Start Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.GetTextRange#getEndOffset <em>End Offset</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getGetTextRange()
  * @model

@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutSendEvent#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutSendEvent#getEvent <em>Event</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutSendEvent()
  * @model

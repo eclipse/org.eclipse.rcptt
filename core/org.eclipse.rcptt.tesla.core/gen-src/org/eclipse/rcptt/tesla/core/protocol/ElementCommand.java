@@ -20,10 +20,10 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ElementCommand#getElement <em>Element</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getElementCommand()
  * @model interface="true" abstract="true"

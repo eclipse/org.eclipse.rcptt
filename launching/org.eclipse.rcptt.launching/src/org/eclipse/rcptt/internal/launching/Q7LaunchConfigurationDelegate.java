@@ -62,8 +62,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 										"The '%s' test is totally broken.",
 										t.getName()), e));
 					}
-				}
-				else if (t instanceof IContext) {
+				} else if (t instanceof IContext) {
 					try {
 						// triggers underlying deserilization from plain text
 						((IContext) t).getID();
@@ -103,7 +102,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 
 		return true;
 	}
-	
+
 	private static Aut getAut(ILaunchConfiguration configuration) {
 		try {
 			String autName = configuration.getAttribute(IQ7Launch.ATTR_AUT_NAME, "");
@@ -162,7 +161,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 			}
 		}
 
-		Q7Launcher.setMappedResources(config, elements);
+		Q7Launcher.setMappedResources(config, elements, autLaunch.getCapability());
 		IWorkspaceFinder finder = data == null ? null : data.finder;
 		launch(elements, (Q7TestLaunch) launch, autLaunch, finder,
 				namedVariants);

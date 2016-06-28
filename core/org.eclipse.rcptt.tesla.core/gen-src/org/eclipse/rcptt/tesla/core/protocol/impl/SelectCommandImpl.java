@@ -36,12 +36,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectCommandImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectCommandImpl#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectCommandImpl#getContainChildren <em>Contain Children</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

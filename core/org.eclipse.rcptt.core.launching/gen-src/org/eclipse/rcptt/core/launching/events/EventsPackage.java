@@ -159,13 +159,31 @@ public interface EventsPackage extends EPackage {
 	int AUT_EVENT_START__STATE = AUT_EVENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Platform</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUT_EVENT_START__PLATFORM = AUT_EVENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Capability</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUT_EVENT_START__CAPABILITY = AUT_EVENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Aut Event Start</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AUT_EVENT_START_FEATURE_COUNT = AUT_EVENT_FEATURE_COUNT + 4;
+	int AUT_EVENT_START_FEATURE_COUNT = AUT_EVENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.core.launching.events.impl.AutBundleStateImpl <em>Aut Bundle State</em>}' class.
@@ -411,6 +429,27 @@ public interface EventsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.core.launching.events.Platform <em>Platform</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.core.launching.events.Platform
+	 * @see org.eclipse.rcptt.core.launching.events.impl.EventsPackageImpl#getPlatform()
+	 * @generated
+	 */
+	int PLATFORM = 10;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.core.launching.events.Capability <em>Capability</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.core.launching.events.Capability
+	 * @see org.eclipse.rcptt.core.launching.events.impl.EventsPackageImpl#getCapability()
+	 * @generated
+	 */
+	int CAPABILITY = 11;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.launching.events.AutEvent <em>Aut Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -494,6 +533,28 @@ public interface EventsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAutEventStart_State();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getPlatform <em>Platform</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Platform</em>'.
+	 * @see org.eclipse.rcptt.core.launching.events.AutEventStart#getPlatform()
+	 * @see #getAutEventStart()
+	 * @generated
+	 */
+	EAttribute getAutEventStart_Platform();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getCapability <em>Capability</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Capability</em>'.
+	 * @see org.eclipse.rcptt.core.launching.events.AutEventStart#getCapability()
+	 * @see #getAutEventStart()
+	 * @generated
+	 */
+	EAttribute getAutEventStart_Capability();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.launching.events.AutBundleState <em>Aut Bundle State</em>}'.
@@ -665,6 +726,26 @@ public interface EventsPackage extends EPackage {
 	EEnum getAutStartState();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.rcptt.core.launching.events.Platform <em>Platform</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Platform</em>'.
+	 * @see org.eclipse.rcptt.core.launching.events.Platform
+	 * @generated
+	 */
+	EEnum getPlatform();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.rcptt.core.launching.events.Capability <em>Capability</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Capability</em>'.
+	 * @see org.eclipse.rcptt.core.launching.events.Capability
+	 * @generated
+	 */
+	EEnum getCapability();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -755,6 +836,22 @@ public interface EventsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute AUT_EVENT_START__STATE = eINSTANCE.getAutEventStart_State();
+
+		/**
+		 * The meta object literal for the '<em><b>Platform</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AUT_EVENT_START__PLATFORM = eINSTANCE.getAutEventStart_Platform();
+
+		/**
+		 * The meta object literal for the '<em><b>Capability</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AUT_EVENT_START__CAPABILITY = eINSTANCE.getAutEventStart_Capability();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.core.launching.events.impl.AutBundleStateImpl <em>Aut Bundle State</em>}' class.
@@ -897,6 +994,26 @@ public interface EventsPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum AUT_START_STATE = eINSTANCE.getAutStartState();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.core.launching.events.Platform <em>Platform</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.core.launching.events.Platform
+		 * @see org.eclipse.rcptt.core.launching.events.impl.EventsPackageImpl#getPlatform()
+		 * @generated
+		 */
+		EEnum PLATFORM = eINSTANCE.getPlatform();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.core.launching.events.Capability <em>Capability</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.core.launching.events.Capability
+		 * @see org.eclipse.rcptt.core.launching.events.impl.EventsPackageImpl#getCapability()
+		 * @generated
+		 */
+		EEnum CAPABILITY = eINSTANCE.getCapability();
 
 	}
 

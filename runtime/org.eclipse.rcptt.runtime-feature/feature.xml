@@ -210,28 +210,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt.win32"
-         os="win32"
-         ws="win32"
-         arch="x86"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.rcptt.util.swt.win64"
-         os="win32"
-         ws="win32"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.rcptt.ctx.parameters"
          download-size="0"
          install-size="0"
@@ -342,5 +320,6 @@
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+
 
 </feature>

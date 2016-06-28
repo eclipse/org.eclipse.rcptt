@@ -14,6 +14,8 @@ import org.eclipse.rcptt.core.scenario.*;
 
 import java.util.List;
 
+import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -202,6 +204,20 @@ public class ScenarioSwitch<T> {
 				T result = caseWidgetVerification(widgetVerification);
 				if (result == null) result = caseVerification(widgetVerification);
 				if (result == null) result = caseNamedElement(widgetVerification);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.CAPABILITY_CONTEXT: {
+				CapabilityContext capabilityContext = (CapabilityContext)theEObject;
+				T result = caseCapabilityContext(capabilityContext);
+				if (result == null) result = caseContext(capabilityContext);
+				if (result == null) result = caseNamedElement(capabilityContext);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.CAPABILITY_CONTEXT_ITEM: {
+				CapabilityContextItem capabilityContextItem = (CapabilityContextItem)theEObject;
+				T result = caseCapabilityContextItem(capabilityContextItem);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -446,6 +462,36 @@ public class ScenarioSwitch<T> {
 	 * @generated
 	 */
 	public T caseWidgetVerification(WidgetVerification object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Capability Context</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Capability Context</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCapabilityContext(CapabilityContext object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Capability Context Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Capability Context Item</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCapabilityContextItem(CapabilityContextItem object) {
 		return null;
 	}
 

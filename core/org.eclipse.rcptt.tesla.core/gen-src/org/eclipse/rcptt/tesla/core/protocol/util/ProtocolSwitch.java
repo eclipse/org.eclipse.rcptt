@@ -905,6 +905,13 @@ public class ProtocolSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ProtocolPackage.RAP_DOWNLOAD_FILE: {
+				RapDownloadFile rapDownloadFile = (RapDownloadFile)theEObject;
+				T result = caseRapDownloadFile(rapDownloadFile);
+				if (result == null) result = caseCommand(rapDownloadFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -2496,6 +2503,21 @@ public class ProtocolSwitch<T> {
 	 * @generated
 	 */
 	public T caseUpdateControlCommand(UpdateControlCommand object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rap Download File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rap Download File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRapDownloadFile(RapDownloadFile object) {
 		return null;
 	}
 

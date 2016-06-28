@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImageDataImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImageDataImpl#getX <em>X</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImageDataImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImageDataImpl#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

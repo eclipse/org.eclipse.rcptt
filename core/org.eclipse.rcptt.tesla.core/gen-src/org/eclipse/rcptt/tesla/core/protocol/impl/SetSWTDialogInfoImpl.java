@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetSWTDialogInfoImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetSWTDialogInfoImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetSWTDialogInfoImpl#getPath <em>Path</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

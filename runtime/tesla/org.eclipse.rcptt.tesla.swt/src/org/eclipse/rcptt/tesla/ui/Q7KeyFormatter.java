@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ui;
 
-import static org.eclipse.rcptt.util.swt.KeysAndButtons.MODIFIERS;
+import static org.eclipse.rcptt.util.KeysAndButtons.getModifiers;
 
 import org.eclipse.jface.action.CoolBarManager;
 import org.eclipse.jface.action.IContributionItem;
@@ -38,9 +38,9 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 	@Override
 	protected int[] sortModifierKeys(int modifierKeys) {
-		final int[] sortedKeys = new int[MODIFIERS.size()];
+		final int[] sortedKeys = new int[getModifiers().size()];
 		int index = 0;
-		for (int i : MODIFIERS.keySet()) {
+		for (int i : getModifiers().keySet()) {
 			if ((modifierKeys & i) != 0) {
 				sortedKeys[index++] = i;
 			}
@@ -50,7 +50,7 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 	@Override
 	public String format(int key) {
-		String result = MODIFIERS.get(key);
+		String result = getModifiers().get(key);
 		return result == null ? super.format(key) : result;
 	}
 

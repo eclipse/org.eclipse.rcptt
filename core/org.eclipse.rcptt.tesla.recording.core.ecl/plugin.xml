@@ -3,5 +3,5 @@
 <plugin>
    <extension-point id="selectorExtension" name="selectorExtension" schema="schema/selectorExtension.exsd"/>
    <extension-point id="parserExtension" name="parserExtension" schema="schema/parserExtension.exsd"/>
-
+   <extension-point id="keyStrokeExtension" name="keyStrokeExtension" schema="schema/keyStrokeExtension.exsd"/>
 </plugin>

@@ -18,7 +18,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.core;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.rcptt.watson.core;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.rcptt.reporting;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
- org.eclipse.swt,
  org.eclipse.rcptt.tesla.ecl;bundle-version="[2.2.0,3.0.0)",
  org.eclipse.rcptt.verifications;bundle-version="[2.2.0,3.0.0)",
  org.eclipse.rcptt.util;bundle-version="[2.2.0,3.0.0)"

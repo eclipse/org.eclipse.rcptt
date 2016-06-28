@@ -30,13 +30,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextOffsetImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextOffsetImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextOffsetImpl#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SetTextOffsetImpl#getLine <em>Line</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -32,12 +32,12 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.MultiSelectionItemImpl#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.MultiSelectionItemImpl#getPattern <em>Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.MultiSelectionItemImpl#getIndex <em>Index</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

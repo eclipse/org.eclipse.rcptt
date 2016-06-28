@@ -78,7 +78,7 @@ import org.eclipse.rcptt.ui.recording.RecordingSupport;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
 import org.eclipse.rcptt.ui.utils.WriteAccessChecker;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;

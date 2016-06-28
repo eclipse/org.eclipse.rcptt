@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isWithWait <em>With Wait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isArrow <em>Arrow</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getClick()
  * @model

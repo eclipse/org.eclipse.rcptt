@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.CheckItemImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.CheckItemImpl#getElement <em>Element</em>}</li>
@@ -44,7 +45,6 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.CheckItemImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.CheckItemImpl#isState <em>State</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

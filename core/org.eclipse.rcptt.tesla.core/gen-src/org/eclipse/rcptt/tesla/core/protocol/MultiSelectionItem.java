@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MultiSelectionItem#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MultiSelectionItem#getPattern <em>Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.MultiSelectionItem#getIndex <em>Index</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getMultiSelectionItem()
  * @model

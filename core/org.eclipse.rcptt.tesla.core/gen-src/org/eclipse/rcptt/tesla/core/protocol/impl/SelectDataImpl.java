@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectDataImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectDataImpl#getPattern <em>Pattern</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectDataImpl#getClassPattern <em>Class Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.SelectDataImpl#getIndexes <em>Indexes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

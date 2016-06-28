@@ -14,6 +14,7 @@
     <module>org.eclipse.rcptt.ctx.resources.ui</module>
     <module>org.eclipse.rcptt.ctx.script.ui</module>
     <module>org.eclipse.rcptt.ctx.super.ui</module>
+    <module>org.eclipse.rcptt.ctx.capability.ui</module>
     <module>org.eclipse.rcptt.ctx.workbench.ui</module>
     <module>org.eclipse.rcptt.ctx.parameters.ui</module>
     <module>org.eclipse.rcptt.ctx.filesystem.ui</module>

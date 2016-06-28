@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="keysExtension" name="keysExtension" schema="schema/keysExtension.exsd"/>
+   <extension-point id="shellUtils" name="shellUtils" schema="schema/shellUtils.exsd"/>
+   <extension-point id="displayUtils" name="shellUtils" schema="schema/displayUtils.exsd"/>
+
+</plugin>

@@ -87,8 +87,7 @@ public class FilesystemContextProcessor implements IContextProcessor {
 				captureParam == null ? null : captureParam.getPath(), resolver);
 
 		if (captureParam != null) {
-			result.setPath(captureParam.getPath() == null ? "" : captureParam
-					.getPath());
+			result.setPath(captureParam.getPath() == null ? "" : captureParam.getPath());
 			result.setClear(captureParam.isClear());
 		}
 

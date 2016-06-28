@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.RulerHover#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.RulerHover#getStateMask <em>State Mask</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getRulerHover()
  * @model

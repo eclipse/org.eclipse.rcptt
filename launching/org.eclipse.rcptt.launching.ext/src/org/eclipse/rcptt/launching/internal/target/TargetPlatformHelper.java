@@ -122,7 +122,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		initialize();
 	}
 
-
 	public Q7Target getQ7Target() {
 		return q7target;
 	}
@@ -218,7 +217,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		// Skip problem of nonexistent file.
 		Q7LaunchingPlugin.log(Q7LaunchingPlugin.createStatus(IStatus.WARNING,
 				"Skip nonexistent bundle: " + info.getSymbolicName()
-						+ ", then resolve configuration.", null));
+						+ ", then resolve configuration.",
+				null));
 	}
 
 	public IStatus getBundleWarningStatus() {
@@ -524,7 +524,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				result.add(id);
 			}
 		}
-		//		result.add(IDE_APPLICATION); //$NON-NLS-1$
+		// result.add(IDE_APPLICATION); //$NON-NLS-1$
 		return result.toArray(new String[result.size()]);
 	}
 
@@ -695,7 +695,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			} else if (entry instanceof Directory) {
 				result = processDirectory((Directory) entry);
 			}
-			if (result.matches(IStatus.ERROR |IStatus.CANCEL)) {
+			if (result.matches(IStatus.ERROR | IStatus.CANCEL)) {
 				return result;
 			}
 		}
@@ -751,10 +751,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 		try {
 			URI uri = URI.create(
-				Platform.getOS().equals(Platform.OS_WIN32) ?
-					site.getUri().replace('\\', '/') :
-					site.getUri()
-			);
+					Platform.getOS().equals(Platform.OS_WIN32) ? site.getUri().replace('\\', '/') : site.getUri());
 			IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
 					monitor);
 			IArtifactRepository artifactRepository = PDEHelper
@@ -1246,12 +1243,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		initialize();
 	}
 
-
 	@Override
 	public String toString() {
 		return (getName() == null ? "No name" : getName()) + " " + getTargetPlatformProfilePath();
 	}
-
 
 	@Override
 	public Map<String, org.eclipse.equinox.p2.metadata.Version> getVersions() throws CoreException {
@@ -1260,5 +1255,4 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return AUTInformation.getInformationMap(target);
 	}
 
-	
 }

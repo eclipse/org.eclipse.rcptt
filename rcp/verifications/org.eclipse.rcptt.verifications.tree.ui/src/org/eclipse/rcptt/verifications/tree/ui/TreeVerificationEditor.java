@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree.ui;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -62,7 +66,6 @@ import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
 import org.eclipse.rcptt.ui.controls.SectionWithComposite;
 import org.eclipse.rcptt.ui.editors.EditorHeader;
 import org.eclipse.rcptt.ui.verification.WidgetVerificationEditor;
-import org.eclipse.rcptt.util.swt.ImageUtil;
 import org.eclipse.rcptt.verifications.tree.Cell;
 import org.eclipse.rcptt.verifications.tree.Column;
 import org.eclipse.rcptt.verifications.tree.Row;
@@ -110,16 +113,16 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 				.spacing(16, 4)
 				.applyTo(box);
 		createControls(toolkit, box);
-		
+
 		header.getRecordButton().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				Boolean defaultValue = (Boolean) TreePackage.Literals.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE
 						.getDefaultValue();
 				getVerificationElement().setEnableVerifyStyle(defaultValue);
-			}	
+			}
 		});
-		
+
 		return section;
 	}
 
@@ -183,7 +186,7 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 			}
 		});
 		align.applyTo(verifyStyleCombo);
-		
+
 		Button unverifiedChildrenCheck = new Button(parent, SWT.CHECK);
 		unverifiedChildrenCheck.setText("Allow uncaptured children");
 		unverifiedChildrenCheck
@@ -322,7 +325,7 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 				viewer.expandAll();
 
 				widgetObservable.updateOutputFormat();
-				
+
 				treeComposite.setRedraw(true);
 			}
 		}
@@ -330,7 +333,7 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 		private Map<String, Image> deserializeImages(Display display, EMap<String, byte[]> images) {
 			Map<String, Image> result = new HashMap<String, Image>();
 			for (Entry<String, byte[]> img : images.entrySet()) {
-				result.put(img.getKey(), ImageUtil.deserializeImage(display, img.getValue()));
+				result.put(img.getKey(), deserializeImage(display, img.getValue()));
 			}
 			return result;
 		}
@@ -432,5 +435,20 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 
 			return viewer;
 		}
+	}
+
+	private static byte[] serializeImage(Image img) {
+		ImageLoader imageLoader = new ImageLoader();
+		imageLoader.data = new ImageData[] { img.getImageData() };
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		imageLoader.save(stream, SWT.IMAGE_PNG);
+		return stream.toByteArray();
+	}
+
+	private static Image deserializeImage(Display display, byte[] img) {
+		ImageLoader imageLoader = new ImageLoader();
+		ByteArrayInputStream stream = new ByteArrayInputStream(img);
+		ImageData[] data = imageLoader.load(stream);
+		return new Image(display, data[0]);
 	}
 }

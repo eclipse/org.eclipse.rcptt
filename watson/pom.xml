@@ -18,9 +18,5 @@
     <module>org.eclipse.rcptt.watson.core</module>
     <module>org.eclipse.rcptt.watson-feature</module>
     <module>org.eclipse.rcptt.watson.jobs</module>
-    <module>org.eclipse.rcptt.watson.aspects.swt</module>
-    <module>org.eclipse.rcptt.watson.aspects.jobs</module>
-    <module>org.eclipse.rcptt.watson.jface</module>
-    <module>org.eclipse.rcptt.watson.runtime-feature</module>
   </modules>
 </project>

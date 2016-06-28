@@ -32,10 +32,10 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventInitImpl#getBundleState <em>Bundle State</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

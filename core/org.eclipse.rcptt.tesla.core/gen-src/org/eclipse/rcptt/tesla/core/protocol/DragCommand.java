@@ -16,13 +16,13 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.DragCommand#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.DragCommand#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.DragCommand#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.DragCommand#getStyle <em>Style</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getDragCommand()
  * @model
