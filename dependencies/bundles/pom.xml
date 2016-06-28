@@ -17,7 +17,6 @@
     <module>org.eclipse.rcptt.updates.aspectj.e38x</module>
     <module>org.eclipse.rcptt.updates.aspectj.e3x</module>
     <module>org.eclipse.rcptt.updates.aspectj.e44x</module>
-    <module>org.eclipse.rcptt.updates.galileo</module>
     <module>org.eclipse.rcptt.updates.helios</module>
     <module>org.eclipse.rcptt.updates.kepler</module>
     <module>org.eclipse.rcptt.updates.external.dependencies.rap</module>
