@@ -29,7 +29,7 @@
    </license>
 
     <plugin
-         id="org.eclipse.rcptt.updates.helios"
+         id="org.eclipse.rcptt.updates.indigo"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"

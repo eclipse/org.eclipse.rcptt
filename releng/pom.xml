@@ -20,7 +20,7 @@
     <tycho-version>0.25.0</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>
+    <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update/</ajdt37repository>
     <signExcludeInnerJars>true</signExcludeInnerJars>
     <aspectj_version>1.7</aspectj_version>
     <aspectj_dep>1.7.0</aspectj_dep>

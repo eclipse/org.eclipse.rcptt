@@ -7,7 +7,7 @@ modules/rap/bundles/runtime/updates/org.eclipse.rcptt.updates.runtime.rap/q7
 # external dependencies bundles
 dependencies/bundles/org.eclipse.rcptt.updates.external.dependencies.rap/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.kepler/dependencies
-dependencies/bundles/org.eclipse.rcptt.updates.helios/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.indigo/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e3x/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e38x/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e44x/dependencies

@@ -15,9 +15,9 @@
   <mirrors>
     <mirror>
       <id>helios-xored</id>
-      <mirrorOf>helios</mirrorOf>
-      <name>Xored helios</name>
-      <url>http://updates.xored.com/helios/</url>
+      <mirrorOf>indigo</mirrorOf>
+      <name>Xored idnigo</name>
+      <url>http://updates.xored.com/indigo/</url>
       <layout>p2</layout>
       <mirrorOfLayouts>p2</mirrorOfLayouts>
     </mirror>
