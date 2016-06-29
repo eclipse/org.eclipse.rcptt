@@ -50,5 +50,8 @@
   <feature id="org.eclipse.rcptt.module.nebula">
     <category name="rcptt"/>
   </feature>
+  <feature id="org.eclipse.rcptt.rap.ui.feature">
+    <category name="rcptt"/>
+  </feature>
   <category-def label="RCP Testing Tool" name="rcptt"/>
 </site>

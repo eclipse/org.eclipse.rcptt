@@ -2,7 +2,6 @@
 runtime/updates/org.eclipse.rcptt.updates.runtime/q7/
 runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7/
 modules/rap/bundles/runtime/updates/org.eclipse.rcptt.updates.runtime.rap/q7/
-modules/rap/bundles/runtime/updates/org.eclipse.rcptt.updates.runtime.rap/q7
 
 # external dependencies bundles
 dependencies/bundles/org.eclipse.rcptt.updates.external.dependencies.rap/dependencies

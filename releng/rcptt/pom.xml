@@ -28,6 +28,8 @@
   <properties>
     <buildUrl>file:/${user.dir}</buildUrl>
     <repositoryFull>${buildUrl}/repository/full/target/repository/</repositoryFull>
+    <rapRepository>${buildUrl}/repository/rap/target/repository/</rapRepository>
+    <dependenciesRepository>${buildUrl}/repository/dependencies/target/repository/</dependenciesRepository>
   </properties>
   <repositories>
     <repository>
@@ -37,6 +39,23 @@
       <id>all-in-one</id>
       <layout>p2</layout>
       <url>${repositoryFull}</url>
+    </repository>
+
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>rap</id>
+      <layout>p2</layout>
+      <url>${rapRepository}</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>dependencies</id>
+      <layout>p2</layout>
+      <url>${dependenciesRepository}</url>
     </repository>
   </repositories>
 </project>

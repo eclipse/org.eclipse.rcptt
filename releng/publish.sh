@@ -66,9 +66,9 @@ cp -r $repositorySource $buildDestination
 cp -r $repositorySource $latest
 
 # copy full repository
-repositorySource=$WORKSPACE/repository/full/target/repository
-cp -r $repositorySource $buildDestination/full/
-cp -r $repositorySource $latest/full
+#repositorySource=$WORKSPACE/repository/full/target/repository
+#cp -r $repositorySource $buildDestination/full/
+#cp -r $repositorySource $latest/full
 
 # copy rcptt repository archive
 repositoryArchiveSource=$WORKSPACE/repository/rcptt/target/rcptt.repository-$productVersion-SNAPSHOT.zip
