@@ -14,12 +14,12 @@
 
 <feature
       id="org.eclipse.rcptt.rap.ui.feature"
-      label="RCP Testing Tools RAP Supporting"
+      label="RCPTT RAP Support"
       version="2.2.0.qualifier"
       provider-name="%proiderName">
 
    <description>
-      RCP Testing Tools RAP Supporting
+      RCPTT RAP Support
    </description>
 
    <copyright url="%copyrightURL">
