@@ -321,7 +321,6 @@ privileged public aspect RecordingAspect {
 		final DialogCallback wrapper = new DialogCallback() {
 			private static final long serialVersionUID = 1L;
 
-			@Override
 			public void dialogClosed(int returnCode) {
 				real.dialogClosed(returnCode);
 				SWTDialogManager.setFileDialogOpen(false);
