@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -159,108 +150,6 @@ public interface RapTeslaPackage extends EPackage {
 	int EXEC_WITHOUT_JS_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.SetDownloadResultFileImpl <em>Set Download Result File</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.SetDownloadResultFileImpl
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getSetDownloadResultFile()
-	 * @generated
-	 */
-	int SET_DOWNLOAD_RESULT_FILE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Host</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SET_DOWNLOAD_RESULT_FILE__HOST = CorePackage.COMMAND__HOST;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SET_DOWNLOAD_RESULT_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>File</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SET_DOWNLOAD_RESULT_FILE__FILE = CorePackage.COMMAND_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Set Download Result File</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SET_DOWNLOAD_RESULT_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.VerifyDownloadFileImpl <em>Verify Download File</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.VerifyDownloadFileImpl
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getVerifyDownloadFile()
-	 * @generated
-	 */
-	int VERIFY_DOWNLOAD_FILE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Host</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERIFY_DOWNLOAD_FILE__HOST = CorePackage.COMMAND__HOST;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERIFY_DOWNLOAD_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Url</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERIFY_DOWNLOAD_FILE__URL = CorePackage.COMMAND_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Handler</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERIFY_DOWNLOAD_FILE__HANDLER = CorePackage.COMMAND_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Verify Download File</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERIFY_DOWNLOAD_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
-
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.MarkDownloadHandlerImpl <em>Mark Download Handler</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -268,7 +157,7 @@ public interface RapTeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getMarkDownloadHandler()
 	 * @generated
 	 */
-	int MARK_DOWNLOAD_HANDLER = 4;
+	int MARK_DOWNLOAD_HANDLER = 2;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -305,6 +194,235 @@ public interface RapTeslaPackage extends EPackage {
 	 * @ordered
 	 */
 	int MARK_DOWNLOAD_HANDLER_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl <em>Upload File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getUploadFile()
+	 * @generated
+	 */
+	int UPLOAD_FILE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPLOAD_FILE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPLOAD_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPLOAD_FILE__FILE = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Base64</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPLOAD_FILE__BASE64 = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Upload File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPLOAD_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.DownloadFileImpl <em>Download File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.DownloadFileImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getDownloadFile()
+	 * @generated
+	 */
+	int DOWNLOAD_FILE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOWNLOAD_FILE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOWNLOAD_FILE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Handler Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOWNLOAD_FILE__HANDLER_ID = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Url</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOWNLOAD_FILE__URL = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Download File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOWNLOAD_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.ToStringImpl <em>To String</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.ToStringImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getToString()
+	 * @generated
+	 */
+	int TO_STRING = 5;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_STRING__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_STRING__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Encode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_STRING__ENCODE = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_STRING__INPUT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>To String</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_STRING_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.MatchBinaryImpl <em>Match Binary</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.MatchBinaryImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getMatchBinary()
+	 * @generated
+	 */
+	int MATCH_BINARY = 6;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Base64</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY__BASE64 = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY__INPUT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY__FILE_PATH = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Match Binary</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCH_BINARY_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
 
 
 	/**
@@ -350,59 +468,6 @@ public interface RapTeslaPackage extends EPackage {
 	EReference getExecWithoutJs_Command();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile <em>Set Download Result File</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Set Download Result File</em>'.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile
-	 * @generated
-	 */
-	EClass getSetDownloadResultFile();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile#getFile <em>File</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>File</em>'.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile#getFile()
-	 * @see #getSetDownloadResultFile()
-	 * @generated
-	 */
-	EAttribute getSetDownloadResultFile_File();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile <em>Verify Download File</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Verify Download File</em>'.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile
-	 * @generated
-	 */
-	EClass getVerifyDownloadFile();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile#getUrl <em>Url</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Url</em>'.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile#getUrl()
-	 * @see #getVerifyDownloadFile()
-	 * @generated
-	 */
-	EAttribute getVerifyDownloadFile_Url();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile#getHandler <em>Handler</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Handler</em>'.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile#getHandler()
-	 * @see #getVerifyDownloadFile()
-	 * @generated
-	 */
-	EAttribute getVerifyDownloadFile_Handler();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MarkDownloadHandler <em>Mark Download Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -422,6 +487,145 @@ public interface RapTeslaPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMarkDownloadHandler_Handler();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile <em>Upload File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Upload File</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile
+	 * @generated
+	 */
+	EClass getUploadFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile#getFile <em>File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile#getFile()
+	 * @see #getUploadFile()
+	 * @generated
+	 */
+	EAttribute getUploadFile_File();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile#getBase64 <em>Base64</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base64</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile#getBase64()
+	 * @see #getUploadFile()
+	 * @generated
+	 */
+	EAttribute getUploadFile_Base64();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile <em>Download File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Download File</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile
+	 * @generated
+	 */
+	EClass getDownloadFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile#getHandlerId <em>Handler Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Handler Id</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile#getHandlerId()
+	 * @see #getDownloadFile()
+	 * @generated
+	 */
+	EAttribute getDownloadFile_HandlerId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile#getUrl <em>Url</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Url</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile#getUrl()
+	 * @see #getDownloadFile()
+	 * @generated
+	 */
+	EAttribute getDownloadFile_Url();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.ToString <em>To String</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>To String</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.ToString
+	 * @generated
+	 */
+	EClass getToString();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.ToString#getEncode <em>Encode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Encode</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.ToString#getEncode()
+	 * @see #getToString()
+	 * @generated
+	 */
+	EAttribute getToString_Encode();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.tesla.ecl.rap.model.ToString#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.ToString#getInput()
+	 * @see #getToString()
+	 * @generated
+	 */
+	EReference getToString_Input();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary <em>Match Binary</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Match Binary</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary
+	 * @generated
+	 */
+	EClass getMatchBinary();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getBase64 <em>Base64</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base64</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getBase64()
+	 * @see #getMatchBinary()
+	 * @generated
+	 */
+	EAttribute getMatchBinary_Base64();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Input</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getInput()
+	 * @see #getMatchBinary()
+	 * @generated
+	 */
+	EReference getMatchBinary_Input();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getFilePath <em>File Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Path</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary#getFilePath()
+	 * @see #getMatchBinary()
+	 * @generated
+	 */
+	EAttribute getMatchBinary_FilePath();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -482,50 +686,6 @@ public interface RapTeslaPackage extends EPackage {
 		EReference EXEC_WITHOUT_JS__COMMAND = eINSTANCE.getExecWithoutJs_Command();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.SetDownloadResultFileImpl <em>Set Download Result File</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.SetDownloadResultFileImpl
-		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getSetDownloadResultFile()
-		 * @generated
-		 */
-		EClass SET_DOWNLOAD_RESULT_FILE = eINSTANCE.getSetDownloadResultFile();
-
-		/**
-		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SET_DOWNLOAD_RESULT_FILE__FILE = eINSTANCE.getSetDownloadResultFile_File();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.VerifyDownloadFileImpl <em>Verify Download File</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.VerifyDownloadFileImpl
-		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getVerifyDownloadFile()
-		 * @generated
-		 */
-		EClass VERIFY_DOWNLOAD_FILE = eINSTANCE.getVerifyDownloadFile();
-
-		/**
-		 * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VERIFY_DOWNLOAD_FILE__URL = eINSTANCE.getVerifyDownloadFile_Url();
-
-		/**
-		 * The meta object literal for the '<em><b>Handler</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VERIFY_DOWNLOAD_FILE__HANDLER = eINSTANCE.getVerifyDownloadFile_Handler();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.MarkDownloadHandlerImpl <em>Mark Download Handler</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -542,6 +702,118 @@ public interface RapTeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MARK_DOWNLOAD_HANDLER__HANDLER = eINSTANCE.getMarkDownloadHandler_Handler();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl <em>Upload File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getUploadFile()
+		 * @generated
+		 */
+		EClass UPLOAD_FILE = eINSTANCE.getUploadFile();
+
+		/**
+		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UPLOAD_FILE__FILE = eINSTANCE.getUploadFile_File();
+
+		/**
+		 * The meta object literal for the '<em><b>Base64</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UPLOAD_FILE__BASE64 = eINSTANCE.getUploadFile_Base64();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.DownloadFileImpl <em>Download File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.DownloadFileImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getDownloadFile()
+		 * @generated
+		 */
+		EClass DOWNLOAD_FILE = eINSTANCE.getDownloadFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Handler Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOWNLOAD_FILE__HANDLER_ID = eINSTANCE.getDownloadFile_HandlerId();
+
+		/**
+		 * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOWNLOAD_FILE__URL = eINSTANCE.getDownloadFile_Url();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.ToStringImpl <em>To String</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.ToStringImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getToString()
+		 * @generated
+		 */
+		EClass TO_STRING = eINSTANCE.getToString();
+
+		/**
+		 * The meta object literal for the '<em><b>Encode</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TO_STRING__ENCODE = eINSTANCE.getToString_Encode();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TO_STRING__INPUT = eINSTANCE.getToString_Input();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.MatchBinaryImpl <em>Match Binary</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.MatchBinaryImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.rap.model.impl.RapTeslaPackageImpl#getMatchBinary()
+		 * @generated
+		 */
+		EClass MATCH_BINARY = eINSTANCE.getMatchBinary();
+
+		/**
+		 * The meta object literal for the '<em><b>Base64</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MATCH_BINARY__BASE64 = eINSTANCE.getMatchBinary_Base64();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MATCH_BINARY__INPUT = eINSTANCE.getMatchBinary_Input();
+
+		/**
+		 * The meta object literal for the '<em><b>File Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MATCH_BINARY__FILE_PATH = eINSTANCE.getMatchBinary_FilePath();
 
 	}
 

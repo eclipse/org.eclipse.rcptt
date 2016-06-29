@@ -118,7 +118,7 @@ public class CommandToStringConverter {
 				.eClass());
 
 		boolean forced = false;
-		boolean bigTextCommand = commandName.equals("set-download-result-file");
+		boolean bigTextCommand = commandName.equals("upload-file") || commandName.equals("match-binary");
 
 		for (EStructuralFeature feature : attributes) {
 			if (feature.getEAnnotation(CoreUtils.INTERNAL_ANN) != null)

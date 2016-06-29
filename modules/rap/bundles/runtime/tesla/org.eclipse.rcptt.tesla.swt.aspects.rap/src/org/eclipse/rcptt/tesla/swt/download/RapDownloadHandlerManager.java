@@ -11,32 +11,11 @@
  *  *******************************************************************************/
 package org.eclipse.rcptt.tesla.swt.download;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.internal.service.ServiceManagerImpl;
@@ -66,9 +45,6 @@ public class RapDownloadHandlerManager {
 		return handlers.contains(name);
 	}
 
-	public static boolean checkContent(String content) {
-		return content.equals(RapDownloadHandlerManager.content);
-	}
 
 	public static void addFile(String file)
 	{

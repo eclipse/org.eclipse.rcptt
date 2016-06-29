@@ -29,7 +29,7 @@ public class MarkDownloadHandlerService implements ICommandService {
 		final MarkDownloadHandler handlers = (MarkDownloadHandler) command;
 
 		if (handlers.getHandler().isEmpty()) {
-			return TeslaImplPlugin.err("The handlers list is empty"); //$NON-NLS-1$
+			return TeslaImplPlugin.error("The handlers list is empty"); //$NON-NLS-1$
 		}
 
 		for (String id : handlers.getHandler()) {

@@ -272,7 +272,7 @@ public class ActionService extends AbstractActionService {
 			ControlHandler itemParent = control.getParent();
 			if (itemParent == null)
 				throw new CoreException(
-						TeslaImplPlugin.err("Cell parent is not specified"));
+						TeslaImplPlugin.error("Cell parent is not specified"));
 			switch (itemParent.getKind()) {
 			case Tree:
 			case Table:
@@ -280,7 +280,7 @@ public class ActionService extends AbstractActionService {
 				Element viewerElement = TeslaBridge.find(viewer);
 				if (viewerElement == null)
 					throw new CoreException(
-							TeslaImplPlugin.err("Couldn't find "
+							TeslaImplPlugin.error("Couldn't find "
 									+ viewer.getKind().name()));
 				ViewerUIElement viewerUIElement = new ViewerUIElement(
 						viewerElement, TeslaBridge.getPlayer());
@@ -290,7 +290,7 @@ public class ActionService extends AbstractActionService {
 			default:
 				throw new CoreException(
 						TeslaImplPlugin
-								.err("Cell parent must be table or tree"));
+								.error("Cell parent must be table or tree"));
 			}
 			return control;
 		} else if (control.getKind() == ElementKind.AboutMenu) {
@@ -345,7 +345,7 @@ public class ActionService extends AbstractActionService {
 		try {
 			ch = charStr == null ? 0 : stringToChar(charStr);
 		} catch (ParseException e1) {
-			throw new CoreException(TeslaImplPlugin.err("Illegal character"));
+			throw new CoreException(TeslaImplPlugin.error("Illegal character"));
 		}
 
 		try {
@@ -384,7 +384,7 @@ public class ActionService extends AbstractActionService {
 						false, kt.getTimes());
 			}
 		} catch (IllegalArgumentException e) {
-			throw new CoreException(TeslaImplPlugin.err("Illegal key"));
+			throw new CoreException(TeslaImplPlugin.error("Illegal key"));
 		}
 		return kt.getControl();
 	}
@@ -443,7 +443,7 @@ public class ActionService extends AbstractActionService {
 			try {
 				return Integer.valueOf(keyStr);
 			} catch (NumberFormatException e1) {
-				throw new CoreException(TeslaImplPlugin.err("Invalid mask"));
+				throw new CoreException(TeslaImplPlugin.error("Invalid mask"));
 			}
 		}
 	}
@@ -505,7 +505,7 @@ public class ActionService extends AbstractActionService {
 			break;
 		default:
 			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported kind of DnD"));
+					TeslaImplPlugin.error("Unsupported kind of DnD"));
 		}
 		int detail = parseDetail(d.getDetail());
 		int button = d.getButton() == null ? 0 : d.getButton().getValue();
@@ -680,7 +680,7 @@ public class ActionService extends AbstractActionService {
 			break;
 		default:
 			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported mouse command kind"));
+					TeslaImplPlugin.error("Unsupported mouse command kind"));
 		}
 		ControlHandler control = ma.getControl();
 		Integer height = ma.getHeight();
@@ -721,7 +721,7 @@ public class ActionService extends AbstractActionService {
 				return target;
 			default:
 				throw new CoreException(
-						TeslaImplPlugin.err("Illegal control kind: "
+						TeslaImplPlugin.error("Illegal control kind: "
 								+ target.getKind()));
 			}
 		}
@@ -754,7 +754,7 @@ public class ActionService extends AbstractActionService {
 		boolean result = getViewerUIElement(control.getParent()).checkItemList(
 				true, TeslaBridge.parsePath(path));
 		if (!result)
-			throw new CoreException(TeslaImplPlugin.err("Cannot check item(s)"));
+			throw new CoreException(TeslaImplPlugin.error("Cannot check item(s)"));
 
 		return control;
 	}
@@ -772,7 +772,7 @@ public class ActionService extends AbstractActionService {
 				false, TeslaBridge.parsePath(path));
 		if (!result)
 			throw new CoreException(
-					TeslaImplPlugin.err("Cannot uncheck item(s)"));
+					TeslaImplPlugin.error("Cannot uncheck item(s)"));
 
 		return control;
 	}
@@ -787,7 +787,7 @@ public class ActionService extends AbstractActionService {
 			control = control.getParent();
 			if (control == null)
 				throw new CoreException(
-						TeslaImplPlugin.err("Parent is not specified"));
+						TeslaImplPlugin.error("Parent is not specified"));
 		}
 		if (control.getKind() != ElementKind.Tree
 				&& control.getKind() != ElementKind.Table) {
@@ -795,7 +795,7 @@ public class ActionService extends AbstractActionService {
 				control = control.getParent();
 				if (control == null)
 					throw new CoreException(
-							TeslaImplPlugin.err("Parent is not specified"));
+							TeslaImplPlugin.error("Parent is not specified"));
 			}
 		}
 
@@ -808,7 +808,7 @@ public class ActionService extends AbstractActionService {
 		if (capable) {
 			Element viewerElement = TeslaBridge.find(control);
 			if (viewerElement == null)
-				throw new CoreException(TeslaImplPlugin.err("Couldn't find "
+				throw new CoreException(TeslaImplPlugin.error("Couldn't find "
 						+ control.getKind().name()));
 			ViewerUIElement viewerUIElement = new ViewerUIElement(
 					viewerElement, TeslaBridge.getPlayer());
@@ -831,11 +831,11 @@ public class ActionService extends AbstractActionService {
 				break;
 			default:
 				throw new CoreException(
-						TeslaImplPlugin.err("Unsupported cell operation"));
+						TeslaImplPlugin.error("Unsupported cell operation"));
 			}
 		} else {
 			throw new CoreException(
-					TeslaImplPlugin.err("Cell parent must be table or tree"));
+					TeslaImplPlugin.error("Cell parent must be table or tree"));
 		}
 		return c.getControl();
 	}
@@ -847,7 +847,7 @@ public class ActionService extends AbstractActionService {
 				&& control.getKind() != ElementKind.DiagramFigure
 				&& control.getKind() != ElementKind.PaletteEntry) {
 			throw new CoreException(
-					TeslaImplPlugin.err("Diagram element is not specified"));
+					TeslaImplPlugin.error("Diagram element is not specified"));
 		}
 
 		FigureUIElement diagramUIElement = getFigureUIElement(control);
@@ -863,7 +863,7 @@ public class ActionService extends AbstractActionService {
 			break;
 		default:
 			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported direct edit operation"));
+					TeslaImplPlugin.error("Unsupported direct edit operation"));
 		}
 		return c.getControl();
 	}
@@ -874,7 +874,7 @@ public class ActionService extends AbstractActionService {
 				.createSetSWTDialogInfo();
 		SWTDialogKind kind = SWTDialogKind.valueOf(c.getKind());
 		if (kind == null)
-			throw new CoreException(TeslaImplPlugin.err("Illegal kind"));
+			throw new CoreException(TeslaImplPlugin.error("Illegal kind"));
 		info.setKind(kind);
 		for (String currentStr : c.getResult()) {
 			info.getPath().add(currentStr);
@@ -899,7 +899,7 @@ public class ActionService extends AbstractActionService {
 			kind = SWTDialogKind.MESSAGE_BOX;
 		}
 		if (kind == null)
-			throw new CoreException(TeslaImplPlugin.err("Illegal kind"));
+			throw new CoreException(TeslaImplPlugin.error("Illegal kind"));
 		info.setKind(kind);
 		for (String currentStr : c.getResult()) {
 			info.getPath().add(currentStr);

@@ -47,7 +47,7 @@ public class GetItemsService extends AbstractActionService {
 
 		if (!(widget instanceof Tree || widget instanceof TreeItem || widget instanceof Table)) {
 			return TeslaImplPlugin
-					.err("'get-items' can be used only on table or tree or tree item");
+					.error("'get-items' can be used only on table or tree or tree item");
 		}
 
 		final List<ControlHandler> items = new ArrayList<ControlHandler>();

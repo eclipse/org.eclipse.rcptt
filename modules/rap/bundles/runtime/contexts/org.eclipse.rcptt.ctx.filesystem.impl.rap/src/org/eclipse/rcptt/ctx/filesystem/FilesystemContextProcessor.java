@@ -22,6 +22,8 @@ import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.filesystem.FSCaptureParam;
 import org.eclipse.rcptt.filesystem.FilesystemContext;
 import org.eclipse.rcptt.filesystem.FilesystemFactory;
+import org.eclipse.rcptt.util.FileSystemResolver;
+import org.eclipse.rcptt.util.PrefixScheme;
 
 public class FilesystemContextProcessor implements IContextProcessor {
 

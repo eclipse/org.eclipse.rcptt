@@ -646,11 +646,6 @@
       </scriptlet>
       <scriptlet
             class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.ActionService"
-            name="MarkDownloadHandler"
-            namespace="http://eclipse.org/rcptt/tesla/ecl">
-      </scriptlet>
-      <scriptlet
-            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.ActionService"
             name="CheckDownloadResult"
             namespace="http://eclipse.org/rcptt/tesla/ecl">
       </scriptlet>
@@ -805,8 +800,8 @@
             namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
       </scriptlet>
       <scriptlet
-            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.SetDownloadResultFileService"
-            name="SetDownloadResultFile"
+            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.DownloadFileService"
+            name="DownloadFile"
             namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
       </scriptlet>
       <scriptlet
@@ -814,11 +809,22 @@
             name="MarkDownloadHandler"
             namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
       </scriptlet>
-      <scriptlet
-            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.VerifyDownloadFileService"
-            name="VerifyDownloadFile"
+       <scriptlet
+            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.UploadFileService"
+            name="UploadFile"
             namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
       </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.MatchBinaryService"
+            name="DownloadFile"
+            namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.ToStringService"
+            name="ToString"
+            namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
+      </scriptlet>
+
    </extension>
     <extension
           point="org.eclipse.rcptt.tesla.swt.rap.jobCollector">

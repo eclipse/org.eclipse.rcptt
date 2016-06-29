@@ -5475,6 +5475,52 @@ public interface ProtocolPackage extends EPackage {
 	int RAP_DOWNLOAD_FILE_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.RapUploadFileImpl <em>Rap Upload File</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.RapUploadFileImpl
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getRapUploadFile()
+	 * @generated
+	 */
+	int RAP_UPLOAD_FILE = 107;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_UPLOAD_FILE__ID = RawPackage.COMMAND__ID;
+
+	/**
+	 * The feature id for the '<em><b>Base64file</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_UPLOAD_FILE__BASE64FILE = RawPackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_UPLOAD_FILE__PATH = RawPackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Rap Upload File</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RAP_UPLOAD_FILE_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5482,7 +5528,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getSWTDialogKind()
 	 * @generated
 	 */
-	int SWT_DIALOG_KIND = 107;
+	int SWT_DIALOG_KIND = 108;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.AssertKind <em>Assert Kind</em>}' enum.
@@ -5492,7 +5538,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getAssertKind()
 	 * @generated
 	 */
-	int ASSERT_KIND = 108;
+	int ASSERT_KIND = 109;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.DragKind <em>Drag Kind</em>}' enum.
@@ -5502,7 +5548,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getDragKind()
 	 * @generated
 	 */
-	int DRAG_KIND = 109;
+	int DRAG_KIND = 110;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.MouseEventKind <em>Mouse Event Kind</em>}' enum.
@@ -5512,7 +5558,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getMouseEventKind()
 	 * @generated
 	 */
-	int MOUSE_EVENT_KIND = 110;
+	int MOUSE_EVENT_KIND = 111;
 
 
 	/**
@@ -8401,6 +8447,38 @@ public interface ProtocolPackage extends EPackage {
 	EAttribute getRapDownloadFile_Content();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.RapUploadFile <em>Rap Upload File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rap Upload File</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapUploadFile
+	 * @generated
+	 */
+	EClass getRapUploadFile();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.RapUploadFile#getBase64file <em>Base64file</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base64file</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapUploadFile#getBase64file()
+	 * @see #getRapUploadFile()
+	 * @generated
+	 */
+	EAttribute getRapUploadFile_Base64file();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.RapUploadFile#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Path</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.RapUploadFile#getPath()
+	 * @see #getRapUploadFile()
+	 * @generated
+	 */
+	EAttribute getRapUploadFile_Path();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10851,6 +10929,32 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RAP_DOWNLOAD_FILE__CONTENT = eINSTANCE.getRapDownloadFile_Content();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.RapUploadFileImpl <em>Rap Upload File</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.RapUploadFileImpl
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getRapUploadFile()
+		 * @generated
+		 */
+		EClass RAP_UPLOAD_FILE = eINSTANCE.getRapUploadFile();
+
+		/**
+		 * The meta object literal for the '<em><b>Base64file</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAP_UPLOAD_FILE__BASE64FILE = eINSTANCE.getRapUploadFile_Base64file();
+
+		/**
+		 * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RAP_UPLOAD_FILE__PATH = eINSTANCE.getRapUploadFile_Path();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.

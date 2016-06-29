@@ -41,7 +41,7 @@ public class ServiceHandlerWrapper implements ServiceHandler {
 
 		final String content = Base64.encode(spyStream.toByteArray());
 
-		final String url = request.getRequestURL() + "?" + request.getQueryString(); //$NON-NLS-1$
+		final String url =  "/?" + request.getQueryString(); //$NON-NLS-1$
 		SWTEventManager.recordRapDownload(handlerId, url, content);
 
 	}

@@ -16,37 +16,23 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.tesla.core.protocol.ObjectResponse;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile;
-import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
 import org.eclipse.rcptt.tesla.ecl.impl.rap.AbstractActionService;
+import org.eclipse.rcptt.tesla.ecl.impl.rap.ServiceUtil;
 import org.eclipse.rcptt.tesla.ecl.impl.rap.TeslaBridge;
-import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
-import org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile;
-import org.eclipse.rcptt.tesla.swt.download.RapDownloadHandlerManager;
+import org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile;
 
-public class VerifyDownloadFileService extends AbstractActionService {
+public class DownloadFileService extends AbstractActionService {
 
 	@Override
 	protected Object exec(Command command) throws CoreException {
+		final DownloadFile file = (DownloadFile) command;
 
-		final VerifyDownloadFile verify = (VerifyDownloadFile) command;
+		RapDownloadFile download = ProtocolFactory.eINSTANCE.createRapDownloadFile();
+		download.setHandler(file.getHandlerId());
+		download.setUrl(file.getUrl());
 
-		final RapDownloadFile download = ProtocolFactory.eINSTANCE.createRapDownloadFile();
-		download.setHandler(verify.getHandler());
-		download.setUrl(verify.getUrl());
-
-		final Response response = TeslaBridge.getPlayer().safeExecuteCommand(download);
-		if (!(response instanceof ObjectResponse)) {
-			return new CoreException(TeslaImplPlugin.err("Fail response")); //$NON-NLS-1$
-		}
-
-		final String content = (String) ((ObjectResponse) response).getResult();
-
-		if (!RapDownloadHandlerManager.checkContent(content)) {
-			return new CoreException(TeslaImplPlugin.err("File is not same")); //$NON-NLS-1$
-		}
-
-		TeslaBridge.waitExecution();
-		return null;
+		final ObjectResponse response = (ObjectResponse) TeslaBridge.getPlayer().safeExecuteCommand(download);
+		return ServiceUtil.wrap(response.getResult());
 	}
 
 }

@@ -29,8 +29,8 @@ public class ControlNotFoundService implements ICommandService {
 		ControlNotFound cnf = (ControlNotFound) command;
 		String id = cnf.getId();
 		if (id != null)
-			return TeslaImplPlugin.err(MessageFormat.format(
+			return TeslaImplPlugin.error(MessageFormat.format(
 					"Control {0} not found", id));
-		return TeslaImplPlugin.err("Control not found");
+		return TeslaImplPlugin.error("Control not found");
 	}
 }

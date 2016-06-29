@@ -984,6 +984,15 @@ public interface ProtocolFactory extends EFactory {
 	RapDownloadFile createRapDownloadFile();
 
 	/**
+	 * Returns a new object of class '<em>Rap Upload File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rap Upload File</em>'.
+	 * @generated
+	 */
+	RapUploadFile createRapUploadFile();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

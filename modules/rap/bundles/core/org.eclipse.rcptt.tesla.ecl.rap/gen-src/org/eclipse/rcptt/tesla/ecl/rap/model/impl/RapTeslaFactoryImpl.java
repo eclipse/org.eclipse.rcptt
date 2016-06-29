@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model.impl;
 
 import org.eclipse.emf.ecore.EClass;
@@ -67,9 +58,11 @@ public class RapTeslaFactoryImpl extends EFactoryImpl implements RapTeslaFactory
 		switch (eClass.getClassifierID()) {
 			case RapTeslaPackage.RUN_JS: return createRunJs();
 			case RapTeslaPackage.EXEC_WITHOUT_JS: return createExecWithoutJs();
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE: return createSetDownloadResultFile();
-			case RapTeslaPackage.VERIFY_DOWNLOAD_FILE: return createVerifyDownloadFile();
 			case RapTeslaPackage.MARK_DOWNLOAD_HANDLER: return createMarkDownloadHandler();
+			case RapTeslaPackage.UPLOAD_FILE: return createUploadFile();
+			case RapTeslaPackage.DOWNLOAD_FILE: return createDownloadFile();
+			case RapTeslaPackage.TO_STRING: return createToString();
+			case RapTeslaPackage.MATCH_BINARY: return createMatchBinary();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -100,29 +93,49 @@ public class RapTeslaFactoryImpl extends EFactoryImpl implements RapTeslaFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SetDownloadResultFile createSetDownloadResultFile() {
-		SetDownloadResultFileImpl setDownloadResultFile = new SetDownloadResultFileImpl();
-		return setDownloadResultFile;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public VerifyDownloadFile createVerifyDownloadFile() {
-		VerifyDownloadFileImpl verifyDownloadFile = new VerifyDownloadFileImpl();
-		return verifyDownloadFile;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public MarkDownloadHandler createMarkDownloadHandler() {
 		MarkDownloadHandlerImpl markDownloadHandler = new MarkDownloadHandlerImpl();
 		return markDownloadHandler;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UploadFile createUploadFile() {
+		UploadFileImpl uploadFile = new UploadFileImpl();
+		return uploadFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DownloadFile createDownloadFile() {
+		DownloadFileImpl downloadFile = new DownloadFileImpl();
+		return downloadFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToString createToString() {
+		ToStringImpl toString = new ToStringImpl();
+		return toString;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MatchBinary createMatchBinary() {
+		MatchBinaryImpl matchBinary = new MatchBinaryImpl();
+		return matchBinary;
 	}
 
 	/**

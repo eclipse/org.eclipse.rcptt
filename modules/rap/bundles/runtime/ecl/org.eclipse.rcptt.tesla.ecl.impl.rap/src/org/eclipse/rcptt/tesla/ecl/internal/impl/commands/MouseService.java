@@ -94,7 +94,7 @@ public class MouseService extends AbstractActionService {
 				return kind;
 			}
 		}
-		throw new CoreException(TeslaImplPlugin.err(String.format(
+		throw new CoreException(TeslaImplPlugin.error(String.format(
 				"Unsupported mouse action %s", str)));
 	}
 

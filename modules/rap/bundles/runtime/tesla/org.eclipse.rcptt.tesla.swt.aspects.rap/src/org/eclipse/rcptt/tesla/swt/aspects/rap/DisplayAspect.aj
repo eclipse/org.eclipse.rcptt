@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
 import org.eclipse.rcptt.sherlock.core.SherlockTimerRunnable;
 import org.eclipse.rcptt.tesla.core.am.rap.AspectManager;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement;
@@ -18,9 +19,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.ColorDialog;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -31,8 +33,7 @@ public aspect DisplayAspect {
 	private static final String MODAL_CTX = "org.eclipse.rap.jface.operation.ModalContext$ModalContextThread";
 
 	public DisplayAspect() {
-		AspectManager.activateAspect(SWTAspectActivator.PLUGIN_ID, this
-				.getClass().getName());
+		AspectManager.activateAspect(SWTAspectActivator.PLUGIN_ID, this.getClass().getName());
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
@@ -67,24 +68,19 @@ public aspect DisplayAspect {
 				Context currentContext = ContextManagement.peekContext();
 
 				// Filter modal context blocks
-				boolean inModalContext = currentContext.contains(MODAL_CTX,
-						"block");
-				boolean inWindowLoop = currentContext.contains(WIN_CL,
-						"runEventLoop");
-				boolean inIDEWorkbenchErrorHandler = currentContext.contains(
-						WEH, "showStatusAdapter");
+				boolean inModalContext = currentContext.contains(MODAL_CTX, "block");
+				boolean inWindowLoop = currentContext.contains(WIN_CL, "runEventLoop");
+				boolean inIDEWorkbenchErrorHandler = currentContext.contains(WEH, "showStatusAdapter");
 				if (inModalContext && inWindowLoop) {
 					int modalCtx = currentContext.indexOf(MODAL_CTX, "block");
-					int windowLoop = currentContext.indexOf(WIN_CL,
-							"runEventLoop");
+					int windowLoop = currentContext.indexOf(WIN_CL, "runEventLoop");
 					if (windowLoop < modalCtx) {
 						inModalContext = false;
 					}
 				}
 				if (inModalContext && inIDEWorkbenchErrorHandler) {
 					int modalCtx = currentContext.indexOf(MODAL_CTX, "block");
-					int windowLoop = currentContext.indexOf(
-							WEH, "showStatusAdapter");
+					int windowLoop = currentContext.indexOf(WEH, "showStatusAdapter");
 					if (windowLoop < modalCtx) {
 						inModalContext = false;
 					}
@@ -115,70 +111,51 @@ public aspect DisplayAspect {
 			}
 			return false;
 		}
+
 		TeslaEventManager.getManager().sync();
 		return proceed(display);
 	}
 
-	// TODO RAP-FIX
-	/*
-	 * @SuppressAjWarnings("adviceDidNotMatch")
-	 * String around(FileDialog dialog): execution(String FileDialog.open()) && target(dialog) {
-	 * if (TeslaEventManager.getManager().hasListeners()) {
-	 * if (SWTDialogManager.hasFileDialogInfo()) {
-	 * try {
-	 * String dialogResult = null;
-	 * dialogResult = SWTDialogManager.getFileDialogResult();
-	 * String filterPath = SWTDialogManager
-	 * .getFileDialogFilterPath();
-	 * Field filterPathField = FileDialog.class
-	 * .getDeclaredField("filterPath");
-	 * filterPathField.setAccessible(true);
-	 * filterPathField.set(dialog, filterPath);
-	 *
-	 * String[] files = SWTDialogManager
-	 * .getFileDialogFilesList(filterPath);
-	 * Field fileNamesField = FileDialog.class
-	 * .getDeclaredField("fileNames");
-	 * fileNamesField.setAccessible(true);
-	 * fileNamesField.set(dialog, files);
-	 *
-	 * if (files.length > 0) {
-	 * Field fileNameField = FileDialog.class
-	 * .getDeclaredField("fileName");
-	 * fileNameField.setAccessible(true);
-	 * fileNameField.set(dialog, files[0]);
-	 * }
-	 *
-	 * return dialogResult;
-	 * } catch (Throwable e) {
-	 * SWTAspectActivator.log(e);
-	 * }
-	 *
-	 * TeslaEventManager.getManager().unhandledNativeDialog(
-	 * FileDialog.class, dialog.getText());
-	 * return "Unrecorded file dialog result";
-	 * }
-	 * }
-	 * return proceed(dialog);
-	 * }
-	 *
-	 * @SuppressAjWarnings("adviceDidNotMatch")
-	 * String around(DirectoryDialog dialog): execution(String DirectoryDialog.open()) && target(dialog) {
-	 * if (TeslaEventManager.getManager().hasListeners()) {
-	 * try {
-	 * if (SWTDialogManager.hasFolderDialogInfo()) {
-	 * return SWTDialogManager.getFolderDialogResult();
-	 * }
-	 * TeslaEventManager.getManager().unhandledNativeDialog(
-	 * DirectoryDialog.class, dialog.getText());
-	 * return "Unrecorded directory dialog result";
-	 * } catch (Throwable e) {
-	 * SWTAspectActivator.log(e);
-	 * }
-	 * }
-	 * return proceed(dialog);
-	 * }
-	 */
+	@SuppressAjWarnings("adviceDidNotMatch")
+	Object around(FileDialog dialog):
+		execution(* org.eclipse.swt.widgets.FileDialog.open())
+		&& target(dialog)
+	{
+		if (TeslaEventManager.getManager().hasListeners() && SWTDialogManager.hasFileDialogInfo()) {
+			return SWTDialogManager.getFileDialogResult();
+		}
+
+		return proceed(dialog);
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	Object around(FileDialog dialog, DialogCallback callback):
+		execution(void Dialog.open(DialogCallback))
+		&& target(dialog)
+		&& args(callback)
+	{
+		if (TeslaEventManager.getManager().hasListeners() && SWTDialogManager.hasFileDialogInfo()) {
+			callback.dialogClosed(SWT.OK);
+			return 0;
+		}
+
+		return proceed(dialog, callback);
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	Object around(FileDialog dialog):
+		execution(String[] FileDialog.getFileNames())
+		&& target(dialog)
+	{
+		if (TeslaEventManager.getManager().hasListeners() && SWTDialogManager.hasFileDialogInfo()) {
+			final String file = SWTDialogManager.getFileDialogResult();
+			return new String[]{ file };
+		}
+
+		return proceed(dialog);
+	}
+
+
 	@SuppressAjWarnings("adviceDidNotMatch")
 	Object around(MessageBox dialog): execution(int MessageBox.open()) && target(dialog) {
 		if (!TeslaEventManager.getManager().getShowingAlert()) {
@@ -188,10 +165,8 @@ public aspect DisplayAspect {
 					if (SWTDialogManager.hasMessageBoxInfo()) {
 						return SWTDialogManager.getMessageBoxResult();
 					}
-					TeslaEventManager.getManager().unhandledNativeDialog(
-							MessageBox.class,
-							"Unrecorded message dialog: " + dialog.getMessage()
-									+ ":" + dialog.getText());
+					TeslaEventManager.getManager().unhandledNativeDialog(MessageBox.class,
+							"Unrecorded message dialog: " + dialog.getMessage() + ":" + dialog.getText());
 					return SWT.NO;
 				}
 			} catch (Throwable e) {
@@ -208,8 +183,7 @@ public aspect DisplayAspect {
 				if (SWTDialogManager.hasFontInfo()) {
 					return SWTDialogManager.getFontResult();
 				}
-				TeslaEventManager.getManager().unhandledNativeDialog(
-						MessageBox.class,
+				TeslaEventManager.getManager().unhandledNativeDialog(MessageBox.class,
 						"Unrecorded font dialog: " + dialog.getText());
 				return null;
 			}
@@ -245,8 +219,7 @@ public aspect DisplayAspect {
 				if (!TeslaEventManager.getManager().hasListeners()) {
 					return point;
 				}
-				Point location = TeslaEventManager.getManager()
-						.getCursotLocation(point);
+				Point location = TeslaEventManager.getManager().getCursotLocation(point);
 				return location;
 			}
 		} catch (Throwable e) {
@@ -255,76 +228,9 @@ public aspect DisplayAspect {
 		return point;
 	}
 
-	// Active shell tweak
-	// @SuppressAjWarnings("adviceDidNotMatch")
-	// Object around(Display display): execution(org.eclipse.swt.widgets.Shell Display.getActiveShell()) &&
-	// target(display) {
-	// Shell activeShell = (Shell) proceed(display);
-	// if (TeslaEventManager.getManager().hasListeners()) {
-	// try {
-	// if (activeShell == null) {
-	// Shell activeShell2 = TeslaEventManager.getActiveShell();
-	// if (activeShell2 != null && !activeShell2.isDisposed() &&
-	// activeShell2.getDisplay().equals(TeslaEventManager.getManager().getDisplay())) {
-	// return activeShell2;
-	// }
-	// if (activeShell2 != null && (activeShell2.isDisposed() ||
-	// !activeShell2.getDisplay().equals(TeslaEventManager.getManager().getDisplay()))) {
-	// TeslaEventManager.setActiveShell(null);
-	// }
-	// // Check for first SDK window or any visible window with
-	// // title.
-	// Shell[] shells = display.getShells();
-	// for (Shell shell : shells) {
-	// String pattern = shell.getText();
-	// int sdkIndex = pattern.indexOf("- Eclipse SDK");
-	// if (!shell.isDisposed() && sdkIndex != -1
-	// && shell.isVisible()) {
-	// return shell;
-	// }
-	// }
-	// for (Shell shell : shells) {
-	// String pattern = shell.getText();
-	// if (!shell.isDisposed() && shell.isVisible()
-	// && pattern.trim().length() > 0) {
-	// return shell;
-	// }
-	// }
-	// }
-	//
-	// activeShell = fixInvisibleShell(activeShell);
-	//
-	// if (activeShell != null && !activeShell.isDisposed()) {
-	// return activeShell;
-	// }
-	// return null;
-	// } catch (Throwable e) {
-	// SWTAspectActivator.log(e);
-	// }
-	// }
-	// return activeShell;
-	// }
-
 	private static Set<String> shellsToFix = new HashSet<String>();
 	static {
-		shellsToFix
-				.add("org.eclipse.rap.ui.internal.cheatsheets.dialogs.CheatSheetCategoryBasedSelectionDialog");
-	}
-
-	private static Shell fixInvisibleShell(Shell shell) {
-		if (shell == null || shell.isVisible())
-			return shell;
-
-		Object data = shell.getData();
-		if (data == null)
-			return shell;
-		if (!shellsToFix.contains(data.getClass().getName()))
-			return shell;
-
-		Composite parent = shell.getParent();
-		if (parent != null)
-			return parent.getShell();
-		return shell;
+		shellsToFix.add("org.eclipse.rap.ui.internal.cheatsheets.dialogs.CheatSheetCategoryBasedSelectionDialog");
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
@@ -364,13 +270,11 @@ public aspect DisplayAspect {
 		Runnable value = null;
 		if (TeslaEventManager.getManager().hasListeners()) {
 			try {
-				int len = ProfilingEventManager.getDefault()
-						.getListenersLength();
+				int len = ProfilingEventManager.getDefault().getListenersLength();
 				if (len > 0) {
 					try {
 						Object target = thisJoinPoint.getTarget();
-						Field runable = target.getClass().getDeclaredField(
-								"runnable");
+						Field runable = target.getClass().getDeclaredField("runnable");
 						runable.setAccessible(true);
 						value = (Runnable) runable.get(target);
 						ProfilingEventManager.getDefault().asyncRunning(value);
@@ -385,8 +289,7 @@ public aspect DisplayAspect {
 		Object result = proceed();
 		if (TeslaEventManager.getManager().hasListeners()) {
 			try {
-				int len = ProfilingEventManager.getDefault()
-						.getListenersLength();
+				int len = ProfilingEventManager.getDefault().getListenersLength();
 				if (len > 0 && value != null) {
 					ProfilingEventManager.getDefault().asyncDone(value);
 				}
@@ -453,8 +356,7 @@ public aspect DisplayAspect {
 				try {
 					if (TeslaEventManager.getManager().hasListeners()) {
 						if (time != 0) {
-							TeslaTimerExecManager.getManager().recordTimerExec(
-									run, time);
+							TeslaTimerExecManager.getManager().recordTimerExec(run, time);
 							String name = getRunnableName(run);
 							if (name != null && name.startsWith("org.eclipse.rap.jface")) {
 								TeslaEventManager.getManager().hasEvent(HasEventKind.timer, name);
@@ -463,8 +365,7 @@ public aspect DisplayAspect {
 								return null;
 								// return proceed(0, run);
 							}
-							if (name != null && TeslaTimerExecManager.getManager()
-									.isNeedNullify(run, time)) {
+							if (name != null && TeslaTimerExecManager.getManager().isNeedNullify(run, time)) {
 								TeslaEventManager.getManager().hasEvent(HasEventKind.timer, name);
 								asTimer = false;
 								display.asyncExec(run);
@@ -494,8 +395,7 @@ public aspect DisplayAspect {
 		}
 		String name = run.getClass().getName();
 		if (run instanceof SherlockTimerRunnable) {
-			name = ((SherlockTimerRunnable) run)
-					.getRunnable().getClass().getName();
+			name = ((SherlockTimerRunnable) run).getRunnable().getClass().getName();
 		}
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 		for (int i = 0; i < stackTrace.length; i++) {
@@ -549,15 +449,14 @@ public aspect DisplayAspect {
 			StackTraceElement[] trace = e.getStackTrace();
 			for (int i = 1; i < trace.length; i++) {
 				String clName = trace[i].getClassName();
-				if (!clName.contains("Shell")
-						&& !clName.contains("sun.reflect")
+				if (!clName.contains("Shell") && !clName.contains("sun.reflect")
 						&& !clName.contains("java.lang.reflect")) {
 					int pos = clName.lastIndexOf('.');
 					if (pos != -1) {
 						clName = clName.substring(pos + 1);
 					}
-					TeslaEventManager.getManager().setShellCreationMethod(shell,
-							clName, trace[i].getMethodName() + "()");
+					TeslaEventManager.getManager().setShellCreationMethod(shell, clName,
+							trace[i].getMethodName() + "()");
 					return;
 				}
 			}

@@ -42,7 +42,12 @@ public class ECLStringConverter extends CommandToStringConverter {
 			new String[] { null, "detail" },
 			new String[] { null, "operation" },
 			new String[] { null, "with" },
-			new String[] { "verify-download-file", null } };
+			new String[] { null, "url" },
+			new String[] { null, "path" },
+			new String[] { null, "file" },
+			new String[] { null, "base64" },
+			new String[] { "download-file", null }
+			};
 
 	@Override
 	protected boolean isForced(String commandName, String paramName) {

@@ -35,6 +35,7 @@ import org.eclipse.rcptt.tesla.core.protocol.HoverAtText;
 import org.eclipse.rcptt.tesla.core.protocol.HoverAtTextOffset;
 import org.eclipse.rcptt.tesla.core.protocol.Parent;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
+import org.eclipse.rcptt.tesla.core.protocol.RapUploadFile;
 import org.eclipse.rcptt.tesla.core.protocol.SelectCommand;
 import org.eclipse.rcptt.tesla.core.protocol.SelectResponse;
 import org.eclipse.rcptt.tesla.core.protocol.SetCaretPosition;
@@ -216,7 +217,7 @@ public class BaseTeslaRecorder extends UIPlayer {
 		}
 		if ((command instanceof SetStatusDialogMode
 				&& ((SetStatusDialogMode) command).isEnabled())
-				|| command instanceof SetSWTDialogInfo) {
+				|| command instanceof SetSWTDialogInfo || command instanceof RapUploadFile) {
 			transferKind = CommandTransferKind.INSERT_BEFORE_ESSENTIAL_COMMAND;
 		} else if (command instanceof UpdateControlCommand) {
 			transferKind = CommandTransferKind.REMOVE;

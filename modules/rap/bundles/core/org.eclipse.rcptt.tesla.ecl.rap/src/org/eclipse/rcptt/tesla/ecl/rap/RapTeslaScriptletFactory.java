@@ -14,8 +14,6 @@ import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.tesla.ecl.rap.model.ExecWithoutJs;
 import org.eclipse.rcptt.tesla.ecl.rap.model.RapTeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.rap.model.RunJs;
-import org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile;
-import org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile;
 
 /**
  *
@@ -29,12 +27,6 @@ public class RapTeslaScriptletFactory extends ScriptletFactory {
 		return RapTeslaFactory.eINSTANCE.createExecWithoutJs();
 	}
 
-	public static SetDownloadResultFile createSetDownloadResultFile(String base64FileContent)
-	{
-		final SetDownloadResultFile result = RapTeslaFactory.eINSTANCE.createSetDownloadResultFile();
-		result.setFile(base64FileContent);
-		return result;
-	}
 
 	public static RunJs createRunJs(String jsCode)
 	{
@@ -43,10 +35,4 @@ public class RapTeslaScriptletFactory extends ScriptletFactory {
 		return result;
 	}
 
-	public static VerifyDownloadFile createVerifyDownloadFile(String url)
-	{
-		final VerifyDownloadFile verify = RapTeslaFactory.eINSTANCE.createVerifyDownloadFile();
-		verify.setUrl(url);
-		return verify;
-	}
 }

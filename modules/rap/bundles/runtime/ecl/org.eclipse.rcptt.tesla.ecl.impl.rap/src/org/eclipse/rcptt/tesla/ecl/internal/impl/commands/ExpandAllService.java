@@ -41,7 +41,7 @@ public class ExpandAllService extends AbstractActionService {
 
 		if (!(widget instanceof Tree || widget instanceof TreeItem)) {
 			return TeslaImplPlugin
-					.err("'expand-all' can be used only on tree or tree item");
+					.error("'expand-all' can be used only on tree or tree item");
 		}
 
 		widget.getDisplay().syncExec(new Runnable() {

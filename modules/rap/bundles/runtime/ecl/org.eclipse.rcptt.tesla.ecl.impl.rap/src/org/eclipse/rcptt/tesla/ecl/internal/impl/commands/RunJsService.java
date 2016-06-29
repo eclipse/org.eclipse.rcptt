@@ -33,7 +33,7 @@ public class RunJsService implements ICommandService {
 		final RunJs js = (RunJs)command;
 
 		if(StringUtils.isEmpty(js.getJsCode())) {
-			return TeslaImplPlugin.err("Js Code is empty."); //$NON-NLS-1$
+			return TeslaImplPlugin.error("Js Code is empty."); //$NON-NLS-1$
 		}
 
 		RWTUtils.findDisplay().asyncExec(new Runnable() {

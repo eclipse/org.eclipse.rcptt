@@ -29,6 +29,19 @@ public class SWTDialogManager {
 	private static List<RGB> colorValues = new ArrayList<RGB>();
 	private static List<FontData> fontValues = new ArrayList<FontData>();
 	private static boolean cancelMessageBoxesDisplay = false;
+	private static boolean fileDialogOpen = false;
+
+
+	public static void setFileDialogOpen(boolean fileDialogOpen)
+	{
+		SWTDialogManager.fileDialogOpen = fileDialogOpen;
+	}
+
+
+	public static boolean isFileDialogOpen()
+	{
+		return fileDialogOpen;
+	}
 
 	public static boolean hasFileDialogInfo() {
 		return !fileDialogValues.isEmpty();
@@ -80,7 +93,7 @@ public class SWTDialogManager {
 		}
 		return files.toArray(new String[files.size()]);
 	}
-	
+
 	public static void resetFileDialogInfo() {
 		fileDialogValues.clear();
 	}
@@ -100,7 +113,7 @@ public class SWTDialogManager {
 	public static Integer getMessageBoxResult() {
 		return messageBoxValues.remove(0);
 	}
-	
+
 	public static MessageBoxInfo getMessageBoxInfo() {
 		return lastMessageBoxInfo;
 	}
@@ -116,7 +129,7 @@ public class SWTDialogManager {
 	public static void addMessageBoxInfo(int result) {
 		messageBoxValues.add(0, result);
 	}
-	
+
 	public static void setMessageBoxInfo(MessageBox dialog) {
 		lastMessageBoxInfo = TeslaFactory.eINSTANCE.createMessageBoxInfo();
 		lastMessageBoxInfo.setTitle(dialog.getText());

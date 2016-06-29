@@ -55,7 +55,7 @@ public class VerifyErrorService implements ICommandService {
 						+ new CommandToStringConverter().convert(c)
 						+ " succeed, but expected error.";
 				TeslaBridge.makeScreenshot(true, msg);
-				return TeslaImplPlugin.err(msg);
+				return TeslaImplPlugin.error(msg);
 			}
 		} finally {
 			TeslaBridge.endNoErrorMode();

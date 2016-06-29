@@ -40,7 +40,7 @@ public class CollapseAllService extends AbstractActionService {
 
 		if (!(widget instanceof Tree || widget instanceof TreeItem)) {
 			return TeslaImplPlugin
-					.err("'collapse-all' can be used only on tree or tree item");
+					.error("'collapse-all' can be used only on tree or tree item");
 		}
 
 		widget.getDisplay().syncExec(new Runnable() {

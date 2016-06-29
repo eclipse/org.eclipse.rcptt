@@ -29,7 +29,7 @@ public class GetLastMessageBoxService implements ICommandService {
 		}
 		final MessageBoxInfo info = null;// SWTDialogManager.getMessageBoxInfo();
 		if (info == null) {
-			return TeslaImplPlugin.err("Message box info is absent.");
+			return TeslaImplPlugin.error("Message box info is absent.");
 		}
 		context.getOutput().write(info);
 		return Status.OK_STATUS;

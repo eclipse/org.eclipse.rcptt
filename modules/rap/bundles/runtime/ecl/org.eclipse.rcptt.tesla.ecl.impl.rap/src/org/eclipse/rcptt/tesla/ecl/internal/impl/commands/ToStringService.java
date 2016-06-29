@@ -11,26 +11,51 @@
  *  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
+import java.io.UnsupportedEncodingException;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.tesla.ecl.impl.rap.TeslaBridge;
-import org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile;
-import org.eclipse.rcptt.tesla.swt.download.RapDownloadHandlerManager;
+import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
+import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
+import org.eclipse.rcptt.tesla.ecl.rap.model.ToString;
 
-public class SetDownloadResultFileService implements ICommandService {
+public class ToStringService implements ICommandService {
 
 	@Override
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
-		final SetDownloadResultFile file = (SetDownloadResultFile) command;
+		TeslaBridge.waitDelay();
+		final ToString cmd = (ToString) command;
 
-		RapDownloadHandlerManager.addFile(file.getFile());
+		final EObject input = cmd.getInput();
 
-		TeslaBridge.waitExecution();
+		if (input instanceof Wrapper) {
+
+			try {
+				context.getOutput().write(convert(cmd, (Wrapper) input));
+			} catch (IllegalArgumentException e) {
+				return new Status(IStatus.ERROR, TeslaImplPlugin.PLUGIN_ID, e.getMessage(), e);
+			}
+		}
+
 		return Status.OK_STATUS;
+	}
+
+	private static Object convert(ToString command, Wrapper wrapper) throws IllegalArgumentException {
+		if (wrapper.getObject() instanceof byte[]) {
+			byte[] bytes = (byte[]) wrapper.getObject();
+			try {
+				return new String(bytes, command.getEncode());
+			} catch (UnsupportedEncodingException e) {
+				return new IllegalArgumentException("Bad encoding format: " + command.getEncode(), e); //$NON-NLS-1$
+			}
+		}
+		return new IllegalArgumentException("Not supported value type"); //$NON-NLS-1$
 	}
 
 }

@@ -67,7 +67,7 @@ public class GetPropertyService implements ICommandService {
 	}
 
 	private IStatus propertyGetError(String name) {
-		return TeslaImplPlugin.err(String.format(
+		return TeslaImplPlugin.error(String.format(
 				"Failed to retrieve property '%s'", name));
 	}
 

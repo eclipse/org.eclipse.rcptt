@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.rcptt.ctx.filesystem.FileSystemResolver;
 import org.eclipse.rcptt.ui.commons.OneSelectionListener;
+import org.eclipse.rcptt.util.FileSystemResolver;
 
 public class FilesystemContentRootPathDialog extends Dialog {
 	Text rootText;

@@ -197,7 +197,7 @@ public class TeslaBridge {
 			final BoundControlHandle boundHandle = (BoundControlHandle) handler;
 			final Widget widget = BoundControlHandleRuntime.get(boundHandle.getWidgetId());
 			if (widget == null)
-				throw new CoreException(TeslaImplPlugin.err("Unable to resolve bound widget by ID."));
+				throw new CoreException(TeslaImplPlugin.error("Unable to resolve bound widget by ID."));
 			final SWTUIProcessor processor = getClient().getProcessor(SWTUIProcessor.class);
 			final Element element = processor.getMapper().get(new SWTUIElement(widget,
 					SWTUIPlayer.getPlayer(widget.getDisplay())));
@@ -294,7 +294,7 @@ public class TeslaBridge {
 					getPlayer());
 		}
 		TeslaBridge.makeScreenshot(true, message.toString());
-		throw new CoreException(TeslaImplPlugin.err(message.toString()));
+		throw new CoreException(TeslaImplPlugin.error(message.toString()));
 	}
 
 	public static TeslaErrorStatus getTeslaFailure() throws CoreException {
@@ -370,7 +370,7 @@ public class TeslaBridge {
 					throw new CoreException(teslaFailure);
 				}
 				throw new CoreException(
-						TeslaImplPlugin.err("Cannot find Eclipse window"));
+						TeslaImplPlugin.error("Cannot find Eclipse window"));
 			}
 		}
 		return eclipseWindow.getElement();

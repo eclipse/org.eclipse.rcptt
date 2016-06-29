@@ -7,6 +7,7 @@ Bundle-Vendor: Eclipse RCP Testing Tool Project
 Require-Bundle: org.aspectj.runtime;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.rap.rwt,
+ org.eclipse.rap.filedialog,
  org.eclipse.rcptt.tesla.core.am.rap;bundle-version="[2.2.0,3.0.0)",
  org.eclipse.rcptt.tesla.core;bundle-version="[2.2.0,3.0.0)",
  org.eclipse.rcptt.tesla.swt.rap;bundle-version="[2.2.0,3.0.0)",
@@ -15,7 +16,7 @@ Require-Bundle: org.aspectj.runtime;visibility:=reexport,
 onEnvironment: JavaSE-1.7
 Import-Package: org.eclipse.rcptt.util,
  org.osgi.framework
-Eclipse-SupplementBundle: org.eclipse.rap.rwt, org.eclipse.rap.ui.views
+Eclipse-SupplementBundle: org.eclipse.rap.rwt, org.eclipse.rap.ui.views, org.eclipse.rap.filedialog
 Export-Package: org.eclipse.rcptt.tesla.recording.aspects.swt.rap
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

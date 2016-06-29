@@ -53,7 +53,7 @@ public class SelectService extends AbstractActionService {
 			int size = pathList.size();
 			if (size == 0)
 				throw new CoreException(
-						TeslaImplPlugin.err("Path is not specified"));
+						TeslaImplPlugin.error("Path is not specified"));
 
 			List<List<String>> list = new ArrayList<List<String>>(size);
 			for (Object item : pathList)
@@ -67,11 +67,11 @@ public class SelectService extends AbstractActionService {
 			EList<Object> items = s.getItems();
 			if (items == null || items.size() < 1)
 				throw new CoreException(
-						TeslaImplPlugin.err("No item to select"));
+						TeslaImplPlugin.error("No item to select"));
 			Object item = items.get(0);
 			if (item == null)
 				throw new CoreException(
-						TeslaImplPlugin.err("Bad item to select"));
+						TeslaImplPlugin.error("Bad item to select"));
 			String text = item.toString();
 			getTextUIElement(s.getControl()).setText(text, true, false);
 			return s.getControl();

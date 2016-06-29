@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model;
 
 import org.eclipse.emf.ecore.EFactory;
@@ -49,24 +40,6 @@ public interface RapTeslaFactory extends EFactory {
 	ExecWithoutJs createExecWithoutJs();
 
 	/**
-	 * Returns a new object of class '<em>Set Download Result File</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Set Download Result File</em>'.
-	 * @generated
-	 */
-	SetDownloadResultFile createSetDownloadResultFile();
-
-	/**
-	 * Returns a new object of class '<em>Verify Download File</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Verify Download File</em>'.
-	 * @generated
-	 */
-	VerifyDownloadFile createVerifyDownloadFile();
-
-	/**
 	 * Returns a new object of class '<em>Mark Download Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,6 +47,42 @@ public interface RapTeslaFactory extends EFactory {
 	 * @generated
 	 */
 	MarkDownloadHandler createMarkDownloadHandler();
+
+	/**
+	 * Returns a new object of class '<em>Upload File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Upload File</em>'.
+	 * @generated
+	 */
+	UploadFile createUploadFile();
+
+	/**
+	 * Returns a new object of class '<em>Download File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Download File</em>'.
+	 * @generated
+	 */
+	DownloadFile createDownloadFile();
+
+	/**
+	 * Returns a new object of class '<em>To String</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>To String</em>'.
+	 * @generated
+	 */
+	ToString createToString();
+
+	/**
+	 * Returns a new object of class '<em>Match Binary</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Match Binary</em>'.
+	 * @generated
+	 */
+	MatchBinary createMatchBinary();
 
 	/**
 	 * Returns the package supported by this factory.

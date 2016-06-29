@@ -34,11 +34,11 @@ public class ToControlHandleService extends AbstractActionService {
 			result.setKind(SWTUIPlayer.getKind(widget).kind);
 			Long id = BoundControlHandleRuntime.put(widget);
 			if (id == null)
-				return TeslaImplPlugin.err("Unable to allocate an ID for the widget.");
+				return TeslaImplPlugin.error("Unable to allocate an ID for the widget.");
 			result.setWidgetId(id);
 			return result;
 		} else
-			return TeslaImplPlugin.err(String.format("Usupported type %s",
+			return TeslaImplPlugin.error(String.format("Usupported type %s",
 					wannabeWidget.getClass()));
 	}
 

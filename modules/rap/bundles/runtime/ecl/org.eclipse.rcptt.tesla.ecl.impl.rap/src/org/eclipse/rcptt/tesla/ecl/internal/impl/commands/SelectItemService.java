@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
-import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.err;
+import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.error;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
@@ -36,7 +36,7 @@ public class SelectItemService extends AbstractActionService {
 		if (!(item.widget instanceof TreeItem)
 				&& !(item.widget instanceof TableItem)) {
 			throw new CoreException(
-					err("'select-item' can only be used on table or tree item"));
+					error("'select-item' can only be used on table or tree item"));
 		}
 
 		item.getPlayer().exec("Selecting table item", new Runnable() {

@@ -82,6 +82,7 @@ import org.eclipse.rcptt.tesla.core.protocol.PasteTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 import org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile;
+import org.eclipse.rcptt.tesla.core.protocol.RapUploadFile;
 import org.eclipse.rcptt.tesla.core.protocol.RecordingModeRequest;
 import org.eclipse.rcptt.tesla.core.protocol.ReplaceTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.Restore;
@@ -890,6 +891,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * @generated
 	 */
 	private EClass rapDownloadFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rapUploadFileEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -3437,6 +3445,33 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRapUploadFile() {
+		return rapUploadFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapUploadFile_Base64file() {
+		return (EAttribute)rapUploadFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapUploadFile_Path() {
+		return (EAttribute)rapUploadFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSWTDialogKind() {
 		return swtDialogKindEEnum;
 	}
@@ -3875,6 +3910,10 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__HANDLER);
 		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__CONTENT);
 
+		rapUploadFileEClass = createEClass(RAP_UPLOAD_FILE);
+		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__BASE64FILE);
+		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__PATH);
+
 		// Create enums
 		swtDialogKindEEnum = createEEnum(SWT_DIALOG_KIND);
 		assertKindEEnum = createEEnum(ASSERT_KIND);
@@ -4017,6 +4056,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		setPositionEClass.getESuperTypes().add(this.getElementCommand());
 		updateControlCommandEClass.getESuperTypes().add(theRawPackage.getCommand());
 		rapDownloadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
+		rapUploadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(selectDataEClass, SelectData.class, "SelectData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -4397,6 +4437,10 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEAttribute(getRapDownloadFile_Url(), theEcorePackage.getEString(), "url", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRapDownloadFile_Handler(), theEcorePackage.getEString(), "handler", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRapDownloadFile_Content(), theEcorePackage.getEString(), "content", null, 0, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rapUploadFileEClass, RapUploadFile.class, "RapUploadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRapUploadFile_Base64file(), theEcorePackage.getEString(), "base64file", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapUploadFile_Path(), theEcorePackage.getEString(), "path", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(swtDialogKindEEnum, SWTDialogKind.class, "SWTDialogKind");

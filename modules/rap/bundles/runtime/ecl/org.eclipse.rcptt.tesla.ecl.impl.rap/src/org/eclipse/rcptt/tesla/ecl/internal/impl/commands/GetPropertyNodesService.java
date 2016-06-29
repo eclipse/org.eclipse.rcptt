@@ -68,7 +68,7 @@ public class GetPropertyNodesService implements ICommandService {
 				try {
 					if (response == null) {
 						resultStatus[0] = TeslaImplPlugin
-								.err("Property nodes for path \""
+								.error("Property nodes for path \""
 										+ getPropertyNodes.getNodePath()
 										+ "\" not found.");
 						TeslaBridge.makeScreenshot(true,

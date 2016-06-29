@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model.util;
 
 import java.util.List;
@@ -108,24 +99,38 @@ public class RapTeslaSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE: {
-				SetDownloadResultFile setDownloadResultFile = (SetDownloadResultFile)theEObject;
-				T result = caseSetDownloadResultFile(setDownloadResultFile);
-				if (result == null) result = caseCommand(setDownloadResultFile);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RapTeslaPackage.VERIFY_DOWNLOAD_FILE: {
-				VerifyDownloadFile verifyDownloadFile = (VerifyDownloadFile)theEObject;
-				T result = caseVerifyDownloadFile(verifyDownloadFile);
-				if (result == null) result = caseCommand(verifyDownloadFile);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case RapTeslaPackage.MARK_DOWNLOAD_HANDLER: {
 				MarkDownloadHandler markDownloadHandler = (MarkDownloadHandler)theEObject;
 				T result = caseMarkDownloadHandler(markDownloadHandler);
 				if (result == null) result = caseCommand(markDownloadHandler);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RapTeslaPackage.UPLOAD_FILE: {
+				UploadFile uploadFile = (UploadFile)theEObject;
+				T result = caseUploadFile(uploadFile);
+				if (result == null) result = caseCommand(uploadFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RapTeslaPackage.DOWNLOAD_FILE: {
+				DownloadFile downloadFile = (DownloadFile)theEObject;
+				T result = caseDownloadFile(downloadFile);
+				if (result == null) result = caseCommand(downloadFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RapTeslaPackage.TO_STRING: {
+				ToString toString = (ToString)theEObject;
+				T result = caseToString(toString);
+				if (result == null) result = caseCommand(toString);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RapTeslaPackage.MATCH_BINARY: {
+				MatchBinary matchBinary = (MatchBinary)theEObject;
+				T result = caseMatchBinary(matchBinary);
+				if (result == null) result = caseCommand(matchBinary);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -164,36 +169,6 @@ public class RapTeslaSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Set Download Result File</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Set Download Result File</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSetDownloadResultFile(SetDownloadResultFile object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Verify Download File</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Verify Download File</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseVerifyDownloadFile(VerifyDownloadFile object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Mark Download Handler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -205,6 +180,66 @@ public class RapTeslaSwitch<T> {
 	 * @generated
 	 */
 	public T caseMarkDownloadHandler(MarkDownloadHandler object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Upload File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Upload File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUploadFile(UploadFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Download File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Download File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDownloadFile(DownloadFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>To String</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>To String</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseToString(ToString object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Match Binary</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Match Binary</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMatchBinary(MatchBinary object) {
 		return null;
 	}
 

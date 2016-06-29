@@ -27,6 +27,6 @@ public class UnsupportedService implements ICommandService {
 		String desc = u.getDesc();
 		String msg = "Unsupported command: " + desc;
 		TeslaBridge.makeScreenshot(true, msg);
-		return TeslaImplPlugin.err(msg);
+		return TeslaImplPlugin.error(msg);
 	}
 }

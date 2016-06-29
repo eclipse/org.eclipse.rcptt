@@ -43,7 +43,7 @@ public class VerifyTrueService implements ICommandService {
 					return Status.OK_STATUS;
 				else {
 					TeslaBridge.makeScreenshot(true, "Verification is failed");
-					return TeslaImplPlugin.err("Verification is failed");
+					return TeslaImplPlugin.error("Verification is failed");
 				}
 			}
 		} else if (cond instanceof VerifyHandler) {
@@ -90,6 +90,6 @@ public class VerifyTrueService implements ICommandService {
 				return Status.OK_STATUS;
 			}
 		}
-		return TeslaImplPlugin.err("Verification is failed");
+		return TeslaImplPlugin.error("Verification is failed");
 	}
 }

@@ -42,7 +42,7 @@ public class VerifyFalseService implements ICommandService {
 				Boolean val = (Boolean) wrapper.getObject();
 				if (val) {
 					TeslaBridge.makeScreenshot(true, "Verification is failed");
-					return TeslaImplPlugin.err("Verification is failed");
+					return TeslaImplPlugin.error("Verification is failed");
 				} else
 					return Status.OK_STATUS;
 			}
@@ -103,6 +103,6 @@ public class VerifyFalseService implements ICommandService {
 			}
 		}
 		TeslaBridge.makeScreenshot(true, "Verification is failed");
-		return TeslaImplPlugin.err("Verification is failed");
+		return TeslaImplPlugin.error("Verification is failed");
 	}
 }

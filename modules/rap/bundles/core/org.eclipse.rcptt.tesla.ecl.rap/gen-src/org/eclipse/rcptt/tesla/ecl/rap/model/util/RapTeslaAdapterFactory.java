@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model.util;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -87,16 +78,24 @@ public class RapTeslaAdapterFactory extends AdapterFactoryImpl {
 				return createExecWithoutJsAdapter();
 			}
 			@Override
-			public Adapter caseSetDownloadResultFile(SetDownloadResultFile object) {
-				return createSetDownloadResultFileAdapter();
-			}
-			@Override
-			public Adapter caseVerifyDownloadFile(VerifyDownloadFile object) {
-				return createVerifyDownloadFileAdapter();
-			}
-			@Override
 			public Adapter caseMarkDownloadHandler(MarkDownloadHandler object) {
 				return createMarkDownloadHandlerAdapter();
+			}
+			@Override
+			public Adapter caseUploadFile(UploadFile object) {
+				return createUploadFileAdapter();
+			}
+			@Override
+			public Adapter caseDownloadFile(DownloadFile object) {
+				return createDownloadFileAdapter();
+			}
+			@Override
+			public Adapter caseToString(ToString object) {
+				return createToStringAdapter();
+			}
+			@Override
+			public Adapter caseMatchBinary(MatchBinary object) {
+				return createMatchBinaryAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -151,34 +150,6 @@ public class RapTeslaAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile <em>Set Download Result File</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile
-	 * @generated
-	 */
-	public Adapter createSetDownloadResultFileAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile <em>Verify Download File</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile
-	 * @generated
-	 */
-	public Adapter createVerifyDownloadFileAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MarkDownloadHandler <em>Mark Download Handler</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -189,6 +160,62 @@ public class RapTeslaAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMarkDownloadHandlerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile <em>Upload File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile
+	 * @generated
+	 */
+	public Adapter createUploadFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile <em>Download File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile
+	 * @generated
+	 */
+	public Adapter createDownloadFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.ToString <em>To String</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.ToString
+	 * @generated
+	 */
+	public Adapter createToStringAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary <em>Match Binary</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary
+	 * @generated
+	 */
+	public Adapter createMatchBinaryAdapter() {
 		return null;
 	}
 

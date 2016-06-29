@@ -1,14 +1,5 @@
-/*******************************************************************************
- * /*******************************************************************************
- *  * Copyright (c) 2009, 2016 Xored Software Inc and others.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the Eclipse Public License v1.0
- *  * which accompanies this distribution, and is available at
- *  * http://www.eclipse.org/legal/epl-v10.html
- *  *
- *  * Contributors:
- *  *     Xored Software Inc - initial API and implementation and/or initial documentation
- *  *******************************************************************************/
+/**
+ */
 package org.eclipse.rcptt.tesla.ecl.rap.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,23 +11,23 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
 
 import org.eclipse.rcptt.tesla.ecl.rap.model.RapTeslaPackage;
-import org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile;
-import org.eclipse.rcptt.tesla.ecl.rap.model.TeslaPackage;
+import org.eclipse.rcptt.tesla.ecl.rap.model.UploadFile;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Set Download Result File</b></em>'.
+ * An implementation of the model object '<em><b>Upload File</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.SetDownloadResultFileImpl#getFile <em>File</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl#getFile <em>File</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.rap.model.impl.UploadFileImpl#getBase64 <em>Base64</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloadResultFile {
+public class UploadFileImpl extends CommandImpl implements UploadFile {
 	/**
 	 * The default value of the '{@link #getFile() <em>File</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -58,11 +49,31 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	protected String file = FILE_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getBase64() <em>Base64</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBase64()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String BASE64_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getBase64() <em>Base64</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBase64()
+	 * @generated
+	 * @ordered
+	 */
+	protected String base64 = BASE64_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SetDownloadResultFileImpl() {
+	protected UploadFileImpl() {
 		super();
 	}
 
@@ -73,7 +84,7 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return RapTeslaPackage.Literals.SET_DOWNLOAD_RESULT_FILE;
+		return RapTeslaPackage.Literals.UPLOAD_FILE;
 	}
 
 	/**
@@ -94,7 +105,28 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 		String oldFile = file;
 		file = newFile;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE__FILE, oldFile, file));
+			eNotify(new ENotificationImpl(this, Notification.SET, RapTeslaPackage.UPLOAD_FILE__FILE, oldFile, file));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBase64() {
+		return base64;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBase64(String newBase64) {
+		String oldBase64 = base64;
+		base64 = newBase64;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RapTeslaPackage.UPLOAD_FILE__BASE64, oldBase64, base64));
 	}
 
 	/**
@@ -105,8 +137,10 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE__FILE:
+			case RapTeslaPackage.UPLOAD_FILE__FILE:
 				return getFile();
+			case RapTeslaPackage.UPLOAD_FILE__BASE64:
+				return getBase64();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -119,8 +153,11 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE__FILE:
+			case RapTeslaPackage.UPLOAD_FILE__FILE:
 				setFile((String)newValue);
+				return;
+			case RapTeslaPackage.UPLOAD_FILE__BASE64:
+				setBase64((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -134,8 +171,11 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE__FILE:
+			case RapTeslaPackage.UPLOAD_FILE__FILE:
 				setFile(FILE_EDEFAULT);
+				return;
+			case RapTeslaPackage.UPLOAD_FILE__BASE64:
+				setBase64(BASE64_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -149,8 +189,10 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RapTeslaPackage.SET_DOWNLOAD_RESULT_FILE__FILE:
+			case RapTeslaPackage.UPLOAD_FILE__FILE:
 				return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
+			case RapTeslaPackage.UPLOAD_FILE__BASE64:
+				return BASE64_EDEFAULT == null ? base64 != null : !BASE64_EDEFAULT.equals(base64);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -167,8 +209,10 @@ public class SetDownloadResultFileImpl extends CommandImpl implements SetDownloa
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (file: ");
 		result.append(file);
+		result.append(", base64: ");
+		result.append(base64);
 		result.append(')');
 		return result.toString();
 	}
 
-} //SetDownloadResultFileImpl
+} //UploadFileImpl

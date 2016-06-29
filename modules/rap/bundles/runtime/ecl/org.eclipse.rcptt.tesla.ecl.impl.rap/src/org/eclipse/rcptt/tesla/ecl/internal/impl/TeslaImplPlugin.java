@@ -61,7 +61,7 @@ public class TeslaImplPlugin extends Plugin {
 		return plugin;
 	}
 
-	public static IStatus err(String message) {
+	public static IStatus error(String message) {
 		return err(message, null);
 	}
 
