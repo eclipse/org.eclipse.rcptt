@@ -74,6 +74,13 @@ public class PlainReader implements IPlainConstants {
 			return null;
 		}
 		header = header.trim();
+		while( header.startsWith("#")) {
+			header = reader.readLine();
+			if( header == null) {
+				return null;
+			}
+			header = header.trim();
+		}
 		boolean headerOK = false;
 		for (String validHeader : VALID_HEADERS) {
 			if (validHeader.equalsIgnoreCase(header)) {
