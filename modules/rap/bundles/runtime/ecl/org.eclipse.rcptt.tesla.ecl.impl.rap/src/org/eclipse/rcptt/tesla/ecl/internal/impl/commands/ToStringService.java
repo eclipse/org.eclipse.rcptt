@@ -24,6 +24,8 @@ import org.eclipse.rcptt.tesla.ecl.impl.rap.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.rap.model.ToString;
+import org.eclipse.rcptt.tesla.ecl.impl.rap.ServiceUtil;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class ToStringService implements ICommandService {
 
