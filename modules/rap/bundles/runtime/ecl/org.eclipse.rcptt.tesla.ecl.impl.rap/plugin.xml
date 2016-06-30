@@ -816,7 +816,7 @@
       </scriptlet>
       <scriptlet
             class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.MatchBinaryService"
-            name="DownloadFile"
+            name="MatchBinary"
             namespace="http://eclipse.org/rcptt/tesla/ecl/rap">
       </scriptlet>
       <scriptlet
