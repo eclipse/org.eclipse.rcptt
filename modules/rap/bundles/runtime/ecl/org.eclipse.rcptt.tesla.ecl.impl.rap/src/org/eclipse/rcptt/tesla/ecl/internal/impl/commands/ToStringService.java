@@ -37,7 +37,7 @@ public class ToStringService implements ICommandService {
 		if (input instanceof Wrapper) {
 
 			try {
-				context.getOutput().write(convert(cmd, (Wrapper) input));
+				context.getOutput().write(ServiceUtil.wrap(convert(cmd, (Wrapper) input)));
 			} catch (IllegalArgumentException e) {
 				return new Status(IStatus.ERROR, TeslaImplPlugin.PLUGIN_ID, e.getMessage(), e);
 			}
