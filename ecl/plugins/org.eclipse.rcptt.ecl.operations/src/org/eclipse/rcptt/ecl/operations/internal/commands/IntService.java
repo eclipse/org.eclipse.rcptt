@@ -12,12 +12,17 @@ package org.eclipse.rcptt.ecl.operations.internal.commands;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.BoxedValue;
+import org.eclipse.rcptt.ecl.core.EclString;
 import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 
 public class IntService extends ConvertService {
 
 	@Override
 	Object doConvert(BoxedValue input) throws CoreException {
+		if( input instanceof EclString) {
+			Integer longValue = Integer.decode(((EclString) input).getValue());
+			return BoxedValues.box(longValue);
+		}
 		return BoxedValues.toInteger(input);
 	}
 	

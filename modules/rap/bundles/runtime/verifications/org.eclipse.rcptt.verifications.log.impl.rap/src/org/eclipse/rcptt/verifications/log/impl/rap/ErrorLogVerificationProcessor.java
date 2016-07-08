@@ -37,9 +37,6 @@ import org.eclipse.rcptt.verifications.log.LogFactory;
 import org.eclipse.rcptt.verifications.log.tools.ErrorLogUtil;
 import org.eclipse.rcptt.verifications.runtime.ErrorList;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
-
 public class ErrorLogVerificationProcessor extends VerificationProcessor implements ILogListener {
 
 	/**
@@ -51,7 +48,10 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 		final INodeBuilder node;
 
 		LogEntry(IStatus status, INodeBuilder node) {
-			this.status = Preconditions.checkNotNull(status);
+			if( status == null) {
+				throw new NullPointerException("Status should not be null");
+			}
+			this.status = status;
 			this.node = node;
 		}
 	}
@@ -81,9 +81,9 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 	}
 
 	private ErrorList findErrors(ErrorLogVerification logVerification) {
-		Iterable<LogEntryPredicate> whiteList = Iterables.concat(
-				logVerification.getAllowed(),
-				logVerification.getRequired());
+		List<LogEntryPredicate> whiteList = new ArrayList<>();
+		whiteList.addAll(logVerification.getAllowed());
+		whiteList.addAll(logVerification.getRequired());
 		ErrorList errors = new ErrorList();
 		for (LogEntry entry : testLog) {
 			boolean ignoreContext = !logVerification.isIncludeContexts() && isContext(entry.node);
