@@ -386,7 +386,6 @@ privileged public aspect RecordingAspect {
 	after(Button button, org.eclipse.swt.widgets.Composite composite, int style):
 		execution(org.eclipse.swt.widgets.Button.new(org.eclipse.swt.widgets.Composite,int)) && target(button) && args(composite, style){
 		button.addListener(SWT.Selection, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 			}
 		});
