@@ -31,8 +31,8 @@ public aspect WorkbenchAspect {
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
-	before(Workbench wb):
-		execution(int org.eclipse.ui.internal.Workbench.runUI()) && target(wb) {
+	 after(Workbench wb) returning(boolean result):
+		execution(boolean org.eclipse.ui.internal.Workbench.init()) && target(wb) {
 		TeslaEventManager.getManager().setLastWorkbench(wb);
 		if (wb != null) {
 			TeslaEventManager.getManager().setLastDisplay(wb.getDisplay());

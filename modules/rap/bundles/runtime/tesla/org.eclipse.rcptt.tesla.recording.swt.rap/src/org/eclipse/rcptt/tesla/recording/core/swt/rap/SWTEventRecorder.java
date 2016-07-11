@@ -84,6 +84,8 @@ import org.eclipse.rcptt.tesla.recording.core.swt.peg.CommandPostProcessor;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.LastEvents;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
 import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
+import org.eclipse.rcptt.tesla.swt.events.IRwtWorkbenchListener;
+import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 import org.eclipse.rcptt.tesla.ui.RWTUtils;
 import org.eclipse.rcptt.util.Base64;
@@ -190,7 +192,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 			// TODO: This is Eclipse version dependent test
 			// if (!context.contains("org.eclipse.swt.custom.CTabFolder",
 			// "onMouse")) {
-			if (!context.contains("org.eclipse.swt.internal.custom.ctabfolderkit.CTabFolderLCA$1", "run")) {
+			if (!context.contains("org.eclipse.swt.internal.custom.ctabfolderkit.CTabFolderOperationHandler$2", "run")) {
 				return;
 			}
 
@@ -330,7 +332,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 				window.addPageListener(pageListener);
 			}
 		};
-		IWorkbench workbench = RWTUtils.getWorkbench();
+		IWorkbench workbench = RWTUtils.getWorkbenchNotSafe();
 		if (workbench != null) {
 			workbench.addWindowListener(windowListener);
 			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
@@ -342,6 +344,25 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 				}
 			}
 		}
+		TeslaEventManager.getManager().addWorkbenchListener(new IRwtWorkbenchListener() {
+			@Override
+			public void workbenchChnage(Object oldWorkbench, Object newWorkbench) {
+				final IWorkbench workbench = (IWorkbench) newWorkbench;
+				if(workbench == null)
+					return;
+
+				workbench.addWindowListener(windowListener);
+				IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+				for (IWorkbenchWindow win : windows) {
+					win.addPageListener(pageListener);
+					IWorkbenchPage[] pages = win.getPages();
+					for (IWorkbenchPage page : pages) {
+						page.addPartListener(listener);
+					}
+				}
+			}
+		});
+
 
 		SWTEventManager.addListener(this);
 		// JFaceEventManager.addListener(this);

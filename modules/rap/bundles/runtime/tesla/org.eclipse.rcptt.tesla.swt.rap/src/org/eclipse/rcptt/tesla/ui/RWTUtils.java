@@ -35,9 +35,19 @@ public class RWTUtils {
 		return getWorkbench() == null ? new IWorkbenchWindow[0] : getWorkbench().getWorkbenchWindows();
 	}
 
+	public static IWorkbench getWorkbenchNotSafe(){
+		return (IWorkbench) TeslaEventManager.getManager().getWorkbench();
+	}
+
 	public static boolean isValidThread(Widget widget)
 	{
 		return widget != null && widget.getDisplay().getThread() == Thread.currentThread();
+	}
+
+
+	public interface IChangeWorkbench
+	{
+		void change(IWorkbench workbench);
 	}
 
 }
