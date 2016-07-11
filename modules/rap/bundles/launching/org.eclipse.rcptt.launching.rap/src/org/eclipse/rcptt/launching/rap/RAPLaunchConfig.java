@@ -28,6 +28,7 @@ public final class RAPLaunchConfig {
 	// Launch configuration attribute names
 	private static final String PREFIX = "org.eclipse.rap.launch."; //$NON-NLS-1$
 	public static final String SERVLET_PATH = PREFIX + "servletPath"; //$NON-NLS-1$
+	public static final String BROWSER_COMMAND = PREFIX + "browserCommand"; //$NON-NLS-1$
 	public static final String OPEN_BROWSER = PREFIX + "openBrowser"; //$NON-NLS-1$
 	public static final String BROWSER_MODE = PREFIX + "browserMode"; //$NON-NLS-1$
 	public static final String PORT = PREFIX + "port"; //$NON-NLS-1$
@@ -66,6 +67,7 @@ public final class RAPLaunchConfig {
 		config.setAttribute(IPDELauncherConstants.ASKCLEAR, false);
 		String defaultDataLocation = getDefaultDataLocation(config.getName());
 		config.setAttribute(DATA_LOCATION, defaultDataLocation);
+		config.setAttribute(BROWSER_COMMAND, (String) null);
 	}
 
 	public static String getDefaultDataLocation(String name) {
@@ -92,9 +94,14 @@ public final class RAPLaunchConfig {
 		return config;
 	}
 
-	// public RAPLaunchConfigValidator getValidator() {
-	// return new RAPLaunchConfigValidator(this);
-	// }
+	public String getBrowserCommand() throws CoreException {
+		return config.getAttribute(BROWSER_COMMAND, (String) null);
+	}
+
+	public void setBrowserCommand(String cmd) {
+		checkWorkingCopy();
+		workingCopy.setAttribute(BROWSER_COMMAND, cmd);
+	}
 
 	public boolean getAskClearDataLocation() throws CoreException {
 		return config.getAttribute(IPDELauncherConstants.ASKCLEAR, false);
@@ -144,6 +151,11 @@ public final class RAPLaunchConfig {
 			throw new NullPointerException("servletPath"); //$NON-NLS-1$
 		}
 		checkWorkingCopy();
+
+		if (!servletPath.startsWith("/")) {
+			servletPath = "/" + servletPath;
+		}
+
 		workingCopy.setAttribute(SERVLET_PATH, servletPath);
 	}
 

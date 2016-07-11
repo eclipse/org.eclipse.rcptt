@@ -12,12 +12,12 @@ package org.eclipse.rcptt.maven;
 
 import static org.eclipse.rcptt.maven.RunnerVersionDispatcher.getDefaultArtifact;
 import static org.eclipse.rcptt.maven.RunnerVersionDispatcher.getDefaultGroup;
+import static org.eclipse.rcptt.maven.RunnerVersionDispatcher.getDefaultPaltform;
 import static org.eclipse.rcptt.maven.RunnerVersionDispatcher.parseVersion;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -29,7 +29,6 @@ import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
-
 import org.eclipse.rcptt.maven.util.ArchiveUtil;
 import org.eclipse.rcptt.maven.util.AutCoords;
 import org.eclipse.rcptt.maven.util.CoordResolver;
@@ -104,8 +103,12 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 		}
 		runner.setClassifier("");
 		ComparableVersion version = parseVersion(runner.getVersion());
-		if (runner.getArtifactId() == null)
-			runner.setArtifactId(getDefaultArtifact(version));
+		if(runner.getPlatform() == null){
+			runner.setPlatform(getDefaultPaltform(version));
+		}
+		if (runner.getArtifactId() == null) {
+			runner.setArtifactId(getDefaultArtifact(version, runner.getPlatform()));
+		}
 		if (runner.getGroupId() == null) {
 			runner.setGroupId(getDefaultGroup(version));
 		}
@@ -138,7 +141,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	protected String[] suites;
-	
+
 	/**
 	 * @parameter
 	 */
@@ -241,7 +244,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 
 	private static String EXPLICIT_Q7_KEY = "explicitRunnerLocation";
 
-	protected final File getQ7Dir() {
+	protected final File getQ7Dir(String platform) {
 		if (project.getProperties().containsKey(EXPLICIT_Q7_KEY)) {
 			return new File(project.getProperties().getProperty(EXPLICIT_Q7_KEY));
 		}
@@ -255,8 +258,8 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 		project.getProperties().setProperty(EXPLICIT_Q7_KEY, q7.getAbsolutePath());
 	}
 
-	protected File getResolvedQ7Dir() throws MojoFailureException {
-		return getResolvedRcpLocation(getQ7Dir());
+	protected File getResolvedQ7Dir(String platform) throws MojoFailureException {
+		return getResolvedRcpLocation(getQ7Dir(platform));
 	}
 
 	private File autWorkspacePrefix;
@@ -401,7 +404,8 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 					}
 				}
 			}
-			project.getProperties().setProperty(HAS_TESTS_KEY, Boolean.toString(scenarioFiles.length > contextScenarioCount));
+			project.getProperties().setProperty(HAS_TESTS_KEY,
+					Boolean.toString(scenarioFiles.length > contextScenarioCount));
 		}
 		return (Boolean) Boolean.valueOf(project.getProperties().getProperty(HAS_TESTS_KEY));
 	}
@@ -411,7 +415,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	 *
 	 * @return true if the tests should be skipped
 	 */
-	protected boolean skipTests () {
+	protected boolean skipTests() {
 		return skip || skipTests;
 	}
 
@@ -422,7 +426,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	 * @throws MojoFailureException
 	 */
 	protected File getEquinoxJar() throws MojoFailureException {
-		File q7dir = getResolvedQ7Dir();
+		File q7dir = getResolvedQ7Dir(getQ7Coords().getPlatform());
 		File plugins = new File(q7dir, "plugins");
 		if (!plugins.exists() || !plugins.isDirectory()) {
 			throw new MojoFailureException("Invalid RCPTT location " + q7dir);

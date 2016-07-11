@@ -28,6 +28,7 @@
   <properties>
     <buildUrl>file:/${user.dir}</buildUrl>
     <repositoryFull>${buildUrl}/repository/full/target/repository/</repositoryFull>
+    <repositoryRap>${buildUrl}/repository/rap/target/repository/</repositoryRap>
   </properties>
   <repositories>
     <repository>
@@ -48,5 +49,14 @@
       <layout>p2</layout>
       <url>${repositoryFull}</url>
     </repository>
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>rap-rcptt</id>
+      <layout>p2</layout>
+      <url>${repositoryRap}</url>
+    </repository>
+
   </repositories>
 </project>

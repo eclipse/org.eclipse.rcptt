@@ -190,11 +190,28 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		return subMonitor;
 	}
 
+
+
+	protected void doPreLaunchCkeck(ILaunchConfiguration configuration, ILaunch launch, IProgressMonitor monitor) throws CoreException
+	{
+		boolean autoValidate = configuration.getAttribute(IPDELauncherConstants.AUTOMATIC_VALIDATE, false);
+		SubMonitor subMonitor = SubMonitor.convert(monitor, autoValidate ? 3 : 4);
+		if (autoValidate) {
+			validatePluginDependencies(configuration, subMonitor.split(1));
+		}
+		validateProjectDependencies(configuration, subMonitor.split(1));
+		LauncherUtils.setLastLaunchMode(launch.getLaunchMode());
+		clear(configuration, subMonitor.split(1));
+		launch.setAttribute(IPDELauncherConstants.CONFIG_LOCATION, getConfigDir(configuration).toString());
+		synchronizeManifests(configuration, subMonitor.split(1));
+	}
+
 	@Override
 	protected void preLaunchCheck(ILaunchConfiguration configuration, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		SubMonitor subm = SubMonitor.convert(monitor, 100);
-		super.preLaunchCheck(configuration, launch, subm.newChild(50));
+		doPreLaunchCkeck(configuration, launch, subm.newChild(50));
+
 		if (monitor.isCanceled()) {
 			return;
 		}
@@ -812,13 +829,6 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		} catch (InterruptedException e) {
 			// ignore
 		}
-	}
-
-	private static boolean isCreateEventFor(DebugEvent event, ILaunch launch) {
-		Object source = event.getSource();
-		return event.getKind() == DebugEvent.CREATE
-				&& source instanceof RuntimeProcess
-				&& ((RuntimeProcess) source).getLaunch() == launch;
 	}
 
 	private static boolean isTerminateEventFor(DebugEvent event, ILaunch launch) {

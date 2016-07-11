@@ -61,7 +61,7 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 	public ErrorLogVerificationProcessor() {
 		Platform.addLogListener(this);
 	}
-	
+
 	@Override
 	synchronized public Object start(Verification verification, IProcess process) {
 		testLog.clear();
@@ -84,6 +84,7 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 		List<LogEntryPredicate> whiteList = new ArrayList<>();
 		whiteList.addAll(logVerification.getAllowed());
 		whiteList.addAll(logVerification.getRequired());
+
 		ErrorList errors = new ErrorList();
 		for (LogEntry entry : testLog) {
 			boolean ignoreContext = !logVerification.isIncludeContexts() && isContext(entry.node);
@@ -121,7 +122,7 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 		INodeBuilder node = ReportManager.getCurrentReportNode();
 		testLog.add(new LogEntry(status, node));
 	}
-	
+
 	private boolean isWhiteListed(Iterable<LogEntryPredicate> whiteList, IStatus status) {
 		LogEntryPredicate rv = ErrorLogUtil.find(whiteList, status);
 		if (rv != null) {
@@ -160,5 +161,4 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 		}
 		return false;
 	}
-	
 }

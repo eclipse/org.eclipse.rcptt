@@ -36,8 +36,8 @@
 		<module>org.eclipse.rcptt.runner</module>
 		<module>features</module>
 		<module>product</module>
-		<!-- <module>site</module> -->
 	</modules>
+
 	<repositories>
 		<repository>
 			<id>cbi</id>

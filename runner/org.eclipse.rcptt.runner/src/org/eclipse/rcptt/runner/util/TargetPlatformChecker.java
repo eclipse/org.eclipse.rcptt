@@ -75,19 +75,20 @@ public class TargetPlatformChecker {
 	private void initializeTargetPlatform() throws CoreException {
 		targetPlatform = null;
 		String location = PDELocationUtils.getProductLocation(conf.location).getAbsolutePath();
+		PrintStreamMonitor outMonitor = new PrintStreamMonitor(true);
 		if (conf.config != null) {
 			targetPlatform = TargetPlatformManager.createTargetPlatform(
-					location, new PrintStreamMonitor());
+					location, outMonitor);
 			Map<String, Version> versions = targetPlatform.getVersions();
 			Q7Info q7Info = Q7TargetPlatformInitializer.getInfo(targetPlatform, versions);
 			if (!conf.onlySpecified) {
 				IMetadataRepository repository = PDEHelper
 						.safeLoadRepository(q7Info.q7,
-								new PrintStreamMonitor());
+								outMonitor);
 				if (repository != null) {
 					InjectionConfiguration configuration = Q7TargetPlatformInitializer
 							.createInjectionConfiguration(
-									new PrintStreamMonitor(), q7Info,
+									outMonitor, q7Info,
 									versions);
 					if (configuration != null) {
 						conf.config.getEntries().addAll(
@@ -101,7 +102,7 @@ public class TargetPlatformChecker {
 				conf.config.getEntries().add(aspectsSite);
 			}
 			targetPlatform.setTargetName("AUT");
-			IStatus rv = targetPlatform.applyInjection(conf.config, new PrintStreamMonitor());
+			IStatus rv = targetPlatform.applyInjection(conf.config, outMonitor);
 			if (!rv.isOK())
 				throw new CoreException(rv);
 			if (targetPlatform.getWeavingHook() == null) {
@@ -110,7 +111,7 @@ public class TargetPlatformChecker {
 			}
 		} else { // Try to initialize using Q7 bundled runtime
 			targetPlatform = Q7TargetPlatformManager.createTargetPlatform(
-					location, new PrintStreamMonitor());
+					location, outMonitor);
 			targetPlatform.setTargetName("AUT");
 		}
 		targetPlatform.save();

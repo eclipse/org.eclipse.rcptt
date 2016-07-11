@@ -12,6 +12,7 @@ package org.eclipse.rcptt.maven.util;
 
 public class RCPTTCoords extends Coords {
 	private String plugins[];
+	private String platform;
 
 	public String[] getPlugins() {
 		return plugins;
@@ -19,5 +20,13 @@ public class RCPTTCoords extends Coords {
 
 	public void setPlugins(String[] extensions) {
 		this.plugins = extensions;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
 }

@@ -39,8 +39,12 @@ public class RunnerConfiguration {
 	private static final int DEFAULT_WAIT_AUT_TIMEOUT = 5 * 60;
 
 	enum CommandArg {
+		Runner("The runner platform (SWT or RAP)", "runnerPlatform"),
 		Location("AUT Product location", "aut"), //
 		Count("AUT Instances count", "autCount"), //
+		RAPPort("RAP AUT Server port", "rapPort"), //
+		RAPServletPath("RAP AUT servlet path", "rapPath"), //
+		RAPOpenBrowserCommand("Start browser command", "browserCmd"), //
 		WsPrefix(
 				"AUT workspaces prefix to use. Workspaces will contain numeric number.",
 				"autWsPrefix", "wsPrefix"), //
@@ -128,6 +132,10 @@ public class RunnerConfiguration {
 	public boolean splitHTMLReport = false;
 	public boolean reuseExistingWorkspace = false;
 	public boolean outputMemoryUsage = false;
+	public String path = null;
+	public String browserCmd = null;
+	public Integer port = null;
+	public boolean rapPlatform = false;
 
 	public static class UserReport {
 		public String id;
@@ -513,6 +521,24 @@ public class RunnerConfiguration {
 							.getDefault()
 							.info("WARNING: Shutdown timeout parameter must be an integer value.");
 				}
+				break;
+			case RAPPort:
+				try {
+					port = Integer.parseInt(i.next());
+				} catch (final NumberFormatException e) {
+					HeadlessRunnerPlugin.getDefault().info(
+							"WARNING: RAP server port parameter must be an integer value.");
+					port = null;
+				}
+				break;
+			case RAPServletPath:
+				path = i.next();
+				break;
+			case RAPOpenBrowserCommand:
+				browserCmd = i.next();
+				break;
+			case Runner:
+				rapPlatform = i.next().equalsIgnoreCase("rap");
 				break;
 			}
 		}

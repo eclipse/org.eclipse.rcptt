@@ -23,7 +23,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
@@ -44,6 +46,7 @@ import org.eclipse.rcptt.launching.AutManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
+import org.eclipse.rcptt.launching.rap.RAPLaunchConfig;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.utils.AUTLaunchArgumentsHelper;
 import org.eclipse.rcptt.runner.HeadlessRunner;
@@ -69,14 +72,13 @@ public class AutThread extends Thread {
 	private final RunnerConfiguration conf;
 	private final TargetPlatformChecker tpc;
 
-	public AutThread(List<ScenarioRunnable> r, AUTsManager manager,
-			RunnerConfiguration conf, TargetPlatformChecker tpc) {
+	public AutThread(List<ScenarioRunnable> r, AUTsManager manager, RunnerConfiguration conf,
+			TargetPlatformChecker tpc) {
 		super("AUT-Worker-" + manager.autCounter.get());
 		autId = manager.autCounter.getAndIncrement();
-		outFilePath = String.format("%s%d_console.log",
-				conf.autConsolePrefix == null ? ResourcesPlugin.getWorkspace()
-						.getRoot().getLocation().toFile().getParentFile()
-						.getAbsolutePath() : conf.autConsolePrefix, autId);
+		outFilePath = String.format("%s%d_console.log", conf.autConsolePrefix == null
+				? ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile().getParentFile().getAbsolutePath()
+				: conf.autConsolePrefix, autId);
 		runnables = r;
 
 		this.manager = manager;
@@ -86,11 +88,11 @@ public class AutThread extends Thread {
 
 	/**
 	 * Checks launch.
-	 * 
-	 * If launch is NULL -> throw Exception
-	 * If launch status is not ACTIVE -> restart AUT
-	 * If launch status is ACTIVE -> ping launch -> restart AUT (if no successful ping for a certain time)
-	 * 
+	 *
+	 * If launch is NULL -> throw Exception If launch status is not ACTIVE ->
+	 * restart AUT If launch status is ACTIVE -> ping launch -> restart AUT (if
+	 * no successful ping for a certain time)
+	 *
 	 * @param worker
 	 * @throws InterruptedException
 	 * @throws CoreException
@@ -148,22 +150,33 @@ public class AutThread extends Thread {
 	 * the target platform should have been checked by {@link #tpc} before this
 	 * method is called
 	 */
-	private ILaunchConfiguration createAUTLaunchConfiguration(
-			String autWorkspace, int index) throws CoreException {
+	private ILaunchConfiguration createAUTLaunchConfiguration(String autWorkspace, int index) throws CoreException {
 		// were synchronized by HeadlessRunner instance before,
 		// but only used to synchronize different AutThread instances,
 		// so we can use AUTsManager's monitor here
 		synchronized (manager) {
-			final String autArgs = Q7LaunchDelegateUtils
-					.getAUTArgs(conf.autArgs);
+			final String autArgs = Q7LaunchDelegateUtils.getAUTArgs(conf.autArgs);
 
-			System.out.println(String.format("%s: AUT arguments: %s",
-					autWorkspace, autArgs));
+			System.out.println(String.format("%s: AUT arguments: %s", autWorkspace, autArgs));
 
 			ILaunchConfigurationWorkingCopy config;
 
-			config = Q7LaunchingUtil.createQ7LaunchConfiguration(
-					tpc.getTargetPlatform(), autArgs, "AUT_" + Integer.toString(index));
+			if (conf.rapPlatform) {
+
+				config = createLaunchConfiguration(tpc.getTargetPlatform(), "AUT_" + Integer.toString(index), autArgs); //$NON-NLS-1$
+				RAPLaunchConfig.setDefaults(config);
+				final RAPLaunchConfig helper = new RAPLaunchConfig(config);
+
+				if (conf.port != null) {
+					helper.setPort(conf.port);
+				}
+				if (!Strings.isNullOrEmpty(conf.path)) {
+					helper.setServletPath(conf.path);
+				}
+			} else {
+				config = Q7LaunchingUtil.createQ7LaunchConfiguration(tpc.getTargetPlatform(), autArgs,
+						"AUT_" + Integer.toString(index));
+			}
 
 			config.setAttribute(IPDELauncherConstants.DOCLEAR, false);
 			config.setAttribute(IPDELauncherConstants.ASKCLEAR, true);
@@ -180,16 +193,13 @@ public class AutThread extends Thread {
 			config.setAttribute(IQ7Launch.ATTR_OUT_FILE, outFilePath);
 			final String vmArgs = Q7LaunchDelegateUtils.getJoinedVMArgs(tpc.getTargetPlatform(),
 					Arrays.asList(conf.autVMArgs));
-			System.out.println(String.format("%s: AUT VM arguments: %s",
-					autWorkspace, vmArgs));
-			config.setAttribute(
-					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, vmArgs);
+			System.out.println(String.format("%s: AUT VM arguments: %s", autWorkspace, vmArgs));
+			config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, vmArgs);
 
 			if (conf.javaVM != null) {
 				String autVM = manager.getAutVm();
 
-				config.setAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+				config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
 						"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/"
 								+ autVM);
 				config.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY, true);
@@ -197,9 +207,7 @@ public class AutThread extends Thread {
 
 			String vmFromIni = manager.addJvmFromIniFile();
 			if (vmFromIni != null) {
-				config.setAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-						vmFromIni);
+				config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH, vmFromIni);
 				config.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY, true);
 			}
 
@@ -208,8 +216,7 @@ public class AutThread extends Thread {
 
 			// Validate JVM compatibility
 			boolean haveAUT = false;
-			OSArchitecture architecture = tpc.getTargetPlatform()
-					.detectArchitecture(true, null);
+			OSArchitecture architecture = tpc.getTargetPlatform().detectArchitecture(true, null);
 			String crossArchLaunch = null;
 			if (!architecture.equals(OSArchitecture.Unknown)) {
 				IVMInstall install = VMHelper.getVMInstall(savedConfig);
@@ -219,8 +226,7 @@ public class AutThread extends Thread {
 						haveAUT = true;
 					}
 
-					if (!haveAUT && jvmArch.equals(OSArchitecture.x86_64)
-							&& JDTUtils.canRun32bit(install)) {
+					if (!haveAUT && jvmArch.equals(OSArchitecture.x86_64) && JDTUtils.canRun32bit(install)) {
 						haveAUT = true;
 						crossArchLaunch = "-d32";
 					}
@@ -230,58 +236,45 @@ public class AutThread extends Thread {
 				if (!haveAUT) {
 					// Let's search for configuration and update JVM if
 					// possible.
-					haveAUT = updateJVM(savedConfig, architecture,
-							tpc.getTargetPlatform());
+					haveAUT = updateJVM(savedConfig, architecture, tpc.getTargetPlatform());
 
 				}
 				if (!haveAUT) {
 					String errorMessage = "FAIL: AUT requires "
-							+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit"
-									: "64 bit")
+							+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit" : "64 bit")
 							+ " Java VM which cannot be found.\nPlease specify -autVM {javaPath} command line argument to use different JVM.\nCurrent used JVM is: "
 							+ install.getInstallLocation().toString();
 					Q7ExtLaunchingPlugin.getDefault().log(errorMessage, null);
-					throw new CoreException(new Status(IStatus.ERROR,
-							Q7ExtLaunchingPlugin.PLUGIN_ID, errorMessage, null));
+					throw new CoreException(
+							new Status(IStatus.ERROR, Q7ExtLaunchingPlugin.PLUGIN_ID, errorMessage, null));
 				}
 			}
 			if (!architecture.equals(OSArchitecture.Unknown)) {
 				// Update -arch to be correct
 				try {
 					String finalArgs = savedConfig
-							.getAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-									"");
-					finalArgs = finalArgs.replace("${target.arch}",
-							architecture.name());
+							.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, "");
+					finalArgs = finalArgs.replace("${target.arch}", architecture.name());
 
-					ILaunchConfigurationWorkingCopy copy = savedConfig
-							.getWorkingCopy();
-					copy.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-							finalArgs.toString());
+					ILaunchConfigurationWorkingCopy copy = savedConfig.getWorkingCopy();
+					copy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, finalArgs.toString());
 
 					if (crossArchLaunch != null) {
 						String crossVmArgs = savedConfig
-								.getAttribute(
-										IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-										"");
-						crossVmArgs = crossVmArgs.replace("-d64",
-								crossArchLaunch);
+								.getAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "");
+						crossVmArgs = crossVmArgs.replace("-d64", crossArchLaunch);
 						if (!crossVmArgs.contains(crossArchLaunch)) {
 							crossVmArgs = crossVmArgs + " " + crossArchLaunch;
 						}
 
-						copy.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-								vmArgs.toString());
+						copy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, vmArgs.toString());
 
 					}
 
 					savedConfig = copy.doSave();
 				} catch (Throwable e) {
-					throw new CoreException(new Status(IStatus.ERROR,
-							Q7ExtLaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
+					throw new CoreException(
+							new Status(IStatus.ERROR, Q7ExtLaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
 				}
 			}
 
@@ -289,8 +282,8 @@ public class AutThread extends Thread {
 		}
 	}
 
-	private boolean updateJVM(ILaunchConfiguration configuration,
-			OSArchitecture architecture, ITargetPlatformHelper target) {
+	private boolean updateJVM(ILaunchConfiguration configuration, OSArchitecture architecture,
+			ITargetPlatformHelper target) {
 		try {
 			IVMInstall jvmInstall = null;
 			OSArchitecture jvmArch = OSArchitecture.Unknown;
@@ -301,8 +294,7 @@ public class AutThread extends Thread {
 				for (IVMInstall ivmInstall : installs) {
 					jvmArch = JDTUtils.detect(ivmInstall);
 					if (jvmArch.equals(architecture)
-							|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
-									.canRun32bit(ivmInstall))) {
+							|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils.canRun32bit(ivmInstall))) {
 						jvmInstall = ivmInstall;
 						haveArch = true;
 						break;
@@ -310,22 +302,18 @@ public class AutThread extends Thread {
 				}
 			}
 			if (haveArch) {
-				ILaunchConfigurationWorkingCopy workingCopy = configuration
-						.getWorkingCopy();
+				ILaunchConfigurationWorkingCopy workingCopy = configuration.getWorkingCopy();
 
-				String vmArgs = workingCopy.getAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+				String vmArgs = workingCopy.getAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
 						target.getIniVMArgs());
 				if (vmArgs == null) {
 					// Lets use current runner vm arguments
-					vmArgs = LaunchArgumentsHelper.getInitialVMArguments()
-							.trim();
+					vmArgs = LaunchArgumentsHelper.getInitialVMArguments().trim();
 				} else {
 					vmArgs = vmArgs.trim();
 				}
 				OSArchitecture autArch = target.detectArchitecture(true, null);
-				if (!autArch.equals(jvmArch)
-						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+				if (!autArch.equals(jvmArch) && Platform.getOS().equals(Platform.OS_MACOSX)) {
 					if (vmArgs != null) {
 						vmArgs += " -d32";
 					} else {
@@ -334,31 +322,18 @@ public class AutThread extends Thread {
 				}
 				if (vmArgs != null && vmArgs.length() > 0) {
 					vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-									vmArgs);
+					workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, vmArgs);
 				}
 
-				workingCopy
-						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-								String.format(
-										"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-										jvmInstall.getVMInstallType().getId(),
-										jvmInstall.getName()));
+				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+						String.format("org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+								jvmInstall.getVMInstallType().getId(), jvmInstall.getName()));
 
-				String programArgs = workingCopy
-						.getAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-								AUTLaunchArgumentsHelper
-										.getInitialProgramArguments(autArch.name()));
+				String programArgs = workingCopy.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+						AUTLaunchArgumentsHelper.getInitialProgramArguments(autArch.name()));
 
 				if (programArgs.length() > 0) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-									programArgs);
+					workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, programArgs);
 				}
 				workingCopy.doSave();
 				return true;
@@ -371,8 +346,8 @@ public class AutThread extends Thread {
 
 	void launchAut() {
 		if (restartId != 0) {
-			HeadlessRunnerPlugin.getDefault().info(
-					"AUT-" + autId + ":" + "Restarting " + " (restartId=" + restartId + ")");
+			HeadlessRunnerPlugin.getDefault()
+					.info("AUT-" + autId + ":" + "Restarting " + " (restartId=" + restartId + ")");
 			System.out.println("AUT-" + autId + ":" + "Restarting (restartId=" + restartId + ")");
 		} else {
 			HeadlessRunnerPlugin.getDefault().info("AUT-" + autId + ":" + "Launching");
@@ -425,19 +400,13 @@ public class AutThread extends Thread {
 			ILaunchConfiguration savedConfig = createAUTLaunchConfiguration(autWorkspace, restartId);
 			Aut aut = AutManager.INSTANCE.getByLaunch(savedConfig);
 			if (aut == null) {
-				throw new CoreException(
-						new Status(IStatus.ERROR,
-								HeadlessRunnerPlugin.PLUGIN_ID,
-								"No AUT found for launch configuration: "
-										+ savedConfig));
+				throw new CoreException(new Status(IStatus.ERROR, HeadlessRunnerPlugin.PLUGIN_ID,
+						"No AUT found for launch configuration: " + savedConfig));
 			}
 			launch = (BaseAutLaunch) aut.launch(monitor);
 			if (launch == null) {
-				throw new CoreException(
-						new Status(IStatus.ERROR,
-								HeadlessRunnerPlugin.PLUGIN_ID,
-								"No launch for configuration: "
-										+ savedConfig));
+				throw new CoreException(new Status(IStatus.ERROR, HeadlessRunnerPlugin.PLUGIN_ID,
+						"No launch for configuration: " + savedConfig));
 			}
 		} catch (final Exception e) {
 			try {
@@ -445,25 +414,20 @@ public class AutThread extends Thread {
 					launch.terminate();
 				}
 			} catch (Exception e2) {
-				System.out.println(String.format(
-						"AUT-%s Launch failed. Reason: %s", autId,
-						e.getMessage()));
+				System.out.println(String.format("AUT-%s Launch failed. Reason: %s", autId, e.getMessage()));
 			}
 
-			String errorMessage = String.format(
-					"AUT-%s: Launch failed. Reason: %s", autId, e.getMessage());
+			String errorMessage = String.format("AUT-%s: Launch failed. Reason: %s", autId, e.getMessage());
 			System.out.println(errorMessage);
-			System.out.println(String.format(
-					"AUT-%s: For more information check AUT output at '%s'",
-					autId, outFilePath));
+			System.out.println(
+					String.format("AUT-%s: For more information check AUT output at '%s'", autId, outFilePath));
 			HeadlessRunnerPlugin.getDefault().info(errorMessage);
 			throw new RuntimeException(errorMessage, e);
 		}
 	}
 
 	private String getAutWorkspace(String restartPostfix) {
-		return conf.reuseExistingWorkspace ? conf.autWorkspacePrefix
-				: conf.autWorkspacePrefix + autId + restartPostfix;
+		return conf.reuseExistingWorkspace ? conf.autWorkspacePrefix : conf.autWorkspacePrefix + autId + restartPostfix;
 	}
 
 	public void shutdown() throws CoreException, InterruptedException {
@@ -473,6 +437,23 @@ public class AutThread extends Thread {
 		}
 	}
 
+	private static ILaunchConfigurationWorkingCopy createLaunchConfiguration(ITargetPlatformHelper target, String name,
+			String args) throws CoreException {
+		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType type = launchManager.getLaunchConfigurationType("org.eclipse.rcptt.launching.rap");
+		if (name == null) {
+			name = launchManager.generateLaunchConfigurationName("AUT");
+		}
+		final ILaunchConfigurationWorkingCopy config = type.newInstance(null, name);
+		config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, Q7LaunchDelegateUtils
+				.getWorkingDirectory(new File(target.getTargetPlatformProfilePath())).getAbsolutePath());
+
+		config.setAttribute(IQ7Launch.AUT_LOCATION, target.getTargetPlatformProfilePath());
+
+		config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, args);
+		return config;
+	}
+
 	public void restart() throws CoreException, InterruptedException {
 		shutdown();
 		restartId++;
@@ -480,7 +461,8 @@ public class AutThread extends Thread {
 	}
 
 	/**
-	 * Put the current {@link SessionRunnable} back in the queue so that it is run again.
+	 * Put the current {@link SessionRunnable} back in the queue so that it is
+	 * run again.
 	 */
 	void retry() {
 		if (currentRunnable != null) {

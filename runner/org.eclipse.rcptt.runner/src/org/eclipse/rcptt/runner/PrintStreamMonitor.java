@@ -24,17 +24,25 @@ public class PrintStreamMonitor implements IProgressMonitor {
 	private boolean isCanceled;
 	private String prefix;
 	private OutputStreamWriter out;
+	private boolean stdoutDulicate = false;
+	private String previousOutLine = "";
+
+	public PrintStreamMonitor(boolean stdoutDuplicate) {
+		this.prefix = "";
+		this.stdoutDulicate = stdoutDuplicate;
+	}
 
 	public PrintStreamMonitor() {
 		this.prefix = "";
+		this.stdoutDulicate = false;
 	}
 
 	public PrintStreamMonitor(String prefix, File file) {
 		this.prefix = prefix;
 		if (file != null) {
 			try {
-				out = new OutputStreamWriter(new BufferedOutputStream(
-						new FileOutputStream(file)), IPlainConstants.ENCODING);
+				out = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(file)),
+						IPlainConstants.ENCODING);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -42,21 +50,56 @@ public class PrintStreamMonitor implements IProgressMonitor {
 	}
 
 	public void beginTask(String name, int totalWork) {
-		if (name != null && out != null) {
+		if (name != null) {
 			try {
-				out.write("Begin task: " + prefix + name + "\n");
-				out.flush();
+				if (out != null) {
+					out.write("Begin task: " + prefix + name + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.flush();
+				}
+				if (stdoutDulicate && filter(name)) {
+					System.out.println("Begin task: " + prefix + name); //$NON-NLS-1$
+					previousOutLine = name;
+				}
 			} catch (Throwable e) {
 
 			}
 		}
 	}
 
+	/**
+	 * Perform a filtering and return true if line is accepted.
+	 */
+	private boolean filter(String name) {
+		String nameVal = name.trim();
+		if (nameVal.equals(previousOutLine)) {
+			return false;
+		}
+		if (nameVal.length() == 0) {
+			return false;
+		}
+		if (nameVal.contains("1 operation remaining.")) { //$NON-NLS-1$
+			return false;
+		}
+		if (nameVal.contains("from platform:///plugin/org.eclipse.rcptt.updates.")) { //$NON-NLS-1$
+			return false;
+		}
+		if (nameVal.contains("Fetching org.eclipse.rcptt") || nameVal.contains("Downloading org.eclipse.rcptt")) {
+			return false;
+		}
+		return true;
+	}
+
 	private void print(String name) {
-		if (name != null && out != null) {
+		if (name != null) {
 			try {
-				out.write("progress: " + prefix + name + "\n");
-				out.flush();
+				if (out != null) {
+					out.write("progress: " + prefix + name + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.flush();
+				}
+				if (stdoutDulicate && filter(name)) {
+					System.out.println("progress: " + prefix + name); //$NON-NLS-1$
+					previousOutLine = name;
+				}
 			} catch (Throwable e) {
 
 			}

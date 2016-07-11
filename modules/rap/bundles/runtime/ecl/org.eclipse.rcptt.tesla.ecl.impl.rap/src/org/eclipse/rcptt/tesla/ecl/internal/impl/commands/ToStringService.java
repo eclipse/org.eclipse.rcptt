@@ -24,8 +24,6 @@ import org.eclipse.rcptt.tesla.ecl.impl.rap.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.rap.model.ToString;
-import org.eclipse.rcptt.tesla.ecl.impl.rap.ServiceUtil;
-import org.eclipse.rcptt.util.StringUtils;
 
 public class ToStringService implements ICommandService {
 
@@ -39,7 +37,7 @@ public class ToStringService implements ICommandService {
 		if (input instanceof Wrapper) {
 
 			try {
-				context.getOutput().write(ServiceUtil.wrap(convert(cmd, (Wrapper) input)));
+				context.getOutput().write(convert(cmd, (Wrapper) input));
 			} catch (IllegalArgumentException e) {
 				return new Status(IStatus.ERROR, TeslaImplPlugin.PLUGIN_ID, e.getMessage(), e);
 			}
