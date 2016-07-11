@@ -35,14 +35,13 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.AssertionFocus;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
-import org.eclipse.rcptt.tesla.core.ui.Item;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
-import org.eclipse.rcptt.tesla.recording.aspects.rap.WorkbenchEventManager;
 import org.eclipse.rcptt.tesla.recording.aspects.swt.rap.IAssertSWTEventListener;
 import org.eclipse.rcptt.tesla.recording.aspects.swt.rap.ISkipAwareEventListener;
 import org.eclipse.rcptt.tesla.recording.aspects.swt.rap.SWTEventManager;
+import org.eclipse.rcptt.tesla.recording.aspects.workbench.rap.WorkbenchEventManager;
 import org.eclipse.rcptt.tesla.recording.core.IRecordingHelper;
 import org.eclipse.rcptt.tesla.recording.core.IRecordingProcessor;
 import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
@@ -52,6 +51,7 @@ import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.ui.RWTUtils;
 import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -60,6 +60,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -72,6 +73,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.TreeItem;
@@ -129,8 +131,6 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 	private List<Menu> menus = new ArrayList<Menu>();
 
 	private Control beforeFreezeFocus = null;
-
-
 
 	@Override
 	public void clear() {
@@ -332,18 +332,29 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				}
 			}
 
+			if(widget instanceof ToolBar)
+			{
+				widget = ((ToolBar)widget).getItem(new Point(event.x, event.y));
+			}
+
+			if (type == SWT.Show && widget instanceof Menu) {
+				type = SWT.Selection;
+				widget = ((Menu) widget).getParentItem();
+			}
+
 			final IRecordingDescriber assertDescr = selectAllowedParent(
 					RecordingDescriberManager.getDescriber(widget, event.x, event.y, true));
 
 			if (type == SWT.Selection && (widget instanceof org.eclipse.swt.widgets.MenuItem)) {
-				assertionLog("assertion target locked for menu item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
+				assertionLog(
+						"assertion target locked for menu item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
 				seachForElement(assertDescr.searchForElement(recorder), true, assertDescr);
 				freezedCtrl = assertDescr;
 			}
 
-			if(type == SWT.Selection && widget instanceof ToolItem)
-			{
-				assertionLog("assertion target locked for tool item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
+			if (type == SWT.Selection && widget instanceof ToolItem) {
+				assertionLog(
+						"assertion target locked for tool item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
 
 				final Event updateEvent = event;
 				widget.getDisplay().timerExec(150, new Runnable() {
@@ -385,7 +396,8 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 					}
 				}
 			}
-			if (type == SWT.MouseUp || (!(widget instanceof Composite) && type == SWT.FocusIn)) {
+			if ((type == SWT.MouseUp && !(widget instanceof ToolItem)) || (!(widget instanceof Composite) && type == SWT.FocusIn)
+					|| ((widget instanceof Label || widget instanceof CTabFolder || widget instanceof Button) && type == SWT.Activate)) {
 				for (Shell menuShell : menuShells) {
 					if (menuShell != null) {
 						if (widget instanceof Control && !((Control) widget).getShell().equals(menuShell)) {
@@ -394,7 +406,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 						}
 					}
 				}
-				if (event.button == 1 || type == SWT.FocusIn) {
+				if (event.button == 1 || type == SWT.FocusIn || type == SWT.Activate) {
 					if (freezedCtrl == null) {
 						assertionLog("assertion target locked"); //$NON-NLS-1$
 
@@ -433,7 +445,8 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 					}
 				}
 			}
-			if ((type == SWT.MouseDown || type == SWT.Activate || type == RcpttMouseEvents.MouseEnter || type == RcpttMouseEvents.MouseExit) && freezedCtrl == null) {
+			if ((type == SWT.MouseDown || type == SWT.Activate || type == RcpttMouseEvents.MouseEnter
+					|| type == RcpttMouseEvents.MouseExit) && freezedCtrl == null) {
 				synchronized (widgetsOnMove) {
 					widgetsOnMove.add(assertDescr);
 				}
@@ -463,8 +476,6 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 					});
 				}
 			}
-
-
 
 			return !(FREEZED_EVENTS.contains(type) || (type == 0 && widget instanceof Canvas));
 		} finally {

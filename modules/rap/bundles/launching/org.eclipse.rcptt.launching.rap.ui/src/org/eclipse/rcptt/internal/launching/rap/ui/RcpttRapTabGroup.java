@@ -13,7 +13,9 @@ package org.eclipse.rcptt.internal.launching.rap.ui;
 import static org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.pde.ui.launcher.OSGiLauncherTabGroup;
@@ -37,8 +39,8 @@ public class RcpttRapTabGroup extends OSGiLauncherTabGroup {
 		super.setDefaults(configuration);
 		UpdateVMArgs.updateVMArgs(configuration);
 		updateRapVmArgument(configuration);
-		// configuration.setAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
-		// configuration.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
+		 configuration.setAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_CONSOLE, false);
+		 configuration.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, false);
 	}
 
 	private static ILaunchConfigurationTab[] insertTab(ILaunchConfigurationTab[] tabs, int position,

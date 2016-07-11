@@ -16,6 +16,8 @@ import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 import org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile;
 import org.eclipse.rcptt.tesla.core.protocol.RapUploadFile;
+import org.eclipse.rcptt.tesla.ecl.TeslaScriptletFactory;
+import org.eclipse.rcptt.tesla.ecl.model.VerifyTrue;
 import org.eclipse.rcptt.tesla.ecl.rap.model.DownloadFile;
 import org.eclipse.rcptt.tesla.ecl.rap.model.ExecWithoutJs;
 import org.eclipse.rcptt.tesla.ecl.rap.model.MatchBinary;
@@ -39,8 +41,10 @@ public class RapTeslaParser {
 		final MatchBinary matching = RapTeslaFactory.eINSTANCE.createMatchBinary();
 		matching.setBase64(file.getContent());
 
-		final Pipeline sequence = ScriptletFactory.makePipe(download, matching);
-		command.setCommand(sequence);
+		final VerifyTrue verify = TeslaScriptletFactory.makeVerifyTrue();
+
+		final Pipeline pipe = ScriptletFactory.makePipe(download, matching, verify);
+		command.setCommand(pipe);
 
 		return command;
 	}

@@ -2,7 +2,7 @@ package org.eclipse.rcptt.maven.util;
 
 public class Rap {
 	private int port = -1;
-	private String servetPath;
+	private String servletPath;
 	private String browserCmd;
 
 	public int getPort() {
@@ -13,12 +13,12 @@ public class Rap {
 		this.port = port;
 	}
 
-	public String getServetPath() {
-		return servetPath;
+	public String getServletPath() {
+		return servletPath;
 	}
 
-	public void setServetPath(String servetPath) {
-		this.servetPath = servetPath;
+	public void setServletPath(String servetPath) {
+		this.servletPath = servetPath;
 	}
 
 	public String getBrowserCmd() {

@@ -1,4 +1,4 @@
-package org.eclipse.rcptt.tesla.recording.aspects.rap;
+package org.eclipse.rcptt.tesla.recording.aspects.workbench.rap;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -9,17 +9,19 @@ import org.eclipse.ui.statushandlers.WorkbenchStatusDialogManager;
 import org.eclipse.rcptt.tesla.core.am.rap.AspectManager;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
+import org.eclipse.ui.internal.statushandlers.InternalDialog;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.internal.OpenPreferencesAction;
 
-public privileged aspect WorkbenchRecordingAspect {
+public aspect WorkbenchRecordingAspect {
 
 	public WorkbenchRecordingAspect() {
-		AspectManager.activateAspect(RecordingWorkbenchActivator.PLUGIN_ID,
-				this.getClass().getName());
+		AspectManager.activateAspect(RecordingWorkbenchActivator.PLUGIN_ID, this.getClass().getName());
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
-	before(IEditorReference[] refArray, boolean save): 
-		execution(boolean org.eclipse.rap.ui.internal.WorkbenchPage.closeEditors (IEditorReference[], boolean)) && 
+	before(IEditorReference[] refArray, boolean save):
+		execution(boolean org.eclipse.ui.internal.WorkbenchPage.closeEditors (IEditorReference[], boolean)) &&
 		args(refArray, save) {
 		try {
 			Context context = ContextManagement.currentContext();
@@ -79,15 +81,15 @@ public privileged aspect WorkbenchRecordingAspect {
 		return null;
 	}
 
-	@SuppressAjWarnings("adviceDidNotMatch")	
-	before(): execution(void org.eclipse.rap.ui.internal.OpenPreferencesAction.run()) {
+	@SuppressAjWarnings("adviceDidNotMatch")
+	before(): execution(void org.eclipse.ui.internal.OpenPreferencesAction.run()) {
 		WorkbenchEventManager.recordAction(ActionType.PREFERENCE_DIALOG);
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
 	Object around(WorkbenchStatusDialogManager mgr, StatusAdapter adapter,
 			boolean modal):
-		execution(void org.eclipse.rap.ui.statushandlers.WorkbenchStatusDialogManager.addStatusAdapter(StatusAdapter, boolean))
+		execution(void org.eclipse.ui.statushandlers.WorkbenchStatusDialogManager.addStatusAdapter(StatusAdapter, boolean))
 		&& target(mgr) && args(adapter, modal) {
 		try {
 			WorkbenchEventManager.recordAddStatus(adapter, modal);
@@ -98,7 +100,7 @@ public privileged aspect WorkbenchRecordingAspect {
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
-	after(): execution(boolean org.eclipse.rap.ui.internal.statushandlers.InternalDialog.close()) {
+	after(): execution(boolean org.eclipse.ui.internal.statushandlers.InternalDialog.close()) {
 		try {
 			WorkbenchEventManager.recordStatusCleanup();
 		} catch (Throwable e) {

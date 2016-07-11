@@ -81,7 +81,7 @@ public class ErrorLogVerificationProcessor extends VerificationProcessor impleme
 	}
 
 	private ErrorList findErrors(ErrorLogVerification logVerification) {
-		List<LogEntryPredicate> whiteList = new ArrayList<>();
+		List<LogEntryPredicate> whiteList = new ArrayList<LogEntryPredicate>();
 		whiteList.addAll(logVerification.getAllowed());
 		whiteList.addAll(logVerification.getRequired());
 

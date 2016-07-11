@@ -14,7 +14,7 @@
 
 <aspectj>
 	<aspects>
-		<aspect name="org.eclipse.rcptt.tesla.recording.aspects.rap.WorkbenchRecordingAspect" />
+		<aspect name="org.eclipse.rcptt.tesla.recording.aspects.workbench.rap.WorkbenchRecordingAspect" />
 	</aspects>
 	<weaver options="-verbose -Xset:typeDemotion=true" />
 </aspectj>

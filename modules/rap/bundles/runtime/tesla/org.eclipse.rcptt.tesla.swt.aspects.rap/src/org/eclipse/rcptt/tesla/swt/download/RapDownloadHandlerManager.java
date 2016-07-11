@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.internal.service.ServiceManagerImpl;
 import org.eclipse.rap.rwt.service.ServiceHandler;
+import org.eclipse.rcptt.tesla.swt.aspects.rap.SWTAspectActivator;
 import org.eclipse.rcptt.util.MockHttpServletRequest;
 import org.eclipse.rcptt.util.MockHttpServletResponse;
 
@@ -52,7 +53,7 @@ public class RapDownloadHandlerManager {
 	}
 
 
-	public static String emulateDownload(String url, String handler)
+	public static byte[] emulateDownload(String url, String handler)
 	{
 		 @SuppressWarnings("restriction")
 		ServiceHandler serviceHandler = ((ServiceManagerImpl)RWT.getServiceManager()).getServiceHandler(handler);
@@ -62,17 +63,12 @@ public class RapDownloadHandlerManager {
 
 		 try {
 			serviceHandler.service(request, response);
-
-			return org.eclipse.rcptt.util.Base64.encode(response.getDuplicateOutput().toByteArray());
-
+			return response.getDuplicateOutput().toByteArray();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SWTAspectActivator.log(e);
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SWTAspectActivator.log(e);
 		}
-
 
 		return null;
 	}

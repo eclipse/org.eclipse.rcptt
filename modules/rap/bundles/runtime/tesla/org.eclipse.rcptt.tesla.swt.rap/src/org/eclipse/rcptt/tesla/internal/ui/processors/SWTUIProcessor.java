@@ -54,7 +54,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.rap.rwt.remote.RemoteObject;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
@@ -1566,7 +1565,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 
 	private Response handleRapDownloadFile(RapDownloadFile command) {
-		final String content = RapDownloadHandlerManager.emulateDownload(command.getUrl(), command.getHandler());
+		final byte[] content = RapDownloadHandlerManager.emulateDownload(command.getUrl(), command.getHandler());
 		final ObjectResponse result = ProtocolFactory.eINSTANCE.createObjectResponse();
 		result.setResult(content);
 		return result;

@@ -405,9 +405,9 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 			cmd.createArg().setValue(Integer.toString(rap.getPort()));
 		}
 
-		if (rap.getServetPath() != null && rap.getServetPath().length() != 0) {
+		if (rap.getServletPath() != null && rap.getServletPath().length() != 0) {
 			cmd.createArg().setValue(RAP_SERVLET_PATH);
-			cmd.createArg().setValue(rap.getServetPath());
+			cmd.createArg().setValue(rap.getServletPath());
 		}
 
 		if (rap.getBrowserCmd() != null && rap.getBrowserCmd().length() != 0) {

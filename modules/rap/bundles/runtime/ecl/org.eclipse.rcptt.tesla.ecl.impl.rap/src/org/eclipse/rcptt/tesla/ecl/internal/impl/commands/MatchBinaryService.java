@@ -63,7 +63,12 @@ public class MatchBinaryService implements ICommandService {
 	}
 
 	private boolean matching(Wrapper wrapper, byte[] bytes) {
-		if (wrapper.getObject() instanceof byte[]) {
+
+		Object object = wrapper.getObject();
+		if (object instanceof String) {
+			object = Base64.decode(object.toString());
+		}
+		if (object instanceof byte[]) {
 			return Arrays.equals(bytes, (byte[]) wrapper.getObject());
 		}
 
