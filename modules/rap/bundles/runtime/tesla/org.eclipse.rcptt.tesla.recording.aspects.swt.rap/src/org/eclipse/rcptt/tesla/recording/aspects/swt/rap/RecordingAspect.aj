@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.FontDialog;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -320,6 +322,7 @@ privileged public aspect RecordingAspect {
 		final DialogCallback real = callback;
 		final DialogCallback wrapper = new DialogCallback() {
 			private static final long serialVersionUID = 1L;
+
 			public void dialogClosed(int returnCode) {
 				real.dialogClosed(returnCode);
 				SWTDialogManager.setFileDialogOpen(false);
@@ -377,6 +380,16 @@ privileged public aspect RecordingAspect {
 		} catch (Throwable e) {
 			RecordingSWTActivator.log(e);
 		}
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Button button, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.widgets.Button.new(org.eclipse.swt.widgets.Composite,int)) && target(button) && args(composite, style){
+		button.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+			}
+		});
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
