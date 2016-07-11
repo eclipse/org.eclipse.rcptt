@@ -20,6 +20,7 @@ import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.events.AutEventManager;
 
 /**
@@ -30,6 +31,7 @@ import org.eclipse.rcptt.launching.events.AutEventManager;
  */
 public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 
@@ -45,7 +47,7 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 		reconnect.setQ7EclPort(AutEventManager.INSTANCE.getPort());
 		reconnect.setId(aut.getId());
 		try {
-			aut.execute(reconnect);
+			aut.execute(reconnect, Q7Launcher.getLaunchTimeout(), monitor);
 		} catch (InterruptedException e) {
 			Q7RemoteLaunchingPlugin.getDefault().log(e);
 		}
@@ -55,21 +57,25 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 		launch.addProcess(process);
 	}
 
+	@Override
 	public ILaunch getLaunch(ILaunchConfiguration configuration, String mode)
 			throws CoreException {
 		return null;
 	}
 
+	@Override
 	public boolean buildForLaunch(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return false;
 	}
 
+	@Override
 	public boolean finalLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return true;
 	}
 
+	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return true;

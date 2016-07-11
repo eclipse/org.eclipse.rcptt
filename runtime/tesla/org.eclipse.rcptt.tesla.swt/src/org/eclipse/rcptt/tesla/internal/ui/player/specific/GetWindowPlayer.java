@@ -17,14 +17,15 @@ import static org.eclipse.rcptt.tesla.swt.util.GetWindowUtil.decodeClass;
 import static org.eclipse.rcptt.tesla.swt.util.GetWindowUtil.decodeFrom;
 import static org.eclipse.rcptt.tesla.swt.util.IndexUtil.selectFrom;
 
-import org.eclipse.swt.widgets.Shell;
-
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerSelectionFilter;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.swt.util.IndexUtil.Criterion;
+import org.eclipse.swt.widgets.Shell;
 
 public class GetWindowPlayer {
+	private static final boolean DEBUG = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/shellSelect"));
 
 	private SWTUIPlayer player;
 	private SWTUIElement[] ignoreWindows;
@@ -49,7 +50,9 @@ public class GetWindowPlayer {
 
 		String pattern = (f.pattern != null) ? f.pattern.trim()
 				: null;
-		return selectShellBy(f, byText(pattern));
+		SWTUIElement rv = selectShellBy(f, byText(pattern));
+		debug("Selected shell: " + f.path + ", " + f.pattern + ", found: " + rv);
+		return rv;
 	}
 
 	//
@@ -76,6 +79,11 @@ public class GetWindowPlayer {
 	private SWTUIElement[] children(SWTUIElement parent, SWTUIElement after) {
 		Class<?>[] classes = new Class<?>[] { Shell.class };
 		return player.children.collectFor(parent, ignoreWindows, true, classes, after);
+	}
+
+	private static void debug(String message) {
+		if (DEBUG)
+			System.out.println(message);
 	}
 
 }

@@ -151,7 +151,7 @@ import org.eclipse.ui.internal.registry.EditorRegistry;
 
 @SuppressWarnings("restriction")
 public final class SWTUIPlayer {
-
+	private static final boolean DEBUG_PROCEED = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/proceed"));
 	final Display display;
 	private SWTUIElement[] ignoreWindows;
 	private Shell[] ignoredShells;
@@ -1740,45 +1740,48 @@ public final class SWTUIPlayer {
 	}
 
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
-		boolean result = true;
 		if (!display.equals(Display.getCurrent())) {
 			// Q7WaitUtils.updateInfo("display", "non current", info);
-			result = false;
+			debugProceed("Wrong display");
+			return false;
 		}
 		// Return false if we have SWT observable in timers
 		if (hasTimers(display, info)) {
-			result = false;
+			debugProceed("Timers active");
+			return false;
 		}
 		// Check for asyncs in synchronizer
 		if (!TeslaEventManager.getManager().isNoWaitForJob() && hasRunnables(display)) {
 			// Q7WaitUtils.updateInfo("display", "runnables", info);
-			result = false;
+			debugProceed("Display has runnables");
+			return false;
 		}
 		if (!BrowserManager.getInstance().isExecutionAllowed(info)) {
-			result = false;
+			debugProceed("Browser active");
+			return false;
 		}
 		// Check we don't have decoration object to perform
 		if (isHasDecorations(info)) {
-			result = false;
+			debugProceed("Decorations in progress");
+			return false;
 		}
 
 		synchronized (runnables) {
 			this.context = context;
 			List<Runnable> runs = runnables.get(context);
-			if ((runs == null || runs.isEmpty())) {
-				// Put collector in need disable state, since this method could
-				// be only
-				// called from sleeping state
-				if (TeslaEventManager.getManager().isNoWaitForJob() || collector.isEmpty(context, info)) {
-					// collector.setNeedDisable();
-					if (result) {
-						return true;
-					}
-				}
+			if (runs != null && !runs.isEmpty()) {
+				debugProceed("Previous tsk is still pending");
+				return false;
 			}
-			result = false;
+			if (!TeslaEventManager.getManager().isNoWaitForJob()
+					&& !collector.isEmpty(context, info)) {
+				debugProceed("There are active jobs");
+				return false;
+			}
 		}
-		return result;
+
+		debugProceed("Can proceed");
+		return true;
 	}
 
 	private boolean isHasDecorations(Q7WaitInfoRoot info) {
@@ -2787,5 +2790,12 @@ public final class SWTUIPlayer {
 		}
 
 		return false;
+	}
+
+	private static void debugProceed(String message) {
+		if (DEBUG_PROCEED) {
+			System.out.println("SWTUIPlayer: " + message);
+			System.out.flush();
+		}
 	}
 }

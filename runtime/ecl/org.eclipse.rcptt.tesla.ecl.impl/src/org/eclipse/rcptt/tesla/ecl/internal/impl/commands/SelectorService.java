@@ -79,6 +79,7 @@ import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 
 public class SelectorService implements ICommandService {
 
+	@Override
 	public IStatus service(Command command, IProcess context)
 			throws InterruptedException, CoreException {
 		//
