@@ -94,7 +94,8 @@ public class Viewers {
 			TreeItem[] items = null;
 			if (current == null) {
 				items = tree.getItems();
-			} else {
+			}
+			else {
 				TreeItem item = current;
 				items = item.getItems();
 			}
@@ -174,7 +175,8 @@ public class Viewers {
 					break;
 				}
 			}
-		} else {
+		}
+		else {
 			columnInd = TableTreeUtil.getColumnIndex(parent, columnName);
 		}
 		return getIndexedItemText(treeItem, null, null, columnName);
@@ -203,7 +205,8 @@ public class Viewers {
 					break;
 				}
 			}
-		} else {
+		}
+		else {
 			columnInd = TableTreeUtil.getColumnIndex(parent, columnName);
 		}
 
@@ -226,12 +229,14 @@ public class Viewers {
 		Widget parent = null;
 		if (item instanceof TableViewerItem) {
 			parent = ((TableViewerItem) item).getItem().getParent();
-		} else if (item instanceof TreeViewerItem) {
+		}
+		else if (item instanceof TreeViewerItem) {
 			parent = ((TreeViewerItem) item).getItem().getParent();
 		}
 		if (parent != null) {
 			return TableTreeUtil.getColumnIndex(parent, columnName);
-		} else {
+		}
+		else {
 			return -1;
 		}
 	}
@@ -432,7 +437,7 @@ public class Viewers {
 		Set<Item> selection = new HashSet<Item>();
 		for (String[] p : path) {
 			Set<Item> pathSelection = findItems(new String[][] { p },
-					tableOrTree, !selectAll);
+					tableOrTree, !selectAll, 0);
 			if (pathSelection.isEmpty())
 				return false;
 			selection.addAll(pathSelection);
@@ -616,7 +621,8 @@ public class Viewers {
 						Object[] children = null;
 						if (current == input) {
 							children = treeProvider.getElements(current);
-						} else {
+						}
+						else {
 							children = treeProvider.getChildren(current);
 						}
 						boolean found = false;
@@ -636,7 +642,8 @@ public class Viewers {
 					if (selection.size() > 1) {
 						return treeProvider.getChildren(selection.get(selection
 								.size() - 1)).length;
-					} else if (selection.size() == 1) {
+					}
+					else if (selection.size() == 1) {
 						return treeProvider.getChildren(current).length;
 					}
 					return -1;
@@ -674,7 +681,7 @@ public class Viewers {
 	}
 
 	private static Set<Item> findTreeItems(final String[][] paths,
-			final Tree tree, boolean onePerPath) {
+			final Tree tree, boolean onePerPath, int startIndex) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (tree == null || tree.isDisposed()) {
 			return result;
@@ -687,7 +694,8 @@ public class Viewers {
 				if (first != null) {
 					result.add(first);
 				}
-			} else {
+			}
+			else {
 				result.addAll(items);
 			}
 		}
@@ -706,7 +714,7 @@ public class Viewers {
 		for (String segment : path) {
 			Set<Widget> newParents = new LinkedHashSet<Widget>();
 			for (Widget parent : parents) {
-				newParents.addAll(findMatchingItems(parent, segment));
+				newParents.addAll(findMatchingItems(parent, segment, 0));
 			}
 			parents = newParents;
 
@@ -719,7 +727,7 @@ public class Viewers {
 		return result;
 	}
 
-	private static Set<Item> findMatchingItems(Widget parent, String pattern) {
+	private static Set<Item> findMatchingItems(Widget parent, String pattern, int startIndex) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (parent.isDisposed()) {
 			return result;
@@ -727,10 +735,24 @@ public class Viewers {
 		Item[] items = TableTreeUtil.getItems(parent);
 		IViewerItem[] viewerItems = getViewerItems(items);
 
+		boolean isVirtual = TableTreeUtil.isVirtual(parent);
+		int i =0;
 		for (Item item : items) {
+			if( i < startIndex) {
+				i++;
+				continue;
+			}
 			if (item.isDisposed()) {
 				continue;
 			}
+			if (isVirtual) {
+				// Skip virtual items.
+				boolean isCached = (Boolean) TeslaSWTAccess.getField(Boolean.class, item, "cached");
+				if (!isCached) {
+					continue;
+				}
+			}
+
 			if (itemMatches(item, pattern, viewerItems)) {
 				result.add(item);
 			}
@@ -747,7 +769,8 @@ public class Viewers {
 		if (columnName != null) {
 			columnInd = TableTreeUtil.getColumnIndex(
 					TableTreeUtil.getParent(item), columnName);
-		} else {
+		}
+		else {
 			columnInd = -1;
 		}
 		if (columnName != null && columnInd == -1) {
@@ -755,7 +778,8 @@ public class Viewers {
 		}
 		if (columnInd < 1) {
 			text = TableTreeUtil.getValue(item);
-		} else {
+		}
+		else {
 			String columnValue = TableTreeUtil.getValue(item, columnInd);
 			if (columnValue.equals("")) {
 				Object value = getColumnValue(
@@ -766,6 +790,9 @@ public class Viewers {
 			}
 			text = TableTreeItemPathUtil.appendSegmentColumnName(columnValue,
 					columnName);
+		}
+		if (text == null) {
+			return false;
 		}
 		return viewerMatchs(pattern, text)
 				|| viewerMatchs(pattern,
@@ -790,13 +817,13 @@ public class Viewers {
 	}
 
 	public static Set<Item> findItems(final String[][] paths,
-			final Widget parent, boolean onePerPath) {
-		return (parent instanceof Table) ? findTableItems(paths, (Table) parent, onePerPath)
-				: findTreeItems(paths, (Tree) parent, onePerPath);
+			final Widget parent, boolean onePerPath, int startIndex) {
+		return (parent instanceof Table) ? findTableItems(paths, (Table) parent, onePerPath, startIndex)
+				: findTreeItems(paths, (Tree) parent, onePerPath, startIndex);
 	}
 
-	public static Item firstMatch(final String[][] paths, final Widget parent) {
-		return first(findItems(paths, parent, true));
+	public static Item firstMatch(final String[][] paths, final Widget parent, int startIndex) {
+		return first(findItems(paths, parent, true, startIndex));
 	}
 
 	public static Item firstMatch(final String[] path, final Tree parent) {
@@ -809,7 +836,7 @@ public class Viewers {
 	}
 
 	private static Set<Item> findTableItems(final String[][] paths,
-			final Table table, boolean onePerPath) {
+			final Table table, boolean onePerPath,int startIndex) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (table == null || table.isDisposed()) {
 			return result;
@@ -819,13 +846,14 @@ public class Viewers {
 				continue;
 			}
 			String text = path[0];
-			Set<Item> matchingItems = findMatchingItems(table, text);
+			Set<Item> matchingItems = findMatchingItems(table, text, startIndex);
 			if (onePerPath) {
 				Item first = first(matchingItems);
 				if (first != null) {
 					result.add(first);
 				}
-			} else {
+			}
+			else {
 				result.addAll(matchingItems);
 			}
 		}
@@ -1057,7 +1085,7 @@ public class Viewers {
 			String part = path[i];
 			Set<Item> itemsToExpand = new HashSet<Item>();
 			for (Widget parentItem : parents) {
-				itemsToExpand.addAll(findMatchingItems(parentItem, part));
+				itemsToExpand.addAll(findMatchingItems(parentItem, part, 0));
 			}
 
 			for (Item item : itemsToExpand) {
@@ -1100,7 +1128,8 @@ public class Viewers {
 					player.getEvents().sendEvent(tree, treeItem, SWT.Expand);
 					player.getEvents().sendEvent(tree, up);
 					treeItem.setExpanded(true);
-				} catch (Throwable e) {
+				}
+				catch (Throwable e) {
 					TeslaCore.log(e);
 				}
 			}
@@ -1118,7 +1147,8 @@ public class Viewers {
 					}
 					player.getEvents().sendEvent(tree, treeItem, SWT.Collapse);
 					treeItem.setExpanded(false);
-				} catch (Throwable e) {
+				}
+				catch (Throwable e) {
 					TeslaCore.log(e);
 				}
 			}
@@ -1196,7 +1226,8 @@ public class Viewers {
 									currentIdx++;
 								}
 							}
-						} else if (tlp == null
+						}
+						else if (tlp == null
 								&& viewer.getTable().getColumnCount() > 0) {
 							for (int i = 0; i < viewer.getTable()
 									.getColumnCount(); i++) {
@@ -1215,7 +1246,8 @@ public class Viewers {
 									}
 								}
 							}
-						} else {
+						}
+						else {
 							if (labels instanceof ILabelProvider) {
 								String text = ((ILabelProvider) labels)
 										.getText(object);
@@ -1319,20 +1351,38 @@ public class Viewers {
 		return true;
 	}
 
-	public static void updateVirtualTableTree(final Widget ctrl) {
+	public static int updateVirtualTableTree(final Widget ctrl, int pos) {
 		if (ctrl instanceof Table) {
-			int itemCount = ((Table) ctrl).getItemCount();
-			for (int i = 0; i < itemCount; i++) {
-				final int index = i;
-				ctrl.getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						((Table) ctrl).setTopIndex(index);
-					}
-				});
+			Table table = (Table) ctrl;
+			int itemCount = table.getItemCount();
+			if (pos >= itemCount) {
+				return -1;
 			}
-		} else if (ctrl instanceof Tree) {
-			scrollToTreeItems((Tree) ctrl, TableTreeUtil.getItems(ctrl));
+			while( pos < itemCount) {
+				// Find for first non cached item on position
+				TableItem item = table.getItem(pos);
+				boolean isCached = (Boolean) TeslaSWTAccess.getField(Boolean.class, item, "cached");
+				if (!isCached) {
+					break;
+				}
+				pos++;
+			}
+			if( pos == itemCount) {
+				return -1;
+			}
+			final int selectPos = pos;
+			ctrl.getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					table.setTopIndex(selectPos);
+				}
+			});
+			return pos;
 		}
+		else if (ctrl instanceof Tree) {
+			scrollToTreeItems((Tree) ctrl, TableTreeUtil.getItems(ctrl));
+			return -1;
+		}
+		return -1;
 	}
 
 	private static void scrollToTreeItems(final Tree control, Item[] items) {

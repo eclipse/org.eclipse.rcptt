@@ -316,8 +316,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	}
 
 	private static class DeVirtualizeStatus extends PreExecuteStatus {
-		public DeVirtualizeStatus(boolean canExecute) {
+		int position = 0;
+
+		public DeVirtualizeStatus(boolean canExecute, int position) {
 			super(canExecute);
+			this.position = position;
 		}
 	}
 
@@ -478,18 +481,29 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			return null;
 		}
 
+		int prevPos = getPrevPosition(previousStatus);
 		Set<Item> selection = Viewers.findItems(new String[][] { itemPath },
-				tableOrTree, false);
+				tableOrTree, false, prevPos);
 		if (selection.isEmpty()) {
-			Viewers.updateVirtualTableTree(element.unwrap());
-			if (previousStatus instanceof DeVirtualizeStatus) {
-				return null; // Already tryed to do devirtualize
+			int newpos = Viewers.updateVirtualTableTree(element.unwrap(), prevPos);
+			if (newpos == -1) {
+				return null;
 			}
+			// if (previousStatus instanceof DeVirtualizeStatus) {
+			// return null; // Already tryed to do devirtualize
+			// }
 			Q7WaitUtils.updateInfo("automatic.expand.virtual",
 					Arrays.toString(itemPath), info);
-			return new DeVirtualizeStatus(false);
+			return new DeVirtualizeStatus(false, newpos);
 		}
 		return null;
+	}
+
+	private int getPrevPosition(PreExecuteStatus previousStatus) {
+		if (previousStatus instanceof DeVirtualizeStatus) {
+			return ((DeVirtualizeStatus) previousStatus).position;
+		}
+		return 0;
 	}
 
 	// private PreExecuteStatus doDevirtualize(
@@ -854,6 +868,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	}
 
 	private static final Map<MouseEventKind, Integer> mouseToEventType = new HashMap<MouseEventKind, Integer>();
+
 	static {
 		mouseToEventType.put(MouseEventKind.DOUBLE_CLICK, SWT.MouseDoubleClick);
 		mouseToEventType.put(MouseEventKind.DOWN, SWT.MouseDown);
@@ -963,7 +978,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				if (command.isValue()) {
 					try {
 						org.eclipse.rcptt.util.ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
-					} catch (CoreException e) {
+					}
+					catch (CoreException e) {
 						throw new RuntimeException(e);
 					}
 					control.setFocus();
@@ -972,7 +988,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					events.sendEvent(control, SWT.MouseMove);
 					events.sendEvent(control, SWT.Activate);
 					events.sendEvent(control, SWT.FocusIn);
-				} else {
+				}
+				else {
 					if (!control.isDisposed()) {
 						events.sendEvent(control, SWT.FocusOut);
 					}
@@ -1008,13 +1025,15 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				end = ((command.getEnd() != null && command.getEnd().trim()
 						.length() > 0) ? lines.calcOffset(command.getEnd())
 								: start);
-			} else { // single line case
+			}
+			else { // single line case
 				start = StringLines.parseSingleLineCoord(command.getStart());
 				end = ((command.getEnd() != null && command.getEnd().trim()
 						.length() > 0) ? StringLines
 								.parseSingleLineCoord(command.getEnd()) : start);
 			}
-		} else {
+		}
+		else {
 			Point selection = control.getSelection();
 			start = selection.x;
 			end = selection.y;
@@ -1034,7 +1053,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						.getDisplay());
 				try {
 					ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
-				} catch (CoreException e) {
+				}
+				catch (CoreException e) {
 					throw new RuntimeException(e);
 				}
 				events.sendFocus(control);
@@ -1067,7 +1087,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			pos = multi ? new StringLines(control.getText())
 					.calcOffset(lineCol) : StringLines
 							.parseSingleLineCoord(lineCol);
-		} else
+		}
+		else
 			pos = -1;
 
 		if (pos == -1 || control.getCharCount() < pos)
@@ -1102,7 +1123,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						.getDisplay());
 				try {
 					ShellUtilsProvider.getShellUtils().forceActive(control.getShell());
-				} catch (CoreException e) {
+				}
+				catch (CoreException e) {
 					throw new RuntimeException(e);
 				}
 				events.sendFocus(control);
@@ -1169,7 +1191,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		Response response = RawFactory.eINSTANCE.createResponse();
 		if (element != null) {
 			getPlayer().showTabList(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1180,7 +1203,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		Response response = RawFactory.eINSTANCE.createResponse();
 		if (element != null) {
 			getPlayer().restore(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1194,7 +1218,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				getPlayer().click(element);
 			}
 			getPlayer().maximize(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1205,7 +1230,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		Response response = RawFactory.eINSTANCE.createResponse();
 		if (element != null) {
 			getPlayer().minimize(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1216,7 +1242,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		Response response = RawFactory.eINSTANCE.createResponse();
 		if (element != null) {
 			getPlayer().save(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1227,7 +1254,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		BooleanResponse response = factory.createBooleanResponse();
 		if (element != null) {
 			response.setResult(getPlayer().isDirty(element));
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -1280,7 +1308,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					return response;
 				}
 			}
-		} finally {
+		}
+		finally {
 			image.dispose();
 		}
 		return failResponse(TeslaSWTMessages.SWTUIProcessor_CannotRecognizeText);
@@ -1332,7 +1361,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						}
 					}
 				}
-			} else if (unwrap instanceof Item) {
+			}
+			else if (unwrap instanceof Item) {
 				if (unwrap instanceof TableItem) {
 					TableItem item = (TableItem) unwrap;
 					Rectangle bounds = item.getBounds(command.getColumn());
@@ -1342,7 +1372,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					getPlayer().getEvents().sendEvent(item.getParent(),
 							SWT.MouseUp, bounds.x + bounds.width / 2,
 							bounds.y + bounds.height / 2, 1);
-				} else if (unwrap instanceof TreeItem) {
+				}
+				else if (unwrap instanceof TreeItem) {
 					TreeItem item = (TreeItem) unwrap;
 					Rectangle bounds = item.getBounds(command.getColumn());
 					getPlayer().getEvents().sendEvent(item.getParent(),
@@ -1425,7 +1456,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				events.sendEvent(styledText.getShell(), SWT.Deactivate);
 				try {
 					ShellUtilsProvider.getShellUtils().forceActive(styledText.getShell());
-				} catch (CoreException exc) {
+				}
+				catch (CoreException exc) {
 					throw new RuntimeException(exc);
 				}
 				styledText.forceFocus();
@@ -1535,7 +1567,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 										try {
 											page.activate(part);
 											part.setFocus();
-										} catch (RuntimeException re) {
+										}
+										catch (RuntimeException re) {
 											TeslaCore.log(re);
 											return true;
 										}
@@ -1561,7 +1594,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		case FILE_SELECTOR:
 			if (isCanceled) {
 				SWTDialogManager.addFileDialogInfo(null);
-			} else {
+			}
+			else {
 				boolean fileProcessSuccess = true;
 				String problemPath = "";
 				for (String currentPath : command.getPath()) {
@@ -1588,7 +1622,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		case FOLDER_SELECTOR:
 			if (isCanceled) {
 				SWTDialogManager.addFolderDialogInfo(null);
-			} else {
+			}
+			else {
 				String resolvedPath = resolvePath(command.getPath().get(0));
 				if (resolvedPath != null) {
 					SWTDialogManager.addFolderDialogInfo(resolvedPath);
@@ -1598,7 +1633,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		case MESSAGE_BOX:
 			if (isCanceled) {
 				SWTDialogManager.addMessageBoxInfo(SWT.CANCEL);
-			} else {
+			}
+			else {
 				SWTDialogManager.addMessageBoxInfo(Integer.valueOf(command
 						.getPath().get(0)));
 			}
@@ -1606,7 +1642,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		case FONT_DIALOG:
 			if (isCanceled) {
 				SWTDialogManager.addFontInfo(null);
-			} else {
+			}
+			else {
 				SWTDialogManager
 						.addFontInfo(new FontData(command.getPath().get(0)));
 			}
@@ -1614,7 +1651,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		case COLOR:
 			if (isCanceled) {
 				SWTDialogManager.addColorInfo(null);
-			} else {
+			}
+			else {
 				SWTDialogManager.addColorInfo(getColor(command.getPath().get(0)));
 			}
 			break;
@@ -1629,8 +1667,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			"%s/resource/", PLATFORM_SCHEMA);
 
 	/**
-	 * If path starts with platform: resolves it, otherwise returns it as is. If
-	 * path == null or resolution fails, returns null
+	 * If path starts with platform: resolves it, otherwise returns it as is. If path == null or resolution fails, returns null
 	 *
 	 * @param path
 	 * @return
@@ -1644,9 +1681,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		try {
 			return new Path(FileLocator.toFileURL(new URL(path)).getPath())
 					.toOSString();
-		} catch (MalformedURLException e) {
+		}
+		catch (MalformedURLException e) {
 			return null; // can we throw an exception with meaningful message?
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			if (!path.startsWith(PLATFORM_RESOURCE)) {
 				return null;
 			}
@@ -1683,7 +1722,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		try {
 			result.setResult(getPropertyValue(element, command.getName(),
 					command.getIndex(), command.getAllowRawValues()));
-		} catch (CoreException e) {
+		}
+		catch (CoreException e) {
 			result.setStatus(ResponseStatus.FAILED);
 			result.setResult(e.getStatus());
 			result.setMessage(e.getMessage());
@@ -1702,7 +1742,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			return (allowRawValues) ? SWTModelMapper.getRawPropertyValue(
 					element, property) : SWTModelMapper.getPropertyValue(
 							element, property);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new CoreException(new Status(IStatus.ERROR,
 					SWTTeslaActivator.PLUGIN_ID, String.format(
 							"Failed to get property '%s'", property),
@@ -1739,7 +1780,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			try {
 				value = SWTModelMapper.getPropertyValue(uiElement,
 						assertCmd.getAttribute());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				String reason = e.getMessage();
 				if (reason == null || reason.length() == 0) {
 					StackTraceElement stackTraceElement = e.getStackTrace()[1];
@@ -1794,12 +1836,14 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			attrName = matcher.group(1);
 			stringKey = matcher.group(2);
 			index = Integer.parseInt(matcher.group(3));
-		} else {
+		}
+		else {
 			matcher = indexedAttr.matcher(attrName);
 			if (matcher.matches()) {
 				attrName = matcher.group(1);
 				index = Integer.parseInt(matcher.group(2));
-			} else {
+			}
+			else {
 				Matcher stringMatcher = stringIndexedAttr.matcher(attrName);
 				if (stringMatcher.matches()) {
 					attrName = stringMatcher.group(1);
@@ -1829,16 +1873,19 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					return null;
 				}
 				value = list.get(index);
-			} else {
+			}
+			else {
 				return null;
 			}
-		} else if (value instanceof EMap<?, ?> && stringKey != null) {
+		}
+		else if (value instanceof EMap<?, ?> && stringKey != null) {
 			EMap<?, ?> map = (EMap<?, ?>) value;
 			if (!map.containsKey(stringKey)) {
 				return null;
 			}
 			value = map.get(stringKey);
-		} else if (value instanceof EList<?> && index != null) {
+		}
+		else if (value instanceof EList<?> && index != null) {
 			EList<?> list = (EList<?>) value;
 			if (index >= list.size()) {
 				return null;
@@ -1876,7 +1923,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 									&& (text.contains(expectedText) || text
 											.matches(expectedText))) {
 								return assertResponse(ResponseStatus.OK, "OK");
-							} else {
+							}
+							else {
 								return assertResponse(
 										ResponseStatus.FAILED,
 										NLS.bind(
@@ -1884,11 +1932,14 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 												text, assertCmd.getValue()));
 							}
 						}
-					} finally {
+					}
+					finally {
 						sub.dispose();
 					}
-				} catch (Throwable e) {
-				} finally {
+				}
+				catch (Throwable e) {
+				}
+				finally {
 					image.dispose();
 				}
 				break;
@@ -2137,12 +2188,14 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		if (result != null) {
 			response.getElements().add(getMapper().get(result));
-		} else if (perspective != null && perspective.isPerspeciveFind()) {
+		}
+		else if (perspective != null && perspective.isPerspeciveFind()) {
 			Element element = RawFactory.eINSTANCE.createElement();
 			element.setKind(perspective.getGenerationKind());
 			element.setId(perspective.getPerspectiveId());
 			response.getElements().add(element);
-		} else {
+		}
+		else {
 			response.setMessage(NLS.bind(
 					TeslaSWTMessages.SWTUIProcessor_CannotFindControl,
 					data.getKind(),
@@ -2161,13 +2214,15 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			if (element.isDisabled()) {
 				response.setStatus(ResponseStatus.FAILED);
 				response.setMessage(TeslaSWTMessages.SWTUIProcessor_CannotSetText_DisabledControl);
-			} else {
+			}
+			else {
 				Widget widget = unwrapWidget(element);
 				String value = command.getValue();
 				if (widget instanceof Slider) {
 					try {
 						Integer.parseInt(value);
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e) {
 						response.setStatus(ResponseStatus.FAILED);
 						response.setMessage(NLS
 								.bind(TeslaSWTMessages.SWTUIProcessor_CannotSetSliderValue_IncorrectFormat,
@@ -2178,7 +2233,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				if (widget instanceof Spinner) {
 					try {
 						Double.parseDouble(value);
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e) {
 						response.setStatus(ResponseStatus.FAILED);
 						response.setMessage(NLS
 								.bind(TeslaSWTMessages.SWTUIProcessor_CannotSetSpinnerValue_IncorrectFormat,
@@ -2243,7 +2299,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 										timeValue[2]);
 								return response;
 							}
-						} catch (NumberFormatException e) {
+						}
+						catch (NumberFormatException e) {
 							// Exception will be on next line
 						}
 					}
@@ -2255,7 +2312,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				}
 				getPlayer().setText(element, value, command.isSelect());
 			}
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2283,7 +2341,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		for (char ch : value.toCharArray()) {
 			if (Character.isISOControl(ch)) {
 				result.append(String.format("\\%d", (int) ch));
-			} else {
+			}
+			else {
 				result.append(ch);
 			}
 		}
@@ -2300,20 +2359,24 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					response.setMessage(NLS
 							.bind(TeslaSWTMessages.SWTUIProcessor_CannotClick_PerspectiveNotContainsView,
 									element.getText()));
-				} else {
+				}
+				else {
 					response.setMessage(NLS
 							.bind(TeslaSWTMessages.SWTUIProcessor_CannotClick_ControlDisabledDisposedOrInvisible,
 									element.getText()));
 				}
 				response.setStatus(ResponseStatus.FAILED);
-			} else {
+			}
+			else {
 				getPlayer().click(element, command.isDefault(), false,
 						command.isArrow());
 			}
-		} else if (ElementKind.Perspective.toString().equals(
+		}
+		else if (ElementKind.Perspective.toString().equals(
 				command.getElement().getKind())) {
 			getPlayer().setPerspective(command.getElement().getId());
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2328,10 +2391,12 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						.bind(TeslaSWTMessages.SWTUIProcessor_CannotClick_ControlDisabledDisposedOrInvisible,
 								element.getText()));
 				response.setStatus(ResponseStatus.FAILED);
-			} else {
+			}
+			else {
 				getPlayer().check(element, command.isState());
 			}
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2346,10 +2411,12 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						.bind(TeslaSWTMessages.SWTUIProcessor_CannotDoubleClick_ControlDisabledDisposedOrInvisible,
 								element.getText()));
 				response.setStatus(ResponseStatus.FAILED);
-			} else {
+			}
+			else {
 				getPlayer().click(element, false, true, false);
 			}
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2366,7 +2433,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			}
 			getPlayer().close(element);
 			getMapper().remove(command.getElement());
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2405,7 +2473,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					response.setStatus(ResponseStatus.FAILED);
 					updateSelectionFailedMessage(command, response);
 				}
-			} else {
+			}
+			else {
 				final boolean setSelection = element.setSelection(aPath,
 						command.getPattern(), command.getIndex(),
 						command.isAll());
@@ -2416,7 +2485,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					response.setStatus(ResponseStatus.FAILED);
 				}
 			}
-		} else {
+		}
+		else {
 			updateSelectionFailedMessage(command, response);
 			response.setStatus(ResponseStatus.FAILED);
 			response.setResult(false);
@@ -2430,7 +2500,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			response.setMessage(NLS.bind(
 					TeslaSWTMessages.SWTUIProcessor_CannotSetSelection,
 					command.getPattern()));
-		} else if (!command.getPath().isEmpty()
+		}
+		else if (!command.getPath().isEmpty()
 				|| !command.getAdditionalItems().isEmpty()) {
 
 			List<String[]> items = new ArrayList<String[]>();
@@ -2472,7 +2543,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			if (!checkItem) {
 				response.setStatus(ResponseStatus.FAILED);
 			}
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 			response.setResult(false);
 		}
@@ -2484,7 +2556,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		final BooleanResponse response = factory.createBooleanResponse();
 		if (element != null) {
 			response.setResult(getPlayer().isDisposed(element));
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 			response.setResult(true);
 		}
@@ -2496,7 +2569,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		final BooleanResponse response = factory.createBooleanResponse();
 		if (element != null) {
 			response.setResult(!isDisabled(element));
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 			response.setResult(false);
 		}
@@ -2513,7 +2587,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				aPath = path.toArray(new String[path.size()]);
 			}
 			response.setResult(getPlayer().countItems(element, aPath));
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 			response.setResult(0);
 		}
@@ -2525,7 +2600,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		final GetTextResponse response = factory.createGetTextResponse();
 		if (element != null) {
 			response.setText(PlayerTextUtils.getText(element));
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2546,7 +2622,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			}
 			getPlayer().typeText(element, command.getText(), state,
 					command.isFromDisplay());
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2570,7 +2647,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 						.getService(IHandlerService.class);
 				try {
 					service.executeCommand(action.getCommandId(), null);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					SWTTeslaActivator.log(e);
 				}
 			}
@@ -2594,11 +2672,13 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				getPlayer().type(element, command.getCode(), state,
 						command.isFromDisplay(), command.getCharacter(),
 						command.getTimes());
-			} else {
+			}
+			else {
 				getPlayer().traverse(element, command.getCode(),
 						command.getCharacter(), command.getTimes());
 			}
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2609,7 +2689,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		final Response response = RawFactory.eINSTANCE.createResponse();
 		if (element != null) {
 			getPlayer().typeAction(element, command.getActionId());
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2634,7 +2715,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				// }
 			}
 			// getPlayer().show(element);
-		} else {
+		}
+		else {
 			response.setStatus(ResponseStatus.FAILED);
 		}
 		return response;
@@ -2744,9 +2826,11 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		Element element = null;
 		if (lastCommand instanceof ElementCommand) {
 			element = ((ElementCommand) lastCommand).getElement();
-		} else if (lastCommand instanceof Assert) {
+		}
+		else if (lastCommand instanceof Assert) {
 			element = ((Assert) lastCommand).getElement();
-		} else if (lastCommand instanceof SelectCommand) {
+		}
+		else if (lastCommand instanceof SelectCommand) {
 			element = ((SelectCommand) lastCommand).getData().getParent();
 		}
 		// Required element hierarchy
@@ -2820,7 +2904,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			if (editorInput != null) {
 				child.property("editorInput.name", editorInput.getName());
 			}
-		} catch (Throwable t) {
+		}
+		catch (Throwable t) {
 			// Ignore
 		}
 		processChildren(getPlayer().wrap(ref), child, processed);
@@ -2831,7 +2916,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		String refName = "";
 		try {
 			refName = ref.getPartName();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// seems disposed
 			return;
 		}
@@ -2850,7 +2936,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 	private static Object isViewDirty(IViewReference ref) {
 		try {
 			return ref.isDirty();
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return e.toString();
 		}
 	}
@@ -2881,7 +2968,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			for (SWTUIElement swtuiElement : children) {
 				processChildren(swtuiElement, nde, processed);
 			}
-		} catch (Throwable e) {
+		}
+		catch (Throwable e) {
 			nde.property("ERROR", e.getMessage());
 		}
 	}

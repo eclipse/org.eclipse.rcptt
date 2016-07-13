@@ -493,12 +493,24 @@ public class TableTreeUtil {
 	public static boolean isVirtual(Object item) {
 		int style = 0;
 		if (item instanceof TreeItem) {
+			if( ((TreeItem) item).isDisposed()) {
+				return false;
+			}
 			style = ((TreeItem) item).getParent().getStyle();
 		} else if (item instanceof TableItem) {
+			if( ((TableItem) item).isDisposed()) {
+				return false;
+			}
 			style = ((TreeItem) item).getParent().getStyle();
 		} else if (item instanceof Tree) {
+			if( ((Tree) item).isDisposed()) {
+				return false;
+			}
 			style = ((Tree) item).getStyle();
 		} else if (item instanceof Table) {
+			if( ((Table) item).isDisposed()) {
+				return false;
+			}
 			style = ((Table) item).getStyle();
 		}
 		return (style & SWT.VIRTUAL) != 0;
