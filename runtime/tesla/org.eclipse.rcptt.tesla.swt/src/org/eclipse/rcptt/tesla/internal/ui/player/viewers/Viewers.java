@@ -1030,7 +1030,7 @@ public class Viewers {
 			return selectItem(element, items, selectAll);
 		}
 		else if (widget instanceof org.eclipse.swt.widgets.List) {
-			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
+//			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
 			Set<String> toSelect = new HashSet<String>();
 			for (String[] ss : items) {
 				toSelect.addAll(Arrays.asList(ss));
@@ -1353,7 +1353,7 @@ public class Viewers {
 
 	public static int updateVirtualTableTree(final Widget ctrl, int pos) {
 		if (ctrl instanceof Table) {
-			Table table = (Table) ctrl;
+			final Table table = (Table) ctrl;
 			int itemCount = table.getItemCount();
 			if (pos >= itemCount) {
 				return -1;
