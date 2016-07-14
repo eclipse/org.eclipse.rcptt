@@ -257,6 +257,11 @@ public class Viewers {
 		}
 
 		String value = (columnInd == -1) ? item.getText() : item.getText(columnInd);
+		
+		if(idx == -1 && searchPath != null) {
+			return value;  
+		}
+		
 		if (items == null) {
 			items = item.getParentItems();
 		}
