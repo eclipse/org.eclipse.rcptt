@@ -94,8 +94,7 @@ public class Viewers {
 			TreeItem[] items = null;
 			if (current == null) {
 				items = tree.getItems();
-			}
-			else {
+			} else {
 				TreeItem item = current;
 				items = item.getItems();
 			}
@@ -105,9 +104,8 @@ public class Viewers {
 			IViewerItem[] viewerItems = getViewerItems(items);
 			boolean found = false;
 			for (TreeItem treeItem : items) {
-				String text = SWTUIPlayer.toSelectionItem(Viewers
-						.getTreeItemText(new TreeViewerItem(treeItem), part,
-								viewerItems));
+				String text = SWTUIPlayer
+						.toSelectionItem(Viewers.getTreeItemText(new TreeViewerItem(treeItem), part, viewerItems));
 				if (viewerMatchs(part, text)) {
 					current = treeItem;
 					found = true;
@@ -129,8 +127,7 @@ public class Viewers {
 	}
 
 	private static boolean viewerMatchs(String part, String text) {
-		return text != null
-				&& (text.equals(part) || safeMatches(text, part));
+		return text != null && (text.equals(part) || safeMatches(text, part));
 	}
 
 	public static TableItem getTableItem(Table table, String path) {
@@ -140,9 +137,8 @@ public class Viewers {
 			return null;
 		}
 		for (Item tableItem : items) {
-			String text = SWTUIPlayer.toSelectionItem(getTableItemText(
-					new TableViewerItem((TableItem) tableItem), path,
-					viewerItems));
+			String text = SWTUIPlayer
+					.toSelectionItem(getTableItemText(new TableViewerItem((TableItem) tableItem), path, viewerItems));
 			if (viewerMatchs(path, text)) {
 				return (TableItem) tableItem;
 			}
@@ -151,15 +147,13 @@ public class Viewers {
 		return null;
 	}
 
-	public static String getTreeItemText(TreeViewerItem treeItem,
-			String searchPath, IViewerItem[] items) {
+	public static String getTreeItemText(TreeViewerItem treeItem, String searchPath, IViewerItem[] items) {
 		treeItem.getControl();
 
 		return getIndexedItemText(treeItem, searchPath, items, null);
 	}
 
-	public static String createTreeItemPathText(TreeViewerItem treeItem,
-			String columnToSelect,
+	public static String createTreeItemPathText(TreeViewerItem treeItem, String columnToSelect,
 			boolean autoColumnSelect) {
 		Tree parent = treeItem.getControl();
 		int col = parent.getColumnCount();
@@ -175,21 +169,18 @@ public class Viewers {
 					break;
 				}
 			}
-		}
-		else {
+		} else {
 			columnInd = TableTreeUtil.getColumnIndex(parent, columnName);
 		}
 		return getIndexedItemText(treeItem, null, null, columnName);
 	}
 
-	public static String getTableItemText(TableViewerItem tableItem,
-			String searchPath, IViewerItem[] items) {
+	public static String getTableItemText(TableViewerItem tableItem, String searchPath, IViewerItem[] items) {
 		tableItem.getControl();
 		return getIndexedItemText(tableItem, searchPath, items, null);
 	}
 
-	public static String createTableItemPathText(TableViewerItem tableItem,
-			String columnToSelect,
+	public static String createTableItemPathText(TableViewerItem tableItem, String columnToSelect,
 			boolean autoColumnSelect) {
 		Table parent = tableItem.getControl();
 		int col = parent.getColumnCount();
@@ -205,21 +196,16 @@ public class Viewers {
 					break;
 				}
 			}
-		}
-		else {
+		} else {
 			columnInd = TableTreeUtil.getColumnIndex(parent, columnName);
 		}
 
 		return getIndexedItemText(tableItem, null, null, columnName);
 	}
 
-	private static String getItemText(Item item, String pattern,
-			IViewerItem[] items) {
-		return (item instanceof TableItem) ? getTableItemText(
-				new TableViewerItem((TableItem) item), pattern, items)
-				: getTreeItemText(new TreeViewerItem((TreeItem) item),
-						pattern,
-						items);
+	private static String getItemText(Item item, String pattern, IViewerItem[] items) {
+		return (item instanceof TableItem) ? getTableItemText(new TableViewerItem((TableItem) item), pattern, items)
+				: getTreeItemText(new TreeViewerItem((TreeItem) item), pattern, items);
 	}
 
 	private static int getColumnInd(String columnName, IViewerItem item) {
@@ -229,20 +215,17 @@ public class Viewers {
 		Widget parent = null;
 		if (item instanceof TableViewerItem) {
 			parent = ((TableViewerItem) item).getItem().getParent();
-		}
-		else if (item instanceof TreeViewerItem) {
+		} else if (item instanceof TreeViewerItem) {
 			parent = ((TreeViewerItem) item).getItem().getParent();
 		}
 		if (parent != null) {
 			return TableTreeUtil.getColumnIndex(parent, columnName);
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
 
-	static String getIndexedItemText(IViewerItem item,
-			String searchPath, IViewerItem[] items, String column) {
+	static String getIndexedItemText(IViewerItem item, String searchPath, IViewerItem[] items, String column) {
 		// added for correct search items with commands like:
 		// get-item ".*" -index 1
 		String columnName = searchPath == null ? column : TableTreeItemPathUtil.findColumnName(searchPath);
@@ -257,26 +240,21 @@ public class Viewers {
 		}
 
 		String value = (columnInd == -1) ? item.getText() : item.getText(columnInd);
-		
-		if(idx == -1 && searchPath != null) {
-			return value;  
-		}
-		
+
 		if (items == null) {
 			items = item.getParentItems();
 		}
 		if (items != null) {
 			int index = 0;
-			for (int i = 0; i < items.length; i++) {
-				if (item.matches(items[i])) {
-					break;
-				}
-				String val2 = (columnInd == -1) ? items[i].getText() : items[i]
-						.getText(columnInd);
-				if (val2.equals(value)
-						|| (searchPath != null && safeMatches(val2,
-								searchPath))) {
-					index++;
+			if (!(idx == -1 && searchPath != null)) {
+				for (int i = 0; i < items.length; i++) {
+					if (item.matches(items[i])) {
+						break;
+					}
+					String val2 = (columnInd == -1) ? items[i].getText() : items[i].getText(columnInd);
+					if (val2.equals(value) || (searchPath != null && safeMatches(val2, searchPath))) {
+						index++;
+					}
 				}
 			}
 			// adding index if item is not first, or explicit index was set in
@@ -298,8 +276,7 @@ public class Viewers {
 		return value; // Indicate using first column
 	}
 
-	private static final Pattern indexedItemPattern = Pattern
-			.compile("(.*)\\%(\\d+)\\%");
+	private static final Pattern indexedItemPattern = Pattern.compile("(.*)\\%(\\d+)\\%");
 
 	/**
 	 * @return -1 when no index in path
@@ -351,13 +328,12 @@ public class Viewers {
 
 	public static String[] getPathByTreeItem(TreeItem selection) {
 		List<String> path = new ArrayList<String>();
-		path.add(SWTUIPlayer.toSelectionItem(createTreeItemPathText(
-				new TreeViewerItem(selection), null, true)));
+		path.add(SWTUIPlayer.toSelectionItem(createTreeItemPathText(new TreeViewerItem(selection), null, true)));
 		String columnToSelect = TableTreeItemPathUtil.findColumnName(path.get(0));
 		TreeItem parentItem = selection.getParentItem();
 		while (parentItem != null && !parentItem.isDisposed()) {
-			path.add(0, SWTUIPlayer.toSelectionItem(createTreeItemPathText(
-					new TreeViewerItem(parentItem), columnToSelect, false)));
+			path.add(0, SWTUIPlayer
+					.toSelectionItem(createTreeItemPathText(new TreeViewerItem(parentItem), columnToSelect, false)));
 			parentItem = parentItem.getParentItem();
 		}
 		return path.toArray(new String[path.size()]);
@@ -365,8 +341,7 @@ public class Viewers {
 
 	public static String[] getPathByTableItem(TableItem selection) {
 		List<String> path = new ArrayList<String>();
-		path.add(SWTUIPlayer.toSelectionItem(createTableItemPathText(
-				new TableViewerItem(selection), null, true)));
+		path.add(SWTUIPlayer.toSelectionItem(createTableItemPathText(new TableViewerItem(selection), null, true)));
 		return path.toArray(new String[path.size()]);
 	}
 
@@ -379,14 +354,13 @@ public class Viewers {
 				List<String[]> paths = new ArrayList<String[]>();
 				for (int i = 0; i < selection.length; i++) {
 					List<String> path = new ArrayList<String>();
-					String text = createTreeItemPathText(
-							new TreeViewerItem(selection[i]), null, true);
+					String text = createTreeItemPathText(new TreeViewerItem(selection[i]), null, true);
 					path.add(escapePath(text));
 					String columnToSelect = TableTreeItemPathUtil.findColumnName(text);
 					TreeItem parentItem = selection[i].getParentItem();
 					while (parentItem != null) {
-						String parentText = createTreeItemPathText(new TreeViewerItem(parentItem),
-								columnToSelect, false);
+						String parentText = createTreeItemPathText(new TreeViewerItem(parentItem), columnToSelect,
+								false);
 						path.add(0, escapePath(parentText));
 						parentItem = parentItem.getParentItem();
 					}
@@ -432,8 +406,7 @@ public class Viewers {
 	/**
 	 * Selects item in {@link Tree} or {@link Table}
 	 */
-	public static boolean selectItem(final SWTUIElement parent,
-			final String[][] path, final boolean selectAll) {
+	public static boolean selectItem(final SWTUIElement parent, final String[][] path, final boolean selectAll) {
 		if (path == null || path.length == 0 || parent == null) {
 			return false;
 		}
@@ -441,8 +414,7 @@ public class Viewers {
 
 		Set<Item> selection = new HashSet<Item>();
 		for (String[] p : path) {
-			Set<Item> pathSelection = findItems(new String[][] { p },
-					tableOrTree, !selectAll, 0);
+			Set<Item> pathSelection = findItems(new String[][] { p }, tableOrTree, !selectAll, 0);
 			if (pathSelection.isEmpty())
 				return false;
 			selection.addAll(pathSelection);
@@ -450,8 +422,7 @@ public class Viewers {
 
 		deselectAll(tableOrTree);
 
-		final Item[] resultItems = selection
-				.toArray(new Item[selection.size()]);
+		final Item[] resultItems = selection.toArray(new Item[selection.size()]);
 
 		// We also need to pass selection to selection provider
 		final List<Object> selectionData = new ArrayList<Object>();
@@ -469,8 +440,7 @@ public class Viewers {
 				player.sendFocus(tableOrTree);
 				Item lastItem = resultItems[resultItems.length - 1];
 				Rectangle bounds = TableTreeUtil.getBounds(lastItem);
-				parent.getPlayer().addMouseWidgetInfo(tableOrTree,
-						bounds.x + bounds.width / 2,
+				parent.getPlayer().addMouseWidgetInfo(tableOrTree, bounds.x + bounds.width / 2,
 						bounds.y + bounds.height / 2);
 				TableTreeUtil.setSelection(tableOrTree, resultItems);
 				player.sendEvent(tableOrTree, lastItem, SWT.Selection);
@@ -484,8 +454,7 @@ public class Viewers {
 				}
 				parent.getPlayer().exec("Update selection", new Runnable() {
 					public void run() {
-						EclipseWorkbenchProvider.getProvider()
-								.updateActiveSelection(selectionData, parent);
+						EclipseWorkbenchProvider.getProvider().updateActiveSelection(selectionData, parent);
 					}
 				});
 			}
@@ -501,15 +470,12 @@ public class Viewers {
 	 */
 	public static boolean selectItem(SWTUIElement item, boolean selectAll) {
 		Widget widget = item.widget;
-		return selectItem(item.getPlayer()
-				.wrap(TableTreeUtil.getParent(widget)),
+		return selectItem(item.getPlayer().wrap(TableTreeUtil.getParent(widget)),
 				new String[][] { getPathByItem(widget) }, selectAll);
 	}
 
-	public static boolean selectListItem(final SWTUIElement parent,
-			final String[] parts) {
-		if (parent != null
-				&& unwrapWidget(parent) instanceof org.eclipse.swt.widgets.List) {
+	public static boolean selectListItem(final SWTUIElement parent, final String[] parts) {
+		if (parent != null && unwrapWidget(parent) instanceof org.eclipse.swt.widgets.List) {
 			// Try to obtain list viewer
 			final ListViewer viewer = TeslaSWTAccess.getListViewer((org.eclipse.swt.widgets.List) unwrapWidget(parent));
 			if (viewer != null) {
@@ -517,8 +483,7 @@ public class Viewers {
 				IBaseLabelProvider labelProvider = viewer.getLabelProvider();
 				Object input = viewer.getInput();
 
-				if (provider instanceof IStructuredContentProvider
-						&& labelProvider instanceof ILabelProvider) {
+				if (provider instanceof IStructuredContentProvider && labelProvider instanceof ILabelProvider) {
 					IStructuredContentProvider listProvider = (IStructuredContentProvider) provider;
 					ILabelProvider labels = (ILabelProvider) labelProvider;
 					final List<Object> selection = new ArrayList<Object>();
@@ -535,8 +500,7 @@ public class Viewers {
 					if (!selection.isEmpty()) {
 						parent.getPlayer().exec("setSelection", new Runnable() {
 							public void run() {
-								viewer.setSelection(new StructuredSelection(
-										selection.toArray()));
+								viewer.setSelection(new StructuredSelection(selection.toArray()));
 							}
 						});
 						return true;
@@ -548,13 +512,11 @@ public class Viewers {
 		/*
 		 * This case work only with non dynamic lists.
 		 */
-		if (parent != null
-				&& unwrapWidget(parent) instanceof org.eclipse.swt.widgets.List
-				&& parts != null && parts.length != 0) {
+		if (parent != null && unwrapWidget(parent) instanceof org.eclipse.swt.widgets.List && parts != null
+				&& parts.length != 0) {
 			final org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) unwrapWidget(parent);
 			Object current = unwrapWidget(parent);
-			String[] items = ((org.eclipse.swt.widgets.List) current)
-					.getItems();
+			String[] items = ((org.eclipse.swt.widgets.List) current).getItems();
 			Set<Integer> selection = new HashSet<Integer>();
 			if (items == null) {
 				return false;
@@ -563,8 +525,7 @@ public class Viewers {
 			int index = -1;
 			for (String item : items) {
 				for (String part : parts) {
-					if (item.equals(part)
-							|| safeMatches(item, part)) {
+					if (item.equals(part) || safeMatches(item, part)) {
 						index = list.indexOf(item);
 						selection.add(index);
 						break;
@@ -573,15 +534,13 @@ public class Viewers {
 			}
 			if (selection.size() > 0) {
 				int[] sels = new int[selection.size()];
-				Integer[] values = selection.toArray(new Integer[selection
-						.size()]);
+				Integer[] values = selection.toArray(new Integer[selection.size()]);
 				for (int i = 0; i < values.length; i++) {
 					sels[i] = values[i].intValue();
 				}
 				list.deselectAll();
 				list.select(sels);
-			}
-			else {
+			} else {
 				list.deselectAll();
 				list.select(index);
 				list.setSelection(index);
@@ -602,22 +561,19 @@ public class Viewers {
 		return false;
 	}
 
-	public static int countTreeItemChildren(final SWTUIElement parent,
-			final String[] path) {
+	public static int countTreeItemChildren(final SWTUIElement parent, final String[] path) {
 		if (path == null || path.length == 0) {
 			final Object widget = unwrap(parent);
 			return ((Tree) widget).getItemCount();
 		}
 		if (parent != null && unwrapWidget(parent) instanceof Tree) {
 			// Try to obtain tree viewer
-			final TreeViewer viewer = TeslaSWTAccess
-					.getTreeViewer((Tree) unwrapWidget(parent));
+			final TreeViewer viewer = TeslaSWTAccess.getTreeViewer((Tree) unwrapWidget(parent));
 			if (viewer != null) {
 				IContentProvider provider = viewer.getContentProvider();
 				IBaseLabelProvider labelProvider = viewer.getLabelProvider();
 				Object input = viewer.getInput();
-				if (provider instanceof ITreeContentProvider
-						&& labelProvider instanceof ILabelProvider) {
+				if (provider instanceof ITreeContentProvider && labelProvider instanceof ILabelProvider) {
 					ITreeContentProvider treeProvider = (ITreeContentProvider) provider;
 					ILabelProvider labels = (ILabelProvider) labelProvider;
 					Object current = input;
@@ -626,8 +582,7 @@ public class Viewers {
 						Object[] children = null;
 						if (current == input) {
 							children = treeProvider.getElements(current);
-						}
-						else {
+						} else {
 							children = treeProvider.getChildren(current);
 						}
 						boolean found = false;
@@ -645,10 +600,8 @@ public class Viewers {
 						}
 					}
 					if (selection.size() > 1) {
-						return treeProvider.getChildren(selection.get(selection
-								.size() - 1)).length;
-					}
-					else if (selection.size() == 1) {
+						return treeProvider.getChildren(selection.get(selection.size() - 1)).length;
+					} else if (selection.size() == 1) {
 						return treeProvider.getChildren(current).length;
 					}
 					return -1;
@@ -658,8 +611,7 @@ public class Viewers {
 		/*
 		 * This case work only with non dynamic trees.
 		 */
-		if (parent != null && unwrapWidget(parent) instanceof Tree
-				&& path != null) {
+		if (parent != null && unwrapWidget(parent) instanceof Tree && path != null) {
 			// final Tree tree = (Tree) unwrapWidget(parent);
 			Widget current = unwrapWidget(parent);
 			for (String part : path) {
@@ -685,8 +637,8 @@ public class Viewers {
 		return -1;
 	}
 
-	private static Set<Item> findTreeItems(final String[][] paths,
-			final Tree tree, boolean onePerPath, int startIndex) {
+	private static Set<Item> findTreeItems(final String[][] paths, final Tree tree, boolean onePerPath,
+			int startIndex) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (tree == null || tree.isDisposed()) {
 			return result;
@@ -699,8 +651,7 @@ public class Viewers {
 				if (first != null) {
 					result.add(first);
 				}
-			}
-			else {
+			} else {
 				result.addAll(items);
 			}
 		}
@@ -741,9 +692,9 @@ public class Viewers {
 		IViewerItem[] viewerItems = getViewerItems(items);
 
 		boolean isVirtual = TableTreeUtil.isVirtual(parent);
-		int i =0;
+		int i = 0;
 		for (Item item : items) {
-			if( i < startIndex) {
+			if (i < startIndex) {
 				i++;
 				continue;
 			}
@@ -766,16 +717,13 @@ public class Viewers {
 		return result;
 	}
 
-	private static boolean itemMatches(Item item, String pattern,
-			IViewerItem[] items) {
+	private static boolean itemMatches(Item item, String pattern, IViewerItem[] items) {
 		String text;
 		String columnName = TableTreeItemPathUtil.findColumnName(pattern);
 		int columnInd;
 		if (columnName != null) {
-			columnInd = TableTreeUtil.getColumnIndex(
-					TableTreeUtil.getParent(item), columnName);
-		}
-		else {
+			columnInd = TableTreeUtil.getColumnIndex(TableTreeUtil.getParent(item), columnName);
+		} else {
 			columnInd = -1;
 		}
 		if (columnName != null && columnInd == -1) {
@@ -783,46 +731,36 @@ public class Viewers {
 		}
 		if (columnInd < 1) {
 			text = TableTreeUtil.getValue(item);
-		}
-		else {
+		} else {
 			String columnValue = TableTreeUtil.getValue(item, columnInd);
 			if (columnValue.equals("")) {
-				Object value = getColumnValue(
-						item, columnInd);
+				Object value = getColumnValue(item, columnInd);
 				if (value != null) {
 					columnValue = value.toString();
 				}
 			}
-			text = TableTreeItemPathUtil.appendSegmentColumnName(columnValue,
-					columnName);
+			text = TableTreeItemPathUtil.appendSegmentColumnName(columnValue, columnName);
 		}
 		if (text == null) {
 			return false;
 		}
 		return viewerMatchs(pattern, text)
-				|| viewerMatchs(pattern,
-						SWTUIPlayer.toSelectionItem(getItemText(item, pattern,
-								items)));
+				|| viewerMatchs(pattern, SWTUIPlayer.toSelectionItem(getItemText(item, pattern, items)));
 	}
 
-	private static Object getColumnValue(Widget widget,
-			int index) {
-		Widget column = getColumn(getParent(widget),
-				index);
+	private static Object getColumnValue(Widget widget, int index) {
+		Widget column = getColumn(getParent(widget), index);
 		Object columnViewer = column.getData(Policy.JFACE + ".columnViewer");
-		EditingSupport es = TeslaSWTAccess.getField(EditingSupport.class,
-				columnViewer, "editingSupport");
+		EditingSupport es = TeslaSWTAccess.getField(EditingSupport.class, columnViewer, "editingSupport");
 		Object value = null;
 		if (es != null) {
-			value = TeslaSWTAccess.callMethod(EditingSupport.class, es,
-					"getValue", new Class[] { Object.class },
+			value = TeslaSWTAccess.callMethod(EditingSupport.class, es, "getValue", new Class[] { Object.class },
 					((Item) widget).getData());
 		}
 		return value;
 	}
 
-	public static Set<Item> findItems(final String[][] paths,
-			final Widget parent, boolean onePerPath, int startIndex) {
+	public static Set<Item> findItems(final String[][] paths, final Widget parent, boolean onePerPath, int startIndex) {
 		return (parent instanceof Table) ? findTableItems(paths, (Table) parent, onePerPath, startIndex)
 				: findTreeItems(paths, (Tree) parent, onePerPath, startIndex);
 	}
@@ -840,8 +778,8 @@ public class Viewers {
 		return items.hasNext() ? items.next() : null;
 	}
 
-	private static Set<Item> findTableItems(final String[][] paths,
-			final Table table, boolean onePerPath,int startIndex) {
+	private static Set<Item> findTableItems(final String[][] paths, final Table table, boolean onePerPath,
+			int startIndex) {
 		Set<Item> result = new LinkedHashSet<Item>();
 		if (table == null || table.isDisposed()) {
 			return result;
@@ -857,8 +795,7 @@ public class Viewers {
 				if (first != null) {
 					result.add(first);
 				}
-			}
-			else {
+			} else {
 				result.addAll(matchingItems);
 			}
 		}
@@ -884,8 +821,7 @@ public class Viewers {
 	private static Point makeColumnClickPoint(TreeItem item, int column) {
 		// System.out.println(item.getParent().getColumns()[column].getText());
 		Rectangle bounds = item.getBounds(column);
-		return new Point(bounds.x + bounds.width - 1, bounds.y + bounds.height
-				/ 2);
+		return new Point(bounds.x + bounds.width - 1, bounds.y + bounds.height / 2);
 	}
 
 	private static CellEditor getCellEditor(CellEditor[] editors, int column) {
@@ -899,8 +835,7 @@ public class Viewers {
 	// safe point is the point that will not trigger editor activation
 	public static Point getSafeToClickPoint(TreeItem item) {
 		Rectangle bounds = item.getBounds();
-		final Point DEFAULT_POINT = new Point(bounds.x + bounds.width - 1,
-				bounds.y + bounds.height / 2);
+		final Point DEFAULT_POINT = new Point(bounds.x + bounds.width - 1, bounds.y + bounds.height / 2);
 
 		Tree tree = item.getParent();
 		Viewer viewer = TeslaSWTAccess.getViewer(tree);
@@ -925,8 +860,8 @@ public class Viewers {
 				continue;
 
 			ViewerColumn viewerColumn = (ViewerColumn) data;
-			EditingSupport editingSupport = TeslaSWTAccess.getField(
-					EditingSupport.class, viewerColumn, "editingSupport");
+			EditingSupport editingSupport = TeslaSWTAccess.getField(EditingSupport.class, viewerColumn,
+					"editingSupport");
 
 			if (editingSupport == null)
 				return makeColumnClickPoint(item, i);
@@ -935,20 +870,19 @@ public class Viewers {
 		return UNSAFE_CLICK_POINT;
 	}
 
-	public static boolean setSelection(SWTUIElement element,
-			String[] selection, String pattern, Integer index, boolean selectAll) {
+	public static boolean setSelection(SWTUIElement element, String[] selection, String pattern, Integer index,
+			boolean selectAll) {
 
 		// Skip selection event if there is cell editor active and same
 		// selection are tryed to be set
-		CellEditor[] editors = TeslaCellEditorManager.getInstance()
-				.getEditors();
+		CellEditor[] editors = TeslaCellEditorManager.getInstance().getEditors();
 		boolean checkForSameSelection = false;
 		for (CellEditor cellEditor : editors) {
 			Control ctrl = cellEditor.getControl();
 			if (cellEditor.isActivated() && ctrl != null && !ctrl.isDisposed()) {
 				if (element.unwrap() instanceof Control) {
-					List<Widget> parents = SWTUIPlayer.collectParents(ctrl,
-							null, ((Control) element.unwrap()).getParent());
+					List<Widget> parents = SWTUIPlayer.collectParents(ctrl, null,
+							((Control) element.unwrap()).getParent());
 					if (parents.contains(element.unwrap())) {
 						checkForSameSelection = true;
 						// Yes cell editor are active
@@ -971,8 +905,7 @@ public class Viewers {
 			if (selection == null && pattern != null) {
 				selection = new String[] { pattern };
 			}
-			result = selectItem(element, new String[][] { selection },
-					selectAll);
+			result = selectItem(element, new String[][] { selection }, selectAll);
 		}
 		if (widget instanceof org.eclipse.swt.widgets.List) {
 			if (pattern == null && selection != null && selection.length == 1) {
@@ -986,8 +919,8 @@ public class Viewers {
 		return result != null && result.booleanValue();
 	}
 
-	public static boolean checkItem(boolean state, SWTUIElement element,
-			String[] selection, String pattern, Integer index) {
+	public static boolean checkItem(boolean state, SWTUIElement element, String[] selection, String pattern,
+			Integer index) {
 		Boolean result = null;
 		Widget widget = unwrapWidget(element);
 		if (widget instanceof Tree) {
@@ -1005,8 +938,7 @@ public class Viewers {
 		return result != null && result.booleanValue();
 	}
 
-	public static int expandSelection(SWTUIElement element, String[] selection,
-			String pattern, Integer index) {
+	public static int expandSelection(SWTUIElement element, String[] selection, String pattern, Integer index) {
 		int result = -1;
 		Widget widget = unwrapWidget(element);
 		if (widget instanceof Tree) {
@@ -1015,8 +947,7 @@ public class Viewers {
 			}
 			result = expandTreeItem(element, selection);
 		}
-		if (widget instanceof Table
-				|| widget instanceof org.eclipse.swt.widgets.List) {
+		if (widget instanceof Table || widget instanceof org.eclipse.swt.widgets.List) {
 
 			// Be sure to update all virtual items here.
 			return -1;
@@ -1027,15 +958,14 @@ public class Viewers {
 		return result;
 	}
 
-	public static boolean setSelection(SWTUIElement element,
-			List<String[]> sels, boolean selectAll) {
+	public static boolean setSelection(SWTUIElement element, List<String[]> sels, boolean selectAll) {
 		Widget widget = unwrapWidget(element);
 		String[][] items = sels.toArray(new String[sels.size()][]);
 		if (widget instanceof Tree || widget instanceof Table) {
 			return selectItem(element, items, selectAll);
-		}
-		else if (widget instanceof org.eclipse.swt.widgets.List) {
-//			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
+		} else if (widget instanceof org.eclipse.swt.widgets.List) {
+			// org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List)
+			// widget;
 			Set<String> toSelect = new HashSet<String>();
 			for (String[] ss : items) {
 				toSelect.addAll(Arrays.asList(ss));
@@ -1076,8 +1006,7 @@ public class Viewers {
 	/**
 	 * @return -1 on error, 0 if method should be called again, 1 on success
 	 */
-	public static int expandTreeItem(final SWTUIElement parent,
-			final String[] path) {
+	public static int expandTreeItem(final SWTUIElement parent, final String[] path) {
 		Widget widget = unwrapWidget(parent);
 		if (!(widget instanceof Tree) || path == null) {
 			return -1;
@@ -1113,8 +1042,7 @@ public class Viewers {
 
 	}
 
-	public static void expandTreeItem(final SWTUIPlayer player,
-			final Tree tree, final TreeItem treeItem) {
+	public static void expandTreeItem(final SWTUIPlayer player, final Tree tree, final TreeItem treeItem) {
 		player.exec("Run asyncs on tree", new Runnable() {
 			public void run() {
 				try {
@@ -1123,8 +1051,7 @@ public class Viewers {
 						return;
 					}
 					Rectangle imageBounds = treeItem.getImageBounds(0);
-					Point clickPoint = new Point(imageBounds.x - 5,
-							imageBounds.y + imageBounds.height / 2);
+					Point clickPoint = new Point(imageBounds.x - 5, imageBounds.y + imageBounds.height / 2);
 					Event down = Events.createMouseDown(clickPoint);
 					Event up = Events.createMouseUp(clickPoint);
 					up.widget = down.widget = tree;
@@ -1133,16 +1060,14 @@ public class Viewers {
 					player.getEvents().sendEvent(tree, treeItem, SWT.Expand);
 					player.getEvents().sendEvent(tree, up);
 					treeItem.setExpanded(true);
-				}
-				catch (Throwable e) {
+				} catch (Throwable e) {
 					TeslaCore.log(e);
 				}
 			}
 		});
 	}
 
-	public static void collapseTreeItem(final SWTUIPlayer player,
-			final Tree tree, final TreeItem treeItem) {
+	public static void collapseTreeItem(final SWTUIPlayer player, final Tree tree, final TreeItem treeItem) {
 		player.exec("Run asyncs on tree", new Runnable() {
 			public void run() {
 				try {
@@ -1152,18 +1077,15 @@ public class Viewers {
 					}
 					player.getEvents().sendEvent(tree, treeItem, SWT.Collapse);
 					treeItem.setExpanded(false);
-				}
-				catch (Throwable e) {
+				} catch (Throwable e) {
 					TeslaCore.log(e);
 				}
 			}
 		});
 	}
 
-	public static boolean checkTreeItem(final boolean newState,
-			final SWTUIElement parent, final String[] path) {
-		if (parent != null && unwrapWidget(parent) instanceof Tree
-				&& path != null) {
+	public static boolean checkTreeItem(final boolean newState, final SWTUIElement parent, final String[] path) {
+		if (parent != null && unwrapWidget(parent) instanceof Tree && path != null) {
 			final SWTUIPlayer player = parent.getPlayer();
 			final Tree tree = (Tree) unwrapWidget(parent);
 			final TreeItem current = (TreeItem) firstMatch(path, tree);
@@ -1173,8 +1095,7 @@ public class Viewers {
 					public void run() {
 						SWTEvents player = parent.getPlayer().getEvents();
 						current.setChecked(newState);
-						player.sendEvent(tree, current, SWT.Selection,
-								SWT.CHECK);
+						player.sendEvent(tree, current, SWT.Selection, SWT.CHECK);
 					}
 				});
 				return true;
@@ -1183,8 +1104,7 @@ public class Viewers {
 		return false;
 	}
 
-	public static boolean checkTableItem(final boolean newState,
-			final SWTUIElement parent, final String part) {
+	public static boolean checkTableItem(final boolean newState, final SWTUIElement parent, final String part) {
 		if (parent != null && unwrapWidget(parent) instanceof Table) {
 			// Try to obtain tree viewer
 			final CheckboxTableViewer viewer = TeslaSWTAccess.getCheckboxTableViewer((Table) unwrapWidget(parent));
@@ -1210,17 +1130,14 @@ public class Viewers {
 
 					if (labels instanceof CellLabelProvider) {
 						Table table = viewer.getTable();
-						return checkInStandardTable(newState, parent, part,
-								table);
+						return checkInStandardTable(newState, parent, part, table);
 
 					}
 
 					int currentIdx = 0;
 					for (Object object : children) {
-						if (tlp != null
-								&& viewer.getTable().getColumnCount() > 0) {
-							for (int i = 0; i < viewer.getTable()
-									.getColumnCount(); i++) {
+						if (tlp != null && viewer.getTable().getColumnCount() > 0) {
+							for (int i = 0; i < viewer.getTable().getColumnCount(); i++) {
 								String text = tlp.getColumnText(object, i);
 								if (viewerMatchs(searchPath, text)) {
 									if (idx == currentIdx) {
@@ -1231,16 +1148,11 @@ public class Viewers {
 									currentIdx++;
 								}
 							}
-						}
-						else if (tlp == null
-								&& viewer.getTable().getColumnCount() > 0) {
-							for (int i = 0; i < viewer.getTable()
-									.getColumnCount(); i++) {
-								CellLabelProvider cellLabelProvider = viewer
-										.getLabelProvider(i);
+						} else if (tlp == null && viewer.getTable().getColumnCount() > 0) {
+							for (int i = 0; i < viewer.getTable().getColumnCount(); i++) {
+								CellLabelProvider cellLabelProvider = viewer.getLabelProvider(i);
 								if (cellLabelProvider instanceof ILabelProvider) {
-									String text = ((ILabelProvider) cellLabelProvider)
-											.getText(object);
+									String text = ((ILabelProvider) cellLabelProvider).getText(object);
 									if (viewerMatchs(searchPath, text)) {
 										if (idx == currentIdx) {
 											current = object;
@@ -1251,11 +1163,9 @@ public class Viewers {
 									}
 								}
 							}
-						}
-						else {
+						} else {
 							if (labels instanceof ILabelProvider) {
-								String text = ((ILabelProvider) labels)
-										.getText(object);
+								String text = ((ILabelProvider) labels).getText(object);
 								if (viewerMatchs(searchPath, text)) {
 									if (idx == currentIdx) {
 										current = object;
@@ -1273,20 +1183,17 @@ public class Viewers {
 					if (found && current != null) {
 						final Object cur = current;
 						final SWTUIPlayer player = parent.getPlayer();
-						player.exec("checkTableItem for table with viewer",
-								new Runnable() {
-									public void run() {
-										viewer.setChecked(cur, newState);
+						player.exec("checkTableItem for table with viewer", new Runnable() {
+							public void run() {
+								viewer.setChecked(cur, newState);
 
-										Widget item = viewer.testFindItem(cur);
-										player.getEvents().sendEvent(
-												viewer.getTable(), item,
-												SWT.Selection, SWT.CHECK);
+								Widget item = viewer.testFindItem(cur);
+								player.getEvents().sendEvent(viewer.getTable(), item, SWT.Selection, SWT.CHECK);
 
-										// TeslaSWTAccess.fireCheckStateChanged(viewer,
-										// newState, cur);
-									}
-								});
+								// TeslaSWTAccess.fireCheckStateChanged(viewer,
+								// newState, cur);
+							}
+						});
 						return true;
 					}
 				}
@@ -1295,16 +1202,14 @@ public class Viewers {
 		/*
 		 * This case work only with non dynamic tables.
 		 */
-		if (parent != null && unwrapWidget(parent) instanceof Table
-				&& part != null) {
-			return checkInStandardTable(newState, parent, part,
-					(Table) unwrapWidget(parent));
+		if (parent != null && unwrapWidget(parent) instanceof Table && part != null) {
+			return checkInStandardTable(newState, parent, part, (Table) unwrapWidget(parent));
 		}
 		return false;
 	}
 
-	private static boolean checkInStandardTable(final boolean newState,
-			final SWTUIElement parent, final String part, final Table table) {
+	private static boolean checkInStandardTable(final boolean newState, final SWTUIElement parent, final String part,
+			final Table table) {
 		Widget current = unwrapWidget(parent);
 		Item[] items = TableTreeUtil.getItems(current);
 		IViewerItem[] viewerItems = getViewerItems(items);
@@ -1317,16 +1222,14 @@ public class Viewers {
 			final TableItem currentItem = (TableItem) item;
 			int count = table.getColumnCount();
 			if (count > 0) {
-				String itemText = SWTUIPlayer.toSelectionItem(getTableItemText(
-						new TableViewerItem((TableItem) item), part,
-						viewerItems));
+				String itemText = SWTUIPlayer
+						.toSelectionItem(getTableItemText(new TableViewerItem((TableItem) item), part, viewerItems));
 				if (viewerMatchs(part, itemText)) {
 					current = item;
 					player.exec("setSelection", new Runnable() {
 						public void run() {
 							currentItem.setChecked(newState);
-							player.getEvents().sendEvent(table, currentItem,
-									SWT.Selection, SWT.CHECK);
+							player.getEvents().sendEvent(table, currentItem, SWT.Selection, SWT.CHECK);
 						}
 					});
 					found = true;
@@ -1334,16 +1237,14 @@ public class Viewers {
 				}
 			}
 			if (count == 0) {
-				String text = SWTUIPlayer.toSelectionItem(getTableItemText(
-						new TableViewerItem((TableItem) item), part,
-						viewerItems));
+				String text = SWTUIPlayer
+						.toSelectionItem(getTableItemText(new TableViewerItem((TableItem) item), part, viewerItems));
 				if (viewerMatchs(part, text)) {
 					current = item;
 					player.exec("setSelection", new Runnable() {
 						public void run() {
 							currentItem.setChecked(newState);
-							player.getEvents().sendEvent(table, currentItem,
-									SWT.Selection, SWT.CHECK);
+							player.getEvents().sendEvent(table, currentItem, SWT.Selection, SWT.CHECK);
 						}
 					});
 					found = true;
@@ -1363,7 +1264,7 @@ public class Viewers {
 			if (pos >= itemCount) {
 				return -1;
 			}
-			while( pos < itemCount) {
+			while (pos < itemCount) {
 				// Find for first non cached item on position
 				TableItem item = table.getItem(pos);
 				boolean isCached = (Boolean) TeslaSWTAccess.getField(Boolean.class, item, "cached");
@@ -1372,7 +1273,7 @@ public class Viewers {
 				}
 				pos++;
 			}
-			if( pos == itemCount) {
+			if (pos == itemCount) {
 				return -1;
 			}
 			final int selectPos = pos;
@@ -1382,8 +1283,7 @@ public class Viewers {
 				}
 			});
 			return pos;
-		}
-		else if (ctrl instanceof Tree) {
+		} else if (ctrl instanceof Tree) {
 			scrollToTreeItems((Tree) ctrl, TableTreeUtil.getItems(ctrl));
 			return -1;
 		}
