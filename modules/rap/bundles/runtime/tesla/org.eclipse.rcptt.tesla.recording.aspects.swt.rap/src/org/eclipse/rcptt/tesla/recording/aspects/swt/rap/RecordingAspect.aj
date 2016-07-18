@@ -10,7 +10,9 @@ import java.util.Stack;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.ColorDialog;
@@ -24,7 +26,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
@@ -386,6 +390,41 @@ privileged public aspect RecordingAspect {
 	after(Button button, org.eclipse.swt.widgets.Composite composite, int style):
 		execution(org.eclipse.swt.widgets.Button.new(org.eclipse.swt.widgets.Composite,int)) && target(button) && args(composite, style){
 		button.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(TabFolder tab, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.widgets.TabFolder.new(org.eclipse.swt.widgets.Composite,int)) && target(tab) && args(composite, style){
+		tab.addListener(SWT.MouseUp, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(CTabFolder tab, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.custom.CTabFolder.new(org.eclipse.swt.widgets.Composite,int)) && target(tab) && args(composite, style){
+		tab.addListener(SWT.MouseUp, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+	}
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Browser browser, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.browser.Browser.new(org.eclipse.swt.widgets.Composite,int)) && target(browser) && args(composite, style){
+		browser.addListener(SWT.MouseUp, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Text text, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.widgets.Text.new(org.eclipse.swt.widgets.Composite,int)) && target(text) && args(composite, style){
+		text.addListener(SWT.MouseUp, new Listener() {
 			public void handleEvent(Event event) {
 			}
 		});

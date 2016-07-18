@@ -396,8 +396,8 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 					}
 				}
 			}
-			if ((type == SWT.MouseUp && !(widget instanceof ToolItem)) || (!(widget instanceof Composite) && type == SWT.FocusIn)
-					|| ((widget instanceof Label || widget instanceof CTabFolder || widget instanceof Button) && type == SWT.Activate)) {
+			if ((type == SWT.MouseUp && !(widget instanceof ToolItem))
+					|| (widget instanceof Label && type == SWT.Activate)) {
 				for (Shell menuShell : menuShells) {
 					if (menuShell != null) {
 						if (widget instanceof Control && !((Control) widget).getShell().equals(menuShell)) {
