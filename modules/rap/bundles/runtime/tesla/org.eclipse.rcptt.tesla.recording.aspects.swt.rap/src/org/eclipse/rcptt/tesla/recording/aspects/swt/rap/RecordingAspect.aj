@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.FontDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -416,6 +417,15 @@ privileged public aspect RecordingAspect {
 	after(Browser browser, org.eclipse.swt.widgets.Composite composite, int style):
 		execution(org.eclipse.swt.browser.Browser.new(org.eclipse.swt.widgets.Composite,int)) && target(browser) && args(composite, style){
 		browser.addListener(SWT.MouseUp, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+	}
+
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Group group, org.eclipse.swt.widgets.Composite composite, int style):
+		execution(org.eclipse.swt.widgets.Group.new(org.eclipse.swt.widgets.Composite,int)) && target(group) && args(composite, style){
+		group.addListener(SWT.MouseUp, new Listener() {
 			public void handleEvent(Event event) {
 			}
 		});

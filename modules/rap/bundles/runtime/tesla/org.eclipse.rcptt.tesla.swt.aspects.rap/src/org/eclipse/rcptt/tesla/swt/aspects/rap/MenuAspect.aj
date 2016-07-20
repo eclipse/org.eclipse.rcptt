@@ -4,6 +4,9 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.rcptt.tesla.core.am.rap.AspectManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
@@ -15,27 +18,7 @@ public aspect MenuAspect {
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
-	Object around(Menu menu, boolean value): 
-		execution(void org.eclipse.swt.widgets.Menu.setVisible(boolean)) && target(menu) && args(value) {
-		Object result = Boolean.FALSE;
-		if (TeslaEventManager.getManager().isIgnoreMenuShow()) {
-			return result;
-		}
-		boolean proceedMenu = false;
-		try {
-			proceedMenu = TeslaEventManager.getManager().proceedMenu(menu,
-					value);
-		} catch (Throwable e) {
-			SWTAspectActivator.log(e);
-		}
-		if (!proceedMenu) {
-			result = proceed(menu, value);
-		}
-		return result;
-	}
-
-	@SuppressAjWarnings("adviceDidNotMatch")
-	Object around(Menu menu): 
+	Object around(Menu menu):
 		execution(boolean org.eclipse.swt.widgets.Menu.getVisible()) && target(menu) {
 		try {
 			List<WeakReference<Menu>> menus = TeslaEventManager.getManager()
@@ -61,6 +44,13 @@ public aspect MenuAspect {
 			org.eclipse.swt.widgets.Control parent): execution(org.eclipse.swt.widgets.Menu.new(org.eclipse.swt.widgets.Control)) && target(menu) && args(parent) {
 		try {
 			TeslaEventManager.getManager().addMenuControl(menu, parent);
+			TeslaEventManager.getManager().proceedMenu(menu, true);
+			final Menu forclose = menu;
+			menu.addListener(SWT.Dispose, new Listener() {
+				public void handleEvent(Event event) {
+					TeslaEventManager.getManager().proceedMenu(forclose, false);
+				}
+			});
 		} catch (Throwable e) {
 			SWTAspectActivator.log(e);
 		}
@@ -71,6 +61,13 @@ public aspect MenuAspect {
 			org.eclipse.swt.widgets.Decorations parent): execution(org.eclipse.swt.widgets.Menu.new(org.eclipse.swt.widgets.Decorations,int)) && target(menu) && args(parent) {
 		try {
 			TeslaEventManager.getManager().addMenuControl(menu, parent);
+			TeslaEventManager.getManager().proceedMenu(menu, true);
+			final Menu forclose = menu;
+			menu.addListener(SWT.Dispose, new Listener() {
+				public void handleEvent(Event event) {
+					TeslaEventManager.getManager().proceedMenu(forclose, false);
+				}
+			});
 		} catch (Throwable e) {
 			SWTAspectActivator.log(e);
 		}

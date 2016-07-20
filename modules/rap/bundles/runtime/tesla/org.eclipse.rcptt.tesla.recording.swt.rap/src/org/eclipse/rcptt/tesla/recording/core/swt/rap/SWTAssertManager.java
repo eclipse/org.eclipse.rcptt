@@ -352,7 +352,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				freezedCtrl = assertDescr;
 			}
 
-			if (type == SWT.Selection && widget instanceof ToolItem) {
+			if (type == SWT.Selection && (widget instanceof ToolItem)) {
 				assertionLog(
 						"assertion target locked for tool item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
 
@@ -397,7 +397,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				}
 			}
 			if ((type == SWT.MouseUp && !(widget instanceof ToolItem))
-					|| (widget instanceof Label && type == SWT.Activate)) {
+					|| (widget instanceof Label && type == SWT.Activate) || (type == SWT.Selection && widget instanceof Button)) {
 				for (Shell menuShell : menuShells) {
 					if (menuShell != null) {
 						if (widget instanceof Control && !((Control) widget).getShell().equals(menuShell)) {
