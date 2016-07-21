@@ -334,6 +334,8 @@ public class TeslaEventManager {
 			this.lastDisplay = lastDisplay;
 
 			synced.remove(old);
+			popupMenuParents.clear();
+			popupMenus.clear();
 
 			if (lastDisplay != null) {
 
