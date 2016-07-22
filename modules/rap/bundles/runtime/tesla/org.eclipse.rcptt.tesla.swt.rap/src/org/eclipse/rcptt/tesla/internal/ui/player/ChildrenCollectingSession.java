@@ -13,7 +13,6 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils.isVisible;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -240,16 +239,11 @@ public class ChildrenCollectingSession {
 			collectMenuItems(item.getMenu(), null);
 		}
 		// Check for popup menus
-		List<WeakReference<Menu>> popupMenus = TeslaEventManager.getManager()
-				.getPopupMenus();
-		for (WeakReference<Menu> menuWR : popupMenus) {
-			Menu menu = menuWR.get();
+		List<Menu> popupMenus = TeslaEventManager.getManager().getAllRegisteredMenus();
+		for (Menu menu : popupMenus) {
 			if (menu != null && !menu.isDisposed()) {
-				Control control = TeslaEventManager.getManager()
-						.getPopupMenuParents().get(menu);
-				if (menu.getParent() != null && menu.getParent().equals(widget)
-						|| widget != null && widget.equals(control)) {
-					// events.sendEvent(w, event)
+				Control control = TeslaEventManager.getManager().getPopupMenuParents().get(menu);
+				if (menu.getParent() != null && menu.getParent().equals(widget) || widget != null && widget.equals(control)) {
 					collectMenuItems(menu, null);
 				}
 			}
@@ -338,7 +332,6 @@ public class ChildrenCollectingSession {
 
 	public void collectMenuItems(Menu menu, Point point) {
 		if (menu != null) {
-			boolean oldHasLocation = TeslaSWTAccess.getHasLocation(menu);
 			if (point != null)
 				menu.setLocation(point);
 
@@ -348,10 +341,6 @@ public class ChildrenCollectingSession {
 				player.show(wrappedMenu, // ?? or maybe -1, -1 for Control case
 						point != null ? point.x : -1,
 						point != null ? point.y : -1);
-
-			// SWTUIElement[] cc = collector.collectFor(wrap, ignores,
-			// goIntoComposites, classes);
-			// results.addAll(Arrays.asList(cc));
 
 			MenuItem[] items = menu.getItems();
 			for (MenuItem control : items) {

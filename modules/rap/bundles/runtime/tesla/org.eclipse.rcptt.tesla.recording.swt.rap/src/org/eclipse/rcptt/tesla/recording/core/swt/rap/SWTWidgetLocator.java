@@ -93,6 +93,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.internal.PerspectiveBarContributionItem;
 import org.eclipse.ui.internal.WorkbenchPage;
@@ -988,7 +989,7 @@ public final class SWTWidgetLocator {
 					index++;
 				} else if (text != null && text.equals(children[i].getText()) && children[i].getKind().is(kind)) {
 					index++;
-				} else if ((text == null || text.isEmpty()) && children[i].getKind().is(kind)) {
+				} else if ((text == null) && children[i].getKind().is(kind)) {
 					index++;
 				}
 			}
@@ -1069,8 +1070,7 @@ public final class SWTWidgetLocator {
 		if (window == null || alwaysFindLeaf) {
 			// Check this is SDK window and only one window.
 			IWorkbench wb = RWTUtils.getWorkbench();
-			IWorkbenchWindow[] windows = wb != null ? wb.getWorkbenchWindows()
-					: new IWorkbenchWindow[0];
+			IWorkbenchWindow[] windows = wb != null ? wb.getWorkbenchWindows() : new IWorkbenchWindow[0];
 
 			int ind = 0;
 			boolean found = false;
@@ -1294,8 +1294,7 @@ public final class SWTWidgetLocator {
 
 		String title = ((WorkbenchPart) part).getPartName();
 		int currIdx = 0;
-		IViewReference[] views = RWTUtils.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getViewReferences();
+		IViewReference[] views = RWTUtils.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences();
 
 		for (IViewReference iViewRef : views) {
 			String label = iViewRef.getPartName();
@@ -1385,7 +1384,7 @@ public final class SWTWidgetLocator {
 
 	public static IWorkbenchPart findViewMenuSource(Widget widget) {
 		IWorkbench workbench = RWTUtils.getWorkbench();
-		if(workbench == null)
+		if (workbench == null)
 			return null;
 		IWorkbenchWindow[] workbenchWindows = workbench.getWorkbenchWindows();
 		for (IWorkbenchWindow iWorkbenchWindow : workbenchWindows) {

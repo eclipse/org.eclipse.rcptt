@@ -12,21 +12,17 @@ package org.eclipse.rcptt.tesla.swt.events;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.internal.lifecycle.CurrentPhase;
-import org.eclipse.rap.rwt.internal.lifecycle.IUIThreadHolder;
-import org.eclipse.rap.rwt.internal.service.ContextProvider;
 import org.eclipse.rap.rwt.service.ServerPushSession;
-import org.eclipse.rap.rwt.service.UISession;
 import org.eclipse.rap.rwt.service.UISessionEvent;
 import org.eclipse.rap.rwt.service.UISessionListener;
 import org.eclipse.rcptt.tesla.core.am.rap.RecordingModeFeature;
@@ -46,6 +42,7 @@ public class TeslaEventManager {
 	private Set<ITeslaEventListener> listeners = new HashSet<ITeslaEventListener>();
 	private Set<IRwtWorkbenchListener> workbenchListeners = new HashSet<IRwtWorkbenchListener>();
 	private List<WeakReference<Menu>> popupMenus = new ArrayList<WeakReference<Menu>>();
+	private final List<Menu> allRegisteredMenu = new ArrayList<Menu>();
 	private Map<Menu, Control> popupMenuParents = new WeakHashMap<Menu, Control>();
 	private Widget lastWidget;
 	private int lastWidgetX;
@@ -166,8 +163,22 @@ public class TeslaEventManager {
 		return false;
 	}
 
+	public synchronized void registerPopupMenu(Menu menu)
+	{
+		allRegisteredMenu.add(menu);
+	}
+
+	public synchronized void clearRegisteredPopupMenu()
+	{
+		this.allRegisteredMenu.clear();
+	}
+
 	public List<WeakReference<Menu>> getPopupMenus() {
 		return popupMenus;
+	}
+
+	public List<Menu> getAllRegisteredMenus() {
+		return Collections.unmodifiableList(this.allRegisteredMenu);
 	}
 
 	public Map<Menu, Control> getPopupMenuParents() {
@@ -336,10 +347,13 @@ public class TeslaEventManager {
 			synced.remove(old);
 			popupMenuParents.clear();
 			popupMenus.clear();
+			allRegisteredMenu.clear();
 
 			if (lastDisplay != null) {
 
 				RWT.getUISession().addUISessionListener(new UISessionListener() {
+					private static final long serialVersionUID = 1L;
+
 					public void beforeDestroy(UISessionEvent event) {
 						synchronized (needSync) {
 							session = null;

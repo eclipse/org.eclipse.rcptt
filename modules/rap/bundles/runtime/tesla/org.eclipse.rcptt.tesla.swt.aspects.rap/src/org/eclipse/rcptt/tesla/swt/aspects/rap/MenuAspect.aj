@@ -17,6 +17,26 @@ public aspect MenuAspect {
 				.getClass().getName());
 	}
 
+
+	Object around(Menu menu, boolean value):
+		execution(void org.eclipse.swt.widgets.Menu.setVisible(boolean)) && target(menu) && args(value) {
+		Object result = Boolean.FALSE;
+		if (TeslaEventManager.getManager().isIgnoreMenuShow()) {
+			return result;
+		}
+		boolean proceedMenu = false;
+		try {
+			proceedMenu = TeslaEventManager.getManager().proceedMenu(menu,
+					value);
+		} catch (Throwable e) {
+			SWTAspectActivator.log(e);
+		}
+		if (!proceedMenu) {
+			result = proceed(menu, value);
+		}
+		return result;
+	}
+
 	@SuppressAjWarnings("adviceDidNotMatch")
 	Object around(Menu menu):
 		execution(boolean org.eclipse.swt.widgets.Menu.getVisible()) && target(menu) {
@@ -44,11 +64,11 @@ public aspect MenuAspect {
 			org.eclipse.swt.widgets.Control parent): execution(org.eclipse.swt.widgets.Menu.new(org.eclipse.swt.widgets.Control)) && target(menu) && args(parent) {
 		try {
 			TeslaEventManager.getManager().addMenuControl(menu, parent);
-			TeslaEventManager.getManager().proceedMenu(menu, true);
-			final Menu forclose = menu;
+			//TeslaEventManager.getManager().proceedMenu(menu, true);
+			TeslaEventManager.getManager().registerPopupMenu(menu);
 			menu.addListener(SWT.Dispose, new Listener() {
 				public void handleEvent(Event event) {
-					TeslaEventManager.getManager().proceedMenu(forclose, false);
+					TeslaEventManager.getManager().clearRegisteredPopupMenu();
 				}
 			});
 		} catch (Throwable e) {
@@ -61,11 +81,10 @@ public aspect MenuAspect {
 			org.eclipse.swt.widgets.Decorations parent): execution(org.eclipse.swt.widgets.Menu.new(org.eclipse.swt.widgets.Decorations,int)) && target(menu) && args(parent) {
 		try {
 			TeslaEventManager.getManager().addMenuControl(menu, parent);
-			TeslaEventManager.getManager().proceedMenu(menu, true);
-			final Menu forclose = menu;
+			TeslaEventManager.getManager().registerPopupMenu(menu);
 			menu.addListener(SWT.Dispose, new Listener() {
 				public void handleEvent(Event event) {
-					TeslaEventManager.getManager().proceedMenu(forclose, false);
+					TeslaEventManager.getManager().clearRegisteredPopupMenu();
 				}
 			});
 		} catch (Throwable e) {
