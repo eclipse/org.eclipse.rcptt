@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.internal.WorkbenchPartReference;
@@ -60,7 +61,8 @@ public class ChildrenCollector {
 	public SWTUIElement[] collectFor(final SWTUIElement w,
 			final SWTUIElement[] ignores, final boolean goIntoComposites,
 			final Class<?>... classes) {
-		return collectFor(w, ignores, goIntoComposites, false, classes);
+		final boolean recording = TeslaRecorder.getInstance().hasListeners();
+		return collectFor(w, ignores, goIntoComposites, recording, classes);
 	}
 
 	public SWTUIElement[] collectFor(final SWTUIElement w,
