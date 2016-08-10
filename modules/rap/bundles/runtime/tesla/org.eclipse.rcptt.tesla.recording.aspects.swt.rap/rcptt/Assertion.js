@@ -1,4 +1,21 @@
-namespace( "rwt.client.rcptt" );
+function doRCPTTInit() {
+  function define( name, object ) {
+    var splits = name.split( "." );
+    var parent = window;
+    var part = splits[ 0 ];
+    for( var i = 0, len = splits.length - 1; i < len; i++, part = splits[ i ] ) {
+      if( !parent[ part ] ) {
+        parent = parent[ part ] = {};
+      } else {
+        parent = parent[ part ];
+      }
+    }
+    if( !( part in parent ) ) {
+      parent[ part ] = object || {};
+    }
+    return part;
+  }
+define( "rwt.client.rcptt" );
 
 rwt.client.rcptt.Assertion = function() {
   this._intervalID = null;
@@ -20,14 +37,14 @@ rwt.client.rcptt.Assertion.getInstance = function() {
 rwt.client.rcptt.Assertion.prototype = {
 
   setActive : function(active) {
-  	var old = this._active;
+    var old = this._active;
     this._active = active;
-  	if(active) {
-  		this._start();
-  	}
-  	else  if(old) {
-  		this._stop();
-  	}
+    if(active) {
+      this._start();
+    }
+    else  if(old) {
+      this._stop();
+    }
   },
 
   _start : function() {
@@ -37,7 +54,7 @@ rwt.client.rcptt.Assertion.prototype = {
   },
 
   _stop: function() {
-   	this._widgetId = -100;
+    this._widgetId = -100;
     clearInterval(this._intervalID)
     document.onmousemove = function(event){};
   },
@@ -45,12 +62,12 @@ rwt.client.rcptt.Assertion.prototype = {
   _updateSelection : function() {
     var _this = rwt.client.rcptt.Assertion.getInstance();
     if(!_this._active) {
-    	return;
+      return;
     }
     var dom = document.elementFromPoint(_this._mousePosition.x, _this._mousePosition.y);
     var widget = rwt.event.EventHandlerUtil.getOriginalTargetObject(dom);
 
-	  if(_this._isAssertCanvas(widget)) {	  
+    if(_this._isAssertCanvas(widget)) {   
       var shell = rwt.widgets.util.WidgetUtil.getShell(widget);
       var domShell = shell.getElement();
       var cacheZIndex = domShell.style.zIndex;
@@ -64,7 +81,7 @@ rwt.client.rcptt.Assertion.prototype = {
 
       domShell.tabIndex = cacheTabIndex;
       domShell.style.zIndex = cacheZIndex;
-	  }
+    }
 
     var id = rwt.remote.ObjectRegistry.getId(widget);
 
@@ -155,12 +172,15 @@ rwt.client.rcptt.Assertion.prototype = {
   },
   _isAssertCanvas : function(widget)
   {
-   	var data = rwt.remote.HandlerUtil.getServerData(widget);
+    var data = rwt.remote.HandlerUtil.getServerData(widget);
     try {
-    	return data != null && Boolean(data["ASSERT_CANVAS"]) === true;
+      return data != null && Boolean(data["ASSERT_CANVAS"]) === true;
     } catch (e) {
-   		return false;
+      return false;
     }
   }
 
 };
+};
+
+setTimeout(doRCPTTInit, 100);
