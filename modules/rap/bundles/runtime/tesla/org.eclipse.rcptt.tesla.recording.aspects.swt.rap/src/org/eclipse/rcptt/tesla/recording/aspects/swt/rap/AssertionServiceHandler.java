@@ -25,7 +25,6 @@ public class AssertionServiceHandler implements ServiceHandler {
 	private static final String WIDGET_ID = "widgetId";
 	public final static String HANDLER_ID = "org.eclipse.rcptt.rap.assertion"; //$NON-NLS-1$
 
-	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		final String id = request.getParameter(WIDGET_ID);
 
@@ -54,23 +53,23 @@ public class AssertionServiceHandler implements ServiceHandler {
 		return null;
 	}
 
+	private static void setResponseHeaders(HttpServletResponse response) {
+		// Ensures that the response is not cached
+		// 410157: [ServerPush] ServerPush requests always return immediately in
+		// IE
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=410157
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
+	}
 
-	 private static void setResponseHeaders( HttpServletResponse response ) {
-		    // Ensures that the response is not cached
-		    // 410157: [ServerPush] ServerPush requests always return immediately in IE
-		    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=410157
-		    response.setHeader( "Cache-Control", "no-cache, no-store, must-revalidate" );
-		    response.setHeader( "Pragma", "no-cache" );
-		    response.setDateHeader( "Expires", 0 );
-		  }
-
-	private static boolean isConnectionAlive( HttpServletResponse response ) {
-	    try {
-	      PrintWriter writer = response.getWriter();
-	      writer.write( " " );
-	      return !writer.checkError();
-	    } catch( @SuppressWarnings( "unused" ) IOException ioe ) {
-	      return false;
-	    }
-	  }
+	private static boolean isConnectionAlive(HttpServletResponse response) {
+		try {
+			PrintWriter writer = response.getWriter();
+			writer.write(" ");
+			return !writer.checkError();
+		} catch (@SuppressWarnings("unused") IOException ioe) {
+			return false;
+		}
+	}
 }
