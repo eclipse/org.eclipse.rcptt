@@ -19,6 +19,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.JavaScriptExecutor;
+import org.eclipse.rcptt.tesla.swt.js.JavaScriptExecutionManager;
+import org.eclipse.rcptt.tesla.ui.RWTUtils;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
@@ -72,13 +76,12 @@ public final class SWTEventManager {
 	public static boolean needProceedEvents() {
 		Set<IExtendedSWTEventListener> set = getListeners(IExtendedSWTEventListener.class);
 		for (IExtendedSWTEventListener l : set) {
-			if( l.needProceedEvent()) {
+			if (l.needProceedEvent()) {
 				return true;
 			}
 		}
 		return false;
 	}
-
 
 	public static void setCurrentEvent(Event event) {
 		for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
@@ -86,8 +89,7 @@ public final class SWTEventManager {
 		}
 	}
 
-	public static boolean skipEvent(Widget widget, int type, Event event,
-			boolean send) {
+	public static boolean skipEvent(Widget widget, int type, Event event, boolean send) {
 		for (ISkipAwareEventListener listener : getListeners(ISkipAwareEventListener.class)) {
 			if (listener.isSkipEvent(widget, type, event, send)) {
 				return true;
@@ -105,12 +107,9 @@ public final class SWTEventManager {
 				if (exclusive == null)
 					exclusive = listener;
 				else {
-					throw new RuntimeException(
-							"Recording processors collision: " //$NON-NLS-1$
-									+ listener.getClass().getName()
-									+ " and " //$NON-NLS-1$
-									+ exclusive.getClass().getName()
-									+ " both want to handle event exclusive."); //$NON-NLS-1$
+					throw new RuntimeException("Recording processors collision: " //$NON-NLS-1$
+							+ listener.getClass().getName() + " and " //$NON-NLS-1$
+							+ exclusive.getClass().getName() + " both want to handle event exclusive."); //$NON-NLS-1$
 				}
 			}
 		}
@@ -133,14 +132,22 @@ public final class SWTEventManager {
 			listener.recordSWTDialog(dialog, result);
 		}
 	}
+
 	public static void recordRapDownload(String handler, String url, String content) {
 		for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
 			listener.recordRapDownloadHandler(handler, url, content);
 		}
 	}
 
-	public static void setFreeze(boolean value) {
+	public static void setFreeze(final boolean value) {
 		freezeState = value;
+
+		RWTUtils.findDisplay().asyncExec(new Runnable() {
+			public void run() {
+				RWT.getClient().getService(JavaScriptExecutor.class)
+						.execute("rwt.client.rcptt.Assertion.getInstance().setActive(" + (value ? "true" : "false") + ");");
+			}
+		});
 	}
 
 	public static boolean isFreeze(Widget widget, int type, Event event) {
@@ -183,14 +190,18 @@ public final class SWTEventManager {
 		ignoreFreeze = ignored;
 	}
 
-	public static boolean handleEventInFreeze(Widget widget, int type,
-			Event event) {
+	public static boolean handleEventInFreeze(Widget widget, int type, Event event) {
 		boolean finalResult = false;
 		for (IAssertSWTEventListener listener : getListeners(IAssertSWTEventListener.class)) {
-			finalResult = finalResult
-					|| listener.handleEventInFreeze(widget, type, event);
+			finalResult = finalResult || listener.handleEventInFreeze(widget, type, event);
 		}
 		return finalResult;
+	}
+
+	public static void handleUpdateHover(Control widget) {
+		for (IAssertSWTEventListener listener : getListeners(IAssertSWTEventListener.class)) {
+			 listener.handleUpdateHover(widget);
+		}
 	}
 
 	public static void recordCombo(CCombo combo) {
@@ -226,20 +237,25 @@ public final class SWTEventManager {
 		comboList.removeAll(toRemove);
 	}
 
-	// public static void recordStyledTextActionBefore(StyledText text, int action) {
-	// for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
+	// public static void recordStyledTextActionBefore(StyledText text, int
+	// action) {
+	// for (IExtendedSWTEventListener listener :
+	// getListeners(IExtendedSWTEventListener.class)) {
 	// listener.recordStyledTextActionBefore(text, action);
 	// }
 	// }
 	//
-	// public static void recordStyledTextActionAfter(StyledText text, int after) {
-	// for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
+	// public static void recordStyledTextActionAfter(StyledText text, int
+	// after) {
+	// for (IExtendedSWTEventListener listener :
+	// getListeners(IExtendedSWTEventListener.class)) {
 	// listener.recordStyledTextActionAfter(text, after);
 	// }
 	// }
 	//
 	// public static void recordStyledTextOffset(StyledText text) {
-	// for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
+	// for (IExtendedSWTEventListener listener :
+	// getListeners(IExtendedSWTEventListener.class)) {
 	// listener.recordStyledTextOffset(text);
 	// }
 	// }
@@ -264,8 +280,7 @@ public final class SWTEventManager {
 
 	// menuSources stuff
 
-	private static Map<Widget, Object> menuSources = Collections
-			.synchronizedMap(new WeakHashMap<Widget, Object>());
+	private static Map<Widget, Object> menuSources = Collections.synchronizedMap(new WeakHashMap<Widget, Object>());
 
 	public static void setMenuSource(Menu menu, Object source) {
 		if (menu != null && source != null) {
@@ -282,8 +297,7 @@ public final class SWTEventManager {
 		// Clear out menu sourced with disposed parts
 		for (Map.Entry<Widget, Object> entry : menuSources.entrySet()) {
 			if (entry.getValue() instanceof Widget) {
-				if (entry.getKey().isDisposed()
-						|| (((Widget) entry.getValue()).isDisposed())) {
+				if (entry.getKey().isDisposed() || (((Widget) entry.getValue()).isDisposed())) {
 					keysToRemove.add(entry.getKey());
 				}
 			}

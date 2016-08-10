@@ -412,6 +412,15 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWriteLines_Encode() {
+		return (EAttribute)writeLinesEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getReadLines() {
 		return readLinesEClass;
 	}
@@ -642,6 +651,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		writeLinesEClass = createEClass(WRITE_LINES);
 		createEAttribute(writeLinesEClass, WRITE_LINES__URI);
 		createEAttribute(writeLinesEClass, WRITE_LINES__APPEND);
+		createEAttribute(writeLinesEClass, WRITE_LINES__ENCODE);
 
 		readLinesEClass = createEClass(READ_LINES);
 		createEAttribute(readLinesEClass, READ_LINES__URI);
@@ -745,8 +755,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEAttribute(getAssertTablesMatch_IgnoreMissingColumns(), this.getIgnoreColumnsMode(), "ignoreMissingColumns", "NONE", 0, 1, AssertTablesMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(writeLinesEClass, WriteLines.class, "WriteLines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWriteLines_Uri(), theEcorePackage.getEString(), "uri", null, 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteLines_Uri(), theEcorePackage.getEString(), "uri", "UTF-8", 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWriteLines_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteLines_Encode(), theEcorePackage.getEString(), "encode", null, 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(readLinesEClass, ReadLines.class, "ReadLines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadLines_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

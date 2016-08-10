@@ -15,17 +15,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import org.eclipse.core.runtime.CoreException;
 
 public class Util {
-	public static Writer getWriter(final EclFile file, final boolean append) {
+	public static Writer getWriter(final EclFile file, final boolean append, final String encode) {
 		StringWriter writer = new StringWriter() {
 			@Override
 			public void close() throws IOException {
 				super.close();
 				try {
-					InputStream is = new ByteArrayInputStream(toString().getBytes());
+					String encoding = encode != null && encode.length() != 0 ? encode : StandardCharsets.UTF_8.name();
+					InputStream is = new ByteArrayInputStream(toString().getBytes(encoding));
 					if (append)
 						file.append(is);
 					else
@@ -36,5 +38,9 @@ public class Util {
 			}
 		};
 		return writer;
+	}
+
+	public static Writer getWriter(final EclFile file, final boolean append) {
+		return getWriter(file, append, StandardCharsets.UTF_8.name());
 	}
 }

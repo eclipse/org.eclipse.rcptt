@@ -112,7 +112,8 @@
       <details key="description" value="Reads objects from input pipe and writes them into file line-by-line as strings"/>
       <details key="example" value="//writes a list of launch configuration into a file line-by-line&#xA;list-launch-configurations | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot;&#xA;// appends &quot;New line&quot; into a file. &#xA;str &quot;New line&quot; | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot; -append&#xA;"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="UTF-8">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="URI to write lines to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
       </eAnnotations>
@@ -123,6 +124,7 @@
         <details key="description" value="Whether to append given lines into file. Default value is false"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="encode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReadLines" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
