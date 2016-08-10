@@ -41,7 +41,7 @@ public class WriteLinesService implements ICommandService {
 		EclFile out = FileResolver.resolve(cmd.getUri());
 		PrintStream ps = null;
 		try {
-			Writer fileWriter = Util.getWriter(out, cmd.isAppend());
+			Writer fileWriter = Util.getWriter(out, cmd.isAppend(), cmd.getEncode());
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			for (Object obj : CoreUtils.readPipeContent(context.getInput())) {
 				if (obj instanceof Wrapper) {

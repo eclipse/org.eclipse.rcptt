@@ -19,21 +19,23 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 
 /**
  * RAP does not support mouse track events
  * (http://eclipse.org/rap/developers-guide/devguide.php?topic=key-and-mouse-events.html&version=2.1)
- * This class simulates such events for SWTAssertManager to show assertion selections on mouse move events.
+ * This class simulates such events for SWTAssertManager to show assertion
+ * selections on mouse move events.
  *
- * Since 2.2+ RAP supports ClientScripting (http://wiki.eclipse.org/RAP/ClientScripting).
- * It's similar in concept to org.eclipse.swt.widgets.Listener,
- * but can only be executed on the client side.
- * With ClientScripting we can handle mouseEnter/mouseExit events on client side and
- * send notifications on server via js.
- * For example, var remoteObject = rap.getRemoteObject(this)),
- * see more examples on rap js API page.
+ * Since 2.2+ RAP supports ClientScripting
+ * (http://wiki.eclipse.org/RAP/ClientScripting). It's similar in concept to
+ * org.eclipse.swt.widgets.Listener, but can only be executed on the client
+ * side. With ClientScripting we can handle mouseEnter/mouseExit events on
+ * client side and send notifications on server via js. For example, var
+ * remoteObject = rap.getRemoteObject(this)), see more examples on rap js API
+ * page.
  *
  * Since RAP2.2 with class should be removed
  *
@@ -76,7 +78,7 @@ public class RcpttMouseEvents {
 		WidgetInfo newUnderMouse = getChild(activeShell, p.x, p.y, true);
 		if (newUnderMouse == null || newUnderMouse.widget == null) {
 			notifyMouseExit();
-		} else if (newUnderMouse.widget.equals(underMouse)) {
+		} else if (newUnderMouse.widget.equals(underMouse) && !(underMouse instanceof ToolBar)) {
 			return;
 		} else {
 			notifyMouseExit();
@@ -129,7 +131,10 @@ public class RcpttMouseEvents {
 			return info(((Tree) c).getItem(new Point(relX, relY)), relX, relY);
 		} else if (c instanceof Table) {
 			return info(((Table) c).getItem(new Point(relX, relY)), relX, relY);
+		} else if (c instanceof ToolBar) {
+			return info(((ToolBar) c).getItem(new Point(relX, relY)));
 		}
+
 		for (Control ctrl : c.getChildren()) {
 			if (ctrl.getBounds().contains(relX, relY) && ctrl.isVisible()) {
 				return getChild(ctrl, relX, relY, false);
@@ -166,4 +171,3 @@ public class RcpttMouseEvents {
 		}
 	}
 }
-

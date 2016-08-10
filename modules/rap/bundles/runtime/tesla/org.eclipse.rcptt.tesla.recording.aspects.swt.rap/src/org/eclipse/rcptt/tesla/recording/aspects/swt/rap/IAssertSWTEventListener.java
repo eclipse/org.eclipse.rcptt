@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.aspects.swt.rap;
 
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Widget;
 
 public interface IAssertSWTEventListener extends IAbstractSWTEventListener {
 
 	public boolean handleEventInFreeze(Widget widget, int type, Event event);
+	public void handleUpdateHover(Control control);
 
 }

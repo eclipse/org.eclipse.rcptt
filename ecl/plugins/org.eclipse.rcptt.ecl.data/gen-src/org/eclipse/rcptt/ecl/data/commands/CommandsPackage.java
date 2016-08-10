@@ -443,13 +443,22 @@ public interface CommandsPackage extends EPackage {
 	int WRITE_LINES__APPEND = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Encode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRITE_LINES__ENCODE = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Write Lines</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WRITE_LINES_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+	int WRITE_LINES_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadLinesImpl <em>Read Lines</em>}' class.
@@ -1028,6 +1037,17 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getWriteLines_Append();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#getEncode <em>Encode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Encode</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.commands.WriteLines#getEncode()
+	 * @see #getWriteLines()
+	 * @generated
+	 */
+	EAttribute getWriteLines_Encode();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.ReadLines <em>Read Lines</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1442,6 +1462,14 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WRITE_LINES__APPEND = eINSTANCE.getWriteLines_Append();
+
+		/**
+		 * The meta object literal for the '<em><b>Encode</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WRITE_LINES__ENCODE = eINSTANCE.getWriteLines_Encode();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ReadLinesImpl <em>Read Lines</em>}' class.

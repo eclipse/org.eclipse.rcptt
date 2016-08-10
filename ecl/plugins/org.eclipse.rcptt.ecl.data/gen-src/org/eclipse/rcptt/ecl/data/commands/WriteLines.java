@@ -23,6 +23,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#isAppend <em>Append</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#getEncode <em>Encode</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getWriteLines()
@@ -32,6 +33,7 @@ import org.eclipse.rcptt.ecl.core.Command;
 public interface WriteLines extends Command {
 	/**
 	 * Returns the value of the '<em><b>Uri</b></em>' attribute.
+	 * The default value is <code>"UTF-8"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Uri</em>' attribute isn't clear,
@@ -41,7 +43,8 @@ public interface WriteLines extends Command {
 	 * @return the value of the '<em>Uri</em>' attribute.
 	 * @see #setUri(String)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getWriteLines_Uri()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='URI to write lines to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system'"
+	 * @model default="UTF-8"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='URI to write lines to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system'"
 	 * @generated
 	 */
 	String getUri();
@@ -83,5 +86,31 @@ public interface WriteLines extends Command {
 	 * @generated
 	 */
 	void setAppend(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Encode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Encode</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Encode</em>' attribute.
+	 * @see #setEncode(String)
+	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getWriteLines_Encode()
+	 * @model
+	 * @generated
+	 */
+	String getEncode();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.data.commands.WriteLines#getEncode <em>Encode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Encode</em>' attribute.
+	 * @see #getEncode()
+	 * @generated
+	 */
+	void setEncode(String value);
 
 } // WriteLines

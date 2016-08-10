@@ -25,6 +25,7 @@ import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.jface.bindings.keys.SWTKeySupport;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.rap.rwt.widgets.WidgetUtil;
 import org.eclipse.rcptt.logging.IQ7ActivityLogs;
 import org.eclipse.rcptt.logging.Q7LoggingManager;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
@@ -35,6 +36,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.AssertionFocus;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
+import org.eclipse.rcptt.tesla.core.ui.Item;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
@@ -52,6 +54,8 @@ import org.eclipse.rcptt.tesla.ui.RWTUtils;
 import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -273,6 +277,8 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 			widget = lastFocusedWidget.getWidget();
 			event.x = lastX;
 			event.y = lastY;
+			event.type = widget instanceof org.eclipse.swt.widgets.Item && type == SWT.MouseUp ? SWT.Selection : type;
+			type = event.type;
 		}
 
 		if (widget == selectionCanvas || widget == selectionShell) {
@@ -332,9 +338,10 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				}
 			}
 
-			if(widget instanceof ToolBar)
-			{
-				widget = ((ToolBar)widget).getItem(new Point(event.x, event.y));
+			if (widget instanceof ToolBar) {
+				Point point = new Point(event.x, event.y);
+				point = ((ToolBar) widget).toControl(point);
+				widget = ((ToolBar) widget).getItem(new Point(event.x, event.y));
 			}
 
 			if (type == SWT.Show && widget instanceof Menu) {
@@ -352,7 +359,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				freezedCtrl = assertDescr;
 			}
 
-			if (type == SWT.Selection && (widget instanceof ToolItem)) {
+			if (type == SWT.Selection && widget instanceof ToolItem) {
 				assertionLog(
 						"assertion target locked for tool item: " + ((org.eclipse.swt.widgets.Item) widget).getText());
 
@@ -397,7 +404,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				}
 			}
 			if ((type == SWT.MouseUp && !(widget instanceof ToolItem))
-					|| (widget instanceof Label && type == SWT.Activate) || (type == SWT.Selection && widget instanceof Button)) {
+					|| (widget instanceof Label && type == SWT.Activate)) {
 				for (Shell menuShell : menuShells) {
 					if (menuShell != null) {
 						if (widget instanceof Control && !((Control) widget).getShell().equals(menuShell)) {
@@ -447,33 +454,12 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 			}
 			if ((type == SWT.MouseDown || type == SWT.Activate || type == RcpttMouseEvents.MouseEnter
 					|| type == RcpttMouseEvents.MouseExit) && freezedCtrl == null) {
-				synchronized (widgetsOnMove) {
-					widgetsOnMove.add(assertDescr);
-				}
+
 				final Event fevent = event;
 				if (widget != null) {
 					lastX = fevent.x;
 					lastY = fevent.y;
-					widget.getDisplay().timerExec(150, new Runnable() {
-						@Override
-						public void run() {
-							synchronized (widgetsOnMove) {
-								if (widgetsOnMove.size() > 0) {
-									if (freezedCtrl == null) {
-										IRecordingDescriber lastWidget = widgetsOnMove.get(widgetsOnMove.size() - 1);
-										if (!lastWidget.equals(lastFocusedWidget) || !selectionShell.isVisible()) {
-											Widget w = lastWidget.getWidget();
-											if (!w.isDisposed()) {
-												updateHoverAccordingTo(lastWidget, fevent.x, fevent.y);
-											}
-										}
-										lastFocusedWidget = lastWidget;
-									}
-									widgetsOnMove.clear();
-								}
-							}
-						}
-					});
+					handleUpdateHover(widget, new Rectangle(0, 0, lastX, lastY));
 				}
 			}
 
@@ -486,6 +472,37 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 	private void assertionLog(String message) {
 		if (TeslaFeatures.isActivityLogging()) {
 			Q7LoggingManager.logMessage(IQ7ActivityLogs.ASSERTIONS, message);
+		}
+	}
+
+	public void handleUpdateHover(Control widget) {
+		handleUpdateHover(widget, widget.getBounds());
+	}
+
+	private void handleUpdateHover(Widget widget, Rectangle bounds) {
+		IRecordingDescriber describer = RecordingDescriberManager.getDescriber(widget, bounds.x, bounds.y, true);
+		describer = selectAllowedParent(describer);
+
+		if (describer == null)
+			return;
+
+		widgetsOnMove.clear();
+		widgetsOnMove.add(describer);
+		synchronized (widgetsOnMove) {
+			try {
+				if (widgetsOnMove.size() > 0 && freezedCtrl == null) {
+					IRecordingDescriber last = widgetsOnMove.get(widgetsOnMove.size() - 1);
+					if (!last.equals(lastFocusedWidget) || !selectionShell.isVisible()) {
+						Widget w = last.getWidget();
+						if (!w.isDisposed()) {
+							updateHoverAccordingTo(last, bounds.x, bounds.y);
+						}
+					}
+					lastFocusedWidget = last;
+				}
+			} finally {
+				widgetsOnMove.clear();
+			}
 		}
 	}
 
@@ -687,51 +704,29 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				bounds.height = 1;
 			}
 		}
+		hookSelectionCanvas(selectionShell, inactive);
+
+		if (!selectionShell.isVisible()) {
+			selectionShell.setVisible(true);
+			// selectionShell.open();
+		}
+
+		selectionShell.moveAbove(null);
+		selectionShell.setAlpha(127);
+		selectionShell.setBackground(null);
 
 		selectionShell.setBounds(px, py, bounds.width, bounds.height);
 		if (!selectionCanvas.isDisposed()) {
 			selectionCanvas.setBounds(0, 0, bounds.width, bounds.height);
 		}
 
-		/*
-		 * Region region = new Region();
-		 *
-		 * int p0x = 7; int p0y = 7; int st = 2;
-		 *
-		 * region.add(0, 0, p0x, st); region.add(0, 0, st, p0x);
-		 *
-		 * region.add(bounds.width - p0x, 0, p0x, st); region.add(bounds.width -
-		 * st, 0, st, p0y);
-		 *
-		 * region.add(bounds.width - p0x, bounds.height - st, p0x, st);
-		 * region.add(bounds.width - st, bounds.height - p0y, 2, p0y);
-		 *
-		 * region.add(0, bounds.height - st, p0x, st); region.add(0,
-		 * bounds.height - p0y, 2, p0y);
-		 *
-		 * if (controlEquals) { // p0x = bounds.width; // p0y = bounds.height;
-		 * region.add(0, 0, bounds.width, 2); region.add(0, bounds.height - 2,
-		 * bounds.width, 2); region.add(0, 0, 2, bounds.height);
-		 * region.add(bounds.width - 2, 0, 2, bounds.height); }
-		 *
-		 * selectionShell.setBackground(selectionShell.getDisplay()
-		 * .getSystemColor(!inactive ? SWT.COLOR_RED : SWT.COLOR_BLACK)); //
-		 * define the shape of the shell using setRegion Region oldRegion =
-		 * selectionShell.getRegion(); if (oldRegion != null &&
-		 * !oldRegion.isDisposed()) oldRegion.dispose();
-		 * selectionShell.setRegion(region);
-		 */
-		if (!selectionShell.isVisible()) {
-			selectionShell.setVisible(true);
-			// selectionShell.open();
-		}
 		selectionShell.redraw();
 		if (!selectionCanvas.isDisposed()) {
 			selectionCanvas.redraw();
 		}
-		// selectionShell.forceActive();
-		selectionShell.moveAbove(null);
-		selectionShell.setAlpha(127);
+
+
+
 	}
 
 	private synchronized void callCreateHover(final boolean value, Shell parent) {
@@ -761,38 +756,13 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 				}
 			}
 		}
-		// if (selectionShell != null && value == true) {
-		// Composite currentParent = selectionShell.getParent();
-		// boolean reCreate = false;
-		// if (currentParent != null) {
-		// reCreate = !currentParent.equals(parent);
-		// } else {
-		// reCreate = (parent != null);
-		// }
-		// if (reCreate) {
-		// selectionShell.dispose();
-		// selectionShell = null;
-		// }
-		// }
 		if (selectionShell == null && value == true) {
-			// if (parent != null) {
-			// selectionShell = new Shell(parent, SWT.NO_TRIM | SWT.ON_TOP |
-			// SWT.TOOL);
-			// } else {
-			selectionShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP | SWT.TOOL);
-			hookSelectionCanvas(selectionShell);
-			// }
 
-			// selectionShell.setBackground(selectionShell.getDisplay()
-			// .getSystemColor(SWT.COLOR_RED));
+			selectionShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP | SWT.TOOL);
+			hookSelectionCanvas(selectionShell, false);
+
 			selectionShell.setText("Hover");
-			// selectionShell.addMouseMoveListener(new MouseMoveListener() {
-			// public void mouseMove(MouseEvent e) {
-			// if (freezedCtrl != null && freezedCtrl instanceof Control) {
-			// ((Control) freezedCtrl).getShell().setFocus();
-			// }
-			// }
-			// });
+
 		} else if (value == false) {
 			if (selectionShell != null) {
 				selectionShell.dispose();
@@ -801,14 +771,34 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 		}
 	}
 
-	private void hookSelectionCanvas(final Shell selectionShell) {
+	private void hookSelectionCanvas(final Shell selectionShell, final boolean inactive) {
+		if (selectionCanvas != null) {
+			selectionCanvas.dispose();
+		}
+
 		selectionCanvas = new Canvas(selectionShell, SWT.NONE);
+		selectionCanvas.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+			}
+		});
+		WidgetUtil.registerDataKeys("ASSERT_CANVAS");
+		selectionCanvas.setData("ASSERT_CANVAS", "true");
 		selectionCanvas.addPaintListener(new PaintListener() {
 			private static final long serialVersionUID = -1787041824559654007L;
 
 			@Override
 			public void paintControl(PaintEvent event) {
-				event.gc.setForeground(selectionShell.getDisplay().getSystemColor(SWT.COLOR_RED));
+				event.gc.setForeground(
+						selectionShell.getDisplay().getSystemColor(!inactive ? SWT.COLOR_RED : SWT.COLOR_BLACK));
 				event.gc.setLineWidth(2);
 				final Rectangle bounds = selectionCanvas.getBounds();
 
@@ -912,7 +902,7 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 					selectionShell = null;
 				}
 				selectionShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP | SWT.TOOL);
-				hookSelectionCanvas(selectionShell);
+				hookSelectionCanvas(selectionShell, false);
 				selectionShell.setText("Hover");
 				disposeMenuPopups();
 				clearPopupMenus();
@@ -933,4 +923,5 @@ public class SWTAssertManager implements IRecordingProcessor, IAssertSWTEventLis
 		}
 		return false;
 	}
+
 }

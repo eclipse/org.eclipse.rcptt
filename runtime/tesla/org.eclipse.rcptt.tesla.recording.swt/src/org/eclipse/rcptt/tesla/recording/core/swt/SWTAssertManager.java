@@ -484,6 +484,7 @@ public class SWTAssertManager implements IRecordingProcessor,
 		}
 	}
 
+
 	public boolean isShortcutRequest(Event e, String[] shortcuts) {
 		if (shortcuts == null) {
 			return false;

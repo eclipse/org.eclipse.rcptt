@@ -4,11 +4,27 @@ import static org.eclipse.rcptt.tesla.core.utils.TeslaUtils.isMac;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
+import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.client.service.ClientFileLoader;
+import org.eclipse.rap.rwt.client.service.JavaScriptLoader;
+import org.eclipse.rap.rwt.internal.application.ApplicationContextImpl;
+import org.eclipse.rap.rwt.internal.lifecycle.CurrentPhase;
+import org.eclipse.rap.rwt.internal.lifecycle.PhaseId;
+import org.eclipse.rap.rwt.internal.service.ServiceManagerImpl;
+import org.eclipse.rap.rwt.service.ResourceManager;
+import org.eclipse.rap.rwt.service.ServiceHandler;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
+import org.eclipse.rap.rwt.widgets.WidgetUtil;
+import org.eclipse.rcptt.tesla.core.am.rap.AspectManager;
+import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
+import org.eclipse.rcptt.tesla.swt.download.RapDownloadHandlerManager;
+import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CCombo;
@@ -27,8 +43,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolItem;
@@ -414,6 +430,7 @@ privileged public aspect RecordingAspect {
 			}
 		});
 	}
+
 	@SuppressAjWarnings("adviceDidNotMatch")
 	after(Browser browser, org.eclipse.swt.widgets.Composite composite, int style):
 		execution(org.eclipse.swt.browser.Browser.new(org.eclipse.swt.widgets.Composite,int)) && target(browser) && args(composite, style){
@@ -439,6 +456,17 @@ privileged public aspect RecordingAspect {
 			public void handleEvent(Event event) {
 			}
 		});
+	}
+
+	 after(ApplicationContextImpl context):
+			execution(* org.eclipse.rap.rwt.internal.application.ApplicationContextImpl.activate())
+			&& target(context) {
+		 context.getServiceManager().registerServiceHandler(AssertionServiceHandler.HANDLER_ID, new AssertionServiceHandler());
+		 try {
+			RcpttJSRegistrar.registrate(context.getStartupPage(), context.getResourceManager());
+		} catch (IOException e) {
+			RecordingSWTActivator.log(e);
+		}
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
