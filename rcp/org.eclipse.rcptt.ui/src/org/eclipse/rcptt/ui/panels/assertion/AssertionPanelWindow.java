@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,8 +34,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.IViewerObservableSet;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -118,15 +118,12 @@ public class AssertionPanelWindow extends Dialog {
 	private static final String SETTINGS_KEY = "AssertionPanelWindow"; //$NON-NLS-1$
 
 	private final DataBindingContext dbc = new DataBindingContext();
-
-	private WidgetDetailsDialog widgetDetailsDialog;
-
-	private ImageManager imageManager = new ImageManager();
+	private final ImageManager imageManager = new ImageManager();
+	private final WritableValue<Boolean> hasAssert = new WritableValue<Boolean>(false, Boolean.class);
 
 	private final IAction collapseAll = new Action() {
 		{
-			setImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_COLLAPSE_ALL));
+			setImageDescriptor(Images.getImageDescriptor(Images.PANEL_COLLAPSE_ALL));
 			setToolTipText(Messages.AssertionPanelWindow_CollapseAllActionToolTip);
 		}
 
@@ -138,8 +135,7 @@ public class AssertionPanelWindow extends Dialog {
 
 	private final IAction expandAll = new Action() {
 		{
-			setImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_EXPAND_ALL));
+			setImageDescriptor(Images.getImageDescriptor(Images.PANEL_EXPAND_ALL));
 			setToolTipText(Messages.AssertionPanelWindow_ExpandAllActionToolTip);
 		}
 
@@ -149,20 +145,16 @@ public class AssertionPanelWindow extends Dialog {
 		};
 	};
 
-	private final IAction selectAll = new Action(
-			Messages.AssertionPanelWindow_SelectAllActionText) {
+	private final IAction selectAll = new Action(Messages.AssertionPanelWindow_SelectAllActionText) {
 		{
-			setImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_SELECT_ALL));
-			setDisabledImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_SELECT_ALL_DISABLED));
+			setImageDescriptor(Images.getImageDescriptor(Images.PANEL_SELECT_ALL));
+			setDisabledImageDescriptor(Images.getImageDescriptor(Images.PANEL_SELECT_ALL_DISABLED));
 			setToolTipText(Messages.AssertionPanelWindow_SelectAllActionToolTip);
 		}
 
 		@Override
 		public void run() {
-			for (AssertGroup obj : ((AssertInput) viewer.getInput())
-					.getAsserts()) {
+			for (AssertGroup obj : ((AssertInput) viewer.getInput()).getAsserts()) {
 				checkedObservable.add(obj);
 				checkedObservable.addAll(obj.getAsserts());
 			}
@@ -171,10 +163,8 @@ public class AssertionPanelWindow extends Dialog {
 
 	private final IAction deselectAll = new Action() {
 		{
-			setImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_DESELECT_ALL));
-			setDisabledImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_DESELECT_ALL_DISABLED));
+			setImageDescriptor(Images.getImageDescriptor(Images.PANEL_DESELECT_ALL));
+			setDisabledImageDescriptor(Images.getImageDescriptor(Images.PANEL_DESELECT_ALL_DISABLED));
 			setToolTipText(Messages.AssertionPanelWindow_DeselectAllActionToolTip);
 		}
 
@@ -187,16 +177,22 @@ public class AssertionPanelWindow extends Dialog {
 	private final RecordingSupport recordingSupport;
 	private final Shell parentShell;
 
-	private CCombo filterCombo = null; 
-	private Text filterText = null;
+	private WidgetDetailsDialog widgetDetailsDialog;
+	private CommandSet commands;
+	private AssertInput currentInput;
+	private IObservableSet<Object> checkedObservable;
+	private Button appendButton;
+	private List<TreeItem> collapsed;
+	private List<TreeItem> references;
+	private CCombo filterCombo;
+	private Text filterText;
 	private String filterValue = "";
 
-	public AssertionPanelWindow(RecordingSupport recordingSupport,
-			Shell parentShell) {
+	public AssertionPanelWindow(RecordingSupport recordingSupport, Shell parentShell) {
 		super(parentShell);
 		this.recordingSupport = recordingSupport;
 		this.parentShell = parentShell;
-		setShellStyle(SWT.RESIZE | SWT.TOOL | SWT.CLOSE | SWT.ON_TOP);
+		setShellStyle(SWT.RESIZE | SWT.CLOSE);
 	}
 
 	@Override
@@ -216,10 +212,8 @@ public class AssertionPanelWindow extends Dialog {
 		win.setBlockOnOpen(true);
 		if (win.open() == Window.OK) {
 			final Assert result = win.getAssert();
-			result.setElement(EcoreUtil.copy(currentInput
-					.getElement()));
-			recordingSupport.getRecorder().addAsserts(commands,
-					new Assert[] { result });
+			result.setElement(EcoreUtil.copy(currentInput.getElement()));
+			recordingSupport.getRecorder().addAsserts(commands, new Assert[] { result });
 			return true;
 		}
 		return false;
@@ -245,8 +239,7 @@ public class AssertionPanelWindow extends Dialog {
 				}
 			}
 		});
-		GridLayoutFactory.fillDefaults().equalWidth(true).spacing(0, 0)
-				.margins(0, 0).applyTo(newShell);
+		GridLayoutFactory.fillDefaults().equalWidth(true).spacing(0, 0).margins(0, 0).applyTo(newShell);
 
 		newShell.addDisposeListener(new DisposeListener() {
 			@Override
@@ -271,8 +264,7 @@ public class AssertionPanelWindow extends Dialog {
 
 	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
-		final IDialogSettings root = Q7UIPlugin.getDefault()
-				.getDialogSettings();
+		final IDialogSettings root = Q7UIPlugin.getDefault().getDialogSettings();
 		IDialogSettings section = root.getSection(SETTINGS_KEY);
 		if (section == null) {
 			section = root.addNewSection(SETTINGS_KEY);
@@ -281,8 +273,7 @@ public class AssertionPanelWindow extends Dialog {
 	}
 
 	protected boolean hasDialogBoundsSettings() {
-		final IDialogSettings root = Q7UIPlugin.getDefault()
-				.getDialogSettings();
+		final IDialogSettings root = Q7UIPlugin.getDefault().getDialogSettings();
 		return root.getSection(SETTINGS_KEY) != null;
 	}
 
@@ -335,10 +326,8 @@ public class AssertionPanelWindow extends Dialog {
 
 	protected TreeViewerColumn createPropertyColumn() {
 		final TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.NONE);
-		column.getColumn().setText(
-				Messages.AssertionPanelWindow_ColumnPropertyName);
-		column.getColumn().setToolTipText(
-				Messages.AssertionPanelWindow_ColumnPropertyToolTip);
+		column.getColumn().setText(Messages.AssertionPanelWindow_ColumnPropertyName);
+		column.getColumn().setToolTipText(Messages.AssertionPanelWindow_ColumnPropertyToolTip);
 		column.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -349,12 +338,11 @@ public class AssertionPanelWindow extends Dialog {
 					final Assert a = (Assert) element;
 					String attrName = a.getAttribute();
 					int ind = StringUtils.getAttrLastSplitterInd(attrName);
-					if (ind > 0) { //$NON-NLS-1$
+					if (ind > 0) { // $NON-NLS-1$
 						attrName = attrName.substring(attrName.lastIndexOf(".") + 1); //$NON-NLS-1$
 					}
 					if (attrName.indexOf('[') > 0) {
-						attrName = attrName.substring(attrName.indexOf('['),
-								attrName.indexOf(']') + 1);
+						attrName = attrName.substring(attrName.indexOf('['), attrName.indexOf(']') + 1);
 					}
 					result = attrName;
 				}
@@ -369,10 +357,8 @@ public class AssertionPanelWindow extends Dialog {
 
 	protected TreeViewerColumn createOperationColumn() {
 		final TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.NONE);
-		column.getColumn().setText(
-				Messages.AssertionPanelWindow_ColumnOperationName);
-		column.getColumn().setToolTipText(
-				Messages.AssertionPanelWindow_ColumnOperationToolTip);
+		column.getColumn().setText(Messages.AssertionPanelWindow_ColumnOperationName);
+		column.getColumn().setToolTipText(Messages.AssertionPanelWindow_ColumnOperationToolTip);
 		column.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -388,10 +374,8 @@ public class AssertionPanelWindow extends Dialog {
 
 	protected TreeViewerColumn createValueColumn() {
 		final TreeViewerColumn column = new TreeViewerColumn(viewer, SWT.NONE);
-		column.getColumn().setText(
-				Messages.AssertionPanelWindow_ValueOperationName);
-		column.getColumn().setToolTipText(
-				Messages.AssertionPanelWindow_ValueOperationToolTip);
+		column.getColumn().setText(Messages.AssertionPanelWindow_ValueOperationName);
+		column.getColumn().setToolTipText(Messages.AssertionPanelWindow_ValueOperationToolTip);
 		column.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -410,18 +394,14 @@ public class AssertionPanelWindow extends Dialog {
 	}
 
 	private void createColumnViewers(TreeColumnLayout layout) {
-		layout.setColumnData(createPropertyColumn().getColumn(),
-				new ColumnWeightData(20));
-		layout.setColumnData(createOperationColumn().getColumn(),
-				new ColumnWeightData(8));
-		layout.setColumnData(createValueColumn().getColumn(),
-				new ColumnWeightData(35));
+		layout.setColumnData(createPropertyColumn().getColumn(), new ColumnWeightData(20));
+		layout.setColumnData(createOperationColumn().getColumn(), new ColumnWeightData(8));
+		layout.setColumnData(createValueColumn().getColumn(), new ColumnWeightData(35));
 	}
 
 	protected void processCheck(Object element, boolean checked) {
 
 		// -- go up the tree, to the branches
-
 		if (element instanceof AssertGroup) {
 			if (viewer.getExpandedState(element)) {
 				for (Object a : ((AssertGroup) element).getAsserts()) {
@@ -446,8 +426,8 @@ public class AssertionPanelWindow extends Dialog {
 
 		// -- go down the tree, to the roots
 
-		AssertGroup parent = element instanceof Assert ? ((AssertInput) viewer
-				.getInput()).getParent(element) : (AssertGroup) element;
+		AssertGroup parent = element instanceof Assert ? ((AssertInput) viewer.getInput()).getParent(element)
+				: (AssertGroup) element;
 
 		while (parent != null) {
 			boolean hasChecked = false;
@@ -481,10 +461,8 @@ public class AssertionPanelWindow extends Dialog {
 		composite.setLayout(new GridLayout());
 
 		final Composite toolbarComposite = new Composite(composite, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2)
-				.applyTo(toolbarComposite);
-		toolbarComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(toolbarComposite);
+		toolbarComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ActionToolbar actions = new ActionToolbar() {
 			@Override
@@ -507,14 +485,12 @@ public class AssertionPanelWindow extends Dialog {
 				dbc.bindValue(Actions.observeEnabled(collapseAll), hasAssert);
 			}
 		};
-		actions.create(toolbarComposite).setLayoutData(
-				new GridData(SWT.FILL, SWT.CENTER, true, false));
+		actions.create(toolbarComposite).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final MenuToolbar menu = new MenuToolbar() {
 			@Override
 			protected void fill(MenuManager manager) {
-				manager.add(new Action(
-						Messages.AssertionPanelWindow_CloseActionName) {
+				manager.add(new Action(Messages.AssertionPanelWindow_CloseActionName) {
 					@Override
 					public void run() {
 						close();
@@ -522,14 +498,11 @@ public class AssertionPanelWindow extends Dialog {
 				});
 			};
 		};
-		menu.create(toolbarComposite).setLayoutData(
-				new GridData(SWT.RIGHT, SWT.CENTER, true, false));
+		menu.create(toolbarComposite).setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
 
-		createTreeViewer(composite).setLayoutData(
-				new GridData(SWT.FILL, SWT.FILL, true, true));
+		createTreeViewer(composite).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		createButtonPanel(composite).setLayoutData(
-				new GridData(SWT.FILL, SWT.CENTER, true, false));
+		createButtonPanel(composite).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		return composite;
 	}
@@ -549,18 +522,15 @@ public class AssertionPanelWindow extends Dialog {
 
 		filterCombo = new CCombo(filterComposite, SWT.READ_ONLY);
 		filterCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		filterCombo.setItems(
-			new String[] {
-				Messages.AssertionPanelWindow_FilterByProperty,
-				Messages.AssertionPanelWindow_FilterByValue
-			}
-		);
+		filterCombo.setItems(new String[] { Messages.AssertionPanelWindow_FilterByProperty,
+				Messages.AssertionPanelWindow_FilterByValue });
 		filterCombo.select(1);
 		filterCombo.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doFilter();
 			}
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				doFilter();
@@ -577,6 +547,7 @@ public class AssertionPanelWindow extends Dialog {
 					doFilter();
 				}
 			}
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 			}
@@ -592,6 +563,7 @@ public class AssertionPanelWindow extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				doFilter();
 			}
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				doFilter();
@@ -608,7 +580,7 @@ public class AssertionPanelWindow extends Dialog {
 	private interface ITreeViewerFilter {
 		public boolean isVisible(AssertImpl object);
 	}
-	
+
 	Composite treeViewerComposite = null;
 
 	protected Control createTreeViewer(Composite parent) {
@@ -624,11 +596,10 @@ public class AssertionPanelWindow extends Dialog {
 		treeComposite.setLayout(layout);
 		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		final Tree tree = new Tree(treeComposite, SWT.BORDER | SWT.CHECK
-				| SWT.FULL_SELECTION);
+		final Tree tree = new Tree(treeComposite, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		tree.setHeaderVisible(true);
 
-		dbc.bindValue(SWTObservables.observeEnabled(tree), hasAssert);
+		dbc.bindValue(WidgetProperties.enabled().observe(tree), hasAssert);
 
 		viewer = new CheckboxTreeViewer(tree);
 		createColumnViewers(layout);
@@ -646,33 +617,26 @@ public class AssertionPanelWindow extends Dialog {
 					return true;
 				}
 				if (filterCombo.getSelectionIndex() == 0) {
-					return select(
-						(CheckboxTreeViewer) viewer,
-						element,
-						new ITreeViewerFilter() {
-							@Override
-							public boolean isVisible(AssertImpl object) {
-								final String[] attributes = object.getAttribute().split("\\.");
-								final String name = attributes[attributes.length - 1];
-								return name.toLowerCase().contains(filterValue);
-							}
+					return select((CheckboxTreeViewer) viewer, element, new ITreeViewerFilter() {
+						@Override
+						public boolean isVisible(AssertImpl object) {
+							final String[] attributes = object.getAttribute().split("\\.");
+							final String name = attributes[attributes.length - 1];
+							return name.toLowerCase().contains(filterValue);
 						}
-					);
+					});
 				}
 				if (filterCombo.getSelectionIndex() == 1) {
-					return select(
-						(CheckboxTreeViewer) viewer,
-						element,
-						new ITreeViewerFilter() {
-							@Override
-							public boolean isVisible(AssertImpl object) {
-								return object.getValue().toLowerCase().contains(filterValue);
-							}
+					return select((CheckboxTreeViewer) viewer, element, new ITreeViewerFilter() {
+						@Override
+						public boolean isVisible(AssertImpl object) {
+							return object.getValue().toLowerCase().contains(filterValue);
 						}
-					);
+					});
 				}
 				return true;
 			}
+
 			private boolean select(CheckboxTreeViewer viewer, Object element, ITreeViewerFilter filter) {
 				if (element instanceof AssertGroup) {
 					AssertGroup group = (AssertGroup) element;
@@ -695,16 +659,12 @@ public class AssertionPanelWindow extends Dialog {
 		viewer.getTree().addListener(SWT.EraseItem, new Listener() {
 			public void handleEvent(Event event) {
 				if (filterValue.isEmpty() || (event.detail & SWT.SELECTED) != 0) {
-					return; 
+					return;
 				}
 				if (((TreeItem) event.item).getData() instanceof AssertImpl) {
 					final GC gc = event.gc;
-					gc.setBackground(
-						new org.eclipse.swt.graphics.Color(
-							viewer.getControl().getDisplay(),
-							new RGB(168, 182, 223)
-						)
-					);
+					gc.setBackground(new org.eclipse.swt.graphics.Color(viewer.getControl().getDisplay(),
+							new RGB(168, 182, 223)));
 					gc.fillRectangle(0, event.y, viewer.getTree().getClientArea().width, event.height);
 				}
 			}
@@ -721,7 +681,6 @@ public class AssertionPanelWindow extends Dialog {
 	protected void initializeDialogUnits(Control control) {
 		// Compute and store a font metric
 		Shell sh = new Shell(control.getDisplay());
-		// sh.open();
 		sh.setVisible(false);
 		GC gc = new GC(sh);
 		gc.setFont(JFaceResources.getDialogFont());
@@ -730,8 +689,7 @@ public class AssertionPanelWindow extends Dialog {
 		sh.dispose();
 	}
 
-	public static int convertHorizontalDLUsToPixels(FontMetrics fontMetrics,
-			int dlus) {
+	public static int convertHorizontalDLUsToPixels(FontMetrics fontMetrics, int dlus) {
 		// round to the nearest pixel
 		return (fontMetrics.getAverageCharWidth() * dlus + 4 / 2) / 4;
 	}
@@ -750,22 +708,20 @@ public class AssertionPanelWindow extends Dialog {
 		return minSize.x;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Control createButtonPanel(Composite parent) {
 		final Composite composite = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(composite);
 
 		final Button widgetInfo = new Button(composite, SWT.NONE);
-		GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.CENTER).
-				applyTo(widgetInfo);
+		GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(widgetInfo);
 		widgetInfo.setText("Widget details...");
-		widgetInfo.setImage(Images.getImageDescriptor(
-				Images.PANEL_NEW_IMAGE_WIDGET_DETAILS).createImage());
+		widgetInfo.setImage(Images.getImageDescriptor(Images.PANEL_NEW_IMAGE_WIDGET_DETAILS).createImage());
 
 		widgetInfo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				GetWidgetDetails getDetails = TeslaFactory.eINSTANCE
-						.createGetWidgetDetails();
+				GetWidgetDetails getDetails = TeslaFactory.eINSTANCE.createGetWidgetDetails();
 				getDetails.setElement(EcoreUtil.copy(commands.getElement()));
 				Object result = null;
 				try {
@@ -775,8 +731,7 @@ public class AssertionPanelWindow extends Dialog {
 				}
 				if (result != null && result instanceof BoxedValue) {
 					String msg = BoxedValues.toString((BoxedValue) result);
-					widgetDetailsDialog = new WidgetDetailsDialog(widgetInfo
-							.getShell(), msg);
+					widgetDetailsDialog = new WidgetDetailsDialog(widgetInfo.getShell(), msg);
 					widgetDetailsDialog.open();
 				}
 			}
@@ -786,11 +741,11 @@ public class AssertionPanelWindow extends Dialog {
 
 		appendButton = new Button(composite, SWT.NONE);
 
-		GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.CENTER)
-				.grab(true, false).hint(120, SWT.DEFAULT).applyTo(appendButton);
+		GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.CENTER).grab(true, false).hint(120, SWT.DEFAULT)
+				.applyTo(appendButton);
 
-		appendButton.setImage(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
+		appendButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_ADD)
+				.createImage());
 		appendButton.setText(Messages.AssertionPanelWindow_AddAssertButton);
 		appendButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -800,24 +755,22 @@ public class AssertionPanelWindow extends Dialog {
 			}
 		});
 
-		checkedObservable = ViewersObservables.observeCheckedElements(viewer,
-				null);
-		ComputedValue computed = new ComputedValue(Boolean.TYPE) {
+		checkedObservable = ViewersObservables.observeCheckedElements(viewer, null);
+		ComputedValue<Boolean> computed = new ComputedValue<Boolean>(Boolean.TYPE) {
 			@Override
-			protected Object calculate() {
+			protected Boolean calculate() {
 				if (!(Boolean) hasAssert.getValue()) {
-					return false;
+					return Boolean.FALSE;
 				}
 				return !checkedObservable.isEmpty();
 			}
 		};
-		dbc.bindValue(SWTObservables.observeEnabled(appendButton), computed);
+		dbc.bindValue(WidgetProperties.enabled().observe(appendButton), computed);
 		return composite;
 	}
 
 	protected void addButtonPressed() {
-		recordingSupport.getRecorder().addAsserts(commands,
-				getCheckedAsserts().toArray(new Assert[0]));
+		recordingSupport.getRecorder().addAsserts(commands, getCheckedAsserts().toArray(new Assert[0]));
 		viewer.setCheckedElements(new Object[0]);
 		// setInput(null);
 	}
@@ -843,51 +796,41 @@ public class AssertionPanelWindow extends Dialog {
 		createWidgetPropertiesAssert(basicGroup, widget, element);
 		createWidgetReferencesAssert(basicGroup, widget, element);
 		if (!basicGroup.isEmpty()) {
-			result.add(new AssertGroup(widget.eClass().getName()
-					+ " (Basic Properties)", basicGroup)); //$NON-NLS-1$
+			result.add(new AssertGroup(widget.eClass().getName() + " (Basic Properties)", basicGroup)); //$NON-NLS-1$
 		}
 
 		// Model properties
 		if (widget instanceof DiagramItem) {
 			final List<Object> modelGroup = new ArrayList<Object>();
-			AssertionUtils
-					.fillAdvancedPropertiesGroup(modelGroup,
-							((DiagramItem) widget).getModelPropertyNodes(),
-							element, ""); //$NON-NLS-1$
+			AssertionUtils.fillAdvancedPropertiesGroup(modelGroup, ((DiagramItem) widget).getModelPropertyNodes(),
+					element, ""); //$NON-NLS-1$
 			if (!modelGroup.isEmpty()) {
-				result.add(new AssertGroup(widget.eClass().getName()
-						+ " (Model Properties)", modelGroup)); //$NON-NLS-1$
+				result.add(new AssertGroup(widget.eClass().getName() + " (Model Properties)", modelGroup)); //$NON-NLS-1$
 			}
 		}
 
 		// Advanced properties
 		final List<Object> advancedGroup = new ArrayList<Object>();
-		AssertionUtils
-				.fillAdvancedPropertiesGroup(
-						advancedGroup,
-						((AssertContentProvider) viewer.getContentProvider())
-								.loadChildren(element, "").getPropertyNodes(), element, ""); //$NON-NLS-1$
+		AssertionUtils.fillAdvancedPropertiesGroup(advancedGroup,
+				((AssertContentProvider) viewer.getContentProvider()).loadChildren(element, "").getPropertyNodes(), //$NON-NLS-1$
+				element, "");
 		if (!advancedGroup.isEmpty()) {
-			result.add(new AssertGroup(widget.eClass().getName()
-					+ " (Advanced Properties)", advancedGroup)); //$NON-NLS-1$
+			result.add(new AssertGroup(widget.eClass().getName() + " (Advanced Properties)", advancedGroup)); //$NON-NLS-1$
 		}
 
 		return new AssertInput(result, element);
 	}
 
-	private void createWidgetPropertiesAssert(List<Object> group,
-			Widget widget, Element element) {
+	private void createWidgetPropertiesAssert(List<Object> group, Widget widget, Element element) {
 		createWidgetPropertiesAssert(group, widget, element, ""); //$NON-NLS-1$
 	}
 
-	private static final List<EAttribute> deprecated = Arrays.asList(
-			UiPackage.Literals.TEXT__RAW_VALUE, UiPackage.Literals.TEXT__VALUE,
-			UiPackage.Literals.TEXT__STYLE_RANGES,
-			UiPackage.Literals.TREE_ITEM__STYLE_RANGES,
-			UiPackage.Literals.TABLE_ITEM__STYLE_RANGES);
+	private static final List<EAttribute> deprecated = Arrays.asList(UiPackage.Literals.TEXT__RAW_VALUE,
+			UiPackage.Literals.TEXT__VALUE, UiPackage.Literals.TEXT__STYLE_RANGES,
+			UiPackage.Literals.TREE_ITEM__STYLE_RANGES, UiPackage.Literals.TABLE_ITEM__STYLE_RANGES);
 
-	private void createWidgetPropertiesAssert(List<Object> group,
-			EObject widget, Element element, String propertyPath) {
+	private void createWidgetPropertiesAssert(List<Object> group, EObject widget, Element element,
+			String propertyPath) {
 		if (propertyPath.length() > 0) {
 			propertyPath += "."; //$NON-NLS-1$
 		}
@@ -912,27 +855,24 @@ public class AssertionPanelWindow extends Dialog {
 
 				final List<Object> children = new ArrayList<Object>();
 				for (int i = 0; i < list.size(); i++) {
-					String childPropertyPath = String.format("%s%s[%d]",
-							propertyPath, attrName, i);
-					children.add(AssertionUtils.createAssert(childPropertyPath,
-							list.get(i), attr.getEType(), element, null));
+					String childPropertyPath = String.format("%s%s[%d]", propertyPath, attrName, i);
+					children.add(AssertionUtils.createAssert(childPropertyPath, list.get(i), attr.getEType(), element,
+							null));
 				}
 				group.add(new AssertGroup(attrName, children));
 			} else {
-				group.add(AssertionUtils.createAssert(
-						propertyPath + attr.getName(), value, attr.getEType(),
-						element, null));
+				group.add(AssertionUtils.createAssert(propertyPath + attr.getName(), value, attr.getEType(), element,
+						null));
 			}
 		}
 	}
 
-	private void createWidgetReferencesAssert(List<Object> group,
-			Widget widget, Element element) {
+	private void createWidgetReferencesAssert(List<Object> group, Widget widget, Element element) {
 		createWidgetReferencesAssert(group, widget, element, ""); //$NON-NLS-1$
 	}
 
-	private void createWidgetReferencesAssert(List<Object> group,
-			EObject widget, Element element, String propertyPath) {
+	private void createWidgetReferencesAssert(List<Object> group, EObject widget, Element element,
+			String propertyPath) {
 		if (propertyPath.length() > 0) {
 			propertyPath += "."; //$NON-NLS-1$
 		}
@@ -946,18 +886,14 @@ public class AssertionPanelWindow extends Dialog {
 				final Object value = widget.eGet(attr);
 				if (value instanceof Color) {
 					if (value != null && value instanceof EObject) {
-						group.add(AssertionUtils.createAssert(
-								childPropertyPath,
-								SimpleCommandPrinter.toString((EObject) value,
-										true).trim(), EcorePackage.eINSTANCE
-										.getEString(), element, null));
+						group.add(AssertionUtils.createAssert(childPropertyPath,
+								SimpleCommandPrinter.toString((EObject) value, true).trim(),
+								EcorePackage.eINSTANCE.getEString(), element, null));
 					}
 				} else if (value instanceof EObject) {
 					final List<Object> children = new ArrayList<Object>();
-					createWidgetPropertiesAssert(children, (EObject) value,
-							element, childPropertyPath);
-					createWidgetReferencesAssert(children, (EObject) value,
-							element, childPropertyPath);
+					createWidgetPropertiesAssert(children, (EObject) value, element, childPropertyPath);
+					createWidgetReferencesAssert(children, (EObject) value, element, childPropertyPath);
 					group.add(new AssertGroup(attr.getName(), children));
 				}
 			} else {
@@ -979,23 +915,17 @@ public class AssertionPanelWindow extends Dialog {
 					}
 					for (int i = 0; i < list.size(); i++) {
 						Object v = list.get(i);
-						String childPropertyName = String.format("%s%s[%d]",
-								propertyPath, attr.getName(), i);
+						String childPropertyName = String.format("%s%s[%d]", propertyPath, attr.getName(), i);
 						if (v instanceof Color) {
-							final Assert a = AssertionUtils.createAssert(
-									childPropertyName, SimpleCommandPrinter
-											.toString((EObject) v, true).trim(),
-									EcorePackage.eINSTANCE.getEString(), element,
-									null);
+							final Assert a = AssertionUtils.createAssert(childPropertyName,
+									SimpleCommandPrinter.toString((EObject) v, true).trim(),
+									EcorePackage.eINSTANCE.getEString(), element, null);
 							children.add(a);
 						} else if (v instanceof EObject) {
 							final List<Object> widgetChildren = new ArrayList<Object>();
-							createWidgetPropertiesAssert(widgetChildren,
-									(EObject) v, element, childPropertyName);
-							createWidgetReferencesAssert(widgetChildren,
-									(EObject) v, element, childPropertyName);
-							AssertGroup widgetGroup = new AssertGroup(
-									"[" + i + "]", //$NON-NLS-1$ //$NON-NLS-2$
+							createWidgetPropertiesAssert(widgetChildren, (EObject) v, element, childPropertyName);
+							createWidgetReferencesAssert(widgetChildren, (EObject) v, element, childPropertyName);
+							AssertGroup widgetGroup = new AssertGroup("[" + i + "]", //$NON-NLS-1$ //$NON-NLS-2$
 									widgetChildren);
 							children.add(widgetGroup);
 						}
@@ -1019,10 +949,9 @@ public class AssertionPanelWindow extends Dialog {
 				Object node = childNodes.get(i);
 				String markerNumber = "[" + i + "]";
 				if (node instanceof Color) {
-					final Assert a = AssertionUtils.createAssert(markerNumber, SimpleCommandPrinter
-							.toString((EObject) node, true).trim(),
-							EcorePackage.eINSTANCE.getEString(), element,
-							null);
+					final Assert a = AssertionUtils.createAssert(markerNumber,
+							SimpleCommandPrinter.toString((EObject) node, true).trim(),
+							EcorePackage.eINSTANCE.getEString(), element, null);
 					childNodesMarkers.add(a);
 				} else if (node instanceof EObject) {
 					final List<Object> childNodesMarkersView = new ArrayList<Object>();
@@ -1036,26 +965,13 @@ public class AssertionPanelWindow extends Dialog {
 			AssertGroup widgetGroup = new AssertGroup(lineNumber, childNodesMarkers);
 			children.add(widgetGroup);
 		} else if (entry.getKey() != null) {
-			String childPropertyName = String.format("%s%s['%s']",
-					propertyPath, attr.getName(), entry.getKey().toString());
-			final Assert a = AssertionUtils.createAssert(
-					childPropertyName, entry.getValue().toString(),
-					EcorePackage.eINSTANCE.getEString(), element,
-					null);
+			String childPropertyName = String.format("%s%s['%s']", propertyPath, attr.getName(),
+					entry.getKey().toString());
+			final Assert a = AssertionUtils.createAssert(childPropertyName, entry.getValue().toString(),
+					EcorePackage.eINSTANCE.getEString(), element, null);
 			children.add(a);
 		}
 	}
-
-	private CommandSet commands;
-
-	private final WritableValue hasAssert = new WritableValue(false,
-			Boolean.class);
-
-	private AssertInput currentInput;
-
-	private IViewerObservableSet checkedObservable;
-
-	private Button appendButton;
 
 	public void setInput(CommandSet commands) {
 		if (widgetDetailsDialog != null) {
@@ -1075,8 +991,7 @@ public class AssertionPanelWindow extends Dialog {
 			}
 			currentInput = createAssertTree(commands);
 			viewer.setInput(currentInput);
-			if (currentInput != null && currentInput.getAsserts() != null
-					&& currentInput.getAsserts().size() > 0) {
+			if (currentInput != null && currentInput.getAsserts() != null && currentInput.getAsserts().size() > 0) {
 				viewer.expandToLevel(currentInput.getAsserts().get(0), 1);
 			} else {
 				viewer.expandToLevel(1);
@@ -1088,10 +1003,7 @@ public class AssertionPanelWindow extends Dialog {
 			currentInput = null;
 		}
 	}
-	
-	private List<TreeItem> collapsed = null;
-	private List<TreeItem> references = null;
-	
+
 	private void expandAll(boolean allowExpandReferences) {
 		if (collapsed == null) {
 			collapsed = new ArrayList<TreeItem>();
@@ -1128,6 +1040,7 @@ public class AssertionPanelWindow extends Dialog {
 						enableButtons(true);
 						return Status.OK_STATUS;
 					}
+
 					private void enableButtons(final boolean enabled) {
 						viewerDisplay.syncExec(new Runnable() {
 							@Override
@@ -1152,18 +1065,14 @@ public class AssertionPanelWindow extends Dialog {
 			references.clear();
 		}
 	}
-	
+
 	private void collectCollapsed(final TreeItem[] treeItems) {
 		if (treeItems == null) {
 			return;
 		}
 		for (final TreeItem item : treeItems) {
 			if (item != null && item.getData() instanceof AssertGroup) {
-				if (
-					item.getItems().length != 1 ||
-					item.getItems()[0] == null ||
-					item.getItems()[0].getData() != null
-				) {
+				if (item.getItems().length != 1 || item.getItems()[0] == null || item.getItems()[0].getData() != null) {
 					collectCollapsed(item.getItems());
 					if (!item.getExpanded()) {
 						collapsed.add(item);
