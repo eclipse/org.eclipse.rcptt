@@ -13,6 +13,7 @@ package org.eclipse.rcptt.tesla.recording.core.ecl.parser;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -149,14 +150,11 @@ public class TeslaParser extends TeslaScriptletFactory {
 		private static void putRulesFrom(Class<?> klass) throws AssertionError {
 			Method[] declaredMethods = klass.getDeclaredMethods();
 			for (Method method : declaredMethods) {
-				TeslaCommand teslaCommand = method
-						.getAnnotation(TeslaCommand.class);
+				TeslaCommand teslaCommand = method.getAnnotation(TeslaCommand.class);
 				if (teslaCommand == null)
 					continue;
-				EPackage ePackage = EPackage.Registry.INSTANCE
-						.getEPackage(teslaCommand.packageUri());
-				EClass eClass = (EClass) ePackage.getEClassifier(teslaCommand
-						.classifier());
+				EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(teslaCommand.packageUri());
+				EClass eClass = (EClass) ePackage.getEClassifier(teslaCommand.classifier());
 				if (ruleMap.put(eClass, method) != null) {
 					throw new AssertionError();
 				}
@@ -170,8 +168,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 		// copied from TeslaSelectorParser // TODO extract as util
 		private static void initExtensions() {
-			IConfigurationElement[] config = Platform.getExtensionRegistry()
-					.getConfigurationElementsFor(EXTENSION_ID);
+			IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
 			try {
 				for (IConfigurationElement element : config) {
 					final Object extension = element.createExecutableExtension("class"); //$NON-NLS-1$
@@ -210,21 +207,34 @@ public class TeslaParser extends TeslaScriptletFactory {
 			}
 		}
 		Sequence seq = CoreFactory.eINSTANCE.createSequence();
-		List<Command> withified = EclRefactoring.withify(script,
-				new Comparator<Command>() {
-					public int compare(Command c1, Command c2) {
-						if (c1 instanceof Selector && c2 instanceof Selector) {
-							Selector s1 = (Selector) c1;
-							Selector s2 = (Selector) c2;
-							if (s1.getId() != null && s2.getId() != null)
-								return s1.getId().compareTo(s2.getId());
-						}
-						return 1;
-					}
-				});
+		List<Command> withified = EclRefactoring.withify(script, new Comparator<Command>() {
+			public int compare(Command c1, Command c2) {
+				if (c1 instanceof Selector && c2 instanceof Selector) {
+					Selector s1 = (Selector) c1;
+					Selector s2 = (Selector) c2;
+					if (s1.getId() != null && s2.getId() != null)
+						return s1.getId().compareTo(s2.getId());
+				}
+				return 1;
+			}
+		});
 		seq.getCommands().addAll(DiagramUtils.updateSelectors(withified));
 		// seq.getCommands().addAll(script);
 		return TeslaScriptletFactory.makeSeq(seq);
+	}
+
+	public void replaceCommand(Command replaced, Command newCommand) {
+		int index = script.indexOf(replaced);
+		script.add(index, newCommand);
+		script.remove(replaced);
+	}
+
+	public void removeCommand(Command remove) {
+		script.remove(remove);
+	}
+
+	public List<Command> getScriptCommand() {
+		return Collections.unmodifiableList(script);
 	}
 
 	/**
@@ -233,8 +243,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 	 * @return ECL command
 	 */
 	protected Command teslaCommand() {
-		org.eclipse.rcptt.tesla.core.protocol.raw.Command teslaCommand = teslaCommands
-				.get(pos);
+		org.eclipse.rcptt.tesla.core.protocol.raw.Command teslaCommand = teslaCommands.get(pos);
 		pos++;
 		Method rule = RuleMap.ruleFor(teslaCommand.eClass());
 		if (rule != null) {
@@ -251,8 +260,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 				TeslaRecordingPlugin.log(t.getMessage(), t);
 			}
 		}
-		return TeslaScriptletFactory.unsupported(SimpleCommandPrinter
-				.toString(teslaCommand));
+		return TeslaScriptletFactory.unsupported(SimpleCommandPrinter.toString(teslaCommand));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SelectCommand")
@@ -278,26 +286,20 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Click")
 	protected Command click(Click c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeClick(true, c.isDefault(),
-						c.isArrow()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeClick(true, c.isDefault(), c.isArrow()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickColumn")
 	protected Command clickColumn(ClickColumn c) {
-		return TeslaScriptletFactory
-				.makePipe(
-						selectorOf(c.getElement()),
-						TeslaScriptletFactory.makeClickColumn(c.getName(),
-								c.getIndex()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeClickColumn(c.getName(), c.getIndex()));
 
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "DoubleClick")
 	protected Command doubleClick(DoubleClick c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeDoubleClick(true));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeDoubleClick(true));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetText")
@@ -314,8 +316,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 		} else {
 			cmd.setText(c.getValue());
 		}
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				cmd);
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), cmd);
 	}
 
 	protected Command decrypt(String rawdata) {
@@ -328,23 +329,17 @@ public class TeslaParser extends TeslaScriptletFactory {
 	protected Command setTextSelection(SetTextSelection c) {
 		if (c.getEndline() != null && c.getEndoffset() != null) {
 
-			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-					TeslaScriptletFactory.makeSetTextSelection(
-							c.getStartLine(), c.getOffset(), c.getEndline(),
-							c.getEndoffset()));
+			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory
+					.makeSetTextSelection(c.getStartLine(), c.getOffset(), c.getEndline(), c.getEndoffset()));
 		}
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeSetTextSelection(c.getOffset(),
-						c.getLength()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeSetTextSelection(c.getOffset(), c.getLength()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "TypeText")
 	protected Command typeText(TypeText c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeTypeText(c.getText(),
-						c.isFromDisplay()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeTypeText(c.getText(), c.isFromDisplay()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Type")
@@ -362,23 +357,16 @@ public class TeslaParser extends TeslaScriptletFactory {
 		if ((keyCode & SWTCopy.MODIFIER_MASK) == keyCode && ch == 0)
 			kt.setChar(null);
 		else {
-			if (keyCode >= SWTCopy.ARROW_UP && keyCode <= SWTCopy.PRINT_SCREEN
-					&& ch == 0)
+			if (keyCode >= SWTCopy.ARROW_UP && keyCode <= SWTCopy.PRINT_SCREEN && ch == 0)
 				kt.setChar(null);
-			else if ((mask & SWTCopy.SHIFT) != 0
-					&& (mask & SWTCopy.CTRL) != 0
-					&& ch + 0x40 == keyCode
-					&& (Character.toLowerCase(ch) < 0x20 || Character
-							.toLowerCase(ch) == 0x7F)
+			else if ((mask & SWTCopy.SHIFT) != 0 && (mask & SWTCopy.CTRL) != 0 && ch + 0x40 == keyCode
+					&& (Character.toLowerCase(ch) < 0x20 || Character.toLowerCase(ch) == 0x7F)
 					&& (keyCode & SWTCopy.KEYCODE_BIT) == 0) {
 				kt.setChar(null);
-			} else if ((mask & SWTCopy.CTRL) != 0
-					&& ch + 0x40 == Character.toUpperCase(keyCode)
-					&& (ch < 0x20 || ch == 0x7F)
-					&& (keyCode & SWTCopy.KEYCODE_BIT) == 0) {
+			} else if ((mask & SWTCopy.CTRL) != 0 && ch + 0x40 == Character.toUpperCase(keyCode)
+					&& (ch < 0x20 || ch == 0x7F) && (keyCode & SWTCopy.KEYCODE_BIT) == 0) {
 				kt.setChar(null);
-			} else if ((mask & SWTCopy.SHIFT) != 0
-					&& ch == Character.toUpperCase(keyCode))
+			} else if ((mask & SWTCopy.SHIFT) != 0 && ch == Character.toUpperCase(keyCode))
 				kt.setChar(null);
 			else if (ch == keyCode)
 				kt.setChar(null);
@@ -409,8 +397,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 			if (keyCode != SWTCopy.TRAVERSE_MNEMONIC)
 				kt.setChar(null);
 		}
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement(), false), kt);
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement(), false), kt);
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "TypeAction")
@@ -429,27 +416,23 @@ public class TeslaParser extends TeslaScriptletFactory {
 	protected Command checkItem(CheckItem c) {
 		if (c.getPath() != null && !c.getPath().isEmpty()) {
 			Command item = TeslaParserUtil.makeItem(c.getPath());
-			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-					item, c.isState() ? TeslaScriptletFactory.makeCheck()
-							: TeslaScriptletFactory.makeUncheck());
+			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), item,
+					c.isState() ? TeslaScriptletFactory.makeCheck() : TeslaScriptletFactory.makeUncheck());
 		} else {
-			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), c
-					.isState() ? TeslaScriptletFactory.makeCheck()
-							: TeslaScriptletFactory.makeUncheck());
+			return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+					c.isState() ? TeslaScriptletFactory.makeCheck() : TeslaScriptletFactory.makeUncheck());
 		}
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Check")
 	protected Command checkItem(Check c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), c
-				.isState() ? TeslaScriptletFactory.makeCheck()
-						: TeslaScriptletFactory.makeUncheck());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				c.isState() ? TeslaScriptletFactory.makeCheck() : TeslaScriptletFactory.makeUncheck());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Close")
 	protected Command close(Close c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeClose());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeClose());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetStatusDialogMode")
@@ -472,8 +455,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 			}
 			if (sequence.size() > 0) {
 				// opts.setCommand(makeSeq(sequence));
-				ExecWithOptions exec = TeslaScriptletFactory
-						.makeExecWithOptions();
+				ExecWithOptions exec = TeslaScriptletFactory.makeExecWithOptions();
 				exec.setAllowStatusDialog(opts.isAllowStatusDialog());
 				exec.setCommand(makeSeq(sequence));
 				return exec;
@@ -485,26 +467,22 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Minimize")
 	protected Command minimize(Minimize c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaFactory.eINSTANCE.createMinimize());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaFactory.eINSTANCE.createMinimize());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Maximize")
 	protected Command maximize(Maximize c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaFactory.eINSTANCE.createMaximize());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaFactory.eINSTANCE.createMaximize());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Restore")
 	protected Command restore(Restore c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaFactory.eINSTANCE.createRestore());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaFactory.eINSTANCE.createRestore());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ShowTabList")
 	protected Command showTabList(ShowTabList c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaFactory.eINSTANCE.createShowTabList());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaFactory.eINSTANCE.createShowTabList());
 	}
 
 	private static String formatDetail(int detail) {
@@ -551,40 +529,31 @@ public class TeslaParser extends TeslaScriptletFactory {
 		Integer y = c.getY();
 		switch (c.getKind()) {
 		case ACCEPT:
-			drag = TeslaScriptletFactory.makeDragAccept(x, y, detail,
-					operations, mask, button);
+			drag = TeslaScriptletFactory.makeDragAccept(x, y, detail, operations, mask, button);
 			break;
 		case DETECT:
-			drag = TeslaScriptletFactory.makeDragDetect(x, y, detail,
-					operations, mask, button);
+			drag = TeslaScriptletFactory.makeDragDetect(x, y, detail, operations, mask, button);
 			break;
 		case DROP:
-			drag = TeslaScriptletFactory.makeDrop(x, y, detail, operations,
-					mask, button);
+			drag = TeslaScriptletFactory.makeDrop(x, y, detail, operations, mask, button);
 			break;
 		case END:
-			drag = TeslaScriptletFactory.makeDragEnd(x, y, detail, operations,
-					mask, button);
+			drag = TeslaScriptletFactory.makeDragEnd(x, y, detail, operations, mask, button);
 			break;
 		case ENTER:
-			drag = TeslaScriptletFactory.makeDragEnter(x, y, detail,
-					operations, mask, button);
+			drag = TeslaScriptletFactory.makeDragEnter(x, y, detail, operations, mask, button);
 			break;
 		case LEAVE:
-			drag = TeslaScriptletFactory.makeDragExit(x, y, detail, operations,
-					mask, button);
+			drag = TeslaScriptletFactory.makeDragExit(x, y, detail, operations, mask, button);
 			break;
 		case OVER:
-			drag = TeslaScriptletFactory.makeDragOver(x, y, detail, operations,
-					mask, button);
+			drag = TeslaScriptletFactory.makeDragOver(x, y, detail, operations, mask, button);
 			break;
 		case SET_DATA:
-			drag = TeslaScriptletFactory.makeDragSetData(x, y, detail,
-					operations, mask, button);
+			drag = TeslaScriptletFactory.makeDragSetData(x, y, detail, operations, mask, button);
 			break;
 		case START:
-			drag = TeslaScriptletFactory.makeDragStart(x, y, detail,
-					operations, mask, button);
+			drag = TeslaScriptletFactory.makeDragStart(x, y, detail, operations, mask, button);
 			break;
 		}
 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), drag);
@@ -615,71 +584,55 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetTextOffset")
 	protected Command setTextOffset(SetTextOffset c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeSetTextOffset(c.getLine(),
-						c.getOffset()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeSetTextOffset(c.getLine(), c.getOffset()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetCursorOffset")
 	protected Command setTextOffset(SetCursorOffset c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeSetCaretPos(c.getLine(),
-						c.getOffset()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeSetCaretPos(c.getLine(), c.getOffset()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetTextSelection2")
 	protected Command selectText(SetTextSelection2 c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeSelectRange(c.getStartLine(),
-						c.getStartOffset(), c.getEndLine(), c.getEndOffset()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory
+				.makeSelectRange(c.getStartLine(), c.getStartOffset(), c.getEndLine(), c.getEndOffset()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "HoverAtTextOffset")
 	protected Command hoverAtTextOffset(HoverAtTextOffset c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeHoverAtTextOffset(c.getLine(),
-						c.getOffset()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeHoverAtTextOffset(c.getLine(), c.getOffset()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "HoverAtText")
 	protected Command hoverAtTextOffset(HoverAtText c) {
 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeHoverText(c.getLine(), c.getOffset(),
-						c.getStateMask()));
+				TeslaScriptletFactory.makeHoverText(c.getLine(), c.getOffset(), c.getStateMask()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "RulerClick")
 	protected Command rulerClick(RulerClick c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeClickRuler(c.getLine(),
-						Button.values()[c.getButton()], c.getStateMask()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeClickRuler(c.getLine(), Button.values()[c.getButton()], c.getStateMask()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "RulerDoubleClick")
 	protected Command rulerDoubleClick(RulerDoubleClick c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeDoubleClickRuler(c.getLine(),
-						Button.values()[c.getButton()], c.getStateMask()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory
+				.makeDoubleClickRuler(c.getLine(), Button.values()[c.getButton()], c.getStateMask()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "RulerHover")
 	protected Command rulerHover(RulerHover c) {
-		return TeslaScriptletFactory.makePipe(
-				selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeHoverRuler(c.getLine(),
-						c.getStateMask()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
+				TeslaScriptletFactory.makeHoverRuler(c.getLine(), c.getStateMask()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "OpenDeclaration")
 	protected Command openDeclaration(OpenDeclaration c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeOpenDeclaration());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeOpenDeclaration());
 	}
 
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "MouseCommand")
@@ -691,47 +644,36 @@ public class TeslaParser extends TeslaScriptletFactory {
 		} else
 			mask = null;
 
-		Button button = c.getButton() == 0 ? null : Button.values()[c
-				.getButton()];
+		Button button = c.getButton() == 0 ? null : Button.values()[c.getButton()];
 		switch (c.getKind()) {
 		case DOWN:
-			mouse = TeslaScriptletFactory.makeMousePress(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMousePress(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case UP:
-			mouse = TeslaScriptletFactory.makeMouseRelease(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseRelease(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case MOVE:
-			mouse = TeslaScriptletFactory.makeMouseMove(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseMove(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case DOUBLE_CLICK:
-			mouse = TeslaScriptletFactory.makeMouseDoubleClick(c.getX(),
-					c.getY(), button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseDoubleClick(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case HOVER:
-			mouse = TeslaScriptletFactory.makeMouseHover(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseHover(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case DRAG:
-			mouse = TeslaScriptletFactory.makeMouseDrag(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseDrag(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case ENTER:
-			mouse = TeslaScriptletFactory.makeMouseEnter(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseEnter(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		case EXIT:
-			mouse = TeslaScriptletFactory.makeMouseExit(c.getX(), c.getY(),
-					button, null, null, mask);
+			mouse = TeslaScriptletFactory.makeMouseExit(c.getX(), c.getY(), button, null, null, mask);
 			break;
 		default:
-			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter
-					.toString(c));
+			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter.toString(c));
 		}
-		return TeslaScriptletFactory
-				.makePipe(selectorOf(c.getElement()), mouse);
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), mouse);
 	}
 
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "FigureMouseCommand")
@@ -752,78 +694,70 @@ public class TeslaParser extends TeslaScriptletFactory {
 		} else
 			mask = null;
 
-		Button button = c.getButton() == 0 ? null : Button.values()[c
-				.getButton()];
+		Button button = c.getButton() == 0 ? null : Button.values()[c.getButton()];
 		Command mouse = null;
 		switch (c.getKind()) {
 		case DOWN:
-			mouse = TeslaScriptletFactory.makeMousePress(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMousePress(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case UP:
-			mouse = TeslaScriptletFactory.makeMouseRelease(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseRelease(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case MOVE:
-			mouse = TeslaScriptletFactory.makeMouseMove(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseMove(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case DOUBLE_CLICK:
-			mouse = TeslaScriptletFactory.makeMouseDoubleClick(c.getX(),
-					c.getY(), button, c.getFigureHeight(), c.getFigureWidth(),
-					mask);
+			mouse = TeslaScriptletFactory.makeMouseDoubleClick(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case HOVER:
-			mouse = TeslaScriptletFactory.makeMouseHover(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseHover(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case DRAG:
-			mouse = TeslaScriptletFactory.makeMouseDrag(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseDrag(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case ENTER:
-			mouse = TeslaScriptletFactory.makeMouseEnter(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseEnter(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		case EXIT:
-			mouse = TeslaScriptletFactory.makeMouseExit(c.getX(), c.getY(),
-					button, c.getFigureHeight(), c.getFigureWidth(), mask);
+			mouse = TeslaScriptletFactory.makeMouseExit(c.getX(), c.getY(), button, c.getFigureHeight(),
+					c.getFigureWidth(), mask);
 			break;
 		default:
-			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter
-					.toString(c));
+			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter.toString(c));
 		}
 
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), ep,
-				f, mouse);
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), ep, f, mouse);
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ActivateCellEditor")
 	protected Command activateCellEditor(ActivateCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector,
-				TeslaScriptletFactory.makeCellEditorActivate(c.getColumn()));
+		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorActivate(c.getColumn()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ApplyCellEditor")
 	protected Command applyCellEditor(ApplyCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector,
-				TeslaScriptletFactory.makeCellEditorApply(c.isDeactivate()));
+		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorApply(c.isDeactivate()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "CancelCellEditor")
 	protected Command cancelCellEditor(CancelCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector,
-				TeslaScriptletFactory.makeCellEditorCancel());
+		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorCancel());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "DeactivateCellEditor")
 	protected Command deactivateCellEditor(DeactivateCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector,
-				TeslaScriptletFactory.makeCellEditorDeactivate());
+		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorDeactivate());
 	}
 
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "ActivateDirectEdit")
@@ -833,35 +767,29 @@ public class TeslaParser extends TeslaScriptletFactory {
 					TeslaScriptletFactory.makeDirectEditActivate());
 		}
 		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeEditPart(c.getPartPath()),
-				TeslaScriptletFactory.makeDirectEditActivate());
+				TeslaScriptletFactory.makeEditPart(c.getPartPath()), TeslaScriptletFactory.makeDirectEditActivate());
 	}
 
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "CommitDirectEdit")
 	protected Command applyDirectEdit(CommitDirectEdit c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeDirectEditCommit());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeDirectEditCommit());
 	}
 
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "CancelDirectEdit")
 	protected Command cancelDirectEdit(CancelDirectEdit c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeDirectEditCancel());
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeDirectEditCancel());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Assert")
 	protected Command assertCommand(Assert c) {
-		Command s = selectorOf(
-				c.getElement(),
-				!ElementKind.EclipseWindow.name().equals(c.getElement().getKind()));
+		Command s = selectorOf(c.getElement(), !ElementKind.EclipseWindow.name().equals(c.getElement().getKind()));
 		GetProperty prop = makeGetProperty(c.getAttribute());
 		prop.setIndex(c.getIndex());
 		switch (c.getKind()) {
 		case EQUALS:
 			return makePipe(s, prop, makeEquals(c.getValue()), makeVerifyTrue());
 		case NOT_EQUALS:
-			return makePipe(s, prop, makeEquals(c.getValue()),
-					makeVerifyFalse());
+			return makePipe(s, prop, makeEquals(c.getValue()), makeVerifyFalse());
 		case ASSERT_TRUE:
 			return makePipe(s, prop, makeVerifyTrue());
 		case ASSERT_FALSE:
@@ -871,20 +799,15 @@ public class TeslaParser extends TeslaScriptletFactory {
 		case NOT_EMPTY:
 			return makePipe(s, prop, makeIsEmpty(), makeVerifyFalse());
 		case CONTAINS:
-			return makePipe(s, prop, makeContains(c.getValue()),
-					makeVerifyTrue());
+			return makePipe(s, prop, makeContains(c.getValue()), makeVerifyTrue());
 		case NOT_CONTAINS:
-			return makePipe(s, prop, makeContains(c.getValue()),
-					makeVerifyFalse());
+			return makePipe(s, prop, makeContains(c.getValue()), makeVerifyFalse());
 		case REGEXP:
-			return makePipe(s, prop, makeMatches(c.getValue()),
-					makeVerifyTrue());
+			return makePipe(s, prop, makeMatches(c.getValue()), makeVerifyTrue());
 		case NOT_REGEXP:
-			return makePipe(s, prop, makeMatches(c.getValue()),
-					makeVerifyFalse());
+			return makePipe(s, prop, makeMatches(c.getValue()), makeVerifyFalse());
 		case CONTAINS_IMAGE:
-			String fileContent = Base64.encode(c.getImageData()
-					.getImage());
+			String fileContent = Base64.encode(c.getImageData().getImage());
 			// if (attachments != null) {
 			// String existingContent = attachments.getName(fileContent);
 			// String file = existingContent != null ? existingContent
@@ -896,43 +819,33 @@ public class TeslaParser extends TeslaScriptletFactory {
 			// makeContainsImage("attachment://" + file, null),
 			// makeVerifyTrue());
 			// } else {
-			return makePipe(s, makeContainsImage("base64://", fileContent),
-					makeVerifyTrue());
+			return makePipe(s, makeContainsImage("base64://", fileContent), makeVerifyTrue());
 		// }
 		case IMAGE_CONTAINS_TEXT:
 			AssertImageData data = c.getImageData();
-			return makePipe(
-					s,
-					makeRegionContainsText(data.getX(), data.getY(),
-							data.getSx(), data.getSy(), data.getWidth(),
-							data.getHeight()),
-					makeContains(c.getValue()),
-					makeVerifyTrue());
+			return makePipe(s, makeRegionContainsText(data.getX(), data.getY(), data.getSx(), data.getSy(),
+					data.getWidth(), data.getHeight()), makeContains(c.getValue()), makeVerifyTrue());
 		default:
-			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter
-					.toString(c));
+			return TeslaScriptletFactory.unsupported(SimpleCommandPrinter.toString(c));
 		}
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickLink")
 	protected Command clickLink(ClickLink c) {
-		org.eclipse.rcptt.tesla.ecl.model.ClickLink result = TeslaFactory.eINSTANCE
-				.createClickLink();
+		org.eclipse.rcptt.tesla.ecl.model.ClickLink result = TeslaFactory.eINSTANCE.createClickLink();
 		result.setRef(c.getRef());
 		return makePipe(selectorOf(c.getElement()), result);
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Expand")
 	protected Command expand(Expand e) {
-		org.eclipse.rcptt.tesla.ecl.model.Expand result = TeslaFactory.eINSTANCE
-				.createExpand();
+		org.eclipse.rcptt.tesla.ecl.model.Expand result = TeslaFactory.eINSTANCE.createExpand();
 		return makePipe(selectorOf(e.getElement()), result);
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Collapse")
 	protected Command collapse(Collapse c) {
-		org.eclipse.rcptt.tesla.ecl.model.Collapse result = TeslaFactory.eINSTANCE
-				.createCollapse();
+		org.eclipse.rcptt.tesla.ecl.model.Collapse result = TeslaFactory.eINSTANCE.createCollapse();
 		return makePipe(selectorOf(c.getElement()), result);
 	}
 
@@ -957,20 +870,17 @@ public class TeslaParser extends TeslaScriptletFactory {
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "SetFocus")
 	protected Command setFocus(SetFocus f) {
 		if (f.isValue()) {
-			org.eclipse.rcptt.tesla.ecl.model.SetFocus result = TeslaFactory.eINSTANCE
-					.createSetFocus();
+			org.eclipse.rcptt.tesla.ecl.model.SetFocus result = TeslaFactory.eINSTANCE.createSetFocus();
 			return makePipe(selectorOf(f.getElement()), result);
 		} else {
-			org.eclipse.rcptt.tesla.ecl.model.Unfocus result = TeslaFactory.eINSTANCE
-					.createUnfocus();
+			org.eclipse.rcptt.tesla.ecl.model.Unfocus result = TeslaFactory.eINSTANCE.createUnfocus();
 			return makePipe(selectorOf(f.getElement()), result);
 		}
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickText")
 	protected Command clickText(ClickText f) {
-		org.eclipse.rcptt.tesla.ecl.model.ClickText result = TeslaFactory.eINSTANCE
-				.createClickText();
+		org.eclipse.rcptt.tesla.ecl.model.ClickText result = TeslaFactory.eINSTANCE.createClickText();
 		result.setStart(f.getStart());
 		result.setEnd(f.getEnd());
 		result.setButton(f.getButton());
@@ -990,15 +900,13 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickAboutMenu")
 	protected Command clickAboutMenu(ClickAboutMenu c) {
-		return TeslaScriptletFactory.makePipe(
-				TeslaFactory.eINSTANCE.createGetAboutMenu(),
+		return TeslaScriptletFactory.makePipe(TeslaFactory.eINSTANCE.createGetAboutMenu(),
 				TeslaFactory.eINSTANCE.createClick());
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickPreferencesMenu")
 	protected Command clickPreferencesMenu(ClickPreferencesMenu c) {
-		return TeslaScriptletFactory.makePipe(
-				TeslaFactory.eINSTANCE.createGetPreferencesMenu(),
+		return TeslaScriptletFactory.makePipe(TeslaFactory.eINSTANCE.createGetPreferencesMenu(),
 				TeslaFactory.eINSTANCE.createClick());
 
 	}
@@ -1025,8 +933,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 	protected <T> boolean match(Class<T> caster) {
 		if (pos < 0 || pos >= teslaCommands.size())
 			return false;
-		org.eclipse.rcptt.tesla.core.protocol.raw.Command command = teslaCommands
-				.get(pos);
+		org.eclipse.rcptt.tesla.core.protocol.raw.Command command = teslaCommands.get(pos);
 		return caster.isInstance(command);
 	}
 

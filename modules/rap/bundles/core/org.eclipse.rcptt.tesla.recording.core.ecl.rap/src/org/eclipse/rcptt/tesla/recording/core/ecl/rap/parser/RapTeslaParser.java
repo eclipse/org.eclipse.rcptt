@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.core.ecl.rap.parser;
 
+import java.util.List;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
@@ -44,7 +47,16 @@ public class RapTeslaParser {
 		final VerifyTrue verify = TeslaScriptletFactory.makeVerifyTrue();
 
 		final Pipeline pipe = ScriptletFactory.makePipe(download, matching, verify);
-		command.setCommand(pipe);
+
+		//replace last command
+		final List<Command> script = parser.getScriptCommand();
+		if (!script.isEmpty()) {
+			final Command replaced = script.get(script.size() - 1);
+			command.setCommand(ScriptletFactory.makeSeq(EcoreUtil.copy(replaced) ,pipe));
+			parser.removeCommand(replaced);
+		} else {
+			command.setCommand(ScriptletFactory.makeSeq(pipe));
+		}
 
 		return command;
 	}

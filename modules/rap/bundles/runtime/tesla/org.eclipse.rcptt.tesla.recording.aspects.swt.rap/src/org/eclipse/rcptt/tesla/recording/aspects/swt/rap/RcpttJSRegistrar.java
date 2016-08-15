@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.client.service.ClientFileLoader;
 import org.eclipse.rap.rwt.internal.service.StartupPage;
 import org.eclipse.rap.rwt.service.ResourceManager;
 import org.eclipse.swt.SWT;
@@ -14,9 +12,8 @@ import org.eclipse.swt.SWT;
 @SuppressWarnings("restriction")
 public class RcpttJSRegistrar {
 
-	private static final String[] CLIENT_JS_FILES = new String[] { "rcptt/Assertion.js" }; //$NON-NLS-1$
+	private static final String[] CLIENT_JS_FILES = new String[] { "rcptt/RCPTT.js", "rcptt/Assertion.js" }; //$NON-NLS-1$
 
-	@SuppressWarnings("restriction")
 	public static void registrate(StartupPage page, ResourceManager manager) throws IOException {
 		final ContentBuffer content = new ContentBuffer();
 
@@ -27,16 +24,14 @@ public class RcpttJSRegistrar {
 		registerJavascriptResource(page, manager, content, SWT.getVersion() + "/rcptt-client.js");
 	}
 
-	@SuppressWarnings("restriction")
-	private static void registerJavascriptResource(StartupPage page,ResourceManager manager, ContentBuffer buffer, String name)
-			throws IOException {
+	private static void registerJavascriptResource(StartupPage page, ResourceManager manager, ContentBuffer buffer,
+			String name) throws IOException {
 		InputStream inputStream = buffer.getContentAsStream();
 		try {
 			manager.register(name, inputStream);
 		} finally {
 			inputStream.close();
 		}
-
 
 		final String location = manager.getLocation(name);
 		page.addJsLibrary(location);

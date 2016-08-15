@@ -1,21 +1,4 @@
-function doRCPTTInit() {
-  function define( name, object ) {
-    var splits = name.split( "." );
-    var parent = window;
-    var part = splits[ 0 ];
-    for( var i = 0, len = splits.length - 1; i < len; i++, part = splits[ i ] ) {
-      if( !parent[ part ] ) {
-        parent = parent[ part ] = {};
-      } else {
-        parent = parent[ part ];
-      }
-    }
-    if( !( part in parent ) ) {
-      parent[ part ] = object || {};
-    }
-    return part;
-  }
-define( "rwt.client.rcptt" );
+namespace( "rwt.client.rcptt" );
 
 rwt.client.rcptt.Assertion = function() {
   this._intervalID = null;
@@ -67,14 +50,14 @@ rwt.client.rcptt.Assertion.prototype = {
     var dom = document.elementFromPoint(_this._mousePosition.x, _this._mousePosition.y);
     var widget = rwt.event.EventHandlerUtil.getOriginalTargetObject(dom);
 
-    if(_this._isAssertCanvas(widget)) {   
+    if(_this._isAssertCanvas(widget)) {
       var shell = rwt.widgets.util.WidgetUtil.getShell(widget);
       var domShell = shell.getElement();
       var cacheZIndex = domShell.style.zIndex;
       var cacheTabIndex = domShell.tabIndex;
       domShell.tabIndex = -100000;
       domShell.style.zIndex = -10000;
-    
+
       //try again search element
       dom = document.elementFromPoint(_this._mousePosition.x, _this._mousePosition.y);
       widget = rwt.event.EventHandlerUtil.getOriginalTargetObject(dom);
@@ -181,6 +164,3 @@ rwt.client.rcptt.Assertion.prototype = {
   }
 
 };
-};
-
-setTimeout(doRCPTTInit, 100);
