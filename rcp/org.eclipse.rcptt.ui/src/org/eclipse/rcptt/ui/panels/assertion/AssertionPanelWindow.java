@@ -21,6 +21,7 @@ import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EMap;
@@ -192,7 +193,11 @@ public class AssertionPanelWindow extends Dialog {
 		super(parentShell);
 		this.recordingSupport = recordingSupport;
 		this.parentShell = parentShell;
-		setShellStyle(SWT.RESIZE | SWT.CLOSE);
+		int style = SWT.RESIZE | SWT.CLOSE;
+		if (!Platform.getOS().equals(Platform.OS_LINUX)) {
+			style |= SWT.ON_TOP | SWT.TOOL;
+		}
+		setShellStyle(style);
 	}
 
 	@Override
@@ -503,7 +508,6 @@ public class AssertionPanelWindow extends Dialog {
 		createTreeViewer(composite).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		createButtonPanel(composite).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		return composite;
 	}
 
