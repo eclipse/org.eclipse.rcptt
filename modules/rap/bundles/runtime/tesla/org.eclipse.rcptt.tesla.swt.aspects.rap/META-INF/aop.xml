@@ -15,7 +15,6 @@
 <aspectj>
 	<aspects>
 		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.rap.DisplayAspect" />
-		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.rap.DebugDisplayAspect" />
 		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.rap.DNDAspect" />
 		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.rap.MenuAspect" />
 		<aspect name="org.eclipse.rcptt.tesla.swt.aspects.rap.EventFilterAspect" />
