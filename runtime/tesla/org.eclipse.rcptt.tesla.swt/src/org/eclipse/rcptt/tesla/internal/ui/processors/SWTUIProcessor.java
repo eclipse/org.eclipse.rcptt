@@ -20,6 +20,7 @@ import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils.getMo
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils.isDisabled;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrap;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
+import static org.eclipse.rcptt.tesla.swt.util.GetWindowUtil.getShellCreationMethodName;
 import static org.eclipse.rcptt.util.swt.Bounds.centerAbs;
 import static org.eclipse.rcptt.util.swt.Bounds.centerRel;
 
@@ -28,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -297,6 +299,9 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			ProtocolPackage.Literals.CLICK_COLUMN,
 			ProtocolPackage.Literals.MOUSE_EVENT };
 
+	private static final Set<String> SKIP_ACTIVATION_FOR_SHELLS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+			"ContextInformationPopup.createContextInfoPopup()")));
+
 	protected static ProtocolFactory factory = ProtocolFactory.eINSTANCE;
 	private AbstractTeslaClient client;
 	private String id;
@@ -555,6 +560,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				if (item instanceof Item
 						&& !assertCmd.getAttribute().equals("getExpanded()")) {
 					getPlayer().exec("Expand asserted item", new Runnable() {
+						@Override
 						public void run() {
 							if (item instanceof TreeItem && !item.isDisposed()) {
 								Viewers.expandTreeItem(getPlayer(),
@@ -587,6 +593,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return SWTElementMapper.getMapper(id);
 	}
 
+	@Override
 	public void initialize(final AbstractTeslaClient client, final String id) {
 		this.client = client;
 		this.id = id;
@@ -594,6 +601,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		LocalClipboard.setEnabled(TeslaFeatures.isUseInternalClipboard());
 		TeslaEventManager.getManager().setUnhandledNativeDialogHandler(
 				new IUnhandledNativeDialogHandler() {
+					@Override
 					@SuppressWarnings("rawtypes")
 					public void handle(Class clazz, String message) {
 						failNextCommandBecauseOf = "Failed because of unexpected native dialog is shown: "
@@ -622,6 +630,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return redirectedCommand;
 	}
 
+	@Override
 	public Response executeCommand(final Command command,
 			final IElementProcessorMapper mapper) {
 		Throwable error = getPlayer().getError();
@@ -810,6 +819,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		final SWTUIPlayer player = getPlayer();
 		player.exec("Sending mouse event", new Runnable() {
+			@Override
 			public void run() {
 				if ((parent instanceof Table || parent instanceof Tree)
 						&& isItem && TableTreeUtil.getHeaderVisible(parent)
@@ -867,7 +877,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return new Point(x, y);
 	}
 
-	private static final Map<MouseEventKind, Integer> mouseToEventType = new HashMap<MouseEventKind, Integer>();
+	private static final Map<MouseEventKind, Integer> mouseToEventType = new HashMap<>();
 
 	static {
 		mouseToEventType.put(MouseEventKind.DOUBLE_CLICK, SWT.MouseDoubleClick);
@@ -951,6 +961,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec("clickLink", new Runnable() { //$NON-NLS-1$
 
+			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				SWTEvents events = new SWTEvents(getPlayer()
@@ -972,6 +983,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 		final Control control = (Control) element.widget;
 		getPlayer().exec("setFocus", new Runnable() { //$NON-NLS-1$
+			@Override
 			public void run() {
 				SWTEvents events = new SWTEvents(getPlayer()
 						.getDisplay());
@@ -1048,6 +1060,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 
 		getPlayer().exec("clickText", new Runnable() { //$NON-NLS-1$
+			@Override
 			public void run() {
 				SWTEvents events = new SWTEvents(getPlayer()
 						.getDisplay());
@@ -1118,6 +1131,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		final int finalEnd = Math.min(text.length(), end);
 
 		getPlayer().exec("double-click-text", new Runnable() { //$NON-NLS-1$
+			@Override
 			public void run() {
 				SWTEvents events = new SWTEvents(getPlayer()
 						.getDisplay());
@@ -1445,6 +1459,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 
 		getPlayer().exec("Hover at text offset", new Runnable() {
+			@Override
 			public void run() {
 				styledText.setTopIndex(line);
 				Point point = styledText.getLocationAtOffset(offset);
@@ -1492,11 +1507,15 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			return true;
 		}
 		final Shell shell = (Shell) sh.widget;
+		if (SKIP_ACTIVATION_FOR_SHELLS.contains(getShellCreationMethodName(shell))) {
+			return true;
+		}
 		Shell activeShell = TeslaEventManager.getActiveShell();
 		if (activeShell != shell) {
 			Q7WaitUtils.updateInfo("shell.activate",
 					shell.getClass().getName(), info);
 			getPlayer().exec("Activate shell", new Runnable() {
+				@Override
 				public void run() {
 					// Do deactivate for all other shells
 
@@ -2118,10 +2137,12 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return dragSupport.handleDrag(command);
 	}
 
+	@Override
 	public String getFeatureID() {
 		return "org.eclipse.rcptt.tesla.swt.swt";
 	}
 
+	@Override
 	public boolean isSelectorSupported(final String kind) {
 		for (final ElementKind e : allSelectors) {
 			if (e.name().equals(kind)) {
@@ -2131,6 +2152,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return false;
 	}
 
+	@Override
 	public boolean isCommandSupported(final Command cmd) {
 		final EClass cl0 = cmd.eClass();
 		for (final EClass cl : supportedCommands) {
@@ -2141,6 +2163,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(final SelectCommand command,
 			final ElementGenerator generator,
 			final IElementProcessorMapper mapper) {
@@ -2460,7 +2483,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					return response;
 				}
 
-				final List<String[]> sels = new ArrayList<String[]>();
+				final List<String[]> sels = new ArrayList<>();
 				sels.add(asStringArray(command.getPath()));
 				for (final MultiSelectionItem item : items) {
 					sels.add(asStringArray(item.getPath()));
@@ -2504,7 +2527,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		else if (!command.getPath().isEmpty()
 				|| !command.getAdditionalItems().isEmpty()) {
 
-			List<String[]> items = new ArrayList<String[]>();
+			List<String[]> items = new ArrayList<>();
 			String[] path = asStringArray(command.getPath());
 			if (path != null)
 				items.add(path);
@@ -2641,6 +2664,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 	private void runCommand(final ActionFactory action) {
 		Display.getDefault().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IHandlerService service = (IHandlerService) workbench
@@ -2730,14 +2754,17 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return internalPlayer;
 	}
 
+	@Override
 	public void postSelect(final Element element,
 			final IElementProcessorMapper mapper) {
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return true;
 	}
 
+	@Override
 	public boolean canProceed(final Context context, Q7WaitInfoRoot info) {
 		if (client == null) {
 			return false;
@@ -2752,6 +2779,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return getPlayer().canProceed(context, info);
 	}
 
+	@Override
 	public void clean() {
 		getMapper().clear();
 		SWTModelMapper.initializeExtensions(client
@@ -2773,6 +2801,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return cellEditSupport;
 	}
 
+	@Override
 	public void terminate() {
 		SWTModelMapper.initializeExtensions(null);
 		SWTElementMapper.remove(getId());
@@ -2788,6 +2817,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 	public boolean callMasterProcess(final Context currentContext) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				client.processNext(currentContext, null);
 			}
@@ -2799,6 +2829,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return dragSupport;
 	}
 
+	@Override
 	public void checkHang() {
 		// if (!getClass().equals(SWTUIProcessor.class)) {
 		// return;
@@ -2820,6 +2851,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		// }
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 		Node root = InfoUtils.newNode("swt.info").add(information);
@@ -2847,7 +2879,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
 				.getWorkbenchWindows();
 		for (IWorkbenchWindow win : windows) {
-			Set<SWTUIElement> processed = new HashSet<SWTUIElement>();
+			Set<SWTUIElement> processed = new HashSet<>();
 			processChildren(win, root2, processed);
 		}
 
@@ -2984,6 +3016,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 		getPlayer().exec("show selection", new Runnable() {
 
+			@Override
 			public void run() {
 				Widget rawWidget = element.widget;
 				if (rawWidget instanceof Text) {
@@ -3010,6 +3043,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec("set text selection", new Runnable() {
 
+			@Override
 			public void run() {
 
 				Widget rawWidget = element.widget;
@@ -3123,6 +3157,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec("goto line", new Runnable() {
 
+			@Override
 			public void run() {
 				Widget rawWidget = element.widget;
 				int line = command.getLine();
@@ -3225,6 +3260,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 
 		getPlayer().exec("selectLine", new Runnable() {
 
+			@Override
 			public void run() {
 				Widget rawWidget = element.widget;
 				int line = command.getLine();
@@ -3347,6 +3383,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 		getPlayer().exec("cutSelection", new Runnable() {
 
+			@Override
 			public void run() {
 
 				Widget rawWidget = element.widget;
@@ -3373,6 +3410,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 		getPlayer().exec("pasteSelection", new Runnable() {
 
+			@Override
 			public void run() {
 				Widget rawWidget = element.widget;
 				if (rawWidget instanceof Text) {
@@ -3398,6 +3436,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		}
 		getPlayer().exec("replaceSelection", new Runnable() {
 
+			@Override
 			public void run() {
 				Widget rawWidget = element.widget;
 				String replace = command.getText();
@@ -3420,11 +3459,13 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		return response;
 	}
 
+	@Override
 	public void notifyUI() {
 		getPlayer().wakeup();
 
 	}
 
+	@Override
 	public EObject getElementModel(Element element) {
 		SWTUIElement swtuiElement = getMapper().get(element);
 		if (swtuiElement != null) {
