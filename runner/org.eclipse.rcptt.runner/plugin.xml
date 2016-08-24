@@ -34,4 +34,10 @@
          </property>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.rcptt.launching.rap.browserLaunchDelegate">
+      <browserDelegate
+            class="org.eclipse.rcptt.runner.util.RunnerBrowserLaunchDelegate">
+      </browserDelegate>
+   </extension>
 </plugin>

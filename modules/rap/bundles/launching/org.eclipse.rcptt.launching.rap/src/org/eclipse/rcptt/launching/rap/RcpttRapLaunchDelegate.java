@@ -404,6 +404,8 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		// ORDER IS CRUCIAL HERE:
 		// Override VM arguments that are specified manually with the values
 		// necessary for the RAP launcher
+		args.add("-Declipse.ignoreApp=true");
+		args.add("-Dosgi.noShutdown=true");
 		args.addAll(Arrays.asList(super.getVMArguments(config)));
 		args.addAll(getRAPVMArguments());
 
@@ -433,6 +435,8 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
 
 		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args) + "\n");
+
+
 		info.vmArgs = args.toArray(new String[args.size()]);
 		return info.vmArgs;
 	}
