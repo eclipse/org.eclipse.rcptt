@@ -29,7 +29,6 @@ public class ShutdownAutService implements ICommandService {
 	public IStatus service(Command command, IProcess context)
 			throws InterruptedException, CoreException {
 		try {
-			tryTerminateLaunches();
 			closeClient();
 			// shutdown AUT itself
 		} catch (Throwable e) {
@@ -39,28 +38,27 @@ public class ShutdownAutService implements ICommandService {
 	}
 
 	public static void tryTerminateLaunches() {
-		try {
-			// shutdown all launch configurations
-//			ILaunchManager manager = DebugPlugin.getDefault()
-//					.getLaunchManager();
-//			for (ILaunch launch : manager.getLaunches()) {
-//				launch.terminate();
-//			}
-		} catch (Throwable e) {
-			// do nothing
-		}
 	}
 
 	private void closeClient() {
-		Display display = RWTUtils.findDisplay();
+		final Display display = RWTUtils.findDisplay();
 		if (display != null) {
 			display.asyncExec(new Runnable() {
 				@Override
 				public void run() {
 					JavaScriptExecutor executor = RWT.getClient().getService( JavaScriptExecutor.class );
-					executor.execute("window.open('', '_self', ''); window.close()");
+					executor.execute("self.close();");
+
+					display.timerExec(10000, new Runnable() {
+						@Override
+						public void run() {
+							Runtime.getRuntime().exit(IStatus.OK);
+						}
+					});
 				}
 			});
+
+		
 		}
 
 	}

@@ -54,6 +54,7 @@ import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
 import org.eclipse.rcptt.runner.PrintStreamMonitor;
 import org.eclipse.rcptt.runner.RunnerConfiguration;
 import org.eclipse.rcptt.runner.ScenarioRunnable;
+import org.eclipse.rcptt.util.StringUtils;
 
 import com.google.common.base.Strings;
 
@@ -172,6 +173,10 @@ public class AutThread extends Thread {
 				}
 				if (!Strings.isNullOrEmpty(conf.path)) {
 					helper.setServletPath(conf.path);
+				}
+
+				if(!StringUtils.isEmpty(conf.browserCmd)){
+					helper.setBrowserCommand(conf.browserCmd);
 				}
 			} else {
 				config = Q7LaunchingUtil.createQ7LaunchConfiguration(tpc.getTargetPlatform(), autArgs,

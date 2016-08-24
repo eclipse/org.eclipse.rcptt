@@ -20,7 +20,6 @@ public class RunnerVersionDispatcher {
 	private static final String RUNNER_ARTIFACT_ID = "rcptt.runner";
 	private static final String RUNNER_RAP_ARTIFACT_ID = "rcptt.runner";
 	private static final String RUNNER_APPLICATION_ID = "org.eclipse.rcptt.runner.headless";
-	private static final String RUNNER_RAP_APPLICATION_ID = "org.eclipse.rcptt.runner.rap.headless";
 
 	public static ComparableVersion parseVersion(String version) {
 		if (version == null || version.trim().isEmpty())
@@ -29,10 +28,6 @@ public class RunnerVersionDispatcher {
 	}
 
 	public static String getApplicationId(ComparableVersion runnerVersion, String palform) {
-		if (palform != null && RUNNER_PLATFORM_RAP.equals(palform.toLowerCase())) {
-			return RunnerVersionDispatcher.RUNNER_RAP_APPLICATION_ID;
-		}
-
 		return RunnerVersionDispatcher.RUNNER_APPLICATION_ID;
 	}
 
