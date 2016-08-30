@@ -60,11 +60,15 @@ public enum ImageSources {
 	}
 
 	private synchronized void imageOrDataFromDescriptor(Object imageOrData, ImageDescriptor descriptor) {
+		if( imageOrData == null) {
+			return;
+		}
 		ImageSource source = findOrCreate(descriptor);
 		if (source == null) {
 			return; // unknown origin
 		}
 		sources.put(imageOrData, source);
+		
 	}
 
 	private static Object dedup(Object imageOrData) {

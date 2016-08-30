@@ -1059,6 +1059,9 @@ public class SWTModelMapper {
 	}
 
 	public static void fillImage(WithImage widget, Image image) {
+		if( image == null) {
+			return;
+		}
 		org.eclipse.rcptt.tesla.core.ui.Image img = mapImage(image);
 		if (img == null) {
 			return;
