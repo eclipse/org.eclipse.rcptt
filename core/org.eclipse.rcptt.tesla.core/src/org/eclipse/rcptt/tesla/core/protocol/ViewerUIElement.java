@@ -68,26 +68,17 @@ public class ViewerUIElement extends ControlUIElement {
 	}
 
 	public boolean setMultiSelection(String[]... selection) {
-		UISetSelector e = this.selector.set_item;
-		if (selection.length > 0) {
-			e = e.path(selection[0]);
-			for (int i = 1; i < selection.length; i++) {
-				e = e.additional(selection[i]);
-			}
-		}
-		return e.select();
+		return fillSelection(selection).select();
 	}
 
 	public boolean setMultiSelectionList(List<List<String>> selection,
 			boolean all) {
-		UISetSelector e = this.selector.set_item;
-		if (!selection.isEmpty()) {
-			e = e.pathList(selection.get(0));
-			for (int i = 1; i < selection.size(); i++) {
-				e = e.additionalPathList(selection.get(i));
-			}
+		final String[][] converted = new String[selection.size()][];
+		for (int i = 0; i < selection.size(); i++) {
+			List<String> each = selection.get(i);
+			converted[i] = each.toArray(new String[each.size()]);
 		}
-		return e.select(all);
+		return fillSelection(converted).select(all);
 	}
 
 	/**
@@ -195,5 +186,17 @@ public class ViewerUIElement extends ControlUIElement {
 		click.setColumn(index);
 		click.setElement(getElement());
 		player.safeExecuteCommand(click);
+	}
+
+	private UISetSelector fillSelection(String[]... selection) {
+		UISetSelector e = this.selector.set_item;
+		if (selection.length > 0) {
+			int last = selection.length - 1;
+			e = e.path(selection[last]);
+			for (int i = --last; i >= 0; i--) {
+				e = e.additional(selection[i]);
+			}
+		}
+		return e;
 	}
 }

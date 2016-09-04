@@ -15,6 +15,8 @@ import static org.eclipse.rcptt.forms.impl.internal.Plugin.UTILS;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
@@ -25,10 +27,14 @@ import org.eclipse.rcptt.tesla.internal.ui.player.IChildrenCollectingExtension;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerSelectionFilter;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWidgetUtils;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTEvents;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
+import org.eclipse.rcptt.util.swt.rap.Events;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.AbstractHyperlink;
@@ -109,8 +115,8 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 	}
 
 	@Override
-	public boolean canClick(final SWTUIElement widget, final boolean isDefault,
-			final boolean doubleClick, final boolean arrow) {
+	public boolean canClick(final SWTUIElement widget, final boolean isDefault, final boolean doubleClick,
+			final boolean arrow) {
 		switch (widget.getKind().kind) {
 		case FormText:
 			return true;
@@ -122,7 +128,7 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 			} else if (PlayerWrapUtils.unwrap(widget) instanceof IHyperlinkSegment) {
 				return true;
 			}
-			break;
+			return widget.unwrap() instanceof AbstractHyperlink && !doubleClick;
 		default:
 			break;
 		}
@@ -130,8 +136,8 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 	}
 
 	@Override
-	public void click(final SWTUIElement widget, final boolean isDefault,
-			final boolean doubleClick, final boolean arrow) {
+	public void click(final SWTUIElement widget, final boolean isDefault, final boolean doubleClick,
+			final boolean arrow) {
 		switch (widget.getKind().kind) {
 
 		case FormText:
@@ -145,10 +151,27 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 					|| PlayerWrapUtils.unwrap(widget) instanceof IHyperlinkSegment) {
 				clickFormTextLinkUIElement(widget);
 			}
+			if (widget.unwrap() instanceof AbstractHyperlink) {
+				clickToHiperlink(widget.unwrap());
+			}
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void clickToHiperlink(Widget widget) {
+		final SWTEvents events = new SWTEvents(widget.getDisplay());
+
+		final List<Event> sending = new ArrayList<Event>(4);
+		sending.add(Events.createMouseDown());
+		sending.add(Events.createSelection(true));
+		if (widget.getListeners(SWT.Selection).length > 0) {
+			sending.add(Events.createSelection(false));
+		}
+		sending.add(Events.createMouseUp());
+
+		events.sendAll(widget, sending.toArray(new Event[sending.size()]));
 	}
 
 	public static FormTextModel getFormTextModel(Canvas fText) {
