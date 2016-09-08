@@ -429,7 +429,7 @@ public class Viewers {
 		}
 		final Control tableOrTree = (Control) unwrapWidget(parent);
 
-		Set<Item> selection = new HashSet<Item>();
+		Set<Item> selection = new LinkedHashSet<Item>();
 		for (String[] p : path) {
 			Set<Item> pathSelection = findItems(new String[][] { p },
 					tableOrTree, !selectAll);
@@ -1000,7 +1000,6 @@ public class Viewers {
 		if (widget instanceof Tree || widget instanceof Table) {
 			return selectItem(element, items, selectAll);
 		} else if (widget instanceof org.eclipse.swt.widgets.List) {
-			org.eclipse.swt.widgets.List l = (org.eclipse.swt.widgets.List) widget;
 			Set<String> toSelect = new HashSet<String>();
 			for (String[] ss : items) {
 				toSelect.addAll(Arrays.asList(ss));

@@ -30,11 +30,10 @@ public class ViewerUIElement extends ControlUIElement {
 	public ViewerUIElement(Element e, UIPlayer player) {
 		super(e, player);
 		this.selector.set_item = new UISetSelector(player).parent(element);
-		this.selector.item = new UISelector<ItemUIElement>(ElementKind.Item,
-				player, ItemUIElement.class).parent(getElement());
-		this.selector.column = new UISelector<ControlUIElement>(
-				ElementKind.ColumnHeader, player, ControlUIElement.class)
+		this.selector.item = new UISelector<ItemUIElement>(ElementKind.Item, player, ItemUIElement.class)
 				.parent(getElement());
+		this.selector.column = new UISelector<ControlUIElement>(ElementKind.ColumnHeader, player,
+				ControlUIElement.class).parent(getElement());
 	}
 
 	@Override
@@ -52,8 +51,7 @@ public class ViewerUIElement extends ControlUIElement {
 	}
 
 	public ControlUIElement column(String pattern, Integer index) {
-		return this.selector.column.find(pattern,
-				index != null && index == 0 ? null : index);
+		return this.selector.column.find(pattern, index != null && index == 0 ? null : index);
 	}
 
 	/**
@@ -71,12 +69,13 @@ public class ViewerUIElement extends ControlUIElement {
 		return fillSelection(selection).select();
 	}
 
-	public boolean setMultiSelectionList(List<List<String>> selection,
-			boolean all) {
+	public boolean setMultiSelectionList(List<List<String>> selection, boolean all) {
 		final String[][] converted = new String[selection.size()][];
-		for (int i = 0; i < selection.size(); i++) {
+		final int size = selection.size() - 1;
+		// reverse for replay
+		for (int i = 0; i <= size; i++) {
 			List<String> each = selection.get(i);
-			converted[i] = each.toArray(new String[each.size()]);
+			converted[size - i] = each.toArray(new String[each.size()]);
 		}
 		return fillSelection(converted).select(all);
 	}
@@ -127,8 +126,7 @@ public class ViewerUIElement extends ControlUIElement {
 	public String[][] getSelection() {
 		GetSelection cmd = factory.createGetSelection();
 		cmd.setElement(getElement());
-		SelectionResponse response = (SelectionResponse) player
-				.safeExecuteCommand(cmd);
+		SelectionResponse response = (SelectionResponse) player.safeExecuteCommand(cmd);
 		player.clearFailures();
 		if (response == null) { // In case we are in recording
 			return null;
@@ -165,6 +163,7 @@ public class ViewerUIElement extends ControlUIElement {
 		cmd.setElement(getElement());
 		player.safeExecuteCommand(cmd);
 	}
+
 	public void deactivateCellEditor() {
 		DeactivateCellEditor cmd = factory.createDeactivateCellEditor();
 		cmd.setElement(getElement());
