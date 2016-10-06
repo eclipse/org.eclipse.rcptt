@@ -1749,6 +1749,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetRuntimeTarget" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTestCaseName" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns current test case name"/>
+      <details key="returns" value="Current test case name"/>
+      <details key="example" value="get-test-case-name | log"/>
+    </eAnnotations>
+  </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
       nsPrefix="org.eclipse.rcptt.ecl.tesla.diagram">
     <eClassifiers xsi:type="ecore:EClass" name="GetDiagram" eSuperTypes="#//Selector">

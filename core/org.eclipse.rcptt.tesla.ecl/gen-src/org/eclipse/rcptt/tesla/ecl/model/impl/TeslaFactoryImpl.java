@@ -204,6 +204,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 			case TeslaPackage.GET_LAST_MESSAGE_BOX: return createGetLastMessageBox();
 			case TeslaPackage.CHECK_DOWNLOAD_RESULT: return createCheckDownloadResult();
 			case TeslaPackage.GET_RUNTIME_TARGET: return createGetRuntimeTarget();
+			case TeslaPackage.GET_TEST_CASE_NAME: return createGetTestCaseName();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -1538,6 +1539,16 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	public GetRuntimeTarget createGetRuntimeTarget() {
 		GetRuntimeTargetImpl getRuntimeTarget = new GetRuntimeTargetImpl();
 		return getRuntimeTarget;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetTestCaseName createGetTestCaseName() {
+		GetTestCaseNameImpl getTestCaseName = new GetTestCaseNameImpl();
+		return getTestCaseName;
 	}
 
 	/**

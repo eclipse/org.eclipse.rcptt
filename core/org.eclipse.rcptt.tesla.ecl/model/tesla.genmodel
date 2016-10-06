@@ -452,6 +452,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//CheckDownloadResult/fileName"/>
     </genClasses>
     <genClasses ecoreClass="tesla.ecore#//GetRuntimeTarget"/>
+    <genClasses ecoreClass="tesla.ecore#//GetTestCaseName"/>
     <nestedGenPackages prefix="Diagram" basePackage="org.eclipse.rcptt.tesla.ecl.model"
         disposableProviderFactory="true" ecorePackage="tesla.ecore#//diagram">
       <genClasses ecoreClass="tesla.ecore#//diagram/GetDiagram"/>

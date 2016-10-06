@@ -144,6 +144,11 @@ public class ReportBuilder implements IReportBuilder {
 		}
 
 		@Override
+		public String getName() {
+			return node.getName();
+		}
+
+		@Override
 		public String toString() {
 			return node.getName();
 		}

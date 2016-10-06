@@ -781,6 +781,11 @@
 	        name="GetLastMessageBox"
 	        namespace="http://eclipse.org/rcptt/tesla/ecl">
   		</scriptlet>
+    <scriptlet
+          class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.GetTestCaseNameService"
+          name="GetTestCaseName"
+          namespace="http://eclipse.org/rcptt/tesla/ecl">
+    </scriptlet>
    </extension>
     <extension
           point="org.eclipse.rcptt.tesla.swt.jobCollector">

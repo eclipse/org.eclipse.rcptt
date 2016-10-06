@@ -1317,6 +1317,15 @@ public interface TeslaFactory extends EFactory {
 	GetRuntimeTarget createGetRuntimeTarget();
 
 	/**
+	 * Returns a new object of class '<em>Get Test Case Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Test Case Name</em>'.
+	 * @generated
+	 */
+	GetTestCaseName createGetTestCaseName();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

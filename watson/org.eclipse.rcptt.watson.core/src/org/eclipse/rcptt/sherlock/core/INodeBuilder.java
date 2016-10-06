@@ -18,6 +18,14 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 
 public interface INodeBuilder {
+
+	/**
+	 * Return current node name
+	 * 
+	 * @return node name
+	 */
+	public String getName();
+
 	/**
 	 * Add subnode to current one and make it active.
 	 */

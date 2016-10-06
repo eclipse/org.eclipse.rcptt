@@ -113,6 +113,11 @@ public class ReportManager implements IQ7ReportConstants {
 		public void update(Procedure1<Node> runnable) {
 		}
 
+		@Override
+		public String getName() {
+			return null;
+		}
+
 	};
 	
 	

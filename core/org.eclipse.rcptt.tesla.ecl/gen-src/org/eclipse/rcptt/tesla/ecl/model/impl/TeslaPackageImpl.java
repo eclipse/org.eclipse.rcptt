@@ -1075,6 +1075,13 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass getTestCaseNameEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum buttonEEnum = null;
 
 	/**
@@ -4327,6 +4334,15 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGetTestCaseName() {
+		return getTestCaseNameEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
 	}
@@ -4868,6 +4884,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		getRuntimeTargetEClass = createEClass(GET_RUNTIME_TARGET);
 
+		getTestCaseNameEClass = createEClass(GET_TEST_CASE_NAME);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
 
@@ -5057,6 +5075,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		getLastMessageBoxEClass.getESuperTypes().add(theCorePackage.getCommand());
 		checkDownloadResultEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getRuntimeTargetEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getTestCaseNameEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5558,6 +5577,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		initEAttribute(getCheckDownloadResult_FileName(), theEcorePackage.getEString(), "fileName", null, 0, 1, CheckDownloadResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(getRuntimeTargetEClass, GetRuntimeTarget.class, "GetRuntimeTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getTestCaseNameEClass, GetTestCaseName.class, "GetTestCaseName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
@@ -7250,6 +7271,14 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "description", "Gets last shown MessageBox info. If MessageBox was not shown, then error is returned.",
 			 "returns", "MessageBoxInfo",
 			 "example", "set-dialog-result MessageBox 128\r\nget-view \"Q7 Quality Mockups\" | get-group \"MessageBox Test\" | get-button \"Message Box with YES/NO Buttons\" | click\r\nwith [get-last-message-box] {\r\n    get-property title | equals \"Warning\" | verify-true\r\n    get-property message | equals \"Yes or No?\" | verify-true\r\n}"
+		   });	
+		addAnnotation
+		  (getTestCaseNameEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Returns current test case name",
+			 "returns", "Current test case name",
+			 "example", "get-test-case-name | log"
 		   });
 	}
 

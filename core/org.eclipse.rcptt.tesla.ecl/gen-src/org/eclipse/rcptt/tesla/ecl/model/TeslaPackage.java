@@ -10107,6 +10107,43 @@ public interface TeslaPackage extends EPackage {
 	int GET_RUNTIME_TARGET_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTestCaseNameImpl <em>Get Test Case Name</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetTestCaseNameImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetTestCaseName()
+	 * @generated
+	 */
+	int GET_TEST_CASE_NAME = 148;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_TEST_CASE_NAME__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_TEST_CASE_NAME__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The number of structural features of the '<em>Get Test Case Name</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_TEST_CASE_NAME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10114,7 +10151,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getButton()
 	 * @generated
 	 */
-	int BUTTON = 148;
+	int BUTTON = 149;
 
 	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
@@ -10124,7 +10161,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 149;
+	int ELEMENT_KIND = 150;
 
 
 	/**
@@ -13852,6 +13889,16 @@ public interface TeslaPackage extends EPackage {
 	EClass getGetRuntimeTarget();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName <em>Get Test Case Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Test Case Name</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName
+	 * @generated
+	 */
+	EClass getGetTestCaseName();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -17005,6 +17052,16 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EClass GET_RUNTIME_TARGET = eINSTANCE.getGetRuntimeTarget();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetTestCaseNameImpl <em>Get Test Case Name</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetTestCaseNameImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetTestCaseName()
+		 * @generated
+		 */
+		EClass GET_TEST_CASE_NAME = eINSTANCE.getGetTestCaseName();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
