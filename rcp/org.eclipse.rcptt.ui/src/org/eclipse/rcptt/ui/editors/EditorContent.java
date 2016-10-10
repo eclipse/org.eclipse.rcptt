@@ -288,7 +288,10 @@ public class EditorContent implements INamedElementActions {
 				|| (externalRefControl != null && externalRefControl
 						.isFocusControl())
 				|| (contextTable != null && contextTable.getControl()
-						.isFocusControl()) || header.isInFocus();
+						.isFocusControl())
+				|| (verificationsTable != null && verificationsTable.getControl()
+						.isFocusControl())
+				|| header.isInFocus();
 	}
 
 	public void doSelectAll() {
@@ -299,6 +302,9 @@ public class EditorContent implements INamedElementActions {
 		} else if (contextTable != null
 				&& contextTable.getControl().isFocusControl()) {
 			((Table) contextTable.getControl()).selectAll();
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			((Table) verificationsTable.getControl()).selectAll();
 		}
 	}
 
@@ -312,6 +318,11 @@ public class EditorContent implements INamedElementActions {
 				&& contextTable.getControl().isFocusControl()) {
 			if (contextTable.canCopy()) {
 				contextTable.copy();
+			}
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			if (verificationsTable.canCopy()) {
+				verificationsTable.copy();
 			}
 		}
 		else if (header.isInFocus()) {
@@ -329,6 +340,9 @@ public class EditorContent implements INamedElementActions {
 		} else if (contextTable != null
 				&& contextTable.getControl().isFocusControl()) {
 			return contextTable.canCopy();
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			return verificationsTable.canCopy();
 		}
 		else if (header.isInFocus()) {
 			return header.canCopy();
@@ -346,6 +360,9 @@ public class EditorContent implements INamedElementActions {
 		} else if (contextTable != null
 				&& contextTable.getControl().isFocusControl()) {
 			return contextTable.canPaste();
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			return verificationsTable.canPaste();
 		}
 		else if (header.isInFocus()) {
 			return header.canPaste();
@@ -363,6 +380,9 @@ public class EditorContent implements INamedElementActions {
 		} else if (contextTable != null
 				&& contextTable.getControl().isFocusControl()) {
 			return contextTable.canCut();
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			return verificationsTable.canCut();
 		}
 		else if (header.isInFocus()) {
 			return header.canCut();
@@ -381,6 +401,11 @@ public class EditorContent implements INamedElementActions {
 			if (contextTable.canPaste()) {
 				contextTable.paste();
 			}
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			if (verificationsTable.canPaste()) {
+				verificationsTable.paste();
+			}
 		}
 		else if (header.isInFocus()) {
 			header.paste();
@@ -397,6 +422,11 @@ public class EditorContent implements INamedElementActions {
 				&& contextTable.getControl().isFocusControl()) {
 			if (contextTable.canCut()) {
 				contextTable.cut();
+			}
+		} else if (verificationsTable != null
+				&& verificationsTable.getControl().isFocusControl()) {
+			if (verificationsTable.canCut()) {
+				verificationsTable.cut();
 			}
 		}
 		else if (header.isInFocus()) {
