@@ -48,6 +48,7 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7Element.HandleType;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.ModelManager;
@@ -461,7 +462,7 @@ public abstract class EObjectTable extends AbstractEmbeddedComposite implements
 				if (file.getElementType().equals(getAppropriateHandleType())) {
 					if (file.exists()) {
 						try {
-							val = ((IContext) file).getID();
+							val = ((IQ7NamedElement) file).getID();
 						} catch (ModelException e) {
 							Q7UIPlugin.log(e);
 						}
