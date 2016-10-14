@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -36,7 +37,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.PartPane;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.internal.PartStack;
@@ -48,6 +48,7 @@ import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.internal.presentations.PaneFolder;
 import org.eclipse.ui.internal.presentations.PaneFolderButtonListener;
 import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabFolder;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
@@ -60,6 +61,8 @@ import org.eclipse.rcptt.tesla.ui.RWTUtils;
 @SuppressWarnings("restriction")
 public class ClassicEclipseWorkbenchProvider implements
 		IEclipseWorkbenchProvider {
+	
+	private Version rapVersion;
 
 	public Menu getViewMenu(IWorkbenchPart workbenchPart,
 			IWorkbenchPartReference reference, boolean create) {
@@ -255,10 +258,15 @@ public class ClassicEclipseWorkbenchProvider implements
 	}
 
 	public boolean isSupported() {
-		Version version = TeslaCore.getPlatformVersion();
-		int major = version.getMajor();
-		int minor = version.getMinor();
-        return major == 3 && minor > 4 && minor < 12;
+		if (rapVersion == null) {
+			Bundle rapUIBundle = Platform.getBundle("org.eclipse.rap.ui");
+			if (rapUIBundle != null) {
+				rapVersion = rapUIBundle.getVersion();
+			} else {
+				rapVersion = Version.emptyVersion;
+			}
+		}
+        return rapVersion.getMajor() == 3;
 	}
 
 	private static final List<String> viewTooltips = Arrays.asList("View Menu",
