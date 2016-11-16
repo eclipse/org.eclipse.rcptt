@@ -9,7 +9,6 @@
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
-
 <feature
       id="org.eclipse.rcptt.core"
       label="RCPTT Core"
@@ -29,6 +28,14 @@ Not used in runtime.
    <license url="%licenseURL">
       %license
    </license>
+
+   <includes
+         id="org.eclipse.rcptt.tesla"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.rcptt.tesla.ecl"
+         version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.emf.transaction"/>
@@ -277,12 +284,6 @@ Not used in runtime.
 
    <plugin
          id="org.eclipse.rcptt.expandbar"
-         download-size="0"
-         install-size="0"
-         version="2.2.0.qualifier"
-         unpack="false"/>
-   <plugin
-         id="org.eclipse.rcptt.tesla.core"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
