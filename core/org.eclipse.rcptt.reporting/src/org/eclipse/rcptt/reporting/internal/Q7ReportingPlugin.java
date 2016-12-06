@@ -41,20 +41,7 @@ public class Q7ReportingPlugin extends Plugin {
 		super.start(bundleContext);
 		plugin = this;
 		ReportManager.reload();
-		Job cleanPreviousExecutionSessions = new Job(
-				"Q7: Clean execution sessions") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				File root = getConfigStateLocation();
-				if (root.exists()) {
-					FileUtil.deleteFiles(root.listFiles());
-				}
-				return Status.OK_STATUS;
-			}
-		};
-		cleanPreviousExecutionSessions.setSystem(true);
-		cleanPreviousExecutionSessions.schedule();
-	}
+		}
 
 	public static File getConfigStateLocation() {
 		File result = null;
