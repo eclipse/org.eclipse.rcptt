@@ -35,10 +35,12 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.IReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.util.FileUtil;
 
 public class ReportManager implements IQ7ReportConstants {
 	private static ReportBuilder builder = null;
-
+	private static boolean hasRun = false;
+	
 	public static String[] eventProviders = {
 		IEventProviders.LOG_EVENT_PROVIDER,
 		IEventProviders.JFACE_LOG_EVENT_PROVIDER,
@@ -202,8 +204,19 @@ public class ReportManager implements IQ7ReportConstants {
 		return new File(Q7ReportingPlugin.getConfigStateLocation(),
 				"current.report");
 	}
-
-	public static void clear() {
+	
+	private static synchronized void clearOldReports()  {
+		if(!hasRun){
+			File root = Q7ReportingPlugin.getConfigStateLocation();
+			if (root.exists()) {
+				FileUtil.deleteFiles(root.listFiles());
+				}
+			hasRun = true;
+		}
+	}
+	
+	public static void clear()  {
+		clearOldReports();
 		if (builder != null) {
 			builder.unregisterProviders();
 		}
