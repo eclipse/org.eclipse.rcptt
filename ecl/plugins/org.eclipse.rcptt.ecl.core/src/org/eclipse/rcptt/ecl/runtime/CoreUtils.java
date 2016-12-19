@@ -30,6 +30,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.EclList;
+import org.eclipse.rcptt.ecl.core.EclMap;
+import org.eclipse.rcptt.ecl.core.EclMapEntry;
 import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 import org.eclipse.rcptt.ecl.internal.core.EMFStreamPipe;
 import org.eclipse.rcptt.ecl.internal.core.IMarkeredPipe;
@@ -248,7 +251,33 @@ public class CoreUtils {
 				.getAdapter(item, instanceClass);
 		if (rv == null && item != null) {
 			if (instanceClass.isAssignableFrom(String.class)) {
-				rv = BoxedValues.unbox(item).toString();
+				
+				rv = BoxedValues.unbox(item);
+				if( rv instanceof EclList ) {
+					StringBuilder sb = new StringBuilder();
+					for( Object o: ((EclList) rv).getElements()) {
+						if( sb.length() > 0) {
+							sb.append(", ");
+						}
+						sb.append( adaptSingleObject(instanceClass, o, false));
+					}
+					rv = sb.toString();
+				}
+				else if( rv instanceof EclMap ) {
+					StringBuilder sb = new StringBuilder();
+					for( EclMapEntry o: ((EclMap) rv).getEntries()) {
+						if( sb.length() > 0) {
+							sb.append(", ");
+						}
+						sb.append( adaptSingleObject(instanceClass, o.getKey(), false));
+						sb.append("=");
+						sb.append(adaptSingleObject(instanceClass, o.getValue(), false));
+					}
+					rv = sb.toString();
+				}
+				else {
+					rv = rv.toString();
+				}
 			}
 		}
 		if (rv == null)

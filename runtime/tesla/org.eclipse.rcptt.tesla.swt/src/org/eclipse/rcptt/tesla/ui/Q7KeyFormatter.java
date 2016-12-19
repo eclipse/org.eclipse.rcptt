@@ -63,21 +63,25 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 			final WorkbenchWindow ww = (WorkbenchWindow) w;
 			final Shell shell = ww.getShell();
-			final CoolBarManager coolBarManager = ww.getCoolBarManager();
+			try {
+				final CoolBarManager coolBarManager = ww.getCoolBarManager();
 
-			if (shell != null && coolBarManager != null)
-				shell.getDisplay().syncExec(new Runnable() {
-					public void run() {
-						try {
-							shell.setLayoutDeferred(true);
-							IContributionItem[] items = coolBarManager.getItems();
-							coolBarManager.setItems(new IContributionItem[0]);
-							coolBarManager.setItems(items);
-						} finally {
-							shell.setLayoutDeferred(false);
+				if (shell != null && coolBarManager != null)
+					shell.getDisplay().syncExec(new Runnable() {
+						public void run() {
+							try {
+								shell.setLayoutDeferred(true);
+								IContributionItem[] items = coolBarManager.getItems();
+								coolBarManager.setItems(new IContributionItem[0]);
+								coolBarManager.setItems(items);
+							} finally {
+								shell.setLayoutDeferred(false);
+							}
 						}
-					}
-				});
+					});
+			} catch (Exception e) {
+				// Ignore exception.
+			}
 		}
 	}
 }
