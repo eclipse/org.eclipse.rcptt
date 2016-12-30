@@ -25,6 +25,7 @@
     <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
     <module>../../modules/nebula</module>
     <module>../../launching</module>
+    <module>../../modules/testrail</module>
     <module>../../rcp</module>
     <module>../../testing</module>
 
@@ -47,7 +48,7 @@
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160221192158/repository/</url>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
     </repository>
     <repository>
       <id>core</id>

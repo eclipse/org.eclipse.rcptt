@@ -20,13 +20,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Or#getArgs <em>Args</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getOr()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Computes the result of logical Or operation for passed arguments.' returns='<code>true</code> or <code>false</code>.' example='with [get-view \"Q7 Explorer\" | get-tree] {\n  if [or[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"One of two verifications passed\"\n  }\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Computes the result of logical Or operation for passed arguments.' returns='&lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt;.' example='with [get-view \"Q7 Explorer\" | get-tree] {\n  if [or[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"One of two verifications passed\"\n  }\n}'"
  * @generated
  */
 public interface Or extends Command {

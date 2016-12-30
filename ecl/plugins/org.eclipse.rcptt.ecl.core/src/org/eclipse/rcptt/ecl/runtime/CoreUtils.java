@@ -245,13 +245,12 @@ public class CoreUtils {
 		return result;
 	}
 
-	private static Object adaptSingleObject(Class<?> instanceClass,
+	public static Object adaptSingleObject(Class<?> instanceClass,
 			final Object item, boolean box) {
 		Object rv = Platform.getAdapterManager()
 				.getAdapter(item, instanceClass);
 		if (rv == null && item != null) {
 			if (instanceClass.isAssignableFrom(String.class)) {
-				
 				rv = BoxedValues.unbox(item);
 				if( rv instanceof EclList ) {
 					StringBuilder sb = new StringBuilder();

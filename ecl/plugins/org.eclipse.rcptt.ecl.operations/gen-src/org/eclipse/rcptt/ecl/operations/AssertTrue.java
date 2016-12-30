@@ -19,11 +19,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.AssertTrue#isInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.AssertTrue#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getAssertTrue()
  * @model annotation="http://www.eclipse.org/ecl/docs description='If input is not true, fails' returns='Nothing' example='...get-tree | get-item Project | get-property childCount -raw | gt 3 | assert-true -message \"Child count is not greater then 3!\" '"

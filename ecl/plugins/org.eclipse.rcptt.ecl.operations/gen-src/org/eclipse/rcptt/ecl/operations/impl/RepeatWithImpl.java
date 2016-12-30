@@ -37,11 +37,11 @@ import org.eclipse.rcptt.ecl.operations.RepeatWith;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatWithImpl#getCommands <em>Commands</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatWithImpl#getCommand <em>Command</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

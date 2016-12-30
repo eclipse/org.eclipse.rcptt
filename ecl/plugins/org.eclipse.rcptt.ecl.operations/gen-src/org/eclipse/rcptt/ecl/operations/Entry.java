@@ -21,14 +21,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Entry#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Entry#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getEntry()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new map entry. Can only be used as an argument for <a href=\"#map\">map</a> command.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new map entry. Can only be used as an argument for &lt;a href=\"#map\"&gt;map&lt;/a&gt; command.'"
  * @generated
  */
 public interface Entry extends Command {

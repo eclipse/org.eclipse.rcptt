@@ -27,13 +27,13 @@ import org.eclipse.rcptt.ecl.operations.Split;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.SplitImpl#getStr <em>Str</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.SplitImpl#getSep <em>Sep</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.SplitImpl#isTrimResults <em>Trim Results</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.SplitImpl#isOmitEmptyStrings <em>Omit Empty Strings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

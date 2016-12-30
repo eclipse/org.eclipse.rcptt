@@ -18,7 +18,7 @@ package org.eclipse.rcptt.ecl.operations;
  *
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getLong()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its argument to long.' returns='Returns long value or fails if value cannot be converted. <code>true</code> is converted to <code>1L</code> and <code>false</code> is converted to <code>0L</code>.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its argument to long.' returns='Returns long value or fails if value cannot be converted. &lt;code&gt;true&lt;/code&gt; is converted to &lt;code&gt;1L&lt;/code&gt; and &lt;code&gt;false&lt;/code&gt; is converted to &lt;code&gt;0L&lt;/code&gt;.'"
  * @generated
  */
 public interface Long extends Convert {

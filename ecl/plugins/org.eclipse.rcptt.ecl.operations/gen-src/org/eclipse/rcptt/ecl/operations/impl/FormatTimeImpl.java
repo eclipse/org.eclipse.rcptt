@@ -22,10 +22,10 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <em><b>Format Time</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.FormatTimeImpl#getFormat <em>Format</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

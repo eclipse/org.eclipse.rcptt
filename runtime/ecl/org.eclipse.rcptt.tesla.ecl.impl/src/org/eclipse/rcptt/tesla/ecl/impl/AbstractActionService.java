@@ -15,6 +15,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.Proc;
+import org.eclipse.rcptt.ecl.core.util.ISessionPropertyConstants;
 import org.eclipse.rcptt.ecl.dispatch.ServiceDispatchingUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
@@ -26,8 +28,7 @@ public abstract class AbstractActionService implements ICommandService {
 
 	private IProcess context;
 
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 
 		this.context = context;
 
@@ -52,7 +53,9 @@ public abstract class AbstractActionService implements ICommandService {
 			}
 			TeslaErrorStatus failure = TeslaBridge.getTeslaFailure();
 			if (failure != null) {
-				makeScreenshot(true, failure.getMessage());
+				if (TeslaBridge.isAllowScreenshotOnError(context)) {
+					makeScreenshot(true, failure.getMessage());
+				}
 				return failure;
 			}
 			return Status.OK_STATUS;

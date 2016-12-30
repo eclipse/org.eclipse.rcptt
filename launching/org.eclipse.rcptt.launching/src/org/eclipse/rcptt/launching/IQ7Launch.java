@@ -146,6 +146,11 @@ public interface IQ7Launch {
 	String ATTR_BOUND_AUT_NAME = Q7LaunchingPlugin.PLUGIN_ID + ".BOUND_AUT_NAME_ATTR"; //$NON-NLS-1$
 
 	/**
+	 * Launch configuration attribute key. The value is a Map with Test Engine name and Enabled status.
+	 */
+	String ATTR_TEST_ENGINES = Q7LaunchingPlugin.PLUGIN_ID + ".ATTR_TEST_ENGINES"; //$NON-NLS-1$
+
+	/**
 	 * Launch configuration attribute key. Host name for connec to. Applies to
 	 * both SUT & scenario configurations.
 	 */

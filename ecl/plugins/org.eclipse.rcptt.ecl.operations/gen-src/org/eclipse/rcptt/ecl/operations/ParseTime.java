@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.ParseTime#getFormat <em>Format</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getParseTime()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Reads a string from input pipe and parses it accoridng to a given format string.' returns='Timestamp value (as a number of milliseconds since January, 1, 1970)'"

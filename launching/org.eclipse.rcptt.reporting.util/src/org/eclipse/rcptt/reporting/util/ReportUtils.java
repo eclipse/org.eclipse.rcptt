@@ -277,19 +277,31 @@ public class ReportUtils {
 		if (current == null) {
 			return "Non Q7 report node";
 		}
-		return getFailMessage(current.getResult());
+		return getFailMessage(current.getResult(), true);
 	}
-
-	private static String getFailMessage(ProcessStatus result) {
-		ProcessStatus firstFail = getFirstFail(result.getChildren());
+	private static String getFailMessage(ProcessStatus result, boolean addExtra) {
+		StringBuilder extraFailures = new StringBuilder();
+		ProcessStatus firstFail = getFirstFail(result.getChildren(), extraFailures);
 		String resultMessage = getDirectFailMessage(result);
+		
 		if (firstFail != null) {
-			String childrenMessage = getFailMessage(firstFail);
+			String childrenMessage = getFailMessage(firstFail, false);
 			if (!resultMessage.equals(childrenMessage)) {
-				return getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
+				String basePart = getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
+				if (addExtra) {
+					String extraMsg = extraFailures.toString().replace(childrenMessage, "").replace("\n", " " );
+					return basePart + " " + extraMsg;
+				} else {
+					return basePart;
+				}
 			}
 		}
-		return resultMessage;
+		if (addExtra) {
+			String extraMsg = extraFailures.toString().replace(resultMessage, "").replace("\n", " " );;
+			return resultMessage + " " + extraMsg;
+		} else {
+			return resultMessage;
+		}
 	}
 
 	private static String getDirectFailMessage(ProcessStatus result) {
@@ -309,14 +321,20 @@ public class ReportUtils {
 		return "";
 	}
 
-	private static ProcessStatus getFirstFail(List<ProcessStatus> children) {
+	private static ProcessStatus getFirstFail(List<ProcessStatus> children, StringBuilder extraFailures) {
+		ProcessStatus result = null;
 		for (ProcessStatus processStatus : children) {
 			if (processStatus.getSeverity() != IStatus.OK) {
-				ProcessStatus grandChild = getFirstFail(processStatus.getChildren());
-				return grandChild != null ? grandChild : processStatus;
+				ProcessStatus grandChild = getFirstFail(processStatus.getChildren(), extraFailures);
+				if (result == null) {
+					result = grandChild != null ? grandChild : processStatus;
+				}
+				if (result != grandChild) {
+					extraFailures.append(getFailMessage(processStatus, false)).append(" ");
+				}
 			}
 		}
-		return null;
+		return result;
 	}
 
 	public static String replaceHtmlEntities(String string) {

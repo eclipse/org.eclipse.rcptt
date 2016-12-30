@@ -29,19 +29,18 @@ public class GetObjectService extends AbstractActionService {
 		final GetObject cmd = (GetObject) command;
 		final EObject target = cmd.getObject();
 		if (target instanceof ControlHandler) {
-			final Element element = TeslaBridge.find((ControlHandler) target);
+			final Element element = TeslaBridge.find((ControlHandler) target, getContext());
 			if (element == null) {
 				return TeslaImplPlugin.err("Cannot find element");
 			}
-			SWTUIElement swtElement = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class)
-					.getMapper().get(element);
+			SWTUIElement swtElement = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class).getMapper()
+					.get(element);
 			if (swtElement == null) {
 				return TeslaImplPlugin.err("Cannot find element");
 			}
 			return swtElement.widget;
 		} else
-			return TeslaImplPlugin.err(String.format("Usupported type %s",
-					target.getClass()));
+			return TeslaImplPlugin.err(String.format("Usupported type %s", target.getClass()));
 	}
 
 	@Override

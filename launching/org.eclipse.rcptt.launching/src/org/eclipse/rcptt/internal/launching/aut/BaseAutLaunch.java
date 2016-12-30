@@ -33,6 +33,7 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -60,22 +61,27 @@ import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.CorePackage;
+import org.eclipse.rcptt.ecl.core.Declaration;
 import org.eclipse.rcptt.ecl.core.RestoreState;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.SessionState;
+import org.eclipse.rcptt.ecl.core.Val;
+import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.ecl.debug.commands.CommandsFactory;
 import org.eclipse.rcptt.ecl.debug.commands.DebugCommand;
 import org.eclipse.rcptt.ecl.debug.commands.DebugScript;
 import org.eclipse.rcptt.ecl.gen.ast.AstExec;
 import org.eclipse.rcptt.ecl.parser.EclCoreParser;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
+import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
@@ -94,6 +100,8 @@ import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.Q7TeslaProblemInformer;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
+import org.eclipse.rcptt.parameters.ParametersFactory;
+import org.eclipse.rcptt.parameters.SetParam;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.network.TeslaNetworkReplayer;
@@ -156,14 +164,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	@Override
-	public synchronized Object execute(Command command) throws CoreException,
-			InterruptedException {
+	public synchronized Object execute(Command command) throws CoreException, InterruptedException {
 		return execute(command, Q7Launcher.getLaunchTimeout() * 1000);
 	}
 
 	@Override
-	public synchronized Object execute(Command command, long timeout)
-			throws CoreException, InterruptedException {
+	public synchronized Object execute(Command command, long timeout) throws CoreException, InterruptedException {
 		return execute(command, timeout, new NullProgressMonitor());
 	}
 
@@ -191,9 +197,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	@Override
-	public synchronized Object execute(Command command, long timeout,
-			IProgressMonitor monitor) throws CoreException,
-			InterruptedException {
+	public synchronized Object execute(Command command, long timeout, IProgressMonitor monitor)
+			throws CoreException, InterruptedException {
 
 		ISession session = createEclSession();
 		try {
@@ -209,9 +214,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	public Object unsafeExecute(final Command command, final long timeout,
-			final IProgressMonitor monitor) throws CoreException,
-			InterruptedException {
+	public Object unsafeExecute(final Command command, final long timeout, final IProgressMonitor monitor)
+			throws CoreException, InterruptedException {
 		final Object[] result = new Object[] { null };
 		final Exception[] wrappedException = new Exception[] { null };
 		Thread execThread = new Thread() {
@@ -253,14 +257,13 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return result[0];
 	}
 
-	public synchronized List<Object> executeAndTakeAll(Command command,
-			long timeout) throws CoreException, InterruptedException {
+	public synchronized List<Object> executeAndTakeAll(Command command, long timeout)
+			throws CoreException, InterruptedException {
 		return executeAndTakeAll(command, timeout, new NullProgressMonitor());
 	}
 
-	public synchronized List<Object> executeAndTakeAll(Command command,
-			long timeout, IProgressMonitor monitor) throws CoreException,
-			InterruptedException {
+	public synchronized List<Object> executeAndTakeAll(Command command, long timeout, IProgressMonitor monitor)
+			throws CoreException, InterruptedException {
 
 		ISession session = createEclSession();
 		try {
@@ -270,9 +273,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private synchronized List<Object> executeAndTakeAll(ISession session, Command command,
-			long timeout, IProgressMonitor monitor) throws CoreException,
-			InterruptedException {
+	private synchronized List<Object> executeAndTakeAll(ISession session, Command command, long timeout,
+			IProgressMonitor monitor) throws CoreException, InterruptedException {
 		IPipe out = session.createPipe();
 		IProcess rc = session.execute(command, null, out);
 		IStatus status = rc.waitFor(timeout, monitor);
@@ -290,8 +292,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	public void activate(String host, int ecl, int tesla, String platform, String capability, float seconds,
-			IProgressMonitor monitor)
-			throws CoreException {
+			IProgressMonitor monitor) throws CoreException {
 		Q7LaunchingPlugin.logInfo("Activating AUT at host %s. ECL port: %d. Tesla port: %d", host, ecl, tesla);
 		monitor.beginTask("AUT pinging", (int) seconds);
 		synchronized (launch) {
@@ -340,43 +341,31 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	@Override
 	public void ping() throws CoreException, InterruptedException {
 		try {
-			Object object = unsafeExecute(
-					Q7CoreFactory.eINSTANCE.createGetQ7Information(),
-					TeslaLimits.getAUTStartupTimeout(),
-					new NullProgressMonitor());
+			Object object = unsafeExecute(Q7CoreFactory.eINSTANCE.createGetQ7Information(),
+					TeslaLimits.getAUTStartupTimeout(), new NullProgressMonitor());
 			if (object instanceof Q7Information) {
 				Q7Information info = (Q7Information) object;
 				if (!info.isTeslaActive()) {
-					throw new CoreException(
-							Q7LaunchingPlugin
-									.createStatus("Tesla is not activated"));
+					throw new CoreException(Q7LaunchingPlugin.createStatus("Tesla is not activated"));
 				}
 				if (info.getWindowCount() == 0) {
-					throw new CoreException(
-							Q7LaunchingPlugin
-									.createStatus("AUT has no windows"));
+					throw new CoreException(Q7LaunchingPlugin.createStatus("AUT has no windows"));
 				}
 			} else {
-				throw new CoreException(
-						Q7LaunchingPlugin
-								.createStatus("Expect Q7Information but found: "
-										+ object));
+				throw new CoreException(Q7LaunchingPlugin.createStatus("Expect Q7Information but found: " + object));
 			}
 		} catch (CoreException e) {
-			throw new CoreException(Q7LaunchingPlugin.createStatus(
-					"Couldn't connect to AUT: " + e.getMessage(), e));
+			throw new CoreException(Q7LaunchingPlugin.createStatus("Couldn't connect to AUT: " + e.getMessage(), e));
 		}
 	}
 
 	public void restart() {
 		try {
 			setState(AutLaunchState.RESTART);
-			ILaunchConfiguration launchConfiguration = launch
-					.getLaunchConfiguration();
+			ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
 			final ILaunchConfigurationWorkingCopy copy;
 			if (launchConfiguration.isWorkingCopy()) {
-				copy = ((ILaunchConfigurationWorkingCopy) launchConfiguration)
-						.getOriginal().getWorkingCopy();
+				copy = ((ILaunchConfigurationWorkingCopy) launchConfiguration).getOriginal().getWorkingCopy();
 			} else {
 				copy = launchConfiguration.getWorkingCopy();
 			}
@@ -385,17 +374,14 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			copy.setAttribute(IPDEConstants.RESTART, true);
 			copy.setAttribute(IQ7Launch.ATTR_AUT_ID, getId());
 			if (locationOnRestart != null) {
-				copy.setAttribute(IPDELauncherConstants.LOCATION,
-						locationOnRestart);
+				copy.setAttribute(IPDELauncherConstants.LOCATION, locationOnRestart);
 			}
 			final ILaunch oldLaunch = launch;
 			launch.setAttribute(IQ7Launch.ATTR_AUT_ID, ""); // To disable
 															// terminate by id.
-			launch = copy.launch(launch.getLaunchMode(),
-					new NullProgressMonitor());
+			launch = copy.launch(launch.getLaunchMode(), new NullProgressMonitor());
 
-			BaseAutManager.INSTANCE.handleRestart(BaseAutLaunch.this,
-					oldLaunch, launch, copy);
+			BaseAutManager.INSTANCE.handleRestart(BaseAutLaunch.this, oldLaunch, launch, copy);
 		} catch (Exception e) {
 			terminated(e);
 			Q7LaunchingPlugin.log(e);
@@ -450,7 +436,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	public void terminateProcess(int exitCode) {
 		// launch ask for restart
-		// Eclipse mars can return exit code 24 on restart if -vm argument was set
+		// Eclipse mars can return exit code 24 on restart if -vm argument was
+		// set
 		if (exitCode == 23 || (exitCode == 24/* && locationOnRestart != null */)) {
 			restart();
 		} else {
@@ -505,10 +492,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private String getWorkspace(ILaunch launch) {
 		try {
-			ILaunchConfiguration launchConfiguration = launch
-					.getLaunchConfiguration();
-			return launchConfiguration.getAttribute(
-					IPDELauncherConstants.LOCATION, ""); //$NON-NLS-1$
+			ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
+			return launchConfiguration.getAttribute(IPDELauncherConstants.LOCATION, ""); //$NON-NLS-1$
 		} catch (Exception e) {
 			Q7LaunchingPlugin.log("Couldn't find launch workspace", e);
 		}
@@ -516,15 +501,14 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	@Override
-	public synchronized void run(IQ7NamedElement element, long timeout,
-			IProgressMonitor monitor, ExecutionPhase phase) throws CoreException {
+	public synchronized void run(IQ7NamedElement element, long timeout, IProgressMonitor monitor, ExecutionPhase phase)
+			throws CoreException {
 		execElement(element, timeout, monitor, null, phase);
 	}
 
 	@Override
-	public synchronized void debug(IQ7NamedElement element, long timeout,
-			IProgressMonitor monitor, TestCaseDebugger debugger, ExecutionPhase phase)
-			throws CoreException {
+	public synchronized void debug(IQ7NamedElement element, long timeout, IProgressMonitor monitor,
+			TestCaseDebugger debugger, ExecutionPhase phase) throws CoreException {
 		execElement(element, timeout, monitor, debugger, phase);
 	}
 
@@ -535,13 +519,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private void execElement(IQ7NamedElement element, long timeout,
-			IProgressMonitor monitor, TestCaseDebugger debugger, ExecutionPhase phase)
-			throws CoreException {
+	private void execElement(IQ7NamedElement element, long timeout, IProgressMonitor monitor, TestCaseDebugger debugger,
+			ExecutionPhase phase) throws CoreException {
 		if (!element.exists()) {
-			throw new CoreException(
-					Q7LaunchingPlugin.createStatus("Resource does not exist: "
-							+ element));
+			throw new CoreException(Q7LaunchingPlugin.createStatus("Resource does not exist: " + element));
 		}
 		if (element instanceof ITestCase || EclContextExecutable.isEclScriptContext(element)) {
 			execTestOrEclContext(element, timeout, monitor, debugger);
@@ -563,7 +544,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		EnterContext ec = Q7CoreFactory.eINSTANCE.createEnterContext();
 		ec.setData(context);
 		try {
-			IStatus result = internalExecute(ec, TeslaLimits.getContextRunnableTimeout(), monitor);
+			IStatus result = internalExecute(ec, TeslaLimits.getContextRunnableTimeout(), monitor, null);
 			if (!result.isOK()) {
 				throw new CoreException(result);
 			}
@@ -573,8 +554,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private void execVerification(IVerification verificationElement,
-			IProgressMonitor monitor, ExecutionPhase phase) throws CoreException {
+	private void execVerification(IVerification verificationElement, IProgressMonitor monitor, ExecutionPhase phase)
+			throws CoreException {
 		Verification verification = (Verification) EcoreUtil.copy(verificationElement.getModifiedNamedElement());
 		if (!(verificationElement instanceof Q7InternalVerification)) {
 			VerificationType type = verificationElement.getType();
@@ -586,7 +567,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		command.setVerification(verification);
 		command.setPhase(phase);
 		try {
-			IStatus result = internalExecute(command, TeslaLimits.getContextRunnableTimeout(), monitor);
+			IStatus result = internalExecute(command, TeslaLimits.getContextRunnableTimeout(), monitor, null);
 			if (!result.isOK()) {
 				throw new CoreException(result);
 			}
@@ -597,27 +578,24 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	private void execTestOrEclContext(IQ7NamedElement test, long timeout, IProgressMonitor monitor,
-			TestCaseDebugger debugger)
-			throws CoreException {
+			TestCaseDebugger debugger) throws CoreException {
 		currentTestMonitor = monitor;
 
 		try {
-			NamedElement element = EcoreUtil.copy(test
-					.getModifiedNamedElement());
+			NamedElement element = EcoreUtil.copy(test.getModifiedNamedElement());
 			Script ecl = extractScript(element);
+			Map<String, String> properties = extractProperties(element);
 			TeslaScenario tesla = extractTesla(element);
 			Map<String, String> idToPathMap = new HashMap<String, String>();
 			if (ecl != null) {
 				if (debugger != null) {
-					DebugScript ds = CommandsFactory.eINSTANCE
-							.createDebugScript();
+					DebugScript ds = CommandsFactory.eINSTANCE.createDebugScript();
 					IPath path = test.getPath();
 					ds.setPath(path.toString());
 					ds.setSession(debugger.getSessionId());
 					ds.setContent(ecl.getContent());
 					ds.setHost(ecl.getHost());
-					ds.getBindings().addAll(
-							EcoreUtil.copyAll(ecl.getBindings()));
+					ds.getBindings().addAll(EcoreUtil.copyAll(ecl.getBindings()));
 
 					for (IContext ctx : RcpttCore.getInstance().getContexts(test, null, true)) {
 						if (ctx.getResource() == null) {
@@ -630,12 +608,11 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					}
 					ecl = ds;
 				}
-				doExecute(ecl, debugger, timeout, monitor, test.getID(), idToPathMap);
+				doExecute(ecl, debugger, timeout, monitor, test.getID(), idToPathMap, properties);
 			} else if (tesla != null) {
 				runTeslaScenario(tesla, monitor);
 			} else {
-				throw new CoreException(new Status(IStatus.ERROR,
-						Q7LaunchingPlugin.PLUGIN_ID,
+				throw new CoreException(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 						"Couldn't launch test case: invalid format"));
 			}
 		} catch (CoreException e) {
@@ -648,27 +625,34 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private TeslaScenario extractTesla(NamedElement element)
-			throws ModelException {
-		if (element instanceof Scenario
-				&& Scenarios.isTeslaMode((Scenario) element)) {
+	private Map<String, String> extractProperties(NamedElement element) {
+		Map<String, String> result = new HashMap<>();
+		if (element instanceof Scenario) {
+			EList<ScenarioProperty> properties = ((Scenario) element).getProperties();
+			if (properties.size() > 0) {
+				for (ScenarioProperty p : properties) {
+					result.put(p.getName(), p.getValue());
+				}
+			}
+		}
+		return result;
+	}
+
+	private TeslaScenario extractTesla(NamedElement element) throws ModelException {
+		if (element instanceof Scenario && Scenarios.isTeslaMode((Scenario) element)) {
 			return Scenarios.getTesla((Scenario) element);
 		}
 		return null;
 	}
 
 	private Script extractScript(NamedElement element) throws ModelException {
-		if (element instanceof Scenario
-				&& Scenarios.isEclMode((Scenario) element)) {
+		if (element instanceof Scenario && Scenarios.isEclMode((Scenario) element)) {
 			Script ecl = Scenarios.getEcl((Scenario) element);
 			return ecl == null ? CoreFactory.eINSTANCE.createScript() : ecl;
 		}
 		if (element instanceof Context) {
-			EStructuralFeature scriptFeature = element.eClass()
-					.getEStructuralFeature("script");
-			if (scriptFeature != null
-					&& scriptFeature.getEType().equals(
-							CorePackage.Literals.SCRIPT)) {
+			EStructuralFeature scriptFeature = element.eClass().getEStructuralFeature("script");
+			if (scriptFeature != null && scriptFeature.getEType().equals(CorePackage.Literals.SCRIPT)) {
 				return (Script) element.eGet(scriptFeature);
 			}
 		}
@@ -676,14 +660,13 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	@Override
-	public synchronized void execute(Script script, long timeout,
-			IProgressMonitor progressMonitor) throws CoreException {
-		doExecute(script, null, timeout, progressMonitor, null, null);
+	public synchronized void execute(Script script, long timeout, IProgressMonitor progressMonitor)
+			throws CoreException {
+		doExecute(script, null, timeout, progressMonitor, null, null, null);
 	}
 
-	protected void doExecute(Script script, TestCaseDebugger debugger,
-			long timeout, IProgressMonitor progressMonitor, String id, Map<String, String> idToPathMap)
-			throws CoreException {
+	protected void doExecute(Script script, TestCaseDebugger debugger, long timeout, IProgressMonitor progressMonitor,
+			String id, Map<String, String> idToPathMap, Map<String, String> properties) throws CoreException {
 		if (script == null) {
 			return;
 		}
@@ -702,7 +685,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			debugHook(script, parts, idToPathMap);
 			Iterator<Command> it = parts.iterator();
 			while (it.hasNext()) {
-				status = internalExecute(it.next(), timeout, progressMonitor);
+				status = internalExecute(it.next(), timeout, progressMonitor, properties);
 				if (!status.isOK()) {
 					throw new CoreException(status);
 				}
@@ -720,17 +703,15 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 				setupPlayer();
 			}
 		} catch (InterruptedException e) {
-			throw new CoreException(new Status(IStatus.CANCEL,
-					Q7LaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
+			throw new CoreException(new Status(IStatus.CANCEL, Q7LaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
 		} catch (CoreException e) {
 			if (e.getStatus() instanceof ScriptErrorStatus) {
 				throw new CoreException(new ExecutionStatus(e.getStatus()));
 			}
 			throw e;
 		} catch (Exception e) {
-			throw new CoreException(new Status(IStatus.ERROR,
-					Q7LaunchingPlugin.PLUGIN_ID,
-					"Failed to launch ECL scenario", e));
+			throw new CoreException(
+					new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Failed to launch ECL scenario", e));
 		} finally {
 			try {
 				shutdownPlayer();
@@ -748,8 +729,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			ArrayList<Command> list = new ArrayList<Command>(parts);
 			parts.clear();
 			for (Command part : list) {
-				DebugCommand dc = CommandsFactory.eINSTANCE
-						.createDebugCommand();
+				DebugCommand dc = CommandsFactory.eINSTANCE.createDebugCommand();
 				if (idToPathMap != null) {
 					for (Map.Entry<String, String> e : idToPathMap.entrySet()) {
 						dc.getPaths().put(e.getKey(), e.getValue());
@@ -780,8 +760,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	@Override
 	public void shutdown() {
 		try {
-			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE
-					.createShutdownAut();
+			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE.createShutdownAut();
 			execute(shutdownCmd);
 		} catch (Exception e) {
 			Q7LaunchingPlugin.log("Shutdown failed", e);
@@ -796,8 +775,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			unsafeExecute(shutdownCmd, launchTimeout * 1000, new NullProgressMonitor());
 		} catch (Exception e) {
 			if (!TestSuiteUtils.isConnectionProblem(e)) {
-				throw new CoreException(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
-						"Error during graceful shutdown", e));
+				throw new CoreException(
+						new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Error during graceful shutdown", e));
 			}
 		} finally {
 			try {
@@ -832,10 +811,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private void dumpState(ISession session) {
 		try {
-			List<Object> result = executeAndTakeAll(session,
-					CoreFactory.eINSTANCE.createSaveState(),
-					Q7Launcher.getLaunchTimeout() * 1000,
-					new NullProgressMonitor());
+			List<Object> result = executeAndTakeAll(session, CoreFactory.eINSTANCE.createSaveState(),
+					Q7Launcher.getLaunchTimeout() * 1000, new NullProgressMonitor());
 			if (result.size() != 1) {
 				return;
 			}
@@ -848,12 +825,35 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private void restoreState(ISession session) {
-		if (currentState == null) {
+	private void restoreState(ISession session, Map<String, String> properties) {
+		if (currentState == null && properties == null) {
 			return;
 		}
 		try {
 			RestoreState command = CoreFactory.eINSTANCE.createRestoreState();
+			if (currentState == null) {
+				currentState = CoreFactory.eINSTANCE.createSessionState();
+			}
+			if (properties != null) {
+				for (Map.Entry<String, String> e : properties.entrySet()) {
+					boolean found = false;
+					for (Declaration d : currentState.getDecls()) {
+						if (d instanceof Val) {
+							if (((Val) d).getName().equals(e.getKey())) {
+								((Val) d).setValue(BoxedValues.box(e.getValue()));
+								found = true;
+								break;
+							}
+						}
+					}
+					if (!found) {
+						Val declaration = CoreFactory.eINSTANCE.createVal();
+						declaration.setName(e.getKey());
+						declaration.setValue(BoxedValues.box(e.getValue()));
+						currentState.getDecls().add(declaration);
+					}
+				}
+			}
 			command.setState(currentState);
 			session.execute(command).waitFor();
 		} catch (Exception e) {
@@ -861,11 +861,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private IStatus internalExecute(Command command, long timeout,
-			IProgressMonitor monitor) throws InterruptedException,
-			CoreException {
+	private IStatus internalExecute(Command command, long timeout, IProgressMonitor monitor,
+			Map<String, String> properties) throws InterruptedException, CoreException {
 		ISession session = createEclSession();
-		restoreState(session);
+		restoreState(session, properties);
 		try {
 			return new ExecutionStatus(session.execute(command).waitFor(timeout, monitor));
 		} finally {
@@ -876,26 +875,21 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		}
 	}
 
-	private IStatus runTeslaScenario(TeslaScenario scenario,
-			IProgressMonitor progressMonitor) throws CoreException {
+	private IStatus runTeslaScenario(TeslaScenario scenario, IProgressMonitor progressMonitor) throws CoreException {
 		final IStatus[] s = new IStatus[1];
 		s[0] = Status.OK_STATUS;
-		TeslaNetworkReplayer player = new TeslaNetworkReplayer(getHost(),
-				getTeslaPort(), progressMonitor, new TeslaScenarioContainer(
-						scenario),
-				new Q7TeslaProblemInformer(s));
+		TeslaNetworkReplayer player = new TeslaNetworkReplayer(getHost(), getTeslaPort(), progressMonitor,
+				new TeslaScenarioContainer(scenario), new Q7TeslaProblemInformer(s));
 		try {
 			player.exec();
 		} catch (Exception e) {
-			throw new CoreException(Q7LaunchingPlugin.createStatus(
-					e.getMessage(), e));
+			throw new CoreException(Q7LaunchingPlugin.createStatus(e.getMessage(), e));
 		}
 		return s[0];
 
 	}
 
-	private static List<Command> splitByRestart(Command command, String id)
-			throws CoreException {
+	private static List<Command> splitByRestart(Command command, String id) throws CoreException {
 		List<Command> list = new ArrayList<Command>();
 		if (command instanceof Script) {
 			Script script = (Script) command;
@@ -935,8 +929,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	 * @throws CoreException
 	 *             when there are unexpected restarts
 	 */
-	private static boolean checkRestart(List<Command> commands)
-			throws CoreException {
+	private static boolean checkRestart(List<Command> commands) throws CoreException {
 		boolean haveRestarts = false;
 		for (Command command : commands) {
 			if (isEclipseRestartCommand(command)) {
@@ -948,8 +941,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return haveRestarts;
 	}
 
-	private static void checkForUnexpectedRestartInside(Command newCommand)
-			throws CoreException {
+	private static void checkForUnexpectedRestartInside(Command newCommand) throws CoreException {
 		TreeIterator<EObject> allContents = newCommand.eAllContents();
 		while (allContents.hasNext()) {
 			EObject o = allContents.next();
@@ -958,8 +950,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 				msg.append("Unexpected  use of ");
 				msg.append(RESTART_COMMAND_NAME);
 				msg.append(".\nIt must not be inside of pipes, blocks or substitutions.");
-				ExecutionStatus es = new ExecutionStatus(IStatus.ERROR,
-						Q7LaunchingPlugin.PLUGIN_ID, msg.toString());
+				ExecutionStatus es = new ExecutionStatus(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, msg.toString());
 				AstExec restart = (AstExec) o;
 				es.setLine(restart.getLine());
 				es.setColumn(restart.getColumn());
@@ -981,17 +972,14 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private ISession createEclSession() throws CoreException {
 		try {
-			return EclTcpClientManager.Instance.startClientSession(
-					InetAddress.getByName(getHost()), getEclPort());
+			return EclTcpClientManager.Instance.startClientSession(InetAddress.getByName(getHost()), getEclPort());
 		} catch (Exception e) {
-			throw new CoreException(Q7LaunchingPlugin.createStatus(
-					"Couldn't open ECL session", e));
+			throw new CoreException(Q7LaunchingPlugin.createStatus("Couldn't open ECL session", e));
 		}
 	}
 
 	private static final String RESTART_COMMAND_NAME = CoreUtils
-			.getScriptletNameByClass(TeslaPackage.eINSTANCE
-					.getWaitUntilEclipseIsReady());
+			.getScriptletNameByClass(TeslaPackage.eINSTANCE.getWaitUntilEclipseIsReady());
 
 	/**
 	 * For internal USE only

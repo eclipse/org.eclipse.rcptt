@@ -16,7 +16,7 @@
       <q7runtime
             kind="extra"
             path="platform:///plugin/org.eclipse.rcptt.module.nebula.updates/runtime/"
-            version="[3.4,4.5]">
+            version="[3.4,4.7]">
       </q7runtime>
    </extension>
 </plugin>

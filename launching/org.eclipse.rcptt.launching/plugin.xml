@@ -15,6 +15,7 @@
    <extension-point id="listeners" name="listeners" schema="schema/listeners.exsd"/>
    <extension-point id="launchValidator" name="launchValidator" schema="schema/launchValidator.exsd"/>
    <extension-point id="executors" name="executors" schema="schema/executors.exsd"/>
+   <extension-point id="testEngine" name="testEngine" schema="schema/testEngine.exsd"/>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType

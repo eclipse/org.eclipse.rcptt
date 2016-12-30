@@ -20,15 +20,15 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Between#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Between#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Between#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getBetween()
- * @model annotation="http://www.eclipse.org/ecl/docs description='<p>returns <code>true</code> if <code>input</code> is greater than or equal to <code>left</code> and less than or equal to <code>right</code></p>\n\n<p>Before performing an operation, arguments are converted according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n' example='int 10 | between 7 12 | verify-true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='&lt;p&gt;returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;input&lt;/code&gt; is greater than or equal to &lt;code&gt;left&lt;/code&gt; and less than or equal to &lt;code&gt;right&lt;/code&gt;&lt;/p&gt;\n\n&lt;p&gt;Before performing an operation, arguments are converted according to the following rules:&lt;/p&gt;\n&lt;ol&gt;\n  &lt;li&gt;&lt;code&gt;string&lt;/code&gt; arguments converted to &lt;code&gt;long&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;&lt;code&gt;boolean&lt;/code&gt; arguments converted to &lt;code&gt;long&lt;/code&gt; (1 for &lt;code&gt;true&lt;/code&gt; and 0 for &lt;code&gt;false&lt;/code&gt;)&lt;/li&gt;\n  &lt;li&gt;If one of arguments is &lt;code&gt;double&lt;/code&gt;, converts the other one to &lt;code&gt;double&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;If one of arguments is &lt;code&gt;float&lt;/code&gt;, converts the other one to &lt;code&gt;float&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;If one of arguments is &lt;code&gt;long&lt;/code&gt;, converts the other one to &lt;code&gt;long&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;Otherwise (in case of &lt;code&gt;byte&lt;/code&gt;, &lt;code&gt;char&lt;/code&gt;, or &lt;code&gt;short&lt;/code&gt;) converts both arguments to &lt;code&gt;int&lt;/code&gt;&lt;/li&gt;\n&lt;/ol&gt;\n' example='int 10 | between 7 12 | verify-true'"
  * @generated
  */
 public interface Between extends Command {

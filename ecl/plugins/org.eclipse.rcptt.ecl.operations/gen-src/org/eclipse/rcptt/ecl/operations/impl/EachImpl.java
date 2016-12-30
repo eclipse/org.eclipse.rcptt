@@ -34,13 +34,13 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EachImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EachImpl#getVal <em>Val</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EachImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EachImpl#getDo <em>Do</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

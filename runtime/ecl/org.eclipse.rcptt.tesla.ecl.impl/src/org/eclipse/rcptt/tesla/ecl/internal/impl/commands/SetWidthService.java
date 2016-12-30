@@ -32,7 +32,7 @@ public class SetWidthService extends AbstractActionService {
 		if (control.getKind() != ElementKind.ColumnHeader)
 			throw new IllegalArgumentException("SetWidth is only applicable for column headers");
 
-		new ColumnUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer()).setWidth(sw.getWidth());
+		new ColumnUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer()).setWidth(sw.getWidth());
 		return control;
 	}
 

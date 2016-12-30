@@ -47,7 +47,7 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 		reconnect.setQ7EclPort(AutEventManager.INSTANCE.getPort());
 		reconnect.setId(aut.getId());
 		try {
-			aut.execute(reconnect, Q7Launcher.getLaunchTimeout(), monitor);
+			aut.execute(reconnect, Q7Launcher.getLaunchTimeout()* 1000, monitor);
 		} catch (InterruptedException e) {
 			Q7RemoteLaunchingPlugin.getDefault().log(e);
 		}

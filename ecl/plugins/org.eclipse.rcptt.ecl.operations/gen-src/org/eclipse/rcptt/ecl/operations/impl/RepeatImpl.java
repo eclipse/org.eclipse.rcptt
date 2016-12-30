@@ -32,13 +32,13 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatImpl#getTimes <em>Times</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatImpl#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.RepeatImpl#getDelay <em>Delay</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

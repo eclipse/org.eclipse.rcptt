@@ -86,6 +86,10 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioAdapter();
 			}
 			@Override
+			public Adapter caseScenarioProperty(ScenarioProperty object) {
+				return createScenarioPropertyAdapter();
+			}
+			@Override
 			public Adapter caseContext(Context object) {
 				return createContextAdapter();
 			}
@@ -194,6 +198,20 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScenarioAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.core.scenario.ScenarioProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.core.scenario.ScenarioProperty
+	 * @generated
+	 */
+	public Adapter createScenarioPropertyAdapter() {
 		return null;
 	}
 

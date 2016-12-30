@@ -47,8 +47,10 @@ import org.eclipse.rcptt.core.workspace.ProjectUtil;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
+import org.eclipse.rcptt.internal.core.model.Q7TestCase;
 import org.eclipse.rcptt.internal.core.model.index.NamedElementCollector;
 import org.eclipse.rcptt.internal.core.model.index.TestSuiteElementCollector;
+import org.eclipse.rcptt.internal.launching.TestEngineManager;
 import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 import org.eclipse.rcptt.runner.HeadlessRunner;
 import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
@@ -289,6 +291,17 @@ public class TestsRunner {
 			}
 			System.out.println("Testcase Artifacts:" + artifacts);
 
+			List<Q7TestCase> testCases = new ArrayList<Q7TestCase>();
+			for (final TestSuite suite : tests) {
+				for (final IQ7NamedElement scenario : suite.getScenarios()) {
+					if (scenario instanceof Q7TestCase) {
+						testCases.add((Q7TestCase) scenario);
+					}
+				}
+			}
+			TestEngineManager.getInstance()
+					.fireTestRunStarted(conf.testEngines, testCases);
+
 			auts.initShutdownHook();
 			auts.launchAutsAndStartTheirThreads(runnables);
 
@@ -368,6 +381,7 @@ public class TestsRunner {
 			failedCount = failed.size();
 			if (reportWriter != null)
 				reportWriter.close();
+			TestEngineManager.getInstance().fireTestRunCompleted();
 		}
 
 		if (reportFile.exists()) {

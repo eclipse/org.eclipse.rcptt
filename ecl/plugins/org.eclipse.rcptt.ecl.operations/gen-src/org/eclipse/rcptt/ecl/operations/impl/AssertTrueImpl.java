@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.AssertTrueImpl#isInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.AssertTrueImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

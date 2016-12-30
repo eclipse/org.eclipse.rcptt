@@ -29,14 +29,12 @@ import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
 
 public class IMLContainsService implements ICommandService {
 
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		TeslaBridge.waitDelay();
 		try {
 			if (command instanceof ContainsImage) {
 				ContainsImage ct = (ContainsImage) command;
-				ControlUIElement controlUIElement = getControlUIElement(ct
-						.getControl());
+				ControlUIElement controlUIElement = getControlUIElement(ct.getControl(), context);
 				byte[] decode = Base64.decode(ct.getRawImage());
 				controlUIElement.doContainsImageAssert(decode);
 
@@ -50,11 +48,9 @@ public class IMLContainsService implements ICommandService {
 
 			} else if (command instanceof GetRegionText) {
 				GetRegionText rct = (GetRegionText) command;
-				ControlUIElement controlUIElement = getControlUIElement(rct
-						.getControl());
-				String text = controlUIElement.getRegionText(rct.getX(),
-						rct.getY(), rct.getSx(), rct.getSy(), rct.getWidth(),
-						rct.getHeight());
+				ControlUIElement controlUIElement = getControlUIElement(rct.getControl(), context);
+				String text = controlUIElement.getRegionText(rct.getX(), rct.getY(), rct.getSx(), rct.getSy(),
+						rct.getWidth(), rct.getHeight());
 				TeslaErrorStatus error = TeslaBridge.getTeslaFailure();
 				if (error == null) {
 					context.getOutput().write(ServiceUtil.wrap(text));
@@ -70,10 +66,8 @@ public class IMLContainsService implements ICommandService {
 		return Status.OK_STATUS;
 	}
 
-	private ControlUIElement getControlUIElement(ControlHandler control)
-			throws CoreException {
-		ControlUIElement element = new ControlUIElement(
-				TeslaBridge.find(control), TeslaBridge.getPlayer());
+	private ControlUIElement getControlUIElement(ControlHandler control, IProcess context) throws CoreException {
+		ControlUIElement element = new ControlUIElement(TeslaBridge.find(control, context), TeslaBridge.getPlayer());
 		return element;
 	}
 }

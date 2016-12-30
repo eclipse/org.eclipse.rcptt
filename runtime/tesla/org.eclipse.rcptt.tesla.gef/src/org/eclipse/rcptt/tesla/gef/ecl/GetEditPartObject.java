@@ -29,7 +29,7 @@ import org.eclipse.rcptt.tesla.gef.GefProcessor;
 public class GetEditPartObject implements IScriptletExtension {
 	@Override
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
-		Element element = TeslaBridge.find((ControlHandler) ((GetObject) command).getObject());
+		Element element = TeslaBridge.find((ControlHandler) ((GetObject) command).getObject(), context);
 		GefProcessor processor = TeslaBridge.getClient().getProcessor(GefProcessor.class);
 		FigureUIElement figureUIElement = processor.getMapper().get(element);
 		if (figureUIElement == null) {

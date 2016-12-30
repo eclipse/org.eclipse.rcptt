@@ -315,6 +315,7 @@ Apache Software Foundation http://www.apache.org/
       <feature id="org.eclipse.rcptt.tesla.ecl"/>
       <feature id="org.eclipse.emf.databinding"/>
       <feature id="org.eclipse.rcptt.module.nebula"/>
+      <feature id="org.eclipse.rcptt.module.testrail"/>
       <feature id="org.eclipse.emf.validation"/>
       <feature id="org.eclipse.emf.edit"/>
       <feature id="org.eclipse.emf.transaction"/>

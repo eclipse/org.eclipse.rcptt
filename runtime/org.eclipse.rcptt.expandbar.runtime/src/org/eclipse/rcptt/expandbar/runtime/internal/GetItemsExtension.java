@@ -41,7 +41,7 @@ public class GetItemsExtension implements IScriptletExtension {
 		GetItems cmd = (GetItems) command;
 		final ControlHandler parent = cmd.getControl();
 
-		Element element = TeslaBridge.find(parent);
+		Element element = TeslaBridge.find(parent, context);
 		final Widget widget = (Widget) TeslaBridge.getClient()
 				.getProcessor(SWTUIProcessor.class).getMapper().get(element).widget;
 		if (!(widget instanceof ExpandBar)) {

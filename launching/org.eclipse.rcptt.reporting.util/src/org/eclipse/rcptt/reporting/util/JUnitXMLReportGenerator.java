@@ -106,11 +106,12 @@ public class JUnitXMLReportGenerator {
 			writer.writeStartElement("failure");
 
 			writer.writeAttribute("type", "testcase");
-			writer.writeAttribute("message", ReportUtils.getFailMessage(item));
+			String msg = ReportUtils.getFailMessage(item);
+			writer.writeAttribute("message", msg);
 
 			String data = ReportUtils.getDetails(item).trim();
 			if (data != null && !data.trim().isEmpty()) {
-				writer.writeCData(data);
+				writer.writeCData(msg + data);
 			}
 
 			writer.writeEndElement();

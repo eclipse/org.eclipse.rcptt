@@ -30,14 +30,11 @@ public class SelectItemService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		SelectItem select = (SelectItem) command;
 		ControlHandler control = select.getControl();
-		final SWTUIElement item = TeslaBridge.getClient()
-				.getProcessor(SWTUIProcessor.class).getMapper()
-				.get(TeslaBridge.find(control));
+		final SWTUIElement item = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class).getMapper()
+				.get(TeslaBridge.find(control, getContext()));
 
-		if (!(item.widget instanceof TreeItem)
-				&& !(item.widget instanceof TableItem)) {
-			throw new CoreException(
-					err("'select-item' can only be used on table or tree item"));
+		if (!(item.widget instanceof TreeItem) && !(item.widget instanceof TableItem)) {
+			throw new CoreException(err("'select-item' can only be used on table or tree item"));
 		}
 
 		item.getPlayer().exec("Selecting table item", new Runnable() {

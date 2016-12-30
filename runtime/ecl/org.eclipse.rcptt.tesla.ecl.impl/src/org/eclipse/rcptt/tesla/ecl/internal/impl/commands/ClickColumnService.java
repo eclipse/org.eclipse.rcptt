@@ -25,7 +25,7 @@ public class ClickColumnService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		ClickColumn clickColumn = (ClickColumn) command;
 		ControlHandler control = clickColumn.getControl();
-		new ControlUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer())
+		new ControlUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer())
 				.clickColumn(clickColumn.getName(), clickColumn.getIndex());
 		return control;
 	}

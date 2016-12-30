@@ -14,21 +14,26 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.rcptt.core.scenario.ILazyEMFResolver;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Scenario</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Scenario</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
@@ -41,6 +46,7 @@ import org.eclipse.rcptt.core.scenario.ScenarioPackage;
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getExternalReference <em>External Reference</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getVerifications <em>Verifications</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.scenario.impl.ScenarioImpl#getProperties <em>Properties</em>}</li>
  * </ul>
  *
  * @generated
@@ -66,8 +72,8 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * The cached value of the '{@link #getTeslaContent() <em>Tesla Content</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getTeslaContent()
 	 * @generated
 	 * @ordered
@@ -76,8 +82,8 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * The cached value of the '{@link #getScenarioReferences() <em>Scenario References</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getScenarioReferences()
 	 * @generated
 	 * @ordered
@@ -86,8 +92,7 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * The default value of the '{@link #isRawSupported() <em>Raw Supported</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isRawSupported()
 	 * @generated
 	 * @ordered
@@ -123,8 +128,7 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * The default value of the '{@link #getExternalReference() <em>External Reference</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExternalReference()
 	 * @generated
 	 * @ordered
@@ -133,8 +137,7 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * The cached value of the '{@link #getExternalReference() <em>External Reference</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExternalReference()
 	 * @generated
 	 * @ordered
@@ -150,6 +153,15 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 	 * @ordered
 	 */
 	protected EList<String> verifications;
+
+	/**
+	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getProperties()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ScenarioProperty> properties;
 
 	/**
 	 * @generated NOT
@@ -228,16 +240,15 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 		if (newContent != content) {
 			NotificationChain msgs = null;
 			if (content != null)
-				msgs = ((InternalEObject) content).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-						- ScenarioPackage.SCENARIO__CONTENT, null, msgs);
+				msgs = ((InternalEObject) content).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - ScenarioPackage.SCENARIO__CONTENT, null, msgs);
 			if (newContent != null)
-				msgs = ((InternalEObject) newContent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-						- ScenarioPackage.SCENARIO__CONTENT, null, msgs);
+				msgs = ((InternalEObject) newContent).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - ScenarioPackage.SCENARIO__CONTENT, null, msgs);
 			msgs = basicSetContent(newContent, msgs);
 			if (msgs != null)
 				msgs.dispatch();
-		}
-		else if (eNotificationRequired())
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO__CONTENT, newContent,
 					newContent));
 	}
@@ -282,16 +293,15 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 		if (newTeslaContent != teslaContent) {
 			NotificationChain msgs = null;
 			if (teslaContent != null)
-				msgs = ((InternalEObject) teslaContent).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-						- ScenarioPackage.SCENARIO__TESLA_CONTENT, null, msgs);
+				msgs = ((InternalEObject) teslaContent).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - ScenarioPackage.SCENARIO__TESLA_CONTENT, null, msgs);
 			if (newTeslaContent != null)
-				msgs = ((InternalEObject) newTeslaContent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-						- ScenarioPackage.SCENARIO__TESLA_CONTENT, null, msgs);
+				msgs = ((InternalEObject) newTeslaContent).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - ScenarioPackage.SCENARIO__TESLA_CONTENT, null, msgs);
 			msgs = basicSetTeslaContent(newTeslaContent, msgs);
 			if (msgs != null)
 				msgs.dispatch();
-		}
-		else if (eNotificationRequired())
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO__TESLA_CONTENT,
 					newTeslaContent, newTeslaContent));
 	}
@@ -379,6 +389,17 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ScenarioProperty> getProperties() {
+		if (properties == null) {
+			properties = new EObjectContainmentEList<ScenarioProperty>(ScenarioProperty.class, this, ScenarioPackage.SCENARIO__PROPERTIES);
+		}
+		return properties;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -386,6 +407,8 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 				return basicSetContent(null, msgs);
 			case ScenarioPackage.SCENARIO__TESLA_CONTENT:
 				return basicSetTeslaContent(null, msgs);
+			case ScenarioPackage.SCENARIO__PROPERTIES:
+				return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -413,6 +436,8 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 				return getExternalReference();
 			case ScenarioPackage.SCENARIO__VERIFICATIONS:
 				return getVerifications();
+			case ScenarioPackage.SCENARIO__PROPERTIES:
+				return getProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -452,6 +477,10 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 				getVerifications().clear();
 				getVerifications().addAll((Collection<? extends String>)newValue);
 				return;
+			case ScenarioPackage.SCENARIO__PROPERTIES:
+				getProperties().clear();
+				getProperties().addAll((Collection<? extends ScenarioProperty>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -487,42 +516,38 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 			case ScenarioPackage.SCENARIO__VERIFICATIONS:
 				getVerifications().clear();
 				return;
+			case ScenarioPackage.SCENARIO__PROPERTIES:
+				getProperties().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ScenarioPackage.SCENARIO__CONTEXTS:
-			return contexts != null && !contexts.isEmpty();
-		case ScenarioPackage.SCENARIO__VERIFICATIONS:
-			return verifications != null && !verifications.isEmpty();
-		case ScenarioPackage.SCENARIO__CONTENT:
-			getContent();
-			return content != null;
-		case ScenarioPackage.SCENARIO__TESLA_CONTENT:
-			if (!teslaContentSet) {
-				Object value = getTeslaContent();
-				if (value != null) {
-					return true;
-				}
-			}
-			return teslaContent != null;
-		case ScenarioPackage.SCENARIO__SCENARIO_REFERENCES:
-			return scenarioReferences != null && !scenarioReferences.isEmpty();
-		case ScenarioPackage.SCENARIO__RAW_SUPPORTED:
-			return rawSupported != RAW_SUPPORTED_EDEFAULT;
-		case ScenarioPackage.SCENARIO__TYPE:
-			return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-		case ScenarioPackage.SCENARIO__EXTERNAL_REFERENCE:
-			return EXTERNAL_REFERENCE_EDEFAULT == null ? externalReference != null : !EXTERNAL_REFERENCE_EDEFAULT
-					.equals(externalReference);
+			case ScenarioPackage.SCENARIO__CONTEXTS:
+				return contexts != null && !contexts.isEmpty();
+			case ScenarioPackage.SCENARIO__CONTENT:
+				return content != null;
+			case ScenarioPackage.SCENARIO__TESLA_CONTENT:
+				return teslaContent != null;
+			case ScenarioPackage.SCENARIO__SCENARIO_REFERENCES:
+				return scenarioReferences != null && !scenarioReferences.isEmpty();
+			case ScenarioPackage.SCENARIO__RAW_SUPPORTED:
+				return rawSupported != RAW_SUPPORTED_EDEFAULT;
+			case ScenarioPackage.SCENARIO__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case ScenarioPackage.SCENARIO__EXTERNAL_REFERENCE:
+				return EXTERNAL_REFERENCE_EDEFAULT == null ? externalReference != null : !EXTERNAL_REFERENCE_EDEFAULT.equals(externalReference);
+			case ScenarioPackage.SCENARIO__VERIFICATIONS:
+				return verifications != null && !verifications.isEmpty();
+			case ScenarioPackage.SCENARIO__PROPERTIES:
+				return properties != null && !properties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

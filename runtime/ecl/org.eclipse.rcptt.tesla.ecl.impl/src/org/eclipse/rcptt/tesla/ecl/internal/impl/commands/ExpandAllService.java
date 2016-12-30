@@ -34,14 +34,12 @@ public class ExpandAllService extends AbstractActionService {
 		ExpandAll cmd = (ExpandAll) command;
 		ControlHandler handler = cmd.getControl();
 
-		Element element = TeslaBridge.find(handler);
-		final Widget widget = (Widget) TeslaBridge.getClient()
-				.getProcessor(SWTUIProcessor.class).getMapper()
+		Element element = TeslaBridge.find(handler, getContext());
+		final Widget widget = (Widget) TeslaBridge.getClient().getProcessor(SWTUIProcessor.class).getMapper()
 				.get(element).widget;
 
 		if (!(widget instanceof Tree || widget instanceof TreeItem)) {
-			return TeslaImplPlugin
-					.err("'expand-all' can be used only on tree or tree item");
+			return TeslaImplPlugin.err("'expand-all' can be used only on tree or tree item");
 		}
 
 		widget.getDisplay().syncExec(new Runnable() {
@@ -54,9 +52,7 @@ public class ExpandAllService extends AbstractActionService {
 	}
 
 	private static void expandAll(Widget widget) {
-		TreeItem[] roots = widget instanceof Tree ?
-				((Tree) widget).getItems()
-				: new TreeItem[] { ((TreeItem) widget) };
+		TreeItem[] roots = widget instanceof Tree ? ((Tree) widget).getItems() : new TreeItem[] { ((TreeItem) widget) };
 		expand(roots);
 	}
 

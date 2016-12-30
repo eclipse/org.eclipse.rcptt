@@ -96,7 +96,7 @@
           </formats>
         </configuration>
       </plugin>
-      <plugin>
+     <!--  <plugin>
         <groupId>com.xored.tycho</groupId>
         <artifactId>eclipse-ini-patcher</artifactId>
         <version>0.0.3</version>
@@ -109,7 +109,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>target-platform-configuration</artifactId>

@@ -106,6 +106,12 @@ public class ScenarioSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ScenarioPackage.SCENARIO_PROPERTY: {
+				ScenarioProperty scenarioProperty = (ScenarioProperty)theEObject;
+				T result = caseScenarioProperty(scenarioProperty);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ScenarioPackage.CONTEXT: {
 				Context context = (Context)theEObject;
 				T result = caseContext(context);
@@ -252,6 +258,21 @@ public class ScenarioSwitch<T> {
 	 * @generated
 	 */
 	public T caseScenario(Scenario object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseScenarioProperty(ScenarioProperty object) {
 		return null;
 	}
 

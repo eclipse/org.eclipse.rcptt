@@ -23,10 +23,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Emit#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getEmit()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Writes its arguments into output pipe. ' returns='List of arguments' example='emit \"hello\" \"world\" | foreach { log }'"

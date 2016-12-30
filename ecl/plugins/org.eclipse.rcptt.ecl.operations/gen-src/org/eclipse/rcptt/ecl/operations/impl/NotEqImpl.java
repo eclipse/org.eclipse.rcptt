@@ -29,11 +29,11 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.NotEqImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.NotEqImpl#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

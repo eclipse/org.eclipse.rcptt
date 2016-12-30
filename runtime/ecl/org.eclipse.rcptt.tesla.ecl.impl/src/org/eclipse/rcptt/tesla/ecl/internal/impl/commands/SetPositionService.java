@@ -32,7 +32,7 @@ public class SetPositionService extends AbstractActionService {
 		if (control.getKind() != ElementKind.ColumnHeader)
 			throw new IllegalArgumentException("SetWidth is only applicable for column headers");
 
-		new ColumnUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer()).setPosition(sp.getIndex());
+		new ColumnUIElement(TeslaBridge.find(control,getContext()), TeslaBridge.getPlayer()).setPosition(sp.getIndex());
 		return control;
 	}
 

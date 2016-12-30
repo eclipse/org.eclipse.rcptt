@@ -11,20 +11,21 @@
 package org.eclipse.rcptt.internal.core.model;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 
 public class Q7TestCase extends Q7NamedElement implements ITestCase {
 
-	protected Q7TestCase(Q7Element parent, String name)
-			throws IllegalArgumentException {
+	protected Q7TestCase(Q7Element parent, String name) throws IllegalArgumentException {
 		super(parent, name);
 	}
 
@@ -58,6 +59,14 @@ public class Q7TestCase extends Q7NamedElement implements ITestCase {
 		return getScenario().getExternalReference();
 	}
 
+	public Map<String, String> getProperties() throws ModelException {
+		Map<String, String> result = new HashMap<String, String>();
+		for (ScenarioProperty p : getScenario().getProperties()) {
+			result.put(p.getName(), p.getValue());
+		}
+		return result;
+	}
+
 	public String getType() throws ModelException {
 		return getScenario().getType();
 	}
@@ -69,8 +78,7 @@ public class Q7TestCase extends Q7NamedElement implements ITestCase {
 
 	@Override
 	protected NamedElement createNamedElement() {
-		return ((Q7Folder) getParent()).createScenario(new Path(name)
-				.removeFileExtension().toString());
+		return ((Q7Folder) getParent()).createScenario(new Path(name).removeFileExtension().toString());
 	}
 
 	@Override

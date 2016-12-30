@@ -18,7 +18,7 @@ package org.eclipse.rcptt.ecl.operations;
  *
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getFloat()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its argument to float.' returns='<p>Returns float value or fails if value cannot be converted. <code>true</code> is converted to <code>1.0</code> and <code>false</code> is converted to <code>0</code>. This command uses <code>java.lang.Float.parseFloat</code> method, but also supports a few additional text values for infinity:</p>\n<ul>\n  <li><b>+inf</b> &ndash; returns <code>Float.POSITIVE_INFINITY</code></li>\n  <li><b>inf</b> &ndash; returns <code>Float.POSITIVE_INFINITY</code></li>\n  <li><b>-inf</b> &ndash; returns <code>Float.NEGATIVE_INFINITY</code></li>\n</ul>'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its argument to float.' returns='&lt;p&gt;Returns float value or fails if value cannot be converted. &lt;code&gt;true&lt;/code&gt; is converted to &lt;code&gt;1.0&lt;/code&gt; and &lt;code&gt;false&lt;/code&gt; is converted to &lt;code&gt;0&lt;/code&gt;. This command uses &lt;code&gt;java.lang.Float.parseFloat&lt;/code&gt; method, but also supports a few additional text values for infinity:&lt;/p&gt;\n&lt;ul&gt;\n  &lt;li&gt;&lt;b&gt;+inf&lt;/b&gt; &amp;ndash; returns &lt;code&gt;Float.POSITIVE_INFINITY&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;&lt;b&gt;inf&lt;/b&gt; &amp;ndash; returns &lt;code&gt;Float.POSITIVE_INFINITY&lt;/code&gt;&lt;/li&gt;\n  &lt;li&gt;&lt;b&gt;-inf&lt;/b&gt; &amp;ndash; returns &lt;code&gt;Float.NEGATIVE_INFINITY&lt;/code&gt;&lt;/li&gt;\n&lt;/ul&gt;'"
  * @generated
  */
 public interface Float extends Convert {

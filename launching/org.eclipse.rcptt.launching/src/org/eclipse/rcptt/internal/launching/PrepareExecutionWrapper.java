@@ -140,6 +140,13 @@ public class PrepareExecutionWrapper extends Executable {
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
+		if (executable instanceof GroupExecutable) {
+			IExecutable rootExecutable = ((GroupExecutable) executable).getRoot();
+			if (rootExecutable instanceof EclScenarioExecutable) {
+				EclScenarioExecutable scenario = (EclScenarioExecutable) rootExecutable;
+				TestEngineManager.getInstance().fireExecutionStarted(scenario);
+			}
+		}
 		return executable.execute();
 	}
 
@@ -291,6 +298,13 @@ public class PrepareExecutionWrapper extends Executable {
 			return rv;
 		} finally {
 			Preconditions.checkNotNull(resultReport);
+			if (executable instanceof GroupExecutable) {
+				IExecutable rootExecutable = ((GroupExecutable) executable).getRoot();
+				if (rootExecutable instanceof EclScenarioExecutable) {
+					EclScenarioExecutable scenario = (EclScenarioExecutable) rootExecutable;
+					TestEngineManager.getInstance().fireExecutionCompleted(scenario, resultReport);
+				}
+			}
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}

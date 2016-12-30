@@ -33,7 +33,7 @@ public class GetExpandBarService implements ICommandService {
 		handler.setAfter(selector.getAfter());
 		handler.setKind(ElementKind.Custom);
 		handler.setCustomKindId(ExpandBarConstants.EXPAND_BAR_KIND);
-		TeslaBridge.find(handler);
+		TeslaBridge.find(handler, context);
 		TeslaBridge.waitExecution();
 		context.getOutput().write(handler);
 		return Status.OK_STATUS;

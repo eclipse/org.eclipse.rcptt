@@ -35,6 +35,7 @@ import org.eclipse.rcptt.maven.util.Injection;
 import org.eclipse.rcptt.maven.util.JavaExec;
 import org.eclipse.rcptt.maven.util.NetUtils;
 import org.eclipse.rcptt.maven.util.Rap;
+import org.eclipse.rcptt.maven.util.TestEngine;
 import org.eclipse.rcptt.maven.util.TestOptions;
 
 /**
@@ -79,6 +80,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String RAP_SERVLET_PATH = "-rapPath";
 	private static final String RAP_BROWSER_COMMAND = "-browserCmd";
 	private static final String RUNNER_PLATFORM = "-runnerPlatform";
+	private static final String TESTENGINE = "-testEngine";
 
 	private static int shutdownListenerPort;
 	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms128m", "-Xmx256m",
@@ -221,6 +223,14 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		cmd.createArg().setValue(TestOptions.toString(getTestOptions()));
 		cmd.createArg().setValue(EXECUTION_TIMEOUT);
 		cmd.createArg().setValue(TestOptions.get(getTestOptions(), TestOptions.EXEC_TIMEOUT));
+
+		// test engines
+		if( getTestEngines() != null ) { 
+			for (TestEngine engine : getTestEngines() ) {
+				cmd.createArg().setValue(TESTENGINE);
+				cmd.createArg().setValue(engine.toString());
+			}
+		}	
 
 		int shift = (int) (new Random().nextLong() % 1000);
 		shutdownListenerPort = NetUtils.findFreePort(9000 + shift, 9999 + shift);

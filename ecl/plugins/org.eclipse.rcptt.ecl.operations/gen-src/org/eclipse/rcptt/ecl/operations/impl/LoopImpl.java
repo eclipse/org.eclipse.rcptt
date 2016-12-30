@@ -39,11 +39,11 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.LoopImpl#getVals <em>Vals</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.LoopImpl#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

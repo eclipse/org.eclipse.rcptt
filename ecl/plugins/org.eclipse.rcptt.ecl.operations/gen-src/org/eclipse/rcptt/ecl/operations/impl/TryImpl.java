@@ -30,14 +30,15 @@ import org.eclipse.rcptt.ecl.operations.Try;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getCatch <em>Catch</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getFinally <em>Finally</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getTimes <em>Times</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getDelay <em>Delay</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#isNoScreenshot <em>No Screenshot</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -111,6 +112,26 @@ public class TryImpl extends CommandImpl implements Try {
 	 * @ordered
 	 */
 	protected Integer delay = DELAY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isNoScreenshot() <em>No Screenshot</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNoScreenshot()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean NO_SCREENSHOT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isNoScreenshot() <em>No Screenshot</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNoScreenshot()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean noScreenshot = NO_SCREENSHOT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -292,6 +313,27 @@ public class TryImpl extends CommandImpl implements Try {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isNoScreenshot() {
+		return noScreenshot;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNoScreenshot(boolean newNoScreenshot) {
+		boolean oldNoScreenshot = noScreenshot;
+		noScreenshot = newNoScreenshot;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OperationsPackage.TRY__NO_SCREENSHOT, oldNoScreenshot, noScreenshot));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -308,6 +350,8 @@ public class TryImpl extends CommandImpl implements Try {
 				return getTimes();
 			case OperationsPackage.TRY__DELAY:
 				return getDelay();
+			case OperationsPackage.TRY__NO_SCREENSHOT:
+				return isNoScreenshot();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -334,6 +378,9 @@ public class TryImpl extends CommandImpl implements Try {
 				return;
 			case OperationsPackage.TRY__DELAY:
 				setDelay((Integer)newValue);
+				return;
+			case OperationsPackage.TRY__NO_SCREENSHOT:
+				setNoScreenshot((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -362,6 +409,9 @@ public class TryImpl extends CommandImpl implements Try {
 			case OperationsPackage.TRY__DELAY:
 				setDelay(DELAY_EDEFAULT);
 				return;
+			case OperationsPackage.TRY__NO_SCREENSHOT:
+				setNoScreenshot(NO_SCREENSHOT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -384,6 +434,8 @@ public class TryImpl extends CommandImpl implements Try {
 				return TIMES_EDEFAULT == null ? times != null : !TIMES_EDEFAULT.equals(times);
 			case OperationsPackage.TRY__DELAY:
 				return DELAY_EDEFAULT == null ? delay != null : !DELAY_EDEFAULT.equals(delay);
+			case OperationsPackage.TRY__NO_SCREENSHOT:
+				return noScreenshot != NO_SCREENSHOT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -402,6 +454,8 @@ public class TryImpl extends CommandImpl implements Try {
 		result.append(times);
 		result.append(", delay: ");
 		result.append(delay);
+		result.append(", noScreenshot: ");
+		result.append(noScreenshot);
 		result.append(')');
 		return result.toString();
 	}

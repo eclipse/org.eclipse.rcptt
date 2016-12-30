@@ -20,16 +20,16 @@ import org.eclipse.rcptt.ecl.core.Val;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Repeat#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Repeat#getTimes <em>Times</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Repeat#getCommand <em>Command</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Repeat#getDelay <em>Delay</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getRepeat()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Execute specified command multiple times.' returns='Aggregated command output' example='//creates file0, file1, file2, file3, file4 \n\nrepeat [val index] -times 5 -command {\n\n\tget-view \"Q7 Explorer\" | get-tree | select \"Project/Folder\" | get-menu \"New/Other...\" | click\n\twith [get-window New] {\n    \t\tget-tree | select \"General/File\"\n    \t\tget-button \"Next >\" | click\n\t}\n\twith [get-window \"New File\"] {\n    \t\tget-editbox -after [get-label \"File name:\"] | set-text [concat \"file\" [$index | str]]\n    \t\tget-button Finish | click\n\t}\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Execute specified command multiple times.' returns='Aggregated command output' example='//creates file0, file1, file2, file3, file4 \n\nrepeat [val index] -times 5 -command {\n\n\tget-view \"Q7 Explorer\" | get-tree | select \"Project/Folder\" | get-menu \"New/Other...\" | click\n\twith [get-window New] {\n    \t\tget-tree | select \"General/File\"\n    \t\tget-button \"Next &gt;\" | click\n\t}\n\twith [get-window \"New File\"] {\n    \t\tget-editbox -after [get-label \"File name:\"] | set-text [concat \"file\" [$index | str]]\n    \t\tget-button Finish | click\n\t}\n}'"
  * @generated
  */
 public interface Repeat extends Command {

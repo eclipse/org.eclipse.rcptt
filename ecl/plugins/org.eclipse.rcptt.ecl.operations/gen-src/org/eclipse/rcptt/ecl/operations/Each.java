@@ -22,16 +22,16 @@ import org.eclipse.rcptt.ecl.core.Val;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Each#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Each#getVal <em>Val</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Each#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Each#getDo <em>Do</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getEach()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Iterates over <a href=\"#list\">list</a> or <a href=\"#map\">map</a>. Accepts one or two variable declarations, when only one variable given, it will be hold list elements or map values. A second variable, if provided, used for map keys or list element indices.' example='// Iterate over elements.\nlist 1 2 3 | each [val element] {\n    log [format \"%d\" $element]\n}\n\n// Iterate over elements with indices\nlist 1 2 3 | each [val element] [val index] {\n    log [format \"list[%d] = %d\" $index $element]\n}\n\n// Iterate over map values\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val value] { log [str $value] }\n\n// Iterate over map values with keys\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val v] [val k] { log [concat $k \" = \" [str $v]] }'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Iterates over &lt;a href=\"#list\"&gt;list&lt;/a&gt; or &lt;a href=\"#map\"&gt;map&lt;/a&gt;. Accepts one or two variable declarations, when only one variable given, it will be hold list elements or map values. A second variable, if provided, used for map keys or list element indices.' example='// Iterate over elements.\nlist 1 2 3 | each [val element] {\n    log [format \"%d\" $element]\n}\n\n// Iterate over elements with indices\nlist 1 2 3 | each [val element] [val index] {\n    log [format \"list[%d] = %d\" $index $element]\n}\n\n// Iterate over map values\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val value] { log [str $value] }\n\n// Iterate over map values with keys\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val v] [val k] { log [concat $k \" = \" [str $v]] }'"
  * @generated
  */
 public interface Each extends Command {

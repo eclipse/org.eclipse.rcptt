@@ -29,7 +29,7 @@ public class MouseService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		Mouse cmd = (Mouse) command;
 		ControlHandler control = cmd.getControl();
-		Element element = TeslaBridge.find(control);
+		Element element = TeslaBridge.find(control, getContext());
 		MouseEvent me = ProtocolFactory.eINSTANCE.createMouseEvent();
 		MouseEventKind kind = parseKind(cmd.getEvent());
 		int button = getButton(cmd.getButton());
@@ -39,15 +39,13 @@ public class MouseService extends AbstractActionService {
 		me.setY(cmd.getY());
 		me.setCount(getCount(kind));
 		me.setButton(button);
-		me.setStateMask(KeysAndButtons.stateMaskFromStr(cmd.getWith())
-				| getButtonMask(button, kind));
+		me.setStateMask(KeysAndButtons.stateMaskFromStr(cmd.getWith()) | getButtonMask(button, kind));
 
 		TeslaBridge.getPlayer().safeExecuteCommand(me);
 		return control;
 	}
 
-	private static int getButtonMask(int button, MouseEventKind kind)
-			throws CoreException {
+	private static int getButtonMask(int button, MouseEventKind kind) throws CoreException {
 		if (button == 0) {
 			return 0;
 		}
@@ -93,8 +91,7 @@ public class MouseService extends AbstractActionService {
 				return kind;
 			}
 		}
-		throw new CoreException(TeslaImplPlugin.err(String.format(
-				"Unsupported mouse action %s", str)));
+		throw new CoreException(TeslaImplPlugin.err(String.format("Unsupported mouse action %s", str)));
 	}
 
 }

@@ -33,8 +33,7 @@ public class TeslaInfoProvider extends AbstractEventProvider {
 	public TeslaInfoProvider() {
 	}
 
-	public static AdvancedInformation getAdvancedInformation()
-			throws InterruptedException, CoreException {
+	public static AdvancedInformation getAdvancedInformation() throws InterruptedException, CoreException {
 		FutureTask<AdvancedInformation> displayExec = new FutureTask<AdvancedInformation>(
 				new Callable<AdvancedInformation>() {
 					@Override
@@ -51,7 +50,9 @@ public class TeslaInfoProvider extends AbstractEventProvider {
 		} catch (ExecutionException e1) {
 			throw new CoreException(RcpttPlugin.createStatus(e1));
 		} catch (TimeoutException e1) {
-			RcpttPlugin.log("GUI thread is blocked", e1); // Can't be helped, GUI thread is blocked.
+			RcpttPlugin.log("GUI thread is blocked", e1); // Can't be helped,
+															// GUI thread is
+															// blocked.
 			AdvancedInformation information = InfoFactory.eINSTANCE.createAdvancedInformation();
 			GeneralInformationCollector.collectInformation(information);
 			return information;
@@ -61,13 +62,9 @@ public class TeslaInfoProvider extends AbstractEventProvider {
 	@Override
 	public void storeSnapshot(INodeBuilder node) {
 		AdvancedInformation info = TeslaBridge.getLastInfo();
-		if (info == null)
-			try {
-				info = getAdvancedInformation();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		ReportHelper.addSnapshotWithData(node, info);
+		if (info != null) {
+			ReportHelper.addSnapshotWithData(node, info);
+		}
 	}
 
 	@Override

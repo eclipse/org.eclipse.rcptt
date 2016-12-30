@@ -42,6 +42,7 @@
       <import plugin="org.eclipse.equinox.simpleconfigurator.manipulator" version="0.0.0"/>
       <import plugin="org.eclipse.equinox.simpleconfigurator" version="0.0.0"/>
       <import feature="org.eclipse.rcptt.module.nebula" version="2.2.0.qualifier"/>
+      <import feature="org.eclipse.rcptt.module.testrail" version="2.2.0.qualifier"/>
       <import feature="org.eclipse.rcptt.launching" version="2.2.0.qualifier"/>
       <import feature="org.eclipse.rcptt.core" version="2.2.0.qualifier"/>
       <import feature="org.eclipse.emf.transaction" version="0.0.0" match="greaterOrEqual"/>

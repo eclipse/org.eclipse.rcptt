@@ -30,11 +30,11 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EntryImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.EntryImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -23,13 +23,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Recur#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getRecur()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Returns an execution to the beginning of <a href=\"#loop\">loop</a> command. Cannot be used outside of a loop.' example='// calc and show a sum of ints from 3 to 10\n\nloop [val result 0] [val i 3] {\n    if [$i | eq 10] {\n        show-alert [str [$result | plus $i]]\n    } -else {\n        recur [$result | plus $i] [$i | plus 1]\n    }\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Returns an execution to the beginning of &lt;a href=\"#loop\"&gt;loop&lt;/a&gt; command. Cannot be used outside of a loop.' example='// calc and show a sum of ints from 3 to 10\n\nloop [val result 0] [val i 3] {\n    if [$i | eq 10] {\n        show-alert [str [$result | plus $i]]\n    } -else {\n        recur [$result | plus $i] [$i | plus 1]\n    }\n}'"
  * @generated
  */
 public interface Recur extends Command {
@@ -44,7 +44,7 @@ public interface Recur extends Command {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Values</em>' reference list.
 	 * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getRecur_Values()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='A list of new values for variables, declared in <code>loop</code> command. Value count must exactly match to corresponding val count of a <code>loop</code> command.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='A list of new values for variables, declared in &lt;code&gt;loop&lt;/code&gt; command. Value count must exactly match to corresponding val count of a &lt;code&gt;loop&lt;/code&gt; command.'"
 	 * @generated
 	 */
 	EList<EObject> getValues();

@@ -522,6 +522,12 @@
           id="org.eclipse.rcptt.ui.MarkOccurrencesPage"
           name="Mark Occurrences">
     </page>
+    <page
+          category="org.eclipse.rcptt.ui.preferences"
+          class="org.eclipse.rcptt.ui.preferences.IntegrationsPreferencePage"
+          id="org.eclipse.rcptt.ui.IntegrationsPreferencePage"
+          name="Integrations">
+    </page>
  </extension>
  <extension
        point="org.eclipse.ui.actionSets">

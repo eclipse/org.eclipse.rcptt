@@ -68,6 +68,7 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 		switch (eClass.getClassifierID()) {
 			case ScenarioPackage.NAMED_ELEMENT: return createNamedElement();
 			case ScenarioPackage.SCENARIO: return createScenario();
+			case ScenarioPackage.SCENARIO_PROPERTY: return createScenarioProperty();
 			case ScenarioPackage.CONTEXT: return createContext();
 			case ScenarioPackage.WORKBENCH_CONTEXT: return createWorkbenchContext();
 			case ScenarioPackage.EDITOR: return createEditor();
@@ -107,6 +108,16 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 	public Scenario createScenario() {
 		ScenarioImpl scenario = new ScenarioImpl();
 		return scenario;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScenarioProperty createScenarioProperty() {
+		ScenarioPropertyImpl scenarioProperty = new ScenarioPropertyImpl();
+		return scenarioProperty;
 	}
 
 	/**
