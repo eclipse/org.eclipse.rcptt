@@ -369,7 +369,11 @@ public class TestsRunner {
 			}
 		} catch (InterruptedException e) {
 			HeadlessRunnerPlugin.getDefault().info("Execution interrupted");
-		} finally {
+		}
+		catch( Exception e ) {
+			HeadlessRunnerPlugin.getDefault().info("Unexpected error happened...", e);
+		}
+		finally {
 			skipRemaining(runnables, "Execution finished");
 			HeadlessRunnerPlugin.getDefault().info("Shut down AUTs: executed");
 			try {

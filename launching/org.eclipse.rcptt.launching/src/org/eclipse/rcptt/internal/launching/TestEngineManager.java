@@ -186,6 +186,11 @@ public class TestEngineManager {
 			}
 			String id = engine.getId();
 			Map<String, String> engineConfig = config.get(id);
+			
+			if (engineConfig == null) {
+                statuses.put(engine.getId(), "false");
+                continue;
+            }
 			List<String> params = Arrays.asList(paramsString.split("\\s*,\\s*"));
 			boolean allParamsAreProvided = params.stream()
 					.allMatch(param -> engineConfig.containsKey(param));
