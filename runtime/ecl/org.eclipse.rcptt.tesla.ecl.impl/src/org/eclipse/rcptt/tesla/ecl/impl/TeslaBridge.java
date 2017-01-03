@@ -452,8 +452,7 @@ public class TeslaBridge {
 			try {
 				IStatus status = result.waitFor();
 				if (!status.isOK())
-					throw new CoreException(
-							new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget."));
+					throw new CoreException(status);
 			} catch (InterruptedException e) {
 				throw new CoreException(
 						new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (timeout)."));
