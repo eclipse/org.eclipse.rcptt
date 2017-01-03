@@ -525,7 +525,7 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
@@ -533,8 +533,15 @@ public class ScenarioImpl extends NamedElementImpl implements Scenario {
 			case ScenarioPackage.SCENARIO__CONTEXTS:
 				return contexts != null && !contexts.isEmpty();
 			case ScenarioPackage.SCENARIO__CONTENT:
+				getContent();
 				return content != null;
 			case ScenarioPackage.SCENARIO__TESLA_CONTENT:
+				if(!teslaContentSet) {
+					Object value = getTeslaContent();
+					if(value != null) {
+						return true;
+					}
+				}
 				return teslaContent != null;
 			case ScenarioPackage.SCENARIO__SCENARIO_REFERENCES:
 				return scenarioReferences != null && !scenarioReferences.isEmpty();
