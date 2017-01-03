@@ -43,7 +43,7 @@ public class PlainReader implements IPlainConstants {
 					byte[] decode = Base64.decode(rawData);
 					if (decode == null) {
 						RcpttPlugin.log(
-								"Failed to decode Q7 file format, invalid content",
+								"Failed to decode RCPTT file format, invalid content",
 								null);
 						return null;
 					}
@@ -108,15 +108,15 @@ public class PlainReader implements IPlainConstants {
 				String key = line.substring(0, pos);
 				String value = FileUtil.unescape(line.substring(pos + 2));
 				if (map.containsKey(key)) {
-					throw new Exception(
-							"Wrong q7 plain format, duplicate attribute entry.");
+					throw new PlainFormatException(
+							"Wrong RCPTT plain format, duplicate attribute entry.");
 				}
 				map.put(key, value);
 			} else {
 				if (line.trim().endsWith(":")) {
 					// Null Value, skip it
 				} else {
-					throw new Exception("Wrong q7 plain format");
+					throw new PlainFormatException("Wrong RCPTT plain format");
 				}
 			}
 		}
@@ -178,7 +178,7 @@ public class PlainReader implements IPlainConstants {
 			return entry;
 
 		} else {
-			throw new Exception("Wrong q7 plain format");
+			throw new PlainFormatException("Wrong RCPTT plain format");
 		}
 	}
 
