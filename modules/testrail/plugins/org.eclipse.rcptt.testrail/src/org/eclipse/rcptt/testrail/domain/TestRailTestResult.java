@@ -1,5 +1,7 @@
 package org.eclipse.rcptt.testrail.domain;
 
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,6 +14,8 @@ public class TestRailTestResult {
 	private String status;
 	private String elapsed;
 	private String comment;
+	@SerializedName("custom_step_results")
+	private List<TestRailStepResult> stepResults;
 
 	public TestRailTestResult() {
 	}
@@ -42,5 +46,9 @@ public class TestRailTestResult {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public void setStepResults(List<TestRailStepResult> stepResults) {
+		this.stepResults = stepResults;
 	}
 }

@@ -14,6 +14,7 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.internal.core.model.Q7TestCase;
 import org.eclipse.rcptt.internal.launching.Executable;
 import org.eclipse.rcptt.internal.launching.ExecutionSession;
@@ -35,6 +38,7 @@ import org.eclipse.rcptt.launching.ITestEngine;
 import org.eclipse.rcptt.reporting.util.ReportUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
+import org.eclipse.rcptt.testrail.domain.TestRailStepResult;
 import org.eclipse.rcptt.testrail.domain.TestRailTestResult;
 import org.eclipse.rcptt.testrail.domain.TestRailTestRun;
 
@@ -47,6 +51,7 @@ public class TestRailService implements ITestEngine {
 	private static final String TESTRESULT_CONTEXT_PREFIX = "__Contexts:__ ";
 	private static final String TESTRESULT_FAILMSG_PREFIX = "__Fail message:__\n";
 	private static final String TESTRUN_DEFAULT_NAME = "Tests";
+	private static final String TESTRAILSTEP_PROPERTYNAME = "test-rail-step:{0}";
 
 	private TestRailAPIClient testRailAPI;
 	private boolean testRailEnabled;
@@ -165,7 +170,10 @@ public class TestRailService implements ITestEngine {
 	private void applyDefaultConfig() {
 		this.testRunId = null;
 		this.testRailEnabled = TestRailPlugin.getTestRailState();
-
+		if (!testRailEnabled) {
+			this.testRailAPI = null;
+			return;
+		}
 		String address = TestRailPlugin.getTestRailAddress();
 		String username = TestRailPlugin.getTestRailUsername();
 		String password = TestRailPlugin.getTestRailPassword();
@@ -242,6 +250,7 @@ public class TestRailService implements ITestEngine {
 
 		String testCaseDuration = getTestRailDuration(report);
 		String testCaseComment = getTestRailComment(scenario, report);
+		List<TestRailStepResult> stepResults = getTestRailStepResults(report);
 
 		TestRailTestResult testResultDraft = new TestRailTestResult();
 		testResultDraft.setRunId(testRunId);
@@ -249,6 +258,7 @@ public class TestRailService implements ITestEngine {
 		testResultDraft.setStatus(testCaseStatus);
 		testResultDraft.setElapsed(testCaseDuration);
 		testResultDraft.setComment(testCaseComment);
+		testResultDraft.setStepResults(stepResults);
 		return testResultDraft;
 	}
 
@@ -346,5 +356,35 @@ public class TestRailService implements ITestEngine {
 		}
 
 		return testCaseComment;
+	}
+
+	private List<TestRailStepResult> getTestRailStepResults(Report report) {
+		Node reportRoot = report.getRoot();
+		List<TestRailStepResult> results = new ArrayList<TestRailStepResult>();
+		EMap<String, EObject> props = reportRoot.getProperties();
+		int id = 1;
+		String prop = generateStepName(id);
+		while (props.get(prop) != null) {
+			EObject obj = props.get(prop);
+			if (obj instanceof TestRailStep) {
+				TestRailStep step = (TestRailStep) obj;
+				TestRailStepResult result = new TestRailStepResult();
+				result.setContent(step.getContent());
+				result.setExpected(step.getExpected());
+				result.setActual(step.getActual());
+				int status = step.getStatus().getValue();
+				if (status != TestRailStepStatus.UNTESTED_VALUE) {
+					result.setStatus(String.valueOf(status));
+				}
+				results.add(result);
+			}
+			id++;
+			prop = generateStepName(id);
+		}
+		return results;
+	}
+
+	private String generateStepName(int id) {
+		return MessageFormat.format(TESTRAILSTEP_PROPERTYNAME, String.valueOf(id));
 	}
 }

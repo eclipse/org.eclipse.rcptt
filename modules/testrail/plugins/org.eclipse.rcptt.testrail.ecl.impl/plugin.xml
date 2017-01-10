@@ -15,9 +15,9 @@
    <extension
          point="org.eclipse.rcptt.ecl.core.scriptlet">
       <scriptlet
-            class="org.eclipse.rcptt.testrail.ecl.internal.impl.commands.TestrailService"
-            name="TestrailStep"
-            namespace="http://eclipse.org/rcptt/tesla/testrail/ecl">
+            class="org.eclipse.rcptt.testrail.ecl.internal.impl.commands.TestRailStepService"
+            name="TestRailStep"
+            namespace="http://eclipse.org/rcptt/testrail/ecl">
       </scriptlet>
    </extension>
 </plugin>

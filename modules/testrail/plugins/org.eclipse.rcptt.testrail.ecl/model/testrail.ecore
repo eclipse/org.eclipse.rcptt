@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="testrail" nsURI="http://eclipse.org/rcptt/tesla/testrail/ecl"
-    nsPrefix="org.eclipse.rcptt.tesla.testrail.ecl">
-  <eClassifiers xsi:type="ecore:EClass" name="TestrailStep" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="testrail" nsURI="http://eclipse.org/rcptt/testrail/ecl" nsPrefix="org.eclipse.rcptt.testrail.ecl">
+  <eClassifiers xsi:type="ecore:EClass" name="TestRailStep" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expected" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actual" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//TestRailStepStatus"
+        defaultValueLiteral="untested"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TestRailStepStatus">
+    <eLiterals name="passed" value="1"/>
+    <eLiterals name="blocked" value="2"/>
+    <eLiterals name="untested" value="3"/>
+    <eLiterals name="retest" value="4"/>
+    <eLiterals name="failed" value="5"/>
   </eClassifiers>
 </ecore:EPackage>

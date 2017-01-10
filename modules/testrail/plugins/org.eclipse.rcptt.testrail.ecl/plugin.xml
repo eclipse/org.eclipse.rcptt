@@ -18,8 +18,8 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated testrail -->
       <package
-            uri="http://eclipse.org/rcptt/tesla/testrail/ecl"
-            class="org.eclipse.rcptt.testrail.TestrailPackage"
+            uri="http://eclipse.org/rcptt/testrail/ecl"
+            class="org.eclipse.rcptt.testrail.TestRailPackage"
             genModel="model/testrail.genmodel"/>
    </extension>
 

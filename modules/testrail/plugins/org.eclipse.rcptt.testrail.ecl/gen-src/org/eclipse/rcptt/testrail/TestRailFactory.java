@@ -17,17 +17,17 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.rcptt.testrail.TestrailPackage
+ * @see org.eclipse.rcptt.testrail.TestRailPackage
  * @generated
  */
-public interface TestrailFactory extends EFactory {
+public interface TestRailFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TestrailFactory eINSTANCE = org.eclipse.rcptt.testrail.impl.TestrailFactoryImpl.init();
+	TestRailFactory eINSTANCE = org.eclipse.rcptt.testrail.impl.TestRailFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Step</em>'.
@@ -36,7 +36,7 @@ public interface TestrailFactory extends EFactory {
 	 * @return a new object of class '<em>Step</em>'.
 	 * @generated
 	 */
-	TestrailStep createTestrailStep();
+	TestRailStep createTestRailStep();
 
 	/**
 	 * Returns the package supported by this factory.
@@ -45,6 +45,6 @@ public interface TestrailFactory extends EFactory {
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	TestrailPackage getTestrailPackage();
+	TestRailPackage getTestRailPackage();
 
-} //TestrailFactory
+} //TestRailFactory

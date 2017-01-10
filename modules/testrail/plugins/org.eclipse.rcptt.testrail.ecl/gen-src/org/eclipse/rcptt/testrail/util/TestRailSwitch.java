@@ -15,8 +15,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.testrail.TestrailPackage;
-import org.eclipse.rcptt.testrail.TestrailStep;
+import org.eclipse.rcptt.testrail.*;
+import org.eclipse.rcptt.testrail.TestRailPackage;
+import org.eclipse.rcptt.testrail.TestRailStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,17 +29,17 @@ import org.eclipse.rcptt.testrail.TestrailStep;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.eclipse.rcptt.testrail.TestrailPackage
+ * @see org.eclipse.rcptt.testrail.TestRailPackage
  * @generated
  */
-public class TestrailSwitch<T> {
+public class TestRailSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static TestrailPackage modelPackage;
+	protected static TestRailPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -46,9 +47,9 @@ public class TestrailSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestrailSwitch() {
+	public TestRailSwitch() {
 		if (modelPackage == null) {
-			modelPackage = TestrailPackage.eINSTANCE;
+			modelPackage = TestRailPackage.eINSTANCE;
 		}
 	}
 
@@ -92,10 +93,10 @@ public class TestrailSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case TestrailPackage.TESTRAIL_STEP: {
-				TestrailStep testrailStep = (TestrailStep)theEObject;
-				T result = caseTestrailStep(testrailStep);
-				if (result == null) result = caseCommand(testrailStep);
+			case TestRailPackage.TEST_RAIL_STEP: {
+				TestRailStep testRailStep = (TestRailStep)theEObject;
+				T result = caseTestRailStep(testRailStep);
+				if (result == null) result = caseCommand(testRailStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -114,7 +115,7 @@ public class TestrailSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTestrailStep(TestrailStep object) {
+	public T caseTestRailStep(TestRailStep object) {
 		return null;
 	}
 
@@ -148,4 +149,4 @@ public class TestrailSwitch<T> {
 		return null;
 	}
 
-} //TestrailSwitch
+} //TestRailSwitch

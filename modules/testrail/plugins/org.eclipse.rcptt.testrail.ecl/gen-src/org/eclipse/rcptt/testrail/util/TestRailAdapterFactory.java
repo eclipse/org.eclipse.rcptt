@@ -15,25 +15,26 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.testrail.TestrailPackage;
-import org.eclipse.rcptt.testrail.TestrailStep;
+import org.eclipse.rcptt.testrail.*;
+import org.eclipse.rcptt.testrail.TestRailPackage;
+import org.eclipse.rcptt.testrail.TestRailStep;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.rcptt.testrail.TestrailPackage
+ * @see org.eclipse.rcptt.testrail.TestRailPackage
  * @generated
  */
-public class TestrailAdapterFactory extends AdapterFactoryImpl {
+public class TestRailAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static TestrailPackage modelPackage;
+	protected static TestRailPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -41,9 +42,9 @@ public class TestrailAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestrailAdapterFactory() {
+	public TestRailAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = TestrailPackage.eINSTANCE;
+			modelPackage = TestRailPackage.eINSTANCE;
 		}
 	}
 
@@ -72,11 +73,11 @@ public class TestrailAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TestrailSwitch<Adapter> modelSwitch =
-		new TestrailSwitch<Adapter>() {
+	protected TestRailSwitch<Adapter> modelSwitch =
+		new TestRailSwitch<Adapter>() {
 			@Override
-			public Adapter caseTestrailStep(TestrailStep object) {
-				return createTestrailStepAdapter();
+			public Adapter caseTestRailStep(TestRailStep object) {
+				return createTestRailStepAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -103,16 +104,16 @@ public class TestrailAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.testrail.TestrailStep <em>Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.testrail.TestRailStep <em>Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.testrail.TestrailStep
+	 * @see org.eclipse.rcptt.testrail.TestRailStep
 	 * @generated
 	 */
-	public Adapter createTestrailStepAdapter() {
+	public Adapter createTestRailStepAdapter() {
 		return null;
 	}
 
@@ -142,4 +143,4 @@ public class TestrailAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //TestrailAdapterFactory
+} //TestRailAdapterFactory
