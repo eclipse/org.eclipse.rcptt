@@ -27,7 +27,7 @@ public class PDEUtils {
 		if (desc != null && defaultsl) {
 			String modelName = desc.getSymbolicName();
 			if (IPDEBuildConstants.BUNDLE_DS.equals(modelName)) {
-				map.put(bundle, "1:true"); //$NON-NLS-1$ 
+				map.put(bundle, "2:true"); //$NON-NLS-1$ 
 			} else if (IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR
 					.equals(modelName)) {
 				map.put(bundle, "1:true"); //$NON-NLS-1$

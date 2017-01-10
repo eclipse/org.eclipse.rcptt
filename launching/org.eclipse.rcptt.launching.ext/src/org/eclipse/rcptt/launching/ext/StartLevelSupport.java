@@ -43,7 +43,7 @@ public class StartLevelSupport {
 		predefined.put(AJConstants.AJ_HOOK, "1:true");
 		predefined.put(AJConstants.AJ_RT, "1:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_OSGI, "-1:true");
-		predefined.put(IPDEBuildConstants.BUNDLE_DS, "1:true");
+		predefined.put(IPDEBuildConstants.BUNDLE_DS, "2:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_EQUINOX_COMMON, "2:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR, "1:true");
 		predefined
