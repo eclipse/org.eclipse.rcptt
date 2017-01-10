@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Link#getCaption <em>Caption</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Link#getToltip <em>Toltip</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getLink()
  * @model

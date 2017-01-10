@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getLength <em>Length</em>}</li>
@@ -37,7 +38,6 @@ package org.eclipse.rcptt.tesla.core.ui;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getStartPos <em>Start Pos</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry#getEndPos <em>End Pos</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getStyleRangeEntry()
  * @model

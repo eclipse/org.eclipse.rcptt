@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Button#getCaption <em>Caption</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Button#getTooltip <em>Tooltip</em>}</li>
@@ -25,7 +26,6 @@ package org.eclipse.rcptt.tesla.core.ui;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Button#isGrayed <em>Grayed</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Button#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getButton()
  * @model

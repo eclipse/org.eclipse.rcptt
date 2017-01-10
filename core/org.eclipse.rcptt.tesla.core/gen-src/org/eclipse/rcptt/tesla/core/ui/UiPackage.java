@@ -1710,13 +1710,22 @@ public interface UiPackage extends EPackage {
 	int TEXT__MARKERS = CONTROL_FEATURE_COUNT + 9;
 
 	/**
+	 * The feature id for the '<em><b>Markers Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT__MARKERS_COUNT = CONTROL_FEATURE_COUNT + 10;
+
+	/**
 	 * The number of structural features of the '<em>Text</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 10;
+	int TEXT_FEATURE_COUNT = CONTROL_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextPositionImpl <em>Text Position</em>}' class.
@@ -5609,6 +5618,17 @@ public interface UiPackage extends EPackage {
 	EReference getText_Markers();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkersCount <em>Markers Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Markers Count</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.ui.Text#getMarkersCount()
+	 * @see #getText()
+	 * @generated
+	 */
+	EAttribute getText_MarkersCount();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.ui.TextPosition <em>Text Position</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7810,6 +7830,14 @@ public interface UiPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TEXT__MARKERS = eINSTANCE.getText_Markers();
+
+		/**
+		 * The meta object literal for the '<em><b>Markers Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEXT__MARKERS_COUNT = eINSTANCE.getText_MarkersCount();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.ui.impl.TextPositionImpl <em>Text Position</em>}' class.

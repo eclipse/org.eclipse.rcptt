@@ -29,10 +29,10 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <em><b>Property Node List</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeListImpl#getPropertyNodes <em>Property Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

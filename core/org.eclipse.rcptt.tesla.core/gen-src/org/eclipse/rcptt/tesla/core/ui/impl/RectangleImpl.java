@@ -26,13 +26,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.RectangleImpl#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

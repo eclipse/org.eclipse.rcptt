@@ -21,8 +21,6 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Cell</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -24,12 +24,12 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <em><b>Property Node</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.PropertyNodeImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

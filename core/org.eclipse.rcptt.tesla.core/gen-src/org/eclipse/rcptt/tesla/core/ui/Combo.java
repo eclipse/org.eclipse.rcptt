@@ -19,13 +19,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Combo#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Combo#getSelection <em>Selection</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Combo#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Combo#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getCombo()
  * @model

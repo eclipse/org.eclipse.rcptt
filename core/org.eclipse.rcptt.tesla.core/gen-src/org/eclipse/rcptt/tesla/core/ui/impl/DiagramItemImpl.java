@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#get__properties <em>properties</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getImage <em>Image</em>}</li>
@@ -57,7 +58,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getForegroundColor <em>Foreground Color</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getModelPropertyNodes <em>Model Property Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

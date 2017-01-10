@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getTooltip <em>Tooltip</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getForegroundColor <em>Foreground Color</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DiagramItem#getModelPropertyNodes <em>Model Property Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getDiagramItem()
  * @model

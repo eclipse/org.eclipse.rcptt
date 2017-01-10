@@ -28,13 +28,13 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MarkerImpl#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

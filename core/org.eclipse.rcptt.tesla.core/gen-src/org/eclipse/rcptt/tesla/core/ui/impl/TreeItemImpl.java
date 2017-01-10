@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl#isSelected <em>Selected</em>}</li>
@@ -62,7 +63,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TreeItemImpl#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

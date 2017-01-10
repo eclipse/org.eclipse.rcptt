@@ -19,13 +19,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TabFolder#getSelection <em>Selection</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TabFolder#getPages <em>Pages</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TabFolder#getActivePage <em>Active Page</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TabFolder#getTabCount <em>Tab Count</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTabFolder()
  * @model

@@ -18,13 +18,13 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DateTime#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DateTime#getDate <em>Date</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DateTime#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.DateTime#getTime <em>Time</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getDateTime()
  * @model

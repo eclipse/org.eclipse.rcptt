@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getValue <em>Value</em>}</li>
@@ -33,8 +34,8 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getCaretPosition <em>Caret Position</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getStyleAtCaret <em>Style At Caret</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkers <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkersCount <em>Markers Count</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getText()
  * @model
@@ -267,9 +268,35 @@ public interface Text extends Control {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Markers</em>' map.
 	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getText_Markers()
-	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.LineMarkersValue<org.eclipse.emf.ecore.EString, org.eclipse.rcptt.tesla.core.ui.Marker>"
+	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.LineMarkersValue&lt;org.eclipse.emf.ecore.EString, org.eclipse.rcptt.tesla.core.ui.Marker&gt;"
 	 * @generated
 	 */
 	EMap<String, EList<Marker>> getMarkers();
+
+	/**
+	 * Returns the value of the '<em><b>Markers Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Markers Count</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Markers Count</em>' attribute.
+	 * @see #setMarkersCount(int)
+	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getText_MarkersCount()
+	 * @model
+	 * @generated
+	 */
+	int getMarkersCount();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.ui.Text#getMarkersCount <em>Markers Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Markers Count</em>' attribute.
+	 * @see #getMarkersCount()
+	 * @generated
+	 */
+	void setMarkersCount(int value);
 
 } // Text

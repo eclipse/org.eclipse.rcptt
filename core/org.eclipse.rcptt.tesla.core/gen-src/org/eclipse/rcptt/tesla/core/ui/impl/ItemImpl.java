@@ -29,6 +29,7 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <em><b>Item</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#getCaption <em>Caption</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#isSelection <em>Selection</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ItemImpl#getCells <em>Cells</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

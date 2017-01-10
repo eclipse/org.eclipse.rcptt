@@ -18,13 +18,13 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#isDirty <em>Dirty</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Editor#isActive <em>Active</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getEditor()
  * @model

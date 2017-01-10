@@ -18,11 +18,11 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.MenuItem#getAccelerator <em>Accelerator</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.MenuItem#isCascade <em>Cascade</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getMenuItem()
  * @model

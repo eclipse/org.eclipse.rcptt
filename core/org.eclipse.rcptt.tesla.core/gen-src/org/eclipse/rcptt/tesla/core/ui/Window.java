@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Window#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Window#isSizeable <em>Sizeable</em>}</li>
@@ -31,7 +32,6 @@ package org.eclipse.rcptt.tesla.core.ui;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Window#isIsTool <em>Is Tool</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Window#isIsSheet <em>Is Sheet</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getWindow()
  * @model

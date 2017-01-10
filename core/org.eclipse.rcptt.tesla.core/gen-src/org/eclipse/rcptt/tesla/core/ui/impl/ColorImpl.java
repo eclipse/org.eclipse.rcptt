@@ -26,13 +26,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl#getRed <em>Red</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl#getGreen <em>Green</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl#getBlue <em>Blue</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ColorImpl#getAlfa <em>Alfa</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

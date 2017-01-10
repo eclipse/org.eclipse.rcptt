@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ControlDecorator#isVisible <em>Visible</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ControlDecorator#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getControlDecorator()
  * @model

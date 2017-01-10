@@ -18,8 +18,6 @@ import org.eclipse.rcptt.tesla.core.ui.Widget;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>Widget</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

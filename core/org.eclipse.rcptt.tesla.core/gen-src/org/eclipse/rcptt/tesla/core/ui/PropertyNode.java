@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.PropertyNode#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.PropertyNode#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.PropertyNode#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getPropertyNode()
  * @model

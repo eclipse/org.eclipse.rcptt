@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl#isSizeable <em>Sizeable</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl#isIsTool <em>Is Tool</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.WindowImpl#isIsSheet <em>Is Sheet</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

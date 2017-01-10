@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Rectangle#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Rectangle#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Rectangle#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Rectangle#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getRectangle()
  * @model

@@ -25,13 +25,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl#getDate <em>Date</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DateTimeImpl#getTime <em>Time</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

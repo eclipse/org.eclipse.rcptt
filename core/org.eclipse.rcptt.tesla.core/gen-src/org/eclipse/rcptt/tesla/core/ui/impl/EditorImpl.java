@@ -25,13 +25,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#getInput <em>Input</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#isDirty <em>Dirty</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.EditorImpl#isActive <em>Active</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
