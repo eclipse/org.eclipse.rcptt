@@ -24,6 +24,9 @@ import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 @SuppressWarnings("restriction")
 public class JobsInfoSupport implements IJobsEventListener,
 		IJobChangeListener {
+	static {
+		ReportHelper.class.getName(); // Prevents class loading in job listeners, which may cause deadlocks.
+	}
 
 	private JobsInfoProvider provider;
 
@@ -31,33 +34,42 @@ public class JobsInfoSupport implements IJobsEventListener,
 		this.provider = jobsEventProvider;
 	}
 
+	@Override
 	public void jobSchedule(InternalJob job, long delay, boolean reshedule) {
 		jobUpdate(job);
 	}
 
+	@Override
 	public void jobChangeStatus(InternalJob job, int newState) {
 		jobUpdate(job);
 	}
 
+	@Override
 	public void endJob(InternalJob job, IStatus status, boolean notify) {
 		jobUpdate(job);
 	}
 
+	@Override
 	public void aboutToRun(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void awake(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void done(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void running(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void scheduled(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void sleeping(IJobChangeEvent event) {
 	}
 
@@ -69,6 +81,7 @@ public class JobsInfoSupport implements IJobsEventListener,
 		Job.getJobManager().removeJobChangeListener(this);
 	}
 
+	@Override
 	public void jobCanceled(InternalJob job) {
 		jobUpdate(job);
 	}
