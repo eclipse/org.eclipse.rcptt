@@ -37,6 +37,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	}
 
 	public final static String ACTIVITY_LOGS = "com.xored.runtime.enable.activity.logs";
+	public final static String TESTENGINE_LOGS = "com.xored.testengine.logs";
 
 	public static final String ADV_OPTIONS = "adv.options";
 
@@ -200,6 +201,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
 						"Store RCPTT runtime activity events into .metadata/.plugins/org.eclipse.rcptt.logging")
+				.editable(true).showIn(ADV_OPTIONS);
+		option(TESTENGINE_LOGS)
+				.name("Enable TestEngine logging")
+				.category(CAT_LOGGING)
+				.value("false")
+				.defaultValue("false")
+				.values(AbstractFeatureManager.BOOLEAN_VALUES)
+				.description(
+						"Show TestEngines info messages in Error Log")
 				.editable(true).showIn(ADV_OPTIONS);
 	}
 

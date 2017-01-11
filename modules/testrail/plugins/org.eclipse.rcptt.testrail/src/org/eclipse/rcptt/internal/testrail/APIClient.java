@@ -48,9 +48,10 @@ public class APIClient {
 		try {
 			request.setEntity(new StringEntity(params));
 		} catch (UnsupportedEncodingException e) {
-			TestRailPlugin.log(ErrorMessages.APIClient_ErrorWhileGenerationRequest, e);
+			TestRailPlugin.log(Messages.APIClient_ErrorWhileGenerationRequest, e);
 			return null;
 		}
+		TestRailPlugin.logInfo(MessageFormat.format(Messages.APIClient_GeneratedRequest, params));
 		return sendRequest(request);
 	}
 
@@ -62,13 +63,15 @@ public class APIClient {
 			StatusLine status = response.getStatusLine();
 			String entity = EntityUtils.toString(response.getEntity());
 			if (status.getStatusCode() != HttpStatus.SC_OK) {
-				TestRailPlugin.log(MessageFormat.format(ErrorMessages.APIClient_HTTPError,
+				TestRailPlugin.log(MessageFormat.format(Messages.APIClient_HTTPError,
 						status.getStatusCode(), entity.equals("") ? status.getReasonPhrase() : entity));
 				return null;
 			}
+			TestRailPlugin
+					.logInfo(MessageFormat.format(Messages.APIClient_RecievedResponse, entity));
 			return entity;
 		} catch (Exception e) {
-			TestRailPlugin.log(ErrorMessages.APIClient_ErrorWhileSendingRequest, e);
+			TestRailPlugin.log(Messages.APIClient_ErrorWhileSendingRequest, e);
 			return null;
 		}
 	}

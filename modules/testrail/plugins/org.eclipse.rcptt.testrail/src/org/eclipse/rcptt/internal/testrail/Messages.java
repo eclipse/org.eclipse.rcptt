@@ -12,23 +12,28 @@ package org.eclipse.rcptt.internal.testrail;
 
 import org.eclipse.osgi.util.NLS;
 
-public class ErrorMessages extends NLS {
-	private static final String BUNDLE_NAME = "org.eclipse.rcptt.internal.testrail.error-messages"; //$NON-NLS-1$
+public class Messages extends NLS {
+	private static final String BUNDLE_NAME = "org.eclipse.rcptt.internal.testrail.messages"; //$NON-NLS-1$
 	public static String TestRailPlugin_ErrorWhileSaving;
 	public static String TestRailPlugin_ErrorWhileGetting;
+	public static String TestRailService_TestRailIsNotEnabled;
+	public static String TestRailService_SuccessfullyCreatedClient;
+	public static String TestRailService_TestCaseCanceled;
 	public static String TestRailService_ErrorWhileGettingTestCaseProperty;
 	public static String TestRailService_FailedToSetUpConnection;
 	public static String TestRailAPIClient_FailedToAddTestRun;
 	public static String TestRailAPIClient_FailedToAddTestResult;
+	public static String APIClient_GeneratedRequest;
+	public static String APIClient_RecievedResponse;
 	public static String APIClient_HTTPError;
 	public static String APIClient_ErrorWhileSendingRequest;
 	public static String APIClient_ErrorWhileGenerationRequest;
 
 	static {
 		// initialize resource bundle
-		NLS.initializeMessages(BUNDLE_NAME, ErrorMessages.class);
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
 
-	private ErrorMessages() {
+	private Messages() {
 	}
 }

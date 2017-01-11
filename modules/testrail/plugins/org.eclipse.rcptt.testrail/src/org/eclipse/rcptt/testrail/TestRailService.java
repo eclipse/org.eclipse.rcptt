@@ -30,7 +30,7 @@ import org.eclipse.rcptt.internal.launching.ExecutionSession;
 import org.eclipse.rcptt.internal.launching.GroupExecutable;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
-import org.eclipse.rcptt.internal.testrail.ErrorMessages;
+import org.eclipse.rcptt.internal.testrail.Messages;
 import org.eclipse.rcptt.internal.testrail.TestRailAPIClient;
 import org.eclipse.rcptt.internal.testrail.TestRailPlugin;
 import org.eclipse.rcptt.launching.IExecutable;
@@ -171,6 +171,7 @@ public class TestRailService implements ITestEngine {
 		this.testRunId = null;
 		this.testRailEnabled = TestRailPlugin.getTestRailState();
 		if (!testRailEnabled) {
+			TestRailPlugin.logInfo(Messages.TestRailService_TestRailIsNotEnabled);
 			this.testRailAPI = null;
 			return;
 		}
@@ -178,12 +179,13 @@ public class TestRailService implements ITestEngine {
 		String username = TestRailPlugin.getTestRailUsername();
 		String password = TestRailPlugin.getTestRailPassword();
 		if (password == null) {
-			TestRailPlugin.log(ErrorMessages.TestRailService_FailedToSetUpConnection);
+			TestRailPlugin.log(Messages.TestRailService_FailedToSetUpConnection);
 			this.testRailAPI = null;
 			return;
 		}
 		String projectId = TestRailPlugin.getTestRailProjectId();
 		this.testRailAPI = new TestRailAPIClient(address, username, password, projectId);
+		TestRailPlugin.logInfo(Messages.TestRailService_SuccessfullyCreatedClient);
 	}
 
 	private void applyConfig(Map<String, String> config) {
@@ -196,6 +198,7 @@ public class TestRailService implements ITestEngine {
 		this.testRailEnabled = true;
 		this.testRailAPI = new TestRailAPIClient(address, username, password, projectId);
 		this.config = config;
+		TestRailPlugin.logInfo(Messages.TestRailService_SuccessfullyCreatedClient);
 	}
 
 	private void cleanConfig() {
@@ -280,7 +283,7 @@ public class TestRailService implements ITestEngine {
 			return testCaseId.substring(1); // remove "C"
 		} catch (Exception e) {
 			TestRailPlugin.log(
-					MessageFormat.format(ErrorMessages.TestRailService_ErrorWhileGettingTestCaseProperty,
+					MessageFormat.format(Messages.TestRailService_ErrorWhileGettingTestCaseProperty,
 							TESTRAIL_ID_PARAM),
 					e);
 			return null;
@@ -329,6 +332,7 @@ public class TestRailService implements ITestEngine {
 		case IStatus.ERROR:
 			return "5";
 		case IStatus.CANCEL:
+			TestRailPlugin.logInfo(Messages.TestRailService_TestCaseCanceled);
 			return null;
 		}
 		return null;

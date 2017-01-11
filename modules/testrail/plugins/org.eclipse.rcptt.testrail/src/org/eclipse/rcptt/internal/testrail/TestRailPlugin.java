@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -74,6 +75,14 @@ public class TestRailPlugin extends Plugin {
 		return plugin;
 	}
 	
+	public static void logInfo(String message) {
+		String loggingEnabled = TeslaFeatures.getInstance()
+				.getValue(TeslaFeatures.TESTENGINE_LOGS);
+		if ("true".equals(loggingEnabled)) {
+			log(createStatus(Status.INFO, message));
+		}
+	}
+
 	public static void log(Throwable t) {
 		log(t.getMessage(), t);
 	}
@@ -94,6 +103,10 @@ public class TestRailPlugin extends Plugin {
 
 	public static IStatus createStatus(String message) {
 		return createStatus(Status.ERROR, message, null);
+	}
+
+	public static IStatus createStatus(int state, String message) {
+		return createStatus(state, message, null);
 	}
 
 	public static IStatus createStatus(String message, Throwable t) {
@@ -123,7 +136,7 @@ public class TestRailPlugin extends Plugin {
 		try {
 			preferences.flush();
 		} catch (final BackingStoreException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_STATE), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_STATE), e);
 		}
 	}
 
@@ -138,7 +151,7 @@ public class TestRailPlugin extends Plugin {
 		try {
 			preferences.flush();
 		} catch (final BackingStoreException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_ADDRESS), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_ADDRESS), e);
 		}
 	}
 
@@ -153,7 +166,7 @@ public class TestRailPlugin extends Plugin {
 		try {
 			preferences.flush();
 		} catch (final BackingStoreException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_USERNAME), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_USERNAME), e);
 		}
 	}
 
@@ -162,7 +175,7 @@ public class TestRailPlugin extends Plugin {
 		try {
 			return preferences.get(TESTRAIL_PASSWORD, "");
 		} catch (final StorageException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileGetting, TESTRAIL_PASSWORD), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileGetting, TESTRAIL_PASSWORD), e);
 			return null;
 		}
 	}
@@ -173,7 +186,7 @@ public class TestRailPlugin extends Plugin {
 			preferences.put(TESTRAIL_PASSWORD, password, true);
 			preferences.flush();
 		} catch (final StorageException | IOException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_PASSWORD), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_PASSWORD), e);
 		}
 	}
 
@@ -188,7 +201,7 @@ public class TestRailPlugin extends Plugin {
 		try {
 			preferences.flush();
 		} catch (final BackingStoreException e) {
-			log(MessageFormat.format(ErrorMessages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_PROJECTID), e);
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_PROJECTID), e);
 		}
 	}
 

@@ -40,7 +40,7 @@ public class TestRailAPIClient {
 		String params = new Gson().toJson(testRunDraft).toString();
 		String response = client.sendPostRequest(method, params);
 		if (response == null) {
-			TestRailPlugin.log(ErrorMessages.TestRailAPIClient_FailedToAddTestRun);
+			TestRailPlugin.log(Messages.TestRailAPIClient_FailedToAddTestRun);
 			return null;
 		}
 
@@ -56,7 +56,7 @@ public class TestRailAPIClient {
 		String params = new Gson().toJson(testCaseResult).replace("\\n", "\n").toString();
 		String response = client.sendPostRequest(method, params);
 		if (response == null) {
-			TestRailPlugin.log(ErrorMessages.TestRailAPIClient_FailedToAddTestResult);
+			TestRailPlugin.log(Messages.TestRailAPIClient_FailedToAddTestResult);
 		}
 	}
 }
