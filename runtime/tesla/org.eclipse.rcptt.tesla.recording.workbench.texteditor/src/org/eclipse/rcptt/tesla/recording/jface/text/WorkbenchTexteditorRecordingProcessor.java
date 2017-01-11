@@ -101,7 +101,7 @@ public class WorkbenchTexteditorRecordingProcessor implements
 
 	public WorkbenchTexteditorRecordingProcessor() {
 
-		SWTUIPlayer.addExtension(new AbstractSWTUIPlayerExtension() {
+		processor = new AbstractSWTUIPlayerExtension() {
 			public GenericElementKind getKind(Object w) {
 				if (useTextViewer.get() == 1) {
 					if (isTextEditorStyledText(w)) {
@@ -118,7 +118,8 @@ public class WorkbenchTexteditorRecordingProcessor implements
 			public String getRawText(SWTUIElement element) {
 				return getTextEditorRulerText(element.unwrap());
 			}
-		});
+		};
+		SWTUIPlayer.addExtension(processor);
 	}
 
 	public void clear() {
@@ -441,6 +442,7 @@ public class WorkbenchTexteditorRecordingProcessor implements
 
 	private static final int[] rulerEvents = new int[] { MouseUp,
 			MouseDoubleClick };
+	private AbstractSWTUIPlayerExtension processor;
 
 	private void processRulerCanvas(Widget widget, int type, Event event,
 			FindResult canvas) {

@@ -39,8 +39,13 @@ public class TeslaInfoProvider extends AbstractEventProvider {
 					@Override
 					public AdvancedInformation call() throws Exception {
 						AdvancedInformation information = InfoFactory.eINSTANCE.createAdvancedInformation();
-						new TeslaProcessorManager().collectInformation(information, null);
-						GeneralInformationCollector.collectInformation(information);
+						TeslaProcessorManager manager = new TeslaProcessorManager();
+						try {
+							manager.collectInformation(information, null);
+							GeneralInformationCollector.collectInformation(information);
+						} finally {
+							manager.terminate();
+						}
 						return information;
 					}
 				});
