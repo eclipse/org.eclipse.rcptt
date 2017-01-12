@@ -16,6 +16,7 @@ import org.eclipse.rcptt.testrail.domain.TestRailTestResult;
 import org.eclipse.rcptt.testrail.domain.TestRailTestRun;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class TestRailAPIClient {
@@ -26,7 +27,7 @@ public class TestRailAPIClient {
 	public TestRailAPIClient(String address, String username, String password, String projectId) {
 		final String url = address + ENDPOINT;
 		this.client = new APIClient(url, username, password);
-		this.projectId = projectId.substring(1);
+		this.projectId = projectId.substring(1); // remove "P"
 	}
 
 	public boolean isAvailable() {
@@ -37,7 +38,11 @@ public class TestRailAPIClient {
 
 	public TestRailTestRun addRun(TestRailTestRun testRunDraft) {
 		String method = MessageFormat.format("/add_run/{0}", projectId);
-		String params = new Gson().toJson(testRunDraft).toString();
+		Gson gson = new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.disableHtmlEscaping()
+				.create();
+		String params = gson.toJson(testRunDraft).toString();
 		String response = client.sendPostRequest(method, params);
 		if (response == null) {
 			TestRailPlugin.log(Messages.TestRailAPIClient_FailedToAddTestRun);
@@ -53,7 +58,11 @@ public class TestRailAPIClient {
 	public void addResultForTestCase(TestRailTestResult testCaseResult) {
 		String method = MessageFormat.format("/add_result_for_case/{0}/{1}",
 				testCaseResult.getRunId(), testCaseResult.getCaseId());
-		String params = new Gson().toJson(testCaseResult).replace("\\n", "\n").toString();
+		Gson gson = new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.disableHtmlEscaping()
+				.create();
+		String params = gson.toJson(testCaseResult).toString();
 		String response = client.sendPostRequest(method, params);
 		if (response == null) {
 			TestRailPlugin.log(Messages.TestRailAPIClient_FailedToAddTestResult);

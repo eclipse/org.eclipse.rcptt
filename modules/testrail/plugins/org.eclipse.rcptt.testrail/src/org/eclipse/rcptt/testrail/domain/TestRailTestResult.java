@@ -6,14 +6,16 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TestRailTestResult {
-	@Expose(serialize = false)
 	private String runId;
-	@Expose(serialize = false)
 	private String caseId;
+	@Expose
 	@SerializedName("status_id")
 	private String status;
+	@Expose
 	private String elapsed;
+	@Expose
 	private String comment;
+	@Expose
 	@SerializedName("custom_step_results")
 	private List<TestRailStepResult> stepResults;
 

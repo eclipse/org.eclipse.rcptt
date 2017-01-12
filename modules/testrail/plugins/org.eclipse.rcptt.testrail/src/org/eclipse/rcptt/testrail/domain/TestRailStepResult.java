@@ -1,11 +1,16 @@
 package org.eclipse.rcptt.testrail.domain;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TestRailStepResult {
+	@Expose
 	private String content;
+	@Expose
 	private String expected;
+	@Expose
 	private String actual;
+	@Expose
 	@SerializedName("status_id")
 	private String status;
 

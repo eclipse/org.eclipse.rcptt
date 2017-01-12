@@ -8,9 +8,12 @@ import com.google.gson.annotations.SerializedName;
 public class TestRailTestRun {
 	@Expose(serialize = false)
 	private String id;
+	@Expose
 	private String name;
+	@Expose
 	@SerializedName("include_all")
 	private boolean includeAll;
+	@Expose
 	@SerializedName("case_ids")
 	private List<String> caseIds;
 
