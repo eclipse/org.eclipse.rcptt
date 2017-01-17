@@ -1,6 +1,6 @@
 package org.eclipse.rcptt.testrail.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -15,7 +15,7 @@ public class TestRailTestRun {
 	private boolean includeAll;
 	@Expose
 	@SerializedName("case_ids")
-	private List<String> caseIds;
+	private Set<String> caseIds;
 
 	public TestRailTestRun() {
 		this.includeAll = false;
@@ -33,7 +33,7 @@ public class TestRailTestRun {
 		this.includeAll = includeAll;
 	}
 
-	public void setCaseIds(List<String> caseIds) {
+	public void setCaseIds(Set<String> caseIds) {
 		this.caseIds = caseIds;
 	}
 }

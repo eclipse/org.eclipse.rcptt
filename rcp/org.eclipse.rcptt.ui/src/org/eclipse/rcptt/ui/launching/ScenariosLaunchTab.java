@@ -15,10 +15,7 @@ import static com.google.common.collect.Iterables.toArray;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -48,8 +45,6 @@ import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.model.OneProjectScope;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
-import org.eclipse.rcptt.internal.launching.TestEngineManager;
-import org.eclipse.rcptt.internal.launching.TestEngineManager.TestEngineExtension;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.launching.Aut;
@@ -68,7 +63,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -79,7 +73,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 	
 	private TableViewer viewer;
 	private ComboViewer autCombo;
-	private Map<String, Button> testEngineButtons;
 
 	private final List<ITableElement> elements = new ArrayList<ITableElement>();
 
@@ -267,45 +260,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 		Label label = new Label(testSuiteButtonsPanel, SWT.BOTTOM);
 		label.setText("AUT:");
 		autCombo = createAutCombo(testSuiteButtonsPanel);
-		
-		createTestEngineGroup();
-	}
-
-	private void createTestEngineGroup() {
-		List<TestEngineExtension> engines = TestEngineManager.getInstance().getEngines();
-		if (engines.isEmpty()) {
-			this.testEngineButtons = Collections.emptyMap();
-			return;
-		}
-
-		new Label(testSuiteButtonsPanel, SWT.HORIZONTAL | SWT.SEPARATOR);
-		Label label2 = new Label(testSuiteButtonsPanel, SWT.BOTTOM);
-		label2.setText("Test engines:");
-		createTestEnginesButtons(engines);
-	}
-
-	private void createTestEnginesButtons(List<TestEngineExtension> engines) {
-		this.testEngineButtons = new HashMap<String, Button>();
-
-		for (TestEngineExtension engine : engines) {
-			String id = engine.getId();
-			String name = engine.getName();
-			Button button = createCheckBoxButton(testSuiteButtonsPanel, name, false);
-			this.testEngineButtons.put(id, button);
-		}
-	}
-
-	private Button createCheckBoxButton(Composite parent, String label, boolean state) {
-		Button button = new Button(parent, SWT.CHECK);
-		button.setText(label);
-		button.setSelection(state);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				updateLaunchConfigurationDialog();
-			}
-		});
-		return button;
 	}
 
 	private ComboViewer createAutCombo(Composite parent) {
@@ -520,7 +474,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration config) {
 		IResource[] resources = null;
 		Aut aut = null;
-		Map<String, String> testEngines = Collections.emptyMap();
 		try {
 			int resourceCount = config.getAttribute(IQ7Launch.EXEC_RESOURCES,
 					-1);
@@ -532,13 +485,11 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 			}
 			String autName = config.getAttribute(IQ7Launch.ATTR_BOUND_AUT_NAME, "");
 			aut = AutManager.INSTANCE.getByName(autName);
-			testEngines = config.getAttribute(IQ7Launch.ATTR_TEST_ENGINES, testEngines);
 		} catch (CoreException e) {
 			Q7LaunchingPlugin.log(e);
 		}
 		buildElements(resources);
 		setSelectedAut(aut);
-		setTestEnginesStatuses(testEngines);
 		validatePage();
 	}
 
@@ -557,25 +508,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 		if (selected instanceof Aut)
 			return (Aut) selected;
 		return null;
-	}
-
-	private void setTestEnginesStatuses(Map<String, String> statuses) {
-		for (Map.Entry<String, Button> button : testEngineButtons.entrySet()) {
-			String id = button.getKey();
-			String enabled = statuses.get(id);
-			button.getValue().setSelection(enabled != null && enabled.equals("true"));
-		}
-	}
-
-	private Map<String, String> getTestEnginesStatuses() {
-		Map<String, String> testEngines = new HashMap<String, String>();
-
-		for (Map.Entry<String, Button> button : testEngineButtons.entrySet()) {
-			String id = button.getKey();
-			String enabled = String.valueOf(button.getValue().getSelection());
-			testEngines.put(id, enabled);
-		}
-		return testEngines;
 	}
 
 	/*
@@ -597,8 +529,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 		config.setAttribute(IQ7Launch.ATTR_NO_SORT, true);
 		Aut aut = getSelectedAut();
 		config.setAttribute(IQ7Launch.ATTR_BOUND_AUT_NAME, aut == null ? null : aut.getName());
-		Map<String, String> testEngines = getTestEnginesStatuses();
-		config.setAttribute(IQ7Launch.ATTR_TEST_ENGINES, testEngines);
 	}
 
 	/*
@@ -650,7 +580,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 		initializeName(config, name);
 		config.setAttribute(IQ7Launch.ATTR_NO_SORT, true);
 		config.setAttribute(IQ7Launch.ATTR_AUT_NAME, "");
-		config.setAttribute(IQ7Launch.ATTR_TEST_ENGINES, new HashMap<String, String>());
 	}
 
 	private void initializeName(ILaunchConfigurationWorkingCopy config,

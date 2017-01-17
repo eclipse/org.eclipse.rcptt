@@ -30,6 +30,10 @@ public class TestRailAPIClient {
 		this.projectId = projectId.substring(1); // remove "P"
 	}
 
+	public void setUseUnicode(boolean useUnicode) {
+		client.setUseUnicode(useUnicode);
+	}
+
 	public boolean isAvailable() {
 		String method = MessageFormat.format("/get_cases/{0}", projectId);
 		String response = client.sendGetRequest(method);

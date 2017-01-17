@@ -17,6 +17,7 @@
 	<extension-point id="autWizard" name="autWizard" schema="schema/autWizard.exsd"/>
 	<extension-point id="searchMatchers" name="Pluggable search implementations" schema="schema/searchMatchers.exsd"/>
 	<extension-point id="scenarioEditorPages" name="Scenario Editor Pages" schema="schema/scenarioEditorPages.exsd"/>
+ <extension-point id="testEngineLaunchConfigs" name="Test Engine Launch Configs" schema="schema/testEngineLaunchConfigs.exsd"/>
 	<extension
          point="org.eclipse.core.runtime.preferences">
       <initializer

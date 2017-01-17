@@ -19,9 +19,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.Launch;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.internal.core.model.Q7TestCase;
@@ -48,10 +52,15 @@ public class TestRailService implements ITestEngine {
 	private static final String TESTRAILCONFIG_USERNAME_PARAM = "username";
 	private static final String TESTRAILCONFIG_PASSWORD_PARAM = "password";
 	private static final String TESTRAILCONFIG_PROJECTID_PARAM = "projectId";
+	private static final String TESTRAILCONFIG_TESTRUNID_PARAM = "testRunId";
+	private static final String TESTRAILCONFIG_USEUNICODE_PARAM = "useUnicode";
 	private static final String TESTRESULT_CONTEXT_PREFIX = "__Contexts:__ ";
 	private static final String TESTRESULT_FAILMSG_PREFIX = "__Fail message:__\n";
 	private static final String TESTRUN_DEFAULT_NAME = "Tests";
 	private static final String TESTRAILSTEP_PROPERTYNAME = "test-rail-step:{0}";
+	private static final String TESTRAIL_PROJECTID_PREFIX = "P";
+	private static final String TESTRAIL_TESTRUNID_PREFIX = "R";
+	private static final String TESTRAIL_TESTCASEID_PREFIX = "C";
 
 	private TestRailAPIClient testRailAPI;
 	private boolean testRailEnabled;
@@ -64,6 +73,9 @@ public class TestRailService implements ITestEngine {
 	@Override
 	public void testRunStarted(Map<String, String> config, List<Q7TestCase> tests) {
 		applyConfig(config);
+		if (testRunId != null) {
+			return;
+		}
 
 		TestRailTestRun testRunDraft = createTestRunDraft(tests);
 		if (testRunDraft == null) {
@@ -92,6 +104,12 @@ public class TestRailService implements ITestEngine {
 			return;
 		}
 		if (testRailAPI == null) {
+			return;
+		}
+
+		String runId = getLaunchTestRunId(session);
+		if (runId != null && !runId.equals("")) {
+			this.testRunId = runId;
 			return;
 		}
 
@@ -136,33 +154,17 @@ public class TestRailService implements ITestEngine {
 
 	@Override
 	public String validateParameter(String name, String value) {
-		// TODO (test-rail-support) use messages
 		if (name.equals(TESTRAILCONFIG_ADDRESS_PARAM)) {
-			try {
-				URL url = new URL(value);
-				if (url.getHost().equals("")) {
-					return "Should be valid URL";
-				}
-			} catch (Exception e) {
-				return "Should be valid URL";
-			}
-			if (!value.endsWith("/")) {
-				return "Should end with slash \"/\"";
-			}
+			return validateUrl(value);
 		}
 		if (name.equals(TESTRAILCONFIG_PROJECTID_PARAM)) {
-			if (!value.startsWith("P")) {
-				return "Should start with \"P\" and end with positive number";
-			}
-			try {
-				String idString = value.substring(1); // remove "P"
-				int parsedValue = Integer.parseInt(idString);
-				if (parsedValue <= 0) {
-					return "Should start with \"P\" and end with positive number";
-				}
-			} catch (Exception e) {
-				return "Should start with \"P\" and end with positive number";
-			}
+			return validateTestRailId(TESTRAIL_PROJECTID_PREFIX, value);
+		}
+		if (name.equals(TESTRAILCONFIG_TESTRUNID_PARAM)) {
+			return validateTestRailId(TESTRAIL_TESTRUNID_PREFIX, value);
+		}
+		if (name.equals(TESTRAILCONFIG_USEUNICODE_PARAM)) {
+			return validateBoolean(value);
 		}
 		return null;
 	}
@@ -184,7 +186,10 @@ public class TestRailService implements ITestEngine {
 			return;
 		}
 		String projectId = TestRailPlugin.getTestRailProjectId();
+		boolean useUnicode = TestRailPlugin.getTestRailUseUnicode();
+
 		this.testRailAPI = new TestRailAPIClient(address, username, password, projectId);
+		testRailAPI.setUseUnicode(useUnicode);
 		TestRailPlugin.logInfo(Messages.TestRailService_SuccessfullyCreatedClient);
 	}
 
@@ -193,10 +198,19 @@ public class TestRailService implements ITestEngine {
 		String username = config.get(TESTRAILCONFIG_USERNAME_PARAM);
 		String password = config.get(TESTRAILCONFIG_PASSWORD_PARAM);
 		String projectId = config.get(TESTRAILCONFIG_PROJECTID_PARAM);
+		String runId = config.get(TESTRAILCONFIG_TESTRUNID_PARAM);
+		String useUnicode = config.get(TESTRAILCONFIG_USEUNICODE_PARAM);
 
-		this.testRunId = null;
+		if (runId != null && !runId.equals("")) {
+			this.testRunId = runId.substring(1); // remove "R"
+		} else {
+			this.testRunId = null;
+		}
 		this.testRailEnabled = true;
 		this.testRailAPI = new TestRailAPIClient(address, username, password, projectId);
+		if (useUnicode != null && !useUnicode.equals("")) {
+			testRailAPI.setUseUnicode("true".equalsIgnoreCase(useUnicode));
+		}
 		this.config = config;
 		TestRailPlugin.logInfo(Messages.TestRailService_SuccessfullyCreatedClient);
 	}
@@ -208,9 +222,24 @@ public class TestRailService implements ITestEngine {
 		this.config = Collections.emptyMap();
 	}
 
+	private String getLaunchTestRunId(ExecutionSession session) {
+		ILaunchConfiguration configuration = ((Launch) session.getLaunch()).getLaunchConfiguration();
+		String runId = "";
+		try {
+			runId = configuration.getAttribute(TestRailPlugin.LAUNCH_TESTRUNID, "");
+			if (!runId.equals("")) {
+				return runId.substring(1); // remove "R"
+			}
+		} catch (CoreException e) {
+			TestRailPlugin.log(MessageFormat.format(Messages.TestRailService_ErrorWhileGettingLaunchProperty,
+					TestRailPlugin.LAUNCH_TESTRUNID), e);
+		}
+		return null;
+	}
+
 	private TestRailTestRun createTestRunDraft(ExecutionSession session) {
 		String name = getTestRunName(session.getName());
-		List<String> caseIds = getTestRunCaseIds(session);
+		Set<String> caseIds = getTestRunCaseIds(session);
 		if (caseIds.isEmpty()) {
 			return null;
 		}
@@ -224,10 +253,10 @@ public class TestRailService implements ITestEngine {
 
 	private TestRailTestRun createTestRunDraft(List<Q7TestCase> tests) {
 		String name = getTestRunName(TESTRUN_DEFAULT_NAME);
-		List<String> caseIds = tests.stream()
+		Set<String> caseIds = tests.stream()
 				.map(test -> getTestRailId(test))
 				.filter(testRailId -> testRailId != null && !testRailId.equals(""))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 		if (caseIds.isEmpty()) {
 			return null;
 		}
@@ -248,6 +277,7 @@ public class TestRailService implements ITestEngine {
 
 		String testCaseStatus = getTestRailStatus(scenario);
 		if (testCaseStatus == null) {
+			TestRailPlugin.logInfo(Messages.TestRailService_TestCaseCanceled);
 			return null;
 		}
 
@@ -280,6 +310,19 @@ public class TestRailService implements ITestEngine {
 	private String getTestRailId(Q7TestCase testCase) {
 		try {
 			String testCaseId = testCase.getProperties().get(TESTRAIL_ID_PARAM);
+			if (testCaseId == null) {
+				TestRailPlugin.logInfo(
+						MessageFormat.format(Messages.TestRailService_TestCasePropertyIsNotSpecified,
+								TESTRAIL_ID_PARAM));
+				return null;
+			}
+			String message = validateTestRailId(TESTRAIL_TESTCASEID_PREFIX, testCaseId);
+			if (message != null) {
+				TestRailPlugin.log(
+						MessageFormat.format(Messages.TestRailService_InvalidParameterValue,
+								TESTRAIL_ID_PARAM, message));
+				return null;
+			}
 			return testCaseId.substring(1); // remove "C"
 		} catch (Exception e) {
 			TestRailPlugin.log(
@@ -296,17 +339,17 @@ public class TestRailService implements ITestEngine {
 		return MessageFormat.format("{0} {1}", name, dateFormatter.format(localDate));
 	}
 
-	private List<String> getTestRunCaseIds(ExecutionSession session) {
+	private Set<String> getTestRunCaseIds(ExecutionSession session) {
 		final Executable[] executables = session.getExecutables();
 		final List<Q7TestCase> testCases = Arrays.stream(executables)
 				.map(wrapper -> (Q7TestCase) getScenario(wrapper).getActualElement())
 				.filter(testCase -> testCase != null)
 				.collect(Collectors.toList());
 
-		final List<String> caseIds = testCases.stream()
+		final Set<String> caseIds = testCases.stream()
 				.map(scenario -> getTestRailId(scenario))
 				.filter(testRailId -> testRailId != null && !testRailId.equals(""))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 
 		return caseIds;
 	}
@@ -332,7 +375,6 @@ public class TestRailService implements ITestEngine {
 		case IStatus.ERROR:
 			return "5";
 		case IStatus.CANCEL:
-			TestRailPlugin.logInfo(Messages.TestRailService_TestCaseCanceled);
 			return null;
 		}
 		return null;
@@ -390,5 +432,44 @@ public class TestRailService implements ITestEngine {
 
 	private String generateStepName(int id) {
 		return MessageFormat.format(TESTRAILSTEP_PROPERTYNAME, String.valueOf(id));
+	}
+
+	private String validateTestRailId(String prefix, String value) {
+		String message = MessageFormat.format(Messages.TestRailService_InvalidTestRailId, prefix);
+		if (!value.startsWith(prefix)) {
+			return message;
+		}
+		try {
+			String idString = value.substring(1); // remove prefix
+			int parsedValue = Integer.parseInt(idString);
+			if (parsedValue <= 0) {
+				return message;
+			}
+		} catch (Exception e) {
+			return message;
+		}
+		return null;
+	}
+
+	private String validateUrl(String value) {
+		try {
+			URL url = new URL(value);
+			if (url.getHost().equals("")) {
+				return Messages.TestRailService_InvalidURL;
+			}
+		} catch (Exception e) {
+			return Messages.TestRailService_InvalidURL;
+		}
+		if (!value.endsWith("/")) {
+			return Messages.TestRailService_URLShouldEndsWithSlash;
+		}
+		return null;
+	}
+
+	private String validateBoolean(String value) {
+		if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+			return Messages.TestRailService_InvalidBoolean;
+		}
+		return null;
 	}
 }

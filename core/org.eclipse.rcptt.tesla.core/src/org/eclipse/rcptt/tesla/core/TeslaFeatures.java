@@ -203,13 +203,13 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"Store RCPTT runtime activity events into .metadata/.plugins/org.eclipse.rcptt.logging")
 				.editable(true).showIn(ADV_OPTIONS);
 		option(TESTENGINE_LOGS)
-				.name("Enable TestEngine logging")
+				.name("Enable Test Engine logging")
 				.category(CAT_LOGGING)
 				.value("false")
 				.defaultValue("false")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
-						"Show TestEngines info messages in Error Log")
+						"Show Test Engines info messages in Error Log")
 				.editable(true).showIn(ADV_OPTIONS);
 	}
 

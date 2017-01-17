@@ -576,7 +576,7 @@ public class RunnerConfiguration {
 						HeadlessRunnerPlugin
 								.getDefault()
 								.info(MessageFormat.format("WARNING: Invalid value for {0}. {1}", name, message));
-						break;
+						continue;
 					}
 					params.put(name, value);
 				}

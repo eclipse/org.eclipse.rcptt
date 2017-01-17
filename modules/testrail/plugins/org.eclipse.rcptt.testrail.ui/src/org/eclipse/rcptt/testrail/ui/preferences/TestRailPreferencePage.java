@@ -8,16 +8,6 @@
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-/*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Xored Software Inc - initial API and implementation and/or initial documentation
- *******************************************************************************/
 package org.eclipse.rcptt.testrail.ui.preferences;
 
 import java.net.URL;
@@ -26,7 +16,7 @@ import java.text.MessageFormat;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.rcptt.internal.testrail.TestRailAPIClient;
 import org.eclipse.rcptt.internal.testrail.TestRailPlugin;
-import org.eclipse.rcptt.testrail.ui.internal.preferences.Messages;
+import org.eclipse.rcptt.testrail.internal.ui.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.ModifyEvent;
@@ -43,6 +33,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.forms.widgets.Section;
 
 public class TestRailPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
@@ -52,6 +43,7 @@ public class TestRailPreferencePage extends PreferencePage implements IWorkbench
 	private Text testRailPassword;
 	private Text testRailProjectId;
 	private Button testConnectionButton;
+	private Button useUnicodeButton;
 
 	@Override
 	public void init(IWorkbench workbench) {
@@ -68,6 +60,12 @@ public class TestRailPreferencePage extends PreferencePage implements IWorkbench
 		TestRailPlugin.setTestRailUsername(testRailUsername.getText());
 		TestRailPlugin.setTestRailPassword(testRailPassword.getText());
 		TestRailPlugin.setTestRailProjectId(testRailProjectId.getText());
+
+		if (useUnicodeButton.getSelection())
+			TestRailPlugin.setTestRailUseUnicode(1);
+		else
+			TestRailPlugin.setTestRailUseUnicode(0);
+
 		return super.performOk();
 	}
 
@@ -80,6 +78,7 @@ public class TestRailPreferencePage extends PreferencePage implements IWorkbench
 		testRailPassword.setText("");
 		testRailProjectId.setText(TestRailPlugin.DEFAULT_TESTRAIL_PROJECTID);
 		testConnectionButton.setEnabled(state && isValid());
+		useUnicodeButton.setSelection(TestRailPlugin.DEFAULT_TESTRAIL_USEUNICODE == 1);
 		super.performDefaults();
 	}
 
@@ -100,10 +99,22 @@ public class TestRailPreferencePage extends PreferencePage implements IWorkbench
 		testRailPassword.setEchoChar('*');
 		testRailProjectId = createText(composite, Messages.TestRailPreferencePage_ProjectId,
 				TestRailPlugin.getTestRailProjectId());
-		testConnectionButton = createButton(composite, Messages.TestRailPreferencePage_TestConnection);
 
+		testConnectionButton = createButton(composite, Messages.TestRailPreferencePage_TestConnection);
 		boolean state = TestRailPlugin.getTestRailState();
 		testConnectionButton.setEnabled(state && isValid());
+
+		// Advanced configuration
+		Section advancedExpander = new Section(composite, Section.TWISTIE);
+		advancedExpander.setText(Messages.TestRailPreferencePage_AdvancedSectionLabel);
+		advancedExpander.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		Composite advancedComposite = new Composite(advancedExpander, SWT.NONE);
+		advancedComposite.setLayout(new GridLayout(1, false));
+		advancedExpander.setClient(advancedComposite);
+
+		useUnicodeButton = new Button(advancedComposite, SWT.CHECK);
+		useUnicodeButton.setText(Messages.TestRailPreferencePage_UseUnicode);
+		useUnicodeButton.setSelection(TestRailPlugin.getTestRailUseUnicode());
 
 		return null;
 	}

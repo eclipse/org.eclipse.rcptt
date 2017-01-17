@@ -29,13 +29,17 @@ public class TestRailPlugin extends Plugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.rcptt.testrail"; //$NON-NLS-1$
 
+	public static final String LAUNCH_TESTRUNID = PLUGIN_ID + ".ATTR_TESTRAIL_TESTRUNID";
+
 	public static final String TESTRAIL_STATE = "TESTRAIL_STATE";
 	public static final String TESTRAIL_ADDRESS = "TESTRAIL_ADDRESS";
 	public static final String TESTRAIL_USERNAME = "TESTRAIL_USERNAME";
 	public static final String TESTRAIL_PASSWORD = "TESTRAIL_PASSWORD";
 	public static final String TESTRAIL_PROJECTID = "TESTRAIL_PROJECTID";
+	public static final String TESTRAIL_USEUNICODE = "TESTRAIL_USEUNICODE";
 	public static final int DEFAULT_TESTRAIL_STATE = 0;
 	public static final String DEFAULT_TESTRAIL_PROJECTID = "P1";
+	public static final int DEFAULT_TESTRAIL_USEUNICODE = 0;
 
 	// The shared instance
 	private static TestRailPlugin plugin;
@@ -202,6 +206,21 @@ public class TestRailPlugin extends Plugin {
 			preferences.flush();
 		} catch (final BackingStoreException e) {
 			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_PROJECTID), e);
+		}
+	}
+
+	public static boolean getTestRailUseUnicode() {
+		final IEclipsePreferences preferences = getPreferences();
+		return preferences.getInt(TESTRAIL_USEUNICODE, DEFAULT_TESTRAIL_USEUNICODE) == 1;
+	}
+
+	public static void setTestRailUseUnicode(final int state) {
+		final IEclipsePreferences preferences = getPreferences();
+		preferences.putInt(TESTRAIL_USEUNICODE, state);
+		try {
+			preferences.flush();
+		} catch (final BackingStoreException e) {
+			log(MessageFormat.format(Messages.TestRailPlugin_ErrorWhileSaving, TESTRAIL_USEUNICODE), e);
 		}
 	}
 

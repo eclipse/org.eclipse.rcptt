@@ -36,15 +36,23 @@ public class TestEngine {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		if( parameters != null) {
+		if (parameters != null) {
 			for (Entry<String, String> entry : parameters.entrySet()) {
 				if (sb.length() > 0) {
 					sb.append(";");
 				}
-				sb.append(String.format("%s=%s", entry.getKey(), entry.getValue()));
+				String key = entry.getKey();
+				String value = entry.getValue();
+				if (value == null) {
+					value = "";
+				}
+				sb.append(String.format("%s=%s", key, value));
 			}
 		}
-		sb.insert(0, String.format("%s:", id));
+		if (sb.length() > 0) {
+			sb.insert(0, ":");
+		}
+		sb.insert(0, id);
 		return sb.toString();
 	}
 }

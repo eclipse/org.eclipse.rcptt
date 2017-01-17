@@ -17,7 +17,7 @@
          point="org.eclipse.rcptt.launching.testEngine">
       <testEngine
             class="org.eclipse.rcptt.testrail.TestRailService"
-            parameters="host, username, password, projectId"
+            parameters="host*, username*, password*, projectId*, testRunId, useUnicode"
             id="testrail"
             name="TestRail">
       </testEngine>

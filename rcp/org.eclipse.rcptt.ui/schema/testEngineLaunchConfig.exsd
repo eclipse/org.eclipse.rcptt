@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.rcptt.launching" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.rcptt.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.rcptt.launching" id="testEngine" name="testEngine"/>
+         <meta.schema plugin="org.eclipse.rcptt.ui" id="testEngineLaunchConfig" name="Test Engine Launch Config"/>
       </appinfo>
       <documentation>
-         Test integration extension point. Allow to monitor individual test executions.
+         [Enter description of this extension point.]
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="testEngine" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="launchConfig" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,26 +47,12 @@
       </complexType>
    </element>
 
-   <element name="testEngine">
+   <element name="launchConfig">
       <complexType>
-         <attribute name="id" type="string" use="required">
+         <attribute name="testEngineId" type="string" use="required">
             <annotation>
                <documentation>
                   
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="name" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="parameters" type="string">
-            <annotation>
-               <documentation>
-                  Comma-separated list of configuration parameters names. Put a '*' symbol at the end of the name, if the parameter is required.
                </documentation>
             </annotation>
          </attribute>
@@ -76,7 +62,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.rcptt.launching.ITestEngine"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.rcptt.internal.ui.ITestEngineLaunchConfig"/>
                </appinfo>
             </annotation>
          </attribute>

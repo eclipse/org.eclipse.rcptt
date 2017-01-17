@@ -427,6 +427,8 @@ public class Messages extends NLS {
 	public static String TagsView_ReplayActionName;
 	public static String TagsView_TagLabelFormat;
 	public static String TagsView_UntaggedLabelFormat;
+	public static String TestEnginesLaunchTab_Name;
+	public static String TestEnginesLaunchTab_EngineButtonName;
 	public static String TextViewerActionsSupport_CopyLabel;
 	public static String TextViewerActionsSupport_CutLabel;
 	public static String TextViewerActionsSupport_DeleteLabel;

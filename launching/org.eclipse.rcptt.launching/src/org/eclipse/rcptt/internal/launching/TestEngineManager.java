@@ -190,13 +190,20 @@ public class TestEngineManager {
 				statuses.put(engine.getId(), "false");
 				continue;
 			}
-			List<String> params = Arrays.asList(paramsString.split("\\s*,\\s*"));
-			boolean allParamsAreProvided = params.stream()
+			List<String> allParams = Arrays.asList(paramsString.split("\\s*,\\s*"));
+			List<String> requiredParams = new ArrayList<String>();
+			for (String param : allParams) {
+				if (param.endsWith("*")) {
+					param = param.substring(0, param.length() - 1); // remove "*"
+					requiredParams.add(param);
+				}
+			}
+			boolean allRequiredParamsAreProvided = requiredParams.stream()
 					.allMatch(param -> engineConfig.containsKey(param));
-			boolean anyParamsAreProvided = params.stream()
+			boolean anyParamsAreProvided = allParams.stream()
 					.anyMatch(param -> engineConfig.containsKey(param));
-			statuses.put(engine.getId(), String.valueOf(allParamsAreProvided));
-			if (!allParamsAreProvided && anyParamsAreProvided) {
+			statuses.put(engine.getId(), String.valueOf(allRequiredParamsAreProvided));
+			if (!allRequiredParamsAreProvided && anyParamsAreProvided) {
 				Q7LaunchingPlugin.log(MessageFormat.format(
 						"{0} engine is not enabled, because not all required parameters were specified",
 						engine.getName()));
