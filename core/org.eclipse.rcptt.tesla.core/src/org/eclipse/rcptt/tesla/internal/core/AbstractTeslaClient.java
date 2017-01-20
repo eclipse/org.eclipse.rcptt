@@ -171,11 +171,15 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 										command, preStatus, info);
 								if (status != null) {
 									preStatuses.put(command, status);
+									if( preStatus != status) {
+										cleanPreStatus(preStatus);
+									}
 									if (!status.canExecute) {
 										return false;
 									}
 								} else {
 									preStatuses.remove(command);
+									cleanPreStatus(preStatus);
 								}
 							} catch (Throwable e) {
 								TeslaCore.log(e);
@@ -192,6 +196,16 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 			}
 		}
 		return true;
+	}
+
+	private void cleanPreStatus(PreExecuteStatus preStatus) {
+		try {
+			// We need to call clean to be sure status is finalized all things.
+			preStatus.clean();
+		}
+		catch(Throwable ee) {
+			TeslaCore.log(ee);
+		}
 	}
 
 	synchronized public void addCommand(Command cmd) {
