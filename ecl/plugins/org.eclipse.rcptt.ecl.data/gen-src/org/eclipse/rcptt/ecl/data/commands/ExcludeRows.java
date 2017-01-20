@@ -125,7 +125,7 @@ public interface ExcludeRows extends Command {
 	 * @see org.eclipse.rcptt.ecl.data.commands.RowMatchMode
 	 * @see #setMatch(RowMatchMode)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getExcludeRows_Match()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\n<ul>\n<li><b>glob</b> &ndash; wildcard matching</li>\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\n<li><b>regext</b> &ndash; value must match java regular expression</li>\n</ul>'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\n&lt;ul&gt;\n&lt;li&gt;&lt;b&gt;glob&lt;/b&gt; &amp;ndash; wildcard matching&lt;/li&gt;\n&lt;li&gt;&lt;b&gt;exact&lt;/b&gt; &amp;ndash; value should be equals to pattern&lt;/li&gt;\n&lt;li&gt;&lt;b&gt;regext&lt;/b&gt; &amp;ndash; value must match java regular expression&lt;/li&gt;\n&lt;/ul&gt;'"
 	 * @generated
 	 */
 	RowMatchMode getMatch();

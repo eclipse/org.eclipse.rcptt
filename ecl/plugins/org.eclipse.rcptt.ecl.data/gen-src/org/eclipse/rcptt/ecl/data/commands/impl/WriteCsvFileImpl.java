@@ -34,6 +34,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getTable <em>Table</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteCsvFileImpl#isAppend <em>Append</em>}</li>
  * </ul>
  *
  * @generated
@@ -68,6 +69,26 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	 * @ordered
 	 */
 	protected String uri = URI_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isAppend() <em>Append</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAppend()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean APPEND_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isAppend() <em>Append</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAppend()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean append = APPEND_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,6 +173,27 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAppend() {
+		return append;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAppend(boolean newAppend) {
+		boolean oldAppend = append;
+		append = newAppend;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.WRITE_CSV_FILE__APPEND, oldAppend, append));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -160,6 +202,8 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 				return basicGetTable();
 			case CommandsPackage.WRITE_CSV_FILE__URI:
 				return getUri();
+			case CommandsPackage.WRITE_CSV_FILE__APPEND:
+				return isAppend();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -177,6 +221,9 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 				return;
 			case CommandsPackage.WRITE_CSV_FILE__URI:
 				setUri((String)newValue);
+				return;
+			case CommandsPackage.WRITE_CSV_FILE__APPEND:
+				setAppend((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -196,6 +243,9 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 			case CommandsPackage.WRITE_CSV_FILE__URI:
 				setUri(URI_EDEFAULT);
 				return;
+			case CommandsPackage.WRITE_CSV_FILE__APPEND:
+				setAppend(APPEND_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -212,6 +262,8 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 				return table != null;
 			case CommandsPackage.WRITE_CSV_FILE__URI:
 				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
+			case CommandsPackage.WRITE_CSV_FILE__APPEND:
+				return append != APPEND_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -228,6 +280,8 @@ public class WriteCsvFileImpl extends CommandImpl implements WriteCsvFile {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (uri: ");
 		result.append(uri);
+		result.append(", append: ");
+		result.append(append);
 		result.append(')');
 		return result.toString();
 	}

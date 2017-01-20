@@ -286,6 +286,15 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWriteCsvFile_Append() {
+		return (EAttribute)writeCsvFileEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExcludeColumns() {
 		return excludeColumnsEClass;
 	}
@@ -633,6 +642,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		writeCsvFileEClass = createEClass(WRITE_CSV_FILE);
 		createEReference(writeCsvFileEClass, WRITE_CSV_FILE__TABLE);
 		createEAttribute(writeCsvFileEClass, WRITE_CSV_FILE__URI);
+		createEAttribute(writeCsvFileEClass, WRITE_CSV_FILE__APPEND);
 
 		excludeColumnsEClass = createEClass(EXCLUDE_COLUMNS);
 		createEReference(excludeColumnsEClass, EXCLUDE_COLUMNS__TABLE);
@@ -739,6 +749,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(writeCsvFileEClass, WriteCsvFile.class, "WriteCsvFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWriteCsvFile_Table(), theObjectsPackage.getTable(), null, "table", null, 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWriteCsvFile_Uri(), theEcorePackage.getEString(), "uri", null, 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteCsvFile_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(excludeColumnsEClass, ExcludeColumns.class, "ExcludeColumns", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExcludeColumns_Table(), theObjectsPackage.getTable(), null, "table", null, 0, 1, ExcludeColumns.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

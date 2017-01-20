@@ -205,13 +205,22 @@ public interface CommandsPackage extends EPackage {
 	int WRITE_CSV_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Append</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRITE_CSV_FILE__APPEND = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Write Csv File</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WRITE_CSV_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+	int WRITE_CSV_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ExcludeColumnsImpl <em>Exclude Columns</em>}' class.
@@ -887,6 +896,17 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getWriteCsvFile_Uri();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.data.commands.WriteCsvFile#isAppend <em>Append</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Append</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.commands.WriteCsvFile#isAppend()
+	 * @see #getWriteCsvFile()
+	 * @generated
+	 */
+	EAttribute getWriteCsvFile_Append();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.ExcludeColumns <em>Exclude Columns</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1342,6 +1362,14 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WRITE_CSV_FILE__URI = eINSTANCE.getWriteCsvFile_Uri();
+
+		/**
+		 * The meta object literal for the '<em><b>Append</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WRITE_CSV_FILE__APPEND = eINSTANCE.getWriteCsvFile_Append();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ExcludeColumnsImpl <em>Exclude Columns</em>}' class.

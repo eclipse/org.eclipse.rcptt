@@ -125,7 +125,7 @@ public interface SelectRows extends Command {
 	 * @see org.eclipse.rcptt.ecl.data.commands.RowMatchMode
 	 * @see #setMatch(RowMatchMode)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSelectRows_Match()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\r\n<ul>\r\n<li><b>glob</b> &ndash; wildcard matching</li>\r\n<li><b>exact</b> &ndash; value should be equals to pattern</li>\r\n<li><b>regexp</b> &ndash; value must match java regular expression</li>\r\n</ul>'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Describes the matching behaviour for rows.\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;b&gt;glob&lt;/b&gt; &amp;ndash; wildcard matching&lt;/li&gt;\r\n&lt;li&gt;&lt;b&gt;exact&lt;/b&gt; &amp;ndash; value should be equals to pattern&lt;/li&gt;\r\n&lt;li&gt;&lt;b&gt;regexp&lt;/b&gt; &amp;ndash; value must match java regular expression&lt;/li&gt;\r\n&lt;/ul&gt;'"
 	 * @generated
 	 */
 	RowMatchMode getMatch();
