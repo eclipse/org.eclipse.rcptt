@@ -11,12 +11,16 @@
 package org.eclipse.rcptt.internal.testrail;
 
 import java.text.MessageFormat;
+import java.util.List;
 
+import org.eclipse.rcptt.testrail.domain.TestRailTestCase;
 import org.eclipse.rcptt.testrail.domain.TestRailTestResult;
 import org.eclipse.rcptt.testrail.domain.TestRailTestRun;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 public class TestRailAPIClient {
@@ -38,6 +42,28 @@ public class TestRailAPIClient {
 		String method = MessageFormat.format("/get_cases/{0}", projectId);
 		String response = client.sendGetRequest(method);
 		return response != null;
+	}
+
+	public String getTestCasesString() {
+		String method = MessageFormat.format("/get_cases/{0}", projectId);
+		String response = client.sendGetRequest(method);
+		if (response == null) {
+			TestRailPlugin.log(Messages.TestRailAPIClient_FailedToGetTestCases);
+			return null;
+		}
+		return response;
+	}
+
+	public static JsonArray getTestCasesJsonArray(String response) {
+		JsonArray testCases = (JsonArray) new JsonParser().parse(response);
+		return testCases;
+	}
+
+	public static List<TestRailTestCase> getTestCasesList(String response) {
+		TypeToken<List<TestRailTestCase>> token = new TypeToken<List<TestRailTestCase>>() {
+		};
+		List<TestRailTestCase> testCases = new Gson().fromJson(response, token.getType());
+		return testCases;
 	}
 
 	public TestRailTestRun addRun(TestRailTestRun testRunDraft) {

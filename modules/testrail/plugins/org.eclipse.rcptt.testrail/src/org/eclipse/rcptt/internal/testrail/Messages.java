@@ -28,6 +28,7 @@ public class Messages extends NLS {
 	public static String TestRailService_InvalidURL;
 	public static String TestRailService_URLShouldEndsWithSlash;
 	public static String TestRailService_InvalidBoolean;
+	public static String TestRailAPIClient_FailedToGetTestCases;
 	public static String TestRailAPIClient_FailedToAddTestRun;
 	public static String TestRailAPIClient_FailedToAddTestResult;
 	public static String APIClient_GeneratedRequest;

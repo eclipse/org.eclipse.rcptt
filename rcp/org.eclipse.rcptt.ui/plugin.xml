@@ -17,7 +17,8 @@
 	<extension-point id="autWizard" name="autWizard" schema="schema/autWizard.exsd"/>
 	<extension-point id="searchMatchers" name="Pluggable search implementations" schema="schema/searchMatchers.exsd"/>
 	<extension-point id="scenarioEditorPages" name="Scenario Editor Pages" schema="schema/scenarioEditorPages.exsd"/>
- <extension-point id="testEngineLaunchConfigs" name="Test Engine Launch Configs" schema="schema/testEngineLaunchConfigs.exsd"/>
+	<extension-point id="testEngineLaunchConfigs" name="Test Engine Launch Configs" schema="schema/testEngineLaunchConfigs.exsd"/>
+	<extension-point id="propertySuggestionProviders" name="Property Suggestion Providers" schema="schema/propertySuggestionProviders.exsd"/>
 	<extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
@@ -1126,6 +1127,12 @@
            class="org.eclipse.rcptt.ui.editors.quickfix.Q7ProblemResolutionGenerator"
            markerType="org.eclipse.rcptt.core.builder.q7Problem">
      </markerResolutionGenerator>
+  </extension>
+  <extension
+        point="org.eclipse.rcptt.ui.propertySuggestionProviders">
+     <propertySuggestions
+           scenarioProperties="org.eclipse.rcptt.ui.editors.ScenarioPropertySuggestionProvider">
+     </propertySuggestions>
   </extension>
    
    <!--extension

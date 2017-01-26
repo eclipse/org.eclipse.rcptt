@@ -36,6 +36,7 @@ import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
 import org.eclipse.rcptt.internal.testrail.Messages;
 import org.eclipse.rcptt.internal.testrail.TestRailAPIClient;
+import org.eclipse.rcptt.internal.testrail.TestRailParser;
 import org.eclipse.rcptt.internal.testrail.TestRailPlugin;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.ITestEngine;
@@ -43,11 +44,18 @@ import org.eclipse.rcptt.reporting.util.ReportUtils;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.testrail.domain.TestRailStepResult;
+import org.eclipse.rcptt.testrail.domain.TestRailTestCase;
 import org.eclipse.rcptt.testrail.domain.TestRailTestResult;
 import org.eclipse.rcptt.testrail.domain.TestRailTestRun;
 
+import com.google.gson.JsonArray;
+
 public class TestRailService implements ITestEngine {
-	private static final String TESTRAIL_ID_PARAM = "testrail-id";
+	public static final String TESTRAIL_ID_PARAM = "testrail-id";
+	public static final String TESTRAIL_PROJECTID_PREFIX = "P";
+	public static final String TESTRAIL_TESTRUNID_PREFIX = "R";
+	public static final String TESTRAIL_TESTCASEID_PREFIX = "C";
+
 	private static final String TESTRAILCONFIG_ADDRESS_PARAM = "host";
 	private static final String TESTRAILCONFIG_USERNAME_PARAM = "username";
 	private static final String TESTRAILCONFIG_PASSWORD_PARAM = "password";
@@ -58,9 +66,6 @@ public class TestRailService implements ITestEngine {
 	private static final String TESTRESULT_FAILMSG_PREFIX = "__Fail message:__\n";
 	private static final String TESTRUN_DEFAULT_NAME = "Tests";
 	private static final String TESTRAILSTEP_PROPERTYNAME = "test-rail-step:{0}";
-	private static final String TESTRAIL_PROJECTID_PREFIX = "P";
-	private static final String TESTRAIL_TESTRUNID_PREFIX = "R";
-	private static final String TESTRAIL_TESTCASEID_PREFIX = "C";
 
 	private TestRailAPIClient testRailAPI;
 	private boolean testRailEnabled;
@@ -167,6 +172,24 @@ public class TestRailService implements ITestEngine {
 			return validateBoolean(value);
 		}
 		return null;
+	}
+
+	public List<TestRailTestCase> getTestCases(boolean fillDescription) {
+		applyDefaultConfig();
+		if (testRailAPI == null) {
+			return Collections.emptyList();
+		}
+
+		String response = testRailAPI.getTestCasesString();
+		if (response == null) {
+			return Collections.emptyList();
+		}
+		List<TestRailTestCase> testCases = TestRailAPIClient.getTestCasesList(response);
+		if (fillDescription) {
+			JsonArray array = TestRailAPIClient.getTestCasesJsonArray(response);
+			TestRailParser.parseTestCases(testCases, array);
+		}
+		return testCases;
 	}
 
 	private void applyDefaultConfig() {

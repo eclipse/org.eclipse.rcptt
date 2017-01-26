@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.rcptt.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.rcptt.ui" id="testEngineLaunchConfig" name="Test Engine Launch Config"/>
+         <meta.schema plugin="org.eclipse.rcptt.ui" id="propertySuggestionProviders" name="Property Suggestion Providers"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="launchConfig" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="propertySuggestions" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,22 +47,15 @@
       </complexType>
    </element>
 
-   <element name="launchConfig">
+   <element name="propertySuggestions">
       <complexType>
-         <attribute name="testEngineId" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="scenarioProperties" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.rcptt.internal.ui.ITestEngineLaunchConfig"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.rcptt.ui.editors.IScenarioPropertyProvider"/>
                </appinfo>
             </annotation>
          </attribute>

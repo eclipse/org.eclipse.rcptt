@@ -30,19 +30,22 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
 import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.PropertySuggestionManager;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
+import org.eclipse.rcptt.ui.controls.SuggestionItem;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
 import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
@@ -57,6 +60,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.ISharedImages;
@@ -90,7 +94,6 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 	
 	protected final DataBindingContext dbc = new DataBindingContext();
 	private FormToolkit toolkit;
-
 
 	public void setSelectionAtLine(int line) {
 		if (table != null) {
@@ -192,8 +195,30 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 				}
 			}
 		});
+		
 
 		final TableViewer viewer = new TableViewer(table);
+		
+		table.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {				
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				TableItem item = table.getItem( new Point(e.x, e.y));
+				if( item == null) {
+					viewer.cancelEditing();
+				}
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		viewer.setContentProvider(new IStructuredContentProvider() {
 
 			public void dispose() {
@@ -246,7 +271,14 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 		nameViewerColumn.setEditingSupport(new EditingSupport(viewer) {
 
 			protected CellEditor getCellEditor(final Object element) {
-				final TextCellEditor editor = new TextCellEditor(table);
+				final Scenario scenario = getNamedElement();
+				final List<SuggestionItem> suggestions = PropertySuggestionManager.getInstance()
+						.getScenarioProperties(scenario);
+				final PropertyCellEditor editor = new PropertyCellEditor(table, suggestions) {
+					public void completeEdit() {
+						viewer.applyEditorValue();
+					};
+				};
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {
@@ -254,34 +286,16 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 
 						switch (e.detail) {
 						case SWT.TRAVERSE_TAB_NEXT:
-							if (validateName(element, text.getText()))
+//							if (validateName(element, text.getText()))
 								viewer.editElement(element, 1);
 							e.detail = SWT.TRAVERSE_NONE;
 							e.doit = false;
-							break;
-						case SWT.TRAVERSE_ARROW_NEXT:
-							if (e.keyCode == SWT.ARROW_DOWN) {
-								if (table.getItemCount() > table.getSelectionIndex() + 1
-										&& (isNewAndBlank(element, text.getText())
-												|| validateName(element, text.getText())))
-									viewer.editElement(viewer.getElementAt(table.getSelectionIndex() + 1), 0);
-								e.detail = SWT.TRAVERSE_NONE;
-								e.doit = false;
-							}
-							break;
-						case SWT.TRAVERSE_ARROW_PREVIOUS:
-							if (e.keyCode == SWT.ARROW_UP) {
-								if (table.getSelectionIndex() > 0 && (isNewAndBlank(element, text.getText())
-										|| validateName(element, text.getText())))
-									viewer.editElement(viewer.getElementAt(table.getSelectionIndex() - 1), 0);
-								e.detail = SWT.TRAVERSE_NONE;
-								e.doit = false;
-							}
 							break;
 						}
 					}
 
 				});
+
 				return editor;
 			}
 
@@ -310,17 +324,17 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 					return;
 				}
 
-				if (!validateName(element, name)) {
-					table.getDisplay().asyncExec(new Runnable() {
+//				if (!validateName(element, name)) {
+//					table.getDisplay().asyncExec(new Runnable() {
+//
+//						public void run() {
+//							if (!table.isDisposed())
+//								viewer.editElement(element, 0);
+//						}
+//					});
 
-						public void run() {
-							if (!table.isDisposed())
-								viewer.editElement(element, 0);
-						}
-					});
-
-					return;
-				}
+//					return;
+//				}
 
 				if (param != newParameterItem) {
 					if (!param.getName().equals(name)) {
@@ -366,7 +380,14 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 		valueViewerColumn.setEditingSupport(new EditingSupport(viewer) {
 
 			protected CellEditor getCellEditor(final Object element) {
-				final TextCellEditor editor = new TextCellEditor(table);
+				final ScenarioProperty param = (ScenarioProperty) element;
+				final List<SuggestionItem> suggestions = PropertySuggestionManager.getInstance()
+						.getScenarioPropertySuggestions(param.getName());
+				final PropertyCellEditor editor = new PropertyCellEditor(table, suggestions) {
+					public void completeEdit() {
+						viewer.applyEditorValue();
+					};
+				};
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {
@@ -374,31 +395,16 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 
 						switch (e.detail) {
 						case SWT.TRAVERSE_TAB_PREVIOUS:
-							if (validateName(element, text.getText()))
+//							if (validateName(element, text.getText()))
 								viewer.editElement(element, 0);
 							e.detail = SWT.TRAVERSE_NONE;
 							e.doit = false;
-							break;
-						case SWT.TRAVERSE_ARROW_NEXT:
-							if (e.keyCode == SWT.ARROW_DOWN) {
-								if (table.getItemCount() > table.getSelectionIndex() + 1)
-									viewer.editElement(viewer.getElementAt(table.getSelectionIndex() + 1), 1);
-								e.detail = SWT.TRAVERSE_NONE;
-								e.doit = false;
-							}
-							break;
-						case SWT.TRAVERSE_ARROW_PREVIOUS:
-							if (e.keyCode == SWT.ARROW_UP) {
-								if (table.getSelectionIndex() > 0)
-									viewer.editElement(viewer.getElementAt(table.getSelectionIndex() - 1), 1);
-								e.detail = SWT.TRAVERSE_NONE;
-								e.doit = false;
-							}
 							break;
 						}
 					}
 
 				});
+
 				return editor;
 			}
 
