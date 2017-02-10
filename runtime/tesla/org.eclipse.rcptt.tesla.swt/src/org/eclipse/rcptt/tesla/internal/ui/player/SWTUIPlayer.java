@@ -1588,7 +1588,9 @@ public final class SWTUIPlayer {
 		}
 
 		if ((menu.getStyle() & SWT.BAR) == 0) { // Not a menu bar
-			shownMenus.add(new WeakReference<Menu>(menu));
+			synchronized (shownMenus) {
+				shownMenus.add(new WeakReference<Menu>(menu));
+			}
 		}
 
 		events.sendEvent(uiElement, SWT.Show, pos.x, pos.y, 0);
@@ -2747,20 +2749,22 @@ public final class SWTUIPlayer {
 		}
 		final List<Menu> menusToProceed = new ArrayList<>();
 
-		for (WeakReference<Menu> weakReference : shownMenus) {
-			Menu menu = weakReference.get();
-			if (menu == null) {
-				continue;
+		synchronized (shownMenus) {
+			for (WeakReference<Menu> weakReference : shownMenus) {
+				Menu menu = weakReference.get();
+				if (menu == null) {
+					continue;
+				}
+				menusToProceed.add(menu);
+				shownMenus.clear();
 			}
-			menusToProceed.add(menu);
-			shownMenus.clear();
 		}
 		if (!menusToProceed.isEmpty()) {
 			Q7WaitUtils.updateInfo("menu", "hide", info);
 			curDisplay.syncExec(new Runnable() {
 				@Override
 				public void run() {
-					for (Menu menu: menusToProceed) {
+					for (Menu menu : menusToProceed) {
 						// We also need to hide all parent menus.
 						while (menu != null && !menu.isDisposed()) {
 							events.sendEvent(menu, SWT.Hide);
@@ -2768,9 +2772,11 @@ public final class SWTUIPlayer {
 						}
 
 					}
-					result[0] = !shownMenus.isEmpty();
 				}
 			});
+		}
+		synchronized (shownMenus) {
+			result[0] = !shownMenus.isEmpty();
 		}
 		return result[0];
 	}
