@@ -151,7 +151,8 @@ import org.eclipse.ui.internal.registry.EditorRegistry;
 
 @SuppressWarnings("restriction")
 public final class SWTUIPlayer {
-	private static final boolean DEBUG_PROCEED = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/proceed"));
+	private static final boolean DEBUG_PROCEED = "true"
+			.equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/proceed"));
 	final Display display;
 	private SWTUIElement[] ignoreWindows;
 	private Shell[] ignoredShells;
@@ -1773,8 +1774,7 @@ public final class SWTUIPlayer {
 				debugProceed("Previous tsk is still pending");
 				return false;
 			}
-			if (!TeslaEventManager.getManager().isNoWaitForJob()
-					&& !collector.isEmpty(context, info)) {
+			if (!TeslaEventManager.getManager().isNoWaitForJob() && !collector.isEmpty(context, info)) {
 				debugProceed("There are active jobs");
 				return false;
 			}
@@ -2745,27 +2745,33 @@ public final class SWTUIPlayer {
 		if (curDisplay == null || curDisplay.isDisposed()) {
 			return false;
 		}
-		curDisplay.syncExec(new Runnable() {
-			@Override
-			public void run() {
-				for (WeakReference<Menu> weakReference : shownMenus) {
-					Menu menu = weakReference.get();
-					if (menu == null) {
-						continue;
-					}
-					// We also need to hide all parent menus.
-					while (menu != null && !menu.isDisposed()) {
-						events.sendEvent(menu, SWT.Hide);
-						menu = menu.getParentMenu();
-					}
-					Q7WaitUtils.updateInfo("menu", "hide", info);
+		final List<Menu> menusToProceed = new ArrayList<>();
 
-				}
-				result[0] = !shownMenus.isEmpty();
-				shownMenus.clear();
-				// TODO Auto-generated method stub
+		for (WeakReference<Menu> weakReference : shownMenus) {
+			Menu menu = weakReference.get();
+			if (menu == null) {
+				continue;
 			}
-		});
+			menusToProceed.add(menu);
+			shownMenus.clear();
+		}
+		if (!menusToProceed.isEmpty()) {
+			Q7WaitUtils.updateInfo("menu", "hide", info);
+			curDisplay.syncExec(new Runnable() {
+				@Override
+				public void run() {
+					for (Menu menu: menusToProceed) {
+						// We also need to hide all parent menus.
+						while (menu != null && !menu.isDisposed()) {
+							events.sendEvent(menu, SWT.Hide);
+							menu = menu.getParentMenu();
+						}
+
+					}
+					result[0] = !shownMenus.isEmpty();
+				}
+			});
+		}
 		return result[0];
 	}
 

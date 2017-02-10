@@ -184,6 +184,9 @@ public class TeslaTimerExecManager {
 		if (clName.contains("org.eclipse.swt")) {
 			return true;
 		}
+		if( clName.contains("org.eclipse.ui.internal.progress.Throttler")) {
+			return true;
+		}
 		if (clName.contains("org.eclipse.gef")) {
 			return true;
 		}

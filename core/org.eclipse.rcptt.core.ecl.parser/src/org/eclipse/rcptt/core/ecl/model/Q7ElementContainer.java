@@ -69,6 +69,9 @@ public class Q7ElementContainer implements IDeclContainer {
 	* Add a testcase property declarations.
 	*/
 	private void calculatePropertyDeclarations(IQ7NamedElement element) {
+		if( element == null) {
+			return;
+		}
 		try {
 			
 			propertyDeclarations = new LocalContainer();
