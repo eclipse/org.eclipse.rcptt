@@ -2756,8 +2756,8 @@ public final class SWTUIPlayer {
 					continue;
 				}
 				menusToProceed.add(menu);
-				shownMenus.clear();
 			}
+			shownMenus.clear();
 		}
 		if (!menusToProceed.isEmpty()) {
 			Q7WaitUtils.updateInfo("menu", "hide", info);
