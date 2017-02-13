@@ -327,17 +327,15 @@ public class PropertyCellEditor extends TextCellEditor {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (e.widget == text) {
-					System.out.println("text");
-					Rectangle area = text.getClientArea();
-					Point point = text.getDisplay().getCursorLocation();
-					Point inCongrol = text.toControl(point.x, point.y);
-					System.out.println("#");
-					if (area.contains(inCongrol)) {
-						System.out.println("###");
-//						return;
-					}
-				}
+//				if (e.widget == text) {
+//					Rectangle area = text.getClientArea();
+//					Point point = text.getDisplay().getCursorLocation();
+//					Point inCongrol = text.toControl(point.x, point.y);
+//					if (area.contains(inCongrol)) {
+//						System.out.println("###");
+////						return;
+//					}
+//				}
 				addJob();
 			}
 
