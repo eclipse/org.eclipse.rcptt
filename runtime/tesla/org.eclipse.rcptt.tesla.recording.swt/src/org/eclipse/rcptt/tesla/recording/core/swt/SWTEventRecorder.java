@@ -2443,4 +2443,9 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 	public void setCurrentEvent(Event event) {
 		currentEvent = event;
 	}
+
+	@Override
+	public void removeClosedShell(SWTUIElement wrappedShell) {
+		SWTRecordingHelper.getHelper().remove(wrappedShell);		
+	}
 }

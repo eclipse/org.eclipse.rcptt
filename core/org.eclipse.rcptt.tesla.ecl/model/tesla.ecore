@@ -770,6 +770,17 @@
         <details key="description" value=""/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ActivationEventType">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ApplyCellEdit" eSuperTypes="#//CellEdit">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -1755,6 +1766,13 @@
       <details key="returns" value="Current test case name"/>
       <details key="example" value="get-test-case-name | log"/>
     </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActivationEventType">
+    <eLiterals name="Programmatic" value="4"/>
+    <eLiterals name="KeyPressed" value="1"/>
+    <eLiterals name="MouseClickSelection" value="2"/>
+    <eLiterals name="MouseDoubleClickSelection" value="3"/>
+    <eLiterals name="Traversal" value="5"/>
   </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
       nsPrefix="org.eclipse.rcptt.ecl.tesla.diagram">

@@ -22,6 +22,7 @@ import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.EclBoolean;
 import org.eclipse.rcptt.ecl.core.EclString;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.core.protocol.CanvasUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ClickAboutMenu;
 import org.eclipse.rcptt.tesla.core.protocol.ClickPreferencesMenu;
@@ -780,14 +781,17 @@ public class ActionService extends AbstractActionService {
 			ViewerUIElement viewerUIElement = new ViewerUIElement(viewerElement, TeslaBridge.getPlayer());
 			switch (c.eClass().getClassifierID()) {
 			case TeslaPackage.ACTIVATE_CELL_EDIT:
+				ActivateCellEdit activateCellEdit = (ActivateCellEdit) c;
 				if (column == null) {
-					column = ((ActivateCellEdit) c).getColumn();
+					column = activateCellEdit.getColumn();
 				}
 				if (column == null) {
 					throw new CoreException(TeslaImplPlugin.err("Column is not specified"));
 				}
+				ActivationEventType type = ActivationEventType.get(activateCellEdit.getType().getValue());
+				int button = activateCellEdit.getButton();
 				// viewerUIElement.setSelection(item.getPath());
-				viewerUIElement.activateCellEditor(column);
+				viewerUIElement.activateCellEditor(column, type, button);
 				break;
 			case TeslaPackage.APPLY_CELL_EDIT:
 				viewerUIElement.applyCellEditor();

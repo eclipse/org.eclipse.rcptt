@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.recording.aspects;
 
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
@@ -30,4 +31,6 @@ public interface IExtendedSWTEventListener extends IBasicSWTEventListener {
 	public void recordTabFolderEvent(Control tabControl, int eventId);
 
 	public void setCurrentEvent(Event event);
+	
+	public void removeClosedShell(SWTUIElement wrappedShell);
 }

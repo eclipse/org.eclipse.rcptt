@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.tesla.core.protocol.impl;
 
 import org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.core.protocol.ApplyCellEditor;
 import org.eclipse.rcptt.tesla.core.protocol.Assert;
 import org.eclipse.rcptt.tesla.core.protocol.AssertImageData;
@@ -926,6 +927,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * @generated
 	 */
 	private EEnum mouseEventKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum activationEventTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -2221,6 +2229,24 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getActivateCellEditor_Type() {
+		return (EAttribute)activateCellEditorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActivateCellEditor_Button() {
+		return (EAttribute)activateCellEditorEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getApplyCellEditor() {
 		return applyCellEditorEClass;
 	}
@@ -3508,6 +3534,15 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getActivationEventType() {
+		return activationEventTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ProtocolFactory getProtocolFactory() {
 		return (ProtocolFactory)getEFactoryInstance();
 	}
@@ -3724,6 +3759,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__PATTERN);
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__INDEX);
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__COLUMN);
+		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__TYPE);
+		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__BUTTON);
 
 		applyCellEditorEClass = createEClass(APPLY_CELL_EDITOR);
 		createEAttribute(applyCellEditorEClass, APPLY_CELL_EDITOR__DEACTIVATE);
@@ -3919,6 +3956,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		assertKindEEnum = createEEnum(ASSERT_KIND);
 		dragKindEEnum = createEEnum(DRAG_KIND);
 		mouseEventKindEEnum = createEEnum(MOUSE_EVENT_KIND);
+		activationEventTypeEEnum = createEEnum(ACTIVATION_EVENT_TYPE);
 	}
 
 	/**
@@ -4252,6 +4290,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEAttribute(getActivateCellEditor_Pattern(), ecorePackage.getEString(), "pattern", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivateCellEditor_Index(), ecorePackage.getEIntegerObject(), "index", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivateCellEditor_Column(), ecorePackage.getEInt(), "column", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEditor_Type(), this.getActivationEventType(), "type", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEditor_Button(), theEcorePackage.getEInt(), "button", "1", 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(applyCellEditorEClass, ApplyCellEditor.class, "ApplyCellEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getApplyCellEditor_Deactivate(), theEcorePackage.getEBoolean(), "deactivate", "false", 0, 1, ApplyCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4484,6 +4524,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.EXIT);
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.DOUBLE_CLICK);
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.HOVER);
+
+		initEEnum(activationEventTypeEEnum, ActivationEventType.class, "ActivationEventType");
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.PROGRAMMATIC);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.KEY_PRESSED);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_DOUBLE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.TRAVERSAL);
 
 		// Create resource
 		createResource(eNS_URI);

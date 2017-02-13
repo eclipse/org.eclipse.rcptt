@@ -2942,13 +2942,31 @@ public interface ProtocolPackage extends EPackage {
 	int ACTIVATE_CELL_EDITOR__COLUMN = ELEMENT_COMMAND_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVATE_CELL_EDITOR__TYPE = ELEMENT_COMMAND_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Button</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVATE_CELL_EDITOR__BUTTON = ELEMENT_COMMAND_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Activate Cell Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTIVATE_CELL_EDITOR_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 4;
+	int ACTIVATE_CELL_EDITOR_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl <em>Apply Cell Editor</em>}' class.
@@ -5562,6 +5580,17 @@ public interface ProtocolPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.ActivationEventType <em>Activation Event Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivationEventType
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getActivationEventType()
+	 * @generated
+	 */
+	int ACTIVATION_EVENT_TYPE = 112;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.SelectData <em>Select Data</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6998,6 +7027,28 @@ public interface ProtocolPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getActivateCellEditor_Column();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getType()
+	 * @see #getActivateCellEditor()
+	 * @generated
+	 */
+	EAttribute getActivateCellEditor_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getButton <em>Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Button</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getButton()
+	 * @see #getActivateCellEditor()
+	 * @generated
+	 */
+	EAttribute getActivateCellEditor_Button();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.ApplyCellEditor <em>Apply Cell Editor</em>}'.
@@ -8519,6 +8570,16 @@ public interface ProtocolPackage extends EPackage {
 	EEnum getMouseEventKind();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.protocol.ActivationEventType <em>Activation Event Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Activation Event Type</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivationEventType
+	 * @generated
+	 */
+	EEnum getActivationEventType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9743,6 +9804,22 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ACTIVATE_CELL_EDITOR__COLUMN = eINSTANCE.getActivateCellEditor_Column();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVATE_CELL_EDITOR__TYPE = eINSTANCE.getActivateCellEditor_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Button</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVATE_CELL_EDITOR__BUTTON = eINSTANCE.getActivateCellEditor_Button();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.ApplyCellEditorImpl <em>Apply Cell Editor</em>}' class.
@@ -10995,6 +11072,16 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum MOUSE_EVENT_KIND = eINSTANCE.getMouseEventKind();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.ActivationEventType <em>Activation Event Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.ActivationEventType
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getActivationEventType()
+		 * @generated
+		 */
+		EEnum ACTIVATION_EVENT_TYPE = eINSTANCE.getActivationEventType();
 
 	}
 

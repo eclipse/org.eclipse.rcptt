@@ -279,6 +279,7 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 						viewer.applyEditorValue();
 					};
 				};
+				editor.setFilterEnabled(false);
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {
@@ -388,6 +389,7 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 						viewer.applyEditorValue();
 					};
 				};
+				editor.setFilterEnabled(true);
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {

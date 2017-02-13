@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.ViewerRow;
 import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.custom.TreeEditor;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -48,6 +49,7 @@ import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.ViewerUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Command;
 import org.eclipse.rcptt.tesla.core.protocol.raw.SetMode;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.internal.ui.player.FindResult;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
@@ -210,8 +212,15 @@ public class JFaceRecordingProcessor implements IRecordingProcessor,
 				ViewerUIElement e = new ViewerUIElement(result.element,
 						getRecorder());
 				if (!checkbox) {
+					ActivationEventType type = ActivationEventType.get(activationEvent.eventType);
+					int button = 1;
+					if (activationEvent.sourceEvent != null
+							&& activationEvent.sourceEvent instanceof MouseEvent) {
+						MouseEvent event = (MouseEvent) activationEvent.sourceEvent;
+						button = event.button;
+					}
 					e.setMultiSelection(selection);
-					e.activateCellEditor(column);
+					e.activateCellEditor(column, type, button);
 				} else {
 					CheckboxCellEditor checkboxCellEditor = (CheckboxCellEditor) cellEditor;
 

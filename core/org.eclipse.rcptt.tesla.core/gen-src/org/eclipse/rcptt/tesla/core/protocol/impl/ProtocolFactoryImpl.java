@@ -191,6 +191,8 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 				return createDragKindFromString(eDataType, initialValue);
 			case ProtocolPackage.MOUSE_EVENT_KIND:
 				return createMouseEventKindFromString(eDataType, initialValue);
+			case ProtocolPackage.ACTIVATION_EVENT_TYPE:
+				return createActivationEventTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -212,6 +214,8 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 				return convertDragKindToString(eDataType, instanceValue);
 			case ProtocolPackage.MOUSE_EVENT_KIND:
 				return convertMouseEventKindToString(eDataType, instanceValue);
+			case ProtocolPackage.ACTIVATION_EVENT_TYPE:
+				return convertActivationEventTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -1364,6 +1368,26 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	 * @generated
 	 */
 	public String convertMouseEventKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActivationEventType createActivationEventTypeFromString(EDataType eDataType, String initialValue) {
+		ActivationEventType result = ActivationEventType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActivationEventTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

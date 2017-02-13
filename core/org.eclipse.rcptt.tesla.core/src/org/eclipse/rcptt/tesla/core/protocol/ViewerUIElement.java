@@ -158,6 +158,15 @@ public class ViewerUIElement extends ControlUIElement {
 		player.safeExecuteCommand(cmd);
 	}
 
+	public void activateCellEditor(int column, ActivationEventType type, int button) {
+		ActivateCellEditor cmd = factory.createActivateCellEditor();
+		cmd.setElement(getElement());
+		cmd.setColumn(column);
+		cmd.setType(type);
+		cmd.setButton(button);
+		player.safeExecuteCommand(cmd);
+	}
+
 	public void applyCellEditor() {
 		ApplyCellEditor cmd = factory.createApplyCellEditor();
 		cmd.setElement(getElement());

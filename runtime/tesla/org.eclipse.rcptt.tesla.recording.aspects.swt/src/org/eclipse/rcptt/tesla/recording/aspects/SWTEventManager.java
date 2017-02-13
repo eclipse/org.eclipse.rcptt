@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
@@ -279,4 +280,10 @@ public final class SWTEventManager {
 	}
 
 	//
+	
+	public static void removeClosedShell(SWTUIElement wrappedShell) {
+		for (IExtendedSWTEventListener listener : getListeners(IExtendedSWTEventListener.class)) {
+			listener.removeClosedShell(wrappedShell);
+		}
+	}
 }

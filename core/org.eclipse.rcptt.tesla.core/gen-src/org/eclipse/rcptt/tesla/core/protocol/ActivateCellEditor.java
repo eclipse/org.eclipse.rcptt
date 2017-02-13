@@ -25,6 +25,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getPattern <em>Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getColumn <em>Column</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getButton <em>Button</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getActivateCellEditor()
@@ -125,5 +127,61 @@ public interface ActivateCellEditor extends ElementCommand {
 	 * @generated
 	 */
 	void setColumn(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.rcptt.tesla.core.protocol.ActivationEventType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivationEventType
+	 * @see #setType(ActivationEventType)
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getActivateCellEditor_Type()
+	 * @model
+	 * @generated
+	 */
+	ActivationEventType getType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ActivationEventType
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(ActivationEventType value);
+
+	/**
+	 * Returns the value of the '<em><b>Button</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Button</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Button</em>' attribute.
+	 * @see #setButton(int)
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getActivateCellEditor_Button()
+	 * @model default="1"
+	 * @generated
+	 */
+	int getButton();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor#getButton <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Button</em>' attribute.
+	 * @see #getButton()
+	 * @generated
+	 */
+	void setButton(int value);
 
 } // ActivateCellEditor

@@ -21,6 +21,8 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getColumn <em>Column</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getButton <em>Button</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getActivateCellEdit()
@@ -55,4 +57,61 @@ public interface ActivateCellEdit extends CellEdit {
 	 * @generated
 	 */
 	void setColumn(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.rcptt.tesla.ecl.model.ActivationEventType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivationEventType
+	 * @see #setType(ActivationEventType)
+	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getActivateCellEdit_Type()
+	 * @model annotation="http://www.eclipse.org/ecl/docs description=''"
+	 * @generated
+	 */
+	ActivationEventType getType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivationEventType
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(ActivationEventType value);
+
+	/**
+	 * Returns the value of the '<em><b>Button</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Button</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Button</em>' attribute.
+	 * @see #setButton(int)
+	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getActivateCellEdit_Button()
+	 * @model default="1"
+	 *        annotation="http://www.eclipse.org/ecl/docs description=''"
+	 * @generated
+	 */
+	int getButton();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getButton <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Button</em>' attribute.
+	 * @see #getButton()
+	 * @generated
+	 */
+	void setButton(int value);
 } // ActivateCellEdit

@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.tesla.ecl.model.impl;
 
 import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
+import org.eclipse.rcptt.tesla.ecl.model.ActivationEventType;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -26,6 +27,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ActivateCellEditImpl#getColumn <em>Column</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ActivateCellEditImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ActivateCellEditImpl#getButton <em>Button</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,6 +52,43 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 	 * @ordered
 	 */
 	protected int column = COLUMN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ActivationEventType TYPE_EDEFAULT = ActivationEventType.PROGRAMMATIC;
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected ActivationEventType type = TYPE_EDEFAULT;
+	/**
+	 * The default value of the '{@link #getButton() <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getButton()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int BUTTON_EDEFAULT = 1;
+	/**
+	 * The cached value of the '{@link #getButton() <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getButton()
+	 * @generated
+	 * @ordered
+	 */
+	protected int button = BUTTON_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,11 +135,57 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ActivationEventType getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(ActivationEventType newType) {
+		ActivationEventType oldType = type;
+		type = newType == null ? TYPE_EDEFAULT : newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TeslaPackage.ACTIVATE_CELL_EDIT__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getButton() {
+		return button;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setButton(int newButton) {
+		int oldButton = button;
+		button = newButton;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TeslaPackage.ACTIVATE_CELL_EDIT__BUTTON, oldButton, button));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case TeslaPackage.ACTIVATE_CELL_EDIT__COLUMN:
 				return getColumn();
+			case TeslaPackage.ACTIVATE_CELL_EDIT__TYPE:
+				return getType();
+			case TeslaPackage.ACTIVATE_CELL_EDIT__BUTTON:
+				return getButton();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -114,6 +200,12 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 		switch (featureID) {
 			case TeslaPackage.ACTIVATE_CELL_EDIT__COLUMN:
 				setColumn((Integer)newValue);
+				return;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__TYPE:
+				setType((ActivationEventType)newValue);
+				return;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__BUTTON:
+				setButton((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -130,6 +222,12 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 			case TeslaPackage.ACTIVATE_CELL_EDIT__COLUMN:
 				setColumn(COLUMN_EDEFAULT);
 				return;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__BUTTON:
+				setButton(BUTTON_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -144,6 +242,10 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 		switch (featureID) {
 			case TeslaPackage.ACTIVATE_CELL_EDIT__COLUMN:
 				return column != COLUMN_EDEFAULT;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__TYPE:
+				return type != TYPE_EDEFAULT;
+			case TeslaPackage.ACTIVATE_CELL_EDIT__BUTTON:
+				return button != BUTTON_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -160,6 +262,10 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (column: ");
 		result.append(column);
+		result.append(", type: ");
+		result.append(type);
+		result.append(", button: ");
+		result.append(button);
 		result.append(')');
 		return result.toString();
 	}

@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
+import org.eclipse.rcptt.tesla.ecl.model.ActivationEventType;
 import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Button;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
@@ -879,9 +880,11 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 		return cmd;
 	}
 
-	public static ActivateCellEdit makeCellEditorActivate(Integer column) {
+	public static ActivateCellEdit makeCellEditorActivate(Integer column, Integer type, Integer button) {
 		ActivateCellEdit c = TeslaFactory.eINSTANCE.createActivateCellEdit();
 		c.setColumn(column);
+		c.setType(ActivationEventType.get(type));
+		c.setButton(button);
 		return c;
 	}
 

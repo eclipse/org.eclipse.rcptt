@@ -4558,13 +4558,31 @@ public interface TeslaPackage extends EPackage {
 	int ACTIVATE_CELL_EDIT__COLUMN = CELL_EDIT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVATE_CELL_EDIT__TYPE = CELL_EDIT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Button</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVATE_CELL_EDIT__BUTTON = CELL_EDIT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Activate Cell Edit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTIVATE_CELL_EDIT_FEATURE_COUNT = CELL_EDIT_FEATURE_COUNT + 1;
+	int ACTIVATE_CELL_EDIT_FEATURE_COUNT = CELL_EDIT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.ApplyCellEditImpl <em>Apply Cell Edit</em>}' class.
@@ -10154,6 +10172,16 @@ public interface TeslaPackage extends EPackage {
 	int BUTTON = 149;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.ActivationEventType <em>Activation Event Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivationEventType
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getActivationEventType()
+	 * @generated
+	 */
+	int ACTIVATION_EVENT_TYPE = 150;
+
+	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10161,7 +10189,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 150;
+	int ELEMENT_KIND = 151;
 
 
 	/**
@@ -11773,6 +11801,28 @@ public interface TeslaPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getActivateCellEdit_Column();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getType()
+	 * @see #getActivateCellEdit()
+	 * @generated
+	 */
+	EAttribute getActivateCellEdit_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getButton <em>Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Button</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit#getButton()
+	 * @see #getActivateCellEdit()
+	 * @generated
+	 */
+	EAttribute getActivateCellEdit_Button();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit <em>Apply Cell Edit</em>}'.
@@ -13909,6 +13959,16 @@ public interface TeslaPackage extends EPackage {
 	EEnum getButton();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.ActivationEventType <em>Activation Event Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Activation Event Type</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.ActivationEventType
+	 * @generated
+	 */
+	EEnum getActivationEventType();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.rcptt.tesla.core.protocol.ElementKind <em>Element Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -15280,6 +15340,22 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ACTIVATE_CELL_EDIT__COLUMN = eINSTANCE.getActivateCellEdit_Column();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVATE_CELL_EDIT__TYPE = eINSTANCE.getActivateCellEdit_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Button</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTIVATE_CELL_EDIT__BUTTON = eINSTANCE.getActivateCellEdit_Button();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.ApplyCellEditImpl <em>Apply Cell Edit</em>}' class.
@@ -17072,6 +17148,16 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum BUTTON = eINSTANCE.getButton();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.ActivationEventType <em>Activation Event Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.ActivationEventType
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getActivationEventType()
+		 * @generated
+		 */
+		EEnum ACTIVATION_EVENT_TYPE = eINSTANCE.getActivationEventType();
 
 		/**
 		 * The meta object literal for the '<em>Element Kind</em>' data type.

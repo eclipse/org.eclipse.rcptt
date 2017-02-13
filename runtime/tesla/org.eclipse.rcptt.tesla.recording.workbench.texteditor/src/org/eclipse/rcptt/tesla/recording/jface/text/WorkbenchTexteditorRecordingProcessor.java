@@ -830,4 +830,8 @@ public class WorkbenchTexteditorRecordingProcessor implements
 	public boolean isPartOfParent(Object widget, Object parent) {
 		return false;
 	}
+
+	@Override
+	public void removeClosedShell(SWTUIElement wrappedShell) {		
+	}
 }

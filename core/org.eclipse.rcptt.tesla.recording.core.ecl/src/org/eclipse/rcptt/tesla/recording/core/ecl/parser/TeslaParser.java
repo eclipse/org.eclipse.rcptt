@@ -739,7 +739,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ActivateCellEditor")
 	protected Command activateCellEditor(ActivateCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorActivate(c.getColumn()));
+		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorActivate(c.getColumn(), c.getType().getValue(), c.getButton()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ApplyCellEditor")
