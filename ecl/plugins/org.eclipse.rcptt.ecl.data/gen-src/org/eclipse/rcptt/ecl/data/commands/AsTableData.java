@@ -29,7 +29,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getAsTableData()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its input to table data format, exactly the same as &lt;code&gt;get-table-data&lt;/code&gt; returns.' returns='Table data.' example='get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Converts its input to table data format, exactly the same as <code>get-table-data</code> returns.' returns='Table data.' example='get-log -levels error | as-table-data | write-csv-file \"workspace:/Project/file2.csv\"'"
  * @generated
  */
 public interface AsTableData extends Command {

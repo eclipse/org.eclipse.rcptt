@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -60,21 +60,21 @@
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e3x"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e38x"
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.rcptt.updates.aspectj.e44x"
          download-size="0"
@@ -82,6 +82,12 @@
          version="2.2.0.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.rcptt.updates.extra"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.util.swt"
@@ -90,5 +96,5 @@
          version="2.2.0.qualifier"
          unpack="false"/>
 
-         
+
 </feature>

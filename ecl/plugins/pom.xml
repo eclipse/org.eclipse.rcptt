@@ -26,6 +26,7 @@
     <module>org.eclipse.rcptt.ecl.client.tcp</module>
     <module>org.eclipse.rcptt.ecl.core</module>
     <module>org.eclipse.rcptt.ecl.data</module>
+    <module>org.eclipse.rcptt.ecl.data.apache.poi</module>
     <module>org.eclipse.rcptt.ecl.debug.core</module>
     <module>org.eclipse.rcptt.ecl.debug.runtime</module>
     <module>org.eclipse.rcptt.ecl.debug.ui</module>

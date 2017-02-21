@@ -147,6 +147,51 @@ public interface CommandsFactory extends EFactory {
 	ReadFile createReadFile();
 
 	/**
+	 * Returns a new object of class '<em>Get Page Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Page Name</em>'.
+	 * @generated
+	 */
+	GetPageName createGetPageName();
+
+	/**
+	 * Returns a new object of class '<em>Set Page Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Set Page Name</em>'.
+	 * @generated
+	 */
+	SetPageName createSetPageName();
+
+	/**
+	 * Returns a new object of class '<em>Get Column Names</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Column Names</em>'.
+	 * @generated
+	 */
+	GetColumnNames createGetColumnNames();
+
+	/**
+	 * Returns a new object of class '<em>Get Rows Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Rows Data</em>'.
+	 * @generated
+	 */
+	GetRowsData createGetRowsData();
+
+	/**
+	 * Returns a new object of class '<em>List As Table Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>List As Table Data</em>'.
+	 * @generated
+	 */
+	ListAsTableData createListAsTableData();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

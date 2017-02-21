@@ -239,4 +239,74 @@
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetPageName" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Get page name from table"/>
+      <details key="returns" value="Table page name"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data&#xA;&#x9;| set-page-name &quot;Table&quot; | write-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| get-page-name | equals &quot;Table&quot; | assert-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to get page name from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetPageName" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Set page name to table"/>
+      <details key="returns" value="The value of &lt;code>table&lt;/code> argument."/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data&#xA;&#x9;| set-page-name &quot;Table&quot; | write-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| get-page-name | equals &quot;Table&quot; | assert-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to set page name to"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Page name to set"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetColumnNames" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Get list of column names from table"/>
+      <details key="returns" value="List of table column names"/>
+      <details key="example" value="proc logInfoItem [val row] [val columns] {&#xA;&#x9;$columns | each [val column] {&#xA;&#x9;&#x9;log [format &quot;%s: %s&quot; $column [$row | get $column]]&#xA;&#x9;}&#xA;}&#xA;&#xA;get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data&#xA;&#x9;| write-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| to-list | each [val table] {&#xA;&#x9;let [val columns [$table | get-column-names]] {&#xA;&#x9;&#x9;$table | get-rows-data | each [val item] {&#xA;&#x9;&#x9;&#x9;logInfoItem $item $columns&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to get column names from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRowsData" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Converts table data to map, where column name is a key and cell is a value"/>
+      <details key="returns" value="Map with row values"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | write-excel-file&#xA;&quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| get-rows-data | each [val item] {&#xA;&#x9;&#x9;$item | get &quot;Message&quot; | log&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to get rows data from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListAsTableData" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Converts input list of map to table data format"/>
+      <details key="returns" value="&lt;code>Table&lt;/code> EMF Object"/>
+      <details key="example" value="proc newDevice [val name] [val target] {&#xA;&#x9;map [entry &quot;Device Name&quot; $name] [entry &quot;Device Info&quot; $target]&#xA;}&#xA;&#xA;proc newTable [val table] [val name] {&#xA;&#x9;$table | list-as-table-data | set-page-name $name&#xA;}&#xA;&#xA;global [val devices [list&#xA;&#x9;[newDevice &quot;Device 1&quot; &quot;Info 1&quot;]&#xA;&#x9;[newDevice &quot;Device 2&quot; &quot;Info 2&quot;]&#xA;&#x9;[newDevice &quot;Device 3&quot; &quot;Info 3&quot;]&#xA;]]&#xA;&#xA;newTable $devices &quot;Devices&quot;&#xA;&#x9;| write-excel-file &quot;workspace:/MyProject/AssertData/devices.xls&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="list" lowerBound="1" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//EclList">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="List of Map to convert to Table"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
 </ecore:EPackage>

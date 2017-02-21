@@ -10,6 +10,7 @@ dependencies/bundles/org.eclipse.rcptt.updates.indigo/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e3x/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e38x/dependencies
 dependencies/bundles/org.eclipse.rcptt.updates.aspectj.e44x/dependencies
+dependencies/bundles/org.eclipse.rcptt.updates.extra/dependencies
 
 modules/nebula/plugins/org.eclipse.rcptt.module.nebula.updates/runtime/
 modules/testrail/plugins/org.eclipse.rcptt.module.testrail.updates/runtime

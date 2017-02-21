@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated commands -->
+      <package
+            uri="http://www.eclipse.org/ecl/data/apache/poi/commands.ecore"
+            class="org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage"
+            genModel="model/commands.genmodel"/>
+   </extension>
+
+</plugin>

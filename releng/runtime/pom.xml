@@ -28,6 +28,7 @@
       
       <properties>
         <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
+        <orbitRepository>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbitRepository>
       </properties>
       
       <repositories>
@@ -43,6 +44,11 @@
           <id>ajdt37</id>
           <layout>p2</layout>
           <url>${ajdt37repository}</url>
+        </repository>
+        <repository>
+          <id>orbit</id>
+          <layout>p2</layout>
+          <url>${orbitRepository}</url>
         </repository>
       </repositories>
 

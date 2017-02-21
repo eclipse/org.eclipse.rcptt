@@ -90,6 +90,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.rcptt.ecl.data.apache.poi"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.rcptt.ecl.interop"
          download-size="0"
          install-size="0"

@@ -92,13 +92,22 @@ public interface ObjectsPackage extends EPackage {
 	int TABLE__COLUMNS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Page Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE__PAGE_NAME = 2;
+
+	/**
 	 * The number of structural features of the '<em>Table</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABLE_FEATURE_COUNT = 2;
+	int TABLE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl <em>Row</em>}' class.
@@ -169,6 +178,17 @@ public interface ObjectsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTable_Columns();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.data.objects.Table#getPageName <em>Page Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Page Name</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.objects.Table#getPageName()
+	 * @see #getTable()
+	 * @generated
+	 */
+	EAttribute getTable_PageName();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.objects.Row <em>Row</em>}'.
@@ -249,6 +269,14 @@ public interface ObjectsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TABLE__COLUMNS = eINSTANCE.getTable_Columns();
+
+		/**
+		 * The meta object literal for the '<em><b>Page Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TABLE__PAGE_NAME = eINSTANCE.getTable_PageName();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl <em>Row</em>}' class.

@@ -21,11 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.Table#getRows <em>Rows</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.Table#getColumns <em>Columns</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.objects.Table#getPageName <em>Page Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.objects.ObjectsPackage#getTable()
  * @model
@@ -63,5 +64,31 @@ public interface Table extends EObject {
 	 * @generated
 	 */
 	EList<String> getColumns();
+
+	/**
+	 * Returns the value of the '<em><b>Page Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Page Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Page Name</em>' attribute.
+	 * @see #setPageName(String)
+	 * @see org.eclipse.rcptt.ecl.data.objects.ObjectsPackage#getTable_PageName()
+	 * @model
+	 * @generated
+	 */
+	String getPageName();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.data.objects.Table#getPageName <em>Page Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Page Name</em>' attribute.
+	 * @see #getPageName()
+	 * @generated
+	 */
+	void setPageName(String value);
 
 } // Table

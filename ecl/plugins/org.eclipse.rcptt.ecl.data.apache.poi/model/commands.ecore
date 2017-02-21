@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands" nsURI="http://www.eclipse.org/ecl/data/apache/poi/commands.ecore"
+    nsPrefix="dataCommands">
+  <eClassifiers xsi:type="ecore:EClass" name="WriteExcelFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Writes tables from input pipe to into excel (xls or xlsx) file. Fails if file is not found or format is invalid."/>
+      <details key="returns" value="The value of &lt;code>tables&lt;/code> argument"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | write-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tables" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.rcptt.ecl.data/model/objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Tables to write"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to write Excel data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadExcelFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Parses given excel file (xls or xlsx) into tables and write them to output pipe. Fails if file is not found or format is invalid."/>
+      <details key="returns" value="List of &lt;code>Table&lt;/code> EMF Objects"/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data | write-excel-file&#xA;&quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| get-rows-data | each [val item] {&#xA;&#x9;&#x9;$item | get &quot;Message&quot; | log&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to read Excel data from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sheets" upperBound="-1"
+    eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="List of Excel sheet names to read data from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

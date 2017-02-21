@@ -275,6 +275,7 @@
       <plugin id="org.eclipse.rcptt.ecl.client.tcp"/>
       <plugin id="org.eclipse.rcptt.ecl.core"/>
       <plugin id="org.eclipse.rcptt.ecl.data"/>
+      <plugin id="org.eclipse.rcptt.ecl.data.apache.poi"/>
       <plugin id="org.eclipse.rcptt.core.swt"/>
       <plugin id="org.eclipse.rcptt.core.swt.win32"/>
       <plugin id="org.eclipse.rcptt.core.swt.win64"/>
@@ -322,7 +323,8 @@
       <plugin id="org.eclipse.rcptt.updates.kepler"/>
       <plugin id="org.eclipse.rcptt.updates.runtime.e4x"/>
       <plugin id="org.eclipse.rcptt.updates.runtime"/>
-   
+      <plugin id="org.eclipse.rcptt.updates.extra"/>
+
       <plugin id="org.eclipse.rcptt.updates.external.dependencies.rap"/>
       <plugin id="org.eclipse.rcptt.updates.runtime.rap"/>
 

@@ -31,5 +31,6 @@
     <module>org.eclipse.rcptt.updates.indigo</module>
     <module>org.eclipse.rcptt.updates.kepler</module>
     <module>org.eclipse.rcptt.updates.external.dependencies.rap</module>
+    <module>org.eclipse.rcptt.updates.extra</module>
   </modules>
 </project>

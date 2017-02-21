@@ -59,5 +59,11 @@
          install-size="0"
          version="2.2.0.qualifier"
          unpack="false"/>
+   <plugin
+         id="org.eclipse.rcptt.updates.extra"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.qualifier"
+         unpack="false"/>
 
 </feature>

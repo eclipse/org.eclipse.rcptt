@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.Row#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.Row#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.data.objects.ObjectsPackage#getRow()
  * @model

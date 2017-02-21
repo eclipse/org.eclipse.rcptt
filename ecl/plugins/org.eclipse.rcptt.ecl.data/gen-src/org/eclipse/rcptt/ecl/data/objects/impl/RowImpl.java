@@ -25,11 +25,11 @@ import org.eclipse.rcptt.ecl.data.objects.Row;
  * <em><b>Row</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.RowImpl#getChildren <em>Children</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
