@@ -51,7 +51,7 @@ public class TestRailLaunchConfig implements ITestEngineLaunchConfig {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-		if (testRunId != null) {
+		if (testRunId != null && !testRunId.isDisposed()) {
 			testRunId.setText("");
 		}
 	}
