@@ -10,14 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
-import java.io.IOException;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -41,9 +37,8 @@ public class ReadExcelFileService implements ICommandService {
 		String uri = ref.getUri();
 		EclFile file = FileResolver.resolve(uri);
 
-		Workbook book;
 		try {
-			book = WorkbookFactory.create(file.toFile());
+			Workbook book = ExcelFileService.readBook(file);
 			if (sheetNames != null && !sheetNames.isEmpty()) {
 				// try to read sheets
 				for (String sheetName : sheetNames) {
@@ -67,12 +62,8 @@ public class ReadExcelFileService implements ICommandService {
 					sheetnum++;
 				}
 			}
-		} catch (InvalidFormatException e) {
-			return EclDataApachePOIImplPlugin.createErr("Error getting extension of file %s. Only 'xls' and 'xslx' are supported.",
-					file.toURI());
-		} catch (IOException e) {
-			return EclDataApachePOIImplPlugin.createErr(e, "Error reading file %s",
-					file.toURI());
+		} catch (CoreException e) {
+			return e.getStatus();
 		}
 
 		return Status.OK_STATUS;
@@ -95,7 +86,7 @@ public class ReadExcelFileService implements ICommandService {
 		int cellnum = 0;
 		while (headers.getCell(cellnum) != null) {
 			Cell cell = headers.getCell(cellnum);
-			table.getColumns().add(getCellValue(cell));
+			table.getColumns().add(ExcelFileService.getCellValue(cell));
 			cellnum++;
 		}
 	}
@@ -115,28 +106,9 @@ public class ReadExcelFileService implements ICommandService {
 		int size = table.getColumns().size();
 		for (; cellnum < size; cellnum++) {
 			Cell cell = row.getCell(cellnum);
-			tableRow.getValues().add(getCellValue(cell));
+			tableRow.getValues().add(ExcelFileService.getCellValue(cell));
 		}
 		table.getRows().add(tableRow);
 	}
 
-	private String getCellValue(Cell cell) {
-		if (cell == null) {
-			return null;
-		}
-		switch (cell.getCellType()) {
-		case Cell.CELL_TYPE_STRING:
-			return cell.getStringCellValue();
-		case Cell.CELL_TYPE_NUMERIC:
-			String number = String.valueOf(cell.getNumericCellValue());
-			number = number.replaceAll(".0$", "");
-			return number;
-		case Cell.CELL_TYPE_BOOLEAN:
-			return String.valueOf(cell.getBooleanCellValue());
-		case Cell.CELL_TYPE_FORMULA:
-			return "=" + cell.getCellFormula();
-		default:
-			return null;
-		}
-	}
 }

@@ -19,6 +19,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#getTables <em>Tables</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#isAppend <em>Append</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage#getWriteExcelFile()
@@ -69,5 +70,32 @@ public interface WriteExcelFile extends Command {
 	 * @generated
 	 */
 	void setUri(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Append</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Append</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Append</em>' attribute.
+	 * @see #setAppend(boolean)
+	 * @see org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage#getWriteExcelFile_Append()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isAppend();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#isAppend <em>Append</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Append</em>' attribute.
+	 * @see #isAppend()
+	 * @generated
+	 */
+	void setAppend(boolean value);
 
 } // WriteExcelFile

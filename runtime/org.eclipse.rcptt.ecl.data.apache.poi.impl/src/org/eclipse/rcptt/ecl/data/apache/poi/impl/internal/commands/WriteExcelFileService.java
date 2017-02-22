@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -39,34 +37,43 @@ public class WriteExcelFileService implements ICommandService {
 	private static final String XLS_EXTENSION = "xls";
 	private static final String XLSX_EXTENSION = "xlsx";
 	private static final String SHEET_NAME_PATTERN = "Sheet%d";
+	private static final String TEMP_FILE_NAME_PATTERN = "%s.tmp";
 
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		WriteExcelFile wef = (WriteExcelFile) command;
 		EList<Table> tables = wef.getTables();
+
 		String uri = wef.getUri();
 		EclFile file = FileResolver.resolve(uri);
 
+		boolean isAppend = wef.isAppend();
+		isAppend &= file.toFile().exists();
+
 		Workbook book;
-		if (uri.endsWith(XLS_EXTENSION)) {
-			book = new HSSFWorkbook();
-		} else if (uri.endsWith(XLSX_EXTENSION)) {
-			book = new XSSFWorkbook();
-		} else {
-			return EclDataApachePOIImplPlugin.createErr("Error getting file extension %s. Only 'xls' and 'xslx' are supported.",
-					file.toURI());
+		try {
+			if (isAppend) {
+				book = ExcelFileService.readBook(file);
+			} else {
+				book = createBook(file, uri, isAppend);
+			}
+		} catch (CoreException e) {
+			return e.getStatus();
 		}
 
 		int sheetnum = 1;
-		for (Table object : tables) {
-			Table table = (Table) object;
+		for (Table table : tables) {
 			int rownum = 0;
 			String sheetName = table.getPageName();
 			if (sheetName == null || sheetName.equals("")) {
 				sheetName = String.format(SHEET_NAME_PATTERN, sheetnum);
 			}
-			Sheet sheet = book.createSheet(sheetName);
-			rownum = writeValues(rownum, sheet, table.getColumns());
+			Sheet sheet = book.getSheet(sheetName);
+			if (sheet == null) {
+				sheet = book.createSheet(sheetName);
+				rownum = writeValues(rownum, sheet, table.getColumns());
+			} else {
+				rownum = resolveHeaders(sheet, table, file);
+			}
 			for (org.eclipse.rcptt.ecl.data.objects.Row tableRow : table.getRows()) {
 				rownum = writeRow(rownum, sheet, tableRow);
 			}
@@ -75,14 +82,64 @@ public class WriteExcelFileService implements ICommandService {
 			sheetnum++;
 		}
 		try {
-			FileOutputStream stream = new FileOutputStream(file.toFile());
-			book.write(stream);
-			stream.close();
-		} catch (IOException e) {
-			return EclDataApachePOIImplPlugin.createErr(e, "Error writing file %s",
-					file.toURI());
+			writeBook(book, file, uri, isAppend);
+		} catch (CoreException e) {
+			return e.getStatus();
 		}
 		return Status.OK_STATUS;
+	}
+
+	private Workbook createBook(EclFile file, String uri, boolean isAppend) throws CoreException {
+		Workbook book;
+		if (uri.endsWith(XLS_EXTENSION)) {
+			book = new HSSFWorkbook();
+		} else if (uri.endsWith(XLSX_EXTENSION)) {
+			book = new XSSFWorkbook();
+		} else {
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.", file.toURI()));
+		}
+		return book;
+	}
+
+	private void writeBook(Workbook book, EclFile file, String uri, boolean isAppend) throws CoreException {
+		if (isAppend) {
+			String tempUri = String.format(TEMP_FILE_NAME_PATTERN, uri);
+			EclFile tempFile = FileResolver.resolve(tempUri);
+			ExcelFileService.writeBook(book, tempFile);
+			file.toFile().delete();
+			tempFile.toFile().renameTo(file.toFile());
+			return;
+		}
+		ExcelFileService.writeBook(book, file);
+	}
+
+	private int resolveHeaders(Sheet sheet, Table table, EclFile file) throws CoreException {
+		Row header = sheet.getRow(0);
+		if (header == null || header.getLastCellNum() == -1) {
+			return writeValues(0, sheet, table.getColumns());
+		}
+		validateHeaders(sheet, table, file);
+		return sheet.getLastRowNum() + 1;
+	}
+
+	private void validateHeaders(Sheet sheet, Table table, EclFile file) throws CoreException {
+		Row headersRow = sheet.getRow(0);
+		List<String> tableHeaders = table.getColumns();
+		if (headersRow.getLastCellNum() != tableHeaders.size()) {
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					"Table headers length from input does not match with headers length in the file", file.toURI()));
+		}
+		int cellnum = 0;
+		for (String tableHeader : tableHeaders) {
+			Cell headerCell = headersRow.getCell(cellnum);
+			if (headerCell == null || !tableHeader.equals(ExcelFileService.getCellValue(headerCell))) {
+				throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+						"%s table header from input does not match with header %d in the file", tableHeader, cellnum,
+						file.toURI()));
+			}
+			cellnum++;
+		}
 	}
 
 	private int writeRow(int rownum, Sheet sheet, org.eclipse.rcptt.ecl.data.objects.Row tableRow) {
@@ -122,4 +179,5 @@ public class WriteExcelFileService implements ICommandService {
 			sheet.autoSizeColumn(col);
 		}
 	}
+
 }

@@ -31,6 +31,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.impl.WriteExcelFileImpl#getTables <em>Tables</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.impl.WriteExcelFileImpl#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.impl.WriteExcelFileImpl#isAppend <em>Append</em>}</li>
  * </ul>
  *
  * @generated
@@ -65,6 +66,26 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 	 * @ordered
 	 */
 	protected String uri = URI_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isAppend() <em>Append</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAppend()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean APPEND_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isAppend() <em>Append</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAppend()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean append = APPEND_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -123,6 +144,27 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAppend() {
+		return append;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAppend(boolean newAppend) {
+		boolean oldAppend = append;
+		append = newAppend;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.WRITE_EXCEL_FILE__APPEND, oldAppend, append));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -130,6 +172,8 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 				return getTables();
 			case CommandsPackage.WRITE_EXCEL_FILE__URI:
 				return getUri();
+			case CommandsPackage.WRITE_EXCEL_FILE__APPEND:
+				return isAppend();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -150,6 +194,9 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 			case CommandsPackage.WRITE_EXCEL_FILE__URI:
 				setUri((String)newValue);
 				return;
+			case CommandsPackage.WRITE_EXCEL_FILE__APPEND:
+				setAppend((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -168,6 +215,9 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 			case CommandsPackage.WRITE_EXCEL_FILE__URI:
 				setUri(URI_EDEFAULT);
 				return;
+			case CommandsPackage.WRITE_EXCEL_FILE__APPEND:
+				setAppend(APPEND_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -184,6 +234,8 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 				return tables != null && !tables.isEmpty();
 			case CommandsPackage.WRITE_EXCEL_FILE__URI:
 				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
+			case CommandsPackage.WRITE_EXCEL_FILE__APPEND:
+				return append != APPEND_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -200,6 +252,8 @@ public class WriteExcelFileImpl extends CommandImpl implements WriteExcelFile {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (uri: ");
 		result.append(uri);
+		result.append(", append: ");
+		result.append(append);
 		result.append(')');
 		return result.toString();
 	}

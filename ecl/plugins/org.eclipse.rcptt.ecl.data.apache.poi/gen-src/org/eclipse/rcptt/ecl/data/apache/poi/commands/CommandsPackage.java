@@ -104,13 +104,22 @@ public interface CommandsPackage extends EPackage {
 	int WRITE_EXCEL_FILE__URI = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Append</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRITE_EXCEL_FILE__APPEND = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Write Excel File</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WRITE_EXCEL_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+	int WRITE_EXCEL_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.impl.ReadExcelFileImpl <em>Read Excel File</em>}' class.
@@ -201,6 +210,17 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getWriteExcelFile_Uri();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#isAppend <em>Append</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Append</em>'.
+	 * @see org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile#isAppend()
+	 * @see #getWriteExcelFile()
+	 * @generated
+	 */
+	EAttribute getWriteExcelFile_Append();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.ReadExcelFile <em>Read Excel File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -279,6 +299,14 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WRITE_EXCEL_FILE__URI = eINSTANCE.getWriteExcelFile_Uri();
+
+		/**
+		 * The meta object literal for the '<em><b>Append</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WRITE_EXCEL_FILE__APPEND = eINSTANCE.getWriteExcelFile_Append();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.apache.poi.commands.impl.ReadExcelFileImpl <em>Read Excel File</em>}' class.

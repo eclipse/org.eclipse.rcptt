@@ -137,6 +137,15 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWriteExcelFile_Append() {
+		return (EAttribute)writeExcelFileEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getReadExcelFile() {
 		return readExcelFileEClass;
 	}
@@ -190,6 +199,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		writeExcelFileEClass = createEClass(WRITE_EXCEL_FILE);
 		createEReference(writeExcelFileEClass, WRITE_EXCEL_FILE__TABLES);
 		createEAttribute(writeExcelFileEClass, WRITE_EXCEL_FILE__URI);
+		createEAttribute(writeExcelFileEClass, WRITE_EXCEL_FILE__APPEND);
 
 		readExcelFileEClass = createEClass(READ_EXCEL_FILE);
 		createEAttribute(readExcelFileEClass, READ_EXCEL_FILE__URI);
@@ -236,6 +246,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(writeExcelFileEClass, WriteExcelFile.class, "WriteExcelFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWriteExcelFile_Tables(), theObjectsPackage.getTable(), null, "tables", null, 1, -1, WriteExcelFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWriteExcelFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, WriteExcelFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteExcelFile_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteExcelFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(readExcelFileEClass, ReadExcelFile.class, "ReadExcelFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadExcelFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadExcelFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
