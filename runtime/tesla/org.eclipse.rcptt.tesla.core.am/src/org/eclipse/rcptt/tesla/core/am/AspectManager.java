@@ -40,7 +40,7 @@ public class AspectManager {
 
 	public static void activateAspect(String bundle, String aspect) {
 		addAspect(bundle, aspect);
-		if (Activator.getDefault().LOGGING) {
+		if (Activator.getDefault() != null && Activator.getDefault().LOGGING) {
 			System.out.println("Tesla: Activate aspect in bundle:" + bundle
 					+ " aspect:" + aspect);
 		}
@@ -68,7 +68,7 @@ public class AspectManager {
 	}
 
 	public static void printInfo() {
-		if (Activator.getDefault().LOGGING) {
+		if (Activator.getDefault() != null && Activator.getDefault().LOGGING) {
 			// System.out.println("Tesla aspects information...");
 			for (BundleAspects ba : getAspects()) {
 				if (ba.getAspects().isEmpty()) {
