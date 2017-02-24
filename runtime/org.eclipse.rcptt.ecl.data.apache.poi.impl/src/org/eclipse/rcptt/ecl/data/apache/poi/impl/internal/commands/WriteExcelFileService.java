@@ -12,13 +12,11 @@ package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -34,10 +32,7 @@ import org.eclipse.rcptt.ecl.runtime.IProcess;
 
 public class WriteExcelFileService implements ICommandService {
 
-	private static final String XLS_EXTENSION = "xls";
-	private static final String XLSX_EXTENSION = "xlsx";
 	private static final String SHEET_NAME_PATTERN = "Sheet%d";
-	private static final String TEMP_FILE_NAME_PATTERN = "%s.tmp";
 
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		WriteExcelFile wef = (WriteExcelFile) command;
@@ -54,7 +49,7 @@ public class WriteExcelFileService implements ICommandService {
 			if (isAppend) {
 				book = ExcelFileService.readBook(file);
 			} else {
-				book = createBook(file, uri, isAppend);
+				book = ExcelFileService.createBook(file, uri);
 			}
 		} catch (CoreException e) {
 			return e.getStatus();
@@ -82,36 +77,11 @@ public class WriteExcelFileService implements ICommandService {
 			sheetnum++;
 		}
 		try {
-			writeBook(book, file, uri, isAppend);
+			ExcelFileService.writeBook(book, file);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
 		return Status.OK_STATUS;
-	}
-
-	private Workbook createBook(EclFile file, String uri, boolean isAppend) throws CoreException {
-		Workbook book;
-		if (uri.endsWith(XLS_EXTENSION)) {
-			book = new HSSFWorkbook();
-		} else if (uri.endsWith(XLSX_EXTENSION)) {
-			book = new XSSFWorkbook();
-		} else {
-			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
-					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.", file.toURI()));
-		}
-		return book;
-	}
-
-	private void writeBook(Workbook book, EclFile file, String uri, boolean isAppend) throws CoreException {
-		if (isAppend) {
-			String tempUri = String.format(TEMP_FILE_NAME_PATTERN, uri);
-			EclFile tempFile = FileResolver.resolve(tempUri);
-			ExcelFileService.writeBook(book, tempFile);
-			file.toFile().delete();
-			tempFile.toFile().renameTo(file.toFile());
-			return;
-		}
-		ExcelFileService.writeBook(book, file);
 	}
 
 	private int resolveHeaders(Sheet sheet, Table table, EclFile file) throws CoreException {

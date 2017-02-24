@@ -54,10 +54,6 @@ public class ReadExcelFileService implements ICommandService {
 				int sheetnum = 0;
 				while (sheetnum < book.getNumberOfSheets()) {
 					Table table = readTable(book, sheetnum);
-					if (table == null) {
-						return EclDataApachePOIImplPlugin.createErr("First row on sheet %d of file %s does not contain data",
-								sheetnum, file.toURI());
-					}
 					context.getOutput().write(table);
 					sheetnum++;
 				}
@@ -72,11 +68,11 @@ public class ReadExcelFileService implements ICommandService {
 	private Table readTable(Workbook book, int sheetnum) {
 		Table table = ObjectsFactory.eINSTANCE.createTable();
 		Sheet sheet = book.getSheetAt(sheetnum);
+		table.setPageName(sheet.getSheetName());
 		Row headers = sheet.getRow(0);
 		if (headers == null) {
-			return null;
+			return table;
 		}
-		table.setPageName(sheet.getSheetName());
 		readHeaders(table, headers);
 		readRows(table, sheet);
 		return table;

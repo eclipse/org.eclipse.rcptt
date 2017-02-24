@@ -1,22 +1,51 @@
 package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.EclDataApachePOIImplPlugin;
 import org.eclipse.rcptt.ecl.filesystem.EclFile;
 
 public class ExcelFileService {
 
+	private static final String XLS_EXTENSION = "xls";
+	private static final String XLSX_EXTENSION = "xlsx";
+
+	public static Workbook createBook(EclFile file, String uri) throws CoreException {
+		Workbook book;
+		if (uri.endsWith(XLS_EXTENSION)) {
+			book = new HSSFWorkbook();
+		} else if (uri.endsWith(XLSX_EXTENSION)) {
+			book = new XSSFWorkbook();
+		} else {
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.", file.toURI()));
+		}
+		return book;
+	}
+
 	public static Workbook readBook(EclFile file) throws CoreException {
 		Workbook book;
 		try {
-			book = WorkbookFactory.create(file.toFile());
+			FileInputStream stream = new FileInputStream(file.toFile());
+			try {
+				book = WorkbookFactory.create(stream);
+			} finally {
+				stream.close();
+			}
+		} catch (FileNotFoundException e) {
+			throw new CoreException(
+					EclDataApachePOIImplPlugin
+							.createErr(e, "File not found %s", file.toURI()));
 		} catch (InvalidFormatException e) {
 			throw new CoreException(
 					EclDataApachePOIImplPlugin
