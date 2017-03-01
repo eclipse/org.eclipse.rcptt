@@ -177,7 +177,6 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 			public void keyPressed(KeyEvent e) {
 				switch (e.keyCode) {
 				case SWT.DEL:
-				case SWT.BS:
 					removeSelected();
 					break;
 				case SWT.INSERT:

@@ -61,7 +61,6 @@ import org.eclipse.rcptt.core.scenario.GroupContext;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.ecl.core.Script;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7Folder;
 import org.eclipse.rcptt.internal.core.model.Q7ResourceInfo;
 import org.eclipse.rcptt.internal.core.model.ReferencedProjectScope;
@@ -307,7 +306,9 @@ public class Q7PortableFormatImportPage extends WizardPage implements
 			model.dispose();
 			isValid = true;
 		} catch (ModelException e) {
-			RcpttPlugin.log(e);
+			// Don't log exceptions, because error message about
+			// invalid content will be shown in the header
+			// RcpttPlugin.log(e);
 		}
 		validate();
 	}
