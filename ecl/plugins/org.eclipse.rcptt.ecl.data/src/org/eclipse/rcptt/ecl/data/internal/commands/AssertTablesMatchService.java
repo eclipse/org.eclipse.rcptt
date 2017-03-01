@@ -112,7 +112,8 @@ public class AssertTablesMatchService implements ICommandService {
 				Column rc = rightColumns.get(col);
 				String lv = leftRow.getValues().get(lc.index);
 				String rv = rightRow.getValues().get(rc.index);
-				if (!lv.equals(rv)) {
+				if (!(lv != null && rv != null && lv.equals(rv)
+						|| lv == null && rv == null)) {
 					return EclDataPlugin
 							.createErr(
 									"Tables differ at column '%s', %s: "
