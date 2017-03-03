@@ -13,7 +13,6 @@ package org.eclipse.rcptt.verifications.text.impl;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.TextViewer;
@@ -40,8 +39,7 @@ public class TextVerificationProcessor extends VerificationProcessor {
 
 	@Override
 	public void finish(Verification verification, Object data, IProcess process) throws CoreException {
-		final TextVerification textVerification = (TextVerification)
-				verification;
+		final TextVerification textVerification = EcoreUtil.copy((TextVerification)	verification);
 		final SWTUIElement swtuiElement =
 				TeslaBridge.resolveSWTUIElement(textVerification.getSelector(), process);
 		final Widget widget = swtuiElement.widget;
@@ -66,7 +64,9 @@ public class TextVerificationProcessor extends VerificationProcessor {
 							expectedText, actualText);
 				}
 
-				EList<StyleRangeEntry> expectedStyleEntries = textVerification.getStyles();
+				List<StyleRangeEntry> expectedStyleEntries = textVerification.getStyles();
+				PlayerTextUtils.squashRanges(expectedStyleEntries);
+				
 				if (expectedStyleEntries.size() > 0 && !textVerification.isIgnoreStyling()) {
 					if (!(widget instanceof StyledText))
 						errors.add("Expected StyledText widget, got %s.",
