@@ -18,9 +18,10 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 
 public class RemoteTabGroup extends AbstractLaunchConfigurationTabGroup {
 
+	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ILaunchConfigurationTab[] tabs = null;
-		tabs = new ILaunchConfigurationTab[] { new RemoteAUTMainTab(this),
+		tabs = new ILaunchConfigurationTab[] { new RemoteAUTMainTab(),
 				new CommonTab() };
 		setTabs(tabs);
 	}

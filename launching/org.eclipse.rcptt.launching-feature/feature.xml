@@ -9,7 +9,6 @@
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
-
 <feature
       id="org.eclipse.rcptt.launching"
       label="RCPTT launching components"
@@ -110,6 +109,13 @@
          download-size="0"
          install-size="0"
          version="2.2.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="com.google.guava"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

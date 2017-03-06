@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.launching.Q7LaunchUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -26,9 +28,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.rcptt.launching.IQ7Launch;
-import org.eclipse.rcptt.launching.Q7LaunchUtils;
-
 public final class AUTArgumentsBlock {
 
 	private RemoteAUTMainTab fTab;
@@ -39,9 +38,10 @@ public final class AUTArgumentsBlock {
 	private Text hostField;
 
 	ModifyListener listener = new ModifyListener() {
+		@Override
 		public void modifyText(ModifyEvent e) {
 			// fT3ab.validateTab();
-			fTab.scheduleUpdateJob();
+			fTab.updateLaunchConfigurationDialog();
 		}
 	};
 
@@ -85,6 +85,7 @@ public final class AUTArgumentsBlock {
 		teslaPortField.addModifyListener(listener);
 
 		VerifyListener verity = new VerifyListener() {
+			@Override
 			public void verifyText(VerifyEvent e) {
 				for (char c : e.text.toCharArray()) {
 					if (!Character.isDigit(c)) {
@@ -102,6 +103,7 @@ public final class AUTArgumentsBlock {
 		final int port[] = { 0 };
 		if (hostField != null && !hostField.isDisposed()) {
 			hostField.getDisplay().syncExec(new Runnable() {
+				@Override
 				public void run() {
 					hostName[0] = getHostName();
 					port[0] = getECLPort();

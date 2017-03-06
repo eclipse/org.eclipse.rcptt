@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,__ZTV8Au2EeOLiPM97zhEfw
 Element-Name: QS-2821_Add tooltip information for references
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _hMoCUAu-EeOLiPM97zhEfw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.2.0.201612300018
+Save-Time: 2/3/17 8:59 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -40,7 +39,7 @@ with [get-editor Dummy | get-section Script | get-text-viewer] {
     hover-text 2 9
 }
 get-editor Dummy | get-section Script | get-text-viewer | hover-text 2 9
-with [get-window -from "Information Window" | get-control Browser] {
+with [get-window -from "Information Window" | get-editbox] {
     get-property className | equals "org.eclipse.swt.browser.Browser" | verify-true
     get-property text | contains "newClassTitle" | verify-true
 }
