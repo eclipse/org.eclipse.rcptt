@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
@@ -30,6 +31,7 @@ import org.eclipse.rcptt.launching.injection.UpdateSite;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
+import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
 import org.eclipse.rcptt.runner.PrintStreamMonitor;
 import org.eclipse.rcptt.runner.Q7PluginValidator;
 import org.eclipse.rcptt.runner.RunnerConfiguration;
@@ -49,27 +51,26 @@ public class TargetPlatformChecker {
 		return targetPlatform;
 	}
 
-	/**
-	 * @return true, if the target platform is ok
-	 * @throws CoreException
-	 */
-	public boolean initAndCheckTargetPlatform() throws CoreException {
+	public void initAndCheckTargetPlatform() throws CoreException {
 
 		if (conf.location == null) {
-			System.out.println("AUT location is not set");
-			return false;
+			throw new CoreException(createError("AUT location is not set"));
 		}
 
-		if (!PDELocationUtils.validateProductLocation(conf.location).isOK()) {
-			System.out.println("AUT location doesn't exist: " + conf.location);
-			return false;
+		IStatus locationStatus = PDELocationUtils.validateProductLocation(conf.location);
+		if (!locationStatus.isOK()) {
+			MultiStatus rv = new MultiStatus(HeadlessRunnerPlugin.PLUGIN_ID, 0, "AUT location is invalid: " + conf.location, null);
+			rv.add(locationStatus);
+			throw new CoreException(rv);
 		}
 
 		System.out.println("Initializing target platform...");
 		initializeTargetPlatform();
 		System.out.println("Target platform is valid.");
-
-		return true;
+	}
+	
+	private static IStatus createError(String message) {
+		return new Status(IStatus.ERROR, HeadlessRunnerPlugin.PLUGIN_ID, message, new RuntimeException());
 	}
 
 	private void initializeTargetPlatform() throws CoreException {

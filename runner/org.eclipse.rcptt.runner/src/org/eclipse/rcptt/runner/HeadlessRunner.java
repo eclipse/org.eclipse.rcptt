@@ -13,6 +13,7 @@ package org.eclipse.rcptt.runner;
 import java.io.File;
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.core.LaunchManager;
@@ -45,8 +46,12 @@ public class HeadlessRunner {
 		runnerOptions.applyOptions(conf.testOptions);
 
 
-		if (!tpc.initAndCheckTargetPlatform())
+		try {
+			tpc.initAndCheckTargetPlatform();
+		} catch(CoreException e) {
+			e.printStackTrace(System.err);
 			throw new TargetPlatformFail();
+		}
 
 		TestsRunner testsRunner = new TestsRunner(conf, this,
 				new ResultsHandler(conf, runnerOptions.isRestartAUTOnFailures()));

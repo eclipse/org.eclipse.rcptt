@@ -71,7 +71,7 @@ public final class PDELocationUtils {
 
 	public static IStatus validateProductLocation(String location) {
 		if (Strings.isNullOrEmpty(location) || location.trim().length() == 0)
-			return new Status(IStatus.ERROR, PLUGIN_ID, "The Eclipse application instalation dirrectory is empty."); //$NON-NLS-1$
+			return new Status(IStatus.ERROR, PLUGIN_ID, "AUT instalation directory is not set."); //$NON-NLS-1$
 
 		IPath productPath = new Path(location);
 		File pluginDir = productPath.append(PLUGINS_FOLDER).toFile();
