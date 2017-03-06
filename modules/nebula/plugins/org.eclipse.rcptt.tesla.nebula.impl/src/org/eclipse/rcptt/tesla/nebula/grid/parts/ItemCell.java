@@ -14,10 +14,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.protocol.SelectData;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerSelectionFilter;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
@@ -25,6 +21,9 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.nebula.Messages;
 import org.eclipse.rcptt.tesla.nebula.viewers.NebulaViewers;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Widget;
 
 public class ItemCell extends ItemPart {
 
@@ -46,7 +45,7 @@ public class ItemCell extends ItemPart {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = super.hashCode();	
 		result = prime * result + ((column == null) ? 0 : column.hashCode());
 		return result;
 	}
@@ -98,10 +97,10 @@ public class ItemCell extends ItemPart {
 	@Override
 	public Rectangle bounds() {
 		Rectangle columnHeaderBounds = NebulaViewers.getColumnHeaderBounds(column);
-		
-		return new Rectangle(
-				columnHeaderBounds.x, itemBounds().y,
-				columnHeaderBounds.width, itemBounds().height);
+		if (columnHeaderBounds != null) {
+			return new Rectangle(columnHeaderBounds.x, itemBounds().y, columnHeaderBounds.width, itemBounds().height);
+		}
+		return itemBounds();
 	}
 
 	// replaying selection stuff
