@@ -192,6 +192,96 @@ public interface CommandsFactory extends EFactory {
 	ListAsTableData createListAsTableData();
 
 	/**
+	 * Returns a new object of class '<em>Read Xml File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Read Xml File</em>'.
+	 * @generated
+	 */
+	ReadXmlFile createReadXmlFile();
+
+	/**
+	 * Returns a new object of class '<em>Write Xml File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Write Xml File</em>'.
+	 * @generated
+	 */
+	WriteXmlFile createWriteXmlFile();
+
+	/**
+	 * Returns a new object of class '<em>Tree Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tree Node</em>'.
+	 * @generated
+	 */
+	TreeNode createTreeNode();
+
+	/**
+	 * Returns a new object of class '<em>Get Attrs</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Attrs</em>'.
+	 * @generated
+	 */
+	GetAttrs createGetAttrs();
+
+	/**
+	 * Returns a new object of class '<em>Get Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Attr</em>'.
+	 * @generated
+	 */
+	GetAttr createGetAttr();
+
+	/**
+	 * Returns a new object of class '<em>Set Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Set Attr</em>'.
+	 * @generated
+	 */
+	SetAttr createSetAttr();
+
+	/**
+	 * Returns a new object of class '<em>Has Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Has Attr</em>'.
+	 * @generated
+	 */
+	HasAttr createHasAttr();
+
+	/**
+	 * Returns a new object of class '<em>Get Nodes</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Nodes</em>'.
+	 * @generated
+	 */
+	GetNodes createGetNodes();
+
+	/**
+	 * Returns a new object of class '<em>Append</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Append</em>'.
+	 * @generated
+	 */
+	Append createAppend();
+
+	/**
+	 * Returns a new object of class '<em>Remove</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Remove</em>'.
+	 * @generated
+	 */
+	Remove createRemove();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

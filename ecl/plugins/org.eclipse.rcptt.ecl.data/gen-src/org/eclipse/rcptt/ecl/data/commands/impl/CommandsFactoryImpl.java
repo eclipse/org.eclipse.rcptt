@@ -83,6 +83,16 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.GET_COLUMN_NAMES: return createGetColumnNames();
 			case CommandsPackage.GET_ROWS_DATA: return createGetRowsData();
 			case CommandsPackage.LIST_AS_TABLE_DATA: return createListAsTableData();
+			case CommandsPackage.READ_XML_FILE: return createReadXmlFile();
+			case CommandsPackage.WRITE_XML_FILE: return createWriteXmlFile();
+			case CommandsPackage.TREE_NODE: return createTreeNode();
+			case CommandsPackage.GET_ATTRS: return createGetAttrs();
+			case CommandsPackage.GET_ATTR: return createGetAttr();
+			case CommandsPackage.SET_ATTR: return createSetAttr();
+			case CommandsPackage.HAS_ATTR: return createHasAttr();
+			case CommandsPackage.GET_NODES: return createGetNodes();
+			case CommandsPackage.APPEND: return createAppend();
+			case CommandsPackage.REMOVE: return createRemove();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -300,6 +310,106 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public ListAsTableData createListAsTableData() {
 		ListAsTableDataImpl listAsTableData = new ListAsTableDataImpl();
 		return listAsTableData;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReadXmlFile createReadXmlFile() {
+		ReadXmlFileImpl readXmlFile = new ReadXmlFileImpl();
+		return readXmlFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WriteXmlFile createWriteXmlFile() {
+		WriteXmlFileImpl writeXmlFile = new WriteXmlFileImpl();
+		return writeXmlFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TreeNode createTreeNode() {
+		TreeNodeImpl treeNode = new TreeNodeImpl();
+		return treeNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetAttrs createGetAttrs() {
+		GetAttrsImpl getAttrs = new GetAttrsImpl();
+		return getAttrs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetAttr createGetAttr() {
+		GetAttrImpl getAttr = new GetAttrImpl();
+		return getAttr;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SetAttr createSetAttr() {
+		SetAttrImpl setAttr = new SetAttrImpl();
+		return setAttr;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public HasAttr createHasAttr() {
+		HasAttrImpl hasAttr = new HasAttrImpl();
+		return hasAttr;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetNodes createGetNodes() {
+		GetNodesImpl getNodes = new GetNodesImpl();
+		return getNodes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Append createAppend() {
+		AppendImpl append = new AppendImpl();
+		return append;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Remove createRemove() {
+		RemoveImpl remove = new RemoveImpl();
+		return remove;
 	}
 
 	/**

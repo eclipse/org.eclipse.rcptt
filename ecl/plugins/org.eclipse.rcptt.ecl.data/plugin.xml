@@ -112,6 +112,56 @@
             name="ListAsTableData" 
             namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
       </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.ReadXmlFileService" 
+            name="ReadXmlFile" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.WriteXmlFileService" 
+            name="WriteXmlFile" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.TreeNodeService" 
+            name="TreeNode" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.GetAttrsService" 
+            name="GetAttrs" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.GetAttrService" 
+            name="GetAttr" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.SetAttrService" 
+            name="SetAttr" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.HasAttrService" 
+            name="HasAttr" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.GetNodesService" 
+            name="GetNodes" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.AppendService" 
+            name="Append" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
+      <scriptlet 
+            class="org.eclipse.rcptt.ecl.data.internal.commands.RemoveService" 
+            name="Remove" 
+            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
+      </scriptlet>
    </extension>
 
 
