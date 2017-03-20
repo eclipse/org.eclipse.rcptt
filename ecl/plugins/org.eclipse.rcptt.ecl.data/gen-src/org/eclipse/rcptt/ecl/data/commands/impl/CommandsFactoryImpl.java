@@ -78,10 +78,7 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.AS_TABLE_DATA: return createAsTableData();
 			case CommandsPackage.READ_PROPERTIES: return createReadProperties();
 			case CommandsPackage.READ_FILE: return createReadFile();
-			case CommandsPackage.GET_PAGE_NAME: return createGetPageName();
 			case CommandsPackage.SET_PAGE_NAME: return createSetPageName();
-			case CommandsPackage.GET_COLUMN_NAMES: return createGetColumnNames();
-			case CommandsPackage.GET_ROWS_DATA: return createGetRowsData();
 			case CommandsPackage.LIST_AS_TABLE_DATA: return createListAsTableData();
 			case CommandsPackage.READ_XML_FILE: return createReadXmlFile();
 			case CommandsPackage.WRITE_XML_FILE: return createWriteXmlFile();
@@ -267,39 +264,9 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GetPageName createGetPageName() {
-		GetPageNameImpl getPageName = new GetPageNameImpl();
-		return getPageName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public SetPageName createSetPageName() {
 		SetPageNameImpl setPageName = new SetPageNameImpl();
 		return setPageName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public GetColumnNames createGetColumnNames() {
-		GetColumnNamesImpl getColumnNames = new GetColumnNamesImpl();
-		return getColumnNames;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public GetRowsData createGetRowsData() {
-		GetRowsDataImpl getRowsData = new GetRowsDataImpl();
-		return getRowsData;
 	}
 
 	/**

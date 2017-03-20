@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
-import java.util.List;
-
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -23,7 +21,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile;
-import org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.EclDataApachePOIImplPlugin;
 import org.eclipse.rcptt.ecl.data.objects.Table;
 import org.eclipse.rcptt.ecl.filesystem.EclFile;
 import org.eclipse.rcptt.ecl.filesystem.FileResolver;
@@ -45,19 +42,14 @@ public class WriteExcelFileService implements ICommandService {
 		isAppend &= file.toFile().exists();
 
 		Workbook book;
-		try {
-			if (isAppend) {
-				book = ExcelFileService.readBook(file);
-			} else {
-				book = ExcelFileService.createBook(file, uri);
-			}
-		} catch (CoreException e) {
-			return e.getStatus();
+		if (isAppend) {
+			book = ExcelFileService.readBook(file);
+		} else {
+			book = ExcelFileService.createBook(file, uri);
 		}
 
 		int sheetnum = 1;
 		for (Table table : tables) {
-			int rownum = 0;
 			String sheetName = table.getPageName();
 			if (sheetName == null || sheetName.equals("")) {
 				sheetName = String.format(SHEET_NAME_PATTERN, sheetnum);
@@ -65,68 +57,44 @@ public class WriteExcelFileService implements ICommandService {
 			Sheet sheet = book.getSheet(sheetName);
 			if (sheet == null) {
 				sheet = book.createSheet(sheetName);
-				rownum = writeValues(rownum, sheet, table.getColumns());
-			} else {
-				rownum = resolveHeaders(sheet, table, file);
 			}
-			for (org.eclipse.rcptt.ecl.data.objects.Row tableRow : table.getRows()) {
-				rownum = writeRow(rownum, sheet, tableRow);
+			writeTable(sheet, table);
+			if (!isAppend) {
+				autoSizeColumns(sheet);
 			}
-			autoSizeColumns(sheet);
 			context.getOutput().write(table);
 			sheetnum++;
 		}
-		try {
-			ExcelFileService.writeBook(book, file);
-		} catch (CoreException e) {
-			return e.getStatus();
-		}
+
+		ExcelFileService.writeBook(book, file);
 		return Status.OK_STATUS;
 	}
 
-	private int resolveHeaders(Sheet sheet, Table table, EclFile file) throws CoreException {
-		Row header = sheet.getRow(0);
-		if (header == null || header.getLastCellNum() == -1) {
-			return writeValues(0, sheet, table.getColumns());
-		}
-		validateHeaders(sheet, table, file);
-		return sheet.getLastRowNum() + 1;
-	}
-
-	private void validateHeaders(Sheet sheet, Table table, EclFile file) throws CoreException {
-		Row headersRow = sheet.getRow(0);
-		List<String> tableHeaders = table.getColumns();
-		if (headersRow.getLastCellNum() != tableHeaders.size()) {
-			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
-					"Table headers length from input does not match with headers length in the file", file.toURI()));
-		}
-		int cellnum = 0;
-		for (String tableHeader : tableHeaders) {
-			Cell headerCell = headersRow.getCell(cellnum);
-			if (headerCell == null || !tableHeader.equals(ExcelFileService.getCellValue(headerCell))) {
-				throw new CoreException(EclDataApachePOIImplPlugin.createErr(
-						"%s table header from input does not match with header %d in the file", tableHeader, cellnum,
-						file.toURI()));
+	private void writeTable(Sheet sheet, Table table) {
+		EList<org.eclipse.rcptt.ecl.data.objects.Row> tableRows = table.getRows();
+		for (int rownum = 0; rownum < tableRows.size(); rownum++) {
+			Row row = sheet.getRow(rownum);
+			if (row == null) {
+				row = sheet.createRow(rownum);
 			}
-			cellnum++;
+			writeRow(row, tableRows.get(rownum));
 		}
 	}
 
-	private int writeRow(int rownum, Sheet sheet, org.eclipse.rcptt.ecl.data.objects.Row tableRow) {
-		for (org.eclipse.rcptt.ecl.data.objects.Row row : tableRow.getChildren()) {
-			rownum = writeRow(rownum, sheet, row);
-		}
-		rownum = writeValues(rownum, sheet, tableRow.getValues());
-		return rownum;
-	}
+	private void writeRow(Row row, org.eclipse.rcptt.ecl.data.objects.Row tableRow) {
+		EList<String> cells = tableRow.getValues();
+		for (int cellnum = 0; cellnum < cells.size(); cellnum++) {
+			String value = cells.get(cellnum);
+			if (value == null || value.equals("")) {
+				continue;
+			}
 
-	private int writeValues(int rownum, Sheet sheet, List<String> values) {
-		Row row = sheet.createRow(rownum);
-		rownum++;
-		int cellnum = 0;
-		for (String value : values) {
-			Cell cell = row.createCell(cellnum);
-			if (value != null && value.startsWith("=")) {
+			Cell cell = row.getCell(cellnum);
+			if (cell == null) {
+				cell = row.createCell(cellnum);
+			}
+
+			if (value.startsWith("=")) {
 				try {
 					cell.setCellFormula(value.replaceAll("^=", ""));
 				} catch (FormulaParseException e) {
@@ -135,9 +103,7 @@ public class WriteExcelFileService implements ICommandService {
 			} else {
 				cell.setCellValue(value);
 			}
-			cellnum++;
 		}
-		return rownum;
 	}
 
 	private void autoSizeColumns(Sheet sheet) {

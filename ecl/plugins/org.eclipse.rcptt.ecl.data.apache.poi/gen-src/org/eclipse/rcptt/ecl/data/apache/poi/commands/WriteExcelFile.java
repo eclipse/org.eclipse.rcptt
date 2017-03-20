@@ -1,11 +1,17 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.commands;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.ecl.core.Command;
-
 import org.eclipse.rcptt.ecl.data.objects.Table;
 
 /**
@@ -23,7 +29,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage#getWriteExcelFile()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Writes tables from input pipe to into excel (xls or xlsx) file. Fails if file is not found or format is invalid.' returns='The value of <code>tables</code> argument' example='get-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-excel-file \"workspace:/MyProject/AssertData/table.xls\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Writes tables from input pipe to into excel (xls or xlsx) file. Fails if file is not found or format is invalid.' returns='The value of <code>tables</code> argument' example='global [val supportedDevices [list\n\t[list \"Device Name\" \"Device Info\"]\n\t[list \"Device 1\" \"Info 1\"]\n\t[list \"Device 2\" \"Info 2\"]\n\t[list \"Device 3\" \"Info 3\"]\n]]\n\nglobal [val allDevices [list\n\t[list \"Device Name\" \"Device Info\"]\n\t[list \"Device 1\" \"Info 1\"]\n\t[list \"Device 2\" \"Info 2\"]\n\t[list \"Device 3\" \"Info 3\"]\n\t[list \"Device 4\" \"Info 4\"]\n\t[list \"Device 5\" \"Info 5\"]\n]]\n\n\nproc newTable [val table] [val name] {\n\t$table | list-as-table-data | set-page-name $name\n}\n\n\nemit [newTable $supportedDevices \"Supported devices\"] [newTable $allDevices \"All devices\"]\n\t| write-excel-file \"workspace:/excel/devices.xlsx\"'"
  * @generated
  */
 public interface WriteExcelFile extends Command {

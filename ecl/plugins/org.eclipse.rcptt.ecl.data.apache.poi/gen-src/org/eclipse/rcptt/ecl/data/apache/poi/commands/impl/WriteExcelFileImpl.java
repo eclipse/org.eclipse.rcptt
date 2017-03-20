@@ -1,24 +1,25 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.commands.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
-
 import org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage;
 import org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile;
-
 import org.eclipse.rcptt.ecl.data.objects.Table;
 
 /**

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.commands;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.EclList;
 
@@ -26,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.EclList;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getListAsTableData()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Converts input list of map to table data format' returns='<code>Table</code> EMF Object' example='proc newDevice [val name] [val target] {\n\tmap [entry \"Device Name\" $name] [entry \"Device Info\" $target]\n}\n\nproc newTable [val table] [val name] {\n\t$table | list-as-table-data | set-page-name $name\n}\n\nglobal [val devices [list\n\t[newDevice \"Device 1\" \"Info 1\"]\n\t[newDevice \"Device 2\" \"Info 2\"]\n\t[newDevice \"Device 3\" \"Info 3\"]\n]]\n\nnewTable $devices \"Devices\"\n\t| write-excel-file \"workspace:/MyProject/AssertData/devices.xls\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Converts input list to table data format' returns='<code>Table</code> EMF Object' example='proc newTable [val table] [val name] {\n\t$table | list-as-table-data | set-page-name $name\n}\n\nglobal [val devices [list\n\t[list \"Device Name\" \"Device Target\"]\n\t[list \"Device 1\" \"Info 1\"]\n\t[list \"Device 2\" \"Info 2\"]\n\t[list \"Device 3\" \"Info 3\"]\n]]\n\nnewTable $devices \"Devices\"\n\t| write-excel-file \"workspace:/excel/devices.xls\"'"
  * @generated
  */
 public interface ListAsTableData extends Command {
@@ -42,7 +43,7 @@ public interface ListAsTableData extends Command {
 	 * @see #setList(EclList)
 	 * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getListAsTableData_List()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='List of Map to convert to Table'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='List of List of String to convert to Table'"
 	 * @generated
 	 */
 	EclList getList();

@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2009, 2016 Xored Software Inc and others. 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ *     Xored Software Inc - initial API and implementation and/or initial documentation 
+ *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.impl.internal.commands;
 
 import java.io.FileInputStream;
@@ -35,45 +45,37 @@ public class ExcelFileService {
 
 	public static Workbook readBook(EclFile file) throws CoreException {
 		Workbook book;
-		try {
-			FileInputStream stream = new FileInputStream(file.toFile());
-			try {
-				book = WorkbookFactory.create(stream);
-			} finally {
-				stream.close();
-			}
+		try (FileInputStream stream = new FileInputStream(file.toFile())) {
+			book = WorkbookFactory.create(stream);
+			return book;
 		} catch (FileNotFoundException e) {
-			throw new CoreException(
-					EclDataApachePOIImplPlugin
-							.createErr(e, "File not found %s", file.toURI()));
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					e, "File not found %s", file.toURI()));
 		} catch (InvalidFormatException e) {
-			throw new CoreException(
-					EclDataApachePOIImplPlugin
-							.createErr("Error getting extension of file %s. Only 'xls' and 'xslx' are supported.",
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.",
 									file.toURI()));
 		} catch (IOException e) {
-			throw new CoreException(
-					EclDataApachePOIImplPlugin
-							.createErr(e, "Error reading file %s", file.toURI()));
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					e, "Error reading file %s", file.toURI()));
 		}
-		return book;
 	}
 
 	public static void writeBook(Workbook book, EclFile file) throws CoreException {
-		try {
-			FileOutputStream stream = new FileOutputStream(file.toFile());
+		try (FileOutputStream stream = new FileOutputStream(file.toFile())) {
 			book.write(stream);
-			stream.close();
+		} catch (FileNotFoundException e) {
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					e, "File not found %s", file.toURI()));
 		} catch (IOException e) {
-			throw new CoreException(
-					EclDataApachePOIImplPlugin
-							.createErr(e, "Error writing file %s", file.toURI()));
+			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
+					e, "Error writing file %s", file.toURI()));
 		}
 	}
 
 	public static String getCellValue(Cell cell) {
 		if (cell == null) {
-			return null;
+			return "";
 		}
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
@@ -87,7 +89,7 @@ public class ExcelFileService {
 		case Cell.CELL_TYPE_FORMULA:
 			return "=" + cell.getCellFormula();
 		default:
-			return null;
+			return "";
 		}
 	}
 

@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.commands.CommandsPackage#getSetPageName()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Set page name to table' returns='The value of <code>table</code> argument.' example='get-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data\n\t| set-page-name \"Table\" | write-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\nread-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\t| get-page-name | equals \"Table\" | assert-true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Set page name to table' returns='The value of <code>table</code> argument.' example='get-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data\n\t| set-page-name \"Table\" | write-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\nread-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\t| get pageName | equals \"Table\" | assert-true'"
  * @generated
  */
 public interface SetPageName extends Command {

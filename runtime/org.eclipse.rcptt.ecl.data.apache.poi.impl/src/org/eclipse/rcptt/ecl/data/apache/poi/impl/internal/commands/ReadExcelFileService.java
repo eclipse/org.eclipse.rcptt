@@ -36,30 +36,26 @@ public class ReadExcelFileService implements ICommandService {
 		EList<String> sheetNames = ref.getSheets();
 		String uri = ref.getUri();
 		EclFile file = FileResolver.resolve(uri);
+		Workbook book = ExcelFileService.readBook(file);
 
-		try {
-			Workbook book = ExcelFileService.readBook(file);
-			if (sheetNames != null && !sheetNames.isEmpty()) {
-				// try to read sheets
-				for (String sheetName : sheetNames) {
-					if (book.getSheet(sheetName) == null) {
-						return EclDataApachePOIImplPlugin.createErr("Sheet %s does not persist in file %s",
-								sheetName, file.toURI());
-					}
-					Table table = readTable(book, book.getSheetIndex(sheetName));
-					context.getOutput().write(table);
+		if (sheetNames != null && !sheetNames.isEmpty()) {
+			// try to read sheets
+			for (String sheetName : sheetNames) {
+				if (book.getSheet(sheetName) == null) {
+					return EclDataApachePOIImplPlugin.createErr("Sheet %s does not persist in file %s",
+							sheetName, file.toURI());
 				}
-			} else {
-				// read all the sheets
-				int sheetnum = 0;
-				while (sheetnum < book.getNumberOfSheets()) {
-					Table table = readTable(book, sheetnum);
-					context.getOutput().write(table);
-					sheetnum++;
-				}
+				Table table = readTable(book, book.getSheetIndex(sheetName));
+				context.getOutput().write(table);
 			}
-		} catch (CoreException e) {
-			return e.getStatus();
+		} else {
+			// read all the sheets
+			int sheetnum = 0;
+			while (sheetnum < book.getNumberOfSheets()) {
+				Table table = readTable(book, sheetnum);
+				context.getOutput().write(table);
+				sheetnum++;
+			}
 		}
 
 		return Status.OK_STATUS;
@@ -69,38 +65,22 @@ public class ReadExcelFileService implements ICommandService {
 		Table table = ObjectsFactory.eINSTANCE.createTable();
 		Sheet sheet = book.getSheetAt(sheetnum);
 		table.setPageName(sheet.getSheetName());
-		Row headers = sheet.getRow(0);
-		if (headers == null) {
-			return table;
-		}
-		readHeaders(table, headers);
 		readRows(table, sheet);
 		return table;
 	}
 
-	private void readHeaders(Table table, Row headers) {
-		int cellnum = 0;
-		while (headers.getCell(cellnum) != null) {
-			Cell cell = headers.getCell(cellnum);
-			table.getColumns().add(ExcelFileService.getCellValue(cell));
-			cellnum++;
-		}
-	}
-
 	private void readRows(Table table, Sheet sheet) {
-		int rownum = 1;
-		while (sheet.getRow(rownum) != null) {
+		int maxRownum = sheet.getLastRowNum() + 1;
+		for (int rownum = 0; rownum < maxRownum; rownum++) {
 			Row row = sheet.getRow(rownum);
 			readRow(table, row);
-			rownum++;
 		}
 	}
 
 	private void readRow(Table table, Row row) {
 		org.eclipse.rcptt.ecl.data.objects.Row tableRow = ObjectsFactory.eINSTANCE.createRow();
-		int cellnum = 0;
-		int size = table.getColumns().size();
-		for (; cellnum < size; cellnum++) {
+		int maxCellnum = row == null ? 0 : row.getLastCellNum();
+		for (int cellnum = 0; cellnum < maxCellnum; cellnum++) {
 			Cell cell = row.getCell(cellnum);
 			tableRow.getValues().add(ExcelFileService.getCellValue(cell));
 		}

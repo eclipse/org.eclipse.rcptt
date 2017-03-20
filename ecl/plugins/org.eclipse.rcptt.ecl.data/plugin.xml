@@ -88,23 +88,8 @@
             namespace="http://www.eclipse.org/ecl/data/commands.ecore">
       </scriptlet>
       <scriptlet 
-            class="org.eclipse.rcptt.ecl.data.internal.commands.GetPageNameService" 
-            name="GetPageName" 
-            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
-      </scriptlet>
-      <scriptlet 
             class="org.eclipse.rcptt.ecl.data.internal.commands.SetPageNameService" 
             name="SetPageName" 
-            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
-      </scriptlet>
-      <scriptlet 
-            class="org.eclipse.rcptt.ecl.data.internal.commands.GetColumnNamesService" 
-            name="GetColumnNames" 
-            namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
-      </scriptlet>
-      <scriptlet 
-            class="org.eclipse.rcptt.ecl.data.internal.commands.GetRowsDataService" 
-            name="GetRowsData" 
             namespace="http://www.eclipse.org/ecl/data/commands.ecore"> 
       </scriptlet>
       <scriptlet 

@@ -1,16 +1,25 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.commands.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.rcptt.ecl.data.apache.poi.commands.*;
+import org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsFactory;
+import org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage;
+import org.eclipse.rcptt.ecl.data.apache.poi.commands.ReadExcelFile;
+import org.eclipse.rcptt.ecl.data.apache.poi.commands.WriteExcelFile;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,6 +67,9 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 		switch (eClass.getClassifierID()) {
 			case CommandsPackage.WRITE_EXCEL_FILE: return createWriteExcelFile();
 			case CommandsPackage.READ_EXCEL_FILE: return createReadExcelFile();
+			case CommandsPackage.GET_TABLE_CELLS: return createGetTableCells();
+			case CommandsPackage.GET_TABLE_RANGE: return createGetTableRange();
+			case CommandsPackage.SET_TABLE_CELLS: return createSetTableCells();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +93,36 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public ReadExcelFile createReadExcelFile() {
 		ReadExcelFileImpl readExcelFile = new ReadExcelFileImpl();
 		return readExcelFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetTableCells createGetTableCells() {
+		GetTableCellsImpl getTableCells = new GetTableCellsImpl();
+		return getTableCells;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetTableRange createGetTableRange() {
+		GetTableRangeImpl getTableRange = new GetTableRangeImpl();
+		return getTableRange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SetTableCells createSetTableCells() {
+		SetTableCellsImpl setTableCells = new SetTableCellsImpl();
+		return setTableCells;
 	}
 
 	/**

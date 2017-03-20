@@ -800,52 +800,6 @@ public interface CommandsPackage extends EPackage {
 	int READ_FILE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetPageNameImpl <em>Get Page Name</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetPageNameImpl
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetPageName()
-	 * @generated
-	 */
-	int GET_PAGE_NAME = 13;
-
-	/**
-	 * The feature id for the '<em><b>Host</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_PAGE_NAME__HOST = CorePackage.COMMAND__HOST;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_PAGE_NAME__BINDINGS = CorePackage.COMMAND__BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Table</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_PAGE_NAME__TABLE = CorePackage.COMMAND_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Get Page Name</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_PAGE_NAME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.SetPageNameImpl <em>Set Page Name</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -853,7 +807,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getSetPageName()
 	 * @generated
 	 */
-	int SET_PAGE_NAME = 14;
+	int SET_PAGE_NAME = 13;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -901,98 +855,6 @@ public interface CommandsPackage extends EPackage {
 	int SET_PAGE_NAME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetColumnNamesImpl <em>Get Column Names</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetColumnNamesImpl
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetColumnNames()
-	 * @generated
-	 */
-	int GET_COLUMN_NAMES = 15;
-
-	/**
-	 * The feature id for the '<em><b>Host</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_COLUMN_NAMES__HOST = CorePackage.COMMAND__HOST;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_COLUMN_NAMES__BINDINGS = CorePackage.COMMAND__BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Table</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_COLUMN_NAMES__TABLE = CorePackage.COMMAND_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Get Column Names</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_COLUMN_NAMES_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetRowsDataImpl <em>Get Rows Data</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetRowsDataImpl
-	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetRowsData()
-	 * @generated
-	 */
-	int GET_ROWS_DATA = 16;
-
-	/**
-	 * The feature id for the '<em><b>Host</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_ROWS_DATA__HOST = CorePackage.COMMAND__HOST;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_ROWS_DATA__BINDINGS = CorePackage.COMMAND__BINDINGS;
-
-	/**
-	 * The feature id for the '<em><b>Table</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_ROWS_DATA__TABLE = CorePackage.COMMAND_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Get Rows Data</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GET_ROWS_DATA_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ListAsTableDataImpl <em>List As Table Data</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1000,7 +862,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getListAsTableData()
 	 * @generated
 	 */
-	int LIST_AS_TABLE_DATA = 17;
+	int LIST_AS_TABLE_DATA = 14;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1046,7 +908,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getReadXmlFile()
 	 * @generated
 	 */
-	int READ_XML_FILE = 18;
+	int READ_XML_FILE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1101,7 +963,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getWriteXmlFile()
 	 * @generated
 	 */
-	int WRITE_XML_FILE = 19;
+	int WRITE_XML_FILE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1156,7 +1018,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getTreeNode()
 	 * @generated
 	 */
-	int TREE_NODE = 20;
+	int TREE_NODE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1229,7 +1091,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetAttrs()
 	 * @generated
 	 */
-	int GET_ATTRS = 21;
+	int GET_ATTRS = 18;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1275,7 +1137,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetAttr()
 	 * @generated
 	 */
-	int GET_ATTR = 22;
+	int GET_ATTR = 19;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1330,7 +1192,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getSetAttr()
 	 * @generated
 	 */
-	int SET_ATTR = 23;
+	int SET_ATTR = 20;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1394,7 +1256,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getHasAttr()
 	 * @generated
 	 */
-	int HAS_ATTR = 24;
+	int HAS_ATTR = 21;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1449,7 +1311,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetNodes()
 	 * @generated
 	 */
-	int GET_NODES = 25;
+	int GET_NODES = 22;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1522,7 +1384,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getAppend()
 	 * @generated
 	 */
-	int APPEND = 26;
+	int APPEND = 23;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1586,7 +1448,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getRemove()
 	 * @generated
 	 */
-	int REMOVE = 27;
+	int REMOVE = 24;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1641,7 +1503,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getIgnoreColumnsMode()
 	 * @generated
 	 */
-	int IGNORE_COLUMNS_MODE = 28;
+	int IGNORE_COLUMNS_MODE = 25;
 
 
 	/**
@@ -1652,7 +1514,7 @@ public interface CommandsPackage extends EPackage {
 	 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getRowMatchMode()
 	 * @generated
 	 */
-	int ROW_MATCH_MODE = 29;
+	int ROW_MATCH_MODE = 26;
 
 
 	/**
@@ -2094,27 +1956,6 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getReadFile_Uri();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.GetPageName <em>Get Page Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Get Page Name</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetPageName
-	 * @generated
-	 */
-	EClass getGetPageName();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.data.commands.GetPageName#getTable <em>Table</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Table</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetPageName#getTable()
-	 * @see #getGetPageName()
-	 * @generated
-	 */
-	EReference getGetPageName_Table();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.SetPageName <em>Set Page Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2145,48 +1986,6 @@ public interface CommandsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSetPageName_Name();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.GetColumnNames <em>Get Column Names</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Get Column Names</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetColumnNames
-	 * @generated
-	 */
-	EClass getGetColumnNames();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.data.commands.GetColumnNames#getTable <em>Table</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Table</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetColumnNames#getTable()
-	 * @see #getGetColumnNames()
-	 * @generated
-	 */
-	EReference getGetColumnNames_Table();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.GetRowsData <em>Get Rows Data</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Get Rows Data</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetRowsData
-	 * @generated
-	 */
-	EClass getGetRowsData();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.data.commands.GetRowsData#getTable <em>Table</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Table</em>'.
-	 * @see org.eclipse.rcptt.ecl.data.commands.GetRowsData#getTable()
-	 * @see #getGetRowsData()
-	 * @generated
-	 */
-	EReference getGetRowsData_Table();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.data.commands.ListAsTableData <em>List As Table Data</em>}'.
@@ -2981,24 +2780,6 @@ public interface CommandsPackage extends EPackage {
 		EAttribute READ_FILE__URI = eINSTANCE.getReadFile_Uri();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetPageNameImpl <em>Get Page Name</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetPageNameImpl
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetPageName()
-		 * @generated
-		 */
-		EClass GET_PAGE_NAME = eINSTANCE.getGetPageName();
-
-		/**
-		 * The meta object literal for the '<em><b>Table</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GET_PAGE_NAME__TABLE = eINSTANCE.getGetPageName_Table();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.SetPageNameImpl <em>Set Page Name</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3023,42 +2804,6 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SET_PAGE_NAME__NAME = eINSTANCE.getSetPageName_Name();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetColumnNamesImpl <em>Get Column Names</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetColumnNamesImpl
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetColumnNames()
-		 * @generated
-		 */
-		EClass GET_COLUMN_NAMES = eINSTANCE.getGetColumnNames();
-
-		/**
-		 * The meta object literal for the '<em><b>Table</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GET_COLUMN_NAMES__TABLE = eINSTANCE.getGetColumnNames_Table();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.GetRowsDataImpl <em>Get Rows Data</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.GetRowsDataImpl
-		 * @see org.eclipse.rcptt.ecl.data.commands.impl.CommandsPackageImpl#getGetRowsData()
-		 * @generated
-		 */
-		EClass GET_ROWS_DATA = eINSTANCE.getGetRowsData();
-
-		/**
-		 * The meta object literal for the '<em><b>Table</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GET_ROWS_DATA__TABLE = eINSTANCE.getGetRowsData_Table();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.data.commands.impl.ListAsTableDataImpl <em>List As Table Data</em>}' class.

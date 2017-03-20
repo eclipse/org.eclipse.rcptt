@@ -1,9 +1,16 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.ecl.data.apache.poi.commands;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.ecl.core.Command;
 
 /**
@@ -20,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.data.apache.poi.commands.CommandsPackage#getReadExcelFile()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Parses given excel file (xls or xlsx) into tables and write them to output pipe. Fails if file is not found or format is invalid.' returns='List of <code>Table</code> EMF Objects' example='get-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data | write-excel-file\n\"workspace:/MyProject/AssertData/table.xls\"\n\nread-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\t| get-rows-data | each [val item] {\n\t\t$item | get \"Message\" | log\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Parses given excel file (xls or xlsx) into tables and write them to output pipe. Fails if file is not found or format is invalid.' returns='List of <code>Table</code> EMF Objects' example='global [val devicesInfo [\n\tread-excel-file \"workspace:/excel/devices.xlsx\" \"Supported devices\" \"All devices\"\n\t\t| to-list\n]]\n\n\nclear-log-view\n\n$devicesInfo | each [val table] {\n\tlog [format \"Page name: %s\" [$table | get pageName]]\n\t$table | list [get rows] | each [val row] {\n\t\t$row | list [get values] | each [val value] {\n\t\t\tlog $value\n\t\t}\n\t}\n}\n\nread-excel-file \"workspace:/excel/devices.xlsx\" \"Additional info\"\n\t| get rows | get values | log'"
  * @generated
  */
 public interface ReadExcelFile extends Command {
