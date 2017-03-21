@@ -10162,6 +10162,52 @@ public interface TeslaPackage extends EPackage {
 	int GET_TEST_CASE_NAME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetComboItemsImpl <em>Get Combo Items</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetComboItemsImpl
+	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetComboItems()
+	 * @generated
+	 */
+	int GET_COMBO_ITEMS = 149;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_COMBO_ITEMS__HOST = CONTROL_COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_COMBO_ITEMS__BINDINGS = CONTROL_COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Control</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_COMBO_ITEMS__CONTROL = CONTROL_COMMAND__CONTROL;
+
+	/**
+	 * The number of structural features of the '<em>Get Combo Items</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_COMBO_ITEMS_FEATURE_COUNT = CONTROL_COMMAND_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10169,7 +10215,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getButton()
 	 * @generated
 	 */
-	int BUTTON = 149;
+	int BUTTON = 150;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.ActivationEventType <em>Activation Event Type</em>}' enum.
@@ -10179,7 +10225,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getActivationEventType()
 	 * @generated
 	 */
-	int ACTIVATION_EVENT_TYPE = 150;
+	int ACTIVATION_EVENT_TYPE = 151;
 
 	/**
 	 * The meta object id for the '<em>Element Kind</em>' data type.
@@ -10189,7 +10235,7 @@ public interface TeslaPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getElementKind()
 	 * @generated
 	 */
-	int ELEMENT_KIND = 151;
+	int ELEMENT_KIND = 152;
 
 
 	/**
@@ -13949,6 +13995,16 @@ public interface TeslaPackage extends EPackage {
 	EClass getGetTestCaseName();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.GetComboItems <em>Get Combo Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Combo Items</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetComboItems
+	 * @generated
+	 */
+	EClass getGetComboItems();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -17138,6 +17194,16 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EClass GET_TEST_CASE_NAME = eINSTANCE.getGetTestCaseName();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.GetComboItemsImpl <em>Get Combo Items</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.GetComboItemsImpl
+		 * @see org.eclipse.rcptt.tesla.ecl.model.impl.TeslaPackageImpl#getGetComboItems()
+		 * @generated
+		 */
+		EClass GET_COMBO_ITEMS = eINSTANCE.getGetComboItems();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.Button <em>Button</em>}' enum.

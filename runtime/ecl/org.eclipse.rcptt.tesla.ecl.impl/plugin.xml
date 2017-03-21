@@ -786,6 +786,11 @@
           name="GetTestCaseName"
           namespace="http://eclipse.org/rcptt/tesla/ecl">
     </scriptlet>
+    <scriptlet
+          class="org.eclipse.rcptt.tesla.ecl.internal.impl.commands.GetComboItemsService"
+          name="GetComboItems"
+          namespace="http://eclipse.org/rcptt/tesla/ecl">
+    </scriptlet>
    </extension>
     <extension
           point="org.eclipse.rcptt.tesla.swt.jobCollector">

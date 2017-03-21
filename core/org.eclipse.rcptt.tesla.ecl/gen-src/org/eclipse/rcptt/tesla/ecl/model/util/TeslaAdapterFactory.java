@@ -68,6 +68,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -818,6 +819,10 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseGetTestCaseName(GetTestCaseName object) {
 				return createGetTestCaseNameAdapter();
+			}
+			@Override
+			public Adapter caseGetComboItems(GetComboItems object) {
+				return createGetComboItemsAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -2930,6 +2935,20 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGetTestCaseNameAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.GetComboItems <em>Get Combo Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetComboItems
+	 * @generated
+	 */
+	public Adapter createGetComboItemsAdapter() {
 		return null;
 	}
 

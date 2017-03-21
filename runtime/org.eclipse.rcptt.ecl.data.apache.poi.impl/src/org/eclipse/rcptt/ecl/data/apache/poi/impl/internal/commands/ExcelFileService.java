@@ -38,7 +38,7 @@ public class ExcelFileService {
 			book = new XSSFWorkbook();
 		} else {
 			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
-					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.", file.toURI()));
+					"Error getting extension of file %s. Only 'xls' and 'xlsx' are supported.", file.toURI()));
 		}
 		return book;
 	}
@@ -53,8 +53,7 @@ public class ExcelFileService {
 					e, "File not found %s", file.toURI()));
 		} catch (InvalidFormatException e) {
 			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
-					"Error getting extension of file %s. Only 'xls' and 'xslx' are supported.",
-									file.toURI()));
+					"Invalid format of file %s", file.toURI()));
 		} catch (IOException e) {
 			throw new CoreException(EclDataApachePOIImplPlugin.createErr(
 					e, "Error reading file %s", file.toURI()));

@@ -69,6 +69,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -352,6 +353,7 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 			case TeslaPackage.CHECK_DOWNLOAD_RESULT: return createCheckDownloadResult();
 			case TeslaPackage.GET_RUNTIME_TARGET: return createGetRuntimeTarget();
 			case TeslaPackage.GET_TEST_CASE_NAME: return createGetTestCaseName();
+			case TeslaPackage.GET_COMBO_ITEMS: return createGetComboItems();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -1700,6 +1702,16 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	public GetTestCaseName createGetTestCaseName() {
 		GetTestCaseNameImpl getTestCaseName = new GetTestCaseNameImpl();
 		return getTestCaseName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetComboItems createGetComboItems() {
+		GetComboItemsImpl getComboItems = new GetComboItemsImpl();
+		return getComboItems;
 	}
 
 	/**

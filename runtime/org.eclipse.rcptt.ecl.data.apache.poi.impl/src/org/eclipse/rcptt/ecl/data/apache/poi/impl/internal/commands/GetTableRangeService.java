@@ -30,11 +30,15 @@ public class GetTableRangeService implements ICommandService {
 		GetTableRange getTableRange = (GetTableRange) command;
 		Table table = getTableRange.getTable();
 		String range = getTableRange.getRange();
-
+		if (range == null || range.equals("")) {
+			return EclDataApachePOIImplPlugin
+					.createErr("Error getting 'range' parameter. Value must not be null or empty");
+		}
 		if (range.indexOf(":") == -1) {
 			return EclDataApachePOIImplPlugin.createErr(
 					"Invalid value of 'range' parameter. Range string must contain the first cell name and the last cell name, separated by a colon.");
 		}
+
 		String[] cells = range.split(":");
 		String firstCell = cells[0];
 		String lastCell = cells[1];

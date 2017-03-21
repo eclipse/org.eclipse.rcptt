@@ -1326,6 +1326,15 @@ public interface TeslaFactory extends EFactory {
 	GetTestCaseName createGetTestCaseName();
 
 	/**
+	 * Returns a new object of class '<em>Get Combo Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Combo Items</em>'.
+	 * @generated
+	 */
+	GetComboItems createGetComboItems();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

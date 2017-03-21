@@ -77,6 +77,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -1228,6 +1229,13 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * @generated
 	 */
 	private EClass getTestCaseNameEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getComboItemsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -4520,6 +4528,15 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGetComboItems() {
+		return getComboItemsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
 	}
@@ -5074,6 +5091,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		getTestCaseNameEClass = createEClass(GET_TEST_CASE_NAME);
 
+		getComboItemsEClass = createEClass(GET_COMBO_ITEMS);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
 		activationEventTypeEEnum = createEEnum(ACTIVATION_EVENT_TYPE);
@@ -5265,6 +5284,7 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		checkDownloadResultEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getRuntimeTargetEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getTestCaseNameEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getComboItemsEClass.getESuperTypes().add(this.getControlCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5770,6 +5790,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		initEClass(getRuntimeTargetEClass, GetRuntimeTarget.class, "GetRuntimeTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(getTestCaseNameEClass, GetTestCaseName.class, "GetTestCaseName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getComboItemsEClass, GetComboItems.class, "GetComboItems", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
@@ -7489,6 +7511,15 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "description", "Returns current test case name",
 			 "returns", "Current test case name",
 			 "example", "get-test-case-name | log"
+		   });	
+		addAnnotation
+		  (getComboItemsEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets combo box items and returns them as <code>EclList</code> EMF object",
+			 "returns", "combo box items",
+			 "recorded", "false",
+			 "example", "get-combo | get-combo-items | each [val item] {\n\tlog $item\n}"
 		   });
 	}
 

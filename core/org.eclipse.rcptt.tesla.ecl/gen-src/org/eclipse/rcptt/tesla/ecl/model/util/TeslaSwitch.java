@@ -68,6 +68,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -1360,6 +1361,14 @@ public class TeslaSwitch<T> {
 				GetTestCaseName getTestCaseName = (GetTestCaseName)theEObject;
 				T result = caseGetTestCaseName(getTestCaseName);
 				if (result == null) result = caseCommand(getTestCaseName);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.GET_COMBO_ITEMS: {
+				GetComboItems getComboItems = (GetComboItems)theEObject;
+				T result = caseGetComboItems(getComboItems);
+				if (result == null) result = caseControlCommand(getComboItems);
+				if (result == null) result = caseCommand(getComboItems);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -3599,6 +3608,21 @@ public class TeslaSwitch<T> {
 	 * @generated
 	 */
 	public T caseGetTestCaseName(GetTestCaseName object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Combo Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Combo Items</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetComboItems(GetComboItems object) {
 		return null;
 	}
 

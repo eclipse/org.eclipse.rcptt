@@ -39,7 +39,7 @@ public class SetTableCellsService implements ICommandService {
 			String key = getValue(entry.getKey());
 			if (key == null || key.equals("")) {
 				return EclDataApachePOIImplPlugin
-						.createErr("Error getting 'cells' parameter. Map key must not be null");
+						.createErr("Error getting 'cells' parameter. Map key must not be null or empty");
 			}
 			String value = getValue(entry.getValue());
 			addCellValue(table, key, value);

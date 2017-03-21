@@ -32,6 +32,11 @@ public class GetTableCellsService implements ICommandService {
 
 		EList<String> cells = getTableCells.getCells();
 		for (String cellName : cells) {
+			if (cellName == null || cellName.equals("")) {
+				return EclDataApachePOIImplPlugin
+						.createErr("Error getting 'cells' parameter. Cell name must not be null or empty");
+			}
+
 			CellReference cellRef = new CellReference(cellName);
 			int rowIndex = cellRef.getRow();
 			int colIndex = cellRef.getCol();
