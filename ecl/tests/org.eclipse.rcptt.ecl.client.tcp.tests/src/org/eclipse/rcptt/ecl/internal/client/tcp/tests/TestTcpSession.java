@@ -13,8 +13,6 @@ package org.eclipse.rcptt.ecl.internal.client.tcp.tests;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.tests.AbstractCoreTest;
@@ -25,12 +23,17 @@ import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.ecl.server.tcp.EclTcpServerManager;
 
+import junit.framework.TestCase;
+
 public class TestTcpSession extends AbstractCoreTest {
+
+	private static final String LOCALHOST = "127.0.0.1";
 
 	// @Override
 	protected ISession createSession() throws Exception {
 		return EclTcpClientManager.Instance.startClientSession(
-				InetAddress.getLocalHost(),
+				// InetAddress.getLocalHost(),
+				InetAddress.getByName(LOCALHOST),
 				EclTcpClientManager.DEFAULT_PORT + 1);
 	}
 
