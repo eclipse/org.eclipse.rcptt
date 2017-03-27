@@ -20,6 +20,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.reporting.core.ImageEntry;
 import org.eclipse.rcptt.reporting.util.RcpttReportGenerator;
@@ -79,6 +80,7 @@ public final class DetailsDialog extends Dialog {
 		CTabItem item = new CTabItem(folder, SWT.NONE);
 		text = new StyledText(folder, SWT.READ_ONLY | SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL);
+		text.setFont(JFaceResources.getTextFont());
 		item.setControl(text);
 		item.setText("Description");
 		final Composite ct = new Composite(folder, SWT.NONE);

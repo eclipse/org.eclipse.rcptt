@@ -562,7 +562,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					getPlayer().exec("Expand asserted item", new Runnable() {
 						@Override
 						public void run() {
-							if (item instanceof TreeItem && !item.isDisposed()) {
+							if (item instanceof TreeItem && !item.isDisposed()
+									&& !((TreeItem) item).getExpanded()) {
 								Viewers.expandTreeItem(getPlayer(),
 										((TreeItem) item).getParent(),
 										(TreeItem) item);

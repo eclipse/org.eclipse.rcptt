@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
@@ -54,6 +56,10 @@ public class RcpttReportGenerator {
 	private final PrintWriter writer;
 	private long startTime = 0;
 
+	private final Map<String, Long> totalWaitTime = new TreeMap<String, Long>();
+	private int maxMethodNameLength = 0;
+	private int maxTotalTimeLength = 0;
+
 	public RcpttReportGenerator(PrintWriter writer, List<ImageEntry> images) {
 		this.writer = writer;
 		this.images = images;
@@ -66,6 +72,7 @@ public class RcpttReportGenerator {
 	public void writeReport(Report report, int tabs) {
 		startTime = report.getRoot().getStartTime();
 		printNode(report.getRoot(), tabs);
+		printTotalWaitTime();
 	}
 
 	protected static <T extends Appendable> T writeTabs(T writer, int tabs) {
@@ -260,6 +267,7 @@ public class RcpttReportGenerator {
 			// if( i.getLastTick() != 0) {
 			// }
 			writer.println();
+			addWaitTime(type, className, totalTime);
 		}
 	}
 
@@ -344,6 +352,57 @@ public class RcpttReportGenerator {
 		if (haveEntries) {
 			writeTabs(tabs)
 					.append("--------------Logs END-------------------") //$NON-NLS-1$
+					.println();
+		}
+	}
+
+	private void addWaitTime(String type, String className, long totalTime) {
+		if (!(type.equals("job") || type.equals("sync") || type.equals("async"))) { //$NON-NLS-1$
+			return;
+		}
+
+		String methodName = String.format("%s: %s", type, className);
+		if (totalWaitTime.containsKey(methodName)) {
+			totalTime += totalWaitTime.get(methodName);
+		}
+		totalWaitTime.put(methodName, totalTime);
+
+		int methodNameLength = methodName.length();
+		if (methodNameLength > maxMethodNameLength) {
+			maxMethodNameLength = methodNameLength;
+		}
+		int totalTimeLength = String.valueOf(totalTime).length();
+		if (totalTimeLength > maxTotalTimeLength) {
+			maxTotalTimeLength = totalTimeLength;
+		}
+	}
+
+	private void printTotalWaitTime() {
+		String totalWaitTimeTable = "Total wait time:"; //$NON-NLS-1$
+		String methodNameColumn = "Method name"; //$NON-NLS-1$
+		String totalTimeColumn = "Time"; //$NON-NLS-1$
+
+		int methodNameLength = methodNameColumn.length();
+		if (methodNameLength > maxMethodNameLength) {
+			maxMethodNameLength = methodNameLength;
+		}
+		int totalTimeLength = totalTimeColumn.length();
+		if (totalTimeLength > maxTotalTimeLength) {
+			maxTotalTimeLength = totalTimeLength;
+		}
+
+		writer.println();
+		writer.append(totalWaitTimeTable).println();
+		writer.append("  ")
+				.append(String.format("%" + -maxMethodNameLength + "s", methodNameColumn))
+				.append("   ")
+				.append(String.format("%" + -maxTotalTimeLength + "s", totalTimeColumn))
+				.println();
+		for (Map.Entry<String, Long> entry : totalWaitTime.entrySet()) {
+			writer.append("  ")
+					.append(String.format("%" + -maxMethodNameLength + "s", entry.getKey()))
+					.append("   ")
+					.append(String.format("%" + maxTotalTimeLength + "s", entry.getValue()))
 					.println();
 		}
 	}
