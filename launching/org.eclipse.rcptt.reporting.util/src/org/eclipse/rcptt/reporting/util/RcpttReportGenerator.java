@@ -16,9 +16,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
@@ -56,7 +58,7 @@ public class RcpttReportGenerator {
 	private final PrintWriter writer;
 	private long startTime = 0;
 
-	private final Map<String, Long> totalWaitTime = new TreeMap<String, Long>();
+	private final Map<String, Long> totalWaitTime = new HashMap<String, Long>();
 	private int maxMethodNameLength = 0;
 	private int maxTotalTimeLength = 0;
 
@@ -360,6 +362,9 @@ public class RcpttReportGenerator {
 		if (!(type.equals("job") || type.equals("sync") || type.equals("async"))) { //$NON-NLS-1$
 			return;
 		}
+		if (className.startsWith("org.eclipse")) { //$NON-NLS-1$
+			return;
+		}
 
 		String methodName = String.format("%s: %s", type, className);
 		if (totalWaitTime.containsKey(methodName)) {
@@ -393,12 +398,21 @@ public class RcpttReportGenerator {
 
 		writer.println();
 		writer.append(totalWaitTimeTable).println();
+		
+		if (totalWaitTime.isEmpty()) {
+			writer.append("  ")
+					.append("There were no third-party methods RCPTT was waiting for") //$NON-NLS-1$
+					.println();
+			return;
+		}
+		
 		writer.append("  ")
 				.append(String.format("%" + -maxMethodNameLength + "s", methodNameColumn))
 				.append("   ")
 				.append(String.format("%" + -maxTotalTimeLength + "s", totalTimeColumn))
 				.println();
-		for (Map.Entry<String, Long> entry : totalWaitTime.entrySet()) {
+		Map<String, Long> sortedMap = sortTimeMap(totalWaitTime);
+		for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
 			writer.append("  ")
 					.append(String.format("%" + -maxMethodNameLength + "s", entry.getKey()))
 					.append("   ")
@@ -406,4 +420,24 @@ public class RcpttReportGenerator {
 					.println();
 		}
 	}
+
+	private Map<String, Long> sortTimeMap(Map<String, Long> inputMap) {
+		Comparator<Map.Entry<String, Long>> comparator = new Comparator<Map.Entry<String, Long>>() {
+
+			@Override
+			public int compare(Map.Entry<String, Long> entry1, Map.Entry<String, Long> entry2) {
+				return entry1.getValue().compareTo(entry2.getValue());
+			}
+
+		};
+
+		List<Map.Entry<String, Long>> list = new LinkedList<>(inputMap.entrySet());
+		Collections.sort(list, Collections.reverseOrder(comparator));
+		Map<String, Long> resultMap = new LinkedHashMap<>();
+		for (Map.Entry<String, Long> entry : list) {
+			resultMap.put(entry.getKey(), entry.getValue());
+		}
+		return resultMap;
+	}
+
 }
