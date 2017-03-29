@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -411,8 +410,8 @@ public class RcpttReportGenerator {
 				.append("   ")
 				.append(String.format("%" + -maxTotalTimeLength + "s", totalTimeColumn))
 				.println();
-		Map<String, Long> sortedMap = sortTimeMap(totalWaitTime);
-		for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
+		List<Map.Entry<String, Long>> sortedTable = getSortedTimeTable(totalWaitTime);
+		for (Map.Entry<String, Long> entry : sortedTable) {
 			writer.append("  ")
 					.append(String.format("%" + -maxMethodNameLength + "s", entry.getKey()))
 					.append("   ")
@@ -421,7 +420,7 @@ public class RcpttReportGenerator {
 		}
 	}
 
-	private Map<String, Long> sortTimeMap(Map<String, Long> inputMap) {
+	private List<Map.Entry<String, Long>> getSortedTimeTable(Map<String, Long> unsortedMap) {
 		Comparator<Map.Entry<String, Long>> comparator = new Comparator<Map.Entry<String, Long>>() {
 
 			@Override
@@ -431,13 +430,9 @@ public class RcpttReportGenerator {
 
 		};
 
-		List<Map.Entry<String, Long>> list = new LinkedList<>(inputMap.entrySet());
-		Collections.sort(list, Collections.reverseOrder(comparator));
-		Map<String, Long> resultMap = new LinkedHashMap<>();
-		for (Map.Entry<String, Long> entry : list) {
-			resultMap.put(entry.getKey(), entry.getValue());
-		}
-		return resultMap;
+		List<Map.Entry<String, Long>> sortedTable = new LinkedList<>(unsortedMap.entrySet());
+		Collections.sort(sortedTable, Collections.reverseOrder(comparator));
+		return sortedTable;
 	}
 
 }
