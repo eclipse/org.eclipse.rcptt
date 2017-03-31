@@ -95,6 +95,8 @@ public enum ImageSources {
 		public final String source;
 
 		public ResourceSource(String source) {
+			if (source == null)
+				throw new NullPointerException();
 			this.source = source;
 		}
 
@@ -102,12 +104,27 @@ public enum ImageSources {
 		public String toString() {
 			return source;
 		}
+		
+		@Override
+		public int hashCode() {
+			return source.hashCode();
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ResourceSource) {
+				ResourceSource that = (ResourceSource) obj;
+				return that.source.equals(source);
+			}
+			return false;
+		}
 	}
 
 	public static class CompositeSource extends ImageSource {
 		public final List<ImageSource> children = new ArrayList<ImageSource>();
 
 		public void addUnique(ImageSource source) {
+			assert !(source instanceof CompositeSource);
 			for (ImageSource src : children) {
 				if (src.equals(source)) {
 					return;
@@ -120,6 +137,7 @@ public enum ImageSources {
 		public String toString() {
 			return children.toString();
 		}
+		
 	}
 
 }
