@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.EclList;
 import org.eclipse.rcptt.ecl.data.commands.Remove;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
 import org.eclipse.rcptt.ecl.data.objects.Tree;
@@ -33,6 +34,9 @@ public class RemoveService implements ICommandService {
 		if (object instanceof Tree) {
 			Tree tree = (Tree) object;
 			removeFromTree(tree, index);
+		} else if (object instanceof EclList) {
+			EclList list = (EclList) object;
+			removeFromList(list, index);
 		} else {
 			return EclDataPlugin.createErr("This type of object is not supported by the command");
 		}
@@ -46,6 +50,16 @@ public class RemoveService implements ICommandService {
 		if (childs.size() == 0) {
 			throw new CoreException(EclDataPlugin.createErr(
 					"The tree has no children to remove"));
+		}
+		index = getAndValidateIndex(index, childs.size());
+		childs.remove(index);
+	}
+
+	private void removeFromList(EclList list, int index) throws CoreException {
+		EList<EObject> childs = list.getElements();
+		if (childs.size() == 0) {
+			throw new CoreException(EclDataPlugin.createErr(
+					"The list has no children to remove"));
 		}
 		index = getAndValidateIndex(index, childs.size());
 		childs.remove(index);

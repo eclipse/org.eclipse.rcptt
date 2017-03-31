@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.EclList;
 import org.eclipse.rcptt.ecl.data.commands.Append;
 import org.eclipse.rcptt.ecl.data.internal.EclDataPlugin;
 import org.eclipse.rcptt.ecl.data.objects.Tree;
@@ -36,6 +37,9 @@ public class AppendService implements ICommandService {
 			Tree tree = (Tree) object;
 			EList<Tree> treeChilds = getAndValidateTreeChilds(childs);
 			appendToTree(tree, treeChilds, index);
+		} else if (object instanceof EclList) {
+			EclList list = (EclList) object;
+			appendToList(list, childs, index);
 		} else {
 			return EclDataPlugin.createErr("This type of object is not supported by the command");
 		}
@@ -45,8 +49,13 @@ public class AppendService implements ICommandService {
 	}
 
 	private void appendToTree(Tree tree, EList<Tree> childs, int index) throws CoreException {
-		index = getAndValidateIndex(index, childs.size());
+		index = getAndValidateIndex(index, tree.getChildren().size());
 		tree.getChildren().addAll(index, childs);
+	}
+
+	private void appendToList(EclList list, EList<EObject> elements, int index) throws CoreException {
+		index = getAndValidateIndex(index, list.getElements().size());
+		list.getElements().addAll(index, elements);
 	}
 
 	private EList<Tree> getAndValidateTreeChilds(EList<EObject> childs) throws CoreException {
@@ -54,7 +63,7 @@ public class AppendService implements ICommandService {
 		for (EObject child : childs) {
 			if (!(child instanceof Tree)) {
 				throw new CoreException(EclDataPlugin.createErr(
-						"Children must have same type as the input object"));
+						"Children of the tree must be Tree object"));
 			}
 			treeChilds.add((Tree) child);
 		}
