@@ -390,6 +390,15 @@ public interface OperationsFactory extends EFactory {
 	ParseTime createParseTime();
 
 	/**
+	 * Returns a new object of class '<em>Throw Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Throw Error</em>'.
+	 * @generated
+	 */
+	ThrowError createThrowError();
+
+	/**
 	 * Returns a new object of class '<em>Binary Op</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

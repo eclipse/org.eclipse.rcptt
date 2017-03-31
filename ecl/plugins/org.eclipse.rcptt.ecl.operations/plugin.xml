@@ -226,6 +226,11 @@
             name="ParseTime"
             namespace="http://www.eclipse.org/ecl/operations.ecore">
       </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.operations.internal.commands.ThrowErrorService"
+            name="ThrowError"
+            namespace="http://www.eclipse.org/ecl/operations.ecore">
+      </scriptlet>
    </extension>
    <extension
          point="org.eclipse.rcptt.ecl.dispatch.scriptletExtension">

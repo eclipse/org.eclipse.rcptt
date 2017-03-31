@@ -7516,10 +7516,10 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		  (getComboItemsEClass, 
 		   source, 
 		   new String[] {
-			 "description", "Gets combo box items and returns them as <code>EclList</code> EMF object",
+			 "description", "Gets combo box items and writes them into output pipe",
 			 "returns", "combo box items",
 			 "recorded", "false",
-			 "example", "get-combo | get-combo-items | each [val item] {\n\tlog $item\n}"
+			 "example", "get-combo | get-combo-items | to-list | each [val item] {\n\tlog $item\n}"
 		   });
 	}
 

@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetComboItems()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets combo box items and returns them as <code>EclList</code> EMF object' returns='combo box items' recorded='false' example='get-combo | get-combo-items | each [val item] {\n\tlog $item\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets combo box items and writes them into output pipe' returns='combo box items' recorded='false' example='get-combo | get-combo-items | to-list | each [val item] {\n\tlog $item\n}'"
  * @generated
  */
 public interface GetComboItems extends ControlCommand {

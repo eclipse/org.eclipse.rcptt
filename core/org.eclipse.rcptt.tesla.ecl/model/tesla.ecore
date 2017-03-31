@@ -1776,10 +1776,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GetComboItems" eSuperTypes="#//ControlCommand">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
-      <details key="description" value="Gets combo box items and returns them as &lt;code>EclList&lt;/code> EMF object"/>
+      <details key="description" value="Gets combo box items and writes them into output pipe"/>
       <details key="returns" value="combo box items"/>
       <details key="recorded" value="false"/>
-      <details key="example" value="get-combo | get-combo-items | each [val item] {&#xA;&#x9;log $item&#xA;}"/>
+      <details key="example" value="get-combo | get-combo-items | to-list | each [val item] {&#xA;&#x9;log $item&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"

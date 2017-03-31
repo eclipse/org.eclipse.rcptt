@@ -57,6 +57,7 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.ecl.operations.RepeatWith;
 import org.eclipse.rcptt.ecl.operations.Split;
 import org.eclipse.rcptt.ecl.operations.Str;
+import org.eclipse.rcptt.ecl.operations.ThrowError;
 import org.eclipse.rcptt.ecl.operations.ToList;
 import org.eclipse.rcptt.ecl.operations.Try;
 
@@ -322,6 +323,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass parseTimeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass throwErrorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1152,6 +1160,24 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getThrowError() {
+		return throwErrorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getThrowError_Message() {
+		return (EAttribute)throwErrorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getParseTime_Input() {
 		return (EAttribute)parseTimeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1342,6 +1368,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		parseTimeEClass = createEClass(PARSE_TIME);
 		createEAttribute(parseTimeEClass, PARSE_TIME__INPUT);
 		createEAttribute(parseTimeEClass, PARSE_TIME__FORMAT);
+
+		throwErrorEClass = createEClass(THROW_ERROR);
+		createEAttribute(throwErrorEClass, THROW_ERROR__MESSAGE);
 	}
 
 	/**
@@ -1417,6 +1446,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		eachEClass.getESuperTypes().add(theCorePackage.getCommand());
 		splitEClass.getESuperTypes().add(theCorePackage.getCommand());
 		parseTimeEClass.getESuperTypes().add(theCorePackage.getCommand());
+		throwErrorEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(eqEClass, Eq.class, "Eq", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1555,6 +1585,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEClass(parseTimeEClass, ParseTime.class, "ParseTime", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParseTime_Input(), theEcorePackage.getEString(), "input", null, 1, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParseTime_Format(), theEcorePackage.getEString(), "format", null, 0, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(throwErrorEClass, ThrowError.class, "ThrowError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getThrowError_Message(), theEcorePackage.getEString(), "message", null, 1, 1, ThrowError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -2018,6 +2051,19 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   source, 
 		   new String[] {
 			 "description", "String representation of date."
+		   });	
+		addAnnotation
+		  (throwErrorEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Fails with specified error message",
+			 "example", "throw-error \"Test Case has one or more failed verifications\""
+		   });	
+		addAnnotation
+		  (getThrowError_Message(), 
+		   source, 
+		   new String[] {
+			 "description", "Error message"
 		   });
 	}
 

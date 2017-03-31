@@ -12,11 +12,11 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
 import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.err;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.ecl.core.CoreFactory;
-import org.eclipse.rcptt.ecl.core.EclList;
-import org.eclipse.rcptt.ecl.core.EclString;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
 import org.eclipse.rcptt.tesla.ecl.impl.AbstractActionService;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
@@ -44,7 +44,7 @@ public class GetComboItemsService extends AbstractActionService {
 					err("'get-combo-items' can be used only on combo box"));
 		}
 
-		final EclList list = CoreFactory.eINSTANCE.createEclList();
+		final List<String> list = new LinkedList<String>();
 		combo.getDisplay().syncExec(new Runnable() {
 
 			@Override
@@ -54,10 +54,13 @@ public class GetComboItemsService extends AbstractActionService {
 
 		});
 
-		return list;
+		for (String item : list) {
+			getContext().getOutput().write(item);
+		}
+		return null; // prevents writing to output pipe
 	}
 
-	private static void addComboItemsToList(Widget widget, EclList list) {
+	private static void addComboItemsToList(Widget widget, List<String> list) {
 		if (widget instanceof Combo) {
 			Combo combo = (Combo) widget;
 			addItemsToList(combo.getItems(), list);
@@ -67,14 +70,12 @@ public class GetComboItemsService extends AbstractActionService {
 		}
 	}
 
-	private static void addItemsToList(String[] items, EclList list) {
+	private static void addItemsToList(String[] items, List<String> list) {
 		if (items == null) {
 			return;
 		}
 		for (int i = 0; i < items.length; i++) {
-			EclString item = CoreFactory.eINSTANCE.createEclString();
-			item.setValue(items[i]);
-			list.getElements().add(item);
+			list.add(items[i]);
 		}
 	}
 

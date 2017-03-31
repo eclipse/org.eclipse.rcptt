@@ -2270,6 +2270,52 @@ public interface OperationsPackage extends EPackage {
 	int PARSE_TIME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl <em>Throw Error</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl
+	 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getThrowError()
+	 * @generated
+	 */
+	int THROW_ERROR = 42;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__MESSAGE = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Throw Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3230,6 +3276,27 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getParseTime_Format();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.ThrowError <em>Throw Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Throw Error</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ThrowError
+	 * @generated
+	 */
+	EClass getThrowError();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ThrowError#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ThrowError#getMessage()
+	 * @see #getThrowError()
+	 * @generated
+	 */
+	EAttribute getThrowError_Message();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4103,6 +4170,24 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARSE_TIME__FORMAT = eINSTANCE.getParseTime_Format();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl <em>Throw Error</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl
+		 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getThrowError()
+		 * @generated
+		 */
+		EClass THROW_ERROR = eINSTANCE.getThrowError();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute THROW_ERROR__MESSAGE = eINSTANCE.getThrowError_Message();
 
 		/**
 		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.
