@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.ext;
 
-import static com.google.common.base.Objects.firstNonNull;
 import static java.util.Arrays.asList;
 import static org.eclipse.rcptt.internal.launching.ext.AJConstants.OSGI_FRAMEWORK_EXTENSIONS;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
@@ -97,6 +96,7 @@ import org.osgi.framework.Version;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -782,7 +782,7 @@ public class Q7ExternalLaunchDelegate extends
 			TargetBundle[] installationBundles = target.getInstall().getBundles();
 			install.beginTask("Scanning " + target.getInstall().getInstallLocation(), installationBundles.length);
 			for (TargetBundle bundle : target.getInstall().getBundles()) {
-				BundleStart hint = firstNonNull(bundlesFromConfig.get(bundle
+				BundleStart hint = MoreObjects.firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
 				collector.addInstallationBundle(bundle, hint);

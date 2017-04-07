@@ -63,6 +63,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.IGotoMarker;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
@@ -214,7 +215,7 @@ public class ErrorLogVerificationEditor extends BaseVerificationEditor implement
 			
 			@Override
 			protected Object getValue(Object element) {
-				return Objects.firstNonNull(((EObject) element).eGet(property),
+				return MoreObjects.firstNonNull(((EObject) element).eGet(property),
 						"");
 			}
 

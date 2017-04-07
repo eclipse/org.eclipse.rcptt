@@ -35,7 +35,7 @@ import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.launching.ext.BundleStart;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 
 /**
@@ -155,7 +155,7 @@ public class Q7Target {
 		}
 
 		private String getBundlesString() {
-			return stripPathInformation(Objects.firstNonNull(getConfig()
+			return stripPathInformation(MoreObjects.firstNonNull(getConfig()
 					.getProperty(OSGI_BUNDLES), getDefaultBundleList()));
 		}
 
