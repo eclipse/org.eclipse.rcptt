@@ -136,6 +136,7 @@ import org.eclipse.swt.custom.LineBackgroundListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -643,13 +644,19 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite masterParent) {
+		
+		masterParent.setLayout(new FillLayout());
+		Composite parent = new Composite(masterParent, SWT.NONE);
+		
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		GridLayoutFactory.fillDefaults().spacing(0, 0).applyTo(parent);
-		parent.setLayoutData(new GridData(GridData.FILL_BOTH));
+//		parent.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Composite top = toolkit.createComposite(parent);
 		top.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		parent.setData("my_layout_should_be_grid", true);
 
 		header = createEditorHeader();
 
