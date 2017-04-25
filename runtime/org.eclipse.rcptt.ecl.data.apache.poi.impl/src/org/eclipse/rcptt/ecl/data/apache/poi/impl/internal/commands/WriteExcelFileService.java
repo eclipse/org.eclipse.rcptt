@@ -30,6 +30,7 @@ import org.eclipse.rcptt.ecl.runtime.IProcess;
 public class WriteExcelFileService implements ICommandService {
 
 	private static final String SHEET_NAME_PATTERN = "Sheet%d";
+	private static final int SHEET_NAME_MAX_LENGTH = 31;
 
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		WriteExcelFile wef = (WriteExcelFile) command;
@@ -53,6 +54,10 @@ public class WriteExcelFileService implements ICommandService {
 			String sheetName = table.getPageName();
 			if (sheetName == null || sheetName.equals("")) {
 				sheetName = String.format(SHEET_NAME_PATTERN, sheetnum);
+			}
+			// sheet name has max length value, so we have to check it
+			if (sheetName.length() > SHEET_NAME_MAX_LENGTH) {
+				sheetName = sheetName.substring(0, SHEET_NAME_MAX_LENGTH);
 			}
 			Sheet sheet = book.getSheet(sheetName);
 			boolean newSheet = false;
