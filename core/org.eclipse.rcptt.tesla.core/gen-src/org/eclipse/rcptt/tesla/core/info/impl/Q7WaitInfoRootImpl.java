@@ -37,6 +37,7 @@ import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl#getInfos <em>Infos</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl#getStartTime <em>Start Time</em>}</li>
@@ -45,7 +46,6 @@ import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl#getTypesNames <em>Types Names</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl#getInnerClassMap <em>Inner Class Map</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

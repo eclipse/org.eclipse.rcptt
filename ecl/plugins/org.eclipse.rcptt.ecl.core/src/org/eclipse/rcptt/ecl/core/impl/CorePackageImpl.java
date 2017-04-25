@@ -662,10 +662,11 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForeach_Do() {
+	public EReference getForeach_Index() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -673,8 +674,16 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getForeach_Input() {
+	public EReference getForeach_Do() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getForeach_Input() {
+		return (EReference)foreachEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1577,6 +1586,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 
 		foreachEClass = createEClass(FOREACH);
 		createEReference(foreachEClass, FOREACH__ITEM);
+		createEReference(foreachEClass, FOREACH__INDEX);
 		createEReference(foreachEClass, FOREACH__DO);
 		createEReference(foreachEClass, FOREACH__INPUT);
 
@@ -1820,6 +1830,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 
 		initEClass(foreachEClass, Foreach.class, "Foreach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getForeach_Item(), this.getVal(), null, "item", null, 0, 1, Foreach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForeach_Index(), this.getVal(), null, "index", null, 0, 1, Foreach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForeach_Do(), this.getCommand(), null, "do", null, 0, 1, Foreach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForeach_Input(), ecorePackage.getEObject(), null, "input", null, 0, -1, Foreach.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

@@ -136,6 +136,7 @@ public class ReportMaker implements IQ7ReportConstants {
 		nde.setName(iExecutable.getName());
 		nde.setStartTime(0);
 		nde.setEndTime(iExecutable.getTime());
+		nde.setDuration(nde.getEndTime() - nde.getStartTime());
 		Q7Info info = ReportHelper.getInfo(nde);
 		setProperties(iExecutable, info);
 		assert info.getType() != null;

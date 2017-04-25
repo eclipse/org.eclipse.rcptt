@@ -379,7 +379,7 @@ public class TestRailService implements ITestEngine {
 
 	private String getTestRailDuration(Report report) {
 		Node reportRoot = report.getRoot();
-		long duration = (reportRoot.getEndTime() - reportRoot.getStartTime()) / 1000;
+		long duration = (reportRoot.getDuration()) / 1000;
 
 		if (duration != 0) {
 			return MessageFormat.format("{0}s", String.format("%d", duration));

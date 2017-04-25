@@ -82,6 +82,11 @@ public class ReportManager implements IQ7ReportConstants {
 		}
 
 		@Override
+		public INodeBuilder appendTask(String name) {
+			return null;
+		}
+
+		@Override
 		public void endTask() {
 		}
 

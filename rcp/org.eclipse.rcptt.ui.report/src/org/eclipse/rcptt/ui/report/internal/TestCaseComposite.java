@@ -112,8 +112,7 @@ public class TestCaseComposite extends AbstractEmbeddedComposite {
 				}
 				return "";
 			case 2:// time
-				return TimeFormatHelper.format(entry.getEndTime()
-						- entry.getStartTime());
+				return TimeFormatHelper.format(entry.getDuration());
 				// case 3:// location
 				// return entry.location;
 			}

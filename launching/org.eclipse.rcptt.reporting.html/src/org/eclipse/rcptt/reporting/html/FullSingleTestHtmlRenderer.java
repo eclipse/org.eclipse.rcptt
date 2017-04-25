@@ -44,6 +44,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoNode;
 import org.eclipse.rcptt.tesla.core.info.JobEntry;
@@ -173,11 +174,15 @@ public class FullSingleTestHtmlRenderer {
 		writer.println("<th>Class</th>");
 		writer.println("<th>Time taken (ms)</th></tr>");
 		for (Q7WaitInfo info : nonIgnored) {
-			long duration = info.getEndTime() - info.getStartTime();
+			long duration = info.getDuration();
 			String type = SimpleReportGenerator.getType(root, info);
 			assert type != null : "Should be prefiltered";
-			row(type, SimpleReportGenerator.getClassName(root, info), ""
-					+ duration);
+			String className = SimpleReportGenerator.getClassName(root, info);
+			if (!TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+					&& className.startsWith("org.eclipse")) { //$NON-NLS-1$
+				continue;
+			}
+			row(type, className, "" + duration);
 		}
 		writer.println("</table>");
 	}
@@ -187,7 +192,15 @@ public class FullSingleTestHtmlRenderer {
 			return;
 		renderHeader(2, "Events", "");
 		for (Event e : events) {
-			renderHeader(3, dateFormat.format(e.getTime()), "");
+			if (e.getCount() == 1) {
+				renderHeader(3, "Event at " + dateFormat.format(e.getTime()), "");
+			} else {
+				String header = "Event: "
+						+ e.getCount()
+						+ " times, first at "
+						+ dateFormat.format(e.getTime());
+				renderHeader(3, header, "");
+			}
 			renderEvent(e.getData());
 		}
 	}
@@ -427,7 +440,7 @@ public class FullSingleTestHtmlRenderer {
 	};
 
 	private static float durationSeconds(Node node) {
-		long millseconds = node.getEndTime() - node.getStartTime();
+		long millseconds = node.getDuration();
 		return (millseconds) / 1000f;
 	}
 

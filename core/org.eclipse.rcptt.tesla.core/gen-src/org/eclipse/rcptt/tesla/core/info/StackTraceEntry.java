@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.StackTraceEntry#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.StackTraceEntry#getStackTrace <em>Stack Trace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.StackTraceEntry#getThreadName <em>Thread Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.StackTraceEntry#getThreadClass <em>Thread Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getStackTraceEntry()
  * @model

@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getItem <em>Item</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getDo <em>Do</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.Foreach#getInput <em>Input</em>}</li>
  * </ul>
@@ -58,6 +59,32 @@ public interface Foreach extends Command {
 	 * @generated
 	 */
 	void setItem(Val value);
+
+	/**
+	 * Returns the value of the '<em><b>Index</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Index</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Index</em>' reference.
+	 * @see #setIndex(Val)
+	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getForeach_Index()
+	 * @model
+	 * @generated
+	 */
+	Val getIndex();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.core.Foreach#getIndex <em>Index</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Index</em>' reference.
+	 * @see #getIndex()
+	 * @generated
+	 */
+	void setIndex(Val value);
 
 	/**
 	 * Returns the value of the '<em><b>Do</b></em>' containment reference.

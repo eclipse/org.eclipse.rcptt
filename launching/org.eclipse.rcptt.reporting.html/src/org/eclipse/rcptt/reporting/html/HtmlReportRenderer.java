@@ -142,7 +142,7 @@ public class HtmlReportRenderer implements IReportRenderer {
 	protected void renderNameAndDuration(PrintWriter writer, Report report, IContentFactory content)
 			throws CoreException {
 		Node root = report.getRoot();
-		long millseconds = root.getEndTime() - root.getStartTime();
+		long millseconds = root.getDuration();
 		String duration = durationFormat.format((float) (millseconds) / 1000f);
 		writer.println("<tr><td>" + root.getName() + "</td><td>" + duration + " s</td></tr>");
 	}

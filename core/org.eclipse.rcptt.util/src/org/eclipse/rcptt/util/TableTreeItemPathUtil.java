@@ -16,19 +16,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TableTreeItemPathUtil {
+
+	public static final String COLUMN_DELIMITER = "#@&#@";
+	private static final String COLUMN_ITEM_REGEX = String
+			.format("(.*?)%s(.*)%s", COLUMN_DELIMITER, COLUMN_DELIMITER);
 	private static final Pattern columnItemPattern = Pattern
-			.compile("(.*?)\\#(.*)\\#");
+			.compile(COLUMN_ITEM_REGEX);
 
 	public static String appendSegmentColumnName(String segment, String columnName) {
 		if (findColumnName(segment) == null && columnName != null) {
-			return segment + "#" + columnName + "#";
+			return segment + COLUMN_DELIMITER + columnName + COLUMN_DELIMITER;
 		}
 		return segment;
 	}
 
 	public static String getAppendingColumnName(String columnName) {
 		if (columnName != null) {
-			return "#" + columnName + "#";
+			return COLUMN_DELIMITER + columnName + COLUMN_DELIMITER;
 		} else {
 			return "";
 		}
@@ -108,4 +112,5 @@ public class TableTreeItemPathUtil {
 		}
 		return m.group(1);
 	}
+
 }

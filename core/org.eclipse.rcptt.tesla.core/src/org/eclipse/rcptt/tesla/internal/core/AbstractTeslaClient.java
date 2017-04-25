@@ -133,7 +133,7 @@ public abstract class AbstractTeslaClient implements IElementProcessorMapper {
 
 	public void hasEvent(String kind, String name, Q7WaitInfoRoot info) {
 		hasEvents.incrementAndGet();
-		Q7WaitUtils.updateInfo(kind, name, info);
+		Q7WaitUtils.startInfo(kind, name, info);
 	}
 
 	protected boolean canProceed(Context context, Q7WaitInfoRoot info) {

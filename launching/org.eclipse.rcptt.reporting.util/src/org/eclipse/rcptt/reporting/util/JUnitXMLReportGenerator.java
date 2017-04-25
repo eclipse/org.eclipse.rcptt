@@ -31,7 +31,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 public class JUnitXMLReportGenerator {
 
 	private static final String formatTime(Node nde) {
-		return ReportUtils.formatTime(nde.getEndTime() - nde.getStartTime());
+		return ReportUtils.formatTime(nde.getDuration());
 	}
 
 	public void writeContent(Reports reports, OutputStream stream)

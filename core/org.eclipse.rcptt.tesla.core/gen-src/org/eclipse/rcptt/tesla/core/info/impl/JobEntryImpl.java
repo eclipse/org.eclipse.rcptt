@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.JobEntryImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.JobEntryImpl#getName <em>Name</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.JobEntryImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.JobEntryImpl#getRuleClass <em>Rule Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

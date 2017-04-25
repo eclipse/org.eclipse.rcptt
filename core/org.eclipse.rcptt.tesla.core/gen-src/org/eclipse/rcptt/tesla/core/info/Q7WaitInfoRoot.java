@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getInfos <em>Infos</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getStartTime <em>Start Time</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getTypesNames <em>Types Names</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot#getInnerClassMap <em>Inner Class Map</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getQ7WaitInfoRoot()
  * @model

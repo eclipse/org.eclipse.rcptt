@@ -130,9 +130,11 @@ public class HtmlReporterTest {
 		Report report = createReport("1", IStatus.OK);
 		report.getRoot().setStartTime(1000);
 		report.getRoot().setEndTime(3500);
+		report.getRoot().setDuration(report.getRoot().getEndTime() - report.getRoot().getStartTime());
 		Report report2 = createReport("2", IStatus.OK);
 		report2.getRoot().setStartTime(4000);
 		report2.getRoot().setEndTime(6000);
+		report2.getRoot().setDuration(report2.getRoot().getEndTime() - report2.getRoot().getStartTime());
 		String result = generate(asList(report, report2)).replaceAll("\\s", "");
 		char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
 		Assert.assertTrue("Statistics should have proper Execution time",

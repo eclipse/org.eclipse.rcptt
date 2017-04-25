@@ -288,7 +288,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 
 	private static Collection<Conflict> findConflicts(
 			Map<String, String> first, Map<String, String> second) {
-		List<Conflict> rv = new ArrayList<>();
+		List<Conflict> rv = new ArrayList<Conflict>();
 		
 		for (Object key: (Diffs.computeMapDiff(first, second).getChangedKeys())) {
 			String name = (String) key;
@@ -369,7 +369,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 		Object[] result = dialog.getResult();
 		if (result == null)
 			return null;
-		List<Conflict> rv = new ArrayList<>();
+		List<Conflict> rv = new ArrayList<Conflict>();
 		for (Object object : result) {
 			rv.add((Conflict) object);
 		}
@@ -428,7 +428,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 				}
 			}
 
-			Map<String, Parameter> paramMap = new HashMap<>();
+			Map<String, Parameter> paramMap = new HashMap<String, Parameter>();
 			for (Parameter parameter : element.getParameters()) {
 				paramMap.put(parameter.getName(), parameter);
 			}

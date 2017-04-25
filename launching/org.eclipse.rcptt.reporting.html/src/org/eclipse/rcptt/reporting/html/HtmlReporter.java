@@ -69,7 +69,7 @@ public class HtmlReporter extends HtmlReportRenderer {
 			writer.println("<tr><td>Empty report</td><td></td></tr>");
 			return;
 		}
-		long millseconds = root.getEndTime() - root.getStartTime();
+		long millseconds = root.getDuration();
 		String duration = durationFormat.format((float) (millseconds) / 1000f);
 		writer.println("<tr><td>");
 		String fileName = getNewFileName(root, content);

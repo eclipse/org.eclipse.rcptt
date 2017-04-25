@@ -24,6 +24,7 @@ import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getEndTime <em>End Time</em>}</li>
@@ -31,8 +32,9 @@ import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getClassId <em>Class Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getTypeId <em>Type Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getTicks <em>Ticks</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoImpl#getLastStartTime <em>Last Start Time</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -156,6 +158,46 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 	 * @ordered
 	 */
 	protected long ticks = TICKS_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long DURATION_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected long duration = DURATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLastStartTime() <em>Last Start Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLastStartTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long LAST_START_TIME_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getLastStartTime() <em>Last Start Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLastStartTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected long lastStartTime = LAST_START_TIME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -307,6 +349,48 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getDuration() {
+		return duration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDuration(long newDuration) {
+		long oldDuration = duration;
+		duration = newDuration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InfoPackage.Q7_WAIT_INFO__DURATION, oldDuration, duration));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public long getLastStartTime() {
+		return lastStartTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLastStartTime(long newLastStartTime) {
+		long oldLastStartTime = lastStartTime;
+		lastStartTime = newLastStartTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InfoPackage.Q7_WAIT_INFO__LAST_START_TIME, oldLastStartTime, lastStartTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -322,6 +406,10 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 				return getTypeId();
 			case InfoPackage.Q7_WAIT_INFO__TICKS:
 				return getTicks();
+			case InfoPackage.Q7_WAIT_INFO__DURATION:
+				return getDuration();
+			case InfoPackage.Q7_WAIT_INFO__LAST_START_TIME:
+				return getLastStartTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -351,6 +439,12 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 				return;
 			case InfoPackage.Q7_WAIT_INFO__TICKS:
 				setTicks((Long)newValue);
+				return;
+			case InfoPackage.Q7_WAIT_INFO__DURATION:
+				setDuration((Long)newValue);
+				return;
+			case InfoPackage.Q7_WAIT_INFO__LAST_START_TIME:
+				setLastStartTime((Long)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -382,6 +476,12 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 			case InfoPackage.Q7_WAIT_INFO__TICKS:
 				setTicks(TICKS_EDEFAULT);
 				return;
+			case InfoPackage.Q7_WAIT_INFO__DURATION:
+				setDuration(DURATION_EDEFAULT);
+				return;
+			case InfoPackage.Q7_WAIT_INFO__LAST_START_TIME:
+				setLastStartTime(LAST_START_TIME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -406,6 +506,10 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 				return typeId != TYPE_ID_EDEFAULT;
 			case InfoPackage.Q7_WAIT_INFO__TICKS:
 				return ticks != TICKS_EDEFAULT;
+			case InfoPackage.Q7_WAIT_INFO__DURATION:
+				return duration != DURATION_EDEFAULT;
+			case InfoPackage.Q7_WAIT_INFO__LAST_START_TIME:
+				return lastStartTime != LAST_START_TIME_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -432,6 +536,10 @@ public class Q7WaitInfoImpl extends EObjectImpl implements Q7WaitInfo {
 		result.append(typeId);
 		result.append(", ticks: ");
 		result.append(ticks);
+		result.append(", duration: ");
+		result.append(duration);
+		result.append(", lastStartTime: ");
+		result.append(lastStartTime);
 		result.append(')');
 		return result.toString();
 	}

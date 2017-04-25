@@ -59,6 +59,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	public final static String REPORT_LOGGING_SIZE_OF_ROTATION_PART = "com.xored.reporting.logging.rotation.size";
 	public final static String REPORT_INCLUDE_IGNORED_WAIT_DETAILS = "com.xored.reporting.include.ignored.wait.details";
 	public final static String REPORT_PASSED_WAIT_DETAILS = "com.xored.reporting.include.passed.wait.details";
+	public final static String REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS = "com.xored.reporting.include.eclipse.wait.details";
 
 	// Code:
 	private static TeslaFeatures features;
@@ -151,6 +152,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"RCPTT widget wait details will be also added to passed reports as separate section")
 				.editable(true).showIn(ADV_OPTIONS);
 
+		option(REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS).category(CAT_REPORTING)
+				.name("Include eclipse methods into 'wait details' info")
+				.value("false")
+				.defaultValue("false")
+				.values(AbstractFeatureManager.BOOLEAN_VALUES)
+				.description(
+						"Eclipse methods will be added into 'wait details' info")
+				.editable(true).showIn(ADV_OPTIONS);
+
 		option(RECORD_ALL_SELECTIONS)
 				.name("Record all selections for tables and trees")
 				.value("false")
@@ -227,6 +237,10 @@ public class TeslaFeatures extends AbstractFeatureManager {
 
 	public static boolean isIncludePassedWaitDetails() {
 		return getInstance().isTrue(TeslaFeatures.REPORT_PASSED_WAIT_DETAILS);
+	}
+
+	public static boolean isIncludeEclipseMethodsWaitDetails() {
+		return getInstance().isTrue(TeslaFeatures.REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS);
 	}
 
 	public static boolean isProtectedEnabled() {

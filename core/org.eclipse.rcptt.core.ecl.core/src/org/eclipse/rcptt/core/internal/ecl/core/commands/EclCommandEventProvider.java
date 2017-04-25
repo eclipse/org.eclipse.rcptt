@@ -27,6 +27,7 @@ import org.eclipse.rcptt.core.ecl.core.model.PrepareEnvironment;
 import org.eclipse.rcptt.core.ecl.core.model.SetCommandsDelay;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.Foreach;
 import org.eclipse.rcptt.ecl.core.ISessionListener;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.RestoreState;
@@ -38,6 +39,8 @@ import org.eclipse.rcptt.ecl.core.With;
 import org.eclipse.rcptt.ecl.core.util.CommandToStringConverter;
 import org.eclipse.rcptt.ecl.gen.ast.AstExec;
 import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
+import org.eclipse.rcptt.ecl.operations.Each;
+import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
@@ -71,11 +74,22 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 		if (isIgnoredCommand(command)) {
 			return;
 		}
+
 		String cmdName = buildName(command);
-		final INodeBuilder node = ReportManager.getCurrentReportNode().beginTask(cmdName);
+		INodeBuilder node;
+		INodeBuilder currentNode = ReportManager.getCurrentReportNode();
+		if (ReportHelper.isIterable(currentNode)) {
+			node = currentNode.appendTask(cmdName);
+		} else {
+			node = currentNode.beginTask(cmdName);
+		}
+
 		Q7Info info = ReportingFactory.eINSTANCE.createQ7Info();
 		info.setType(ItemKind.ECL_COMMAND);
 		ReportHelper.setInfo(node, info);
+		if (isIterableCommand(command)) {
+			ReportHelper.markIterable(node);
+		}
 		INodeBuilder previousValue = openNodes.putIfAbsent(command, node);
 		if (previousValue != null) {
 			throw new IllegalStateException("A node for command " + cmdName + " is already opened");
@@ -118,6 +132,12 @@ public class EclCommandEventProvider extends AbstractEventProvider implements
 				|| command instanceof CreateReport
 				|| command instanceof GetReport
 				|| command instanceof ExecVerification;
+	}
+
+	private boolean isIterableCommand(Command command) {
+		return command instanceof Each
+				|| command instanceof Foreach
+				|| command instanceof Repeat;
 	}
 
 	public void endCommand(Command command, final IStatus status) {

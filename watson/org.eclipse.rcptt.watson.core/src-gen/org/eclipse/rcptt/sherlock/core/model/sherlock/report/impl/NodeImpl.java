@@ -44,6 +44,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getEndTime <em>End Time</em>}</li>
@@ -54,8 +55,8 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getReport <em>Report</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getSnapshots <em>Snapshots</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.NodeImpl#getDuration <em>Duration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -159,6 +160,26 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 * @ordered
 	 */
 	protected EList<Snaphot> snapshots;
+
+	/**
+	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long DURATION_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected long duration = DURATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -377,6 +398,27 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getDuration() {
+		return duration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDuration(long newDuration) {
+		long oldDuration = duration;
+		duration = newDuration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ReportPackage.NODE__DURATION, oldDuration, duration));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -462,6 +504,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 				return getReport();
 			case ReportPackage.NODE__SNAPSHOTS:
 				return getSnapshots();
+			case ReportPackage.NODE__DURATION:
+				return getDuration();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -505,6 +549,9 @@ public class NodeImpl extends EObjectImpl implements Node {
 				getSnapshots().clear();
 				getSnapshots().addAll((Collection<? extends Snaphot>)newValue);
 				return;
+			case ReportPackage.NODE__DURATION:
+				setDuration((Long)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -544,6 +591,9 @@ public class NodeImpl extends EObjectImpl implements Node {
 			case ReportPackage.NODE__SNAPSHOTS:
 				getSnapshots().clear();
 				return;
+			case ReportPackage.NODE__DURATION:
+				setDuration(DURATION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -574,6 +624,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 				return getReport() != null;
 			case ReportPackage.NODE__SNAPSHOTS:
 				return snapshots != null && !snapshots.isEmpty();
+			case ReportPackage.NODE__DURATION:
+				return duration != DURATION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -594,6 +646,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 		result.append(endTime);
 		result.append(", name: ");
 		result.append(name);
+		result.append(", duration: ");
+		result.append(duration);
 		result.append(')');
 		return result.toString();
 	}

@@ -88,8 +88,8 @@ class ReportEntryContentProvider implements
 					StringWriter writer = new StringWriter();
 					new RcpttReportGenerator(new PrintWriter(writer), new ArrayList<ImageEntry>()).writeResult(0,
 							info.getResult());
-					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root
-							.getStartTime()), info.getResult(), writer.toString()));
+					entries.add(new ReportEntry(root.getName(), info.getId(), (int) root.getDuration(),
+							info.getResult(), writer.toString()));
 				}
 			}
 			ReportEntryContentProvider.this.entries = entries;

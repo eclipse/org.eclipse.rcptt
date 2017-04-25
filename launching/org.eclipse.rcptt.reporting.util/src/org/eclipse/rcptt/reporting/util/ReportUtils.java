@@ -107,7 +107,7 @@ public class ReportUtils {
 			}
 			startTime = Math.min(startTime, localRoot.getStartTime());
 			endTime = Math.max(endTime, localRoot.getEndTime());
-			totalTime += (localRoot.getEndTime() - localRoot.getStartTime());
+			totalTime += (localRoot.getDuration());
 		}
 
 		statistics.setTime((int) totalTime);
@@ -451,7 +451,7 @@ public class ReportUtils {
 	}
 
 	public static final String getTime(Node nde) {
-		return formatTime(nde.getEndTime() - nde.getStartTime());
+		return formatTime(nde.getDuration());
 	}
 
 }

@@ -33,6 +33,7 @@ import org.eclipse.rcptt.ecl.core.Val;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getItem <em>Item</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getDo <em>Do</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.ForeachImpl#getInput <em>Input</em>}</li>
  * </ul>
@@ -49,6 +50,16 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * @ordered
 	 */
 	protected Val item;
+
+	/**
+	 * The cached value of the '{@link #getIndex() <em>Index</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected Val index;
 
 	/**
 	 * The cached value of the '{@link #getDo() <em>Do</em>}' containment reference.
@@ -129,6 +140,44 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Val getIndex() {
+		if (index != null && index.eIsProxy()) {
+			InternalEObject oldIndex = (InternalEObject)index;
+			index = (Val)eResolveProxy(oldIndex);
+			if (index != oldIndex) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CorePackage.FOREACH__INDEX, oldIndex, index));
+			}
+		}
+		return index;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Val basicGetIndex() {
+		return index;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIndex(Val newIndex) {
+		Val oldIndex = index;
+		index = newIndex;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CorePackage.FOREACH__INDEX, oldIndex, index));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -203,6 +252,9 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 		switch (featureID) {
 			case CorePackage.FOREACH__ITEM:
 				return getItem();
+			case CorePackage.FOREACH__INDEX:
+				if (resolve) return getIndex();
+				return basicGetIndex();
 			case CorePackage.FOREACH__DO:
 				return getDo();
 			case CorePackage.FOREACH__INPUT:
@@ -221,6 +273,9 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 		switch (featureID) {
 			case CorePackage.FOREACH__ITEM:
 				setItem((Val)newValue);
+				return;
+			case CorePackage.FOREACH__INDEX:
+				setIndex((Val)newValue);
 				return;
 			case CorePackage.FOREACH__DO:
 				setDo((Command)newValue);
@@ -243,6 +298,9 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 			case CorePackage.FOREACH__ITEM:
 				setItem((Val)null);
 				return;
+			case CorePackage.FOREACH__INDEX:
+				setIndex((Val)null);
+				return;
 			case CorePackage.FOREACH__DO:
 				setDo((Command)null);
 				return;
@@ -262,6 +320,8 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 		switch (featureID) {
 			case CorePackage.FOREACH__ITEM:
 				return item != null;
+			case CorePackage.FOREACH__INDEX:
+				return index != null;
 			case CorePackage.FOREACH__DO:
 				return do_ != null;
 			case CorePackage.FOREACH__INPUT:

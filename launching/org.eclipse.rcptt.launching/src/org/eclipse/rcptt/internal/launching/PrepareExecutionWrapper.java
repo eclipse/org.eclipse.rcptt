@@ -243,6 +243,7 @@ public class PrepareExecutionWrapper extends Executable {
 	private static void closeAllNodes(long endTime, Node node) {
 		if (node.getEndTime() == 0) {
 			node.setEndTime(endTime);
+			node.setDuration(node.getEndTime() - node.getStartTime());
 		}
 		Q7Info info = ReportHelper.getInfo(node);
 		for (Node child : node.getChildren()) {
@@ -316,6 +317,7 @@ public class PrepareExecutionWrapper extends Executable {
 		Report report = TestSuiteUtils.generateReport(getActualElement(), status);
 		Node root = report.getRoot();
 		root.setEndTime(root.getStartTime() + getTime());
+		root.setDuration(root.getEndTime() - root.getStartTime());
 		ReportHelper.appendLog(root, LoggingCategory.NORMAL, getLog());
 		return report;
 	}

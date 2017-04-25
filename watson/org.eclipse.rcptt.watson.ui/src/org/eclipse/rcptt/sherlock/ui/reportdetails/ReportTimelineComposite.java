@@ -948,8 +948,8 @@ public class ReportTimelineComposite {
 				.append("\n");
 		builder.append(
 				"Time spend:"
-						+ TimeFormatHelper.format(node.getEndTime()
-								- node.getStartTime())).append("\n");
+						+ TimeFormatHelper.format(node.getDuration()))
+				.append("\n");
 
 		SimpleReportGenerator gen = new SimpleReportGenerator();
 		for (EventSource source : sources.keySet()) {

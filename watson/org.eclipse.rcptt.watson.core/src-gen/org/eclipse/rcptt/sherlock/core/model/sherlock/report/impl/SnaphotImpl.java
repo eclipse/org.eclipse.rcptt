@@ -35,12 +35,12 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.SnaphotImpl#getTime <em>Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.SnaphotImpl#getProperties <em>Properties</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.SnaphotImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -45,7 +45,6 @@ public class EventLogEventProvider extends AbstractEventProvider implements
 				Event event = ReportFactory.eINSTANCE.createEvent();
 				EclipseStatus data = SherlockCore.convert(status);
 				event.setData(data);
-				data.setThreadName(Thread.currentThread().getName());
 				builder.getCurrent().createEvent(event);
 			}
 		}

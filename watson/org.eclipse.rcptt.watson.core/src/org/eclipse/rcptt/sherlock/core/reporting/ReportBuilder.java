@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource;
@@ -32,6 +33,9 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
  * Build a complex report.
  */
 public class ReportBuilder implements IReportBuilder {
+	private static final String NODE_INDEX_PROPERTY = "rcptt.watson.node.index";
+	private static final String NODE_LASTSTARTTIME_PROPERTY = "rcptt.watson.node.last-start-time";
+
 	private final Report report;
 	private NodeBuilder currentNode;
 	
@@ -39,6 +43,8 @@ public class ReportBuilder implements IReportBuilder {
 	private class NodeBuilder implements INodeBuilder {
 		private final Node node;
 		private NodeBuilder parent;
+		private int currentChildIndex = 0;
+
 		private NodeBuilder(NodeBuilder parent, Node node){
 			if (parent == null) {
 				EObject container = node.eContainer();
@@ -49,21 +55,60 @@ public class ReportBuilder implements IReportBuilder {
 			this.parent = parent;
 			this.node = node;
 		}
+
 		/**
 		 * Will add new node to current one and go one level down.
 		 */
 		@Override
 		public INodeBuilder beginTask(String name) {
+			NodeBuilder childNode = findChildNode(name);
+			if (childNode != null) {
+				return childNode;
+			}
 			Node child = ReportFactory.eINSTANCE.createNode();
 			child.setName(name);
 			child.setStartTime(getTime());
+			setNodeIndex(child, currentChildIndex);
+			setNodeLastStartTime(child, child.getStartTime());
 			synchronized (report) {
-				node.getChildren().add(child);
+				node.getChildren().add(getChildPosition(name), child);
 				currentNode = new NodeBuilder(this, child);
 			}
+			currentChildIndex++;
 			return currentNode;
 		}
 		
+		private NodeBuilder findChildNode(String name) {
+			for (Node child : node.getChildren()) {
+				if (name.equals(child.getName())
+						&& currentChildIndex == getNodeIndex(child)) {
+					setNodeLastStartTime(child, getTime());
+					synchronized (report) {
+						currentNode = new NodeBuilder(this, child);
+					}
+					currentChildIndex++;
+					return currentNode;
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Find existing subnode by name and index and make it active.
+		 */
+		public INodeBuilder appendTask(String name) {
+			for (Node child : node.getChildren()) {
+				if (name.equals(child.getName())) {
+					setNodeLastStartTime(child, getTime());
+					synchronized (report) {
+						currentNode = new NodeBuilder(this, child);
+					}
+					return currentNode;
+				}
+			}
+			return beginTask(name);
+		}
+
 		/**
 		 * Will go one level up.
 		 */
@@ -71,6 +116,8 @@ public class ReportBuilder implements IReportBuilder {
 		public void endTask() {
 			synchronized (report) {
 				node.setEndTime(getTime());
+				long duration = node.getEndTime() - getNodeLastStartTime(node);
+				node.setDuration(node.getDuration() + duration);
 				if (parent == null)
 					throw new IllegalStateException("Root report node can't be closed.");
 				currentNode = parent;
@@ -80,13 +127,26 @@ public class ReportBuilder implements IReportBuilder {
 		@Override
 		public void createEvent(Event event) {
 			synchronized (report) {
+				Event childEvent = findChildEvent(event);
+				if (childEvent != null) {
+					childEvent.setCount(childEvent.getCount() + 1);
+					return;
+				}
 				Event copy = EcoreUtil.copy(event);
 				copy.setTime(getTime());
 				node.getEvents().add(copy);
 			}
 		}
-		
-		
+
+		private Event findChildEvent(Event event) {
+			for (Event childEvent : node.getEvents()) {
+				if (EcoreUtil.equals(event.getData(), childEvent.getData())) {
+					return childEvent;
+				}
+			}
+			return null;
+		}
+
 		/*
 		 * Add or append existing log entry into current node.
 		 */
@@ -109,8 +169,6 @@ public class ReportBuilder implements IReportBuilder {
 		public void setProperty(String key, EObject value) {
 			EObject copy = EcoreUtil.copy(value);
 			synchronized (report) {
-				if (node.getProperties().containsKey(key))
-					throw new IllegalStateException("Property " + key+ " is already set for node" + node.getName());
 				node.getProperties().put(key, copy);
 			}
 		}
@@ -153,6 +211,18 @@ public class ReportBuilder implements IReportBuilder {
 			return node.getName();
 		}
 
+		private int getChildPosition(String name) {
+			int position = -1;
+			int size = node.getChildren().size();
+			for (int i = 0; i < size; i++) {
+				Node child = node.getChildren().get(i);
+				if (currentChildIndex == getNodeIndex(child)) {
+					position = i;
+				}
+			}
+			return position == -1 ? size : (position + 1);
+		}
+
 	}
 
 	static private Report createReport() {
@@ -163,7 +233,7 @@ public class ReportBuilder implements IReportBuilder {
 		root.setStartTime(getTime());
 		return report;
 	}
-	
+
 	private ReportBuilder(Report report, Node currentNode) {
 		this.report = report;
 		this.currentNode = new NodeBuilder(null, currentNode);
@@ -206,8 +276,9 @@ public class ReportBuilder implements IReportBuilder {
 	public Report getReportCopy() {
 		synchronized (report) {
 			Report reportCopy = EcoreUtil.copy(report);
-			reportCopy.getRoot().setEndTime(getTime());
-
+			Node root = reportCopy.getRoot();
+			root.setEndTime(getTime());
+			root.setDuration(root.getEndTime() - root.getStartTime());
 			return reportCopy;
 		}
 	}
@@ -297,7 +368,9 @@ public class ReportBuilder implements IReportBuilder {
 		}
 		assert store.getCurrentNode() != null;
 		assert store.getCurrentNode().eContainer() != null;
-		store.getReport().getRoot().setEndTime(getTime());
+		Node root = store.getReport().getRoot();
+		root.setEndTime(getTime());
+		root.setDuration(root.getEndTime() - root.getStartTime());
 		return store;
 	}
 	
@@ -314,4 +387,27 @@ public class ReportBuilder implements IReportBuilder {
 		}
 		return snapshot;
 	}
+
+	private static int getNodeIndex(Node node) {
+		Object index = BoxedValues.unbox(node.getProperties().get(NODE_INDEX_PROPERTY));
+		assert index != null;
+		assert index instanceof Integer;
+		return ((Integer) index).intValue();
+	}
+
+	private static void setNodeIndex(Node node, int index) {
+		node.getProperties().put(NODE_INDEX_PROPERTY, BoxedValues.box(index));
+	}
+
+	private static long getNodeLastStartTime(Node node) {
+		Object index = BoxedValues.unbox(node.getProperties().get(NODE_LASTSTARTTIME_PROPERTY));
+		assert index != null;
+		assert index instanceof Long;
+		return ((Long) index).longValue();
+	}
+
+	private static void setNodeLastStartTime(Node node, long startTime) {
+		node.getProperties().put(NODE_LASTSTARTTIME_PROPERTY, BoxedValues.box(startTime));
+	}
+
 }

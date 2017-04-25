@@ -32,6 +32,11 @@ public interface INodeBuilder {
 	public INodeBuilder beginTask(String name);
 
 	/**
+	 * Find existing subnode by name and index and make it active.
+	 */
+	public INodeBuilder appendTask(String name);
+
+	/**
 	 * End current task and go level up
 	 */
 	public void endTask();

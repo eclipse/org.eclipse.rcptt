@@ -30,11 +30,11 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ReportBuilderStoreImpl#getReport <em>Report</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ReportBuilderStoreImpl#getCurrentNode <em>Current Node</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

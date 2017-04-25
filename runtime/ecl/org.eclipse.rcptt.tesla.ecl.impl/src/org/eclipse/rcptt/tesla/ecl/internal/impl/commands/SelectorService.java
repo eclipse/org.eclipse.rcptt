@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
-import org.eclipse.rcptt.ecl.core.util.ISessionPropertyConstants;
 import org.eclipse.rcptt.ecl.dispatch.ServiceDispatchingUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
@@ -127,7 +126,9 @@ public class SelectorService implements ICommandService {
 				path += "%" + index + "%";
 			}
 			if (column != null) {
-				path += "#" + column + "#";
+				path += TableTreeItemPathUtil.COLUMN_DELIMITER
+						+ column
+						+ TableTreeItemPathUtil.COLUMN_DELIMITER;
 			}
 			handler.setKind(ElementKind.Item);
 			handler.setParent(parent.getParent());
