@@ -55,11 +55,13 @@ public class WriteExcelFileService implements ICommandService {
 				sheetName = String.format(SHEET_NAME_PATTERN, sheetnum);
 			}
 			Sheet sheet = book.getSheet(sheetName);
+			boolean newSheet = false;
 			if (sheet == null) {
 				sheet = book.createSheet(sheetName);
+				newSheet = true;
 			}
 			writeTable(sheet, table);
-			if (!isAppend) {
+			if (newSheet) {
 				autoSizeColumns(sheet);
 			}
 			context.getOutput().write(table);
