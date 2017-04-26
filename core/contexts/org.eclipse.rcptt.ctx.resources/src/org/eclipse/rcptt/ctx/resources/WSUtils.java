@@ -43,8 +43,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.persistence.IPersistenceModel;
@@ -63,6 +61,7 @@ import org.eclipse.rcptt.workspace.WSResource;
 import org.eclipse.rcptt.workspace.WSRoot;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.rcptt.workspace.WorkspaceFactory;
+import org.osgi.framework.Bundle;
 
 public class WSUtils {
 
@@ -319,7 +318,8 @@ public class WSUtils {
 			throw new ModelException(new Status(Status.ERROR,
 					Activator.PLUGIN_ID, String.format(
 							"Failed to load content of linked file %s/%s",
-							fileLink.getProject(), fileLink.getPath())));
+							fileLink.getProject(), fileLink.getPath()),
+					e));
 		}
 	}
 
