@@ -37,6 +37,21 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.TreeViewerEditor;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
+import org.eclipse.rcptt.ui.controls.SectionWithComposite;
+import org.eclipse.rcptt.ui.editors.EditorHeader;
+import org.eclipse.rcptt.ui.verification.WidgetVerificationEditor;
+import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
+import org.eclipse.rcptt.verifications.tree.Cell;
+import org.eclipse.rcptt.verifications.tree.Column;
+import org.eclipse.rcptt.verifications.tree.Row;
+import org.eclipse.rcptt.verifications.tree.Tree;
+import org.eclipse.rcptt.verifications.tree.TreePackage;
+import org.eclipse.rcptt.verifications.tree.TreeVerification;
+import org.eclipse.rcptt.verifications.tree.TreeVerificationUtils;
+import org.eclipse.rcptt.verifications.tree.VerifyStyleType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -58,22 +73,6 @@ import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
-import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.tesla.core.utils.WidgetModels;
-import org.eclipse.rcptt.ui.controls.SectionWithComposite;
-import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.verification.WidgetVerificationEditor;
-import org.eclipse.rcptt.verifications.tree.Cell;
-import org.eclipse.rcptt.verifications.tree.Column;
-import org.eclipse.rcptt.verifications.tree.Row;
-import org.eclipse.rcptt.verifications.tree.Tree;
-import org.eclipse.rcptt.verifications.tree.TreePackage;
-import org.eclipse.rcptt.verifications.tree.TreeVerification;
-import org.eclipse.rcptt.verifications.tree.TreeVerificationUtils;
-import org.eclipse.rcptt.verifications.tree.VerifyStyleType;
 
 public class TreeVerificationEditor extends WidgetVerificationEditor {
 	Binding treeDataBinding = null;
@@ -164,9 +163,6 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 
 		verifyStyleCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		int selectedStyleInd = 0;
-		dbc.bindValue(SWTObservables.observeSelection(verifyStyleCombo),
-				EMFObservables.observeValue(getVerificationElement(),
-						TreePackage.Literals.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE));
 		for (VerifyStyleType type : VerifyStyleType.values()) {
 			verifyStyleCombo.add(type.getLiteral());
 			if (type.getValue() == getVerificationElement().getVerifyStyle().getValue()) {
@@ -248,22 +244,28 @@ public class TreeVerificationEditor extends WidgetVerificationEditor {
 
 		public void updateOutputFormat() {
 			treeComposite.setRedraw(false);
-			labelProvider.setDrawIcons(getVerificationElement().isVerifyIcons());
-			labelProvider.setIgnoreStyle(getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLES);
-			labelProvider
-					.setSkipStyledText(getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLED_TEXT);
-			TreeColumn[] cols = viewer.getTree().getColumns();
-			if (getVerificationElement().isVerifyIcons()) {
-				for (int i = 0; i < cols.length; i++) {
-					if (i<columnImages.size())
-						cols[i].setImage(columnImages.get(i));
-				}
-			} else {
-				for (int i = 0; i < cols.length; i++) {
-					cols[i].setImage(null);
-				}
+			if (labelProvider != null) {
+				labelProvider.setDrawIcons(getVerificationElement().isVerifyIcons());
+				labelProvider
+						.setIgnoreStyle(getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLES);
+				labelProvider
+						.setSkipStyledText(
+								getVerificationElement().getVerifyStyle() == VerifyStyleType.IGNORE_STYLED_TEXT);
 			}
-			viewer.refresh();
+			if (viewer != null) {
+				TreeColumn[] cols = viewer.getTree().getColumns();
+				if (getVerificationElement().isVerifyIcons()) {
+					for (int i = 0; i < cols.length; i++) {
+						if (i < columnImages.size())
+							cols[i].setImage(columnImages.get(i));
+					}
+				} else {
+					for (int i = 0; i < cols.length; i++) {
+						cols[i].setImage(null);
+					}
+				}
+				viewer.refresh();
+			}
 			verifyStyleCombo.setEnabled(getVerificationElement().isEnableVerifyStyle());
 			treeComposite.setRedraw(true);
 		}
