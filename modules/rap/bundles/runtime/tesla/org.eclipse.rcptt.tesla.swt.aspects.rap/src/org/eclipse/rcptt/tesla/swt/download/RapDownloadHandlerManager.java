@@ -21,8 +21,6 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.internal.service.ServiceManagerImpl;
 import org.eclipse.rap.rwt.service.ServiceHandler;
 import org.eclipse.rcptt.tesla.swt.aspects.rap.SWTAspectActivator;
-import org.eclipse.rcptt.util.MockHttpServletRequest;
-import org.eclipse.rcptt.util.MockHttpServletResponse;
 
 public class RapDownloadHandlerManager {
 

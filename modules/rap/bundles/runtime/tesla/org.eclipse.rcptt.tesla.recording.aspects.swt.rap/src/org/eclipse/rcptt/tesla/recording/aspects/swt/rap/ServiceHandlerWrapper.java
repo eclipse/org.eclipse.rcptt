@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.rap.rwt.service.ServiceHandler;
+import org.eclipse.rcptt.tesla.swt.download.OutputStreamResponseWrapper;
 import org.eclipse.rcptt.util.Base64;
-import org.eclipse.rcptt.util.OutputStreamResponseWrapper;
 
 public class ServiceHandlerWrapper implements ServiceHandler {
 

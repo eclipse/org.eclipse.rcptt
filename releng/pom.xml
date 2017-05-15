@@ -24,9 +24,9 @@
     <signExcludeInnerJars>true</signExcludeInnerJars>
     <aspectj_version>1.7</aspectj_version>
     <aspectj_dep>1.7.0</aspectj_dep>
-    <ajJavaSource>1.5</ajJavaSource>
-    <ajJavaTarget>1.5</ajJavaTarget>
-    <ajJavaCompilance>1.5</ajJavaCompilance>
+    <ajJavaSource>1.7</ajJavaSource>
+    <ajJavaTarget>1.7</ajJavaTarget>
+    <ajJavaCompilance>1.7</ajJavaCompilance>
   </properties>
   <distributionManagement>
     <repository>
