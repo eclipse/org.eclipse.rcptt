@@ -8,7 +8,7 @@
  * Contributors:
  * 	Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.rcptt.util;
+package org.eclipse.rcptt.tesla.swt.download;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

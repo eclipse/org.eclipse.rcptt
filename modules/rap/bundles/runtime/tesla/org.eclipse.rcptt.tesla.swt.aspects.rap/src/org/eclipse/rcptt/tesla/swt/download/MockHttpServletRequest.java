@@ -9,7 +9,7 @@
  * 	Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-package org.eclipse.rcptt.util;
+package org.eclipse.rcptt.tesla.swt.download;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
