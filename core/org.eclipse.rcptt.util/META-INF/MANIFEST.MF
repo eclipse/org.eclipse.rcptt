@@ -7,7 +7,6 @@ Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.rcptt.util
 Require-Bundle: org.eclipse.core.runtime,
- org.jsoup;resolution:=optional,
- javax.servlet
+ org.jsoup;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.util.UtilPlugin
