@@ -467,7 +467,7 @@ public class UIJobCollector implements IJobChangeListener {
 						jobInfo.done(false);
 					}
 					Context ctx = ContextManagement.makeContext(thread.getStackTrace());
-					// If Autobuild job is active and on lock and there is Modal
+					// If Auto-build job is active and on lock and there is Modal
 					// Dialog in main thread,
 					// lets' skip job from important for us.
 					if (ctx.contains("java.util.concurrent.locks.LockSupport", "park")
@@ -581,7 +581,8 @@ public class UIJobCollector implements IJobChangeListener {
 								}
 								if (jobThread != null && jobContext != null) {
 									if (jobContext.contains("org.eclipse.ui.internal.UISynchronizer", "syncExec")
-											&& jobContext.contains("org.eclipse.ui.internal.Semaphore", "acquire")) {
+											&& (jobContext.contains("org.eclipse.ui.internal.Semaphore", "acquire")||
+													jobContext.contains("org.eclipse.ui.internal.PendingSyncExec", "waitUntilExecuted"))) {
 										if (!SWTUIPlayer.hasRunnables(PlatformUI.getWorkbench().getDisplay())) {
 											List<Context> execs = TeslaEventManager.getManager().getSyncExecs();
 											boolean toContinue = true;
