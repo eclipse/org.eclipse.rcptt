@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _wFTf0KDsEeKGc-nsvHJqGA,_ZQYygK2sEeCqBbDEJWufvQ,_0_PAAKDoEeKGc-nsvHJqGA
 Element-Name: ClearBreakpointsInLaunchContext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _ruogQKsNEeKPyJLvtvYvAw
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.2.0.201704071302
+Save-Time: 5/18/17 3:44 PM
 Tags: Context, LaunchContext, selfAUT
 Testcase-Type: ecl
 
@@ -37,19 +36,35 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
+proc waitForTaskToComplete {
+	loop {
+		if [get-view "Execution View" | get-label ".*/1"
+			| get-property caption -raw | not-eq "1/1"] {
+			wait 500
+			recur
+		}
+	}
+}
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/PrefContext" | double-click
 get-editor PrefContext | get-button Apply | click
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/JavaProgram" | double-click
 get-editor JavaProgram | get-button Apply | click
+waitForTaskToComplete
+
 with [get-editor LaunchContextTest] {
     click
     get-button Apply | click
 }
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext" | double-click
 get-editor EmptyLaunchContext | get-section Options | get-button "Clear breakpoints" | get-property selected | equals true | verify-true
 get-editor EmptyLaunchContext | get-section Options | get-button "Terminate existing launches" | click
 get-button "Save (M1+S)" | click
 get-editor EmptyLaunchContext | get-button Apply | click
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext2" | double-click
 get-editor EmptyLaunchContext2 | get-button Capture | click
 get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree | verify-error { get-item Breakpoints }
@@ -64,6 +79,8 @@ with [get-editor EmptyLaunchContext] {
 get-button "Save (M1+S)" | click
 get-editor EmptyLaunchContext | get-section Options | get-button "Clear breakpoints" | get-property selected | equals false | verify-true
 get-editor EmptyLaunchContext | get-button Apply | click
+waitForTaskToComplete
+
 with [get-editor EmptyLaunchContext2] {
     click
     get-button Capture | click
