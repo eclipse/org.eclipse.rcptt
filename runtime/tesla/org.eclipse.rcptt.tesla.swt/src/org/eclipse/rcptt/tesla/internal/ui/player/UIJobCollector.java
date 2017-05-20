@@ -471,6 +471,7 @@ public class UIJobCollector implements IJobChangeListener {
 					// Dialog in main thread,
 					// lets' skip job from important for us.
 					if (ctx.contains("java.util.concurrent.locks.LockSupport", "park")
+							|| ctx.contains("java.util.concurrent.locks.LockSupport", "parkNanos")
 							|| ctx.contains("java.lang.Object", "wait")) {
 						// We are waiting some stuff, let's check if main thread
 						// have a MessageDialog and if so skip this job right
