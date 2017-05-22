@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_roqd8KekEeC8_YI4qVLWTA
 Element-Name: WorkspaceContextRemoveTest
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _o-OQ8KekEeC8_YI4qVLWTA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/22/17 11:50 AM
 Tags: Context, WorkspaceContext, Delete
 Testcase-Type: ecl
 
@@ -39,7 +38,7 @@ get-menu "Window/Show View/Other..." | click
 with [get-window "Show View"] {
     get-editbox | set-text project
     get-tree | select "General/Project Explorer"
-    get-button OK | click
+    get-button Open | click
 }
 get-view "Test Explorer" | get-tree | select "ContextsProject/ws" | double-click -nowait
 with [get-editor ws | get-section Workspace] {
