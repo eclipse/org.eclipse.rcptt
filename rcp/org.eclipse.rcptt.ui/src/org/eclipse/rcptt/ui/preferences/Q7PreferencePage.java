@@ -45,7 +45,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.IExpansionListener;
-import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 public class Q7PreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -58,7 +58,7 @@ public class Q7PreferencePage extends PreferencePage implements
 	protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
-		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		textLaunchTimeout = createText(composite,
 				Messages.Q7PreferencePage_LaunchTimeoutLabel,
@@ -68,9 +68,10 @@ public class Q7PreferencePage extends PreferencePage implements
 				Integer.toString(Q7.INSTANCE.getCommandsExecutionDelay()));
 
 		// Advanced configuration
-		Section advancedExpander = new Section(composite, Section.TWISTIE);
+		ExpandableComposite advancedExpander = new ExpandableComposite(parent, SWT.NONE,
+				ExpandableComposite.TWISTIE);
 		advancedExpander.setText(Messages.Q7PreferencePage_AdvancedSectionLabel);
-		advancedExpander.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		advancedExpander.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite advancedComposite = new Composite(advancedExpander, SWT.NONE);
 
 		advancedComposite.setLayout(new GridLayout(1, false));

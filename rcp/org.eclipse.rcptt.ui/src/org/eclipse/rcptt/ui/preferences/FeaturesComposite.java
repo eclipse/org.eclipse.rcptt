@@ -217,7 +217,7 @@ public class FeaturesComposite {
 				// g = new Group(mg, SWT.NONE);
 				// ((Group)g).setText(entry.getKey());
 				boolean expValue = expanded.containsKey(entry.getKey());
-				Section exp = new Section(parent, SWT.BORDER | Section.TWISTIE
+				ExpandableComposite exp = new ExpandableComposite(parent, SWT.NONE, SWT.BORDER | Section.TWISTIE
 						| (expValue ? Section.EXPANDED : 0));
 				if (toolkit != null)
 					toolkit.adapt(exp);
