@@ -338,7 +338,7 @@
       <plugin id="org.eclipse.rcptt.verifications.tree"/>
       <plugin id="org.eclipse.rcptt.verifications"/>
       <plugin id="org.eclipse.rcptt.watson.core"/>
-      <plugin id="org.eclipse.rcptt.watson.jface"/>
+      <!-- <plugin id="org.eclipse.rcptt.watson.jface"/> -->
       <plugin id="org.eclipse.rcptt.watson.jobs"/>
       <!-- <plugin id="org.eclipse.search"/> -->
       <plugin id="org.eclipse.swt.cocoa.macosx.x86_64"/>
