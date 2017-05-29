@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Hgh7cLN3EeSIB87DbOtJCQ
-Runtime-Version: 2.0.0.201505131625
-Save-Time: 5/14/15 1:58 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/23/17 12:19 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -21,7 +21,7 @@ get-aut "mockupsQ7" | eval {
 	get-menu "Window/Show View/Other..." | click
 	with [get-window "Show View"] {
     get-tree | select "Q7 Quality/Q7 Quality Mockups"
-    get-button OK | click
+    get-button Open | click
 }
 	get-tree | select "issues/RCPTT-211 - Empty window in Assertion mode if tree or table column is unnamed"
 }
