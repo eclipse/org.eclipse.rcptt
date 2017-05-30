@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -148,10 +148,55 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>eclipse-sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.cbi.maven.plugins</groupId>
+            <artifactId>eclipse-winsigner-plugin</artifactId>
+            <version>${cbi-version}</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <fileNames>
+                    <fileName>rcptt.exe</fileName>
+                  </fileNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.cbi.maven.plugins</groupId>
+            <artifactId>eclipse-macsigner-plugin</artifactId>
+            <version>${cbi-version}</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <fileNames>
+                    <fileName>rcptt.app</fileName>
+                  </fileNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <pluginRepositories>
     <!-- this repo is required for eclipse-ini-patcher plugin (see above)
 	 to improve Mac OS X product materialization
-	 (see github.com/komaz/eclipse-ini-patcher)     
+	 (see github.com/komaz/eclipse-ini-patcher)
     -->
     <pluginRepository>
       <id>xored</id>
