@@ -150,7 +150,7 @@
   </build>
   <profiles>
     <profile>
-      <id>eclipse-sign</id>
+      <id>sign</id>
       <build>
         <plugins>
           <plugin>
