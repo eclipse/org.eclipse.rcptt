@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
@@ -132,7 +133,7 @@ public abstract class UIRunnable<T> {
 				if (time > start + getTimeout()) {
 					// Lets also capture all thread dump.
 					storeTimeoutInReport(display, collector);
-					MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Timeout during execution of " + runnable, null) {
+					MultiStatus status = new MultiStatus(PLUGIN_ID, IProcess.TIMEOUT_CODE, "Timeout during execution of " + runnable, null) {
 						{
 							setSeverity(ERROR);
 						}
@@ -149,6 +150,7 @@ public abstract class UIRunnable<T> {
 			}
 			collector.join(timeLeft);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			throw new CoreException(Status.CANCEL_STATUS);
 		} finally {
 			Job.getJobManager().removeJobChangeListener(collector);
