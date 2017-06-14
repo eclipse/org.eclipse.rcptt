@@ -15,6 +15,7 @@ import java.util.TimerTask;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.IExecutionSession;
 import org.eclipse.rcptt.launching.ILaunchListener;
@@ -63,8 +64,8 @@ public class LaunchTimer extends Thread implements ILaunchListener {
 
 		@Override
 		public void run() {
-			executable.cancel(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, "Execution timed out after "
-					+ timeout + " seconds"));
+			executable.cancel(new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID, IProcess.TIMEOUT_CODE, "Execution timed out after "
+					+ timeout + " seconds", null));
 		}
 
 	}
