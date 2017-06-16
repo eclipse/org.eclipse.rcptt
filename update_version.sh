@@ -33,5 +33,5 @@ mvn $GOAL -f examples/rcptt.extensions.ecl/common/pom.xml $OPTIONS || exit 104
 mvn $GOAL -f examples/rcptt.extensions.ecl/runtime/pom.xml $OPTIONS || exit 105
 
 echo "==========================================================="
-echo "This script updates version for most of plugins, but not\nfor all. So, after execution, it is needed to search\nthe old version number in the project directory and update\nversions in some places by hand"
+echo "This script updates version for most of plugins, but not\nfor all. So, after execution, it is needed to search\nthe old version number in the project directory and update\nversions in some places by hand."
 echo "==========================================================="
