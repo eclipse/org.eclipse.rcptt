@@ -29,6 +29,7 @@
     <ajJavaCompilance>1.7</ajJavaCompilance>
     <cbi-version>1.1.4</cbi-version>
   </properties>
+
   <distributionManagement>
     <repository>
       <id>repo.eclipse.org</id>
@@ -74,6 +75,11 @@
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200b-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-versions-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
@@ -147,6 +153,18 @@
     </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>update-version</id>
+      <modules>
+        <module>mirroring</module>
+        <module>core</module>
+        <module>runtime</module>
+        <module>ide</module>
+        <module>rap</module>
+        <module>rcptt</module>
+        <module>runner</module>
+      </modules>
+    </profile>
     <profile>
       <!--
         This profile is copied from
