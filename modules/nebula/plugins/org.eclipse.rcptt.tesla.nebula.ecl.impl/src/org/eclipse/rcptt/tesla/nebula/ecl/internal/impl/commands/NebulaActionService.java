@@ -57,6 +57,7 @@ public abstract class NebulaActionService extends AbstractActionService {
 			msie.setRowHeader(true);
 		if (NebulaElementKinds.ITEM_CELL.equals(part.getCustomKindId()))
 			msie.setCellColumn(part.getText());
+			msie.setIndex(part.getIndex());
 		return msie;
 	}
 

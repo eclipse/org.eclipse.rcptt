@@ -69,14 +69,19 @@ public class ItemCell extends ItemPart {
 
 	//
 
-	public static ItemCell from(SelectData data, GridItem item) {
-		return from(data.getPattern(), item);
+	public static ItemCell from(SelectData data, GridItem item, Integer index) {
+		return from(data.getPattern(), item, index);
 	}
 
-	public static ItemCell from(String pattern, GridItem item) {
+	public static ItemCell from(String pattern, GridItem item, Integer index) {
 
 		Grid grid = ((GridItem) item).getParent();
-		GridColumn column = NebulaViewers.findColumn(grid, pattern, 0);
+		GridColumn column = null;
+		if(index != null)
+			column = NebulaViewers.findColumn(grid, pattern, index);
+		else {
+			column = NebulaViewers.findColumn(grid, pattern, 0);
+		}
 		if (column == null)
 			throw new IllegalArgumentException(Messages.bind(Messages.ColumnNotExist, pattern));
 		// TODO check that this exception handled on menu-clicks replaying (maybe in SWTUIProcessor)
@@ -89,7 +94,7 @@ public class ItemCell extends ItemPart {
 		if (!(item instanceof GridItem))
 			return null;
 
-		return p.wrap(ItemCell.from(f.pattern, (GridItem) item));
+		return p.wrap(ItemCell.from(f.pattern, (GridItem) item, f.index));
 	}
 
 	//
@@ -100,7 +105,10 @@ public class ItemCell extends ItemPart {
 		if (columnHeaderBounds != null) {
 			return new Rectangle(columnHeaderBounds.x, itemBounds().y, columnHeaderBounds.width, itemBounds().height);
 		}
-		return itemBounds();
+		if (item == null || NebulaViewers.getColumnCurrentPosition(column) == -1 || item.isDisposed()){
+            return new Rectangle(0, 0, 0, 0);
+	 }
+	return item.getBounds(NebulaViewers.getColumnCurrentPosition(column));
 	}
 
 	// replaying selection stuff

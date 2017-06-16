@@ -46,7 +46,7 @@ public class GridScrollingHelper {
 			showItemIfHidden(item);
 
 			if (data.getKind().contentEquals(NebulaElementKinds.ITEM_CELL)) {
-				ItemCell cell = ItemCell.from(data, item);
+				ItemCell cell = ItemCell.from(data, item, data.getIndex());
 				showColumnIfHidden(cell.column); // scroll horizontally to the column
 			}
 		}
