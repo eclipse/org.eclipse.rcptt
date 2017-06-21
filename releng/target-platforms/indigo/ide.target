@@ -17,11 +17,11 @@
 <repository location="http://download.eclipse.org/releases/indigo/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.contribution.weaving.source.feature.group" version="2.2.0.e37x-RELEASE-20120704-0900"/>
-<unit id="org.eclipse.contribution.xref.source.feature.group" version="2.2.0.e37x-RELEASE-20120704-0900"/>
-<unit id="org.eclipse.ajdt.feature.group" version="2.2.0.e37x-RELEASE-20120704-0900"/>
-<unit id="org.eclipse.ajdt.source.feature.group" version="2.2.0.e37x-RELEASE-20120704-0900"/>
-<unit id="org.eclipse.contribution.weaving.feature.group" version="2.2.0.e37x-RELEASE-20120704-0900"/>
+<unit id="org.eclipse.contribution.weaving.source.feature.group" version="2.3.0.e37x-RELEASE-20120704-0900"/>
+<unit id="org.eclipse.contribution.xref.source.feature.group" version="2.3.0.e37x-RELEASE-20120704-0900"/>
+<unit id="org.eclipse.ajdt.feature.group" version="2.3.0.e37x-RELEASE-20120704-0900"/>
+<unit id="org.eclipse.ajdt.source.feature.group" version="2.3.0.e37x-RELEASE-20120704-0900"/>
+<unit id="org.eclipse.contribution.weaving.feature.group" version="2.3.0.e37x-RELEASE-20120704-0900"/>
 <repository location="http://download.xored.com/mirrors/ajdt37_22/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
