@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +20,7 @@ package org.eclipse.rcptt.verifications.tree;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isAllowExtraColumns <em>Allow Extra Columns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isAllowMissingColumns <em>Allow Missing Columns</em>}</li>
@@ -25,8 +28,8 @@ package org.eclipse.rcptt.verifications.tree;
  *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isVerifyIcons <em>Verify Icons</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isAllowUncapturedChildren <em>Allow Uncaptured Children</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isEnableVerifyStyle <em>Enable Verify Style</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#getExcludedColumns <em>Excluded Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.verifications.tree.TreePackage#getVerifyTreeData()
  * @model
@@ -194,5 +197,21 @@ public interface VerifyTreeData extends CommonTreeVerificationData {
 	 * @generated
 	 */
 	void setEnableVerifyStyle(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Excluded Columns</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Integer}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Excluded Columns</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Excluded Columns</em>' attribute list.
+	 * @see org.eclipse.rcptt.verifications.tree.TreePackage#getVerifyTreeData_ExcludedColumns()
+	 * @model
+	 * @generated
+	 */
+	EList<Integer> getExcludedColumns();
 
 } // VerifyTreeData

@@ -66,10 +66,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				try {
 					Tree expectedTree = treeVerification.getTree();
 					Tree actualTree = TreeVerificationModeller.getTreeData(widget, false);
-
 					compareTrees(widget, errors, expectedTree, actualTree, treeVerification.isAllowUncapturedChildren(),
 							treeVerification.isAllowExtraColumns(), treeVerification.isAllowMissingColumns(),
-							treeVerification.isVerifyIcons(), treeVerification.getVerifyStyle());
+							treeVerification.isVerifyIcons(), treeVerification.getVerifyStyle(), treeVerification.getExcludedColumns());
 				} catch (Throwable e) {
 					error[0] = e;
 				}
@@ -83,7 +82,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 
 	private void compareTrees(final Widget widget, final ErrorList errors, final Tree expectedTree, Tree actualTree,
 			final boolean allowUncapturedChildren, final boolean allowExtra, final boolean allowMissing,
-			final boolean verifyIcons, final VerifyStyleType verifyStyle) {
+			final boolean verifyIcons, final VerifyStyleType verifyStyle, final EList<Integer> excludedColumns) {
 		if (expectedTree == null) {
 			errors.add("Expected tree is undefined");
 			return;
@@ -91,7 +90,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 
 		final EList<Column> expectingColumns = expectedTree.getColumns();
 		EList<Column> actualColumns = actualTree.getColumns();
-		final int[] mappedInds = (expectingColumns.size() > 0) ? new int[expectingColumns.size()] : new int[] { 0 };
+		final int[] mappedInds = (expectingColumns.size() > 0) ? new int[expectingColumns.size()] : new int[] { -1 };
 		boolean[] mappedActualCols = new boolean[actualColumns.size()];
 		boolean correctMapping = true;
 
@@ -99,6 +98,14 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 			boolean mapped = false;
 
 			for (int j = 0; j < actualColumns.size(); j++) {
+				for (Integer excludedColumn : excludedColumns) {
+					if (excludedColumn.equals(j)) {
+						mappedInds[i] = -1;
+						mappedActualCols[j] = true;
+						mapped = true;
+						break;
+					}
+				}
 				if (!mappedActualCols[j] && expectingColumns.get(i).getName().equals(actualColumns.get(j).getName())
 						&& isEqualStrings(expectingColumns.get(i).getTooltip(), actualColumns.get(i).getTooltip())) {
 					mappedInds[i] = j;
@@ -129,6 +136,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 		if (correctMapping) {
 			if (verifyIcons) {
 				for (int i = 0; i < expectingColumns.size(); i++) {
+					if (mappedInds[i] == -1) {
+						break;
+					}
 					String expImgName = TreeVerificationUtils.getDecoratedImagePath(expectingColumns.get(i).getImage());
 					String actImgName = TreeVerificationUtils
 							.getDecoratedImagePath(expectingColumns.get(mappedInds[i]).getImage());

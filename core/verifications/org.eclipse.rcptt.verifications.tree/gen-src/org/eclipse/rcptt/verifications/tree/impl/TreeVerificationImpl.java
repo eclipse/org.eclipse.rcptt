@@ -12,6 +12,7 @@ package org.eclipse.rcptt.verifications.tree.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
@@ -39,6 +41,7 @@ import java.util.Map.Entry;
  * <em><b>Verification</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#isAllowExtraColumns <em>Allow Extra Columns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#isAllowMissingColumns <em>Allow Missing Columns</em>}</li>
@@ -46,8 +49,8 @@ import java.util.Map.Entry;
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#isVerifyIcons <em>Verify Icons</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#isAllowUncapturedChildren <em>Allow Uncaptured Children</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#isEnableVerifyStyle <em>Enable Verify Style</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.verifications.tree.impl.TreeVerificationImpl#getExcludedColumns <em>Excluded Columns</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -171,6 +174,16 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 	 * @ordered
 	 */
 	protected boolean enableVerifyStyle = ENABLE_VERIFY_STYLE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getExcludedColumns() <em>Excluded Columns</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExcludedColumns()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Integer> excludedColumns;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -316,6 +329,18 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Integer> getExcludedColumns() {
+		if (excludedColumns == null) {
+			excludedColumns = new EDataTypeUniqueEList<Integer>(Integer.class, this, TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS);
+		}
+		return excludedColumns;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -334,6 +359,8 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 				return isAllowUncapturedChildren();
 			case TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE:
 				return isEnableVerifyStyle();
+			case TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS:
+				return getExcludedColumns();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -364,6 +391,10 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 			case TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE:
 				setEnableVerifyStyle((Boolean)newValue);
 				return;
+			case TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS:
+				getExcludedColumns().clear();
+				getExcludedColumns().addAll((Collection<? extends Integer>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -393,6 +424,9 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 			case TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE:
 				setEnableVerifyStyle(ENABLE_VERIFY_STYLE_EDEFAULT);
 				return;
+			case TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS:
+				getExcludedColumns().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -416,6 +450,8 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 				return allowUncapturedChildren != ALLOW_UNCAPTURED_CHILDREN_EDEFAULT;
 			case TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE:
 				return enableVerifyStyle != ENABLE_VERIFY_STYLE_EDEFAULT;
+			case TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS:
+				return excludedColumns != null && !excludedColumns.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -435,6 +471,7 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 				case TreePackage.TREE_VERIFICATION__VERIFY_ICONS: return TreePackage.VERIFY_TREE_DATA__VERIFY_ICONS;
 				case TreePackage.TREE_VERIFICATION__ALLOW_UNCAPTURED_CHILDREN: return TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN;
 				case TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE: return TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE;
+				case TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS: return TreePackage.VERIFY_TREE_DATA__EXCLUDED_COLUMNS;
 				default: return -1;
 			}
 		}
@@ -456,6 +493,7 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 				case TreePackage.VERIFY_TREE_DATA__VERIFY_ICONS: return TreePackage.TREE_VERIFICATION__VERIFY_ICONS;
 				case TreePackage.VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN: return TreePackage.TREE_VERIFICATION__ALLOW_UNCAPTURED_CHILDREN;
 				case TreePackage.VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE: return TreePackage.TREE_VERIFICATION__ENABLE_VERIFY_STYLE;
+				case TreePackage.VERIFY_TREE_DATA__EXCLUDED_COLUMNS: return TreePackage.TREE_VERIFICATION__EXCLUDED_COLUMNS;
 				default: return -1;
 			}
 		}
@@ -484,6 +522,8 @@ public class TreeVerificationImpl extends CaptureTreeVerificationDataImpl implem
 		result.append(allowUncapturedChildren);
 		result.append(", enableVerifyStyle: ");
 		result.append(enableVerifyStyle);
+		result.append(", excludedColumns: ");
+		result.append(excludedColumns);
 		result.append(')');
 		return result.toString();
 	}
