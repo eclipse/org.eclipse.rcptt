@@ -163,7 +163,7 @@ public class TreeComparisonTest {
 				emptyIntegerList, "");
 		assertEquals(0, result.size());
 		result = comparison.assertChildren(wrap(1, 2, 3, 4), wrap(1, 2, 3), emptyIntegerList, "");
-		assertEquals(1, result.size());
+		assertEquals(2, result.size());
 		assertEquals(Collections.emptyList(), result.get(0).getItemIndexPath());
 		assertEquals("Different row children amount, expected 4, but was 3", result.get(0).getMessage());
 		result = comparison.assertChildren(wrap(1, 3, 2), wrap(1, 2, 3), emptyIntegerList, "");
