@@ -112,6 +112,11 @@ public interface ITargetPlatformHelper {
 			IProgressMonitor monitor);
 
 	/**
+	 * Get initial environment variables from eclipse.ini of target platform.
+	 */
+	Map<String, String> getIniEnvironment();
+
+	/**
 	 * Get initial vmargs readed from eclipse.ini of target platform.
 	 */
 	String getIniVMArgs();

@@ -827,6 +827,18 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return Status.OK_STATUS;
 	}
 
+	public Map<String, String> getIniEnvironment() {
+		List<File> iniFiles = getAppIniFiles();
+		Map<String, String> result = new HashMap<String, String>();
+		for (File file : iniFiles) {
+			Map<String, String> envs = readEnvironmentFromIniFile(file);
+			if (envs != null) {
+				result.putAll(envs);
+			}
+		}
+		return result;
+	}
+
 	public String getIniVMArgs() {
 		List<File> iniFiles = getAppIniFiles();
 		for (File file : iniFiles) {
@@ -926,6 +938,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
+	private static final String GTK_VERSION = "--launcher.GTK_version";
 	private static final String VMARGS = "-vmargs";
 	private static final String VM = "-vm";
 
@@ -963,6 +976,30 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 		}
 		return null;
+	}
+
+	private Map<String, String> readEnvironmentFromIniFile(File eclipseIniFile) {
+		if (!eclipseIniFile.exists()) {
+			return null;
+		}
+
+		List<String> lines = parseIniFile(eclipseIniFile);
+		Map<String, String> envs = new HashMap<String, String>();
+
+		// mirror GTK_VERSION parameter processing
+		// from org.eclipse.equinox.executable.feature / library / eclipse.c
+		// see more:
+		// https://git.eclipse.org/r/plugins/gitiles/equinox/rt.equinox.framework/+/master/features/org.eclipse.equinox.executable.feature/library/eclipse.c
+		int gtkVersionIdx = lines.indexOf(GTK_VERSION);
+		if (gtkVersionIdx != -1 && Platform.getOS().equals(Platform.OS_LINUX)) {
+			String gtkVersion = lines.get(gtkVersionIdx + 1);
+			if ("2".equals(gtkVersion)) {
+				envs.put("SWT_GTK3", "0");
+			} else {
+				envs.put("SWT_GTK3", "1");
+			}
+		}
+		return envs;
 	}
 
 	private String readVMArgsFromIniFile(File eclipseIniFile) {
