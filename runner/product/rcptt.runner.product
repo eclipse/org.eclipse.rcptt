@@ -320,7 +320,7 @@
       <plugin id="org.eclipse.rcptt.updates.aspectj.e38x"/>
       <plugin id="org.eclipse.rcptt.updates.aspectj.e3x"/>
       <plugin id="org.eclipse.rcptt.updates.aspectj.e44x"/>
-      <plugin id="org.eclipse.rcptt.updates.indigo"/>
+      <plugin id="org.eclipse.rcptt.updates.helios"/>
       <plugin id="org.eclipse.rcptt.updates.kepler"/>
       <plugin id="org.eclipse.rcptt.updates.runtime.e4x"/>
       <plugin id="org.eclipse.rcptt.updates.runtime"/>

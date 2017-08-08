@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -17,9 +17,9 @@
     <artifactId>bundles</artifactId>
     <version>2.3.0-SNAPSHOT</version>
   </parent>
-  
+
   <groupId>org.eclipse.rcptt.external.dependencies</groupId>
-  <artifactId>org.eclipse.rcptt.updates.indigo</artifactId>
+  <artifactId>org.eclipse.rcptt.updates.helios</artifactId>
   <version>2.3.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
@@ -42,7 +42,7 @@
         </configuration>
       </plugin>
 
-      
+
       <plugin>
 	<groupId>org.eclipse.tycho.extras</groupId>
 	<artifactId>tycho-p2-extras-plugin</artifactId>
@@ -58,12 +58,12 @@
 	<configuration>
 	  <source>
 	    <repository>
-        <id>indigo</id>
-	      <url>http://download.eclipse.org/releases/indigo/</url>
+        <id>helios</id>
+	      <url>http://download.eclipse.org/releases/helios/</url>
 	      <layout>p2</layout>
 	    </repository>
 	  </source>
-	  
+
 	  <destination>${project.basedir}/dependencies</destination>
 	  <followStrictOnly>true</followStrictOnly>
 	  <includeOptional>false</includeOptional>
