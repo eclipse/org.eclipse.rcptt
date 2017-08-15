@@ -144,9 +144,6 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.internal.decorators.DecorationScheduler;
-import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.internal.registry.EditorRegistry;
 
 @SuppressWarnings("restriction")
@@ -1763,11 +1760,6 @@ public final class SWTUIPlayer {
 			debugProceed("Browser active");
 			return false;
 		}
-		// Check we don't have decoration object to perform
-		if (isHasDecorations(info)) {
-			debugProceed("Decorations in progress");
-			return false;
-		}
 
 		synchronized (runnables) {
 			this.context = context;
@@ -1784,19 +1776,6 @@ public final class SWTUIPlayer {
 
 		debugProceed("Can proceed");
 		return true;
-	}
-
-	private boolean isHasDecorations(Q7WaitInfoRoot info) {
-		DecoratorManager manager = WorkbenchPlugin.getDefault().getDecoratorManager();
-		DecorationScheduler scheduler = TeslaSWTAccess.getDecorationScheduler(manager);
-		Job[] decorstors = Job.getJobManager().find(DecoratorManager.FAMILY_DECORATE);
-		if (decorstors.length != 0) {
-			for (Job job : decorstors) {
-				Q7WaitUtils.updateInfo("decorator", job.getClass().getName(), info);
-			}
-			return true;
-		}
-		return scheduler.processingUpdates() && TeslaSWTAccess.getDecorationResultMap(scheduler).isEmpty();
 	}
 
 	public static boolean hasRunnables(Display display) {
