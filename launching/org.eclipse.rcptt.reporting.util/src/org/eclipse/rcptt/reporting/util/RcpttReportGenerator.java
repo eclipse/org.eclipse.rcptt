@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -474,7 +473,7 @@ public class RcpttReportGenerator {
 
 		};
 
-		List<Map.Entry<String, Long>> sortedTable = new LinkedList<>(unsortedMap.entrySet());
+		List<Map.Entry<String, Long>> sortedTable = new ArrayList<>(unsortedMap.entrySet());
 		Collections.sort(sortedTable, Collections.reverseOrder(comparator));
 		return sortedTable;
 	}
