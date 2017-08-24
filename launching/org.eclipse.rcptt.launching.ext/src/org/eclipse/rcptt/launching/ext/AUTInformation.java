@@ -81,17 +81,17 @@ public class AUTInformation {
 	}
 
 	/**
-	 * Return information properties map. Constants could be used to check
-	 * plugin versions available.
+	 * Return information properties map. Constants could be used to check plugin
+	 * versions available.
 	 *
 	 * @return
 	 * @throws CoreException
 	 */
-	public static Map<String, Version> getInformationMap(
-			org.eclipse.pde.core.target.ITargetDefinition platform) throws CoreException {
+	public static Map<String, Version> getInformationMap(org.eclipse.pde.core.target.ITargetDefinition platform)
+			throws CoreException {
 		VersionMap values = new VersionMap();
-		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0, "Detected potential problems in target platform "
-				+ platform, null);
+		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0,
+				"Detected potential problems in target platform " + platform, null);
 		if (platform.getTargetLocations().length <= 0)
 			throw new CoreException(
 					new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
@@ -103,8 +103,8 @@ public class AUTInformation {
 			String bundleName = bundleInfo.getSymbolicName();
 			BundleInfo oldValue = resolvedBundles.get(bundleName);
 			if (oldValue != null && !Objects.equal(oldValue.getVersion(), bundleInfo.getVersion())) {
-				warnings.add(createWarning("Multiple versions of bundle " + oldValue.getLocation() + " and "
-						+ bundleInfo.getLocation()));
+				warnings.add(createWarning(
+						"Multiple versions of bundle " + oldValue.getLocation() + " and " + bundleInfo.getLocation()));
 			}
 			resolvedBundles.put(bundleName, bundleInfo);
 		}
@@ -208,6 +208,8 @@ public class AUTInformation {
 			values.put(VERSION, "4.6");
 		} else if (minor == 106) {
 			values.put(VERSION, "4.7");
+		} else if (minor == 107) {
+			values.put(VERSION, "4.8");
 		}
 	}
 
