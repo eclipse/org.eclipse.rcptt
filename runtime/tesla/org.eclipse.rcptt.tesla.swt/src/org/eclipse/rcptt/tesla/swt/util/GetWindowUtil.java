@@ -12,7 +12,7 @@ package org.eclipse.rcptt.tesla.swt.util;
 
 import static org.eclipse.rcptt.tesla.core.protocol.IWindowProvider.CLASS_PATH_MARK;
 import static org.eclipse.rcptt.tesla.core.protocol.IWindowProvider.FROM_PATH_MARK;
-import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.getRawText;
+import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.getTrimmedText;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.safeMatches;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
 
@@ -80,7 +80,7 @@ public class GetWindowUtil {
 			public boolean fits(SWTUIElement uie) {
 				if (pattern == null) return true;
 
-				String text = getRawText(uie);
+				String text = getTrimmedText(uie);
 				return (text != null) &&
 						(text.equals(pattern) || safeMatches(text, pattern));
 			}

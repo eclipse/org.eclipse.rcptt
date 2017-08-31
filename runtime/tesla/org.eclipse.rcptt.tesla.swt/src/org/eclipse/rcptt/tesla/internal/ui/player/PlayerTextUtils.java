@@ -77,6 +77,14 @@ public class PlayerTextUtils {
 		return result;
 	}
 
+	public static String getTrimmedText(SWTUIElement uiElement) {
+		String result = getRawText(uiElement);
+		if (result != null) {
+			result = result.replaceAll("\n|\r", "").trim();
+		}
+		return result;
+	}
+
 	public static String getTextForVerification(SWTUIElement uiElement) {
 		String result = getRawText(uiElement);
 		if (result == null)
