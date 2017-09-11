@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.Val;
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
 import org.eclipse.rcptt.ecl.operations.OperationsPackage;
 import org.eclipse.rcptt.ecl.operations.Try;
@@ -38,6 +39,7 @@ import org.eclipse.rcptt.ecl.operations.Try;
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getTimes <em>Times</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getDelay <em>Delay</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#isNoScreenshot <em>No Screenshot</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.TryImpl#getError <em>Error</em>}</li>
  * </ul>
  *
  * @generated
@@ -132,6 +134,16 @@ public class TryImpl extends CommandImpl implements Try {
 	 * @ordered
 	 */
 	protected boolean noScreenshot = NO_SCREENSHOT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getError() <em>Error</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getError()
+	 * @generated
+	 * @ordered
+	 */
+	protected Val error;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -334,6 +346,44 @@ public class TryImpl extends CommandImpl implements Try {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Val getError() {
+		if (error != null && error.eIsProxy()) {
+			InternalEObject oldError = (InternalEObject)error;
+			error = (Val)eResolveProxy(oldError);
+			if (error != oldError) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OperationsPackage.TRY__ERROR, oldError, error));
+			}
+		}
+		return error;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Val basicGetError() {
+		return error;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setError(Val newError) {
+		Val oldError = error;
+		error = newError;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OperationsPackage.TRY__ERROR, oldError, error));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -352,6 +402,9 @@ public class TryImpl extends CommandImpl implements Try {
 				return getDelay();
 			case OperationsPackage.TRY__NO_SCREENSHOT:
 				return isNoScreenshot();
+			case OperationsPackage.TRY__ERROR:
+				if (resolve) return getError();
+				return basicGetError();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -381,6 +434,9 @@ public class TryImpl extends CommandImpl implements Try {
 				return;
 			case OperationsPackage.TRY__NO_SCREENSHOT:
 				setNoScreenshot((Boolean)newValue);
+				return;
+			case OperationsPackage.TRY__ERROR:
+				setError((Val)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -412,6 +468,9 @@ public class TryImpl extends CommandImpl implements Try {
 			case OperationsPackage.TRY__NO_SCREENSHOT:
 				setNoScreenshot(NO_SCREENSHOT_EDEFAULT);
 				return;
+			case OperationsPackage.TRY__ERROR:
+				setError((Val)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -436,6 +495,8 @@ public class TryImpl extends CommandImpl implements Try {
 				return DELAY_EDEFAULT == null ? delay != null : !DELAY_EDEFAULT.equals(delay);
 			case OperationsPackage.TRY__NO_SCREENSHOT:
 				return noScreenshot != NO_SCREENSHOT_EDEFAULT;
+			case OperationsPackage.TRY__ERROR:
+				return error != null;
 		}
 		return super.eIsSet(featureID);
 	}

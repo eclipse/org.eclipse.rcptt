@@ -15,9 +15,14 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.CoreFactory;
+import org.eclipse.rcptt.ecl.core.Let;
+import org.eclipse.rcptt.ecl.core.Val;
 import org.eclipse.rcptt.ecl.core.util.ISessionPropertyConstants;
 import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
+import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
 import org.eclipse.rcptt.ecl.operations.Try;
 import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
@@ -31,6 +36,7 @@ public class TryService implements ICommandService, ISessionPropertyConstants {
 		Try t = (Try) command;
 		Integer times = t.getTimes();
 		Integer delay = t.getDelay();
+		Val errorVal = t.getError();
 		if (delay == null)
 			delay = 100;
 		if (delay < 0)
@@ -71,13 +77,19 @@ public class TryService implements ICommandService, ISessionPropertyConstants {
 			// Do catch
 			if (!status.isOK()) {
 				if (t.getCatch() != null) {
+					Let catchBlock = CoreFactory.eINSTANCE.createLet();
+					catchBlock.setBody(EcoreUtil.copy(t.getCatch()));
+					if (errorVal != null) {
+						errorVal.setValue(ProcessStatusConverter.toProcessStatus(status));
+						catchBlock.getVals().add(errorVal);
+					}
 					session.putProperty(NO_SCREENSHOT, null);
 					IPipe input = session.createPipe();
 					for (Object o : inputContent)
 						input.write(o);
 					input.close(Status.OK_STATUS);
 					IPipe output = session.createPipe();
-					IProcess doProcess = session.execute(t.getCatch(), input, output);
+					IProcess doProcess = session.execute(catchBlock, input, output);
 					IStatus status2 = doProcess.waitFor();
 					if (status2.isOK()) {
 						List<Object> outputContent = CoreUtils.readPipeContent(output);
@@ -115,4 +127,5 @@ public class TryService implements ICommandService, ISessionPropertyConstants {
 		}
 		return status;
 	}
+
 }

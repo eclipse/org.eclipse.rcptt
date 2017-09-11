@@ -633,6 +633,15 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTry_Error() {
+		return (EReference)tryEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1274,6 +1283,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		createEAttribute(tryEClass, TRY__TIMES);
 		createEAttribute(tryEClass, TRY__DELAY);
 		createEAttribute(tryEClass, TRY__NO_SCREENSHOT);
+		createEReference(tryEClass, TRY__ERROR);
 
 		formatEClass = createEClass(FORMAT);
 		createEAttribute(formatEClass, FORMAT__FORMAT);
@@ -1491,6 +1501,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEAttribute(getTry_Times(), theEcorePackage.getEIntegerObject(), "times", "1", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTry_Delay(), theEcorePackage.getEIntegerObject(), "delay", "0", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTry_NoScreenshot(), theEcorePackage.getEBoolean(), "noScreenshot", "false", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTry_Error(), theCorePackage.getVal(), null, "error", null, 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(formatEClass, Format.class, "Format", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFormat_Format(), theEcorePackage.getEString(), "format", null, 0, 1, Format.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1761,7 +1772,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		   new String[] {
 			 "description", "Try to execute command, retry times with delay if command are failed.\nExecute catch if all operations is not succesfull. Execute finally in anyway.",
 			 "returns", "return\'s -command output if command is successed.",
-			 "example", "try -times 10 -delay 100 -command {\r\n\t// some ECL scripts\r\n}"
+			 "example", "try -times 10 -delay 100 -command {\r\n\t// some ECL scripts\r\n} -error [val errorObj] -catch {\r\n\tlog [$errorObj | get message]\n}"
+		   });	
+		addAnnotation
+		  (getTry_Error(), 
+		   source, 
+		   new String[] {
+			 "description", "A variable to store an error object in. Accessible from catch block."
 		   });	
 		addAnnotation
 		  (formatEClass, 

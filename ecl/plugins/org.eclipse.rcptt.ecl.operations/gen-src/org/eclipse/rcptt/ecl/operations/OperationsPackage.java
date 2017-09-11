@@ -956,13 +956,22 @@ public interface OperationsPackage extends EPackage {
 	int TRY__NO_SCREENSHOT = CorePackage.COMMAND_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Error</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRY__ERROR = CorePackage.COMMAND_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Try</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRY_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 6;
+	int TRY_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -2621,6 +2630,17 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getTry_NoScreenshot();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.operations.Try#getError <em>Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Error</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.Try#getError()
+	 * @see #getTry()
+	 * @generated
+	 */
+	EReference getTry_Error();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Format <em>Format</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3620,6 +3640,14 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRY__NO_SCREENSHOT = eINSTANCE.getTry_NoScreenshot();
+
+		/**
+		 * The meta object literal for the '<em><b>Error</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRY__ERROR = eINSTANCE.getTry_Error();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.FormatImpl <em>Format</em>}' class.
