@@ -219,6 +219,20 @@ public class CommandsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CommandsPackage.GET_STATUS_MESSAGE: {
+				GetStatusMessage getStatusMessage = (GetStatusMessage)theEObject;
+				T result = caseGetStatusMessage(getStatusMessage);
+				if (result == null) result = caseCommand(getStatusMessage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CommandsPackage.GET_STATUS_TRACE: {
+				GetStatusTrace getStatusTrace = (GetStatusTrace)theEObject;
+				T result = caseGetStatusTrace(getStatusTrace);
+				if (result == null) result = caseCommand(getStatusTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -490,6 +504,36 @@ public class CommandsSwitch<T> {
 	 * @generated
 	 */
 	public T caseFindInWorkspace(FindInWorkspace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Status Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Status Message</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetStatusMessage(GetStatusMessage object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Status Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Status Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetStatusTrace(GetStatusTrace object) {
 		return null;
 	}
 

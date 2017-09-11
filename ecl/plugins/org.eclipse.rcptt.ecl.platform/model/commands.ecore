@@ -181,4 +181,26 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetStatusMessage" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Takes ProcessStatus from input and returns first root cause."/>
+      <details key="returns" value="String with first root cause."/>
+      <details key="example" value="try {&#xA;&#x9;throw-error &quot;Error ocurred&quot;&#xA;} -error [val e] -catch {&#xA;&#x9;$e | get-status-trace | log&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="status" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetStatusTrace" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Takes ProcessStatus from input and returns trace."/>
+      <details key="returns" value="String with status trace."/>
+      <details key="example" value="try {&#xA;&#x9;throw-error &quot;Error ocurred&quot;&#xA;} -error [val e] -catch {&#xA;&#x9;$e | get-status-trace | log&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="status" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//ProcessStatus">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
 </ecore:EPackage>

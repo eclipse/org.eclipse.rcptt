@@ -82,6 +82,8 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 			case CommandsPackage.SUBSTITUTE_VARIABLES: return createSubstituteVariables();
 			case CommandsPackage.GET_WORKSPACE_LOCATION: return createGetWorkspaceLocation();
 			case CommandsPackage.FIND_IN_WORKSPACE: return createFindInWorkspace();
+			case CommandsPackage.GET_STATUS_MESSAGE: return createGetStatusMessage();
+			case CommandsPackage.GET_STATUS_TRACE: return createGetStatusTrace();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -265,6 +267,26 @@ public class CommandsFactoryImpl extends EFactoryImpl implements CommandsFactory
 	public FindInWorkspace createFindInWorkspace() {
 		FindInWorkspaceImpl findInWorkspace = new FindInWorkspaceImpl();
 		return findInWorkspace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetStatusMessage createGetStatusMessage() {
+		GetStatusMessageImpl getStatusMessage = new GetStatusMessageImpl();
+		return getStatusMessage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetStatusTrace createGetStatusTrace() {
+		GetStatusTraceImpl getStatusTrace = new GetStatusTraceImpl();
+		return getStatusTrace;
 	}
 
 	/**

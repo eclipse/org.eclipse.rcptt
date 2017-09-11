@@ -119,6 +119,16 @@
             name="FindInWorkspace"
             namespace="http://www.eclipse.org/ecl/platform/commands.ecore">
       </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.platform.internal.commands.GetStatusMessageService"
+            name="GetStatusMessage"
+            namespace="http://www.eclipse.org/ecl/platform/commands.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.platform.internal.commands.GetStatusTraceService"
+            name="GetStatusTrace"
+            namespace="http://www.eclipse.org/ecl/platform/commands.ecore">
+      </scriptlet>
    </extension>
    <extension
          point="org.eclipse.rcptt.ecl.core.listenSource">

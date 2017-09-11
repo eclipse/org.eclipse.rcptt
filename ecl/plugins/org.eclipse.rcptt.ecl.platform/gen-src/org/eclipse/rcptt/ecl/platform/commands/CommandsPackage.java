@@ -14,6 +14,7 @@ package org.eclipse.rcptt.ecl.platform.commands;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.rcptt.ecl.core.CorePackage;
 
 /**
@@ -896,6 +897,99 @@ public interface CommandsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusMessageImpl <em>Get Status Message</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusMessageImpl
+	 * @see org.eclipse.rcptt.ecl.platform.commands.impl.CommandsPackageImpl#getGetStatusMessage()
+	 * @generated
+	 */
+	int GET_STATUS_MESSAGE = 18;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_MESSAGE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_MESSAGE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_MESSAGE__STATUS = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Get Status Message</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_MESSAGE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusTraceImpl <em>Get Status Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusTraceImpl
+	 * @see org.eclipse.rcptt.ecl.platform.commands.impl.CommandsPackageImpl#getGetStatusTrace()
+	 * @generated
+	 */
+	int GET_STATUS_TRACE = 19;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_TRACE__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_TRACE__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_TRACE__STATUS = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Get Status Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_STATUS_TRACE_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.commands.ListPlugins <em>List Plugins</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1274,6 +1368,48 @@ public interface CommandsPackage extends EPackage {
 	EAttribute getFindInWorkspace_All();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage <em>Get Status Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Status Message</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage
+	 * @generated
+	 */
+	EClass getGetStatusMessage();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Status</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage#getStatus()
+	 * @see #getGetStatusMessage()
+	 * @generated
+	 */
+	EReference getGetStatusMessage_Status();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace <em>Get Status Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Status Trace</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace
+	 * @generated
+	 */
+	EClass getGetStatusTrace();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Status</em>'.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace#getStatus()
+	 * @see #getGetStatusTrace()
+	 * @generated
+	 */
+	EReference getGetStatusTrace_Status();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1618,6 +1754,42 @@ public interface CommandsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FIND_IN_WORKSPACE__ALL = eINSTANCE.getFindInWorkspace_All();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusMessageImpl <em>Get Status Message</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusMessageImpl
+		 * @see org.eclipse.rcptt.ecl.platform.commands.impl.CommandsPackageImpl#getGetStatusMessage()
+		 * @generated
+		 */
+		EClass GET_STATUS_MESSAGE = eINSTANCE.getGetStatusMessage();
+
+		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GET_STATUS_MESSAGE__STATUS = eINSTANCE.getGetStatusMessage_Status();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusTraceImpl <em>Get Status Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.platform.commands.impl.GetStatusTraceImpl
+		 * @see org.eclipse.rcptt.ecl.platform.commands.impl.CommandsPackageImpl#getGetStatusTrace()
+		 * @generated
+		 */
+		EClass GET_STATUS_TRACE = eINSTANCE.getGetStatusTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GET_STATUS_TRACE__STATUS = eINSTANCE.getGetStatusTrace_Status();
 
 	}
 

@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -29,6 +30,8 @@ import org.eclipse.rcptt.ecl.platform.commands.CommandsPackage;
 import org.eclipse.rcptt.ecl.platform.commands.Echo;
 import org.eclipse.rcptt.ecl.platform.commands.FindInWorkspace;
 import org.eclipse.rcptt.ecl.platform.commands.GetLog;
+import org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage;
+import org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace;
 import org.eclipse.rcptt.ecl.platform.commands.GetWorkspaceLocation;
 import org.eclipse.rcptt.ecl.platform.commands.Launch;
 import org.eclipse.rcptt.ecl.platform.commands.ListFeatures;
@@ -176,6 +179,20 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	private EClass findInWorkspaceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getStatusMessageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getStatusTraceEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -571,6 +588,42 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGetStatusMessage() {
+		return getStatusMessageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGetStatusMessage_Status() {
+		return (EReference)getStatusMessageEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetStatusTrace() {
+		return getStatusTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGetStatusTrace_Status() {
+		return (EReference)getStatusTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public CommandsFactory getCommandsFactory() {
 		return (CommandsFactory)getEFactoryInstance();
 	}
@@ -647,6 +700,12 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		findInWorkspaceEClass = createEClass(FIND_IN_WORKSPACE);
 		createEAttribute(findInWorkspaceEClass, FIND_IN_WORKSPACE__PATH);
 		createEAttribute(findInWorkspaceEClass, FIND_IN_WORKSPACE__ALL);
+
+		getStatusMessageEClass = createEClass(GET_STATUS_MESSAGE);
+		createEReference(getStatusMessageEClass, GET_STATUS_MESSAGE__STATUS);
+
+		getStatusTraceEClass = createEClass(GET_STATUS_TRACE);
+		createEReference(getStatusTraceEClass, GET_STATUS_TRACE__STATUS);
 	}
 
 	/**
@@ -699,6 +758,8 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		substituteVariablesEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getWorkspaceLocationEClass.getESuperTypes().add(theCorePackage.getCommand());
 		findInWorkspaceEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getStatusMessageEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getStatusTraceEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(listPluginsEClass, ListPlugins.class, "ListPlugins", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -754,6 +815,12 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(findInWorkspaceEClass, FindInWorkspace.class, "FindInWorkspace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFindInWorkspace_Path(), theEcorePackage.getEString(), "path", "", 1, 1, FindInWorkspace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFindInWorkspace_All(), theEcorePackage.getEBoolean(), "all", "false", 0, 1, FindInWorkspace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getStatusMessageEClass, GetStatusMessage.class, "GetStatusMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGetStatusMessage_Status(), theCorePackage.getProcessStatus(), null, "status", null, 1, 1, GetStatusMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getStatusTraceEClass, GetStatusTrace.class, "GetStatusTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGetStatusTrace_Status(), theCorePackage.getProcessStatus(), null, "status", null, 1, 1, GetStatusTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -952,6 +1019,22 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 			 "returns", "list of matched paths",
 			 "example", "find-in-workspace \"project/dir1.*/dir2/file.*.txt\"",
 			 "recorded", "false"
+		   });	
+		addAnnotation
+		  (getStatusMessageEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Takes ProcessStatus from input and returns first root cause.",
+			 "returns", "String with first root cause.",
+			 "example", "try {\n\tthrow-error \"Error ocurred\"\n} -error [val e] -catch {\n\t$e | get-status-trace | log\n}"
+		   });	
+		addAnnotation
+		  (getStatusTraceEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Takes ProcessStatus from input and returns trace.",
+			 "returns", "String with status trace.",
+			 "example", "try {\n\tthrow-error \"Error ocurred\"\n} -error [val e] -catch {\n\t$e | get-status-trace | log\n}"
 		   });
 	}
 
@@ -973,6 +1056,16 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   });	
 		addAnnotation
 		  (getEcho_Str(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getGetStatusMessage_Status(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getGetStatusTrace_Status(), 
 		   source, 
 		   new String[] {
 		   });
