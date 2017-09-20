@@ -29,7 +29,8 @@ public class GetStatusMessageService implements ICommandService {
 				&& !status.getMessage().trim().equals("")) {
 			message = status.getMessage();
 		} else if (status.getException() != null) {
-			message = status.getException().getMessage();
+			Throwable throwable = status.getException().getThrowable();
+			message = throwable.toString();
 		}
 		return message;
 	}
