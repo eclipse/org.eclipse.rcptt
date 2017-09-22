@@ -89,6 +89,7 @@ public class Q7CoreFactoryImpl extends EFactoryImpl implements Q7CoreFactory {
 			case Q7CorePackage.CREATE_VERIFICATION: return createCreateVerification();
 			case Q7CorePackage.CREATE_WIDGET_VERIFICATION_PARAM: return createCreateWidgetVerificationParam();
 			case Q7CorePackage.TERMINATE_AUT: return createTerminateAut();
+			case Q7CorePackage.SET_OPTION: return createSetOption();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -362,6 +363,16 @@ public class Q7CoreFactoryImpl extends EFactoryImpl implements Q7CoreFactory {
 	public TerminateAut createTerminateAut() {
 		TerminateAutImpl terminateAut = new TerminateAutImpl();
 		return terminateAut;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SetOption createSetOption() {
+		SetOptionImpl setOption = new SetOptionImpl();
+		return setOption;
 	}
 
 	/**

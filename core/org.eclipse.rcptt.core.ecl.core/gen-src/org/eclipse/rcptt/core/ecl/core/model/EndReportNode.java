@@ -24,12 +24,12 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getSnaphots <em>Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#isTakeSnaphots <em>Take Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.EndReportNode#getResult <em>Result</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getEndReportNode()
  * @model

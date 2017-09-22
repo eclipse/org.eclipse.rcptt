@@ -34,10 +34,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.PerspectivesListImpl#getPerspectives <em>Perspectives</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
