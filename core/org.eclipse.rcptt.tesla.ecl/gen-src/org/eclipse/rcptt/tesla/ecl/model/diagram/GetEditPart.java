@@ -25,6 +25,7 @@ import org.eclipse.rcptt.tesla.ecl.model.Selector;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getCustomId <em>Custom Id</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getGetEditPart()
@@ -169,5 +170,31 @@ public interface GetEditPart extends Selector {
 	 * @generated
 	 */
 	void setText(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Custom Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Custom Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Custom Id</em>' attribute.
+	 * @see #setCustomId(String)
+	 * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getGetEditPart_CustomId()
+	 * @model
+	 * @generated
+	 */
+	String getCustomId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getCustomId <em>Custom Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Custom Id</em>' attribute.
+	 * @see #getCustomId()
+	 * @generated
+	 */
+	void setCustomId(String value);
 
 } // GetEditPart

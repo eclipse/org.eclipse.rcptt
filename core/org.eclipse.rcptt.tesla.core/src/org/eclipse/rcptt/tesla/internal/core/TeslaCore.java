@@ -10,18 +10,18 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.core;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.osgi.service.debug.DebugOptions;
+import org.eclipse.rcptt.tesla.core.server.TeslaServerManager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
-
-import org.eclipse.rcptt.tesla.core.server.TeslaServerManager;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -101,13 +101,12 @@ public class TeslaCore extends Plugin {
 		}
 		// Check if Eclipse is being restarted
 		if (TeslaCore.getDefault() != null) {
-			getDefault().getLog().log(
-					new Status(Status.ERROR, PLUGIN_ID, t.getMessage(), t));
+			getDefault().getLog().log(createError(t));
 		}
 	}
 
 	public static void log(String message) {
-		getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID, message));
+		getDefault().getLog().log(createError(message));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -143,4 +142,17 @@ public class TeslaCore extends Plugin {
 		Version version = getPlatformVersion();
 		return version.getMajor() == 3 && version.getMinor() >= 107;
 	}
+
+	public static IStatus createError(String message) {
+		return createError(message, null);
+	}
+
+	public static IStatus createError(Throwable t) {
+		return createError(t.getMessage(), t);
+	}
+
+	public static IStatus createError(String message, Throwable t) {
+		return new Status(Status.ERROR, PLUGIN_ID, message, t);
+	}
+
 }

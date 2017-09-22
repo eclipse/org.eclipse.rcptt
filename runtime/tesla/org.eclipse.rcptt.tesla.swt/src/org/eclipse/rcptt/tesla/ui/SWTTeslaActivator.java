@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ui;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.rcptt.reporting.core.ReportManager;
@@ -110,6 +111,10 @@ public class SWTTeslaActivator extends AbstractUIPlugin {
 	public static void err(String msg) {
 		getDefault().getLog().log(
 				new Status(Status.ERROR, PLUGIN_ID, msg, null));
+	}
+
+	public static IStatus createStatus(String message, Throwable t) {
+		return new Status(Status.ERROR, PLUGIN_ID, message, t);
 	}
 
 	public static void debugLog(String message) {

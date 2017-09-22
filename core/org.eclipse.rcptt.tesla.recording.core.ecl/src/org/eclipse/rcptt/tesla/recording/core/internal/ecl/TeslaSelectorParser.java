@@ -23,8 +23,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
-
-import org.eclipse.rcptt.util.Base64;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.IMLSelectData;
 import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
@@ -45,6 +43,7 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.recording.core.ecl.ISelectorParserExtension;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaRecordingPlugin;
 import org.eclipse.rcptt.tesla.recording.core.ecl.parser.TeslaParserUtil;
+import org.eclipse.rcptt.util.Base64;
 
 public class TeslaSelectorParser extends TeslaScriptletFactory {
 
@@ -238,6 +237,9 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 					return makeSourceConnection(indexes);
 				} else if ("editpart.feature".equals(first)) {
 					return makeEditPartByFeature(second, text);
+				} else if ("editpart".equals(first)
+						&& "customId".equals(second)) {
+					return makeEditPartByCustomId(text);
 				} else if ("editpart".equals(first)
 						&& "classname".equals(second)) {
 					return makeEditPartByClassName(text);

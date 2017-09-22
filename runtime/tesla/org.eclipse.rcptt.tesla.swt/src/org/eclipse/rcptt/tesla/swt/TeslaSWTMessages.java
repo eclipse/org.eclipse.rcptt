@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.tesla.swt;
 
 import org.eclipse.osgi.util.NLS;
-
 import org.eclipse.rcptt.tesla.core.TeslaMessages;
 
 public class TeslaSWTMessages extends TeslaMessages {
@@ -64,6 +63,9 @@ public class TeslaSWTMessages extends TeslaMessages {
 	public static String SWTUIProcessor_LinkDisabled;
 
 	public static String SWTUIProcessor_SetFocusWidgetIsNotControl;
+
+	public static String IdentifyObjectUtil_FailedToInvokeMethod;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, TeslaSWTMessages.class);
 	}

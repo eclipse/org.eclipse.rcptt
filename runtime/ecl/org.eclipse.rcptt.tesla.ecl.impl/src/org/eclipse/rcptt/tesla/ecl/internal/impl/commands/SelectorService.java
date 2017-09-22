@@ -282,6 +282,9 @@ public class SelectorService implements ICommandService {
 			} else if (partSelector.getText() != null) {
 				handler.setPath("editpart/text");
 				handler.setText(partSelector.getText());
+			} else if (partSelector.getCustomId() != null) {
+				handler.setPath("editpart/customId");
+				handler.setText(partSelector.getCustomId());
 			} else if (partSelector.getClassName() != null) {
 				handler.setPath("editpart/classname");
 				handler.setText(partSelector.getClassName());

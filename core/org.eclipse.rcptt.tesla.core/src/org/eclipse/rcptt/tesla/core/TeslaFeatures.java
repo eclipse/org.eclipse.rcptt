@@ -14,6 +14,7 @@ import org.eclipse.rcptt.tesla.core.features.IMLFeatures;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramFeatures;
 import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class TeslaFeatures extends AbstractFeatureManager {
 	private static final String CAT_COMMAND_DELAYS = "Command Delays";
@@ -26,6 +27,7 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	public final static String COMMAND_EXECUTION_DELAY_TESLA = "org.eclipse.rcptt.tesla.execution.delay";
 	public final static String RECORD_ALL_SELECTIONS = "org.eclipse.rcptt.tesla.record.all.selections";
 	public final static String ESCAPE_TREES_TABLES_MODE = "org.eclipse.rcptt.tesla.escape.mode";
+	public static final String IDENTIFY_BY_CLASS_METHODS = "org.eclipse.rcptt.tesla.identify.by.class.methods";
 
 	private static final String[] ESCAPE_TREES_TABLES_VALUES = new String[] {
 			EscapeMode.ExactString.toString(),
@@ -191,6 +193,17 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"Enable assertions for protected fields and methods")
 				.value("false").defaultValue("false").values(BOOLEAN_VALUES)
 				.editable(true).showIn(ADV_OPTIONS);
+
+		option(IDENTIFY_BY_CLASS_METHODS)
+				.name("Identify widgets by class methods")
+				.value("")
+				.defaultValue("")
+				.description(
+						"Comma-separated list of methods will be used to identify widgets of specified class\n"
+								+ "Valid format: ClassName1:getModel().getName(),ClassName2:getIdString()")
+				.editable(true)
+				.showIn(TeslaFeatures.ADV_OPTIONS, TeslaFeatures.CP_OPTIONS);
+
 		// Diagram options
 		DiagramFeatures.init(this);
 		// Initialize other features
@@ -245,6 +258,11 @@ public class TeslaFeatures extends AbstractFeatureManager {
 
 	public static boolean isProtectedEnabled() {
 		return getInstance().isTrue(ENABLE_PROTECTED_MEMBERS);
+	}
+
+	public static boolean isIdentifyMethodsProvided() {
+		String methods = getInstance().getValue(IDENTIFY_BY_CLASS_METHODS);
+		return !StringUtils.isBlank(methods);
 	}
 
 }

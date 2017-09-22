@@ -625,6 +625,12 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 		return cmd;
 	}
 
+	public static GetEditPart makeEditPartByCustomId(String value) {
+		GetEditPart cmd = DiagramFactory.eINSTANCE.createGetEditPart();
+		cmd.setCustomId(value);
+		return cmd;
+	}
+
 	public static GetEditPart makeEditPartByClassName(String value) {
 		GetEditPart cmd = DiagramFactory.eINSTANCE.createGetEditPart();
 		cmd.setClassName(value);

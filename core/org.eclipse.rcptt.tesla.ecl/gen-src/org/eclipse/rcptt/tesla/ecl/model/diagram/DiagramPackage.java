@@ -346,12 +346,21 @@ public interface DiagramPackage extends EPackage {
 	int GET_EDIT_PART__TEXT = TeslaPackage.SELECTOR_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Custom Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_EDIT_PART__CUSTOM_ID = TeslaPackage.SELECTOR_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Get Edit Part</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GET_EDIT_PART_FEATURE_COUNT = TeslaPackage.SELECTOR_FEATURE_COUNT + 5;
+	int GET_EDIT_PART_FEATURE_COUNT = TeslaPackage.SELECTOR_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '
@@ -2223,6 +2232,17 @@ public interface DiagramPackage extends EPackage {
 	EAttribute getGetEditPart_Text();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getCustomId <em>Custom Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Custom Id</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart#getCustomId()
+	 * @see #getGetEditPart()
+	 * @generated
+	 */
+	EAttribute getGetEditPart_CustomId();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.diagram.GetFigure <em>Get Figure</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Get Figure</em>'.
@@ -2596,6 +2616,14 @@ public interface DiagramPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GET_EDIT_PART__TEXT = eINSTANCE.getGetEditPart_Text();
+
+		/**
+		 * The meta object literal for the '<em><b>Custom Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GET_EDIT_PART__CUSTOM_ID = eINSTANCE.getGetEditPart_CustomId();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetFigureImpl <em>Get Figure</em>}' class.

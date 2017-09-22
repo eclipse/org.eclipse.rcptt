@@ -69,6 +69,8 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.TeslaMessages;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
@@ -129,6 +131,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.IModelMapperHelper;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.rcptt.tesla.swt.util.IdentifyObjectUtil;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 import org.eclipse.rcptt.util.Function;
 import org.eclipse.rcptt.util.ListUtil;
@@ -2303,6 +2306,15 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 					List children = part.getChildren();
 					return selectByText(uiEl, data, children);
 				}
+				if (p0.equals("editpart") && p1.equals("customId")) {
+					if (!TeslaFeatures.isIdentifyMethodsProvided()) {
+						String failMessage = NLS.bind(TeslaGefMessages.GefProcessor_CannotFindEditPart_DetailedMsg,
+								TeslaMessages.TeslaFeatures_IdentifyMethodsNotProvided);
+						return createFailedSelect(failMessage);
+					}
+					List children = part.getChildren();
+					return selectByCustomId(uiEl, data, children);
+				}
 				if (p0.equals("editpart") && p1.equals("classname")) {
 					List children = part.getChildren();
 					return selectByClassName(uiEl, data, children);
@@ -2383,6 +2395,16 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 					List children = uiEl.getViewer().getRootEditPart()
 							.getChildren();
 					return selectByFeature(p1, uiEl, data, children);
+				}
+				if (p0.equals("editpart") && p1.equals("customId")) {
+					if (!TeslaFeatures.isIdentifyMethodsProvided()) {
+						String failMessage = NLS.bind(TeslaGefMessages.GefProcessor_CannotFindEditPart_DetailedMsg,
+								TeslaMessages.TeslaFeatures_IdentifyMethodsNotProvided);
+						return createFailedSelect(failMessage);
+					}
+					List children = uiEl.getViewer().getRootEditPart()
+							.getChildren();
+					return selectByCustomId(uiEl, data, children);
 				}
 				if (p0.equals("editpart") && p1.equals("classname")) {
 					List children = uiEl.getViewer().getRootEditPart()
@@ -2559,6 +2581,19 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 					@Override
 					public String apply(EditPart input) {
 						return getPartText(getMappedModel(input));
+					}
+				});
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private SelectResponse selectByCustomId(DiagramViewerUIElement uiEl,
+			SelectData data, List children) {
+		return selectBy(uiEl, data, children, "customId",
+				new Function<EditPart, String>() {
+
+					@Override
+					public String apply(EditPart input) {
+						return getPartCustomId(input);
 					}
 				});
 	}
@@ -3158,6 +3193,15 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 						allEditPartFigures, true);
 			}
 		}
+	}
+
+	public static String getPartCustomId(EditPart part) {
+		try {
+			return IdentifyObjectUtil.getObjectIdByClassMethods(part);
+		} catch (CoreException e) {
+			GefActivator.log(e);
+		}
+		return null;
 	}
 
 	public static String getPartClassName(EditPart part) {

@@ -37,6 +37,7 @@ import org.eclipse.rcptt.tesla.ecl.model.diagram.GetEditPart;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.diagram.impl.GetEditPartImpl#getCustomId <em>Custom Id</em>}</li>
  * </ul>
  *
  * @generated
@@ -205,6 +206,26 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 	 * @ordered
 	 */
 	protected String text = TEXT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCustomId() <em>Custom Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCustomId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CUSTOM_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getCustomId() <em>Custom Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCustomId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String customId = CUSTOM_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -446,6 +467,27 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCustomId() {
+		return customId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCustomId(String newCustomId) {
+		String oldCustomId = customId;
+		customId = newCustomId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DiagramPackage.GET_EDIT_PART__CUSTOM_ID, oldCustomId, customId));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -474,6 +516,8 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 				return getClassName();
 			case DiagramPackage.GET_EDIT_PART__TEXT:
 				return getText();
+			case DiagramPackage.GET_EDIT_PART__CUSTOM_ID:
+				return getCustomId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -514,6 +558,9 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 				return;
 			case DiagramPackage.GET_EDIT_PART__TEXT:
 				setText((String)newValue);
+				return;
+			case DiagramPackage.GET_EDIT_PART__CUSTOM_ID:
+				setCustomId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -556,6 +603,9 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 			case DiagramPackage.GET_EDIT_PART__TEXT:
 				setText(TEXT_EDEFAULT);
 				return;
+			case DiagramPackage.GET_EDIT_PART__CUSTOM_ID:
+				setCustomId(CUSTOM_ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -587,6 +637,8 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 				return CLASS_NAME_EDEFAULT == null ? className != null : !CLASS_NAME_EDEFAULT.equals(className);
 			case DiagramPackage.GET_EDIT_PART__TEXT:
 				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
+			case DiagramPackage.GET_EDIT_PART__CUSTOM_ID:
+				return CUSTOM_ID_EDEFAULT == null ? customId != null : !CUSTOM_ID_EDEFAULT.equals(customId);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -616,6 +668,8 @@ public class GetEditPartImpl extends CommandImpl implements GetEditPart {
 		result.append(className);
 		result.append(", text: ");
 		result.append(text);
+		result.append(", customId: ");
+		result.append(customId);
 		result.append(')');
 		return result.toString();
 	}

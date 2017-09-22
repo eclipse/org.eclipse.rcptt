@@ -22,7 +22,7 @@ import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * Class to manager features and different recording/replay options for tesla.
- * New features shoule be placed here, and will be disabled by default.
+ * New features should be placed here, and will be disabled by default.
  * 
  * Class should allow enabling routines via preferences. So some testing could
  * be performed.
@@ -275,4 +275,5 @@ public class AbstractFeatureManager {
 	public void addReplace(String oldKey, String newKey) {
 		replaceKeys.put(oldKey, newKey);
 	}
+
 }
