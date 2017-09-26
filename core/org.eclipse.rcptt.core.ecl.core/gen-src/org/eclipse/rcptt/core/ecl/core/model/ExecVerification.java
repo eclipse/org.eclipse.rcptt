@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.ExecVerification#getVerification <em>Verification</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.ExecVerification#getPhase <em>Phase</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getExecVerification()
  * @model

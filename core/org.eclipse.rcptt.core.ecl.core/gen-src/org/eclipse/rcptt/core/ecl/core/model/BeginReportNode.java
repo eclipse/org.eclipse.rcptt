@@ -22,11 +22,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.BeginReportNode#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.BeginReportNode#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getBeginReportNode()
  * @model
@@ -71,7 +71,7 @@ public interface BeginReportNode extends Command {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getBeginReportNode_Properties()
-	 * @model mapType="org.eclipse.rcptt.sherlock.core.model.sherlock.report.PropertyMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EObject>"
+	 * @model mapType="org.eclipse.rcptt.sherlock.core.model.sherlock.report.PropertyMap&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EObject&gt;"
 	 * @generated
 	 */
 	EMap<String, EObject> getProperties();

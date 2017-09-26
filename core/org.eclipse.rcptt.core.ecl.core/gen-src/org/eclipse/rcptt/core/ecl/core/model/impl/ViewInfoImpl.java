@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.ViewInfoImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.ViewInfoImpl#getImage <em>Image</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.ViewInfoImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.ViewInfoImpl#getItems <em>Items</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

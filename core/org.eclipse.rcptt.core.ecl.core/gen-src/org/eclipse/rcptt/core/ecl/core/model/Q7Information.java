@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getVersion <em>Version</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#isTeslaActive <em>Tesla Active</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#isClientActive <em>Client Active</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.Q7Information#getWindowCount <em>Window Count</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getQ7Information()
  * @model

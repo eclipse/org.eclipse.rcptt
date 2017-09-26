@@ -48,7 +48,7 @@
             namespace="http://eclipse.org/rcptt/core/ecl">
       </scriptlet>
       <scriptlet
-            class="org.eclipse.rcptt.internal.runtime.ui.SetQ7OptionService"
+            class="org.eclipse.rcptt.internal.runtime.ui.SetOptionService"
             name="SetQ7Option"
             namespace="http://eclipse.org/rcptt/core/ecl">
       </scriptlet>
@@ -56,6 +56,11 @@
             class="org.eclipse.rcptt.runtime.ui.AutReconnectService"
             name="AutReconnect"
             namespace="http://eclipse.org/rcptt/core/launching.ecore">
+      </scriptlet>
+      <scriptlet
+            class="org.eclipse.rcptt.internal.runtime.ui.SetOptionService"
+            name="SetOption"
+            namespace="http://eclipse.org/rcptt/core/ecl">
       </scriptlet>
    </extension>
    <extension

@@ -33,11 +33,11 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.PropertyMapImp
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.BeginReportNodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.BeginReportNodeImpl#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

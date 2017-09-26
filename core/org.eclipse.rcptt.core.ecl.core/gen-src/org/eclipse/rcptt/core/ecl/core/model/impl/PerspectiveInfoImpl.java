@@ -26,13 +26,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.PerspectiveInfoImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.PerspectiveInfoImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.PerspectiveInfoImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.PerspectiveInfoImpl#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

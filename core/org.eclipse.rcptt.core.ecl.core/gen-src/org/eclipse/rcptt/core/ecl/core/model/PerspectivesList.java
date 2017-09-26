@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.PerspectivesList#getPerspectives <em>Perspectives</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getPerspectivesList()
  * @model

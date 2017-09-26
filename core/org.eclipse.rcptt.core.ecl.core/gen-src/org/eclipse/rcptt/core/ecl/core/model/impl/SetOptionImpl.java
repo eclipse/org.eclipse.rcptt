@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2017 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,70 +10,74 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.ecl.core.model.impl;
 
-import org.eclipse.rcptt.core.ecl.core.model.CreateContext;
-import org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage;
-
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage;
+import org.eclipse.rcptt.core.ecl.core.model.SetOption;
 import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Create Context</b></em>'.
+ * An implementation of the model object '<em><b>Set Option</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.CreateContextImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.CreateContextImpl#getParam <em>Param</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl#getKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CreateContextImpl extends CommandImpl implements CreateContext {
+public class SetOptionImpl extends CommandImpl implements SetOption {
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The default value of the '{@link #getKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getKey()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TYPE_EDEFAULT = null;
+	protected static final String KEY_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getKey()
 	 * @generated
 	 * @ordered
 	 */
-	protected String type = TYPE_EDEFAULT;
+	protected String key = KEY_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getParam() <em>Param</em>}' reference.
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParam()
+	 * @see #getValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected EObject param;
+	protected static final String VALUE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected String value = VALUE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CreateContextImpl() {
+	protected SetOptionImpl() {
 		super();
 	}
 
@@ -84,7 +88,7 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return Q7CorePackage.Literals.CREATE_CONTEXT;
+		return Q7CorePackage.Literals.SET_OPTION;
 	}
 
 	/**
@@ -92,8 +96,8 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getType() {
-		return type;
+	public String getKey() {
+		return key;
 	}
 
 	/**
@@ -101,11 +105,11 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(String newType) {
-		String oldType = type;
-		type = newType;
+	public void setKey(String newKey) {
+		String oldKey = key;
+		key = newKey;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.CREATE_CONTEXT__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.SET_OPTION__KEY, oldKey, key));
 	}
 
 	/**
@@ -113,16 +117,8 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject getParam() {
-		if (param != null && param.eIsProxy()) {
-			InternalEObject oldParam = (InternalEObject)param;
-			param = eResolveProxy(oldParam);
-			if (param != oldParam) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Q7CorePackage.CREATE_CONTEXT__PARAM, oldParam, param));
-			}
-		}
-		return param;
+	public String getValue() {
+		return value;
 	}
 
 	/**
@@ -130,20 +126,11 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject basicGetParam() {
-		return param;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParam(EObject newParam) {
-		EObject oldParam = param;
-		param = newParam;
+	public void setValue(String newValue) {
+		String oldValue = value;
+		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.CREATE_CONTEXT__PARAM, oldParam, param));
+			eNotify(new ENotificationImpl(this, Notification.SET, Q7CorePackage.SET_OPTION__VALUE, oldValue, value));
 	}
 
 	/**
@@ -154,11 +141,10 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case Q7CorePackage.CREATE_CONTEXT__TYPE:
-				return getType();
-			case Q7CorePackage.CREATE_CONTEXT__PARAM:
-				if (resolve) return getParam();
-				return basicGetParam();
+			case Q7CorePackage.SET_OPTION__KEY:
+				return getKey();
+			case Q7CorePackage.SET_OPTION__VALUE:
+				return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -171,11 +157,11 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case Q7CorePackage.CREATE_CONTEXT__TYPE:
-				setType((String)newValue);
+			case Q7CorePackage.SET_OPTION__KEY:
+				setKey((String)newValue);
 				return;
-			case Q7CorePackage.CREATE_CONTEXT__PARAM:
-				setParam((EObject)newValue);
+			case Q7CorePackage.SET_OPTION__VALUE:
+				setValue((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -189,11 +175,11 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case Q7CorePackage.CREATE_CONTEXT__TYPE:
-				setType(TYPE_EDEFAULT);
+			case Q7CorePackage.SET_OPTION__KEY:
+				setKey(KEY_EDEFAULT);
 				return;
-			case Q7CorePackage.CREATE_CONTEXT__PARAM:
-				setParam((EObject)null);
+			case Q7CorePackage.SET_OPTION__VALUE:
+				setValue(VALUE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -207,10 +193,10 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case Q7CorePackage.CREATE_CONTEXT__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-			case Q7CorePackage.CREATE_CONTEXT__PARAM:
-				return param != null;
+			case Q7CorePackage.SET_OPTION__KEY:
+				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
+			case Q7CorePackage.SET_OPTION__VALUE:
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -225,10 +211,12 @@ public class CreateContextImpl extends CommandImpl implements CreateContext {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (type: ");
-		result.append(type);
+		result.append(" (key: ");
+		result.append(key);
+		result.append(", value: ");
+		result.append(value);
 		result.append(')');
 		return result.toString();
 	}
 
-} //CreateContextImpl
+} //SetOptionImpl

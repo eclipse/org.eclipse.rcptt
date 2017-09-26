@@ -36,12 +36,12 @@ import org.eclipse.rcptt.ecl.core.ProcessStatus;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#getSnaphots <em>Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#isTakeSnaphots <em>Take Snaphots</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EndReportNodeImpl#getResult <em>Result</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
