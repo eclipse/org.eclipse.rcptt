@@ -94,6 +94,8 @@ import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.Expand;
 import org.eclipse.rcptt.tesla.core.protocol.GenericElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.GetBounds;
+import org.eclipse.rcptt.tesla.core.protocol.GetItems;
+import org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse;
 import org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue;
 import org.eclipse.rcptt.tesla.core.protocol.GetRegionText;
 import org.eclipse.rcptt.tesla.core.protocol.GetSelection;
@@ -253,6 +255,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 			ProtocolPackage.Literals.TYPE,
 			ProtocolPackage.Literals.TYPE_ACTION,
 			ProtocolPackage.Literals.SHOW,
+			ProtocolPackage.Literals.GET_ITEMS,
 
 			// Cell editor commands
 			ProtocolPackage.Literals.ACTIVATE_CELL_EDITOR,
@@ -788,6 +791,8 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				return handleClickColumn((ClickColumn) command);
 			case ProtocolPackage.MOUSE_EVENT:
 				return handleMouseEvent((MouseEvent) command);
+			case ProtocolPackage.GET_ITEMS:
+				return handleGetItems((GetItems) command);
 			}
 		}
 		return null;
@@ -3353,6 +3358,32 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 				response.setText(text.getText(start, end));
 		}
 		return response;
+	}
+
+	protected Response handleGetItems(GetItems command) {
+		final GetItemsResponse response = factory.createGetItemsResponse();
+		final SWTUIElement element = getMapper().get(command.getElement());
+
+		final Widget combo = element.widget;
+		final List<String> items = getItems(combo);
+		if (items == null) {
+			response.setStatus(ResponseStatus.FAILED);
+			response.setMessage("Control is not supported");
+			return response;
+		}
+		response.getResult().addAll(items);
+		return response;
+	}
+
+	private static List<String> getItems(Widget widget) {
+		if (widget instanceof Combo) {
+			Combo combo = (Combo) widget;
+			return Arrays.asList(combo.getItems());
+		} else if (widget instanceof CCombo) {
+			CCombo combo = (CCombo) widget;
+			return Arrays.asList(combo.getItems());
+		}
+		return null;
 	}
 
 	protected Response handleCopyText(final CopyTextSelection command) {

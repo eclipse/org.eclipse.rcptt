@@ -919,6 +919,21 @@ public class ProtocolSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ProtocolPackage.GET_ITEMS: {
+				GetItems getItems = (GetItems)theEObject;
+				T result = caseGetItems(getItems);
+				if (result == null) result = caseElementCommand(getItems);
+				if (result == null) result = caseCommand(getItems);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProtocolPackage.GET_ITEMS_RESPONSE: {
+				GetItemsResponse getItemsResponse = (GetItemsResponse)theEObject;
+				T result = caseGetItemsResponse(getItemsResponse);
+				if (result == null) result = caseResponse(getItemsResponse);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -2540,6 +2555,36 @@ public class ProtocolSwitch<T> {
 	 * @generated
 	 */
 	public T caseRapUploadFile(RapUploadFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Items</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetItems(GetItems object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Items Response</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Items Response</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetItemsResponse(GetItemsResponse object) {
 		return null;
 	}
 

@@ -511,6 +511,14 @@ public class ProtocolAdapterFactory extends AdapterFactoryImpl {
 				return createRapUploadFileAdapter();
 			}
 			@Override
+			public Adapter caseGetItems(GetItems object) {
+				return createGetItemsAdapter();
+			}
+			@Override
+			public Adapter caseGetItemsResponse(GetItemsResponse object) {
+				return createGetItemsResponseAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -2047,6 +2055,34 @@ public class ProtocolAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRapUploadFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.core.protocol.GetItems <em>Get Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.GetItems
+	 * @generated
+	 */
+	public Adapter createGetItemsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse <em>Get Items Response</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse
+	 * @generated
+	 */
+	public Adapter createGetItemsResponseAdapter() {
 		return null;
 	}
 

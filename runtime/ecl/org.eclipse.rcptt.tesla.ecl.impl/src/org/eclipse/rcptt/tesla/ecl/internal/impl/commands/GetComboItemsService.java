@@ -12,71 +12,40 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
 import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.err;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.tesla.core.protocol.GetItems;
+import org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse;
+import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
+import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
+import org.eclipse.rcptt.tesla.core.protocol.raw.ResponseStatus;
 import org.eclipse.rcptt.tesla.ecl.impl.AbstractActionService;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
-import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
 import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
-import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Widget;
 
 public class GetComboItemsService extends AbstractActionService {
 
 	@Override
 	protected Object exec(final Command command) throws CoreException {
 		final GetComboItems gci = (GetComboItems) command;
-		final ControlHandler control = gci.getControl();
+		final Element element = TeslaBridge.find(gci.getControl(), getContext());
 
-		final Element element = TeslaBridge.find(control, getContext());
-		final Widget combo = (Widget) TeslaBridge.getClient()
-				.getProcessor(SWTUIProcessor.class).getMapper()
-				.get(element).widget;
-
-		if (!(combo instanceof Combo) && !(combo instanceof CCombo)) {
-			throw new CoreException(
-					err("'get-combo-items' can be used only on combo box"));
+		final GetItems getItems = ProtocolFactory.eINSTANCE.createGetItems();
+		getItems.setElement(element);
+		final Response response = TeslaBridge.getPlayer().safeExecuteCommand(getItems);
+		if (!(response instanceof GetItemsResponse) || response.getStatus().equals(ResponseStatus.FAILED)) {
+			String errorMessage = response.getMessage() == null
+					? "Failed to get combobox items"
+					: String.format("Failed to get combobox items: %s", response.getMessage());
+			throw new CoreException(err(errorMessage));
 		}
-
-		final List<String> list = new LinkedList<String>();
-		combo.getDisplay().syncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				addComboItemsToList(combo, list);
-			}
-
-		});
-
-		for (String item : list) {
+		
+		final GetItemsResponse getItemsResponse = (GetItemsResponse) response;		
+		for (String item : getItemsResponse.getResult()) {
 			getContext().getOutput().write(item);
 		}
 		return null; // prevents writing to output pipe
-	}
-
-	private static void addComboItemsToList(Widget widget, List<String> list) {
-		if (widget instanceof Combo) {
-			Combo combo = (Combo) widget;
-			addItemsToList(combo.getItems(), list);
-		} else if (widget instanceof CCombo) {
-			CCombo combo = (CCombo) widget;
-			addItemsToList(combo.getItems(), list);
-		}
-	}
-
-	private static void addItemsToList(String[] items, List<String> list) {
-		if (items == null) {
-			return;
-		}
-		for (int i = 0; i < items.length; i++) {
-			list.add(items[i]);
-		}
 	}
 
 }

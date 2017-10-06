@@ -454,4 +454,9 @@
     <eLiterals name="MouseDoubleClickSelection" value="3"/>
     <eLiterals name="Traversal" value="5"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItems" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItemsResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -170,6 +170,8 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 			case ProtocolPackage.UPDATE_CONTROL_COMMAND: return createUpdateControlCommand();
 			case ProtocolPackage.RAP_DOWNLOAD_FILE: return createRapDownloadFile();
 			case ProtocolPackage.RAP_UPLOAD_FILE: return createRapUploadFile();
+			case ProtocolPackage.GET_ITEMS: return createGetItems();
+			case ProtocolPackage.GET_ITEMS_RESPONSE: return createGetItemsResponse();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -1289,6 +1291,26 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	public RapUploadFile createRapUploadFile() {
 		RapUploadFileImpl rapUploadFile = new RapUploadFileImpl();
 		return rapUploadFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetItems createGetItems() {
+		GetItemsImpl getItems = new GetItemsImpl();
+		return getItems;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetItemsResponse createGetItemsResponse() {
+		GetItemsResponseImpl getItemsResponse = new GetItemsResponseImpl();
+		return getItemsResponse;
 	}
 
 	/**

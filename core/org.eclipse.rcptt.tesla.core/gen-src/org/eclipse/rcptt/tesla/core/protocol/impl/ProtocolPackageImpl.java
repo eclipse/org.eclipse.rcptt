@@ -48,6 +48,8 @@ import org.eclipse.rcptt.tesla.core.protocol.Expand;
 import org.eclipse.rcptt.tesla.core.protocol.GetBounds;
 import org.eclipse.rcptt.tesla.core.protocol.GetColor;
 import org.eclipse.rcptt.tesla.core.protocol.GetColorResponse;
+import org.eclipse.rcptt.tesla.core.protocol.GetItems;
+import org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse;
 import org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue;
 import org.eclipse.rcptt.tesla.core.protocol.GetRegionText;
 import org.eclipse.rcptt.tesla.core.protocol.GetSelection;
@@ -128,6 +130,7 @@ import org.eclipse.rcptt.tesla.core.protocol.WaitForState;
 
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
 
+import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -136,6 +139,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.rcptt.tesla.core.info.InfoPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -905,6 +909,20 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass getItemsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getItemsResponseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum swtDialogKindEEnum = null;
 
 	/**
@@ -982,7 +1000,9 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		isInited = true;
 
 		// Initialize simple dependencies
+		UiPackage.eINSTANCE.eClass();
 		EcorePackage.eINSTANCE.eClass();
+		InfoPackage.eINSTANCE.eClass();
 		RawPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -3498,6 +3518,33 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGetItems() {
+		return getItemsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetItemsResponse() {
+		return getItemsResponseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetItemsResponse_Result() {
+		return (EAttribute)getItemsResponseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSWTDialogKind() {
 		return swtDialogKindEEnum;
 	}
@@ -3951,6 +3998,11 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__BASE64FILE);
 		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__PATH);
 
+		getItemsEClass = createEClass(GET_ITEMS);
+
+		getItemsResponseEClass = createEClass(GET_ITEMS_RESPONSE);
+		createEAttribute(getItemsResponseEClass, GET_ITEMS_RESPONSE__RESULT);
+
 		// Create enums
 		swtDialogKindEEnum = createEEnum(SWT_DIALOG_KIND);
 		assertKindEEnum = createEEnum(ASSERT_KIND);
@@ -4095,6 +4147,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		updateControlCommandEClass.getESuperTypes().add(theRawPackage.getCommand());
 		rapDownloadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
 		rapUploadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
+		getItemsEClass.getESuperTypes().add(this.getElementCommand());
+		getItemsResponseEClass.getESuperTypes().add(theRawPackage.getResponse());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(selectDataEClass, SelectData.class, "SelectData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -4481,6 +4535,11 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEClass(rapUploadFileEClass, RapUploadFile.class, "RapUploadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRapUploadFile_Base64file(), theEcorePackage.getEString(), "base64file", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRapUploadFile_Path(), theEcorePackage.getEString(), "path", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getItemsEClass, GetItems.class, "GetItems", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getItemsResponseEClass, GetItemsResponse.class, "GetItemsResponse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGetItemsResponse_Result(), theEcorePackage.getEString(), "result", null, 0, -1, GetItemsResponse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(swtDialogKindEEnum, SWTDialogKind.class, "SWTDialogKind");

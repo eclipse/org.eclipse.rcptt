@@ -5539,6 +5539,98 @@ public interface ProtocolPackage extends EPackage {
 	int RAP_UPLOAD_FILE_FEATURE_COUNT = RawPackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsImpl <em>Get Items</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsImpl
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getGetItems()
+	 * @generated
+	 */
+	int GET_ITEMS = 108;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS__ID = ELEMENT_COMMAND__ID;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS__ELEMENT = ELEMENT_COMMAND__ELEMENT;
+
+	/**
+	 * The number of structural features of the '<em>Get Items</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_FEATURE_COUNT = ELEMENT_COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsResponseImpl <em>Get Items Response</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsResponseImpl
+	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getGetItemsResponse()
+	 * @generated
+	 */
+	int GET_ITEMS_RESPONSE = 109;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_RESPONSE__STATUS = RawPackage.RESPONSE__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_RESPONSE__MESSAGE = RawPackage.RESPONSE__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Advanced Information</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_RESPONSE__ADVANCED_INFORMATION = RawPackage.RESPONSE__ADVANCED_INFORMATION;
+
+	/**
+	 * The feature id for the '<em><b>Result</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_RESPONSE__RESULT = RawPackage.RESPONSE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Get Items Response</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_ITEMS_RESPONSE_FEATURE_COUNT = RawPackage.RESPONSE_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5546,7 +5638,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getSWTDialogKind()
 	 * @generated
 	 */
-	int SWT_DIALOG_KIND = 108;
+	int SWT_DIALOG_KIND = 110;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.AssertKind <em>Assert Kind</em>}' enum.
@@ -5556,7 +5648,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getAssertKind()
 	 * @generated
 	 */
-	int ASSERT_KIND = 109;
+	int ASSERT_KIND = 111;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.DragKind <em>Drag Kind</em>}' enum.
@@ -5566,7 +5658,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getDragKind()
 	 * @generated
 	 */
-	int DRAG_KIND = 110;
+	int DRAG_KIND = 112;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.protocol.MouseEventKind <em>Mouse Event Kind</em>}' enum.
@@ -5576,7 +5668,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getMouseEventKind()
 	 * @generated
 	 */
-	int MOUSE_EVENT_KIND = 111;
+	int MOUSE_EVENT_KIND = 113;
 
 
 	/**
@@ -5587,7 +5679,7 @@ public interface ProtocolPackage extends EPackage {
 	 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getActivationEventType()
 	 * @generated
 	 */
-	int ACTIVATION_EVENT_TYPE = 112;
+	int ACTIVATION_EVENT_TYPE = 114;
 
 
 	/**
@@ -8530,6 +8622,37 @@ public interface ProtocolPackage extends EPackage {
 	EAttribute getRapUploadFile_Path();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.GetItems <em>Get Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Items</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.GetItems
+	 * @generated
+	 */
+	EClass getGetItems();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse <em>Get Items Response</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Items Response</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse
+	 * @generated
+	 */
+	EClass getGetItemsResponse();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse#getResult <em>Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Result</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse#getResult()
+	 * @see #getGetItemsResponse()
+	 * @generated
+	 */
+	EAttribute getGetItemsResponse_Result();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11032,6 +11155,34 @@ public interface ProtocolPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RAP_UPLOAD_FILE__PATH = eINSTANCE.getRapUploadFile_Path();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsImpl <em>Get Items</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsImpl
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getGetItems()
+		 * @generated
+		 */
+		EClass GET_ITEMS = eINSTANCE.getGetItems();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsResponseImpl <em>Get Items Response</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.GetItemsResponseImpl
+		 * @see org.eclipse.rcptt.tesla.core.protocol.impl.ProtocolPackageImpl#getGetItemsResponse()
+		 * @generated
+		 */
+		EClass GET_ITEMS_RESPONSE = eINSTANCE.getGetItemsResponse();
+
+		/**
+		 * The meta object literal for the '<em><b>Result</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GET_ITEMS_RESPONSE__RESULT = eINSTANCE.getGetItemsResponse_Result();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.protocol.SWTDialogKind <em>SWT Dialog Kind</em>}' enum.
