@@ -552,6 +552,21 @@ public final class SWTWidgetLocator {
 			}
 			selection.add(text);
 		}
+
+		int intIndex = 0;
+		MenuItem[] menuItems = item.getParent().getItems();
+		for (MenuItem menuItem : menuItems) {
+			String menuItemText = PlayerTextUtils.getMenuText(menuItem.getText());
+			String itemText = PlayerTextUtils.getMenuText(item.getText());
+			if (menuItemText.equals(itemText)) {
+				if (menuItem.equals(item)) {
+					break;
+				}
+				intIndex++;
+			}
+		}
+		Integer index = intIndex == 0 ? null : Integer.valueOf(intIndex);
+
 		// Do recording stuff here
 		WindowUIElement recordingShell = getShell(shell, false);
 
@@ -590,7 +605,7 @@ public final class SWTWidgetLocator {
 		String[] sel = selection.toArray(new String[selection.size()]);
 		recorder.setControls(player.wrap(widget).getModel());
 		if (lowerParentElement != null) {
-			return new FindResult(player.wrap(item), lowerParentElement.menu(sel).getElement());
+			return new FindResult(player.wrap(item), lowerParentElement.menu(sel, index).getElement());
 		}
 		return null;
 	}

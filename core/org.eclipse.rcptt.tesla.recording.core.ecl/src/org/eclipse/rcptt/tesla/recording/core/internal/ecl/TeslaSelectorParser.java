@@ -132,7 +132,7 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 			}
 		}
 		if (kind == ElementKind.Menu) {
-			Command selector = TeslaParserUtil.makeMenu(data.getPath());
+			Command selector = TeslaParserUtil.makeMenu(data.getPath(), data.getIndex());
 			// index and after are not recorded for menus, so skip them
 			Command parent = selectorOf(data.getParent());
 			if (parent != null) {
@@ -310,7 +310,7 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 		case List:
 			return makeList();
 		case Menu:
-			return makeMenu(TeslaPathUtils.makePathFromList(path), null);
+			return makeMenu(TeslaPathUtils.makePathFromList(path), index);
 		case PaletteViewer:
 			return makePaletteViewer();
 		case State:

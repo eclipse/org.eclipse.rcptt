@@ -522,13 +522,31 @@ public final class SWTWidgetLocator {
 		// }
 		// Collect parents
 		List<Widget> path = new ArrayList<Widget>();
+		List<Integer> indexes = new ArrayList<Integer>();
 		Widget current = item;
 		while (current != null) {
 			if (current instanceof MenuItem) {
 				path.add(0, current);
+
+				MenuItem currentItem = (MenuItem) current;
+				int index = 0;
+				MenuItem[] menuItems = currentItem.getParent().getItems();
+				for (MenuItem menuItem : menuItems) {
+					String menuItemText = PlayerTextUtils.getMenuText(menuItem.getText());
+					String currentItemText = PlayerTextUtils.getMenuText(currentItem.getText());
+					if (menuItemText.equals(currentItemText)) {
+						if (menuItem.equals(currentItem)) {
+							break;
+						}
+						index++;
+					}
+				}
+				Integer integerIndex = index == 0 ? null : Integer.valueOf(index);
+				indexes.add(0, integerIndex);
 			}
 			current = parentsMap.get(current);
 		}
+
 		List<String> selection = new ArrayList<String>();
 		boolean doItemCorrection = false;
 		for (Widget w : path) {
@@ -586,10 +604,21 @@ public final class SWTWidgetLocator {
 				}
 			}
 		}
-		String[] sel = selection.toArray(new String[selection.size()]);
 		recorder.setControls(player.wrap(widget).getModel());
 		if (lowerParentElement != null) {
-			return new FindResult(player.wrap(item), lowerParentElement.menu(sel).getElement());
+			ControlUIElement result = lowerParentElement;
+			List<String> currentSelection = new ArrayList<String>();
+			for (int i = 0, count = selection.size(); i < count; i++) {
+				currentSelection.add(selection.get(i));
+				if (indexes.get(i) != null) {
+					result = result.menu(currentSelection.toArray(new String[currentSelection.size()]), indexes.get(i));
+					currentSelection.clear();
+				}
+			}
+			if (!currentSelection.isEmpty()) {
+				result = result.menu(currentSelection.toArray(new String[currentSelection.size()]), null);
+			}
+			return new FindResult(player.wrap(item), result.getElement());
 		}
 		return null;
 	}

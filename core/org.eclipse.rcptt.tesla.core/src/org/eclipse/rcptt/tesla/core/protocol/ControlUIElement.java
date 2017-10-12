@@ -44,8 +44,8 @@ public class ControlUIElement extends BasicUIElement {
 
 	}
 
-	public ControlUIElement menu(String... path) {
-		return selector.menu.path(path).find();
+	public ControlUIElement menu(String[] path, Integer index) {
+		return selector.menu.path(path).find(index);
 	}
 
 	// public ControlUIElement region(byte[] image) {

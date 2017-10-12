@@ -1350,42 +1350,62 @@ public final class SWTUIPlayer {
 
 		}
 
-		for (String part : f.path) {
-			SWTUIElement[] children = this.children.collectFor(currentParent, ignoreWindows, false, one(MenuItem.class),
-					f.after);
-			boolean found = false;
-			for (SWTUIElement uiElement : children) {
-				String elementName = getText(uiElement);
-				if (elementName == null) {
-					continue;
-				}
-				elementName = getMenuText(elementName);
-				if (elementName != null && (elementName.equals(part) || safeMatches(elementName, part))) {
-					// -- simulate normal flow of events
+		List<String> parts = Arrays.asList(f.path);
+		for (int i = 0, count = parts.size(); i < count; i++) {
+			String part = parts.get(i);
+			SWTUIElement[] children = this.children.collectFor(currentParent,
+					ignoreWindows, false, one(MenuItem.class), f.after);
 
-					// disabled since probably it is not the best place to do
-					// such things, needs discussion
-
-					/*
-					 * MenuItem menuItem = (MenuItem) unwrapWidget(uiElement);
-					 * Menu menu = menuItem.getMenu();
-					 * events.sendEvent(uiElement, SWT.Arm); if (menu != null) {
-					 * events.sendEvent(menu, SWT.Show);
-					 * menuItem.setSelection(true); events.sendEvent(menuItem,
-					 * SWT.Selection); }
-					 */
-					// --
-
-					found = true;
-					currentParent = uiElement;
-					break;
-				}
-			}
-			if (!found) {
+			boolean isLast = i == count - 1;
+			List<SWTUIElement> menuItems = findMenuItems(children, part, !isLast);
+			if (menuItems.isEmpty()) {
 				return null;
 			}
+
+			if (isLast && f.index != null) {
+				if (f.index < 0 || f.index >= menuItems.size()) {
+					return null;
+				}
+				currentParent = menuItems.get(f.index);
+			} else {
+				currentParent = menuItems.get(0);
+			}
 		}
+
 		return currentParent;
+	}
+
+	private List<SWTUIElement> findMenuItems(SWTUIElement[] items, String name, boolean returnFirstElement) {
+		List<SWTUIElement> result = new ArrayList<SWTUIElement>();
+		for (SWTUIElement uiElement : items) {
+			String elementName = getText(uiElement);
+			if (elementName == null) {
+				continue;
+			}
+			elementName = getMenuText(elementName);
+			if (elementName != null && (elementName.equals(name) || safeMatches(elementName, name))) {
+				// -- simulate normal flow of events
+
+				// disabled since probably it is not the best place to do
+				// such things, needs discussion
+
+				/*
+				 * MenuItem menuItem = (MenuItem) unwrapWidget(uiElement);
+				 * Menu menu = menuItem.getMenu();
+				 * events.sendEvent(uiElement, SWT.Arm); if (menu != null) {
+				 * events.sendEvent(menu, SWT.Show);
+				 * menuItem.setSelection(true); events.sendEvent(menuItem,
+				 * SWT.Selection); }
+				 */
+				// --
+
+				result.add(uiElement);
+				if (returnFirstElement) {
+					return result;
+				}
+			}
+		}
+		return result;
 	}
 
 	public UIColor getBackgroundColor(SWTUIElement uiElement) {
