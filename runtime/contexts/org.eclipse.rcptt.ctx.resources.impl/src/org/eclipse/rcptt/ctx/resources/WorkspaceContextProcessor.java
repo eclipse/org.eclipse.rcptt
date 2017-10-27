@@ -67,7 +67,6 @@ import org.eclipse.rcptt.workspace.WSProjectLink;
 import org.eclipse.rcptt.workspace.WSRoot;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.rcptt.workspace.WorkspaceFactory;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -113,7 +112,6 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 
 		try {
 			final IWorkspace ws = ResourcesPlugin.getWorkspace();
-			final Display display = PlatformUI.getWorkbench().getDisplay();
 
 			disableMessageDialogsAndEnableCollector(collector);
 
@@ -123,25 +121,12 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 				clearWorkspace(wc);
 			}
 
-			final CoreException ee[] = { null };
-			display.syncExec(new Runnable() {
-				public void run() {
-					try {
-						ws.run(new IWorkspaceRunnable() {
-							public void run(final IProgressMonitor monitor)
-									throws CoreException {
-								fit(wc.getLocation(), wc.getContent(), true);
-							}
-						}, null, IWorkspace.AVOID_UPDATE, null);
-					} catch (CoreException e) {
-						ee[0] = e;
-					}
+			ws.run(new IWorkspaceRunnable() {
+				public void run(final IProgressMonitor monitor)
+						throws CoreException {
+					fit(wc.getLocation(), wc.getContent(), true);
 				}
-			});
-
-			if (ee[0] != null) {
-				throw ee[0];
-			}
+			}, null, IWorkspace.AVOID_UPDATE, null);
 
 			ws.run(refreshWorkspace, null, IWorkspace.AVOID_UPDATE, null);
 
