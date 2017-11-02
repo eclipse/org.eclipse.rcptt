@@ -32,6 +32,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.tesla.swt.events.TimerUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabFolder;
@@ -55,9 +57,6 @@ import org.eclipse.swt.widgets.TypedListener;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.progress.DeferredTreeContentManager;
-
-import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
-import org.eclipse.rcptt.tesla.swt.events.TimerUtils;
 
 @SuppressWarnings("rawtypes")
 public class TeslaSWTAccess {
@@ -568,6 +567,17 @@ public class TeslaSWTAccess {
 		return null;
 	}
 
+	public static Button getWizardDialogButton(WizardDialog dialog, int buttonId) {
+		try {
+			final Method method = WizardDialog.class.getDeclaredMethod("getButton", int.class);
+			method.setAccessible(true);
+			return (Button) method.invoke(dialog, buttonId);
+		} catch (Throwable e) {
+			TeslaCore.log(e);
+		}
+		return null;
+	}
+
 	@SuppressWarnings("restriction")
 	public static boolean getJobEventReSchedule(IJobChangeEvent event) {
 		try {
@@ -638,4 +648,5 @@ public class TeslaSWTAccess {
 		return null;
 
 	}
+
 }
