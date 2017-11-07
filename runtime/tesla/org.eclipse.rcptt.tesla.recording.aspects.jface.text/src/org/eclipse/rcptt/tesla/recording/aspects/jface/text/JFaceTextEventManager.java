@@ -12,6 +12,7 @@ package org.eclipse.rcptt.tesla.recording.aspects.jface.text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -73,6 +74,12 @@ public final class JFaceTextEventManager {
 	}
 
 	public static List<IVerticalRuler> getRulers() {
-		return new ArrayList<IVerticalRuler>(rulersMap.values());
+		List<IVerticalRuler> rv = new ArrayList<IVerticalRuler>(rulersMap.values());
+		for (Iterator<IVerticalRuler> i = rv.iterator(); i.hasNext();) {
+			IVerticalRuler ruler = i.next();
+			if (ruler.getControl().isDisposed())
+				i.remove();
+		}
+		return rv;
 	}
 }
