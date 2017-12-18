@@ -209,9 +209,11 @@ public class UIJobCollector implements IJobChangeListener {
 		jobInfo.scheduled(event.getDelay());
 		if (JobStatus.REQUIRED.equals(jobInfo.status)) {
 			if (event.getJob().belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {
+				debug("Delay for " + jobInfo + " is nullified as it is a decoration job");
 				JobsManager.getInstance().nulifyTime(event.getJob());
 			}
 			if (jobInfo.rescheduleCounter < TeslaLimits.getJobNullifyRescheduleMaxValue()) {
+				debug("Delay for " + jobInfo + " is nullified as it is a required job scheduled in a nearest future");
 				JobsManager.getInstance().nulifyTime(event.getJob());
 			}
 		}
