@@ -13,6 +13,7 @@ package org.eclipse.rcptt.ctx.resources;
 import static org.eclipse.core.commands.operations.OperationHistoryFactory.getOperationHistory;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.eclipse.core.commands.operations.IOperationHistory;
 import org.eclipse.core.commands.operations.IUndoContext;
@@ -52,6 +55,7 @@ import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ctx.impl.internal.resources.Activator;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.resources.WSUtils;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.impl.rap.UIRunnable;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
@@ -301,8 +305,40 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 				}
 				// IPath path = iFile.getFullPath();
 				// child.setContentURI(path.toString());
-				maker.makeExecutableContext(child, iFile);
+				makeExecutableContext(child, iFile);
 			}
+		}
+	}
+
+	private void makeExecutableContext(WSFile child, IFile iFile) {
+		if ("false".equals(Q7Features.getInstance().getValue(
+				Q7Features.Q7_CONTEXTS_RESOURCES_TRANSFER_CONTENT))) {
+			return;
+		}
+		try {
+			InputStream contents = iFile.getContents();
+			final byte[] content = WSUtils.getStreamContent(contents);
+			contents.close();
+			if (Q7Features.getInstance().isTrue(
+					Q7Features.Q7_CONTEXTS_RESOURCES_ZIPPED_TRANSFER)) {
+
+				ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				ZipOutputStream zout = new ZipOutputStream(bout);
+				zout.setLevel(9);
+				zout.setMethod(ZipOutputStream.DEFLATED);
+				ZipEntry entry = new ZipEntry("content");
+				entry.setTime(1);
+				zout.putNextEntry(entry);
+				zout.write(content);
+				zout.close();
+				child.setContent(bout.toByteArray());
+			} else {
+				child.setContent(content);
+			}
+		} catch (IOException e) {
+			Activator.log(e);
+		} catch (CoreException e) {
+			Activator.log(e);
 		}
 	}
 

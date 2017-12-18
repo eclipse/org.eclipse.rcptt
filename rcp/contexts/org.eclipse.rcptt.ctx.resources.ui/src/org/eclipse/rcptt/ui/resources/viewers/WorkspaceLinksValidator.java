@@ -21,7 +21,7 @@ import org.eclipse.rcptt.core.builder.IQ7Validator;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
-import org.eclipse.rcptt.ui.internal.resources.WSValidators;
+import org.eclipse.rcptt.resources.ui.WSValidators;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 
 public class WorkspaceLinksValidator implements IQ7Validator {

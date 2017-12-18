@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -28,11 +28,12 @@
     <module>org.eclipse.rcptt.launching.remote.ui</module>
     <module>org.eclipse.rcptt.launching.configuration</module>
     <module>org.eclipse.rcptt.expandbar.ide</module>
+    <module>org.eclipse.rcptt.resources.ui</module>
     <module>org.eclipse.rcptt.platform</module>
     <module>org.eclipse.rcptt.search</module>
     <module>org.eclipse.rcptt.ui</module>
     <module>org.eclipse.rcptt.ui.activities</module>
-    <module>org.eclipse.rcptt.ui.report</module>		
+    <module>org.eclipse.rcptt.ui.report</module>
     <!-- CONTEXT PLUGINS -->
     <module>contexts</module>
     <!-- VERIFICATIONS -->

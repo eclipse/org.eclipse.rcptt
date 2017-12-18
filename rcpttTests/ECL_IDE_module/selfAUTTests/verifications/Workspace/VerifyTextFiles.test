@@ -1,0 +1,59 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _8o_1wOC2Eeehhq5hlpxBeg,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: VerifyTextFiles
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _jbwxQOC2Eeehhq5hlpxBeg
+Runtime-Version: 2.3.0.201712141203
+Save-Time: 12/14/17 7:30 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "MyProject/WorkspaceContext" | double-click
+get-editor WorkspaceContext | get-button Apply | click
+get-view "Test Explorer" | get-tree | select "MyProject/TextFilesVerification" | double-click
+get-editor TextFilesVerification | get-button Verify | click
+
+get-view "Execution View" | get-tree | get-item -path "TextFilesVerification.*" | get-property "image.path" 
+    | equals "org.eclipse.rcptt.ui/icons/launching/verification-pass.png" | verify-true
+get-view "Test Explorer" | get-tree | select "MyProject/EditTextFile1" | double-click
+get-editor "EditTextFile1" | get-button Replay | click
+with [get-editor TextFilesVerification] {
+    click
+    get-button Verify | click
+}
+with [get-view "Execution View"] {
+    get-tree | get-item -path "TextFilesVerification.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Error while verifying 'TextFile1.txt' file:\n"
+        + "Text on line 5 do not match. Expected 'file',\n"
+        + "but was 'file1'." | verify-true
+}
+get-editor TextFilesVerification | get-section "Workspace Options" | get-editbox 
+    -after [get-label "Do not fail if lines matched by following patterns aren't equal (specify one regex per line):"] 
+    | set-text "file.*"
+get-button "Save (M1+S)" | click
+get-editor TextFilesVerification | get-button Verify | click
+get-view "Execution View" | get-tree | get-item -path "TextFilesVerification.*" | get-property "image.path" 
+    | equals "org.eclipse.rcptt.ui/icons/launching/verification-pass.png" | verify-true
+get-view "Test Explorer" | get-tree | select "MyProject/EditTextFile2" | double-click
+get-editor EditTextFile2 | get-button Replay | click
+with [get-editor TextFilesVerification] {
+    click
+    get-button Verify | click
+}
+with [get-view "Execution View"] {
+    get-tree | get-item -path "TextFilesVerification.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Error while verifying 'TextFile2.txt' file:\n"
+        + "Text on line 4 do not match. Expected 'text',\n"
+        + "but was 'new'." | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

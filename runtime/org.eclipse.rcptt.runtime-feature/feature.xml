@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -65,7 +65,7 @@
          install-size="0"
          version="2.3.0.qualifier"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.rcptt.ecl.data.apache.poi.impl"
          download-size="0"
@@ -99,7 +99,7 @@
          download-size="0"
          install-size="0"
          version="2.3.0.qualifier"
-         unpack="false"/>         
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.debug"
@@ -201,6 +201,20 @@
 
    <plugin
          id="org.eclipse.rcptt.reporting"
+         download-size="0"
+         install-size="0"
+         version="2.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.resources"
+         download-size="0"
+         install-size="0"
+         version="2.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.resources.impl"
          download-size="0"
          install-size="0"
          version="2.3.0.qualifier"
@@ -313,6 +327,20 @@
 
    <plugin
          id="org.eclipse.rcptt.verifications.log"
+         download-size="0"
+         install-size="0"
+         version="2.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.verifications.resources"
+         download-size="0"
+         install-size="0"
+         version="2.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.verifications.resources.impl"
          download-size="0"
          install-size="0"
          version="2.3.0.qualifier"

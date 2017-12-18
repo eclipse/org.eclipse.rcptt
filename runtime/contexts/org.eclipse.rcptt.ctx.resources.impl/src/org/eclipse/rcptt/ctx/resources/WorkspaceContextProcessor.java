@@ -10,29 +10,25 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ctx.resources;
 
-import static org.eclipse.core.commands.operations.OperationHistoryFactory.getOperationHistory;
+import static org.eclipse.rcptt.resources.impl.WSRunnables.clearAllFileBuffers;
+import static org.eclipse.rcptt.resources.impl.WSRunnables.clearHistory;
+import static org.eclipse.rcptt.resources.impl.WSRunnables.clearOperationHistoryEntry;
+import static org.eclipse.rcptt.resources.impl.WSRunnables.closeEditorsWithResources;
+import static org.eclipse.rcptt.resources.impl.WSRunnables.refreshWorkspace;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.ZipInputStream;
 
-import org.eclipse.core.commands.operations.IOperationHistory;
-import org.eclipse.core.commands.operations.IUndoContext;
-import org.eclipse.core.commands.operations.IUndoableOperation;
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileInfo;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -44,7 +40,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.IContextProcessor;
@@ -52,6 +47,9 @@ import org.eclipse.rcptt.core.Q7Features;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ctx.impl.internal.resources.Activator;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.resources.WSUtils;
+import org.eclipse.rcptt.resources.impl.FileBuffersUtils;
+import org.eclipse.rcptt.resources.impl.WSCaptureUtils;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
@@ -67,41 +65,8 @@ import org.eclipse.rcptt.workspace.WSProjectLink;
 import org.eclipse.rcptt.workspace.WSRoot;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.rcptt.workspace.WorkspaceFactory;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 public class WorkspaceContextProcessor implements IContextProcessor {
-
-	private static IWorkspaceRunnable refreshWorkspace = new IWorkspaceRunnable() {
-		public void run(final IProgressMonitor monitor) throws CoreException {
-			// refresh in case of SUT was working messy
-			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace()
-					.getRoot();
-
-			// Automatically remove non existing projects.
-			autoDeleteUnexistingProjects(root);
-
-			try {
-				root.refreshLocal(IResource.DEPTH_INFINITE, null);
-			}
-			catch (CoreException e) {
-				RcpttPlugin.log("Failed to refresh workspace on first time cause: + " + e.getMessage(), e);
-				root.refreshLocal(IResource.DEPTH_INFINITE, null);
-			}
-			// Wait for all auto build jobs
-			Job[] autobuildJobs = Job.getJobManager().find(
-					ResourcesPlugin.FAMILY_AUTO_BUILD);
-			for (Job job : autobuildJobs) {
-				job.schedule();
-			}
-		}
-	};
 
 	public void apply(final Context context) throws CoreException {
 		final WorkspaceContext wc = (WorkspaceContext) context;
@@ -230,64 +195,14 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 		});
 	}
 
+	@Override
 	public Context create(EObject param) throws CoreException {
 		final WorkspaceContext context = WorkspaceFactory.eINSTANCE
 				.createWorkspaceContext();
-		final WSRoot root = WorkspaceFactory.eINSTANCE.createWSRoot();
-		context.setContent(root);
-		final WorkspaceContextMaker maker = new WorkspaceContextMaker();
-		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-			public void run(final IProgressMonitor monitor)
-					throws CoreException {
-				final IProject[] projects = ResourcesPlugin.getWorkspace()
-						.getRoot().getProjects();
-				for (final IProject iProject : projects) {
-					if (iProject.exists() && iProject.isOpen()) {
-						// Do a project refresh, before import
-						iProject.refreshLocal(IResource.DEPTH_INFINITE,
-								new SubProgressMonitor(monitor, 1));
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-						final WSProject wsProject = WSUtils.getProject(root,
-								iProject.getName(), true);
-						root.getProjects().add(wsProject);
-						doCreate(wsProject, iProject, maker);
-					}
-				}
-			}
-		}, new NullProgressMonitor());
+		WSCaptureUtils.capture(workspace, context);
 		return context;
-	}
-
-	@SuppressWarnings("deprecation")
-	private void doCreate(final WSFolder folder, final IContainer iContainer,
-			WorkspaceContextMaker maker) throws CoreException {
-		for (final IResource iResource : iContainer.members()) {
-			final String name = iResource.getName();
-			if (iResource instanceof IFolder) {
-				final WSFolder child = WSUtils.getFolder(folder, name, true);
-				doCreate(child, (IFolder) iResource, maker);
-			} else if (iResource instanceof IFile) {
-				final IFile iFile = (IFile) iResource;
-				IPath iPath = iFile.getLocation();
-
-				if (!iFile.isLocal(IResource.DEPTH_ZERO)) {
-					Activator.logWarn("Cannot retrieve contents of a file %s (%s). File skipped.", name,
-							iFile.getLocation());
-					continue;
-				}
-
-				final WSFile child = WSUtils.getFile(folder, name, true);
-				if (null != iPath) {
-					File jfile = iPath.toFile();
-					if (jfile.canExecute()) {
-						child.setExecutable(true);
-					}
-				}
-				// IPath path = iFile.getFullPath();
-				// child.setContentURI(path.toString());
-				maker.makeExecutableContext(child, iFile);
-			}
-		}
 	}
 
 	// private static final int STEP_TOTAL = 31;
@@ -409,25 +324,6 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 			Exception e) {
 		return RcpttPlugin.createStatus("Failed to apply context \"" + contextName
 				+ "\" caused by:\n" + e.getMessage());
-	}
-
-	private static void autoDeleteUnexistingProjects(final IWorkspaceRoot root) throws CoreException {
-		IProject[] projects = root.getProjects();
-		for (IProject prj : projects) {
-			URI uri = prj.getLocationURI();
-			if (uri == null || uri.getScheme() == null) {
-				continue;
-			}
-			IFileStore store = EFS.getStore(uri);
-			if (store == null) {
-				continue;
-			}
-			IFileInfo fileInfo = store.fetchInfo();
-			if (fileInfo != null && !fileInfo.exists()) {
-				prj.delete(true, true, null);
-				RcpttPlugin.infoLog("Q7 workspace context, automatic delete of unexisting project: " + prj.getName());
-			}
-		}
 	}
 
 	public boolean isApplied(final Context context) {
@@ -692,92 +588,5 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 		}
 		return true;
 	}
-
-	private static UIRunnable<Object> clearHistory = new UIRunnable<Object>() {
-		@Override
-		public Object run() throws CoreException {
-			ResourcesPlugin.getWorkspace().getRoot()
-					.clearHistory(new NullProgressMonitor());
-			return null;
-		}
-	};
-
-	private static UIRunnable<Object> clearAllFileBuffers = new UIRunnable<Object>() {
-		@Override
-		public Object run() throws CoreException {
-			FileBuffersUtils.getFileBuffers().clearAll();
-			return null;
-		}
-	};
-
-	private static UIRunnable<Object> closeEditorsWithResources = new UIRunnable<Object>() {
-		@Override
-		public Object run() throws CoreException {
-			IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench()
-					.getWorkbenchWindows();
-			for (IWorkbenchWindow win : workbenchWindows) {
-				IWorkbenchPage[] pages = win.getPages();
-				for (IWorkbenchPage page : pages) {
-					IEditorReference[] refs = page.getEditorReferences();
-					for (IEditorReference ref : refs) {
-						closeEditor(page, ref);
-					}
-				}
-			}
-
-			return null;
-		}
-
-		private void closeEditor(IWorkbenchPage page, IEditorReference ref)
-				throws PartInitException {
-			IEditorInput editorInput = ref.getEditorInput();
-			if (!editorInput.exists()) {
-				return;
-			}
-			int attemptCount = 10;
-			while (attemptCount-- > 0) {
-				IWorkbenchPart part = ref.getPart(false);
-				if (part == null) {
-					return;
-				}
-				try {
-					page.closeEditor((IEditorPart) part, false);
-				} catch (Throwable e) {
-					RcpttPlugin.log("Failed to close editor", e);
-				}
-			}
-		}
-	};
-
-	private static UIRunnable<Boolean> clearOperationHistoryEntry = new UIRunnable<Boolean>() {
-		public Boolean run() throws CoreException {
-			try {
-				IOperationHistory history = getOperationHistory();
-
-				for (IUndoableOperation op : history.getUndoHistory(anyContext)) {
-					history.replaceOperation(op, new IUndoableOperation[0]);
-					return true;
-				}
-
-				for (IUndoableOperation op : history.getRedoHistory(anyContext)) {
-					history.replaceOperation(op, new IUndoableOperation[0]);
-					return true;
-				}
-			} catch (Throwable e) {
-				RcpttPlugin.log(e);
-			}
-			return false;
-		}
-
-		private IUndoContext anyContext = new IUndoContext() {
-			public boolean matches(IUndoContext context) {
-				return true;
-			}
-
-			public String getLabel() {
-				return "any";
-			}
-		};
-	};
 
 }

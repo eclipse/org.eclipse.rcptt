@@ -29,7 +29,7 @@
    <license url="%licenseURL">
       %license
    </license>
-   
+
    <requires>
       <import feature="org.eclipse.rcptt.tesla" version="2.3.0" match="compatible"/>
       <import feature="org.eclipse.rcptt.tesla.ecl" version="2.3.0" match="compatible"/>
@@ -281,7 +281,7 @@
          download-size="0"
          install-size="0"
          version="2.3.0.qualifier"
-         unpack="false"/>         
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.debug"
@@ -297,7 +297,7 @@
          install-size="0"
          version="2.3.0.qualifier"
          unpack="false"/>
-   
+
    <plugin
          id="org.eclipse.rcptt.ctx.preferences"
          download-size="0"
@@ -370,6 +370,13 @@
 
    <plugin
          id="org.eclipse.rcptt.reporting"
+         download-size="0"
+         install-size="0"
+         version="2.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.resources"
          download-size="0"
          install-size="0"
          version="2.3.0.qualifier"
@@ -538,7 +545,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.debug.core"
          download-size="0"

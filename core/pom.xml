@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-     
+
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
@@ -39,6 +39,7 @@
 		<module>contexts</module>
 		<module>verifications</module>
 		<module>org.eclipse.rcptt.reporting</module>
+		<module>org.eclipse.rcptt.resources</module>
 		<module>org.eclipse.rcptt.util</module>
 		<module>org.eclipse.rcptt.util.resources</module>
 		<module>org.eclipse.rcptt.core.swt</module>

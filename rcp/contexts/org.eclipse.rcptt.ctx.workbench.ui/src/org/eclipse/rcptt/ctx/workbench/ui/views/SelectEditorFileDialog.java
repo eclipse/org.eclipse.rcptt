@@ -32,6 +32,20 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.rcptt.core.model.IContext;
+import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.IQ7Project;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.core.model.search.Q7SearchCore;
+import org.eclipse.rcptt.core.scenario.FileEditor;
+import org.eclipse.rcptt.core.scenario.NamedElement;
+import org.eclipse.rcptt.internal.core.model.ReferencedProjectScope;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.resources.WSUtils;
+import org.eclipse.rcptt.resources.ui.viewers.WorkspaceContentProvider;
+import org.eclipse.rcptt.workspace.WSFile;
+import org.eclipse.rcptt.workspace.WorkspaceContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -47,21 +61,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
-
-import org.eclipse.rcptt.core.model.IContext;
-import org.eclipse.rcptt.core.model.IQ7NamedElement;
-import org.eclipse.rcptt.core.model.IQ7Project;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.model.search.Q7SearchCore;
-import org.eclipse.rcptt.core.scenario.FileEditor;
-import org.eclipse.rcptt.core.scenario.NamedElement;
-import org.eclipse.rcptt.ctx.resources.WSUtils;
-import org.eclipse.rcptt.internal.core.model.ReferencedProjectScope;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.ui.resources.viewers.WorkspaceContentProvider;
-import org.eclipse.rcptt.workspace.WSFile;
-import org.eclipse.rcptt.workspace.WorkspaceContext;
 
 public class SelectEditorFileDialog extends Dialog {
 

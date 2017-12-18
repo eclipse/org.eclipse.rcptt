@@ -10,12 +10,6 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://eclipse.org/rcptt/ctx/workspace"
-            class="org.eclipse.rcptt.workspace.WorkspacePackage"
-            genModel="models/workspace.genmodel"/>
-   </extension>
 <extension
       point="org.eclipse.rcptt.core.contextTypes">
    <contextType
@@ -41,6 +35,5 @@
          class="org.eclipse.rcptt.ctx.internal.resources.WorkspaceContextIndexer">
    </indexer>
 </extension>
-	
 
 </plugin>

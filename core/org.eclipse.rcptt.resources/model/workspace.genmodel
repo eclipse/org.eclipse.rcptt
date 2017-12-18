@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.resources/gen-src"
+    modelPluginID="org.eclipse.rcptt.resources" modelName="Workspace" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.5" usedGenPackages="../../org.eclipse.rcptt.core.scenario/models/scenario.genmodel#//scenario">
+  <foreignModel>workspace.ecore</foreignModel>
+  <genPackages prefix="Workspace" basePackage="org.eclipse.rcptt" disposableProviderFactory="true"
+      ecorePackage="workspace.ecore#/">
+    <genClasses ecoreClass="workspace.ecore#//WorkspaceContext">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference workspace.ecore#//WorkspaceContext/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WorkspaceContext/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WorkspaceContext/clearWorkspace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WorkspaceContext/ignoredByClearPattern"/>
+    </genClasses>
+    <genClasses ecoreClass="workspace.ecore#//WSResource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WSResource/name"/>
+    </genClasses>
+    <genClasses ecoreClass="workspace.ecore#//WSContainer"/>
+    <genClasses ecoreClass="workspace.ecore#//WSFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WSFile/contentURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute workspace.ecore#//WSFile/content"/>
+    </genClasses>
+    <genClasses ecoreClass="workspace.ecore#//WSFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference workspace.ecore#//WSFolder/files"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference workspace.ecore#//WSFolder/folders"/>
+    </genClasses>
+    <genClasses ecoreClass="workspace.ecore#//WSProject"/>
+    <genClasses ecoreClass="workspace.ecore#//WSRoot">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference workspace.ecore#//WSRoot/projects"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
