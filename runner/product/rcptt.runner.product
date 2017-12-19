@@ -305,6 +305,7 @@
       <plugin id="org.eclipse.rcptt.reporting.html"/>
       <plugin id="org.eclipse.rcptt.reporting.util"/>
       <plugin id="org.eclipse.rcptt.reporting"/>
+      <plugin id="org.eclipse.rcptt.resources"/>
       <plugin id="org.eclipse.rcptt.runner"/>
       <plugin id="org.eclipse.rcptt.tesla.core.context"/>
       <plugin id="org.eclipse.rcptt.tesla.core"/>
@@ -336,6 +337,7 @@
       <plugin id="org.eclipse.rcptt.verifications.text"/>
       <plugin id="org.eclipse.rcptt.verifications.time"/>
       <plugin id="org.eclipse.rcptt.verifications.tree"/>
+      <plugin id="org.eclipse.rcptt.verifications.resources"/>
       <plugin id="org.eclipse.rcptt.verifications"/>
       <plugin id="org.eclipse.rcptt.watson.core"/>
       <!-- <plugin id="org.eclipse.rcptt.watson.jface"/> -->
