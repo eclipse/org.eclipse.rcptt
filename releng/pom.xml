@@ -7,9 +7,8 @@
     http://www.eclipse.org/legal/epl-v10.html
 
     Contributors:
-    	Xored Software Inc - initial API and implementation and/or initial documentation
+      Xored Software Inc - initial API and implementation and/or initial documentation
  -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
@@ -17,7 +16,7 @@
   <version>2.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <tycho-version>1.0.0</tycho-version>
+    <tycho-version>1.1.0-SNAPSHOT</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update/</ajdt37repository>
@@ -29,7 +28,6 @@
     <ajJavaCompilance>1.7</ajJavaCompilance>
     <cbi-version>1.1.4</cbi-version>
   </properties>
-
   <distributionManagement>
     <repository>
       <id>repo.eclipse.org</id>
@@ -42,6 +40,7 @@
       <url>https://repo.eclipse.org/content/repositories/rcptt-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+  
   <build>
     <pluginManagement>
       <plugins>
@@ -249,6 +248,14 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>tycho-enhancements-snapshots</id>
+      <name>Tycho Enhancements Snapshots repository</name>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <url>https://haiodo.github.io/tycho/repository/</url>
     </pluginRepository>
   </pluginRepositories>
 </project>
