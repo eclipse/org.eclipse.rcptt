@@ -23,6 +23,7 @@ import org.eclipse.rcptt.core.scenario.Verification;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isAllowUncapturedFiles <em>Allow Uncaptured Files</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getIgnoredLines <em>Ignored Lines</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isIgnoreWhiteSpace <em>Ignore White Space</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.workspace.WorkspacePackage#getWorkspaceVerification()
@@ -83,4 +84,31 @@ public interface WorkspaceVerification extends Verification, WorkspaceData {
 	 * @generated
 	 */
 	void setIgnoredLines(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Ignore White Space</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ignore White Space</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ignore White Space</em>' attribute.
+	 * @see #setIgnoreWhiteSpace(boolean)
+	 * @see org.eclipse.rcptt.workspace.WorkspacePackage#getWorkspaceVerification_IgnoreWhiteSpace()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isIgnoreWhiteSpace();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isIgnoreWhiteSpace <em>Ignore White Space</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ignore White Space</em>' attribute.
+	 * @see #isIgnoreWhiteSpace()
+	 * @generated
+	 */
+	void setIgnoreWhiteSpace(boolean value);
 } // WorkspaceVerification

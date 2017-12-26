@@ -411,13 +411,22 @@ public interface WorkspacePackage extends EPackage {
 	int WORKSPACE_VERIFICATION__IGNORED_LINES = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Ignore White Space</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Verification</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORKSPACE_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 4;
+	int WORKSPACE_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1196,6 +1205,17 @@ public interface WorkspacePackage extends EPackage {
 	EAttribute getWorkspaceVerification_IgnoredLines();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isIgnoreWhiteSpace <em>Ignore White Space</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ignore White Space</em>'.
+	 * @see org.eclipse.rcptt.workspace.WorkspaceVerification#isIgnoreWhiteSpace()
+	 * @see #getWorkspaceVerification()
+	 * @generated
+	 */
+	EAttribute getWorkspaceVerification_IgnoreWhiteSpace();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1514,6 +1534,14 @@ public interface WorkspacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WORKSPACE_VERIFICATION__IGNORED_LINES = eINSTANCE.getWorkspaceVerification_IgnoredLines();
+
+		/**
+		 * The meta object literal for the '<em><b>Ignore White Space</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE = eINSTANCE.getWorkspaceVerification_IgnoreWhiteSpace();
 
 	}
 

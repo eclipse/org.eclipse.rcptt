@@ -51,16 +51,18 @@ public class WorkspaceVerificationChecker {
 	private WSRoot root;
 	private String location;
 	private boolean allowUncapturedFiles;
+	private boolean ignoreWhiteSpace;
 	private List<Pattern> ignoredLinePatterns;
 
 	public WorkspaceVerificationChecker(WorkspaceVerification verification) throws CoreException {
 		this.root = verification.getContent();
 		this.location = verification.getLocation();
 		this.allowUncapturedFiles = verification.isAllowUncapturedFiles();
+		this.ignoreWhiteSpace = verification.isIgnoreWhiteSpace();
 
 		if (verification.getIgnoredLines() != null) {
 			this.ignoredLinePatterns = new ArrayList<Pattern>();
-			for (String skippedline : verification.getIgnoredLines().split("\n")) {
+			for (String skippedline : verification.getIgnoredLines().replaceAll("\\r", "").split("\n")) {
 				try {
 					this.ignoredLinePatterns.add(Pattern.compile(skippedline));
 				} catch (PatternSyntaxException e) {
@@ -199,8 +201,8 @@ public class WorkspaceVerificationChecker {
 	private void verifyLineByLine(final BufferedReader reader, final BufferedReader rReader)
 			throws IOException, CoreException {
 		int lineNumber = 1;
-		String line = reader.ready() ? reader.readLine() : null;
-		String rLine = rReader.ready() ? rReader.readLine() : null;
+		String line = reader.ready() ? getTextLine(reader.readLine()) : null;
+		String rLine = rReader.ready() ? getTextLine(rReader.readLine()) : null;
 
 		while (line != null || rLine != null) {
 			if (line != null && !line.equals(rLine) || rLine != null && !rLine.equals(line)) {
@@ -211,8 +213,8 @@ public class WorkspaceVerificationChecker {
 			}
 
 			++lineNumber;
-			line = reader.ready() ? reader.readLine() : null;
-			rLine = rReader.ready() ? rReader.readLine() : null;
+			line = reader.ready() ? getTextLine(reader.readLine()) : null;
+			rLine = rReader.ready() ? getTextLine(rReader.readLine()) : null;
 		}
 	}
 
@@ -244,6 +246,10 @@ public class WorkspaceVerificationChecker {
 	private boolean isTextFile(final String fileName) throws IOException {
 		final IContentType type = Platform.getContentTypeManager().findContentTypeFor(fileName);
 		return type == null ? false : type.isKindOf(TEXT);
+	}
+
+	private String getTextLine(String string) {
+		return !ignoreWhiteSpace ? string : string.replaceAll("^( |\\t)+", "");
 	}
 
 	private boolean isSkippedLine(final String line) throws IOException {

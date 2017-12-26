@@ -224,6 +224,9 @@ public class WorkspaceVerificationEditor extends BaseVerificationEditor {
 		Button allowUncapturedFiles = toolkit.createButton(parent, "Allow uncaptured files", SWT.CHECK);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(allowUncapturedFiles);
 
+		Button ignoreWhiteSpace = toolkit.createButton(parent, "Ignore White Space", SWT.CHECK);
+		GridDataFactory.fillDefaults().span(2, 1).applyTo(ignoreWhiteSpace);
+
 		ignoredLinePatternsLabel = new Label(parent, SWT.NONE);
 		ignoredLinePatternsLabel.setText(
 				"Do not fail if lines matched by following patterns aren't equal (specify one regex per line):");
@@ -236,6 +239,13 @@ public class WorkspaceVerificationEditor extends BaseVerificationEditor {
 		ignoredLinePatterns.setBackground(null);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 6)
 				.hint(100, SWT.DEFAULT).applyTo(ignoredLinePatterns);
+
+		dbc.bindValue(
+				SWTObservables.observeSelection(ignoreWhiteSpace),
+				EMFObservables
+						.observeValue(
+								getVerificationElement(),
+								WorkspacePackage.Literals.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE));
 
 		dbc.bindValue(
 				SWTObservables.observeSelection(allowUncapturedFiles),

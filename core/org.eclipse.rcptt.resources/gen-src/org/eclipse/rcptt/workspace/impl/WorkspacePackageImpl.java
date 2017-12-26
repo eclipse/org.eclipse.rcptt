@@ -505,6 +505,15 @@ public class WorkspacePackageImpl extends EPackageImpl implements WorkspacePacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWorkspaceVerification_IgnoreWhiteSpace() {
+		return (EAttribute)workspaceVerificationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public WorkspaceFactory getWorkspaceFactory() {
 		return (WorkspaceFactory)getEFactoryInstance();
 	}
@@ -539,6 +548,7 @@ public class WorkspacePackageImpl extends EPackageImpl implements WorkspacePacka
 		workspaceVerificationEClass = createEClass(WORKSPACE_VERIFICATION);
 		createEAttribute(workspaceVerificationEClass, WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES);
 		createEAttribute(workspaceVerificationEClass, WORKSPACE_VERIFICATION__IGNORED_LINES);
+		createEAttribute(workspaceVerificationEClass, WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE);
 
 		wsResourceEClass = createEClass(WS_RESOURCE);
 		createEAttribute(wsResourceEClass, WS_RESOURCE__NAME);
@@ -633,6 +643,7 @@ public class WorkspacePackageImpl extends EPackageImpl implements WorkspacePacka
 		initEClass(workspaceVerificationEClass, WorkspaceVerification.class, "WorkspaceVerification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWorkspaceVerification_AllowUncapturedFiles(), ecorePackage.getEBoolean(), "allowUncapturedFiles", "true", 0, 1, WorkspaceVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWorkspaceVerification_IgnoredLines(), ecorePackage.getEString(), "ignoredLines", null, 0, 1, WorkspaceVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkspaceVerification_IgnoreWhiteSpace(), ecorePackage.getEBoolean(), "ignoreWhiteSpace", "false", 0, 1, WorkspaceVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wsResourceEClass, WSResource.class, "WSResource", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWSResource_Name(), ecorePackage.getEString(), "name", null, 0, 1, WSResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

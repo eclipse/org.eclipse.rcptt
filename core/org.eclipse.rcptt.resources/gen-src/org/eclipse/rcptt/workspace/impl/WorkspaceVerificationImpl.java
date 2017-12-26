@@ -49,6 +49,7 @@ import org.eclipse.rcptt.workspace.WorkspaceVerification;
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#isAllowUncapturedFiles <em>Allow Uncaptured Files</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getIgnoredLines <em>Ignored Lines</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#isIgnoreWhiteSpace <em>Ignore White Space</em>}</li>
  * </ul>
  *
  * @generated
@@ -123,6 +124,26 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 	 * @ordered
 	 */
 	protected String ignoredLines = IGNORED_LINES_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIgnoreWhiteSpace() <em>Ignore White Space</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIgnoreWhiteSpace()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IGNORE_WHITE_SPACE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIgnoreWhiteSpace() <em>Ignore White Space</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIgnoreWhiteSpace()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean ignoreWhiteSpace = IGNORE_WHITE_SPACE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -254,6 +275,27 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isIgnoreWhiteSpace() {
+		return ignoreWhiteSpace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIgnoreWhiteSpace(boolean newIgnoreWhiteSpace) {
+		boolean oldIgnoreWhiteSpace = ignoreWhiteSpace;
+		ignoreWhiteSpace = newIgnoreWhiteSpace;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE, oldIgnoreWhiteSpace, ignoreWhiteSpace));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -279,6 +321,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 				return isAllowUncapturedFiles();
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				return getIgnoredLines();
+			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
+				return isIgnoreWhiteSpace();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -304,6 +348,9 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				setIgnoredLines((String)newValue);
 				return;
+			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
+				setIgnoreWhiteSpace((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -328,6 +375,9 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				setIgnoredLines(IGNORED_LINES_EDEFAULT);
 				return;
+			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
+				setIgnoreWhiteSpace(IGNORE_WHITE_SPACE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -348,6 +398,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 				return allowUncapturedFiles != ALLOW_UNCAPTURED_FILES_EDEFAULT;
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				return IGNORED_LINES_EDEFAULT == null ? ignoredLines != null : !IGNORED_LINES_EDEFAULT.equals(ignoredLines);
+			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
+				return ignoreWhiteSpace != IGNORE_WHITE_SPACE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -402,6 +454,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 		result.append(allowUncapturedFiles);
 		result.append(", ignoredLines: ");
 		result.append(ignoredLines);
+		result.append(", ignoreWhiteSpace: ");
+		result.append(ignoreWhiteSpace);
 		result.append(')');
 		return result.toString();
 	}
