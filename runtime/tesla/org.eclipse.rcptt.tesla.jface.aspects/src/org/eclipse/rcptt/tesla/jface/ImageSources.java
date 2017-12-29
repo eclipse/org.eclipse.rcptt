@@ -23,8 +23,8 @@ import org.eclipse.swt.graphics.ImageData;
 
 public enum ImageSources {
 	INSTANCE;
-	private Map<ImageDescriptor, ImageSource> descriptors = new WeakIdentityHashMap<ImageDescriptor, ImageSource>();
-	private Map<Object, ImageSource> sources = new WeakIdentityHashMap<Object, ImageSource>();
+	private final Map<ImageDescriptor, ImageSource> descriptors = new WeakIdentityHashMap<ImageDescriptor, ImageSource>();
+	private final Map<Object, ImageSource> sources = new WeakIdentityHashMap<Object, ImageSource>();
 
 	public ImageSource find(Image image) {
 		return sources.get(dedup(image));
@@ -124,7 +124,13 @@ public enum ImageSources {
 		public final List<ImageSource> children = new ArrayList<ImageSource>();
 
 		public void addUnique(ImageSource source) {
-			assert !(source instanceof CompositeSource);
+			if (source instanceof CompositeSource) {
+				for (ImageSource child : ((CompositeSource) source).children) {
+					addUnique(child);
+				}
+				return;
+			}
+			assert !(source instanceof CompositeSource) : "CompositeSource should never have another CompositeSource as its child, as children are searhable but CompositeSource.equals() is not overridden";
 			for (ImageSource src : children) {
 				if (src.equals(source)) {
 					return;
