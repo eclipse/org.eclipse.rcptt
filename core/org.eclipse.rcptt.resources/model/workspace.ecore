@@ -15,6 +15,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="WorkspaceVerification" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//Verification #//WorkspaceData">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowUncapturedFiles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="notAllowedPatterns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoredLines" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreWhiteSpace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>

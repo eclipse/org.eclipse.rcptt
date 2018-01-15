@@ -94,9 +94,6 @@ public class WorkspaceVerificationEditor extends BaseVerificationEditor {
 
 	private boolean corrected = false;
 
-	private Text ignoredLinePatterns;
-	private Label ignoredLinePatternsLabel;
-
 	private EContentAdapter adapter;
 	private TreeViewer viewer;
 	private final List<Button> buttons = new ArrayList<Button>();
@@ -221,45 +218,81 @@ public class WorkspaceVerificationEditor extends BaseVerificationEditor {
 	}
 
 	private void createOptionsControls(Composite parent, FormToolkit toolkit) {
+		createAllowUncapturedControls(parent, toolkit);
+		createIgnoreWhiteSpaceControls(parent, toolkit);
+		createIgnoredLinesControls(parent, toolkit);
+	}
+	
+	private void createAllowUncapturedControls(Composite parent, FormToolkit toolkit) {
 		Button allowUncapturedFiles = toolkit.createButton(parent, "Allow uncaptured files", SWT.CHECK);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(allowUncapturedFiles);
 
-		Button ignoreWhiteSpace = toolkit.createButton(parent, "Ignore White Space", SWT.CHECK);
+		Label notAllowedPatternsLabel = new Label(parent, SWT.NONE);
+		notAllowedPatternsLabel.setText(
+				"Do not allow following uncaptured files or files in following folders (use a comma as separator, * = any string):");
+		notAllowedPatternsLabel.setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+		notAllowedPatternsLabel.setBackground(null);
+		GridDataFactory.fillDefaults().span(2, 1).hint(100, SWT.DEFAULT)
+				.applyTo(notAllowedPatternsLabel);
+
+		Text notAllowedPatterns = toolkit.createText(parent, "", SWT.BORDER);
+		notAllowedPatterns.setBackground(null);
+		GridDataFactory.fillDefaults().grab(true, false).span(2, 1)
+				.hint(100, SWT.DEFAULT).applyTo(notAllowedPatterns);
+
+		dbc.bindValue(SWTObservables.observeEnabled(notAllowedPatterns),
+				EMFObservables.observeValue(
+						getVerificationElement(),
+						WorkspacePackage.Literals.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES));
+
+		dbc.bindValue(SWTObservables.observeEnabled(notAllowedPatternsLabel),
+				EMFObservables.observeValue(
+						getVerificationElement(),
+						WorkspacePackage.Literals.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES));
+
+		dbc.bindValue(
+				SWTObservables.observeSelection(allowUncapturedFiles),
+				EMFObservables.observeValue(
+								getVerificationElement(),
+						WorkspacePackage.Literals.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES));
+
+		dbc.bindValue(
+				SWTObservables.observeText(notAllowedPatterns, SWT.Modify),
+				EMFObservables.observeValue(
+								getVerificationElement(),
+								WorkspacePackage.Literals.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS));
+	}
+
+	private void createIgnoreWhiteSpaceControls(Composite parent, FormToolkit toolkit) {
+		Button ignoreWhiteSpace = toolkit.createButton(parent, "Ignore white space", SWT.CHECK);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(ignoreWhiteSpace);
 
-		ignoredLinePatternsLabel = new Label(parent, SWT.NONE);
+		dbc.bindValue(
+				SWTObservables.observeSelection(ignoreWhiteSpace),
+				EMFObservables.observeValue(
+						getVerificationElement(),
+						WorkspacePackage.Literals.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE));
+	}
+
+	private void createIgnoredLinesControls(Composite parent, FormToolkit toolkit) {
+		Label ignoredLinePatternsLabel = new Label(parent, SWT.NONE);
 		ignoredLinePatternsLabel.setText(
-				"Do not fail if lines matched by following patterns aren't equal (specify one regex per line):");
+				"Ignore lines matched by following patterns (one regex per line):");
 		ignoredLinePatternsLabel.setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
 		ignoredLinePatternsLabel.setBackground(null);
 		GridDataFactory.fillDefaults().span(2, 1).hint(100, SWT.DEFAULT)
 				.applyTo(ignoredLinePatternsLabel);
 
-		ignoredLinePatterns = toolkit.createText(parent, "", SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		Text ignoredLinePatterns = toolkit.createText(parent, "", SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		ignoredLinePatterns.setBackground(null);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 6)
 				.hint(100, SWT.DEFAULT).applyTo(ignoredLinePatterns);
 
 		dbc.bindValue(
-				SWTObservables.observeSelection(ignoreWhiteSpace),
-				EMFObservables
-						.observeValue(
-								getVerificationElement(),
-								WorkspacePackage.Literals.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE));
-
-		dbc.bindValue(
-				SWTObservables.observeSelection(allowUncapturedFiles),
-				EMFObservables
-						.observeValue(
-								getVerificationElement(),
-								WorkspacePackage.Literals.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES));
-
-		dbc.bindValue(
 				SWTObservables.observeText(ignoredLinePatterns, SWT.Modify),
-				EMFObservables
-						.observeValue(
-								getVerificationElement(),
-								WorkspacePackage.Literals.WORKSPACE_VERIFICATION__IGNORED_LINES));
+				EMFObservables.observeValue(
+						getVerificationElement(),
+						WorkspacePackage.Literals.WORKSPACE_VERIFICATION__IGNORED_LINES));
 	}
 
 	private Tree createTree(Composite parent, FormToolkit toolkit) {

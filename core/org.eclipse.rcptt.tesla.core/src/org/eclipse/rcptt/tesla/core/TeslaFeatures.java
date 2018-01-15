@@ -27,7 +27,10 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	public final static String COMMAND_EXECUTION_DELAY_TESLA = "org.eclipse.rcptt.tesla.execution.delay";
 	public final static String RECORD_ALL_SELECTIONS = "org.eclipse.rcptt.tesla.record.all.selections";
 	public final static String ESCAPE_TREES_TABLES_MODE = "org.eclipse.rcptt.tesla.escape.mode";
-	public static final String IDENTIFY_BY_CLASS_METHODS = "org.eclipse.rcptt.tesla.identify.by.class.methods";
+	public final static String IDENTIFY_BY_CLASS_METHODS = "org.eclipse.rcptt.tesla.identify.by.class.methods";
+
+	public final static String CAT_RESOURCES_VERIFICATION = "Resources verification";
+	public final static String RESOURCES_VERIFICATION_HUNKS_COUNT = "org.eclipse.rcptt.resources.verification.hunks.count";
 
 	private static final String[] ESCAPE_TREES_TABLES_VALUES = new String[] {
 			EscapeMode.ExactString.toString(),
@@ -98,6 +101,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.description(
 						"Wait for specified milliseconds before execution of next Tesla command")
 				.editable(true).showIn(NONE);
+
+		option(RESOURCES_VERIFICATION_HUNKS_COUNT)
+				.name("Maximum count of hunks per file")
+				.category(CAT_RESOURCES_VERIFICATION)
+				.value("10")
+				.defaultValue("10")
+				.values(INT_VALUES)
+				.description("Lines from remaining hunks are not displayed in results")
+				.editable(true).showIn(ADV_OPTIONS);
 
 		option(INTERNAL_CLIPBOARD)
 				.name("Use internal clipboard")

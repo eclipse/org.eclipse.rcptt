@@ -48,6 +48,7 @@ import org.eclipse.rcptt.workspace.WorkspaceVerification;
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#isAllowUncapturedFiles <em>Allow Uncaptured Files</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getNotAllowedPatterns <em>Not Allowed Patterns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#getIgnoredLines <em>Ignored Lines</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.impl.WorkspaceVerificationImpl#isIgnoreWhiteSpace <em>Ignore White Space</em>}</li>
  * </ul>
@@ -104,6 +105,26 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 	 * @ordered
 	 */
 	protected boolean allowUncapturedFiles = ALLOW_UNCAPTURED_FILES_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getNotAllowedPatterns() <em>Not Allowed Patterns</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNotAllowedPatterns()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NOT_ALLOWED_PATTERNS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getNotAllowedPatterns() <em>Not Allowed Patterns</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNotAllowedPatterns()
+	 * @generated
+	 * @ordered
+	 */
+	protected String notAllowedPatterns = NOT_ALLOWED_PATTERNS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getIgnoredLines() <em>Ignored Lines</em>}' attribute.
@@ -254,6 +275,27 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getNotAllowedPatterns() {
+		return notAllowedPatterns;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNotAllowedPatterns(String newNotAllowedPatterns) {
+		String oldNotAllowedPatterns = notAllowedPatterns;
+		notAllowedPatterns = newNotAllowedPatterns;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, WorkspacePackage.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS, oldNotAllowedPatterns, notAllowedPatterns));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getIgnoredLines() {
 		return ignoredLines;
 	}
@@ -319,6 +361,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 				return getLocation();
 			case WorkspacePackage.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES:
 				return isAllowUncapturedFiles();
+			case WorkspacePackage.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS:
+				return getNotAllowedPatterns();
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				return getIgnoredLines();
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
@@ -344,6 +388,9 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 				return;
 			case WorkspacePackage.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES:
 				setAllowUncapturedFiles((Boolean)newValue);
+				return;
+			case WorkspacePackage.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS:
+				setNotAllowedPatterns((String)newValue);
 				return;
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				setIgnoredLines((String)newValue);
@@ -372,6 +419,9 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 			case WorkspacePackage.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES:
 				setAllowUncapturedFiles(ALLOW_UNCAPTURED_FILES_EDEFAULT);
 				return;
+			case WorkspacePackage.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS:
+				setNotAllowedPatterns(NOT_ALLOWED_PATTERNS_EDEFAULT);
+				return;
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				setIgnoredLines(IGNORED_LINES_EDEFAULT);
 				return;
@@ -396,6 +446,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
 			case WorkspacePackage.WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES:
 				return allowUncapturedFiles != ALLOW_UNCAPTURED_FILES_EDEFAULT;
+			case WorkspacePackage.WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS:
+				return NOT_ALLOWED_PATTERNS_EDEFAULT == null ? notAllowedPatterns != null : !NOT_ALLOWED_PATTERNS_EDEFAULT.equals(notAllowedPatterns);
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORED_LINES:
 				return IGNORED_LINES_EDEFAULT == null ? ignoredLines != null : !IGNORED_LINES_EDEFAULT.equals(ignoredLines);
 			case WorkspacePackage.WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE:
@@ -452,6 +504,8 @@ public class WorkspaceVerificationImpl extends VerificationImpl implements Works
 		result.append(location);
 		result.append(", allowUncapturedFiles: ");
 		result.append(allowUncapturedFiles);
+		result.append(", notAllowedPatterns: ");
+		result.append(notAllowedPatterns);
 		result.append(", ignoredLines: ");
 		result.append(ignoredLines);
 		result.append(", ignoreWhiteSpace: ");

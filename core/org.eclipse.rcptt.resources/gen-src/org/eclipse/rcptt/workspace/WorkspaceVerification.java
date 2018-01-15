@@ -22,6 +22,7 @@ import org.eclipse.rcptt.core.scenario.Verification;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isAllowUncapturedFiles <em>Allow Uncaptured Files</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getNotAllowedPatterns <em>Not Allowed Patterns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getIgnoredLines <em>Ignored Lines</em>}</li>
  *   <li>{@link org.eclipse.rcptt.workspace.WorkspaceVerification#isIgnoreWhiteSpace <em>Ignore White Space</em>}</li>
  * </ul>
@@ -58,6 +59,32 @@ public interface WorkspaceVerification extends Verification, WorkspaceData {
 	 * @generated
 	 */
 	void setAllowUncapturedFiles(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Not Allowed Patterns</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Not Allowed Patterns</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Not Allowed Patterns</em>' attribute.
+	 * @see #setNotAllowedPatterns(String)
+	 * @see org.eclipse.rcptt.workspace.WorkspacePackage#getWorkspaceVerification_NotAllowedPatterns()
+	 * @model
+	 * @generated
+	 */
+	String getNotAllowedPatterns();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getNotAllowedPatterns <em>Not Allowed Patterns</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Not Allowed Patterns</em>' attribute.
+	 * @see #getNotAllowedPatterns()
+	 * @generated
+	 */
+	void setNotAllowedPatterns(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Ignored Lines</b></em>' attribute.

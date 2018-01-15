@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.zip.ZipInputStream;
 
 import org.eclipse.core.resources.IContainer;
@@ -50,11 +49,11 @@ import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.resources.WSUtils;
 import org.eclipse.rcptt.resources.impl.FileBuffersUtils;
 import org.eclipse.rcptt.resources.impl.WSCaptureUtils;
+import org.eclipse.rcptt.resources.impl.WSOptions;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
-import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.rcptt.util.resources.ResourcesUtil;
 import org.eclipse.rcptt.workspace.WSFile;
 import org.eclipse.rcptt.workspace.WSFileLink;
@@ -156,11 +155,10 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 		final String contextName = wc.getName();
 		String ignoredPattern = wc.getIgnoredByClearPattern();
 
-		String[] resolveIgnoredPattern = resolveIgnoredPattern("",
-				ignoredPattern);
+		String[] resolveIgnoredPattern = WSOptions.resolveIgnoredPattern("", ignoredPattern);
 		for (final IProject project : projects) {
 			try {
-				if (!isIgnored(project.getName(), resolveIgnoredPattern)) {
+				if (!WSOptions.isIgnored(project.getName(), resolveIgnoredPattern)) {
 					project.delete(false, true, new NullProgressMonitor());
 				}
 			} catch (CoreException e) {
@@ -176,8 +174,8 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 
 		File file = path.toFile();
 		try {
-			tryDeleteFilesExceptMetadata(file,
-					resolveIgnoredPattern(file.getPath(), ignoredPattern));
+			String[] ignoredPatterns = WSOptions.resolveIgnoredPattern(file.getPath(), ignoredPattern);
+			tryDeleteFilesExceptMetadata(file, ignoredPatterns);
 		} catch (IOException e) {
 			throw new CoreException(createContextFailStatus(contextName, e));
 		}
@@ -258,7 +256,7 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 		boolean haveIgnoredChild = false;
 		for (final File file : folder.listFiles()) {
 			if ((file.getName().equals(".metadata") && root)
-					|| isIgnored(file.getPath(), ignoredPatterns)) {
+					|| WSOptions.isIgnored(file.getPath(), ignoredPatterns)) {
 				haveIgnoredChild = true;
 				continue;
 			}
@@ -273,46 +271,6 @@ public class WorkspaceContextProcessor implements IContextProcessor {
 			}
 		}
 		return haveIgnoredChild;
-	}
-
-	private static String[] resolveIgnoredPattern(String root,
-			String ignoredPattern) {
-		if (ignoredPattern == null) {
-			return null;
-		}
-		List<String> result = new ArrayList<String>();
-		String prefix = StringUtils.isEmpty(root) ? "" : Pattern.quote(root.replace('\\', '/'));
-		for (String pattern : ignoredPattern.split(",")) {
-			pattern = pattern.trim();
-			// as our patterns don't support escaping, backslashes
-			// only can appear as windows-style path separators
-			pattern = pattern.replace('\\', '/');
-			if (pattern.isEmpty()) {
-				continue;
-			}
-
-			// remove leading slashes
-			while (pattern.charAt(0) == '/') {
-				pattern = pattern.substring(1);
-			}
-			pattern = StringUtils.globToRegex(pattern);
-			result.add(StringUtils.isEmpty(prefix) ? pattern : String.format("%s/%s", prefix, pattern));
-		}
-		return result.toArray(new String[result.size()]);
-	}
-
-	private static boolean isIgnored(String fileName, String[] ignoredPatterns) {
-		if (ignoredPatterns == null) {
-			return false;
-		}
-		for (String pattern : ignoredPatterns) {
-			fileName = fileName.replace('\\', '/');
-			String fileNameWithSlash = fileName + "/";
-			if (fileName.matches(pattern) || fileNameWithSlash.matches(pattern)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private static IStatus createProjectDeleteFailStatus(String contextName, String projectName, Exception cause) {

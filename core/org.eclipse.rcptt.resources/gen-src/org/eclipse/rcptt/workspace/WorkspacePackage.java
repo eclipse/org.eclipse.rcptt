@@ -402,13 +402,22 @@ public interface WorkspacePackage extends EPackage {
 	int WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Not Allowed Patterns</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Ignored Lines</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORKSPACE_VERIFICATION__IGNORED_LINES = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 3;
+	int WORKSPACE_VERIFICATION__IGNORED_LINES = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Ignore White Space</b></em>' attribute.
@@ -417,7 +426,7 @@ public interface WorkspacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 4;
+	int WORKSPACE_VERIFICATION__IGNORE_WHITE_SPACE = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Verification</em>' class.
@@ -426,7 +435,7 @@ public interface WorkspacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORKSPACE_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 5;
+	int WORKSPACE_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1194,6 +1203,17 @@ public interface WorkspacePackage extends EPackage {
 	EAttribute getWorkspaceVerification_AllowUncapturedFiles();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getNotAllowedPatterns <em>Not Allowed Patterns</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Not Allowed Patterns</em>'.
+	 * @see org.eclipse.rcptt.workspace.WorkspaceVerification#getNotAllowedPatterns()
+	 * @see #getWorkspaceVerification()
+	 * @generated
+	 */
+	EAttribute getWorkspaceVerification_NotAllowedPatterns();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.workspace.WorkspaceVerification#getIgnoredLines <em>Ignored Lines</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1526,6 +1546,14 @@ public interface WorkspacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WORKSPACE_VERIFICATION__ALLOW_UNCAPTURED_FILES = eINSTANCE.getWorkspaceVerification_AllowUncapturedFiles();
+
+		/**
+		 * The meta object literal for the '<em><b>Not Allowed Patterns</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORKSPACE_VERIFICATION__NOT_ALLOWED_PATTERNS = eINSTANCE.getWorkspaceVerification_NotAllowedPatterns();
 
 		/**
 		 * The meta object literal for the '<em><b>Ignored Lines</b></em>' attribute feature.
