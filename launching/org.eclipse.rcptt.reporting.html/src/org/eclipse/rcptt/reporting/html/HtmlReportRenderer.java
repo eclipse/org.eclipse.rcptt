@@ -117,6 +117,7 @@ public class HtmlReportRenderer implements IReportRenderer {
 		writer.println("<head>");
 		if (!Strings.isNullOrEmpty(title))
 			writer.println("<title>" + title + "</title>");
+		writer.println("<meta charset=\"utf-8\">");
 		writer.println("<style>");
 		writer.println(loadAsString("/templates/rcptt.css"));
 		writer.println("</style>");

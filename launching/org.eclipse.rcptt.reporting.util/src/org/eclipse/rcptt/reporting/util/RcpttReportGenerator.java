@@ -348,8 +348,10 @@ public class RcpttReportGenerator {
 			result = RcpttPlugin.createProcessStatus(IStatus.ERROR, "Null result");
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		w(tabs).append("Result: " + SimpleSeverity.create(result).name() + ", message: ")
-				.println(result.getMessage());
+		w(tabs).append("Result: ")
+				.append(SimpleSeverity.create(result).name())
+				.append(", message: ")
+				.println(ReportUtils.getDirectFailMessage(result, ReportUtils.DEFAULT_DATUM_TO_MESSAGE));
 		writeException(writer, tabs + 1, result.getException());
 		for (ProcessStatus child : result.getChildren()) {
 			writeResult(tabs + 1, child);

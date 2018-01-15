@@ -56,11 +56,14 @@ import com.google.common.collect.Iterables;
 
 public class ReportUtils {
 
-	private static final Function<? super VerificationStatusData, String> datumToMessage = new Function<VerificationStatusData, String>() {
+	public static final Function<EObject, String> DEFAULT_DATUM_TO_MESSAGE = new Function<EObject, String>() {
 
 		@Override
-		public String apply(VerificationStatusData input) {
-			return input.getMessage();
+		public String apply(EObject input) {
+			if (input instanceof VerificationStatusData) {
+				return ((VerificationStatusData) input).getMessage();
+			}
+			return "";
 		}
 
 	};
@@ -277,15 +280,25 @@ public class ReportUtils {
 		if (current == null) {
 			return "Non Q7 report node";
 		}
-		return getFailMessage(current.getResult(), true);
+		return getFailMessage(current.getResult(), true, DEFAULT_DATUM_TO_MESSAGE);
 	}
-	private static String getFailMessage(ProcessStatus result, boolean addExtra) {
+
+	public static String getFailMessage(Node item, Function<EObject, String> datumToMessage) {
+		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (current == null) {
+			return "Non Q7 report node";
+		}
+		return getFailMessage(current.getResult(), true, datumToMessage);
+	}
+
+	private static String getFailMessage(ProcessStatus result, boolean addExtra,
+			Function<EObject, String> datumToMessage) {
 		StringBuilder extraFailures = new StringBuilder();
-		ProcessStatus firstFail = getFirstFail(result.getChildren(), extraFailures);
-		String resultMessage = getDirectFailMessage(result);
+		ProcessStatus firstFail = getFirstFail(result.getChildren(), extraFailures, datumToMessage);
+		String resultMessage = getDirectFailMessage(result, datumToMessage);
 		
 		if (firstFail != null) {
-			String childrenMessage = getFailMessage(firstFail, false);
+			String childrenMessage = getFailMessage(firstFail, false, datumToMessage);
 			if (!resultMessage.equals(childrenMessage)) {
 				String basePart = getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
 				if (addExtra) {
@@ -304,12 +317,13 @@ public class ReportUtils {
 		}
 	}
 
-	private static String getDirectFailMessage(ProcessStatus result) {
+	public static String getDirectFailMessage(ProcessStatus result,
+			Function<EObject, String> datumToMessage) {
 		StringBuilder sb = new StringBuilder(result.getMessage());
 		if (result instanceof EVerificationStatus) {
 			EVerificationStatus vs = (EVerificationStatus) result;
-			sb.append(" ");
-			sb.append(Joiner.on(", ").join(Iterables.transform(vs.getData(), datumToMessage)));
+			sb.append("\n");
+			sb.append(Joiner.on("\n").join(Iterables.transform(vs.getData(), datumToMessage)));
 		}
 		return sb.toString();
 	}
@@ -321,16 +335,17 @@ public class ReportUtils {
 		return "";
 	}
 
-	private static ProcessStatus getFirstFail(List<ProcessStatus> children, StringBuilder extraFailures) {
+	private static ProcessStatus getFirstFail(List<ProcessStatus> children, StringBuilder extraFailures,
+			Function<EObject, String> datumToMessage) {
 		ProcessStatus result = null;
 		for (ProcessStatus processStatus : children) {
 			if (processStatus.getSeverity() != IStatus.OK) {
-				ProcessStatus grandChild = getFirstFail(processStatus.getChildren(), extraFailures);
+				ProcessStatus grandChild = getFirstFail(processStatus.getChildren(), extraFailures, datumToMessage);
 				if (result == null) {
 					result = grandChild != null ? grandChild : processStatus;
 				}
 				if (result != grandChild) {
-					extraFailures.append(getFailMessage(processStatus, false)).append(" ");
+					extraFailures.append(getFailMessage(processStatus, false, datumToMessage)).append(" ");
 				}
 			}
 		}
@@ -351,6 +366,10 @@ public class ReportUtils {
 		string = string.replace("\n", "<br />");
 		string = string.replace("\r", "<br />");
 		return string;
+	}
+
+	public static String getHtmlPreformatted(String message) {
+		return String.format("<pre>%s</pre>", message);
 	}
 
 	public static String getDetails(Node item) {

@@ -52,6 +52,7 @@ import org.eclipse.rcptt.tesla.core.info.NodeProperty;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.core.info.StackTraceEntry;
+import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -66,6 +67,22 @@ public class FullSingleTestHtmlRenderer {
 	private final NumberFormat durationFormat;
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 	private final Function<Screenshot, String> imageStorage;
+
+	public static final Function<EObject, String> HTML_DATUM_TO_MESSAGE = new Function<EObject, String>() {
+
+		@Override
+		public String apply(EObject input) {
+			String message = ReportUtils.DEFAULT_DATUM_TO_MESSAGE.apply(input);
+			message = ReportUtils.replaceHtmlEntities(message);
+			message = ReportUtils.replaceLineBreaks(message);
+
+			if (input instanceof VerificationStatusData) {
+				return String.format("<pre>%s</pre>", message);
+			}
+			return message;
+		}
+
+	};
 
 	/**
 	 * @param writer
@@ -385,9 +402,7 @@ public class FullSingleTestHtmlRenderer {
 	}
 
 	private void renderMain(Node root) {
-		String message = ReportUtils.getFailMessage(root);
-		message = ReportUtils.replaceHtmlEntities(message);
-		message = ReportUtils.replaceLineBreaks(message);
+		String message = ReportUtils.getFailMessage(root, HTML_DATUM_TO_MESSAGE);
 		writer.println("<table class=\"" + toFailureClass(root) + "\">");
 		titledRow("Failure Reason", message);
 		String tags = ReportUtils.getScenarioTags(root);
