@@ -1,0 +1,62 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _oVVaEPqmEeecLeABbSXk4g,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: VerifyUncapturedFiles
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _GamkgPqnEeecLeABbSXk4g
+Runtime-Version: 2.3.0.201801161426
+Save-Time: 1/17/18 12:30 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "TestProject/WSContext" | double-click
+get-editor WSContext | get-button Apply | click
+get-view "Test Explorer" | get-tree | select "TestProject/WSUncapturedFiles" | double-click
+get-editor WSUncapturedFiles | get-button Verify | click
+get-view "Execution View" | get-tree | get-item -path "WSUncapturedFiles.*" | get-property "image.path" 
+    | equals "org.eclipse.rcptt.ui/icons/launching/verification-pass.png" | verify-true
+get-editor WSUncapturedFiles | get-section "Workspace Options" | get-button "Allow uncaptured files" | uncheck
+get-button "Save (M1+S)" | click
+get-editor WSUncapturedFiles | get-button Verify | click
+with [get-view "Execution View"] {
+    get-tree | get-item -path "WSUncapturedFiles.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Workspace verification 'WSUncapturedFiles' failed:\n"
+        + "Unexpected 'MyProject/folder1/folder11/' folder\n"
+        + "Unexpected 'MyProject/folder1/folder12/' folder" | verify-true
+}
+with [get-editor WSUncapturedFiles | get-section "Workspace Options"] {
+    get-button "Allow uncaptured files" | check
+    get-editbox 
+        -after [get-label "Do not allow following uncaptured files or files in following folders (use a comma as separator, * = any string):"] 
+        | set-text folder11
+}
+get-button "Save (M1+S)" | click
+get-editor WSUncapturedFiles | get-button Verify | click
+with [get-view "Execution View"] {
+    get-tree | get-item -path "WSUncapturedFiles.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Workspace verification 'WSUncapturedFiles' failed:\n"
+        + "Unexpected 'MyProject/folder1/folder11/' folder" | verify-true
+}
+get-editor WSUncapturedFiles | get-section "Workspace Options" | get-editbox 
+    -after [get-label "Do not allow following uncaptured files or files in following folders (use a comma as separator, * = any string):"] 
+    | set-text folder1
+get-button "Save (M1+S)" | click
+get-editor WSUncapturedFiles | get-button Verify | click
+with [get-view "Execution View"] {
+    get-tree | get-item -path "WSUncapturedFiles.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Workspace verification 'WSUncapturedFiles' failed:\n"
+        + "Unexpected 'MyProject/folder1/folder11/' folder\n"
+        + "Unexpected 'MyProject/folder1/folder12/' folder" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
