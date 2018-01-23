@@ -15,6 +15,7 @@ import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,6 @@ import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.SessionState;
 import org.eclipse.rcptt.ecl.core.Val;
-import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.ecl.debug.commands.CommandsFactory;
 import org.eclipse.rcptt.ecl.debug.commands.DebugCommand;
 import org.eclipse.rcptt.ecl.debug.commands.DebugScript;
@@ -100,8 +100,6 @@ import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.Q7TeslaProblemInformer;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
-import org.eclipse.rcptt.parameters.ParametersFactory;
-import org.eclipse.rcptt.parameters.SetParam;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.TeslaScenarioContainer;
 import org.eclipse.rcptt.tesla.core.network.TeslaNetworkReplayer;
@@ -597,7 +595,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 					ds.setHost(ecl.getHost());
 					ds.getBindings().addAll(EcoreUtil.copyAll(ecl.getBindings()));
 
-					for (IContext ctx : RcpttCore.getInstance().getContexts(test, null, true)) {
+					HashSet<IContext> contexts = new HashSet<IContext>();
+					RcpttCore.getInstance().findAllContexts(test, contexts);
+
+					for (IContext ctx : contexts) {
 						if (ctx.getResource() == null) {
 							continue;
 						}
