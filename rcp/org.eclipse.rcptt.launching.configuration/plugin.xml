@@ -19,7 +19,7 @@
             id="org.eclipse.rcptt.launching.configuration"
             modes="run, debug"
             name="Eclipse Application under Test"
-            sourceLocatorId="org.eclipse.jdt.debug.ui.javaSourceLocator"
+            sourceLocatorId="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"
             sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
       </launchConfigurationType>
    </extension>
