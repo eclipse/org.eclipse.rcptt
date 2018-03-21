@@ -28,6 +28,7 @@ Apache Software Foundation http://www.apache.org/
 -Xmx768m
 -XX:PermSize=128M
 -XX:MaxPermSize=192M
+--add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
 	-Dorg.eclipse.swt.internal.carbon.smallFonts
