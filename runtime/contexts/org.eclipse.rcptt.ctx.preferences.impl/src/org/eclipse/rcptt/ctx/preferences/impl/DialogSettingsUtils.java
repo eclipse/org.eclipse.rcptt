@@ -29,8 +29,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.internal.preferences.PrefUtils;
 import org.eclipse.rcptt.preferences.ListPrefData;
 import org.eclipse.rcptt.preferences.PrefData;
@@ -38,6 +36,7 @@ import org.eclipse.rcptt.preferences.PrefNode;
 import org.eclipse.rcptt.preferences.PreferencesFactory;
 import org.eclipse.rcptt.preferences.StringPrefData;
 import org.eclipse.rcptt.runtime.ui.preferences.DialogSettingsManager;
+import org.osgi.framework.Bundle;
 
 @SuppressWarnings("restriction")
 public final class DialogSettingsUtils {
@@ -95,6 +94,7 @@ public final class DialogSettingsUtils {
 			if (data instanceof StringPrefData) {
 				StringPrefData stringData = (StringPrefData) data;
 				PrefUtils.decodeWorkspaceLocation(stringData);
+				PrefUtils.substituteVariables(stringData);
 				settings.put(stringData.getKey(), stringData.getValue());
 			} else if (data instanceof ListPrefData) {
 				ListPrefData listData = (ListPrefData) data;
@@ -103,6 +103,7 @@ public final class DialogSettingsUtils {
 						.size()]);
 				for (int i = 0; i < values.length; i++) {
 					values[i] = PrefUtils.decodeWorkspaceLocation(values[i]);
+					values[i] = PrefUtils.substituteVariables(values[i]);
 				}
 				settings.put(listData.getKey(), values);
 			}
