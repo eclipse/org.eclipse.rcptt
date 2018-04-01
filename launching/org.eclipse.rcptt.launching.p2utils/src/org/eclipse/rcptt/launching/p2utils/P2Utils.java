@@ -15,6 +15,7 @@ import static org.eclipse.rcptt.launching.p2utils.Q7P2UtilsActivator.PLUGIN_ID;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,8 +70,34 @@ public class P2Utils {
 	 * @return
 	 */
 	public static ITargetPlatformService getTargetService() {
-		return (ITargetPlatformService) PDECore.getDefault().acquireService(
-				ITargetPlatformService.class.getName());
+		Class<ITargetPlatformService> serviceClass = ITargetPlatformService.class;
+
+		return getPDECoreService(serviceClass, serviceClass.getName());
+	}
+
+	private static <T> T getPDECoreService(Class<T> serviceClass, String serviceName) {
+		PDECore pdeCore = PDECore.getDefault();
+		try {
+			Method strMethod = pdeCore.getClass().getMethod("acquireService", String.class);
+			if (strMethod != null) {
+				return (T) strMethod.invoke(pdeCore, serviceName);
+			}
+
+		} catch (Throwable ex) {
+			// Q7P2UtilsActivator.log(new Status(Status.ERROR, Q7P2UtilsActivator.PLUGIN_ID,
+			// ex.getMessage(), ex));
+		}
+		try {
+			Method classMethod = pdeCore.getClass().getMethod("acquireService", Class.class);
+
+			if (classMethod != null) {
+				return (T) classMethod.invoke(pdeCore, serviceClass);
+			}
+		} catch (Throwable ex) {
+			// Q7P2UtilsActivator.log(new Status(Status.ERROR, Q7P2UtilsActivator.PLUGIN_ID,
+			// ex.getMessage(), ex));
+		}
+		return null;
 	}
 
 	/**
@@ -79,14 +106,12 @@ public class P2Utils {
 	 * @return
 	 * @throws CoreException
 	 */
-	public static IMetadataRepositoryManager getRepositoryManager()
-			throws CoreException {
+	public static IMetadataRepositoryManager getRepositoryManager() throws CoreException {
 		return getRepositoryManager(getProvisioningAgent());
 	}
 
 	public static IProvisioningAgent getProvisioningAgent() {
-		return (IProvisioningAgent) PDECore.getDefault().acquireService(
-				IProvisioningAgent.SERVICE_NAME);
+		return getPDECoreService(IProvisioningAgent.class, IProvisioningAgent.SERVICE_NAME);
 	}
 
 	/**
@@ -95,49 +120,41 @@ public class P2Utils {
 	 * @return
 	 * @throws CoreException
 	 */
-	public static IMetadataRepositoryManager getRepositoryManager(
-			IProvisioningAgent agent) throws CoreException {
+	public static IMetadataRepositoryManager getRepositoryManager(IProvisioningAgent agent) throws CoreException {
 		if (agent == null) {
-			throw new CoreException(new Status(IStatus.ERROR,
-					PDECore.PLUGIN_ID,
-					"Failed to locate repository. Can't get service "
-							+ IProvisioningAgent.SERVICE_NAME));
+			throw new CoreException(new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
+					"Failed to locate repository. Can't get service " + IProvisioningAgent.SERVICE_NAME));
 		}
 		IMetadataRepositoryManager manager = (IMetadataRepositoryManager) agent
 				.getService(IMetadataRepositoryManager.SERVICE_NAME);
 		if (manager == null) {
-			throw new CoreException(
-					new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
-							"Failed to locate repository. No metadata repository manager found."));
+			throw new CoreException(new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
+					"Failed to locate repository. No metadata repository manager found."));
 		}
 		return manager;
 	}
 
-	public static IArtifactRepositoryManager getArtifactRepositoryManager()
-			throws CoreException {
+	public static IArtifactRepositoryManager getArtifactRepositoryManager() throws CoreException {
 		return getArtifactRepositoryManager(getProvisioningAgent());
 	}
 
-	public static IArtifactRepositoryManager getArtifactRepositoryManager(
-			IProvisioningAgent agent) throws CoreException {
+	public static IArtifactRepositoryManager getArtifactRepositoryManager(IProvisioningAgent agent)
+			throws CoreException {
 
 		if (agent == null)
-			throw new CoreException(new Status(IStatus.ERROR,
-					PDECore.PLUGIN_ID,
-					"Failed to locate repository. Can't get service "
-							+ IProvisioningAgent.SERVICE_NAME));
+			throw new CoreException(new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
+					"Failed to locate repository. Can't get service " + IProvisioningAgent.SERVICE_NAME));
 		IArtifactRepositoryManager manager = (IArtifactRepositoryManager) agent
 				.getService(IArtifactRepositoryManager.SERVICE_NAME);
 		if (manager == null) {
-			throw new CoreException(
-					new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
-							"Failed to locate repository. No metadata repository manager found."));
+			throw new CoreException(new Status(IStatus.ERROR, PDECore.PLUGIN_ID,
+					"Failed to locate repository. No metadata repository manager found."));
 		}
 		return manager;
 	}
 
-	public static IMetadataRepository safeLoadRepository(URI uri,
-			IProgressMonitor monitor, IProvisioningAgent agent) throws CoreException {
+	public static IMetadataRepository safeLoadRepository(URI uri, IProgressMonitor monitor, IProvisioningAgent agent)
+			throws CoreException {
 		try {
 			// Be sure to read freash repository each time
 			IMetadataRepositoryManager rm = getRepositoryManager(agent);
@@ -150,16 +167,16 @@ public class P2Utils {
 			return rm.loadRepository(uri, monitor);
 		} catch (RuntimeException e) {
 			if (e instanceof OperationCanceledException || monitor.isCanceled()) {
-				throw new CoreException(new Status(IStatus.CANCEL, Q7P2UtilsActivator.PLUGIN_ID,
-						"Repository load cancelled", e));
+				throw new CoreException(
+						new Status(IStatus.CANCEL, Q7P2UtilsActivator.PLUGIN_ID, "Repository load cancelled", e));
 			} else {
 				throw e;
 			}
 		}
 	}
 
-	public static IArtifactRepository safeLoadArtifactRepository(URI uri,
-			IProgressMonitor monitor, IProvisioningAgent agent) {
+	public static IArtifactRepository safeLoadArtifactRepository(URI uri, IProgressMonitor monitor,
+			IProvisioningAgent agent) {
 		try {
 			// Be sure to read freash repository each time
 			IArtifactRepositoryManager rm = getArtifactRepositoryManager(agent);
@@ -187,8 +204,7 @@ public class P2Utils {
 		return unitIDs;
 	}
 
-	public static List<IQuery<IInstallableUnit>> mapUnitsToQuery(
-			Set<String> units) {
+	public static List<IQuery<IInstallableUnit>> mapUnitsToQuery(Set<String> units) {
 		List<IQuery<IInstallableUnit>> queries = new ArrayList<IQuery<IInstallableUnit>>();
 		for (String id : units) {
 			queries.add(QueryUtil.createIUQuery(id));
@@ -196,14 +212,12 @@ public class P2Utils {
 		return queries;
 	}
 
-	public static List<IQuery<IInstallableUnit>> mapUnitsToCategoryQuery(
-			Collection<IInstallableUnit> units) {
+	public static List<IQuery<IInstallableUnit>> mapUnitsToCategoryQuery(Collection<IInstallableUnit> units) {
 		List<IQuery<IInstallableUnit>> queries = new ArrayList<IQuery<IInstallableUnit>>();
 		for (IInstallableUnit unit : units) {
 			Collection<IRequirement> requirements = unit.getRequirements();
 			for (IRequirement req : requirements) {
-				queries.add(QueryUtil.createMatchQuery(req.getMatches(),
-						new Object[] {}));
+				queries.add(QueryUtil.createMatchQuery(req.getMatches(), new Object[] {}));
 			}
 		}
 		return queries;
@@ -214,10 +228,8 @@ public class P2Utils {
 		if (site.isAllUnits()) {
 			finalQuery = QueryUtil.ALL_UNITS;
 		} else {
-			List<IQuery<IInstallableUnit>> items = P2Utils
-					.mapUnitsToQuery(new HashSet<String>(site.getUnits()));
-			finalQuery = QueryUtil.createLatestQuery(QueryUtil
-					.createCompoundQuery(items, false));
+			List<IQuery<IInstallableUnit>> items = P2Utils.mapUnitsToQuery(new HashSet<String>(site.getUnits()));
+			finalQuery = QueryUtil.createLatestQuery(QueryUtil.createCompoundQuery(items, false));
 		}
 		return finalQuery;
 	}
@@ -230,8 +242,7 @@ public class P2Utils {
 			return Status.OK_STATUS;
 		}
 		/**
-		 * Validate file consistency check if this is valid zip archive if it is
-		 * jar
+		 * Validate file consistency check if this is valid zip archive if it is jar
 		 */
 		if (file.getName().toLowerCase().endsWith(".jar")) {
 			BufferedInputStream stream = null;
@@ -260,19 +271,14 @@ public class P2Utils {
 		return Status.OK_STATUS;
 	}
 
-	public static void installUnits(IProgressMonitor monitor,
-			IArtifactRepository artifactRepository,
-			IFileArtifactRepository filesRepository,
-			List<IInstallableUnit> toInstall, int installTryCount,
-			ILogMonitor logMonitor, boolean useRaw, IProvisioningAgent agent)
-			throws CoreException {
+	public static void installUnits(IProgressMonitor monitor, IArtifactRepository artifactRepository,
+			IFileArtifactRepository filesRepository, List<IInstallableUnit> toInstall, int installTryCount,
+			ILogMonitor logMonitor, boolean useRaw, IProvisioningAgent agent) throws CoreException {
 		if (logMonitor != null) {
-			logMonitor.log("Downloading artifacts to: "
-					+ filesRepository.getLocation().toString());
+			logMonitor.log("Downloading artifacts to: " + filesRepository.getLocation().toString());
 		}
 
-		filesRepository.setProperty(
-				SimpleArtifactRepository.PROP_FORCE_THREADING, "true");
+		filesRepository.setProperty(SimpleArtifactRepository.PROP_FORCE_THREADING, "true");
 
 		while (toInstall.size() > 0) {
 			List<IArtifactKey> keys = new ArrayList<IArtifactKey>();
@@ -282,8 +288,7 @@ public class P2Utils {
 			}
 			List<IArtifactRequest> requests = new ArrayList<IArtifactRequest>();
 			if (useRaw) {
-				rawMirror(artifactRepository, filesRepository, logMonitor,
-						agent, keys);
+				rawMirror(artifactRepository, filesRepository, logMonitor, agent, keys);
 			} else {
 				// Collect requests
 				for (IInstallableUnit unit : toInstall) {
@@ -291,20 +296,18 @@ public class P2Utils {
 					for (IArtifactKey key : toDownload) {
 						Map<String, String> repositoryProperties = CollectAction
 								.createArtifactDescriptorProperties(unit);
-						requests.add(Util.getArtifactRepositoryManager(agent)
-								.createMirrorRequest(key, filesRepository,
-										null, repositoryProperties));
+						requests.add(Util.getArtifactRepositoryManager(agent).createMirrorRequest(key, filesRepository,
+								null, repositoryProperties));
 					}
 				}
 				if (requests.size() == 0) {
 					break;// All is OK.
 				}
-				artifactRepository.getArtifacts((IArtifactRequest[]) requests
-						.toArray(new IArtifactRequest[requests.size()]),
-						monitor);
+				artifactRepository.getArtifacts(
+						(IArtifactRequest[]) requests.toArray(new IArtifactRequest[requests.size()]), monitor);
 			}
 
-			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Failed to install bundles", null); 
+			MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Failed to install bundles", null);
 			// Check and validate installed units
 			List<IInstallableUnit> installedOK = new ArrayList<IInstallableUnit>();
 			for (IInstallableUnit unit : toInstall) {
@@ -340,8 +343,7 @@ public class P2Utils {
 				throw new CoreException(rv);
 			}
 			if (logMonitor != null) {
-				logMonitor.log("Artifacts left on iteration: "
-						+ toInstall.size() + " retrying: " + installTryCount
+				logMonitor.log("Artifacts left on iteration: " + toInstall.size() + " retrying: " + installTryCount
 						+ "delay: 5 seconds");
 				try {
 					Thread.sleep(5000);
@@ -352,18 +354,15 @@ public class P2Utils {
 		}
 	}
 
-	private static void rawMirror(IArtifactRepository artifactRepository,
-			IFileArtifactRepository filesRepository, ILogMonitor logMonitor,
-			IProvisioningAgent agent, List<IArtifactKey> keys) {
-		Mirroring mirror = new Mirroring(artifactRepository, filesRepository,
-				true);
+	private static void rawMirror(IArtifactRepository artifactRepository, IFileArtifactRepository filesRepository,
+			ILogMonitor logMonitor, IProvisioningAgent agent, List<IArtifactKey> keys) {
+		Mirroring mirror = new Mirroring(artifactRepository, filesRepository, true);
 		mirror.setCompare(false);
 		mirror.setComparatorId(null);
 		mirror.setBaseline(null);
 		mirror.setValidate(false);
 		mirror.setCompareExclusions(null);
-		mirror.setTransport((Transport) agent
-				.getService(Transport.SERVICE_NAME));
+		mirror.setTransport((Transport) agent.getService(Transport.SERVICE_NAME));
 
 		// If IUs have been specified then only they should be mirrored,
 		// otherwise mirror everything.
@@ -377,26 +376,23 @@ public class P2Utils {
 		}
 	}
 
-	public static IQuery<IInstallableUnit> createContainmentQuery(
-			Set<IInstallableUnit> availableUnits) {
+	public static IQuery<IInstallableUnit> createContainmentQuery(Set<IInstallableUnit> availableUnits) {
 
-		return QueryUtil.createCompoundQuery(
-				mapUnitsToCategoryQuery(availableUnits), false);
+		return QueryUtil.createCompoundQuery(mapUnitsToCategoryQuery(availableUnits), false);
 	}
 
-	public static void expandFeatures(IProgressMonitor monitor,
-			IMetadataRepository repository, Set<IInstallableUnit> availableUnits) {
-		PermissiveSlicer slicer = new PermissiveSlicer(repository,
-				new Hashtable<String, String>(), false, // include optional
-														// depenencies
+	public static void expandFeatures(IProgressMonitor monitor, IMetadataRepository repository,
+			Set<IInstallableUnit> availableUnits) {
+		PermissiveSlicer slicer = new PermissiveSlicer(repository, new Hashtable<String, String>(), false, // include
+																											// optional
+				// depenencies
 				true, // is everything greedy
 				true, // forceFilterTo,
 				true, // considerStrictDependencyOnly,
 				false); // slicingOptions.followOnlyFilteredRequirements());
 
-		IQueryable<IInstallableUnit> slice = slicer.slice(availableUnits
-				.toArray(new IInstallableUnit[availableUnits.size()]), monitor);
-		availableUnits
-				.addAll(slice.query(QueryUtil.ALL_UNITS, monitor).toSet());
+		IQueryable<IInstallableUnit> slice = slicer
+				.slice(availableUnits.toArray(new IInstallableUnit[availableUnits.size()]), monitor);
+		availableUnits.addAll(slice.query(QueryUtil.ALL_UNITS, monitor).toSet());
 	}
 }

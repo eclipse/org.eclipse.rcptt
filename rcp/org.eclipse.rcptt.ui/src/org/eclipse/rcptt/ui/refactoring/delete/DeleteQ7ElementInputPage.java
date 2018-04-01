@@ -244,7 +244,7 @@ public class DeleteQ7ElementInputPage extends UserInputWizardPage {
 
 	@SuppressWarnings("restriction")
 	public boolean containsOnlyProjects() {
-		return org.eclipse.ltk.internal.core.refactoring.Resources.containsOnlyProjects(refactoringProcessor
+		return Resources.containsOnlyProjects(refactoringProcessor
 				.getResourcesToDelete());
 	}
 }

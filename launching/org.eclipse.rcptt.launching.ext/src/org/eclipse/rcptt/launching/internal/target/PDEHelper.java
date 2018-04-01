@@ -38,25 +38,19 @@ public class PDEHelper {
 	 * @return
 	 * @throws CoreException
 	 */
-	public static IMetadataRepositoryManager getRepositoryManager()
-			throws CoreException {
+	public static IMetadataRepositoryManager getRepositoryManager() throws CoreException {
 		return P2Utils.getRepositoryManager();
 	}
 
-	public static IArtifactRepositoryManager getArtifactRepositoryManager()
-			throws CoreException {
+	public static IArtifactRepositoryManager getArtifactRepositoryManager() throws CoreException {
 		return P2Utils.getArtifactRepositoryManager();
 	}
 
-	public static IMetadataRepository safeLoadRepository(URI uri,
-			IProgressMonitor monitor) throws CoreException {
-		return P2Utils.safeLoadRepository(uri, monitor,
-				P2Utils.getProvisioningAgent());
+	public static IMetadataRepository safeLoadRepository(URI uri, IProgressMonitor monitor) throws CoreException {
+		return P2Utils.safeLoadRepository(uri, monitor, P2Utils.getProvisioningAgent());
 	}
 
-	public static IArtifactRepository safeLoadArtifactRepository(URI uri,
-			IProgressMonitor monitor) {
-		return P2Utils.safeLoadArtifactRepository(uri, monitor,
-				P2Utils.getProvisioningAgent());
+	public static IArtifactRepository safeLoadArtifactRepository(URI uri, IProgressMonitor monitor) {
+		return P2Utils.safeLoadArtifactRepository(uri, monitor, P2Utils.getProvisioningAgent());
 	}
 }
