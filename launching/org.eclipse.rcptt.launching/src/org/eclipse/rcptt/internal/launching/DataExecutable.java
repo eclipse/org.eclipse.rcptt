@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
+import java.util.Objects;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -19,9 +21,11 @@ import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.launching.AutLaunch;
 
+import com.google.common.base.Preconditions;
+
 public abstract class DataExecutable extends Executable {
 
-	protected IQ7NamedElement element;
+	protected final IQ7NamedElement element;
 
 	protected AutLaunch launch;
 	protected boolean terminateUser = false;
@@ -35,7 +39,12 @@ public abstract class DataExecutable extends Executable {
 	public DataExecutable(AutLaunch launch, IQ7NamedElement element,
 			boolean debug, ExecutionPhase phase) {
 		super(debug, phase, false);
-		this.element = element;
+		this.element = Objects.requireNonNull(element);
+		try {
+			Preconditions.checkNotNull(element.getID());
+		} catch (ModelException e) {
+			throw new IllegalArgumentException(e);
+		}
 		this.launch = launch;
 		executionMonitor = new NullProgressMonitor();
 	}

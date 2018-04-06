@@ -12,15 +12,17 @@ package org.eclipse.rcptt.internal.launching.aut;
 
 import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
-import java.net.InetAddress;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -30,6 +32,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -59,13 +62,11 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
-import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.CorePackage;
@@ -79,6 +80,7 @@ import org.eclipse.rcptt.ecl.debug.commands.CommandsFactory;
 import org.eclipse.rcptt.ecl.debug.commands.DebugCommand;
 import org.eclipse.rcptt.ecl.debug.commands.DebugScript;
 import org.eclipse.rcptt.ecl.gen.ast.AstExec;
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
 import org.eclipse.rcptt.ecl.parser.EclCoreParser;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
 import org.eclipse.rcptt.ecl.runtime.BoxedValues;
@@ -125,8 +127,15 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private AutEventInit autInit;
 	private AutEventStart autStart;
+	private Context context;
+	
+	public interface Context {
+		ISession connect(String host, int port) throws IOException;
+	}
+	
 
-	BaseAutLaunch(ILaunch launch, BaseAut aut) {
+	BaseAutLaunch(ILaunch launch, BaseAut aut, Context context) {
+		this.context = Objects.requireNonNull(context);
 		id = UUID.randomUUID().toString();
 		this.aut = aut;
 		setLaunch(launch);
@@ -197,23 +206,52 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	@Override
 	public synchronized Object execute(Command command, long timeout, IProgressMonitor monitor)
 			throws CoreException, InterruptedException {
-
-		ISession session = createEclSession();
-		try {
-			IPipe out = session.createPipe();
-			IProcess rc = session.execute(command, null, out);
-			IStatus status = rc.waitFor(timeout, monitor);
-			if (!status.isOK()) {
-				throw new CoreException(status);
-			}
-			return out.take(timeout);
-		} finally {
-			safeClose(session);
-		}
+		return unsafeExecute(command, timeout, monitor);
 	}
 
-	public Object unsafeExecute(final Command command, final long timeout, final IProgressMonitor monitor)
-			throws CoreException, InterruptedException {
+	interface Computation<T> {
+		T get(ISession session) throws CoreException, InterruptedException;
+	}
+
+	interface Interruption {
+		void checkInterruption() throws CoreException;
+	}
+	
+	private static final class TimeoutInterruption implements Interruption {
+		private final BooleanSupplier isCancelled;
+		private final long stop;
+		private final long timeout;
+		private TimeoutInterruption(BooleanSupplier isCancelled, long timeout) throws CoreException {
+			super();
+			this.isCancelled = isCancelled;
+			if (timeout <= 0)
+				throw new CoreException(createTimeoutStatus(timeout)); 
+			this.stop = System.currentTimeMillis() + timeout;
+			this.timeout = timeout;
+		}
+		
+		public static TimeoutInterruption forTimeout(IProgressMonitor monitor, long timeout) throws CoreException {
+			BooleanSupplier supplier = monitor == null ? (() -> false) : monitor::isCanceled;
+			return new TimeoutInterruption(supplier, timeout);
+		}
+		
+		@Override
+		public void checkInterruption() throws CoreException {
+			if (isCancelled.getAsBoolean()) {
+				throw new CoreException(Status.CANCEL_STATUS);
+			}
+			if (stop < System.currentTimeMillis()) {
+				throw new CoreException(createTimeoutStatus(timeout));
+			}
+
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T> T computeInNewSession(
+			Interruption isCancelled,
+			final Computation<T> computation
+			) throws CoreException, InterruptedException {
 		final Object[] result = new Object[] { null };
 		final Exception[] wrappedException = new Exception[] { null };
 		Thread execThread = new Thread() {
@@ -222,13 +260,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 				ISession session = null;
 				try {
 					session = createEclSession();
-					IPipe out = session.createPipe();
-					IProcess rc = session.execute(command, null, out);
-					IStatus status = rc.waitFor(timeout, monitor);
-					if (!status.isOK()) {
-						throw new CoreException(status);
-					}
-					result[0] = out.take(timeout);
+					result[0] = computation.get(session);
 				} catch (Exception e) {
 					wrappedException[0] = e;
 				} finally {
@@ -239,39 +271,62 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			};
 		};
 		execThread.start();
-		execThread.join(timeout);
-		execThread.interrupt();
+		try {
+			while (execThread.isAlive()) {
+				isCancelled.checkInterruption();
+				execThread.join(100);
+			}
+		} finally {
+			execThread.interrupt();
+		}
 
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
+			if (wrapped instanceof CoreException) {
+				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
+						new IStatus[] { ((CoreException) wrapped).getStatus() }, wrapped.getMessage(), wrapped));
+			}
+			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, wrapped.getMessage(), wrapped));
+		}
+
+		return (T) result[0];
+	}
+
+	private static IStatus createTimeoutStatus(final long timeout) {
+		return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, IProcess.TIMEOUT_CODE,
+				"Execution has timed out after " + (timeout / 1000.) + " seconds", null);
+	}
+	
+	private Object unsafeExecute(final Command command, final long timeout, final IProgressMonitor monitor)
+			throws CoreException, InterruptedException {
+		try {
+			long stop = System.currentTimeMillis() + timeout;
+			return computeInNewSession(TimeoutInterruption.forTimeout(monitor, timeout), session -> {
+				IPipe out = session.createPipe();
+				IProcess rc = session.execute(command, null, out);
+				IStatus status = rc.waitFor(stop - System.currentTimeMillis(), monitor);
+				if (!status.isOK()) {
+					throw new CoreException(status);
+				}
+				Object rv = out.take(stop - System.currentTimeMillis());
+				if (rv == null) {
+					if (stop <= System.currentTimeMillis()) {
+						throw new CoreException(createTimeoutStatus(timeout));
+					}
+				}
+				return rv;
+			});
+		} catch (Exception wrapped) {
 			String message = "Failed to execute command " + command;
 			if (wrapped instanceof CoreException) {
 				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
-						new IStatus[] { ((CoreException) wrapped).getStatus() }, message, null));
+						new IStatus[] { ((CoreException) wrapped).getStatus() }, message, wrapped));
 			}
 			throw new CoreException(Q7LaunchingPlugin.createStatus(IStatus.ERROR, message, wrapped));
 		}
-
-		return result[0];
 	}
 
-	public synchronized List<Object> executeAndTakeAll(Command command, long timeout)
-			throws CoreException, InterruptedException {
-		return executeAndTakeAll(command, timeout, new NullProgressMonitor());
-	}
-
-	public synchronized List<Object> executeAndTakeAll(Command command, long timeout, IProgressMonitor monitor)
-			throws CoreException, InterruptedException {
-
-		ISession session = createEclSession();
-		try {
-			return executeAndTakeAll(session, command, timeout, monitor);
-		} finally {
-			safeClose(session);
-		}
-	}
-
-	private synchronized List<Object> executeAndTakeAll(ISession session, Command command, long timeout,
+	private List<Object> executeAndTakeAll(ISession session, Command command, long timeout,
 			IProgressMonitor monitor) throws CoreException, InterruptedException {
 		IPipe out = session.createPipe();
 		IProcess rc = session.execute(command, null, out);
@@ -505,9 +560,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	@Override
-	public synchronized void debug(IQ7NamedElement element, long timeout, IProgressMonitor monitor,
-			TestCaseDebugger debugger, ExecutionPhase phase) throws CoreException {
-		execElement(element, timeout, monitor, debugger, phase);
+	public synchronized void debug(IQ7NamedElement element, IProgressMonitor monitor, TestCaseDebugger debugger,
+			ExecutionPhase phase) throws CoreException {
+		execElement(element, 1000L*Q7Launcher.getDebugTimeout(), monitor, debugger, phase);
 	}
 
 	@Override
@@ -532,7 +587,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	private void execContext(IContext contextElement, IProgressMonitor monitor) throws CoreException {
-		Context context = (Context) EcoreUtil.copy(contextElement.getModifiedNamedElement());
+		org.eclipse.rcptt.core.scenario.Context context = (org.eclipse.rcptt.core.scenario.Context) EcoreUtil.copy(contextElement.getModifiedNamedElement());
 		if (!(contextElement instanceof Q7InternalContext)) {
 			ContextType type = contextElement.getType();
 			if (type != null) {
@@ -651,7 +706,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			Script ecl = Scenarios.getEcl((Scenario) element);
 			return ecl == null ? CoreFactory.eINSTANCE.createScript() : ecl;
 		}
-		if (element instanceof Context) {
+		if (element instanceof org.eclipse.rcptt.core.scenario.Context) {
 			EStructuralFeature scriptFeature = element.eClass().getEStructuralFeature("script");
 			if (scriptFeature != null && scriptFeature.getEType().equals(CorePackage.Literals.SCRIPT)) {
 				return (Script) element.eGet(scriptFeature);
@@ -671,12 +726,16 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		if (script == null) {
 			return;
 		}
+		
+		long stop = System.currentTimeMillis() + timeout;
 		try {
 			// eclipse 3.4 compatibility:
 			// EcoreUtil.copy raise exception if argument is null
 			script = EcoreUtil.copy(script);
-			setupPlayer();
 			List<Command> parts = splitByRestart(script, id);
+			
+			SubMonitor sm = SubMonitor.convert(progressMonitor, parts.size()*2+2);
+			setupPlayer(stop - System.currentTimeMillis(), sm.newChild(1));
 			Assert.isTrue(parts.size() > 0);
 
 			/*
@@ -686,7 +745,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			debugHook(script, parts, idToPathMap);
 			Iterator<Command> it = parts.iterator();
 			while (it.hasNext()) {
-				status = internalExecute(it.next(), timeout, progressMonitor, properties);
+				status = internalExecute(it.next(), stop - System.currentTimeMillis(), sm.newChild(1), properties);
 				if (!status.isOK()) {
 					throw new CoreException(status);
 				}
@@ -695,13 +754,11 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 				if (debugger != null) {
 					debugger.beforeRestart();
 				}
-				waitForRestart(new NullProgressMonitor()); // Do not use monitor
-															// then wait for
-															// restart
+				waitForRestart(new NullProgressMonitor()); // Do not use monitor while waiting for restart
 				if (debugger != null) {
 					debugger.afterRestart();
 				}
-				setupPlayer();
+				setupPlayer(stop - System.currentTimeMillis(), sm.newChild(1));
 			}
 		} catch (InterruptedException e) {
 			throw new CoreException(new Status(IStatus.CANCEL, Q7LaunchingPlugin.PLUGIN_ID, e.getMessage(), e));
@@ -750,8 +807,8 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		aut.getExecutor().waitForRestart(this, monitor);
 	}
 
-	private void setupPlayer() throws InterruptedException, CoreException {
-		execute(TeslaFactory.eINSTANCE.createSetupPlayer());
+	private void setupPlayer(long timeout, IProgressMonitor monitor) throws InterruptedException, CoreException {
+		execute(TeslaFactory.eINSTANCE.createSetupPlayer(), timeout, monitor);
 	}
 
 	private void shutdownPlayer() throws InterruptedException, CoreException {
@@ -770,10 +827,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 	}
 
 	public void gracefulShutdown(int timeoutSeconds) throws CoreException, InterruptedException {
-		int launchTimeout = Q7Launcher.getLaunchTimeout();
+		long stop = System.currentTimeMillis() + timeoutSeconds * 1000;
 		try {
 			ShutdownAut shutdownCmd = TeslaFactory.eINSTANCE.createShutdownAut();
-			unsafeExecute(shutdownCmd, launchTimeout * 1000, new NullProgressMonitor());
+			unsafeExecute(shutdownCmd, stop - System.currentTimeMillis(), new NullProgressMonitor());
 		} catch (Exception e) {
 			if (!TestSuiteUtils.isConnectionProblem(e)) {
 				throw new CoreException(
@@ -781,7 +838,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			}
 		} finally {
 			try {
-				for (int i = 0; i < timeoutSeconds; ++i) {
+				while (stop > System.currentTimeMillis()) {
 					if (launch.isTerminated())
 						return;
 					Thread.sleep(1000);
@@ -861,18 +918,31 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			Q7LaunchingPlugin.log("error restoring interpreter state", e);
 		}
 	}
-
+	
+	private BooleanSupplier cancelledPredicate(IProgressMonitor monitor) {
+		return monitor == null ? () -> false : monitor::isCanceled; 
+	}
+	
 	private IStatus internalExecute(Command command, long timeout, IProgressMonitor monitor,
 			Map<String, String> properties) throws InterruptedException, CoreException {
-		ISession session = createEclSession();
-		restoreState(session, properties);
 		try {
-			return new ExecutionStatus(session.execute(command).waitFor(timeout, monitor));
-		} finally {
-			if (!monitor.isCanceled()) {
-				dumpState(session);
-			}
-			safeClose(session);
+			long stop = System.currentTimeMillis() + timeout;
+			return computeInNewSession(TimeoutInterruption.forTimeout(monitor, timeout), session -> {
+				restoreState(session, properties);
+				try {
+					Command commandCopy = command;
+					IProcess process = session.execute(commandCopy);
+					IStatus processResult = process.waitFor(stop - System.currentTimeMillis(), monitor);
+					return new ExecutionStatus(processResult);
+				} finally {
+					if (monitor == null || !monitor.isCanceled()) {
+						dumpState(session);
+					}
+				}
+			});
+		} catch (CoreException e) {
+			throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
+					new IStatus[] { ((CoreException) e).getStatus() }, "Failed to execute " + command, e));
 		}
 	}
 
@@ -973,7 +1043,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private ISession createEclSession() throws CoreException {
 		try {
-			return EclTcpClientManager.Instance.startClientSession(InetAddress.getByName(getHost()), getEclPort());
+			return context.connect(getHost(), getEclPort());
 		} catch (Exception e) {
 			throw new CoreException(Q7LaunchingPlugin.createStatus("Couldn't open ECL session", e));
 		}

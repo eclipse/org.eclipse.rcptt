@@ -206,8 +206,7 @@ public class ExecutableTest {
 			}
 
 			@Override
-			public void debug(IQ7NamedElement test, long timeout, IProgressMonitor monitor,
-					TestCaseDebugger debugger,
+			public void debug(IQ7NamedElement test, IProgressMonitor monitor, TestCaseDebugger debugger,
 					ExecutionPhase phase) throws CoreException {
 				// TODO Auto-generated method stub
 

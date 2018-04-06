@@ -27,7 +27,7 @@ public class EclDebugVerificationExecutable extends EclVerificationExecutable {
 	}
 
 	protected void doExecuteContext(IProgressMonitor monitor) throws CoreException {
-		launch.debug(getActualElement(), 0, monitor, debugger, getPhase());
+		launch.debug(getActualElement(), monitor , debugger, getPhase());
 	}
 
 	private final TestCaseDebugger debugger;

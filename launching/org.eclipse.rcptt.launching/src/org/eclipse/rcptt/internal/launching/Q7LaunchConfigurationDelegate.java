@@ -28,7 +28,13 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
+import org.eclipse.rcptt.ecl.debug.commands.CommandsFactory;
+import org.eclipse.rcptt.ecl.debug.commands.ServerInfo;
+import org.eclipse.rcptt.ecl.debug.commands.StartServer;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerBaseTransport;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.internal.core.WorkspaceMonitor;
+import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutManager;
@@ -213,7 +219,15 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 			Map<IQ7NamedElement, List<List<String>>> namedVariants)
 			throws CoreException {
 		Q7LaunchManager.getInstance().execute(elements, aut, launch, finder,
-				namedVariants);
+				namedVariants, this::createDebugTransport);
+	}
+	
+	private DebuggerTransport createDebugTransport(String host, Integer port) {
+		try {
+			return DebuggerBaseTransport.create(port, host);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

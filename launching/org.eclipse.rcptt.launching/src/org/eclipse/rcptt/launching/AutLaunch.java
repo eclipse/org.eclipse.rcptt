@@ -152,8 +152,8 @@ public interface AutLaunch {
 	 * @throws CoreException
 	 *             if script fail to execute
 	 */
-	void debug(IQ7NamedElement test, long timeout, IProgressMonitor monitor,
-			TestCaseDebugger debugger, ExecutionPhase phase) throws CoreException;
+	void debug(IQ7NamedElement test, IProgressMonitor monitor, TestCaseDebugger debugger,
+			ExecutionPhase phase) throws CoreException;
 
 	/**
 	 * Execute ECL script

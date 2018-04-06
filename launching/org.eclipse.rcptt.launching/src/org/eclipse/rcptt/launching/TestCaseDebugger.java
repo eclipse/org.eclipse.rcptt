@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
@@ -20,10 +23,9 @@ import org.eclipse.rcptt.ecl.debug.commands.ServerInfo;
 import org.eclipse.rcptt.ecl.debug.commands.StartServer;
 import org.eclipse.rcptt.ecl.debug.commands.StopServer;
 import org.eclipse.rcptt.ecl.debug.core.Debugger;
-import org.eclipse.rcptt.ecl.debug.core.DebuggerBaseTransport;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.ecl.debug.core.EclDebug;
 import org.eclipse.rcptt.ecl.debug.core.NullDebuggerTransport;
-
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.Q7Process;
@@ -31,9 +33,10 @@ import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 
 public class TestCaseDebugger {
 
-	public TestCaseDebugger(AutLaunch aut, Q7Process process)
+	public TestCaseDebugger(AutLaunch aut, Q7Process process, BiFunction<String, Integer, DebuggerTransport> connect)
 			throws CoreException {
-		this.aut = aut;
+		this.aut = Objects.requireNonNull(aut);
+		this.transportFactory = Objects.requireNonNull(connect);
 		sessionId = UUID.randomUUID().toString();
 		debugger = EclDebug.createDebugger(process);
 		connect();
@@ -67,11 +70,12 @@ public class TestCaseDebugger {
 			ServerInfo info = (ServerInfo) aut.execute(start);
 			int port = info.getPort();
 
-			transport = new DebuggerBaseTransport();
-			debugger.setTransport(transport);
 			String host = (aut instanceof BaseAutLaunch) ? ((BaseAutLaunch) aut)
 					.getHost() : "localhost";
-			transport.create(port, host);
+					
+			transport = transportFactory.apply(host, port);
+			debugger.setTransport(transport);
+
 		} catch (InterruptedException e) {
 			throw new CoreException(Status.CANCEL_STATUS);
 		}
@@ -87,13 +91,18 @@ public class TestCaseDebugger {
 			RcpttPlugin.log(e);
 		}
 		if (transport != null) {
-			transport.terminate();
+			try {
+				transport.close();
+			} catch (IOException e) {
+				RcpttPlugin.log(e);
+			}
 		}
 	}
 
 	private final String sessionId;
 	private final AutLaunch aut;
 	private final Debugger debugger;
-	private DebuggerBaseTransport transport;
+	private DebuggerTransport transport;
+	private final BiFunction<String, Integer, DebuggerTransport> transportFactory;
 
 }

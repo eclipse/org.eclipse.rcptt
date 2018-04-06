@@ -373,8 +373,8 @@ public class RecordingSupport {
 					// canceled by user.
 					return;
 				}
-				((BaseAutLaunch)aut).unsafeExecute(TeslaFactory.eINSTANCE.createShoutdownPlayer(),
-						10 * 1000, new NullProgressMonitor());
+				((BaseAutLaunch)aut).execute(TeslaFactory.eINSTANCE.createShoutdownPlayer(),
+						10 * 1000);
 			} catch (CoreException e) {
 				AUTConnectionErrorDialog.showAUTConnectionError(window
 						.getShell(), e.getStatus(), aut.getAut().getConfig());

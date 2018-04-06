@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -59,6 +61,7 @@ import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ecl.EclContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugContextExecutable;
@@ -115,7 +118,7 @@ public class Q7LaunchManager {
 
 			Q7LaunchManager.getInstance().fireStarted(session);
 			TestEngineManager.getInstance().fireSessionStarted(session);
-			IStatus result = null;
+			IStatus result = Status.OK_STATUS;
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
 				final Executable.Listener listener = new Executable.Listener() {
@@ -142,6 +145,9 @@ public class Q7LaunchManager {
 					executable.addListener(listener);
 					try {
 						executable.executeAndRememberResult();
+						if (result.isOK()) {
+							result = executable.getResultStatus();
+						}
 					} finally {
 						executable.removeListener(listener);
 						session.setActive(null);
@@ -155,7 +161,6 @@ public class Q7LaunchManager {
 									.size()]));
 				}
 				TestEngineManager.getInstance().fireSessionCompleted(session);
-				result = Status.OK_STATUS;
 			} catch (final Throwable e) {
 				result = RcpttPlugin.createStatus(e);
 			} finally {
@@ -245,7 +250,8 @@ public class Q7LaunchManager {
 
 	public void execute(IQ7NamedElement[] elements, AutLaunch aut,
 			Q7TestLaunch launch, IWorkspaceFinder finder,
-			Map<IQ7NamedElement, List<List<String>>> namedVariants)
+			Map<IQ7NamedElement, List<List<String>>> namedVariants, 
+			BiFunction<String, Integer, DebuggerTransport> debugTransport)
 			throws CoreException {
 		// avoid circles
 		if (ModelCycleDetector.hasCycles(elements)) {
@@ -259,7 +265,7 @@ public class Q7LaunchManager {
 		}
 
 		// create process
-		Q7Process process = new Q7Process(launch, aut);
+		Q7Process process = new Q7Process(launch, aut, debugTransport);
 
 		// create executable elements
 		ExecutableFactory executableFabric = new ExecutableFactory(aut, finder, process.getDebugger());

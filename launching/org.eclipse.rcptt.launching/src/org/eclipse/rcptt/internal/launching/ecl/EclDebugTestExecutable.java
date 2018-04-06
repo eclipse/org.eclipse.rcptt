@@ -26,7 +26,7 @@ public class EclDebugTestExecutable extends EclScenarioExecutable {
 	}
 
 	protected void doExecuteTest(IProgressMonitor monitor) throws CoreException {
-		launch.debug(getActualElement(), 0, monitor, debugger, getPhase());
+		launch.debug(getActualElement(), monitor, debugger, getPhase());
 	}
 
 	private final TestCaseDebugger debugger;

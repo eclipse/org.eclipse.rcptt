@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
@@ -41,6 +42,8 @@ import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 
+import com.google.common.base.Preconditions;
+
 public class EclScenarioExecutable extends ScenarioExecutable {
 
 	private Map<String, EObject> props;
@@ -54,6 +57,12 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 			boolean debug) {
 		super(launch, scenario, debug);
 		variantName = new ArrayList<String>();
+		try {
+			Preconditions.checkNotNull(scenario.getModifiedNamedElement());
+			Preconditions.checkArgument(!getActualElement().getModifiedNamedElement().getId().isEmpty());
+		} catch (ModelException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	@Override

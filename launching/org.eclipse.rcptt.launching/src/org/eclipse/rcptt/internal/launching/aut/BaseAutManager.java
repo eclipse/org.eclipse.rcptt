@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.aut;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +38,11 @@ import org.eclipse.debug.core.ILaunchesListener;
 import org.eclipse.debug.core.ILaunchesListener2;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.pde.internal.launching.IPDEConstants;
-
+import org.eclipse.rcptt.ecl.client.tcp.EclTcpClientManager;
+import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.internal.core.WorkspaceMonitor;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
+import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch.Context;
 import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchState;
@@ -149,7 +154,13 @@ public enum BaseAutManager implements AutManager, ILaunchConfigurationListener,
 			BaseAut aut = auts.getByLaunch(launch);
 			if (aut != null) {
 				if (!handleRestart(launch)) {
-					BaseAutLaunch autLaunch = new BaseAutLaunch(launch, aut);
+					Context context = new Context() {
+						@Override
+						public ISession connect(String host, int port) throws IOException {
+							return EclTcpClientManager.Instance.startClientSession(InetAddress.getByName(host), port);
+						}
+					};
+					BaseAutLaunch autLaunch = new BaseAutLaunch(launch, aut, context);
 					this.launches.add(autLaunch);
 					for (AutListener listener : listeners) {
 						listener.launchAdded(autLaunch);

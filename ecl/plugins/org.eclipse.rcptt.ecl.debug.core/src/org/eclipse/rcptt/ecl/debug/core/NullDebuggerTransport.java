@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.debug.core;
 
+import java.io.IOException;
+
 import org.eclipse.emf.ecore.EObject;
 
 public class NullDebuggerTransport implements DebuggerTransport {
@@ -18,6 +20,10 @@ public class NullDebuggerTransport implements DebuggerTransport {
 	}
 
 	public void setCallback(DebuggerCallback callback) {
+	}
+
+	@Override
+	public void close() throws IOException {
 	}
 
 }

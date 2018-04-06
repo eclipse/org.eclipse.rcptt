@@ -314,6 +314,10 @@ public class Q7Launcher {
 		return preferences.getInt(Q7LaunchingPlugin.EXECUTION_TIMEOUT,
 				DEFAULT_LAUNCH_TIMEOUT);
 	}
+	
+	public static int getDebugTimeout() {
+		return Integer.MAX_VALUE;
+	}
 
 	public static void setLaunchTimeout(final int timeout) {
 		final IEclipsePreferences preferences = Q7LaunchingPlugin
