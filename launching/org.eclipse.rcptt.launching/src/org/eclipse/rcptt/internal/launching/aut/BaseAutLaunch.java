@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeoutException;
 import java.util.function.BooleanSupplier;
 
 import org.eclipse.core.runtime.Assert;
@@ -294,7 +295,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 
 	private static IStatus createTimeoutStatus(final long timeout) {
 		return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, IProcess.TIMEOUT_CODE,
-				"Execution has timed out after " + (timeout / 1000.) + " seconds", null);
+				"Execution has timed out after " + (timeout / 1000.) + " seconds", new TimeoutException());
 	}
 	
 	private Object unsafeExecute(final Command command, final long timeout, final IProgressMonitor monitor)

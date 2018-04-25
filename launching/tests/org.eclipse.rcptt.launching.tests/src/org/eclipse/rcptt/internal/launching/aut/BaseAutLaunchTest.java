@@ -2,6 +2,7 @@ package org.eclipse.rcptt.internal.launching.aut;
 
 import static org.eclipse.rcptt.ecl.core.util.Statuses.hasCode;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.isA;
 
@@ -35,6 +36,7 @@ import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch.Context;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.tesla.ecl.model.SetupPlayer;
 import org.eclipse.rcptt.tesla.ecl.model.ShoutdownPlayer;
+import org.eclipse.rcptt.tesla.ecl.model.ShutdownAut;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -64,6 +66,7 @@ public class BaseAutLaunchTest {
 			when(context.connect("127.0.0.1", 9922)).thenReturn(session);
 			when(process.waitFor(Matchers.anyLong(), Matchers.any())).thenReturn(Status.OK_STATUS);
 			when(session.execute(isA(RestoreState.class))).thenReturn(process);
+			when(session.execute(isA(ShutdownAut.class), Matchers.isNull(IPipe.class), isA(IPipe.class))).thenReturn(process);
 			when(session.execute(isA(ShoutdownPlayer.class), Matchers.isNull(IPipe.class), isA(IPipe.class))).thenAnswer(returnRV);
 			when(session.execute(isA(SaveState.class), Matchers.isNull(IPipe.class), isA(IPipe.class))).thenAnswer(invocation -> {
 				IPipe output = (IPipe) invocation.getArguments()[2];
@@ -186,6 +189,14 @@ public class BaseAutLaunchTest {
 			if (e.getStatus().getSeverity() != IStatus.CANCEL)
 				throw e;
 		}
+	}
+	
+	@Test(timeout=200000)
+	public void terminateOnShutdownTimeout() throws CoreException, InterruptedException {
+		Mockito.when(launch.canTerminate()).thenReturn(true);
+		BaseAutLaunch subject = createSubject();
+		subject.gracefulShutdown(1);
+		verify(launch).terminate();
 	}
 	
 
