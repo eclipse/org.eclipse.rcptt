@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.internal.builder;
 
+import static org.eclipse.rcptt.core.nature.RcpttNature.BUILDER_ID;
+import static org.eclipse.rcptt.core.nature.RcpttNature.LEGACY_BUILDER_ID;
 import static org.eclipse.rcptt.core.nature.RcpttNature.LEGACY_NATURE_ID;
 import static org.eclipse.rcptt.core.nature.RcpttNature.NATURE_ID;
 
 import java.util.List;
 
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -70,6 +73,7 @@ public class MigrateProjectsJob extends Job {
 			if (!iProject.hasNature(LEGACY_NATURE_ID))
 				return;
 			migrateProperties(iProject);
+			migrateBuildSpec(iProject);
 			migrateNatures(iProject);
 		} catch (Throwable e) {
 			RcpttPlugin.log(new RuntimeException("Migration of "
@@ -77,9 +81,25 @@ public class MigrateProjectsJob extends Job {
 		}
 	}
 
+	private void migrateBuildSpec(IProject iProject) throws CoreException {
+		IProjectDescription description = iProject.getDescription();
+		ICommand[] commands = description.getBuildSpec();
+		for (ICommand command : commands) {
+			if (LEGACY_BUILDER_ID.equals(command.getBuilderName())) {
+				command.setBuilderName(BUILDER_ID);
+				break;
+			}
+		}
+		description.setBuildSpec(commands);
+		iProject.setDescription(description, null);
+	}
+
 	private void migrateNatures(IProject iProject) throws CoreException {
 		IProjectDescription description = iProject.getDescription();
 		List<String> natures = Lists.newArrayList(description.getNatureIds());
+		// need to remove legacy nature to prevent 'unknown nature' warnings in the error log
+		if (natures.contains(LEGACY_NATURE_ID))
+			natures.remove(LEGACY_NATURE_ID);
 		if (!natures.contains(NATURE_ID))
 			natures.add(NATURE_ID);
 		description.setNatureIds(Iterables.toArray(natures, String.class));

@@ -83,7 +83,9 @@ public aspect CellEditorAspect {
 
 	@SuppressAjWarnings("adviceDidNotMatch")
 	Object around(MessageDialog box):
-		execution(int org.eclipse.jface.dialogs.MessageDialog.open()) && target(box) {
+		(execution(int org.eclipse.jface.dialogs.MessageDialog.open())
+				|| execution(int org.eclipse.jface.window.Window.open()))
+		&& target(box) {
 		try {
 			if (SWTDialogManager.isCancelAllMessageBoxes()) {
 				Field declaredField = MessageDialog.class.getDeclaredField("buttonLabels");

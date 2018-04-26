@@ -1,7 +1,7 @@
 instructions.configure=\
-  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/oxygen,name:Oxygen);\
-  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/oxygen,name:Oxygen);\
-  addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.7,name:The Eclipse Project Updates);\
-  addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.7,name:The Eclipse Project Updates);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/releases/photon,name:Photon);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/releases/photon,name:Photon);\
+  addRepository(type:0,location:http${#58}//download.eclipse.org/eclipse/updates/4.8,name:The Eclipse Project Updates);\
+  addRepository(type:1,location:http${#58}//download.eclipse.org/eclipse/updates/4.8,name:The Eclipse Project Updates);\
   setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/rcpttWorkspace);\
   setProgramProperty(propName:org.eclipse.update.reconcile,propValue:false);

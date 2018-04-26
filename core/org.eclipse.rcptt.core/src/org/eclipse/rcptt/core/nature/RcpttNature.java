@@ -31,6 +31,7 @@ public class RcpttNature implements IProjectNature {
 	public static final String NATURE_ID = RcpttPlugin.PLUGIN_ID + ".rcpttnature";
 	public static final String LEGACY_NATURE_ID = "com.xored.q7.core.q7nature";
 	public static final String BUILDER_ID = "org.eclipse.rcptt.core.builder.q7Builder";
+	public static final String LEGACY_BUILDER_ID = "com.xored.q7.core.builder.q7Builder";
 
 	private IProject project;
 
