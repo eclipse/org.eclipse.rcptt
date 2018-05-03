@@ -35,6 +35,7 @@ import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
 import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
+import org.eclipse.rcptt.reporting.util.ReportEntry;
 import org.eclipse.rcptt.ui.actions.AbstractRunAction;
 import org.eclipse.rcptt.ui.actions.AbstractRunFailedAction;
 import org.eclipse.rcptt.ui.controls.AbstractEmbeddedComposite;
@@ -62,16 +63,16 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 		public Image getColumnImage(Object element, int columnIndex) {
 			ReportEntry entry = (ReportEntry) element;
 			if (columnIndex == 0) {
-				if (entry.status.getSeverity() == IStatus.OK) {
+				if (entry.getSimpleSeverity() == SimpleSeverity.OK) {
 					return Images.getImage(Images.SCENARIO_PASS);
-				} else if ((entry.status.getSeverity() & IStatus.CANCEL) != 0) {
+				} else if (entry.getSimpleSeverity() == SimpleSeverity.CANCEL) {
 					return Images.getImage(Images.SCENARIO);
 				} else {
 					return Images.getImage(Images.SCENARIO_FAIL);
 				}
 			}
 			if (columnIndex == 3) {
-				if ((entry.status.getSeverity() & IStatus.WARNING) != 0) {
+				if ((entry.getStatusSeverity() & IStatus.WARNING) != 0) {
 					return PlatformUI.getWorkbench().getSharedImages()
 							.getImage(ISharedImages.IMG_OBJS_WARN_TSK);
 				}
@@ -86,7 +87,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 			case 0:// name
 				return entry.name;
 			case 1:// status
-				return SimpleSeverity.create(entry.status).name();
+				return entry.getSimpleSeverity().name();
 			case 2:// time
 				return TimeFormatHelper.format(entry.time);
 				// case 3:// location
@@ -106,7 +107,7 @@ public class TestCasesComposite extends AbstractEmbeddedComposite {
 	private final static Function<ReportEntry, Integer> reportToStatus = new Function<ReportEntry, Integer>() {
 		@Override
 		public Integer apply(ReportEntry input) {
-			return input.status.getSeverity();
+			return input.getStatusSeverity();
 		}
 	};
 
