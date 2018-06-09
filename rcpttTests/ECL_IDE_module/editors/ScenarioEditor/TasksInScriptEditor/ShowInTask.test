@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _7lhuwF0IEeGDGrudSYLu8w
-Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/22/14 10:18 AM
+Runtime-Version: 2.3.0.qualifier
+Save-Time: 6/9/18 12:54 PM
 Tags: ECL_IDE_module, TestCase, Task
 Testcase-Type: ecl
 
@@ -42,19 +42,19 @@ with [get-editor CreateJavaProject | get-section Script | get-left-ruler] {
     get-ruler-column | click-ruler -line 6 -button Right
     get-menu "Add Task..." | click
 }
-get-window Properties | get-button OK | click
+get-window Properties | get-button Add | click
 get-view "Test Explorer" | get-tree | select "MyProject/TestFolder/WorkspaceIsEmpty" | double-click
 with [get-editor WorkspaceIsEmpty | get-section Script | get-left-ruler] {
     get-ruler-column -index 1 | click-ruler -line 1 -button Right
     get-menu "Add Task..." | click
 }
-get-window Properties | get-button OK | click
+get-window Properties | get-button Add | click
 get-view "Test Explorer" | get-tree | select "MyProject/TestFolder/P1 is left" | double-click
 with [get-editor "P1 is left" | get-section Script | get-left-ruler] {
     get-ruler-column -index 1 | click-ruler -line 4 -button Right
     get-menu "Add Task..." | click
 }
-get-window Properties | get-button OK | click
+get-window Properties | get-button Add | click
 get-editor "P1 is left" | close
 with [get-editor WorkspaceIsEmpty] {
     click
