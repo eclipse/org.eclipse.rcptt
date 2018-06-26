@@ -15,7 +15,7 @@
   <parent>
     <artifactId>rcptt.rcp</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>2.3.0-SNAPSHOT</version>
+    <version>2.4.0-SNAPSHOT</version>
   </parent>
   <modules>
     <!-- CONTEXT PLUGINS -->
@@ -31,7 +31,7 @@
     <module>org.eclipse.rcptt.ctx.filesystem.ui</module>
   </modules>
   <groupId>org.eclipse.rcptt</groupId>
-  <version>2.3.0-SNAPSHOT</version>
+  <version>2.4.0-SNAPSHOT</version>
   <artifactId>q7.rcp.contexts</artifactId>
   <packaging>pom</packaging>
 </project>
