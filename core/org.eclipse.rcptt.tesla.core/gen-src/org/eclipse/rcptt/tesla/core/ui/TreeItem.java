@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TreeItem#isSelected <em>Selected</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TreeItem#isChecked <em>Checked</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TreeItem#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TreeItem#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTreeItem()
  * @model
@@ -291,7 +291,7 @@ public interface TreeItem extends Item, WithImage {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Values</em>' map.
 	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTreeItem_Values()
-	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.ValuesMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.ValuesMap&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
 	 * @generated
 	 */
 	EMap<String, String> getValues();

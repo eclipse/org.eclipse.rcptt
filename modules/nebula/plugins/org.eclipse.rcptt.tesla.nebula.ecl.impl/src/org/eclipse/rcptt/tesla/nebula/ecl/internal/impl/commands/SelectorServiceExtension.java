@@ -16,8 +16,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.dispatch.IScriptletExtension;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-
-import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
@@ -25,6 +23,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.Selector;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.nebula.ecl.NebulaElementKinds;
+import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 
 /**
  * Special logic for getting Nebula Grid items.
@@ -70,7 +69,9 @@ public class SelectorServiceExtension implements IScriptletExtension {
 				path += "%" + index + "%";
 			}
 			if (column != null) {
-				path += "#" + column + "#";
+				path += TableTreeItemPathUtil.COLUMN_DELIMITER
+						+ column
+						+ TableTreeItemPathUtil.COLUMN_DELIMITER;
 			}
 			handler.setKind(ElementKind.Item);
 			handler.setParent(parent.getParent());

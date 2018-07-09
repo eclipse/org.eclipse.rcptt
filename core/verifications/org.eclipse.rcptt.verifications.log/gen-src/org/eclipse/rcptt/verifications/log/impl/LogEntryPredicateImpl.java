@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,12 +11,9 @@
 package org.eclipse.rcptt.verifications.log.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.rcptt.verifications.log.LogEntryPredicate;
 import org.eclipse.rcptt.verifications.log.LogPackage;
 
@@ -26,13 +23,13 @@ import org.eclipse.rcptt.verifications.log.LogPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.LogEntryPredicateImpl#getSeverityMask <em>Severity Mask</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.LogEntryPredicateImpl#getCode <em>Code</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.LogEntryPredicateImpl#getPluginPattern <em>Plugin Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.impl.LogEntryPredicateImpl#getMessagePattern <em>Message Pattern</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -141,6 +138,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getSeverityMask() {
 		return severityMask;
 	}
@@ -150,6 +148,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSeverityMask(int newSeverityMask) {
 		int oldSeverityMask = severityMask;
 		severityMask = newSeverityMask;
@@ -162,6 +161,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCode() {
 		return code;
 	}
@@ -171,6 +171,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCode(int newCode) {
 		int oldCode = code;
 		code = newCode;
@@ -183,6 +184,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPluginPattern() {
 		return pluginPattern;
 	}
@@ -192,6 +194,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPluginPattern(String newPluginPattern) {
 		String oldPluginPattern = pluginPattern;
 		pluginPattern = newPluginPattern;
@@ -204,6 +207,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMessagePattern() {
 		return messagePattern;
 	}
@@ -213,6 +217,7 @@ public class LogEntryPredicateImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMessagePattern(String newMessagePattern) {
 		String oldMessagePattern = messagePattern;
 		messagePattern = newMessagePattern;

@@ -21,14 +21,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.NotEq#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.NotEq#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getNotEq()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments are different' returns='<code>false</code> when args are equal, <code>true</code> otherwise.' example=' int 9 | not-eq 10 | verify-true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments are different' returns='&lt;code&gt;false&lt;/code&gt; when args are equal, &lt;code&gt;true&lt;/code&gt; otherwise.' example=' int 9 | not-eq 10 | verify-true'"
  * @generated
  */
 public interface NotEq extends Command {

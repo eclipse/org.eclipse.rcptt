@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.rcptt.core.internal.builder.Q7Builder;
 import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.ui.internal.resources.WSValidators;
+import org.eclipse.rcptt.resources.ui.WSValidators;
 import org.eclipse.rcptt.workspace.WSLink;
 import org.eclipse.swt.widgets.Display;
 

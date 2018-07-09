@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,11 +27,11 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutReconnectImpl#getQ7EclPort <em>Q7 Ecl Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutReconnectImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

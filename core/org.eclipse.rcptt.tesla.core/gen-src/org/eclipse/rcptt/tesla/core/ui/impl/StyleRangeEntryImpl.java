@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl#getLength <em>Length</em>}</li>
@@ -48,7 +49,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl#getStartPos <em>Start Pos</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.StyleRangeEntryImpl#getEndPos <em>End Pos</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

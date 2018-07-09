@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getContexts <em>Contexts</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getContent <em>Content</em>}</li>
@@ -30,8 +31,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getExternalReference <em>External Reference</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getVerifications <em>Verifications</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.scenario.Scenario#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getScenario()
  * @model
@@ -217,5 +218,21 @@ public interface Scenario extends NamedElement {
 	 * @generated
 	 */
 	EList<String> getVerifications();
+
+	/**
+	 * Returns the value of the '<em><b>Properties</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.rcptt.core.scenario.ScenarioProperty}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Properties</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Properties</em>' containment reference list.
+	 * @see org.eclipse.rcptt.core.scenario.ScenarioPackage#getScenario_Properties()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ScenarioProperty> getProperties();
 
 } // Scenario

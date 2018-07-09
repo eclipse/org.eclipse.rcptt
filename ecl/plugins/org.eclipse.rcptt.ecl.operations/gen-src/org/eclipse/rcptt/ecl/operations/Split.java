@@ -19,13 +19,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Split#getStr <em>Str</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Split#getSep <em>Sep</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Split#isTrimResults <em>Trim Results</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Split#isOmitEmptyStrings <em>Omit Empty Strings</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getSplit()
  * @model annotation="http://www.eclipse.org/ecl/docs description='' example='str \"1, 2, 3, 4, 5\" | split -sep \",\" -trimResults | foreach [val item]{\n\t$item | log\n}\n'"

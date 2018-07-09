@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,10 +18,23 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.Procedure1;
 
 public interface INodeBuilder {
+
+	/**
+	 * Return current node name
+	 * 
+	 * @return node name
+	 */
+	public String getName();
+
 	/**
 	 * Add subnode to current one and make it active.
 	 */
 	public INodeBuilder beginTask(String name);
+
+	/**
+	 * Find existing subnode by name and index and make it active.
+	 */
+	public INodeBuilder appendTask(String name);
 
 	/**
 	 * End current task and go level up
@@ -46,6 +59,13 @@ public interface INodeBuilder {
 	void appendLog(LoggingCategory category, String text);
 
 	void setProperty(String key, EObject value);
+
+	EObject getProperty(String key);
+
+	/**
+	 * Returns the parent node, or {@code null} if this is a root node.
+	 */
+	INodeBuilder getParent();
 
 	void addSnapshot(Snaphot snapshot);
 	

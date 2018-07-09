@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -973,6 +973,42 @@ public interface ProtocolFactory extends EFactory {
 	 * @generated
 	 */
 	UpdateControlCommand createUpdateControlCommand();
+
+	/**
+	 * Returns a new object of class '<em>Rap Download File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rap Download File</em>'.
+	 * @generated
+	 */
+	RapDownloadFile createRapDownloadFile();
+
+	/**
+	 * Returns a new object of class '<em>Rap Upload File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rap Upload File</em>'.
+	 * @generated
+	 */
+	RapUploadFile createRapUploadFile();
+
+	/**
+	 * Returns a new object of class '<em>Get Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Items</em>'.
+	 * @generated
+	 */
+	GetItems createGetItems();
+
+	/**
+	 * Returns a new object of class '<em>Get Items Response</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Items Response</em>'.
+	 * @generated
+	 */
+	GetItemsResponse createGetItemsResponse();
 
 	/**
 	 * Returns the package supported by this factory.

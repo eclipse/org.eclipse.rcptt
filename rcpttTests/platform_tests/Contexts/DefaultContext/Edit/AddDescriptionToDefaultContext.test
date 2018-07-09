@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_OKTjMYxiEeK4jYsIiM8Vnw
 Element-Name: AddDescriptionToDefaultContext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-qWqMIreEeKe4NooVEYS9Q
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/21/17 12:05 PM
 Tags: Context, DefaultContext
 Testcase-Type: ecl
 
@@ -58,7 +57,7 @@ get-editor "Q7Project - Project Settings" | get-section Description | get-editbo
 get-editor "Q7Project - Project Settings" | get-section Description | get-button "Clear Description" | click
 get-editor "Q7Project - Project Settings" | get-section Description | get-editbox | get-property text | equals "" | verify-true
 get-editor "Q7Project - Project Settings" | close
-get-window "Save Resource" | get-button No | click
+get-window "Save Resource" | get-button "Don't Save" | click
 with [get-view "Test Explorer"] {
     click
     get-tree | select "Q7Project/Project Settings" | double-click
@@ -68,7 +67,7 @@ get-editor "Q7Project - Project Settings" | get-section Description | get-editbo
     + "new line" | verify-true
 get-editor "Q7Project - Project Settings" | get-section Description | get-button "Clear Description" | click
 get-editor "Q7Project - Project Settings" | close
-get-window "Save Resource" | get-button Yes | click
+get-window "Save Resource" | get-button Save | click
 with [get-view "Test Explorer"] {
     click
     get-tree | select "Q7Project/Project Settings" | double-click

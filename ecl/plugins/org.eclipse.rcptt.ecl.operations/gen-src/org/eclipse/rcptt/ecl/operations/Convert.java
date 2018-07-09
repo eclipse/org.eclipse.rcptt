@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Convert#getInput <em>Input</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getConvert()
  * @model abstract="true"

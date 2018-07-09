@@ -18,12 +18,12 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Browser#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Browser#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Browser#getPlainText <em>Plain Text</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getBrowser()
  * @model

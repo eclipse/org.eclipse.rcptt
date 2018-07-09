@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.debug.core;
 
+import java.io.Closeable;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 
-public interface DebuggerTransport {
+public interface DebuggerTransport extends Closeable {
 
 	public void request(EObject event) throws CoreException;
 

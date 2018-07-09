@@ -947,13 +947,31 @@ public interface OperationsPackage extends EPackage {
 	int TRY__DELAY = CorePackage.COMMAND_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>No Screenshot</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRY__NO_SCREENSHOT = CorePackage.COMMAND_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Error</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRY__ERROR = CorePackage.COMMAND_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Try</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRY_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 5;
+	int TRY_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -2261,6 +2279,52 @@ public interface OperationsPackage extends EPackage {
 	int PARSE_TIME_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl <em>Throw Error</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl
+	 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getThrowError()
+	 * @generated
+	 */
+	int THROW_ERROR = 42;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR__MESSAGE = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Throw Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THROW_ERROR_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2553,6 +2617,28 @@ public interface OperationsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTry_Delay();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.Try#isNoScreenshot <em>No Screenshot</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>No Screenshot</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.Try#isNoScreenshot()
+	 * @see #getTry()
+	 * @generated
+	 */
+	EAttribute getTry_NoScreenshot();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rcptt.ecl.operations.Try#getError <em>Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Error</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.Try#getError()
+	 * @see #getTry()
+	 * @generated
+	 */
+	EReference getTry_Error();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Format <em>Format</em>}'.
@@ -3210,6 +3296,27 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getParseTime_Format();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.ThrowError <em>Throw Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Throw Error</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ThrowError
+	 * @generated
+	 */
+	EClass getThrowError();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ThrowError#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.ThrowError#getMessage()
+	 * @see #getThrowError()
+	 * @generated
+	 */
+	EAttribute getThrowError_Message();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3525,6 +3632,22 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRY__DELAY = eINSTANCE.getTry_Delay();
+
+		/**
+		 * The meta object literal for the '<em><b>No Screenshot</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRY__NO_SCREENSHOT = eINSTANCE.getTry_NoScreenshot();
+
+		/**
+		 * The meta object literal for the '<em><b>Error</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRY__ERROR = eINSTANCE.getTry_Error();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.FormatImpl <em>Format</em>}' class.
@@ -4075,6 +4198,24 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARSE_TIME__FORMAT = eINSTANCE.getParseTime_Format();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl <em>Throw Error</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.operations.impl.ThrowErrorImpl
+		 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getThrowError()
+		 * @generated
+		 */
+		EClass THROW_ERROR = eINSTANCE.getThrowError();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute THROW_ERROR__MESSAGE = eINSTANCE.getThrowError_Message();
 
 		/**
 		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.

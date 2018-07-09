@@ -26,10 +26,10 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.TraceData;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.TraceDataImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

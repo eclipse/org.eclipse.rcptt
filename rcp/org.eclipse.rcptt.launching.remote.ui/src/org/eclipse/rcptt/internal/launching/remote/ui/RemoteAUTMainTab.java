@@ -28,58 +28,56 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.progress.WorkbenchJob;
 
 public class RemoteAUTMainTab extends AbstractLaunchConfigurationTab {
 
 	private AUTArgumentsBlock fLocationBlock;
 	// private ILaunchConfigurationTab[] tabs;
 	// private RemoteTabGroup group;
-	private Job fRereshJob;
-	private Job validateJob;
+	private final Job validateJob = new Job("Connection validate job") {
+		{
+			setSystem(true);
+		}
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			String lastMessage = getErrorMessage();
+			String msg = fLocationBlock.validate();
+			if ((msg == null && lastMessage == null) || msg != null && msg.equals(lastMessage)) {
+				return Status.OK_STATUS;
+			}
+			setErrorMessage(msg);
+			final Control control = RemoteAUTMainTab.super.getControl();
+			if (control.isDisposed()) {
+				return Status.OK_STATUS;
+			}
+			control.getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (!control.isDisposed()) {
+						updateLaunchConfigurationDialog();
+					}
+				}
+			});
+			return Status.OK_STATUS;
+		}
+		
+	};
 
-	public RemoteAUTMainTab(RemoteTabGroup group) {
+
+	public RemoteAUTMainTab() {
 		super();
-		// this.group = group;
 		createLocationBlock();
 	}
 
-	protected Job createUpdateJob() {
-		return new WorkbenchJob(getControl().getDisplay(), "Update LCD") { //$NON-NLS-1$
-			public IStatus runInUIThread(IProgressMonitor monitor) {
-				if (!getControl().isDisposed()) {
-					updateLaunchConfigurationDialog();
-				}
-				return Status.OK_STATUS;
-			}
-
-			public boolean shouldRun() {
-				return !getControl().isDisposed();
-			}
-		};
-	}
-
+	@Override
 	protected long getUpdateJobDelay() {
 		return 200;
 	}
 
-	private Job getUpdateJob() {
-		if (fRereshJob == null) {
-			fRereshJob = createUpdateJob();
-			fRereshJob.setSystem(true);
-		}
-		return fRereshJob;
-	}
-
-	protected void scheduleUpdateJob() {
-		Job job = getUpdateJob();
-		job.cancel(); // cancel existing job
-		job.schedule(getUpdateJobDelay());
-	}
-
 	@Override
 	protected void updateLaunchConfigurationDialog() {
-		validateTab();
+		validateJob.cancel();
+		validateJob.schedule();
 		super.updateLaunchConfigurationDialog();
 	}
 
@@ -87,6 +85,7 @@ public class RemoteAUTMainTab extends AbstractLaunchConfigurationTab {
 		fLocationBlock = new AUTArgumentsBlock(this);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		final ScrolledComposite scrollContainer = new ScrolledComposite(parent,
 				SWT.V_SCROLL);
@@ -104,6 +103,7 @@ public class RemoteAUTMainTab extends AbstractLaunchConfigurationTab {
 		// This results in scrollbar scrolling when user tabs to a control that
 		// is not in the field of view.
 		Listener listener = new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				Control child = (Control) e.widget;
 				Rectangle bounds = child.getBounds();
@@ -132,51 +132,22 @@ public class RemoteAUTMainTab extends AbstractLaunchConfigurationTab {
 		setControl(scrollContainer);
 	}
 
+	@Override
 	public void initializeFrom(ILaunchConfiguration config) {
 		fLocationBlock.initializeFrom(config);
 	}
 
-	private Job validateJob() {
-		if (validateJob == null) {
-			validateJob = new Job("Connection validate job") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					setErrorMessage(null);
-					setMessage(null);
-					String msg = fLocationBlock.validate();
-					if (msg != null) {
-						setErrorMessage(msg);
-					}
-					Control control = RemoteAUTMainTab.super.getControl();
-					if (control.isDisposed()) {
-						return Status.OK_STATUS;
-					}
-					control.getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							updateLaunchConfigurationDialog();
-						}
-					});
-					return Status.OK_STATUS;
-				}
-			};
-			validateJob.setSystem(true);
-		}
-		return validateJob;
-	}
-
-	public void validateTab() {
-		validateJob().cancel();
-		validateJob().schedule(500);
-	}
-
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy config) {
 		fLocationBlock.performApply(config);
 	}
 
+	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy config) {
 		fLocationBlock.setDefaults(config);
 	}
 
+	@Override
 	public String getName() {
 		return "Remote AUT Launch configuration";
 	}

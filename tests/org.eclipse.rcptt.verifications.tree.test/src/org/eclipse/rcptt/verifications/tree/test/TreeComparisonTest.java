@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree.test;
 
 import static com.google.common.collect.Collections2.transform;
@@ -153,7 +163,7 @@ public class TreeComparisonTest {
 				emptyIntegerList, "");
 		assertEquals(0, result.size());
 		result = comparison.assertChildren(wrap(1, 2, 3, 4), wrap(1, 2, 3), emptyIntegerList, "");
-		assertEquals(1, result.size());
+		assertEquals(2, result.size());
 		assertEquals(Collections.emptyList(), result.get(0).getItemIndexPath());
 		assertEquals("Different row children amount, expected 4, but was 3", result.get(0).getMessage());
 		result = comparison.assertChildren(wrap(1, 3, 2), wrap(1, 2, 3), emptyIntegerList, "");

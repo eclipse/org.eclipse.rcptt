@@ -15,17 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
-
 import org.eclipse.rcptt.preferences.PrefData;
 import org.eclipse.rcptt.preferences.PrefNode;
 import org.eclipse.rcptt.preferences.PreferencesFactory;
 import org.eclipse.rcptt.preferences.StringPrefData;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 public final class PrefUtils {
+	
+	private static final SubstitutionHelper helper = resolveHelper();
 
 	private PrefUtils() {
 	}
@@ -115,6 +118,17 @@ public final class PrefUtils {
 		}
 	}
 
+	public static void substituteVariables(StringPrefData prefData) {
+		String key = substituteVariables(prefData.getKey());
+		prefData.setKey(key);
+		String value = substituteVariables(prefData.getValue());
+		prefData.setValue(value);
+	}
+
+	public static String substituteVariables(String string) {
+		return helper.substituteVariables(string);
+	}
+
 	private static PrefNode doConvertPreferences(Preferences preferences)
 			throws BackingStoreException {
 
@@ -170,4 +184,46 @@ public final class PrefUtils {
 
 		return prefNodes;
 	}
+	
+	private interface SubstitutionHelper {
+
+		public String substituteVariables(String input);
+
+	}
+	
+	private static SubstitutionHelper resolveHelper() {
+		try {
+			// try to load the class
+			VariablesPlugin.getDefault();
+			
+			return new SubstitutionHelper() {
+
+				@Override
+				public String substituteVariables(String input) {
+					try {
+						return VariablesPlugin
+								.getDefault()
+								.getStringVariableManager()
+								.performStringSubstitution(input, true);
+					} catch (CoreException e) {
+						Activator.log(e);
+					}
+					return input;
+				}
+
+			};
+		} catch (NoClassDefFoundError e) {
+			// go to the fallback below
+		}
+		
+		return new SubstitutionHelper() {
+
+			@Override
+			public String substituteVariables(String input) {
+				return input;
+			}
+
+		};
+	}
+	
 }

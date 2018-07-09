@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,20 +40,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.dnd.TransferData;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.ResourceTransfer;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.Q7Features;
@@ -87,6 +73,19 @@ import org.eclipse.rcptt.ui.editors.NamedElementLabelProvider;
 import org.eclipse.rcptt.ui.launching.LaunchUtils;
 import org.eclipse.rcptt.ui.recording.RecordingSupport.RecordingMode;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.ResourceTransfer;
 
 public class ContextsTable extends EObjectTable {
 	@Override
@@ -196,8 +195,7 @@ public class ContextsTable extends EObjectTable {
 						if (elementID == null) {
 							elementID = element.getID();
 						}
-						needRefresh = Arrays.asList(contexts).contains(
-								elementID);
+						needRefresh = lc.contains(elementID);
 						if (needRefresh) {
 							break;
 						}
@@ -632,7 +630,7 @@ public class ContextsTable extends EObjectTable {
 	protected Class<?> getContentsType() {
 		return String.class;
 	}
-	
+
 	@Override
 	protected HandleType getAppropriateHandleType() {
 		return HandleType.Context;
@@ -791,7 +789,7 @@ public class ContextsTable extends EObjectTable {
 		runAction.setEnabled(mode.equals(RecordingMode.Stopped));
 	}
 
-	public void setContextFilter(String contextFilter) {
-		this.contextFilter = contextFilter;
+	public void setContextFilter(String filter) {
+		this.contextFilter = filter;
 	}
 }

@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.reporting.util;
 
 import java.io.IOException;
@@ -6,7 +16,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
@@ -44,6 +56,10 @@ public class RcpttReportGenerator {
 	private final PrintWriter writer;
 	private long startTime = 0;
 
+	private final Map<String, Long> totalWaitTime = new HashMap<String, Long>();
+	private int maxMethodNameLength = 0;
+	private int maxTotalTimeLength = 0;
+
 	public RcpttReportGenerator(PrintWriter writer, List<ImageEntry> images) {
 		this.writer = writer;
 		this.images = images;
@@ -56,6 +72,7 @@ public class RcpttReportGenerator {
 	public void writeReport(Report report, int tabs) {
 		startTime = report.getRoot().getStartTime();
 		printNode(report.getRoot(), tabs);
+		printTotalWaitTime();
 	}
 
 	protected static <T extends Appendable> T writeTabs(T writer, int tabs) {
@@ -104,7 +121,17 @@ public class RcpttReportGenerator {
 	}
 
 	private void writeEvent(Event event, int tabs) throws IOException {
-		writeTabs(tabs + 1).println("Event " + TimeFormatHelper.format(event.getTime() - startTime));
+		if (event.getCount() == 1) {
+			writeTabs(tabs + 1)
+					.append("Event at ")
+					.println(TimeFormatHelper.format(event.getTime() - startTime));
+		} else {
+			writeTabs(tabs + 1).append("Event: ")
+					.append(String.valueOf(event.getCount()))
+					.append(" times, first at ")
+					.append(TimeFormatHelper.format(event.getTime() - startTime))
+					.println();
+		}
 		printObject(event.getData(), tabs + 2);
 	}
 
@@ -204,52 +231,83 @@ public class RcpttReportGenerator {
 
 	public void writeQ7WaitInfo(int tabs, Q7WaitInfoRoot info) {
 		List<Q7WaitInfo> infos = new ArrayList<Q7WaitInfo>(info.getInfos());
-		Collections.sort(infos, new Comparator<Q7WaitInfo>() {
-			@Override
-			public int compare(Q7WaitInfo o1, Q7WaitInfo o2) {
-				return Long.valueOf(o1.getLastTick()).compareTo(Long.valueOf(o2.getLastTick()));
-			}
-		});
 		if (infos.size() == 0) {
 			return;
 		}
-		long endTime = info.getStartTime();
-		int total = 0;
+		Comparator<Q7WaitInfo> comparator = new Comparator<Q7WaitInfo>() {
+			@Override
+			public int compare(Q7WaitInfo info1, Q7WaitInfo info2) {
+				return Long.compare(info1.getDuration(), info2.getDuration());
+			}
+		};
+		Collections.sort(infos, Collections.reverseOrder(comparator));
+
+		String classNameColumn = "Method name"; //$NON-NLS-1$
+		String totalTimeColumn = "Time"; //$NON-NLS-1$
+		int classNameLength = classNameColumn.length();
+		int totalTimeLength = totalTimeColumn.length();
+		boolean isEmpty = true;
+
 		for (Q7WaitInfo q7WaitInfo : infos) {
-			if (getType(info, q7WaitInfo) == null) {
-				continue;
-			}
-			if (endTime < q7WaitInfo.getEndTime()) {
-				endTime = q7WaitInfo.getEndTime();
-			}
-			total++;
-		}
-		if (total == 0) {
-			return;
-		}
-		writeTabs(tabs + 4).append("--> q7 wait details <-- total wait time: ")
-				.append(Long.toString(endTime - info.getStartTime()))
-				.println();
-		for (Q7WaitInfo i : infos) {
-			long totalTime = i.getEndTime() - i.getStartTime();
-			String className = SimpleReportGenerator.getClassName(info, i);
-			String type = getType(info, i);
+			long totalTime = q7WaitInfo.getDuration();
+			String type = getType(info, q7WaitInfo);
+			String className = SimpleReportGenerator.getClassName(info, q7WaitInfo);
 			if (type == null) {
 				continue;
 			}
-			writeTabs(tabs + 8).append(type).append(": ")
-					.append(className);
-			// writer.append(" time: ").append(Long.toString(i.getStartTime())).append(" - ").append(i.getEndTime());
-			if (totalTime != 0)
-				writer.append(", total time: ").append(Long.toString(totalTime));
-			if (i.getLastTick() > 0) {
-				// writer.append(", total ticks: ").append(Long.toString(i.getTicks()));
-				writer.append(", ticks: ").append(Long.toString(i.getLastTick() - i.getTicks() + 1));
-				writer.append(" to ").append(Long.toString(i.getLastTick()));
+			if (!TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+					&& className.startsWith("org.eclipse")) { //$NON-NLS-1$
+				continue;
 			}
-			// if( i.getLastTick() != 0) {
-			// }
-			writer.println();
+			if (totalTime == 0) {
+				continue;
+			}
+
+			// calculate column length
+			String methodName = String.format("%s: %s", type, className);
+			if (methodName.length() > classNameLength) {
+				classNameLength = methodName.length();
+			}
+			if (String.valueOf(totalTime).length() > totalTimeLength) {
+				totalTimeLength = String.valueOf(totalTime).length();
+			}
+
+			isEmpty = false;
+		}
+		if (isEmpty) {
+			return;
+		}
+
+		writeTabs(tabs + 4).println("--> Wait details <--");
+		writeTabs(tabs + 8)
+				.append(String.format("%" + -classNameLength + "s", classNameColumn))
+				.append("   ")
+				.append(String.format("%" + -totalTimeLength + "s", totalTimeColumn))
+				.println();
+
+		for (Q7WaitInfo i : infos) {
+			long totalTime = i.getDuration();
+			String type = getType(info, i);
+			String className = SimpleReportGenerator.getClassName(info, i);
+			if (type == null) {
+				continue;
+			}
+			if (!TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+					&& className.startsWith("org.eclipse")) { //$NON-NLS-1$
+				continue;
+			}
+			if (totalTime == 0) {
+				continue;
+			}
+
+			String methodName = String.format("%s: %s", type, className);
+			writeTabs(tabs + 8)
+					.append(String.format("%" + -classNameLength + "s", methodName))
+					.append("   ")
+					.append(String.format("%" + totalTimeLength + "s", totalTime))
+					.println();
+
+			addWaitTime(type, className, totalTime);
 		}
 	}
 
@@ -279,7 +337,7 @@ public class RcpttReportGenerator {
 			writer.
 					append(" ")
 					.append("time: " +
-							TimeFormatHelper.format(infoNode.getEndTime() - infoNode.getStartTime()))
+							TimeFormatHelper.format(infoNode.getDuration()))
 					.println();
 			writeResult(tabs + 1, q7Info.getResult());
 		}
@@ -290,8 +348,10 @@ public class RcpttReportGenerator {
 			result = RcpttPlugin.createProcessStatus(IStatus.ERROR, "Null result");
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		w(tabs).append("Result: " + SimpleSeverity.create(result).name() + ", message: ")
-				.println(result.getMessage());
+		w(tabs).append("Result: ")
+				.append(SimpleSeverity.create(result).name())
+				.append(", message: ")
+				.println(ReportUtils.getDirectFailMessage(result, ReportUtils.DEFAULT_DATUM_TO_MESSAGE));
 		writeException(writer, tabs + 1, result.getException());
 		for (ProcessStatus child : result.getChildren()) {
 			writeResult(tabs + 1, child);
@@ -337,4 +397,87 @@ public class RcpttReportGenerator {
 					.println();
 		}
 	}
+
+	private void addWaitTime(String type, String className, long totalTime) {
+		if (!(type.equals("job") || type.equals("sync") || type.equals("async"))) { //$NON-NLS-1$
+			return;
+		}
+		if (!TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+				&& className.startsWith("org.eclipse")) { //$NON-NLS-1$
+			return;
+		}
+
+		String methodName = String.format("%s: %s", type, className);
+		if (totalWaitTime.containsKey(methodName)) {
+			totalTime += totalWaitTime.get(methodName);
+		}
+		totalWaitTime.put(methodName, totalTime);
+
+		int methodNameLength = methodName.length();
+		if (methodNameLength > maxMethodNameLength) {
+			maxMethodNameLength = methodNameLength;
+		}
+		int totalTimeLength = String.valueOf(totalTime).length();
+		if (totalTimeLength > maxTotalTimeLength) {
+			maxTotalTimeLength = totalTimeLength;
+		}
+	}
+
+	private void printTotalWaitTime() {
+		String totalWaitTimeTable = "Total wait time:"; //$NON-NLS-1$
+		String methodNameColumn = "Method name"; //$NON-NLS-1$
+		String totalTimeColumn = "Time"; //$NON-NLS-1$
+		String noWaitInfoMessage = TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+				? "There were no methods RCPTT was waiting for"
+				: "There were no third-party methods RCPTT was waiting for";
+
+		int methodNameLength = methodNameColumn.length();
+		if (methodNameLength > maxMethodNameLength) {
+			maxMethodNameLength = methodNameLength;
+		}
+		int totalTimeLength = totalTimeColumn.length();
+		if (totalTimeLength > maxTotalTimeLength) {
+			maxTotalTimeLength = totalTimeLength;
+		}
+
+		writer.println();
+		writer.append(totalWaitTimeTable).println();
+		
+		if (totalWaitTime.isEmpty()) {
+			writer.append("  ")
+					.append(noWaitInfoMessage) // $NON-NLS-1$
+					.println();
+			return;
+		}
+		
+		writer.append("  ")
+				.append(String.format("%" + -maxMethodNameLength + "s", methodNameColumn))
+				.append("   ")
+				.append(String.format("%" + -maxTotalTimeLength + "s", totalTimeColumn))
+				.println();
+		List<Map.Entry<String, Long>> sortedTable = getSortedTimeTable(totalWaitTime);
+		for (Map.Entry<String, Long> entry : sortedTable) {
+			writer.append("  ")
+					.append(String.format("%" + -maxMethodNameLength + "s", entry.getKey()))
+					.append("   ")
+					.append(String.format("%" + maxTotalTimeLength + "s", entry.getValue()))
+					.println();
+		}
+	}
+
+	private List<Map.Entry<String, Long>> getSortedTimeTable(Map<String, Long> unsortedMap) {
+		Comparator<Map.Entry<String, Long>> comparator = new Comparator<Map.Entry<String, Long>>() {
+
+			@Override
+			public int compare(Map.Entry<String, Long> entry1, Map.Entry<String, Long> entry2) {
+				return entry1.getValue().compareTo(entry2.getValue());
+			}
+
+		};
+
+		List<Map.Entry<String, Long>> sortedTable = new ArrayList<>(unsortedMap.entrySet());
+		Collections.sort(sortedTable, Collections.reverseOrder(comparator));
+		return sortedTable;
+	}
+
 }

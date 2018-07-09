@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.scenario.impl;
 
+import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.core.scenario.*;
 
 import org.eclipse.emf.ecore.EClass;
@@ -66,6 +68,7 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 		switch (eClass.getClassifierID()) {
 			case ScenarioPackage.NAMED_ELEMENT: return createNamedElement();
 			case ScenarioPackage.SCENARIO: return createScenario();
+			case ScenarioPackage.SCENARIO_PROPERTY: return createScenarioProperty();
 			case ScenarioPackage.CONTEXT: return createContext();
 			case ScenarioPackage.WORKBENCH_CONTEXT: return createWorkbenchContext();
 			case ScenarioPackage.EDITOR: return createEditor();
@@ -80,6 +83,8 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 			case ScenarioPackage.VERIFICATION: return createVerification();
 			case ScenarioPackage.UNRESOLVED_VERIFICATION: return createUnresolvedVerification();
 			case ScenarioPackage.WIDGET_VERIFICATION: return createWidgetVerification();
+			case ScenarioPackage.CAPABILITY_CONTEXT: return createCapabilityContext();
+			case ScenarioPackage.CAPABILITY_CONTEXT_ITEM: return createCapabilityContextItem();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -103,6 +108,16 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 	public Scenario createScenario() {
 		ScenarioImpl scenario = new ScenarioImpl();
 		return scenario;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScenarioProperty createScenarioProperty() {
+		ScenarioPropertyImpl scenarioProperty = new ScenarioPropertyImpl();
+		return scenarioProperty;
 	}
 
 	/**
@@ -243,6 +258,26 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 	public WidgetVerification createWidgetVerification() {
 		WidgetVerificationImpl widgetVerification = new WidgetVerificationImpl();
 		return widgetVerification;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CapabilityContext createCapabilityContext() {
+		CapabilityContextImpl capabilityContext = new CapabilityContextImpl();
+		return capabilityContext;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CapabilityContextItem createCapabilityContextItem() {
+		CapabilityContextItemImpl capabilityContextItem = new CapabilityContextItemImpl();
+		return capabilityContextItem;
 	}
 
 	/**

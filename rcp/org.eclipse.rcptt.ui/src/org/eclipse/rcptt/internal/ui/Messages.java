@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -427,6 +427,8 @@ public class Messages extends NLS {
 	public static String TagsView_ReplayActionName;
 	public static String TagsView_TagLabelFormat;
 	public static String TagsView_UntaggedLabelFormat;
+	public static String TestEnginesLaunchTab_Name;
+	public static String TestEnginesLaunchTab_EngineButtonName;
 	public static String TextViewerActionsSupport_CopyLabel;
 	public static String TextViewerActionsSupport_CutLabel;
 	public static String TextViewerActionsSupport_DeleteLabel;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -71,8 +71,7 @@ public class Q7TargetPlatformManager {
 			throws CoreException {
 		String location = config.getAttribute(IQ7Launch.AUT_LOCATION, "");
 
-		File loc = new File(location);
-		if (!loc.exists()) {
+		if (!PDELocationUtils.validateProductLocation(location).isOK()) {
 			return newTargetPlatform(config, monitor, location);
 		}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,6 +66,8 @@ public class ObjectsFactoryImpl extends EFactoryImpl implements ObjectsFactory {
 		switch (eClass.getClassifierID()) {
 			case ObjectsPackage.TABLE: return createTable();
 			case ObjectsPackage.ROW: return createRow();
+			case ObjectsPackage.TREE: return createTree();
+			case ObjectsPackage.ATTRIBUTE: return createAttribute();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -89,6 +91,26 @@ public class ObjectsFactoryImpl extends EFactoryImpl implements ObjectsFactory {
 	public Row createRow() {
 		RowImpl row = new RowImpl();
 		return row;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Tree createTree() {
+		TreeImpl tree = new TreeImpl();
+		return tree;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute createAttribute() {
+		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
 	}
 
 	/**

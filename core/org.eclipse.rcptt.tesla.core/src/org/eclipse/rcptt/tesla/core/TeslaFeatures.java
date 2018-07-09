@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ import org.eclipse.rcptt.tesla.core.features.IMLFeatures;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramFeatures;
 import org.eclipse.rcptt.tesla.core.utils.AbstractFeatureManager;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
+import org.eclipse.rcptt.util.StringUtils;
 
 public class TeslaFeatures extends AbstractFeatureManager {
 	private static final String CAT_COMMAND_DELAYS = "Command Delays";
@@ -26,6 +27,10 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	public final static String COMMAND_EXECUTION_DELAY_TESLA = "org.eclipse.rcptt.tesla.execution.delay";
 	public final static String RECORD_ALL_SELECTIONS = "org.eclipse.rcptt.tesla.record.all.selections";
 	public final static String ESCAPE_TREES_TABLES_MODE = "org.eclipse.rcptt.tesla.escape.mode";
+	public final static String IDENTIFY_BY_CLASS_METHODS = "org.eclipse.rcptt.tesla.identify.by.class.methods";
+
+	public final static String CAT_RESOURCES_VERIFICATION = "Resources verification";
+	public final static String RESOURCES_VERIFICATION_HUNKS_COUNT = "org.eclipse.rcptt.resources.verification.hunks.count";
 
 	private static final String[] ESCAPE_TREES_TABLES_VALUES = new String[] {
 			EscapeMode.ExactString.toString(),
@@ -33,11 +38,11 @@ public class TeslaFeatures extends AbstractFeatureManager {
 	};
 
 	public static enum EscapeMode {
-		ExactString,
-		EscapedRegex
+		ExactString, EscapedRegex
 	}
 
 	public final static String ACTIVITY_LOGS = "com.xored.runtime.enable.activity.logs";
+	public final static String TESTENGINE_LOGS = "com.xored.testengine.logs";
 
 	public static final String ADV_OPTIONS = "adv.options";
 
@@ -55,8 +60,11 @@ public class TeslaFeatures extends AbstractFeatureManager {
 
 	public static String CAT_REPORTING = "Reporting";
 	public final static String REPORT_PASSED_TEST_DETAILS = "com.xored.reporting.passed.test.details";
+	public final static String REPORT_LOGGING_SIZE_OF_INITIAL_PART = "com.xored.reporting.logging.initial.size";
+	public final static String REPORT_LOGGING_SIZE_OF_ROTATION_PART = "com.xored.reporting.logging.rotation.size";
 	public final static String REPORT_INCLUDE_IGNORED_WAIT_DETAILS = "com.xored.reporting.include.ignored.wait.details";
 	public final static String REPORT_PASSED_WAIT_DETAILS = "com.xored.reporting.include.passed.wait.details";
+	public final static String REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS = "com.xored.reporting.include.eclipse.wait.details";
 
 	// Code:
 	private static TeslaFeatures features;
@@ -94,6 +102,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"Wait for specified milliseconds before execution of next Tesla command")
 				.editable(true).showIn(NONE);
 
+		option(RESOURCES_VERIFICATION_HUNKS_COUNT)
+				.name("Maximum count of hunks per file")
+				.category(CAT_RESOURCES_VERIFICATION)
+				.value("10")
+				.defaultValue("10")
+				.values(INT_VALUES)
+				.description("Lines from remaining hunks are not displayed in results")
+				.editable(true).showIn(ADV_OPTIONS);
+
 		option(INTERNAL_CLIPBOARD)
 				.name("Use internal clipboard")
 				.category("Clipboard options")
@@ -113,6 +130,24 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"Command 'trace' and 'take-screenshot' can be used to add data into test report")
 				.editable(true).showIn(ADV_OPTIONS);
 
+		option(REPORT_LOGGING_SIZE_OF_INITIAL_PART).category(CAT_REPORTING)
+				.name("The size of log initial part(in MB)")
+				.value("5")
+				.defaultValue("5")
+				.values(AbstractFeatureManager.INT_VALUES)
+				.description(
+						"The initial part size of logs")
+				.editable(true).showIn(ADV_OPTIONS);
+
+		option(REPORT_LOGGING_SIZE_OF_ROTATION_PART).category(CAT_REPORTING)
+				.name("The size of log rotation part(in MB)")
+				.value("5")
+				.defaultValue("5")
+				.values(AbstractFeatureManager.INT_VALUES)
+				.description(
+						"The rotation size of log. At overflow works by the principle of queue.")
+				.editable(true).showIn(ADV_OPTIONS);
+
 		option(REPORT_INCLUDE_IGNORED_WAIT_DETAILS).category(CAT_REPORTING)
 				.name("Include 'ignored' timers into report files")
 				.value("false")
@@ -129,6 +164,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.values(AbstractFeatureManager.BOOLEAN_VALUES)
 				.description(
 						"RCPTT widget wait details will be also added to passed reports as separate section")
+				.editable(true).showIn(ADV_OPTIONS);
+
+		option(REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS).category(CAT_REPORTING)
+				.name("Include eclipse methods into 'wait details' info")
+				.value("false")
+				.defaultValue("false")
+				.values(AbstractFeatureManager.BOOLEAN_VALUES)
+				.description(
+						"Eclipse methods will be added into 'wait details' info")
 				.editable(true).showIn(ADV_OPTIONS);
 
 		option(RECORD_ALL_SELECTIONS)
@@ -161,6 +205,17 @@ public class TeslaFeatures extends AbstractFeatureManager {
 						"Enable assertions for protected fields and methods")
 				.value("false").defaultValue("false").values(BOOLEAN_VALUES)
 				.editable(true).showIn(ADV_OPTIONS);
+
+		option(IDENTIFY_BY_CLASS_METHODS)
+				.name("Identify widgets by class methods")
+				.value("")
+				.defaultValue("")
+				.description(
+						"Comma-separated list of methods will be used to identify widgets of specified class\n"
+								+ "Valid format: ClassName1:getModel().getName(),ClassName2:getIdString()")
+				.editable(true)
+				.showIn(TeslaFeatures.ADV_OPTIONS, TeslaFeatures.CP_OPTIONS);
+
 		// Diagram options
 		DiagramFeatures.init(this);
 		// Initialize other features
@@ -182,6 +237,15 @@ public class TeslaFeatures extends AbstractFeatureManager {
 				.description(
 						"Store RCPTT runtime activity events into .metadata/.plugins/org.eclipse.rcptt.logging")
 				.editable(true).showIn(ADV_OPTIONS);
+		option(TESTENGINE_LOGS)
+				.name("Enable Test Engine logging")
+				.category(CAT_LOGGING)
+				.value("false")
+				.defaultValue("false")
+				.values(AbstractFeatureManager.BOOLEAN_VALUES)
+				.description(
+						"Show Test Engines info messages in Error Log")
+				.editable(true).showIn(ADV_OPTIONS);
 	}
 
 	public static boolean isUseInternalClipboard() {
@@ -200,8 +264,17 @@ public class TeslaFeatures extends AbstractFeatureManager {
 		return getInstance().isTrue(TeslaFeatures.REPORT_PASSED_WAIT_DETAILS);
 	}
 
+	public static boolean isIncludeEclipseMethodsWaitDetails() {
+		return getInstance().isTrue(TeslaFeatures.REPORT_INCLUDE_ECLIPSE_METHODS_WAIT_DETAILS);
+	}
+
 	public static boolean isProtectedEnabled() {
 		return getInstance().isTrue(ENABLE_PROTECTED_MEMBERS);
+	}
+
+	public static boolean isIdentifyMethodsProvided() {
+		String methods = getInstance().getValue(IDENTIFY_BY_CLASS_METHODS);
+		return !StringUtils.isBlank(methods);
 	}
 
 }

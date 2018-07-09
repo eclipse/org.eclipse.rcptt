@@ -31,10 +31,10 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.EnterContextImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

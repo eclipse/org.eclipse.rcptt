@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,6 +44,7 @@ import com.google.common.base.Strings;
  * Creates cumulative sherlock report from IExecutionSession
  */
 public class ReportMaker implements IQ7ReportConstants {
+	public static final String FAILED_TO_CLOSE_REPORT_NODE = "Failed to close report node";
 
 	public static void beginReportNode(String node,
 			Map<String, EObject> properties, AutLaunch launch)
@@ -54,7 +55,7 @@ public class ReportMaker implements IQ7ReportConstants {
 		if (properties != null) {
 			Q7Info info = (Q7Info) properties.get(IQ7ReportConstants.ROOT);
 			Preconditions.checkArgument(!Strings.isNullOrEmpty(info.getId()), "Id can't be empty");
-			Preconditions.checkArgument(info.getResult() == null, "Can't create report with a preset  result");
+			Preconditions.checkArgument(info.getResult() == null, "Can't create report with a preset result");
 			reportNode.getProperties().putAll(properties);
 		}
 		launch.execute(reportNode);
@@ -65,12 +66,13 @@ public class ReportMaker implements IQ7ReportConstants {
 			endReportNode(takeSnaphots, launch, ProcessStatusConverter.toProcessStatus(result));
 		} catch (CoreException e) {
 			IStatus[] children = new IStatus[] { result, e.getStatus() };
-			throw new CoreException(new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, "Failed to close report node", null));
+			throw new CoreException(
+					new MultiStatus(Q7LaunchingPlugin.PLUGIN_ID, 0, children, FAILED_TO_CLOSE_REPORT_NODE, null));
 		}
 	}
+	
 	/**
-	 * If snaphots contains elements, then only items will be used, overwize all
-	 * snaphots will be taken
+	 * If snapshots contain elements, then only items will be used, otherwise all snapshots will be taken.
 	 */
 	public static void endReportNode(boolean takeSnaphots, AutLaunch launch, ProcessStatus result)
 			throws CoreException {
@@ -134,6 +136,7 @@ public class ReportMaker implements IQ7ReportConstants {
 		nde.setName(iExecutable.getName());
 		nde.setStartTime(0);
 		nde.setEndTime(iExecutable.getTime());
+		nde.setDuration(nde.getEndTime() - nde.getStartTime());
 		Q7Info info = ReportHelper.getInfo(nde);
 		setProperties(iExecutable, info);
 		assert info.getType() != null;

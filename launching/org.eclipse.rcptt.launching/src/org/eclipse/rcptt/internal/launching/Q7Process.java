@@ -11,6 +11,8 @@
 package org.eclipse.rcptt.internal.launching;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugEvent;
@@ -20,7 +22,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
-
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
 
@@ -31,14 +33,14 @@ public class Q7Process implements IProcess {
 	private final AtomicBoolean terminated = new AtomicBoolean();
 	private final TestCaseDebugger debugger;
 
-	public Q7Process(ILaunch launch, AutLaunch aut) throws CoreException {
+	public Q7Process(ILaunch launch, AutLaunch aut, BiFunction<String, Integer, DebuggerTransport> debugTransport) throws CoreException {
 		this.launch = launch;
 		this.aut = aut;
 		launch.addProcess(this);
 
 		// start ECL debug server in debug mode
 		if (ILaunchManager.DEBUG_MODE.equals(launch.getLaunchMode())) {
-			debugger = new TestCaseDebugger(aut, this);
+			debugger = new TestCaseDebugger(aut, this, debugTransport);
 			launch.addDebugTarget(debugger.getDebugTarget());
 		} else {
 			debugger = null;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,8 +16,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.rcptt.ecl.core.BoxedValue;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
+import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.ReportingFactory;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
@@ -66,7 +68,6 @@ public class ReportHelper {
 			if (value == null && create) {
 				value = InfoFactory.eINSTANCE.createQ7WaitInfoRoot();
 				value.setStartTime(System.currentTimeMillis());
-				value.setTick(0); // Indicated current object index
 				node.getProperties().put(IQ7ReportConstants.ROOT_WAIT, value);
 			}
 			return (Q7WaitInfoRoot) value;
@@ -107,6 +108,14 @@ public class ReportHelper {
 
 	public static Q7Info createInfo() {
 		return ReportingFactory.eINSTANCE.createQ7Info();
+	}
+
+	public static void startWaitInfo(INodeBuilder node, final String kind, final String className) {
+		Q7WaitUtils.startInfo(kind, className, getWaitInfo(node));
+	}
+
+	public static void finishWaitInfo(INodeBuilder node, final String kind, final String className) {
+		Q7WaitUtils.finishInfo(kind, className, getWaitInfo(node));
 	}
 
 	public static void updateWaitInfo(INodeBuilder node, final String kind, final String className) {
@@ -158,4 +167,21 @@ public class ReportHelper {
 	public static void takeSnapshot(INodeBuilder node) {
 		EventProviderManager.getInstance().takeSnapshot(node);
 	}
+
+	public static boolean isIterable(INodeBuilder node) {
+		EObject eIsIterable = node.getProperty(IQ7ReportConstants.ITERABLE);
+		if (eIsIterable == null) {
+			return false;
+		}
+		assert eIsIterable instanceof BoxedValue;
+		Object oIsIterable = BoxedValues.unbox((BoxedValue) eIsIterable);
+
+		assert oIsIterable instanceof Boolean;
+		return ((Boolean) oIsIterable).booleanValue();
+	}
+
+	public static void markIterable(INodeBuilder node) {
+		node.setProperty(IQ7ReportConstants.ITERABLE, BoxedValues.box(true));
+	}
+
 }

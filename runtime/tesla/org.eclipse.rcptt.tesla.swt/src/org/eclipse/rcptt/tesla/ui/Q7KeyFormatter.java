@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.ui;
 
-import static org.eclipse.rcptt.util.swt.KeysAndButtons.MODIFIERS;
+import static org.eclipse.rcptt.util.KeysAndButtons.getModifiers;
 
 import org.eclipse.jface.action.CoolBarManager;
 import org.eclipse.jface.action.IContributionItem;
@@ -38,9 +38,9 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 	@Override
 	protected int[] sortModifierKeys(int modifierKeys) {
-		final int[] sortedKeys = new int[MODIFIERS.size()];
+		final int[] sortedKeys = new int[getModifiers().size()];
 		int index = 0;
-		for (int i : MODIFIERS.keySet()) {
+		for (int i : getModifiers().keySet()) {
 			if ((modifierKeys & i) != 0) {
 				sortedKeys[index++] = i;
 			}
@@ -50,7 +50,7 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 	@Override
 	public String format(int key) {
-		String result = MODIFIERS.get(key);
+		String result = getModifiers().get(key);
 		return result == null ? super.format(key) : result;
 	}
 
@@ -63,21 +63,25 @@ public class Q7KeyFormatter extends AbstractKeyFormatter {
 
 			final WorkbenchWindow ww = (WorkbenchWindow) w;
 			final Shell shell = ww.getShell();
-			final CoolBarManager coolBarManager = ww.getCoolBarManager();
+			try {
+				final CoolBarManager coolBarManager = ww.getCoolBarManager();
 
-			if (shell != null && coolBarManager != null)
-				shell.getDisplay().syncExec(new Runnable() {
-					public void run() {
-						try {
-							shell.setLayoutDeferred(true);
-							IContributionItem[] items = coolBarManager.getItems();
-							coolBarManager.setItems(new IContributionItem[0]);
-							coolBarManager.setItems(items);
-						} finally {
-							shell.setLayoutDeferred(false);
+				if (shell != null && coolBarManager != null)
+					shell.getDisplay().syncExec(new Runnable() {
+						public void run() {
+							try {
+								shell.setLayoutDeferred(true);
+								IContributionItem[] items = coolBarManager.getItems();
+								coolBarManager.setItems(new IContributionItem[0]);
+								coolBarManager.setItems(items);
+							} finally {
+								shell.setLayoutDeferred(false);
+							}
 						}
-					}
-				});
+					});
+			} catch (Exception e) {
+				// Ignore exception.
+			}
 		}
 	}
 }

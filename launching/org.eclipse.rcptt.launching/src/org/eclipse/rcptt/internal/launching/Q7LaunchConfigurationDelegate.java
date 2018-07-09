@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.internal.launching;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +23,18 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
+import org.eclipse.rcptt.ecl.debug.commands.CommandsFactory;
+import org.eclipse.rcptt.ecl.debug.commands.ServerInfo;
+import org.eclipse.rcptt.ecl.debug.commands.StartServer;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerBaseTransport;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.internal.core.WorkspaceMonitor;
+import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.launching.Aut;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutManager;
@@ -40,6 +42,9 @@ import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.Q7Launcher.LaunchData;
 import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 
 public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		implements IQ7Launch {
@@ -63,8 +68,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 										"The '%s' test is totally broken.",
 										t.getName()), e));
 					}
-				}
-				else if (t instanceof IContext) {
+				} else if (t instanceof IContext) {
 					try {
 						// triggers underlying deserilization from plain text
 						((IContext) t).getID();
@@ -104,7 +108,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 
 		return true;
 	}
-	
+
 	private static Aut getAut(ILaunchConfiguration configuration) {
 		try {
 			String autName = configuration.getAttribute(IQ7Launch.ATTR_AUT_NAME, "");
@@ -122,6 +126,7 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		return new Q7TestLaunch(configuration, mode);
 	}
 
+	@Override
 	public void launch(ILaunchConfiguration config, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Launching RCPTT tests...", 3);
@@ -143,7 +148,6 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 									+ "' launch configuration "));
 		}
 
-		@SuppressWarnings("unchecked")
 		Map<String, String> variants = config.getAttribute(
 				IQ7Launch.ATTR_VARIANTS, new HashMap<String, String>());
 
@@ -151,22 +155,19 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 		for (IQ7NamedElement namedElement : elements) {
 			String var = variants.get(namedElement.getID());
 			if (var != null) {
-				List<String> rawValues = Arrays.asList(Iterables.toArray(Splitter
-						.on(IQ7Launch.VARIANTS_SEPARATOR).split(var),
-						String.class));
+				List<String> rawValues = ImmutableList.copyOf(Splitter.on(IQ7Launch.VARIANTS_SEPARATOR).split(var));
 				if (rawValues != null) {
 					List<List<String>> values = new ArrayList<List<String>>();
 					for (String rawValue : rawValues) {
-						values.add(Arrays.asList(Iterables.toArray(Splitter
-								.on(IQ7Launch.VARIANT_NAME_SEPARATOR).split(rawValue),
-								String.class)));
+						values.add(ImmutableList.copyOf(
+								Splitter.on(IQ7Launch.VARIANT_NAME_SEPARATOR).omitEmptyStrings().split(rawValue)));
 					}
 					namedVariants.put(namedElement, values);
 				}
 			}
 		}
 
-		Q7Launcher.setMappedResources(config, elements);
+		Q7Launcher.setMappedResources(config, elements, autLaunch.getCapability());
 		IWorkspaceFinder finder = data == null ? null : data.finder;
 		launch(elements, (Q7TestLaunch) launch, autLaunch, finder,
 				namedVariants);
@@ -218,7 +219,15 @@ public class Q7LaunchConfigurationDelegate extends LaunchConfigurationDelegate
 			Map<IQ7NamedElement, List<List<String>>> namedVariants)
 			throws CoreException {
 		Q7LaunchManager.getInstance().execute(elements, aut, launch, finder,
-				namedVariants);
+				namedVariants, this::createDebugTransport);
+	}
+	
+	private DebuggerTransport createDebugTransport(String host, Integer port) {
+		try {
+			return DebuggerBaseTransport.create(port, host);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

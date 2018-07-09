@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.CreateWidgetVerificationParamImpl#getSelector <em>Selector</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

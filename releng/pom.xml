@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>rcptt-parent</artifactId>
-  <version>2.1.0-SNAPSHOT</version>
+  <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <tycho-version>0.22.0</tycho-version>
+    <tycho-version>1.1.0</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <aspectj_version>1.4</aspectj_version>
-    <aspectj_dep>1.7.0</aspectj_dep>
-    <ajdt37repository>http://download.eclipse.org/tools/ajdt/36/update/</ajdt37repository>    
+    <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update/</ajdt37repository>
     <signExcludeInnerJars>true</signExcludeInnerJars>
+    <aspectj_version>1.7</aspectj_version>
+    <aspectj_dep>1.7.0</aspectj_dep>
+    <ajJavaSource>1.7</ajJavaSource>
+    <ajJavaTarget>1.7</ajJavaTarget>
+    <ajJavaCompilance>1.7</ajJavaCompilance>
+    <cbi-version>1.1.4</cbi-version>
   </properties>
   <distributionManagement>
     <repository>
@@ -27,25 +41,24 @@
     </snapshotRepository>
   </distributionManagement>
   <build>
-    
     <pluginManagement>
       <plugins>
         <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-packaging-plugin</artifactId>
-                <version>${tycho-version}</version>
-                <dependencies>
-                  <dependency>
-                    <groupId>org.eclipse.tycho.extras</groupId>
-                    <artifactId>tycho-buildtimestamp-jgit</artifactId>
-                    <version>${tycho-version}</version>
-                  </dependency>
-                </dependencies>
-                <configuration>
-                  <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
-                  <timestampProvider>jgit</timestampProvider>
-                  <jgit.ignore>pom.xml</jgit.ignore>
-                </configuration>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-packaging-plugin</artifactId>
+          <version>${tycho-version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.eclipse.tycho.extras</groupId>
+              <artifactId>tycho-buildtimestamp-jgit</artifactId>
+              <version>${tycho-version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
+            <timestampProvider>jgit</timestampProvider>
+            <jgit.ignore>pom.xml</jgit.ignore>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho</groupId>
@@ -53,32 +66,45 @@
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
-    	  <groupId>org.eclipse.tycho.extras</groupId>
+          <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200a-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
-    	  <groupId>org.eclipse.tycho.extras</groupId>
+          <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-pack200b-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-versions-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.0.5</version>
+          <version>${cbi-version}</version>
         </plugin>
-        
+        <plugin>
+          <groupId>org.eclipse.cbi.maven.plugins</groupId>
+          <artifactId>eclipse-winsigner-plugin</artifactId>
+          <version>${cbi-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.cbi.maven.plugins</groupId>
+          <artifactId>eclipse-macsigner-plugin</artifactId>
+          <version>${cbi-version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
-    
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.0</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
@@ -124,12 +150,39 @@
       </plugin>
     </plugins>
   </build>
-  
   <profiles>
     <profile>
+      <id>update-version</id>
+      <modules>
+        <module>mirroring</module>
+        <module>core</module>
+        <module>runtime</module>
+        <module>ide</module>
+        <module>rap</module>
+        <module>rcptt</module>
+        <module>runner</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>tycho.fast</id>
+      <properties>
+        <tycho-version>1.2.0.han2</tycho-version>
+      </properties>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>tycho-enhancements-snapshots</id>
+          <name>Tycho Enhancements Snapshots repository</name>
+          <snapshots>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <url>https://haiodo.github.io/tycho/repository/</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
       <!--
-      	This profile is copied from 
-      	https://git.eclipse.org/c/emfcompare/org.eclipse.emf.compare.git/tree/org.eclipse.emf.compare-parent/pom.xml
+        This profile is copied from
+        https://git.eclipse.org/c/emfcompare/org.eclipse.emf.compare.git/tree/org.eclipse.emf.compare-parent/pom.xml
       -->
       <id>sign</id>
       <activation>
@@ -153,6 +206,7 @@
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-jarsigner-plugin</artifactId>
+            <version>${cbi-version}</version>
             <executions>
               <execution>
                 <id>sign</id>
@@ -162,9 +216,9 @@
                 </goals>
               </execution>
             </executions>
-	    <configuration>
-	      <excludeInnerJars>${signExcludeInnerJars}</excludeInnerJars>
-	    </configuration>
+            <configuration>
+              <excludeInnerJars>${signExcludeInnerJars}</excludeInnerJars>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
@@ -197,19 +251,19 @@
           </plugin>
         </plugins>
       </build>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>cbi</id>
-          <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
     </profile>
   </profiles>
-  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>cbi</id>
+      <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <!--  <pluginRepository><id>tycho-enhancements-snapshots</id><name>Tycho Enhancements Snapshots repository</name><snapshots><updatePolicy>always</updatePolicy></snapshots><url>https://haiodo.github.io/tycho/repository/</url></pluginRepository>-->
+  </pluginRepositories>
 </project>

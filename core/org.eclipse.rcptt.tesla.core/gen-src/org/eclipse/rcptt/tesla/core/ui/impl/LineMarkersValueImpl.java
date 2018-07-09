@@ -40,11 +40,11 @@ import org.eclipse.rcptt.tesla.core.ui.UiPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.LineMarkersValueImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

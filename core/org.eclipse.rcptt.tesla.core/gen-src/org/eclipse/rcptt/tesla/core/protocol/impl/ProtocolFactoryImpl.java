@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -168,6 +168,10 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 			case ProtocolPackage.SET_WIDTH: return createSetWidth();
 			case ProtocolPackage.SET_POSITION: return createSetPosition();
 			case ProtocolPackage.UPDATE_CONTROL_COMMAND: return createUpdateControlCommand();
+			case ProtocolPackage.RAP_DOWNLOAD_FILE: return createRapDownloadFile();
+			case ProtocolPackage.RAP_UPLOAD_FILE: return createRapUploadFile();
+			case ProtocolPackage.GET_ITEMS: return createGetItems();
+			case ProtocolPackage.GET_ITEMS_RESPONSE: return createGetItemsResponse();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -189,6 +193,8 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 				return createDragKindFromString(eDataType, initialValue);
 			case ProtocolPackage.MOUSE_EVENT_KIND:
 				return createMouseEventKindFromString(eDataType, initialValue);
+			case ProtocolPackage.ACTIVATION_EVENT_TYPE:
+				return createActivationEventTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -210,6 +216,8 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 				return convertDragKindToString(eDataType, instanceValue);
 			case ProtocolPackage.MOUSE_EVENT_KIND:
 				return convertMouseEventKindToString(eDataType, instanceValue);
+			case ProtocolPackage.ACTIVATION_EVENT_TYPE:
+				return convertActivationEventTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -1270,6 +1278,46 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RapDownloadFile createRapDownloadFile() {
+		RapDownloadFileImpl rapDownloadFile = new RapDownloadFileImpl();
+		return rapDownloadFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RapUploadFile createRapUploadFile() {
+		RapUploadFileImpl rapUploadFile = new RapUploadFileImpl();
+		return rapUploadFile;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetItems createGetItems() {
+		GetItemsImpl getItems = new GetItemsImpl();
+		return getItems;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetItemsResponse createGetItemsResponse() {
+		GetItemsResponseImpl getItemsResponse = new GetItemsResponseImpl();
+		return getItemsResponse;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SWTDialogKind createSWTDialogKindFromString(EDataType eDataType, String initialValue) {
 		SWTDialogKind result = SWTDialogKind.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -1342,6 +1390,26 @@ public class ProtocolFactoryImpl extends EFactoryImpl implements ProtocolFactory
 	 * @generated
 	 */
 	public String convertMouseEventKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActivationEventType createActivationEventTypeFromString(EDataType eDataType, String initialValue) {
+		ActivationEventType result = ActivationEventType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActivationEventTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

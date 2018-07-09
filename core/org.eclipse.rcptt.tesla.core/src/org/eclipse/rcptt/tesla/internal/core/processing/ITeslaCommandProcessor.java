@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,10 +24,10 @@ import org.eclipse.rcptt.tesla.internal.core.AbstractTeslaClient;
 
 /**
  * @author haiodo
- * 
+ *
  *         This class are used to implement individual tesla command processors.
  *         Processors are used to execute tesla commands.
- * 
+ *
  */
 public interface ITeslaCommandProcessor {
 	static class PreExecuteStatus {
@@ -42,11 +42,13 @@ public interface ITeslaCommandProcessor {
 		}
 	}
 
+    int getPriority();
+
 	String getFeatureID();
 
 	/**
 	 * Return true if following selector are supported by this processor.
-	 * 
+	 *
 	 * @see ElementKind for details of selectors.
 	 * @param kind
 	 * @return
@@ -55,7 +57,7 @@ public interface ITeslaCommandProcessor {
 
 	/**
 	 * Locate element using select command.
-	 * 
+	 *
 	 * @param cmd
 	 *            - command to obtain selection values from.
 	 * @param generator
@@ -70,7 +72,7 @@ public interface ITeslaCommandProcessor {
 
 	/**
 	 * Return true if command execution are supported by this processor.
-	 * 
+	 *
 	 * @param cmd
 	 * @return
 	 */
@@ -78,7 +80,7 @@ public interface ITeslaCommandProcessor {
 
 	/**
 	 * Execute command.
-	 * 
+	 *
 	 * @param command
 	 * @param mapper
 	 * @return
@@ -89,18 +91,18 @@ public interface ITeslaCommandProcessor {
 	 * Called before command are executed. If return PreExecuteStatus with
 	 * canExecute== false then execution will not be performed, before
 	 * canExecute is not true or return value is non null.
-	 * 
+	 *
 	 * @param command
 	 * @param previousStatus
 	 * @param info TODO
-	 * @param info 
+	 * @param info
 	 * @return
 	 */
 	PreExecuteStatus preExecute(Command command, PreExecuteStatus previousStatus, Q7WaitInfoRoot info);
 
 	/**
 	 * Initialize processor. Id is per client identifier.
-	 * 
+	 *
 	 * @param client
 	 * @param id
 	 */
@@ -110,7 +112,7 @@ public interface ITeslaCommandProcessor {
 	 * Called for each processor after some select command return element. Allow
 	 * to update element or to map this element also to this processor. It is a
 	 * only way to extend some element commands set.
-	 * 
+	 *
 	 * @param element
 	 * @param mapper
 	 */
@@ -118,7 +120,7 @@ public interface ITeslaCommandProcessor {
 
 	/**
 	 * Return true if execution of command in this processor require inactivity.
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isInactivityRequired();
@@ -126,9 +128,9 @@ public interface ITeslaCommandProcessor {
 	/**
 	 * Return true if processing of commands could be continued. Using this
 	 * method it is possible to implement custom wail states.
-	 * 
+	 *
 	 * @param context
-	 * @param info 
+	 * @param info
 	 * @return
 	 */
 	boolean canProceed(Context context, Q7WaitInfoRoot info);
@@ -144,7 +146,7 @@ public interface ITeslaCommandProcessor {
 
 	/**
 	 * Method to collect additional information.
-	 * 
+	 *
 	 * @param information
 	 * @param lastCommand
 	 *            TODO

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
 <feature
       id="org.eclipse.rcptt.core"
       label="RCPTT Core"
-      version="2.1.0.qualifier"
+      version="2.4.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -19,193 +29,207 @@ Not used in runtime.
       %license
    </license>
 
+   <includes
+         id="org.eclipse.rcptt.tesla"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.rcptt.tesla.ecl"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.emf.transaction"/>
-      <import plugin="org.eclipse.emf.workspace"/>
-      <import feature="org.eclipse.rcptt.ecl.core" version="2.1.0.qualifier"/>
       <import plugin="com.google.guava"/>
+      <import feature="org.eclipse.rcptt.ecl.core" version="2.4.0" match="compatible"/>
    </requires>
 
    <plugin
          id="org.eclipse.rcptt.core"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.search"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.builder"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.scenario"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.launching"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.debug"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.group"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.preferences"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.parameters"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.filesystem"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.resources"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.script"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.workbench"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.ecl.core"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.ecl.parser"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.ecl.formatter"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.ecl.highlighter"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.core.ecl.scanner"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.logging"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.reporting"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.resources"
+         download-size="0"
+         install-size="0"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.util"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.util.resources"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt"
+         id="org.eclipse.rcptt.core.swt"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt.win32"
+         id="org.eclipse.rcptt.core.swt.win32"
          os="win32"
          ws="win32"
          arch="x86"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          fragment="true"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.util.swt.win64"
+         id="org.eclipse.rcptt.core.swt.win64"
          os="win32"
          ws="win32"
          arch="x86_64"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          fragment="true"
          unpack="false"/>
 
@@ -213,56 +237,63 @@ Not used in runtime.
          id="org.eclipse.rcptt.ctx.super"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.ctx.capability"
+         download-size="0"
+         install-size="0"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.ctx.extensions"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.verifications.time"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.verifications.text"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.verifications.log"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.verifications.tree"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcptt.verifications.resources"
+         download-size="0"
+         install-size="0"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.verifications"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.rcptt.expandbar"
-         download-size="0"
-         install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
 </feature>

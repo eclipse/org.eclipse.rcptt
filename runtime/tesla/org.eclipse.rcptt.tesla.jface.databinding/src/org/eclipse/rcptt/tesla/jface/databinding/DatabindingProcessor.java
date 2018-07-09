@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.internal.databinding.observable.Queue;
-
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -43,50 +42,66 @@ public class DatabindingProcessor implements ITeslaCommandProcessor,
 	public DatabindingProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 175;
+	}
+
+	@Override
 	public String getFeatureID() {
 		return "databinding";
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		return false;
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		// this.client = client;
 		// this.id = id;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean isReadyToProceed(Context context, Q7WaitInfoRoot info) {
 		return canProceed(context, info);
 	}
 
+	@Override
 	@SuppressWarnings("restriction")
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		List<Realm> realms = DatabindingObservableManager.getInstance()
@@ -118,7 +133,7 @@ public class DatabindingProcessor implements ITeslaCommandProcessor,
 					if (!(state.equals(State.BLOCKED)
 							|| state.equals(State.WAITING)
 							|| state.equals(State.TIMED_WAITING) || state
-								.equals(State.TERMINATED))) {
+									.equals(State.TERMINATED))) {
 						Q7WaitUtils.updateInfo("databinding", realm.getClass().getName(), info);
 						// Realm are in execution of some action phase
 						return false;
@@ -131,19 +146,24 @@ public class DatabindingProcessor implements ITeslaCommandProcessor,
 		return true;
 	}
 
+	@Override
 	public void clean() {
 	}
 
+	@Override
 	public void terminate() {
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 	}
 
+	@Override
 	public void notifyUI() {
 	}
 }

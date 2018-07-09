@@ -18,4 +18,5 @@ public interface IQ7ReportConstants {
 	public static final String ROOT_STATS = "q7.stats";
 	public static final String PROFILE_RAW = "q7.profile.raw";
 	public static final String AGENTID = "q7.execution.agentId";
+	public static final String ITERABLE = "q7.command.iterable";
 }

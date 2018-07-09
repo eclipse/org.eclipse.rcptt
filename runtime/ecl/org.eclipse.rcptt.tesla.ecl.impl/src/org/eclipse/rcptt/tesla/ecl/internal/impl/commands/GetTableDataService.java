@@ -38,7 +38,7 @@ public class GetTableDataService extends AbstractActionService {
 	protected Object exec(final Command command) throws CoreException {
 		final GetTableData gtd = (GetTableData) command;
 		ControlHandler control = gtd.getControl();
-		Element tableElement = TeslaBridge.find(control);
+		Element tableElement = TeslaBridge.find(control,getContext());
 		final Widget table = (Widget) TeslaBridge.getClient()
 				.getProcessor(SWTUIProcessor.class).getMapper()
 				.get(tableElement).widget;

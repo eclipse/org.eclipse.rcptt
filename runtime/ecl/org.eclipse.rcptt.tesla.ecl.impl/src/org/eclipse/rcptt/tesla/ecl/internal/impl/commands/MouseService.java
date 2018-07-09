@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,6 @@ package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
-
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.core.protocol.MouseEvent;
 import org.eclipse.rcptt.tesla.core.protocol.MouseEventKind;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
@@ -23,6 +21,7 @@ import org.eclipse.rcptt.tesla.ecl.impl.TeslaBridge;
 import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
+import org.eclipse.rcptt.util.KeysAndButtons;
 
 public class MouseService extends AbstractActionService {
 
@@ -30,7 +29,7 @@ public class MouseService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		Mouse cmd = (Mouse) command;
 		ControlHandler control = cmd.getControl();
-		Element element = TeslaBridge.find(control);
+		Element element = TeslaBridge.find(control, getContext());
 		MouseEvent me = ProtocolFactory.eINSTANCE.createMouseEvent();
 		MouseEventKind kind = parseKind(cmd.getEvent());
 		int button = getButton(cmd.getButton());
@@ -40,15 +39,13 @@ public class MouseService extends AbstractActionService {
 		me.setY(cmd.getY());
 		me.setCount(getCount(kind));
 		me.setButton(button);
-		me.setStateMask(KeysAndButtons.stateMaskFromStr(cmd.getWith())
-				| getButtonMask(button, kind));
+		me.setStateMask(KeysAndButtons.stateMaskFromStr(cmd.getWith()) | getButtonMask(button, kind));
 
 		TeslaBridge.getPlayer().safeExecuteCommand(me);
 		return control;
 	}
 
-	private static int getButtonMask(int button, MouseEventKind kind)
-			throws CoreException {
+	private static int getButtonMask(int button, MouseEventKind kind) throws CoreException {
 		if (button == 0) {
 			return 0;
 		}
@@ -94,8 +91,7 @@ public class MouseService extends AbstractActionService {
 				return kind;
 			}
 		}
-		throw new CoreException(TeslaImplPlugin.err(String.format(
-				"Unsupported mouse action %s", str)));
+		throw new CoreException(TeslaImplPlugin.err(String.format("Unsupported mouse action %s", str)));
 	}
 
 }

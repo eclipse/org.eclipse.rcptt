@@ -10,14 +10,15 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.internal.resources;
 
-import static org.eclipse.rcptt.ui.utils.ModelUtils.loadContext;
+import static org.eclipse.rcptt.ui.utils.ModelUtils.loadVerification;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.rcptt.core.builder.IQ7ProblemReporter;
 import org.eclipse.rcptt.core.builder.IQ7Validator;
-import org.eclipse.rcptt.core.model.IContext;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
+import org.eclipse.rcptt.core.model.IVerification;
+import org.eclipse.rcptt.resources.ui.WSValidators;
 import org.eclipse.rcptt.workspace.WorkspaceContext;
 
 public class WorkspaceContextContentValidator implements IQ7Validator {
@@ -28,14 +29,14 @@ public class WorkspaceContextContentValidator implements IQ7Validator {
 	@Override
 	public void validate(IQ7NamedElement element, IQ7ProblemReporter reporter,
 			IProgressMonitor monitor) {
-		if (element instanceof IContext) {
-			IContext context = (IContext) element;
-			WorkspaceContext ctx = loadContext(context, WorkspaceContext.class);
+		if (element instanceof IVerification) {
+			IVerification verification = (IVerification) element;
+			WorkspaceContext ctx = loadVerification(verification, WorkspaceContext.class);
 			if (ctx == null)
 				return;
 			WSValidators.validateContent(
 					ctx,
-					context, reporter,
+					verification, reporter,
 					SubMonitor.convert(monitor).newChild(1, SubMonitor.SUPPRESS_BEGINTASK));
 		}
 	}

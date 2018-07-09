@@ -1,0 +1,49 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _oVVaEPqmEeecLeABbSXk4g,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: VerifyIgnoredLines
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _My6xcPqnEeecLeABbSXk4g
+Runtime-Version: 2.3.0.201801161316
+Save-Time: 1/16/18 8:52 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "TestProject/WSContext" | double-click
+get-editor WSContext | get-button Apply | click
+get-view "Test Explorer" | get-tree | select "TestProject/AddIgnoredLines" | double-click
+get-editor AddIgnoredLines | get-button Replay | click
+get-view "Test Explorer" | get-tree | select "TestProject/WSIgnoreLines" | double-click
+get-editor WSIgnoreLines | get-button Verify | click
+with [get-view "Execution View"] {
+    get-tree | get-item -path "WSIgnoreLines.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Workspace verification 'WSIgnoreLines' failed:\n"
+        + "1 difference in 'MyProject/folder1/folder11/case111.test' file:\n"
+        + " 18 >    click\n"
+        + " 19 >    get-button \"Add...\" | click\n"
+        + " 20 >}\n"
+        + "+21 >abcde\n"
+        + "+22 >fghij\n"
+        + " 23 >\n"
+        + " 24 >\n"
+        + " 25 >with [get-window \"Select verification\"] {" | verify-true
+}
+with [get-editor WSIgnoreLines | get-section "Workspace Options" | get-editbox 
+    -after [get-label "Ignore lines matched by following patterns (one regex per line):"]] {
+    set-text "Save-Time:.*\n"
+        + "Runtime-Version:.*\n"
+        + "abc.*\n"
+        + "fgh.*"
+}
+get-button "Save (M1+S)" | click
+get-editor WSIgnoreLines | get-button Verify | click
+get-view "Execution View" | get-tree | get-item -path "WSIgnoreLines.*" | get-property "image.path" 
+    | equals "org.eclipse.rcptt.ui/icons/launching/verification-pass.png" | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

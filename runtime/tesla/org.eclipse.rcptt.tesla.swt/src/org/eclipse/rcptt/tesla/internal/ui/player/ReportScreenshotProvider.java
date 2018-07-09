@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,7 @@ import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -73,7 +73,6 @@ public class ReportScreenshotProvider {
 			});
 		}
 	}
-	
 
 	public static void makeScreenshot(Display display, Shell shell,
 			String message, boolean onError) {

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.debug.core;
 
+import java.io.IOException;
 import java.net.Socket;
 
 import org.eclipse.core.runtime.CoreException;
@@ -19,7 +20,13 @@ import org.eclipse.rcptt.ecl.internal.debug.core.Plugin;
 
 public class DebuggerBaseTransport implements DebuggerTransport {
 
-	public synchronized void create(int port, String host) throws CoreException {
+	public static synchronized DebuggerTransport create(int port, String host) throws CoreException {
+		return new DebuggerBaseTransport(host, port);
+	}
+	
+	
+
+	private DebuggerBaseTransport(String host, int port) throws CoreException {
 		try {
 			Socket socket = new Socket(host, port);
 			session = new Session(socket) {
@@ -52,9 +59,10 @@ public class DebuggerBaseTransport implements DebuggerTransport {
 	}
 
 	private volatile DebuggerCallback callback;
-	private Session session;
+	private final Session session;
 
-	public void terminate() {
+	@Override
+	public synchronized void close() throws IOException {
 		if (session != null) {
 			session.terminate();
 		}

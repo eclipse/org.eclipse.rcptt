@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getEndTime <em>End Time</em>}</li>
@@ -32,8 +33,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getReport <em>Report</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getSnapshots <em>Snapshots</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getDuration <em>Duration</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage#getNode()
  * @model
@@ -240,5 +241,32 @@ public interface Node extends EObject {
 	 * @generated
 	 */
 	EList<Snaphot> getSnapshots();
+
+	/**
+	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Duration</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Duration</em>' attribute.
+	 * @see #setDuration(long)
+	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage#getNode_Duration()
+	 * @model default="0"
+	 * @generated
+	 */
+	long getDuration();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Duration</em>' attribute.
+	 * @see #getDuration()
+	 * @generated
+	 */
+	void setDuration(long value);
 
 } // Node

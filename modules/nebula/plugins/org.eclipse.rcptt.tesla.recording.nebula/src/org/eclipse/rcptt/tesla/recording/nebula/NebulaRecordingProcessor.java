@@ -99,7 +99,7 @@ public class NebulaRecordingProcessor extends NebulaRecordingDoodah
 						SWTUIElement wrappedPart = getLocator().getPlayer().wrap(part);
 						
 						FindResult result = getLocator().findElement(wrappedPart, true, false, false);
-						if (result != null && result != null) {
+						if (result != null) {
 							// ?? if (result.realElement instanceof NebulaPartUIElement) { ...
 							ControlUIElement c = new ControlUIElement(result.element, getRecorder());
 							c.doubleClick();

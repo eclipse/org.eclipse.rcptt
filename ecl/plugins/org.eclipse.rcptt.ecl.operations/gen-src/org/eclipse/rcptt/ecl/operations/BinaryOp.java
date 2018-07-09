@@ -21,11 +21,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.BinaryOp#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.BinaryOp#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getBinaryOp()
  * @model

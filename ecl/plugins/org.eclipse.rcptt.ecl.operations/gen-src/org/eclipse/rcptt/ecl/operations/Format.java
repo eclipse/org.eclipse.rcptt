@@ -23,11 +23,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Format#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Format#getArgs <em>Args</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getFormat()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Writes a formatted string to output pipe' returns='Formatted string' example='format \"string: %s, int: %d\" \"foo\" 5 | log'"
@@ -45,7 +45,7 @@ public interface Format extends Command {
 	 * @return the value of the '<em>Format</em>' attribute.
 	 * @see #setFormat(String)
 	 * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getFormat_Format()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Format string as in Java\'s <a href=\"http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html\">String.format</a>'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Format string as in Java\'s &lt;a href=\"http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html\"&gt;String.format&lt;/a&gt;'"
 	 * @generated
 	 */
 	String getFormat();

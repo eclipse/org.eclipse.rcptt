@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -395,13 +395,31 @@ public interface TreePackage extends EPackage {
 	int TREE_VERIFICATION__ALLOW_UNCAPTURED_CHILDREN = CAPTURE_TREE_VERIFICATION_DATA_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Enable Verify Style</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREE_VERIFICATION__ENABLE_VERIFY_STYLE = CAPTURE_TREE_VERIFICATION_DATA_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Excluded Columns</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREE_VERIFICATION__EXCLUDED_COLUMNS = CAPTURE_TREE_VERIFICATION_DATA_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Verification</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TREE_VERIFICATION_FEATURE_COUNT = CAPTURE_TREE_VERIFICATION_DATA_FEATURE_COUNT + 5;
+	int TREE_VERIFICATION_FEATURE_COUNT = CAPTURE_TREE_VERIFICATION_DATA_FEATURE_COUNT + 7;
 
 
 	/**
@@ -881,13 +899,31 @@ public interface TreePackage extends EPackage {
 	int VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN = COMMON_TREE_VERIFICATION_DATA_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Enable Verify Style</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE = COMMON_TREE_VERIFICATION_DATA_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Excluded Columns</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERIFY_TREE_DATA__EXCLUDED_COLUMNS = COMMON_TREE_VERIFICATION_DATA_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Verify Tree Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VERIFY_TREE_DATA_FEATURE_COUNT = COMMON_TREE_VERIFICATION_DATA_FEATURE_COUNT + 5;
+	int VERIFY_TREE_DATA_FEATURE_COUNT = COMMON_TREE_VERIFICATION_DATA_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.verifications.tree.VerifyStyleType <em>Verify Style Type</em>}' enum.
@@ -1366,6 +1402,28 @@ public interface TreePackage extends EPackage {
 	EAttribute getVerifyTreeData_AllowUncapturedChildren();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#isEnableVerifyStyle <em>Enable Verify Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Enable Verify Style</em>'.
+	 * @see org.eclipse.rcptt.verifications.tree.VerifyTreeData#isEnableVerifyStyle()
+	 * @see #getVerifyTreeData()
+	 * @generated
+	 */
+	EAttribute getVerifyTreeData_EnableVerifyStyle();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.rcptt.verifications.tree.VerifyTreeData#getExcludedColumns <em>Excluded Columns</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Excluded Columns</em>'.
+	 * @see org.eclipse.rcptt.verifications.tree.VerifyTreeData#getExcludedColumns()
+	 * @see #getVerifyTreeData()
+	 * @generated
+	 */
+	EAttribute getVerifyTreeData_ExcludedColumns();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.verifications.tree.VerifyStyleType <em>Verify Style Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1760,6 +1818,22 @@ public interface TreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN = eINSTANCE.getVerifyTreeData_AllowUncapturedChildren();
+
+		/**
+		 * The meta object literal for the '<em><b>Enable Verify Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE = eINSTANCE.getVerifyTreeData_EnableVerifyStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Excluded Columns</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VERIFY_TREE_DATA__EXCLUDED_COLUMNS = eINSTANCE.getVerifyTreeData_ExcludedColumns();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.verifications.tree.VerifyStyleType <em>Verify Style Type</em>}' enum.

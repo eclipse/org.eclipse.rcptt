@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -335,6 +335,15 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetEditPart_CustomId() {
+		return (EAttribute)getEditPartEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -602,6 +611,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 		createEAttribute(getEditPartEClass, GET_EDIT_PART__FEATURE);
 		createEAttribute(getEditPartEClass, GET_EDIT_PART__CLASS_NAME);
 		createEAttribute(getEditPartEClass, GET_EDIT_PART__TEXT);
+		createEAttribute(getEditPartEClass, GET_EDIT_PART__CUSTOM_ID);
 
 		getFigureEClass = createEClass(GET_FIGURE);
 
@@ -722,6 +732,7 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 		initEAttribute(getGetEditPart_Feature(), theEcorePackage.getEString(), "feature", null, 0, 1, GetEditPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGetEditPart_ClassName(), theEcorePackage.getEString(), "className", null, 0, 1, GetEditPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGetEditPart_Text(), theEcorePackage.getEString(), "text", null, 0, 1, GetEditPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGetEditPart_CustomId(), theEcorePackage.getEString(), "customId", null, 0, 1, GetEditPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(getFigureEClass, GetFigure.class, "GetFigure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -1,7 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree;
 
 import static java.lang.String.format;
-import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,14 +50,14 @@ public abstract class TreeComparison<T> {
 
 	public List<TreeItemVerificationError> assertChildren(Collection<? extends TreeNode<T>> childrenExpected,
 			Collection<? extends TreeNode<T>> childrenActual, List<Integer> itemIndPath, String fullItemPath) {
+		List<TreeItemVerificationError> rv = new ArrayList<TreeItemVerificationError>();
 		if (!isChildrenCountValid(childrenExpected.size(), childrenActual.size())) {
-			return singletonList(createError(
+			rv.add(createError(
 					format("Different row children amount, expected %d, but was %d", childrenExpected.size(),
 							childrenActual.size()),
 					itemIndPath, fullItemPath));
 		}
 		Iterator<? extends TreeNode<T>> actualIter = childrenActual.iterator();
-		List<TreeItemVerificationError> rv = new ArrayList<TreeItemVerificationError>();
 		int i = 0;
 		for (TreeNode<T> expectedChild : childrenExpected) {
 			List<TreeItemVerificationError> firstDifference = null;
@@ -76,9 +85,10 @@ public abstract class TreeComparison<T> {
 				break;
 			}
 			if (next == null) {
-				return singletonList(createError(
+				rv.add(createError(
 						format("Expected %s, but no more elements left", getName(expectedChild.payload())),
 						indPath, fullPath));
+				return rv;
 			}
 			if (isChildrenVerificationRequired(expectedChild.payload())) {
 				Collection<? extends TreeNode<T>> exchildren = expectedChild.getChildren();

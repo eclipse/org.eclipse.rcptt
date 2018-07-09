@@ -204,6 +204,8 @@ public enum ButtonKind implements Enumerator {
 	 * Returns the '<em><b>Button Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ButtonKind get(String literal) {
@@ -220,6 +222,8 @@ public enum ButtonKind implements Enumerator {
 	 * Returns the '<em><b>Button Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ButtonKind getByName(String name) {
@@ -236,6 +240,8 @@ public enum ButtonKind implements Enumerator {
 	 * Returns the '<em><b>Button Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ButtonKind get(int value) {

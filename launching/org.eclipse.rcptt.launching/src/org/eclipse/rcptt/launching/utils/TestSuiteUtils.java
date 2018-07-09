@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -97,7 +98,7 @@ public class TestSuiteUtils {
 
 	public static boolean isConnectionProblem(Throwable e) {
 		e = getRootCause(e);
-		return e instanceof EOFException || e instanceof SocketException;
+		return e instanceof EOFException || e instanceof SocketException || e instanceof TimeoutException;
 	}
 
 	public static IQ7NamedElement[] getElements(ILaunchConfiguration config) throws CoreException {

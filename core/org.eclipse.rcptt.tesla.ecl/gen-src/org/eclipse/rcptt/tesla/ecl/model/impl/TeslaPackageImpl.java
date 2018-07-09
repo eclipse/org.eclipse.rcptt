@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,12 +24,14 @@ import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
 import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
+import org.eclipse.rcptt.tesla.ecl.model.ActivationEventType;
 import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
 import org.eclipse.rcptt.tesla.ecl.model.Button;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
+import org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
 import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
@@ -75,6 +77,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -100,12 +103,14 @@ import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
 import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
 import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.GetSection;
 import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetTable;
 import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
+import org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName;
 import org.eclipse.rcptt.tesla.ecl.model.GetText;
 import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
 import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
@@ -1209,7 +1214,42 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass checkDownloadResultEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getRuntimeTargetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getTestCaseNameEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getComboItemsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum buttonEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum activationEventTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2654,6 +2694,24 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 */
 	public EAttribute getActivateCellEdit_Column() {
 		return (EAttribute)activateCellEditEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActivateCellEdit_Type() {
+		return (EAttribute)activateCellEditEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActivateCellEdit_Button() {
+		return (EAttribute)activateCellEditEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -4425,8 +4483,71 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCheckDownloadResult() {
+		return checkDownloadResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCheckDownloadResult_ContentOnBase64() {
+		return (EAttribute)checkDownloadResultEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCheckDownloadResult_FileName() {
+		return (EAttribute)checkDownloadResultEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetRuntimeTarget() {
+		return getRuntimeTargetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetTestCaseName() {
+		return getTestCaseNameEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetComboItems() {
+		return getComboItemsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getButton() {
 		return buttonEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getActivationEventType() {
+		return activationEventTypeEEnum;
 	}
 
 	/**
@@ -4679,6 +4800,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		activateCellEditEClass = createEClass(ACTIVATE_CELL_EDIT);
 		createEAttribute(activateCellEditEClass, ACTIVATE_CELL_EDIT__COLUMN);
+		createEAttribute(activateCellEditEClass, ACTIVATE_CELL_EDIT__TYPE);
+		createEAttribute(activateCellEditEClass, ACTIVATE_CELL_EDIT__BUTTON);
 
 		applyCellEditEClass = createEClass(APPLY_CELL_EDIT);
 		createEAttribute(applyCellEditEClass, APPLY_CELL_EDIT__DEACTIVATE);
@@ -4960,8 +5083,19 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		getLastMessageBoxEClass = createEClass(GET_LAST_MESSAGE_BOX);
 
+		checkDownloadResultEClass = createEClass(CHECK_DOWNLOAD_RESULT);
+		createEAttribute(checkDownloadResultEClass, CHECK_DOWNLOAD_RESULT__CONTENT_ON_BASE64);
+		createEAttribute(checkDownloadResultEClass, CHECK_DOWNLOAD_RESULT__FILE_NAME);
+
+		getRuntimeTargetEClass = createEClass(GET_RUNTIME_TARGET);
+
+		getTestCaseNameEClass = createEClass(GET_TEST_CASE_NAME);
+
+		getComboItemsEClass = createEClass(GET_COMBO_ITEMS);
+
 		// Create enums
 		buttonEEnum = createEEnum(BUTTON);
+		activationEventTypeEEnum = createEEnum(ACTIVATION_EVENT_TYPE);
 
 		// Create data types
 		elementKindEDataType = createEDataType(ELEMENT_KIND);
@@ -5147,6 +5281,10 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		decryptEClass.getESuperTypes().add(theCorePackage.getCommand());
 		restartAutEClass.getESuperTypes().add(theCorePackage.getCommand());
 		getLastMessageBoxEClass.getESuperTypes().add(theCorePackage.getCommand());
+		checkDownloadResultEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getRuntimeTargetEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getTestCaseNameEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getComboItemsEClass.getESuperTypes().add(this.getControlCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(waitEClass, Wait.class, "Wait", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -5362,6 +5500,8 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		initEClass(activateCellEditEClass, ActivateCellEdit.class, "ActivateCellEdit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getActivateCellEdit_Column(), ecorePackage.getEInt(), "column", null, 1, 1, ActivateCellEdit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEdit_Type(), this.getActivationEventType(), "type", null, 0, 1, ActivateCellEdit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEdit_Button(), theEcorePackage.getEInt(), "button", "1", 0, 1, ActivateCellEdit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(applyCellEditEClass, ApplyCellEdit.class, "ApplyCellEdit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getApplyCellEdit_Deactivate(), theEcorePackage.getEBoolean(), "deactivate", "false", 0, 1, ApplyCellEdit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -5643,12 +5783,29 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 
 		initEClass(getLastMessageBoxEClass, GetLastMessageBox.class, "GetLastMessageBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(checkDownloadResultEClass, CheckDownloadResult.class, "CheckDownloadResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCheckDownloadResult_ContentOnBase64(), theEcorePackage.getEString(), "contentOnBase64", null, 1, 1, CheckDownloadResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCheckDownloadResult_FileName(), theEcorePackage.getEString(), "fileName", null, 0, 1, CheckDownloadResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getRuntimeTargetEClass, GetRuntimeTarget.class, "GetRuntimeTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getTestCaseNameEClass, GetTestCaseName.class, "GetTestCaseName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getComboItemsEClass, GetComboItems.class, "GetComboItems", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(buttonEEnum, Button.class, "Button");
 		addEEnumLiteral(buttonEEnum, Button.NONE);
 		addEEnumLiteral(buttonEEnum, Button.BUTTON1);
 		addEEnumLiteral(buttonEEnum, Button.BUTTON2);
 		addEEnumLiteral(buttonEEnum, Button.BUTTON3);
+
+		initEEnum(activationEventTypeEEnum, ActivationEventType.class, "ActivationEventType");
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.PROGRAMMATIC);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.KEY_PRESSED);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_DOUBLE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.TRAVERSAL);
 
 		// Initialize data types
 		initEDataType(elementKindEDataType, ElementKind.class, "ElementKind", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -6400,6 +6557,18 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 		   });	
 		addAnnotation
 		  (getActivateCellEdit_Column(), 
+		   source, 
+		   new String[] {
+			 "description", ""
+		   });	
+		addAnnotation
+		  (getActivateCellEdit_Type(), 
+		   source, 
+		   new String[] {
+			 "description", ""
+		   });	
+		addAnnotation
+		  (getActivateCellEdit_Button(), 
 		   source, 
 		   new String[] {
 			 "description", ""
@@ -7334,6 +7503,23 @@ public class TeslaPackageImpl extends EPackageImpl implements TeslaPackage {
 			 "description", "Gets last shown MessageBox info. If MessageBox was not shown, then error is returned.",
 			 "returns", "MessageBoxInfo",
 			 "example", "set-dialog-result MessageBox 128\r\nget-view \"Q7 Quality Mockups\" | get-group \"MessageBox Test\" | get-button \"Message Box with YES/NO Buttons\" | click\r\nwith [get-last-message-box] {\r\n    get-property title | equals \"Warning\" | verify-true\r\n    get-property message | equals \"Yes or No?\" | verify-true\r\n}"
+		   });	
+		addAnnotation
+		  (getTestCaseNameEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Returns current test case name",
+			 "returns", "Current test case name",
+			 "example", "get-test-case-name | log"
+		   });	
+		addAnnotation
+		  (getComboItemsEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets combo box items and writes them into output pipe",
+			 "returns", "combo box items",
+			 "recorded", "false",
+			 "example", "get-combo | get-combo-items | to-list | each [val item] {\n\tlog $item\n}"
 		   });
 	}
 

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RCPTT Runtime Eclipse Core Jobs Support Aspects
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.jobs.aspects.rap;singleton:=true
+Bundle-Version: 2.4.0.qualifier
+Bundle-Vendor: Eclipse RCP Testing Tool Project
+Require-Bundle: org.aspectj.runtime;visibility:=reexport,
+ org.eclipse.core.jobs,
+ org.eclipse.core.runtime,
+ org.eclipse.rcptt.tesla.core.am.rap;bundle-version="[2.4.0,3.0.0)"
+onEnvironment: JavaSE-1.6
+Import-Package: org.osgi.framework
+Eclipse-SupplementBundle: org.eclipse.core.jobs
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.rcptt.tesla.jobs.JobsActivator
+Export-Package: org.eclipse.rcptt.tesla.jobs,
+ org.eclipse.rcptt.tesla.jobs.aspects.rap

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EClassifier;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Assert#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Assert#getAttribute <em>Attribute</em>}</li>
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.EClassifier;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Assert#getImageData <em>Image Data</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Assert#isShowIndex <em>Show Index</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getAssert()
  * @model

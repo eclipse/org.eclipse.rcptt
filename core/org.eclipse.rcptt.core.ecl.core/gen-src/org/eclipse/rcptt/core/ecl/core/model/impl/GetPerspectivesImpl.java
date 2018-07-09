@@ -19,8 +19,6 @@ import org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>Get Perspectives</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

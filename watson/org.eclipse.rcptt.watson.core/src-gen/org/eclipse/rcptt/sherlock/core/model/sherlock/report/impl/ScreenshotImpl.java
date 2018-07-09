@@ -27,12 +27,12 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ScreenshotKind;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ScreenshotImpl#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ScreenshotImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ScreenshotImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -19,6 +19,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,6 +41,8 @@ import org.eclipse.rcptt.ecl.runtime.ISession;
 
 public class EclTcpSession implements ISession {
 	private static final ExecutionNode CLOSE_NODE = new ExecutionNode();
+	
+	private Map<String, Object> properties = new HashMap<String, Object>();
 
 	private final AtomicBoolean closed = new AtomicBoolean(false);
 
@@ -228,5 +232,15 @@ public class EclTcpSession implements ISession {
 			socket.close();
 			socket = null;
 		}
+	}
+	public synchronized void putProperty(String key, Object value) {
+		if (value == null) {
+			properties.remove(key);
+		} else {
+			properties.put(key, value);
+		}
+	}
+	public synchronized Object getProperty(String key) {
+		return properties.get(key);
 	}
 }

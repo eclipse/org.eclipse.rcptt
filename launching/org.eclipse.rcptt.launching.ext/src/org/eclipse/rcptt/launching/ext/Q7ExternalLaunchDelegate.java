@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.ext;
 
-import static com.google.common.base.Objects.firstNonNull;
 import static java.util.Arrays.asList;
 import static org.eclipse.rcptt.internal.launching.ext.AJConstants.OSGI_FRAMEWORK_EXTENSIONS;
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
@@ -67,6 +66,7 @@ import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
 import org.eclipse.pde.internal.core.PDEState;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
+import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.launching.PDEMessages;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
 import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
@@ -96,6 +96,7 @@ import org.osgi.framework.Version;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -126,7 +127,8 @@ public class Q7ExternalLaunchDelegate extends
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
-							+ " cause " + e.getMessage(), e);
+							+ " cause " + e.getMessage(),
+					e);
 			waiter.handle(e);
 			// no need to throw exception in case of cancel
 			if (!e.getStatus().matches(IStatus.CANCEL)) {
@@ -135,7 +137,8 @@ public class Q7ExternalLaunchDelegate extends
 		} catch (RuntimeException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
-							+ " cause " + e.getMessage(), e);
+							+ " cause " + e.getMessage(),
+					e);
 			waiter.handle(e);
 			throw e;
 		} finally {
@@ -201,7 +204,8 @@ public class Q7ExternalLaunchDelegate extends
 		info.target = target;
 		final MultiStatus error = new MultiStatus(Q7ExtLaunchingPlugin.PLUGIN_ID, 0,
 				"Target platform initialization failed  for "
-				+ configuration.getName(), null);
+						+ configuration.getName(),
+				null);
 		error.add(target.getStatus());
 
 		if (!error.isOK()) {
@@ -292,7 +296,8 @@ public class Q7ExternalLaunchDelegate extends
 					+ configuration.getName()
 					+ " requires "
 					+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit"
-							: "64 bit") + " Java VM which cannot be found.";
+							: "64 bit")
+					+ " Java VM which cannot be found.";
 			Q7ExtLaunchingPlugin.getDefault().log(errorMessage, null);
 			removeTargetPlatform(configuration);
 			throw new CoreException(new Status(IStatus.ERROR,
@@ -330,103 +335,103 @@ public class Q7ExternalLaunchDelegate extends
 
 	private static boolean updateJVM(ILaunchConfiguration configuration,
 			OSArchitecture architecture, ITargetPlatformHelper target) throws CoreException {
-			IVMInstall jvmInstall = null;
-			OSArchitecture jvmArch = OSArchitecture.Unknown;
-			IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
-			boolean haveArch = false;
-			for (IVMInstallType ivmInstallType : types) {
-				IVMInstall[] installs = ivmInstallType.getVMInstalls();
-				for (IVMInstall ivmInstall : installs) {
-					jvmArch = JDTUtils.detect(ivmInstall);
-					if (jvmArch.equals(architecture)
-							|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
-									.canRun32bit(ivmInstall))) {
-						jvmInstall = ivmInstall;
-						haveArch = true;
-						break;
-					}
+		IVMInstall jvmInstall = null;
+		OSArchitecture jvmArch = OSArchitecture.Unknown;
+		IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
+		boolean haveArch = false;
+		for (IVMInstallType ivmInstallType : types) {
+			IVMInstall[] installs = ivmInstallType.getVMInstalls();
+			for (IVMInstall ivmInstall : installs) {
+				jvmArch = JDTUtils.detect(ivmInstall);
+				if (jvmArch.equals(architecture)
+						|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
+								.canRun32bit(ivmInstall))) {
+					jvmInstall = ivmInstall;
+					haveArch = true;
+					break;
 				}
 			}
-			if (haveArch) {
-				ILaunchConfigurationWorkingCopy workingCopy = configuration
-						.getWorkingCopy();
+		}
+		if (haveArch) {
+			ILaunchConfigurationWorkingCopy workingCopy = configuration
+					.getWorkingCopy();
 
-				String vmArgs = workingCopy.getAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-						Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
+			String vmArgs = workingCopy.getAttribute(
+					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+					Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
 
-				OSArchitecture configArch;
-				String archAttrValue = configuration.getAttribute(
-						Q7LaunchingCommon.ATTR_ARCH, "");
-				if (archAttrValue.isEmpty())
-					configArch = null;
-				else
-					configArch = OSArchitecture.valueOf(archAttrValue);
+			OSArchitecture configArch;
+			String archAttrValue = configuration.getAttribute(
+					Q7LaunchingCommon.ATTR_ARCH, "");
+			if (archAttrValue.isEmpty())
+				configArch = null;
+			else
+				configArch = OSArchitecture.valueOf(archAttrValue);
 
-				OSArchitecture autArch = configArch == null ? target
-						.detectArchitecture(true, null) : configArch;
+			OSArchitecture autArch = configArch == null ? target
+					.detectArchitecture(true, null) : configArch;
 
-				// there is no -d32 on Windows
-				if (!autArch.equals(jvmArch)
-						&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-					if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-						vmArgs += " " + ATTR_D32;
-					} else {
-						vmArgs = ATTR_D32;
-					}
+			// there is no -d32 on Windows
+			if (!autArch.equals(jvmArch)
+					&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+				if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
+					vmArgs += " " + ATTR_D32;
+				} else {
+					vmArgs = ATTR_D32;
 				}
-				if (vmArgs != null && vmArgs.length() > 0) {
-					vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-									vmArgs);
-				}
-
+			}
+			if (vmArgs != null && vmArgs.length() > 0) {
+				vmArgs = UpdateVMArgs.updateAttr(vmArgs);
 				workingCopy
 						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-								String.format(
-										"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-										jvmInstall.getVMInstallType().getId(),
-										jvmInstall.getName()));
-
-				String programArgs = workingCopy
-						.getAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-								LaunchArgumentsHelper
-										.getInitialProgramArguments().trim());
-				if (programArgs.contains("${target.arch}")) {
-					programArgs = programArgs.replace("${target.arch}",
-							autArch.name());
-				} else {
-					if (programArgs.contains("-arch")) {
-						int pos = programArgs.indexOf("-arch ") + 6;
-						int len = 6;
-						int pos2 = programArgs.indexOf("x86_64", pos);
-						if (pos2 == -1) {
-							len = 3;
-							pos2 = programArgs.indexOf("x86", pos);
-						}
-						if (pos2 != -1) {
-							programArgs = programArgs.substring(0, pos)
-									+ autArch.name()
-									+ programArgs.substring(pos2 + len,
-											programArgs.length());
-						}
-					} else {
-						programArgs = programArgs + " -arch " + autArch.name();
-					}
-				}
-				if (programArgs.length() > 0) {
-					workingCopy
-							.setAttribute(
-									IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-									programArgs);
-				}
-				workingCopy.doSave();
-				return true;
+								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+								vmArgs);
 			}
+
+			workingCopy
+					.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+							String.format(
+									"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+									jvmInstall.getVMInstallType().getId(),
+									jvmInstall.getName()));
+
+			String programArgs = workingCopy
+					.getAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+							LaunchArgumentsHelper
+									.getInitialProgramArguments().trim());
+			if (programArgs.contains("${target.arch}")) {
+				programArgs = programArgs.replace("${target.arch}",
+						autArch.name());
+			} else {
+				if (programArgs.contains("-arch")) {
+					int pos = programArgs.indexOf("-arch ") + 6;
+					int len = 6;
+					int pos2 = programArgs.indexOf("x86_64", pos);
+					if (pos2 == -1) {
+						len = 3;
+						pos2 = programArgs.indexOf("x86", pos);
+					}
+					if (pos2 != -1) {
+						programArgs = programArgs.substring(0, pos)
+								+ autArch.name()
+								+ programArgs.substring(pos2 + len,
+										programArgs.length());
+					}
+				} else {
+					programArgs = programArgs + " -arch " + autArch.name();
+				}
+			}
+			if (programArgs.length() > 0) {
+				workingCopy
+						.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+								programArgs);
+			}
+			workingCopy.doSave();
+			return true;
+		}
 		return false;
 	}
 
@@ -549,8 +554,7 @@ public class Q7ExternalLaunchDelegate extends
 		if (info.vmArgs != null) {
 			return info.vmArgs;
 		}
-		List<String> args = new ArrayList<String>(Arrays.asList(super
-				.getVMArguments(config)));
+		List<String> args = new ArrayList<String>(Arrays.asList(super.getVMArguments(config)));
 
 		// Filter some PDE parameters
 		Iterables.removeIf(args, new Predicate<String>() {
@@ -600,7 +604,7 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
-		BundlesToLaunch bundlesToLaunch = collectBundles(target.getQ7Target(), subm.newChild(50));
+		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), subm.newChild(50), configuration);
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
@@ -614,12 +618,11 @@ public class Q7ExternalLaunchDelegate extends
 		monitor.done();
 	}
 
-	private void removeDuplicatedModels(Map<IPluginModelBase, String> fModels, Q7Target target) {
+	public static void removeDuplicatedModels(Map<IPluginModelBase, String> fModels, Q7Target target) {
 
 		String path = target.getInstallLocation().getAbsolutePath();
 		List<IPluginModelBase> keysForRemove = new ArrayList<IPluginModelBase>();
-		Map<UniquePluginModel, IPluginModelBase> cache = new HashMap<UniquePluginModel,
-				IPluginModelBase>();
+		Map<UniquePluginModel, IPluginModelBase> cache = new HashMap<UniquePluginModel, IPluginModelBase>();
 
 		for (Entry<IPluginModelBase, String> entry : fModels.entrySet()) {
 			IPluginModelBase model = entry.getKey();
@@ -730,16 +733,56 @@ public class Q7ExternalLaunchDelegate extends
 		return true;
 	}
 
+	public static boolean isAutConfigSimpleconfiguratorSet(Q7Target target) {
+		return target.getInstall().configIniBundles().containsKey(TargetPlatformHelper.SIMPLECONFIGURATOR);
+	}
+
+	public static void setBundlesLevels(Q7Target target, Map<String, String> levelMap) {
+		final ProfileBundleContainer profileBundleContainer = target.getInstall().container;
+		if (profileBundleContainer != null) {
+			for (TargetBundle bundle : target.getInstall().getBundles()) {
+				String bundleLevels = levelMap.get(bundle.getBundleInfo().getSymbolicName());
+				if (bundleLevels != null) {
+					try {
+						String[] strings = bundleLevels.split(":");
+						int level = Integer.parseInt(strings[0]);
+						boolean started = Boolean.parseBoolean(strings[1]);
+						bundle.getBundleInfo().setStartLevel(level);
+						bundle.getBundleInfo().setMarkedAsStarted(started);
+					} catch (Exception e) {
+						// ignore parsing exception
+					}
+				}
+			}
+		} else {
+			log(status("Profile Bundle Container is EMPTY.")); //$NON-NLS-1$
+		}
+
+	}
+
+	public static BundlesToLaunch collectBundlesCheck(Q7Target target, IProgressMonitor monitor,
+			ILaunchConfiguration configuration) {
+		if (target.getInstall() != null && isAutConfigSimpleconfiguratorSet(target)) {
+			final CachedInfo info = LaunchInfoCache.getInfo(configuration);
+			TargetPlatformHelper targetHelper = (TargetPlatformHelper) ((ITargetPlatformHelper) info.target);
+			Map<String, String> levelMap = targetHelper.getRunlevelsMap();
+			setBundlesLevels(target, levelMap);
+		}
+
+		return collectBundles(target, monitor);
+	}
+
 	public static BundlesToLaunch collectBundles(Q7Target target, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
 		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
 		SubMonitor install = subm.newChild(1000);
+
 		if (target.getInstall() != null) {
 			Map<String, BundleStart> bundlesFromConfig = target.getInstall().configIniBundles();
 			TargetBundle[] installationBundles = target.getInstall().getBundles();
 			install.beginTask("Scanning " + target.getInstall().getInstallLocation(), installationBundles.length);
 			for (TargetBundle bundle : target.getInstall().getBundles()) {
-				BundleStart hint = firstNonNull(bundlesFromConfig.get(bundle
+				BundleStart hint = MoreObjects.firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
 				collector.addInstallationBundle(bundle, hint);
@@ -775,9 +818,9 @@ public class Q7ExternalLaunchDelegate extends
 
 	/**
 	 * Represents result of collection of bundles to launch
-	 * 
+	 *
 	 * @author ivaninozemtsev
-	 * 
+	 *
 	 */
 	public static class BundlesToLaunch {
 		public BundlesToLaunch(Set<String> rejectedBundles,
@@ -793,7 +836,7 @@ public class Q7ExternalLaunchDelegate extends
 						}
 					});
 
-			fAllBundles = new HashMap<String, Object>(latestVersions);
+			fAllBundles = new HashMap<String, IPluginModelBase>(latestVersions);
 			fModels = new HashMap<IPluginModelBase, String>(Maps.transformValues(
 					resolvedBundles, new Function<BundleStart, String>() {
 						public String apply(BundleStart input) {
@@ -805,7 +848,7 @@ public class Q7ExternalLaunchDelegate extends
 		public final Map<IPluginModelBase, BundleStart> resolvedBundles;
 		public final Map<IPluginModelBase, BundleStart> latestVersionsOnly;
 		public final Map<IPluginModelBase, String> fModels;
-		public final Map<String, Object> fAllBundles;
+		public final Map<String, IPluginModelBase> fAllBundles;
 	}
 
 	private static final String KEY_BUNDLES_TO_LAUNCH = "bundlesToLaunch";
@@ -873,7 +916,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 	}
 
-	public class UniquePluginModel {
+	public static class UniquePluginModel {
 
 		private String name;
 		private Version version;

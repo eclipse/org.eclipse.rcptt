@@ -1,0 +1,29 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: TryCatch
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _AwHjwJbXEee5VugJDiahZA
+Runtime-Version: 2.3.0.201709110831
+Save-Time: 9/11/17 4:55 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+global [val errorMessage ""]
+       [val errorTrace ""]
+
+try {
+	throw-error "Error occurred"
+} -error [val e] -catch {
+	global [val errorMessage [$e | get-status-message]]
+	       [val errorTrace [$e | get-status-trace]]
+	       -override
+}
+
+$errorMessage | eq "Error occurred" | assert-true
+$errorTrace | eq "Error occurred\n\tat throw-error\n" | assert-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

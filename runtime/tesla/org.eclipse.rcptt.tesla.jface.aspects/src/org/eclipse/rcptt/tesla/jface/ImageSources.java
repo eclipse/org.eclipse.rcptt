@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,8 +23,8 @@ import org.eclipse.swt.graphics.ImageData;
 
 public enum ImageSources {
 	INSTANCE;
-	private Map<ImageDescriptor, ImageSource> descriptors = new WeakIdentityHashMap<ImageDescriptor, ImageSource>();
-	private Map<Object, ImageSource> sources = new WeakIdentityHashMap<Object, ImageSource>();
+	private final Map<ImageDescriptor, ImageSource> descriptors = new WeakIdentityHashMap<ImageDescriptor, ImageSource>();
+	private final Map<Object, ImageSource> sources = new WeakIdentityHashMap<Object, ImageSource>();
 
 	public ImageSource find(Image image) {
 		return sources.get(dedup(image));
@@ -60,11 +60,15 @@ public enum ImageSources {
 	}
 
 	private synchronized void imageOrDataFromDescriptor(Object imageOrData, ImageDescriptor descriptor) {
+		if( imageOrData == null) {
+			return;
+		}
 		ImageSource source = findOrCreate(descriptor);
 		if (source == null) {
 			return; // unknown origin
 		}
 		sources.put(imageOrData, source);
+		
 	}
 
 	private static Object dedup(Object imageOrData) {
@@ -91,6 +95,8 @@ public enum ImageSources {
 		public final String source;
 
 		public ResourceSource(String source) {
+			if (source == null)
+				throw new NullPointerException();
 			this.source = source;
 		}
 
@@ -98,12 +104,33 @@ public enum ImageSources {
 		public String toString() {
 			return source;
 		}
+		
+		@Override
+		public int hashCode() {
+			return source.hashCode();
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ResourceSource) {
+				ResourceSource that = (ResourceSource) obj;
+				return that.source.equals(source);
+			}
+			return false;
+		}
 	}
 
 	public static class CompositeSource extends ImageSource {
 		public final List<ImageSource> children = new ArrayList<ImageSource>();
 
 		public void addUnique(ImageSource source) {
+			if (source instanceof CompositeSource) {
+				for (ImageSource child : ((CompositeSource) source).children) {
+					addUnique(child);
+				}
+				return;
+			}
+			assert !(source instanceof CompositeSource) : "CompositeSource should never have another CompositeSource as its child, as children are searhable but CompositeSource.equals() is not overridden";
 			for (ImageSource src : children) {
 				if (src.equals(source)) {
 					return;
@@ -116,6 +143,7 @@ public enum ImageSources {
 		public String toString() {
 			return children.toString();
 		}
+		
 	}
 
 }

@@ -38,7 +38,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory {
 	 */
 	public static TreeFactory init() {
 		try {
-			TreeFactory theTreeFactory = (TreeFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/verifications/tree"); 
+			TreeFactory theTreeFactory = (TreeFactory)EPackage.Registry.INSTANCE.getEFactory(TreePackage.eNS_URI);
 			if (theTreeFactory != null) {
 				return theTreeFactory;
 			}

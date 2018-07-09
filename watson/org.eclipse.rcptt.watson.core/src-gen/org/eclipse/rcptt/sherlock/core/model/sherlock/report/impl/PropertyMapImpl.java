@@ -31,11 +31,11 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.PropertyMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.PropertyMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,9 +46,9 @@ public class AUTInformation {
 	public static final String GMF = "GMF";
 	public static final String GEF = "GEF";
 	public static final String JDT = "JDT";
+	public static final String RAP = "RAP";
 	public static final String PLATFORM = "Platform";
 
-	private static final String EMF_WORKSPACE_PLUGIN = "org.eclipse.emf.workspace";
 	private static final String TESLA_PLUGIN = "org.eclipse.rcptt.tesla";
 	private static final String Q7_PLUGIN = "org.eclipse.rcptt";
 	private static final String PDE_PLUGIN = "org.eclipse.pde";
@@ -59,6 +59,7 @@ public class AUTInformation {
 	private static final String GMF_PLUGIN = "org.eclipse.gmf.runtime.diagram.ui";
 	private static final String GEF_PLUGIN = "org.eclipse.gef";
 	private static final String JDT_PLUGIN = "org.eclipse.jdt";
+	private static final String RAP_PLUGIN = "org.eclipse.rap.rwt";
 
 	@SuppressWarnings("serial")
 	static class VersionMap extends TreeMap<String, Version> {
@@ -80,19 +81,20 @@ public class AUTInformation {
 	}
 
 	/**
-	 * Return information properties map. Constants could be used to check
-	 * plugin versions available.
-	 * 
+	 * Return information properties map. Constants could be used to check plugin
+	 * versions available.
+	 *
 	 * @return
 	 * @throws CoreException
 	 */
-	public static Map<String, Version> getInformationMap(
-			org.eclipse.pde.core.target.ITargetDefinition platform) throws CoreException {
+	public static Map<String, Version> getInformationMap(org.eclipse.pde.core.target.ITargetDefinition platform)
+			throws CoreException {
 		VersionMap values = new VersionMap();
-		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0, "Detected potential problems in target platform "
-				+ platform, null);
+		MultiStatus warnings = new MultiStatus(PLUGIN_ID, 0,
+				"Detected potential problems in target platform " + platform, null);
 		if (platform.getTargetLocations().length <= 0)
-			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
+			throw new CoreException(
+					new Status(IStatus.ERROR, PLUGIN_ID, "No containers in target platform " + platform));
 		// Calculate target platform version
 		TargetBundle[] allBundles = platform.getAllBundles();
 		Map<String, BundleInfo> resolvedBundles = new HashMap<String, BundleInfo>();
@@ -101,15 +103,20 @@ public class AUTInformation {
 			String bundleName = bundleInfo.getSymbolicName();
 			BundleInfo oldValue = resolvedBundles.get(bundleName);
 			if (oldValue != null && !Objects.equal(oldValue.getVersion(), bundleInfo.getVersion())) {
-				warnings.add(createWarning("Multiple versions of bundle " + oldValue.getLocation() + " and "
-						+ bundleInfo.getLocation()));
+				warnings.add(createWarning(
+						"Multiple versions of bundle " + oldValue.getLocation() + " and " + bundleInfo.getLocation()));
 			}
 			resolvedBundles.put(bundleName, bundleInfo);
 		}
 		BundleInfo bundleInfo = resolvedBundles.get(SWT_PLUGIN);
 		if (bundleInfo != null) {
 			putSwtVersion(values, create(bundleInfo.getVersion()));
+		} else {
+			bundleInfo = resolvedBundles.get(RAP_PLUGIN);
+			putRwtVersion(values, create(bundleInfo.getVersion()));
+			values.putPluginVersion(RAP, bundleInfo);
 		}
+
 		values.putPluginVersion(GEF, resolvedBundles.get(GEF_PLUGIN));
 		values.putPluginVersion(GMF, resolvedBundles.get(GMF_PLUGIN));
 		values.putPluginVersion(OSGI, resolvedBundles.get(OSGI_PLUGIN));
@@ -154,9 +161,6 @@ public class AUTInformation {
 			if (iFeature.getId().equals(TESLA_PLUGIN)) {
 				values.put("Tesla", iFeature.getVersion());
 			}
-			if (iFeature.getId().equals(EMF_WORKSPACE_PLUGIN)) {
-				values.put(EMF_WORKSPACE, iFeature.getVersion());
-			}
 		}
 		if (!warnings.isOK())
 			Q7LaunchingPlugin.log(warnings);
@@ -200,6 +204,24 @@ public class AUTInformation {
 			values.put(VERSION, "4.4");
 		} else if (minor == 104) {
 			values.put(VERSION, "4.5");
+		} else if (minor == 105) {
+			values.put(VERSION, "4.6");
+		} else if (minor == 106) {
+			values.put(VERSION, "4.7");
+		} else if (minor == 107) {
+			values.put(VERSION, "4.8");
+		}
+	}
+
+	private static void putRwtVersion(VersionMap values, Version swtVersion) {
+		if (!(swtVersion instanceof OSGiVersion))
+			return;
+		int major = ((OSGiVersion) swtVersion).getMajor();
+		if (major != 3)
+			return;
+		int minor = ((OSGiVersion) swtVersion).getMinor();
+		if (minor <= 5) {
+			values.put(VERSION, "4.3");
 		}
 	}
 

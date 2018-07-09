@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#get__properties <em>properties</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getImage <em>Image</em>}</li>
@@ -57,7 +58,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getForegroundColor <em>Foreground Color</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.DiagramItemImpl#getModelPropertyNodes <em>Model Property Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

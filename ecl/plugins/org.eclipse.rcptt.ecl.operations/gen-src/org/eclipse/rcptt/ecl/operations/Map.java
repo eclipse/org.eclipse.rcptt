@@ -21,13 +21,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Map#getEntries <em>Entries</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getMap()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new map. Also see <a href=\"#get\">get</a> command to find a value by key.' example='let [val myMap [map \n   [entry firstName \"Ivan\"]\n   [entry lastName \"Inozemtsev\"]]] {\n   log [format \"%s %s\" [$myMap | get firstName] [$myMap | get lastName]]\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new map. Also see &lt;a href=\"#get\"&gt;get&lt;/a&gt; command to find a value by key.' example='let [val myMap [map \n   [entry firstName \"Ivan\"]\n   [entry lastName \"Inozemtsev\"]]] {\n   log [format \"%s %s\" [$myMap | get firstName] [$myMap | get lastName]]\n}'"
  * @generated
  */
 public interface Map extends Command {
@@ -43,7 +43,7 @@ public interface Map extends Command {
 	 * @return the value of the '<em>Entries</em>' containment reference list.
 	 * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getMap_Entries()
 	 * @model containment="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='An arbitrary number of <a href=\"#entry\">entries</a>.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='An arbitrary number of &lt;a href=\"#entry\"&gt;entries&lt;/a&gt;.'"
 	 * @generated
 	 */
 	EList<Entry> getEntries();

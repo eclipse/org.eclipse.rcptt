@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,16 +28,15 @@ import org.eclipse.rcptt.ecl.interop.InvokeUi;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IPipe;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.rcptt.util.DisplayUtils;
+import org.eclipse.rcptt.util.DisplayUtilsProvider;
 
 public class InvokeService implements ICommandService {
 
 	private static final Object NOT_CONVERTIBLE = new Object();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public IStatus service(Command command, IProcess context)
-			throws CoreException {
+	public IStatus service(Command command, IProcess context) throws CoreException {
 
 		final Invoke cmd = (Invoke) command;
 
@@ -68,19 +67,24 @@ public class InvokeService implements ICommandService {
 				}
 				result = getFieldValue(class_, object, name);
 			} else {
+				DisplayUtils utils = DisplayUtilsProvider.getDisplayUtils();
+				if (utils.isWidget(object) || cmd instanceof InvokeUi) {
 
-				if (object instanceof Widget || cmd instanceof InvokeUi) {
-					Display display = object instanceof Widget ? ((Widget) object).getDisplay() : Display.getDefault();
-
-					// no reason to go into generics here, everything is just Object
+					// no reason to go into generics here, everything is just
+					// Object
 					RunnableFuture future = new FutureTask(new Callable() {
 						public Object call() throws Exception {
 							return method.invoke(object, args);
 						}
 					});
 
-					display.syncExec(future);
-					result = future.get();
+					if (cmd.isNoResult() || method.getReturnType() == Void.TYPE) {
+						utils.asyncExec(object, future);
+						result = Status.OK_STATUS;
+					} else {
+						utils.syncExec(object, future);
+						result = future.get();
+					}
 				} else
 					result = method.invoke(object, args);
 			}
@@ -117,8 +121,8 @@ public class InvokeService implements ICommandService {
 
 	}
 
-	private static IStatus processArrayMethod(Object array, String name,
-			Object[] args, IPipe out) throws CoreException {
+	private static IStatus processArrayMethod(Object array, String name, Object[] args, IPipe out)
+			throws CoreException {
 		if (name.equals("get")) {
 			if (args.length != 1)
 				return error("Invalid number of arguments.");
@@ -139,8 +143,7 @@ public class InvokeService implements ICommandService {
 			if (index == NOT_CONVERTIBLE)
 				return error("Invalid index type.");
 
-			Object value = convert(array.getClass().getComponentType(),
-					args[1], true, true);
+			Object value = convert(array.getClass().getComponentType(), args[1], true, true);
 			if (value == NOT_CONVERTIBLE)
 				return error("Invalid value type.");
 
@@ -169,20 +172,19 @@ public class InvokeService implements ICommandService {
 
 	/*
 	 * TODO:
-	 * 
+	 *
 	 * 1. Null handling. 2. Proper overloading resolution.
-	 * 
+	 *
 	 * Standard says we must select the most "specific" method.
-	 * 
+	 *
 	 * 3. What will happen if arrays passed?
-	 * 
+	 *
 	 * Useful reading:
 	 * http://geekexplains.blogspot.com/2009/06/choosing-most-specific
 	 * -method-tricky.html
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	static Method matchMethod(Class class_, String name, Object[] args,
-			boolean doWiden, boolean doNarrow) {
+	static Method matchMethod(Class class_, String name, Object[] args, boolean doWiden, boolean doNarrow) {
 		final Method[] methods = class_.getMethods();
 
 		for (Method m : methods) {
@@ -209,8 +211,7 @@ public class InvokeService implements ICommandService {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static Object convert(Class to, Object value, boolean doWiden,
-			boolean doNarrow) {
+	private static Object convert(Class to, Object value, boolean doWiden, boolean doNarrow) {
 
 		Class from = value.getClass();
 
@@ -264,8 +265,7 @@ public class InvokeService implements ICommandService {
 			character = (Character) value;
 
 		if (to == long.class) {
-			if (value instanceof Byte || value instanceof Short
-					|| value instanceof Integer)
+			if (value instanceof Byte || value instanceof Short || value instanceof Integer)
 				return new Long(number.longValue());
 			else if (value instanceof Character)
 				return new Long(character.charValue());
@@ -294,8 +294,7 @@ public class InvokeService implements ICommandService {
 		}
 
 		if (to == double.class) {
-			if (value instanceof Byte || value instanceof Short
-					|| value instanceof Integer || value instanceof Long
+			if (value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long
 					|| value instanceof Float)
 				return new Double(number.doubleValue());
 			else if (value instanceof Character)
@@ -305,8 +304,7 @@ public class InvokeService implements ICommandService {
 		}
 
 		if (to == float.class) {
-			if (value instanceof Byte || value instanceof Short
-					|| value instanceof Integer || value instanceof Long)
+			if (value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long)
 				return new Float(number.floatValue());
 			else if (value instanceof Character)
 				return new Float(character.charValue());
@@ -415,8 +413,7 @@ public class InvokeService implements ICommandService {
 			if (value instanceof Number) {
 				long l = number.longValue();
 				double d = number.doubleValue();
-				if (l == d && l >= Character.MIN_VALUE
-						&& l <= Character.MAX_VALUE)
+				if (l == d && l >= Character.MIN_VALUE && l <= Character.MAX_VALUE)
 					return new Character((char) l);
 				else
 					return NOT_CONVERTIBLE;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -128,6 +128,54 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseReadFile(ReadFile object) {
 				return createReadFileAdapter();
+			}
+			@Override
+			public Adapter caseSetPageName(SetPageName object) {
+				return createSetPageNameAdapter();
+			}
+			@Override
+			public Adapter caseListAsTableData(ListAsTableData object) {
+				return createListAsTableDataAdapter();
+			}
+			@Override
+			public Adapter caseReadXmlFile(ReadXmlFile object) {
+				return createReadXmlFileAdapter();
+			}
+			@Override
+			public Adapter caseWriteXmlFile(WriteXmlFile object) {
+				return createWriteXmlFileAdapter();
+			}
+			@Override
+			public Adapter caseTreeNode(TreeNode object) {
+				return createTreeNodeAdapter();
+			}
+			@Override
+			public Adapter caseGetAttrs(GetAttrs object) {
+				return createGetAttrsAdapter();
+			}
+			@Override
+			public Adapter caseGetAttr(GetAttr object) {
+				return createGetAttrAdapter();
+			}
+			@Override
+			public Adapter caseSetAttr(SetAttr object) {
+				return createSetAttrAdapter();
+			}
+			@Override
+			public Adapter caseHasAttr(HasAttr object) {
+				return createHasAttrAdapter();
+			}
+			@Override
+			public Adapter caseGetNodes(GetNodes object) {
+				return createGetNodesAdapter();
+			}
+			@Override
+			public Adapter caseAppend(Append object) {
+				return createAppendAdapter();
+			}
+			@Override
+			public Adapter caseRemove(Remove object) {
+				return createRemoveAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -332,6 +380,174 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReadFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.SetPageName <em>Set Page Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.SetPageName
+	 * @generated
+	 */
+	public Adapter createSetPageNameAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.ListAsTableData <em>List As Table Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.ListAsTableData
+	 * @generated
+	 */
+	public Adapter createListAsTableDataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.ReadXmlFile <em>Read Xml File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.ReadXmlFile
+	 * @generated
+	 */
+	public Adapter createReadXmlFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.WriteXmlFile <em>Write Xml File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.WriteXmlFile
+	 * @generated
+	 */
+	public Adapter createWriteXmlFileAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.TreeNode <em>Tree Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.TreeNode
+	 * @generated
+	 */
+	public Adapter createTreeNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.GetAttrs <em>Get Attrs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.GetAttrs
+	 * @generated
+	 */
+	public Adapter createGetAttrsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.GetAttr <em>Get Attr</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.GetAttr
+	 * @generated
+	 */
+	public Adapter createGetAttrAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.SetAttr <em>Set Attr</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.SetAttr
+	 * @generated
+	 */
+	public Adapter createSetAttrAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.HasAttr <em>Has Attr</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.HasAttr
+	 * @generated
+	 */
+	public Adapter createHasAttrAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.GetNodes <em>Get Nodes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.GetNodes
+	 * @generated
+	 */
+	public Adapter createGetNodesAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.Append <em>Append</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.Append
+	 * @generated
+	 */
+	public Adapter createAppendAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.data.commands.Remove <em>Remove</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.data.commands.Remove
+	 * @generated
+	 */
+	public Adapter createRemoveAdapter() {
 		return null;
 	}
 

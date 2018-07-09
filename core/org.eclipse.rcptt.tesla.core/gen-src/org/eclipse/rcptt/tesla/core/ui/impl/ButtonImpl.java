@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl#getCaption <em>Caption</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl#isGrayed <em>Grayed</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ButtonImpl#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

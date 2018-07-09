@@ -31,12 +31,12 @@ import org.eclipse.rcptt.tesla.core.info.NodeProperty;
  * <em><b>Node</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.InfoNodeImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.InfoNodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.InfoNodeImpl#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

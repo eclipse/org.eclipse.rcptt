@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -550,6 +550,24 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getVerifyTreeData_EnableVerifyStyle() {
+		return (EAttribute)verifyTreeDataEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVerifyTreeData_ExcludedColumns() {
+		return (EAttribute)verifyTreeDataEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getVerifyStyleType() {
 		return verifyStyleTypeEEnum;
 	}
@@ -632,6 +650,8 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage {
 		createEAttribute(verifyTreeDataEClass, VERIFY_TREE_DATA__VERIFY_STYLE);
 		createEAttribute(verifyTreeDataEClass, VERIFY_TREE_DATA__VERIFY_ICONS);
 		createEAttribute(verifyTreeDataEClass, VERIFY_TREE_DATA__ALLOW_UNCAPTURED_CHILDREN);
+		createEAttribute(verifyTreeDataEClass, VERIFY_TREE_DATA__ENABLE_VERIFY_STYLE);
+		createEAttribute(verifyTreeDataEClass, VERIFY_TREE_DATA__EXCLUDED_COLUMNS);
 
 		// Create enums
 		verifyStyleTypeEEnum = createEEnum(VERIFY_STYLE_TYPE);
@@ -727,6 +747,8 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage {
 		initEAttribute(getVerifyTreeData_VerifyStyle(), this.getVerifyStyleType(), "verifyStyle", null, 0, 1, VerifyTreeData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVerifyTreeData_VerifyIcons(), ecorePackage.getEBoolean(), "verifyIcons", "true", 1, 1, VerifyTreeData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVerifyTreeData_AllowUncapturedChildren(), ecorePackage.getEBoolean(), "allowUncapturedChildren", "true", 0, 1, VerifyTreeData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVerifyTreeData_EnableVerifyStyle(), ecorePackage.getEBoolean(), "enableVerifyStyle", "true", 0, 1, VerifyTreeData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVerifyTreeData_ExcludedColumns(), ecorePackage.getEInt(), "excludedColumns", null, 0, -1, VerifyTreeData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(verifyStyleTypeEEnum, VerifyStyleType.class, "VerifyStyleType");

@@ -31,6 +31,7 @@ import org.eclipse.pde.internal.launching.launcher.BundleLauncherHelper;
 import org.osgi.framework.BundleException;
 
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
+import org.eclipse.rcptt.internal.launching.ext.PDEUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 
 @SuppressWarnings("restriction")
@@ -43,11 +44,11 @@ public class StartLevelSupport {
 		predefined.put(AJConstants.AJ_HOOK, "1:true");
 		predefined.put(AJConstants.AJ_RT, "1:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_OSGI, "-1:true");
-		predefined.put(IPDEBuildConstants.BUNDLE_DS, "1:true");
+		predefined.put(IPDEBuildConstants.BUNDLE_DS, "2:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_EQUINOX_COMMON, "2:true");
 		predefined.put(IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR, "1:true");
 		predefined
-				.put(IPDEBuildConstants.BUNDLE_UPDATE_CONFIGURATOR,
+				.put(PDEUtils.BUNDLE_UPDATE_CONFIGURATOR,
 						String.format(
 								"%s:%s",
 								BundleLauncherHelper.DEFAULT_UPDATE_CONFIGURATOR_START_LEVEL_TEXT,

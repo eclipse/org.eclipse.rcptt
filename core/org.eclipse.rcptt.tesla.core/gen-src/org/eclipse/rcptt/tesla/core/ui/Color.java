@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Color#getRed <em>Red</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Color#getGreen <em>Green</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Color#getBlue <em>Blue</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Color#getAlfa <em>Alfa</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getColor()
  * @model

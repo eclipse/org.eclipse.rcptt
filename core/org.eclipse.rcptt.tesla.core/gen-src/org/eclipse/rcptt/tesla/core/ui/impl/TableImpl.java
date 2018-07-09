@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl#getColumns <em>Columns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl#isLinesVisible <em>Lines Visible</em>}</li>
@@ -44,7 +45,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl#isHeaderVisible <em>Header Visible</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TableImpl#getItemCount <em>Item Count</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

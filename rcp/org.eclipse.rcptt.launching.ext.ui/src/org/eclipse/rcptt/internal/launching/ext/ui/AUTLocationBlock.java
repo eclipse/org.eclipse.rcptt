@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@ package org.eclipse.rcptt.internal.launching.ext.ui;
 
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUGIN_ID;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -26,6 +25,7 @@ import org.eclipse.jdt.internal.debug.ui.actions.ControlAccessibleListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.pde.internal.ui.SWTFactory;
+import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
@@ -90,13 +90,13 @@ public class AUTLocationBlock {
 	public void updateInfo() {
 		// errorInfo = null;
 		final String location = getLocation();
-		File file = new File(location);
-		if (!file.exists()) {
+		boolean valid = PDELocationUtils.validateProductLocation(location).isOK();
+		if (!valid) {
 			// errorInfo =
 			// "AUT location should point to existing directory";
 		}
 
-		if (needUpdate && file.exists()) {
+		if (needUpdate && valid) {
 			info = null;
 			runInDialog(new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)

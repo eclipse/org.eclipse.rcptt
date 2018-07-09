@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#getVersion <em>Version</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#isTeslaActive <em>Tesla Active</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#isClientActive <em>Client Active</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.impl.Q7InformationImpl#getWindowCount <em>Window Count</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

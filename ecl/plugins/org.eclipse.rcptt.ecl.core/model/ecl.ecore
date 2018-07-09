@@ -59,6 +59,7 @@
       <details key="example" value="// Implicit item: sent to an input pipe of inner script&#xA;list-launch-configurations | foreach { get name | log }&#xA;&#xA;// Explicit item:&#xA;list-launch-configuration | foreach [val item] {&#xA;   $item | get-name | log&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="item" eType="#//Val" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="#//Val"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="do" eType="#//Command"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" unique="false" upperBound="-1"

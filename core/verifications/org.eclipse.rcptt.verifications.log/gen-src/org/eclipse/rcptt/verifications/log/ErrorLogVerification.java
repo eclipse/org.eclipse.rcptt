@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,12 +21,13 @@ import org.eclipse.rcptt.core.scenario.Verification;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#getAllowed <em>Allowed</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#getDenied <em>Denied</em>}</li>
  *   <li>{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#getRequired <em>Required</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#isIncludeContexts <em>Include Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.verifications.log.LogPackage#getErrorLogVerification()
  * @model
@@ -80,5 +81,32 @@ public interface ErrorLogVerification extends Verification {
 	 * @generated
 	 */
 	EList<LogEntryPredicate> getRequired();
+
+	/**
+	 * Returns the value of the '<em><b>Include Contexts</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Include Contexts</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Include Contexts</em>' attribute.
+	 * @see #setIncludeContexts(boolean)
+	 * @see org.eclipse.rcptt.verifications.log.LogPackage#getErrorLogVerification_IncludeContexts()
+	 * @model default="true" required="true"
+	 * @generated
+	 */
+	boolean isIncludeContexts();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#isIncludeContexts <em>Include Contexts</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Include Contexts</em>' attribute.
+	 * @see #isIncludeContexts()
+	 * @generated
+	 */
+	void setIncludeContexts(boolean value);
 
 } // ErrorLogVerification

@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>runner</artifactId>
-  <version>2.1.0-SNAPSHOT</version>
+  <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
     <artifactId>core</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.4.0-SNAPSHOT</version>
     <relativePath>../core/pom.xml</relativePath>
   </parent>
   <modules>
@@ -17,17 +28,18 @@
   <properties>
     <buildUrl>file:/${user.dir}</buildUrl>
     <repositoryFull>${buildUrl}/repository/full/target/repository/</repositoryFull>
+    <repositoryRap>${buildUrl}/repository/rap/target/repository/</repositoryRap>
   </properties>
   <repositories>
     <repository>
-      <id>mars</id>
+      <id>photon</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/mars</url>
+      <url>http://download.eclipse.org/releases/photon</url>
     </repository>
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/</url>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</url>
     </repository>
     <repository>
       <snapshots>
@@ -37,5 +49,14 @@
       <layout>p2</layout>
       <url>${repositoryFull}</url>
     </repository>
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>rap-rcptt</id>
+      <layout>p2</layout>
+      <url>${repositoryRap}</url>
+    </repository>
+
   </repositories>
 </project>

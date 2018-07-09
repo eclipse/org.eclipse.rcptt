@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,12 +34,13 @@ import org.eclipse.rcptt.ecl.interop.Invoke;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeImpl#getObject <em>Object</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeImpl#getArgs <em>Args</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.interop.impl.InvokeImpl#isNoResult <em>No Result</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -93,6 +94,26 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 	 * @ordered
 	 */
 	protected EList<Object> args;
+
+	/**
+	 * The default value of the '{@link #isNoResult() <em>No Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNoResult()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean NO_RESULT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isNoResult() <em>No Result</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNoResult()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean noResult = NO_RESULT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -172,6 +193,27 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isNoResult() {
+		return noResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNoResult(boolean newNoResult) {
+		boolean oldNoResult = noResult;
+		noResult = newNoResult;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InteropPackage.INVOKE__NO_RESULT, oldNoResult, noResult));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -181,6 +223,8 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 				return getName();
 			case InteropPackage.INVOKE__ARGS:
 				return getArgs();
+			case InteropPackage.INVOKE__NO_RESULT:
+				return isNoResult();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,6 +248,9 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 				getArgs().clear();
 				getArgs().addAll((Collection<? extends Object>)newValue);
 				return;
+			case InteropPackage.INVOKE__NO_RESULT:
+				setNoResult((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -225,6 +272,9 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 			case InteropPackage.INVOKE__ARGS:
 				getArgs().clear();
 				return;
+			case InteropPackage.INVOKE__NO_RESULT:
+				setNoResult(NO_RESULT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -243,6 +293,8 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case InteropPackage.INVOKE__ARGS:
 				return args != null && !args.isEmpty();
+			case InteropPackage.INVOKE__NO_RESULT:
+				return noResult != NO_RESULT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -263,6 +315,8 @@ public class InvokeImpl extends CommandImpl implements Invoke {
 		result.append(name);
 		result.append(", args: ");
 		result.append(args);
+		result.append(", noResult: ");
+		result.append(noResult);
 		result.append(')');
 		return result.toString();
 	}

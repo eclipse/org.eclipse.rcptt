@@ -37,6 +37,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getTime <em>Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getProperties <em>Properties</em>}</li>
@@ -44,8 +45,8 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl#getCount <em>Count</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -139,6 +140,26 @@ public class EventImpl extends EObjectImpl implements Event {
 	 * @ordered
 	 */
 	protected String color = COLOR_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCount() <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int COUNT_EDEFAULT = 1;
+
+	/**
+	 * The cached value of the '{@link #getCount() <em>Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int count = COUNT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -320,6 +341,27 @@ public class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getCount() {
+		return count;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCount(int newCount) {
+		int oldCount = count;
+		count = newCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ReportPackage.EVENT__COUNT, oldCount, count));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -353,6 +395,8 @@ public class EventImpl extends EObjectImpl implements Event {
 				return getKind();
 			case ReportPackage.EVENT__COLOR:
 				return getColor();
+			case ReportPackage.EVENT__COUNT:
+				return getCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -382,6 +426,9 @@ public class EventImpl extends EObjectImpl implements Event {
 				return;
 			case ReportPackage.EVENT__COLOR:
 				setColor((String)newValue);
+				return;
+			case ReportPackage.EVENT__COUNT:
+				setCount((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -413,6 +460,9 @@ public class EventImpl extends EObjectImpl implements Event {
 			case ReportPackage.EVENT__COLOR:
 				setColor(COLOR_EDEFAULT);
 				return;
+			case ReportPackage.EVENT__COUNT:
+				setCount(COUNT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -437,6 +487,8 @@ public class EventImpl extends EObjectImpl implements Event {
 				return kind != KIND_EDEFAULT;
 			case ReportPackage.EVENT__COLOR:
 				return COLOR_EDEFAULT == null ? color != null : !COLOR_EDEFAULT.equals(color);
+			case ReportPackage.EVENT__COUNT:
+				return count != COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -457,6 +509,8 @@ public class EventImpl extends EObjectImpl implements Event {
 		result.append(kind);
 		result.append(", color: ");
 		result.append(color);
+		result.append(", count: ");
+		result.append(count);
 		result.append(')');
 		return result.toString();
 	}

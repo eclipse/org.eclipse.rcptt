@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,17 +19,30 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.model.ITestCase;
+import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.ScenarioFactory;
+import org.eclipse.rcptt.core.scenario.ScenarioPackage;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.Sequence;
+import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.internal.launching.ScenarioExecutable;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.Q7Launcher;
+import org.eclipse.rcptt.parameters.ParametersFactory;
+import org.eclipse.rcptt.parameters.ResetParams;
+import org.eclipse.rcptt.parameters.SetParam;
 import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
+
+import com.google.common.base.Preconditions;
 
 public class EclScenarioExecutable extends ScenarioExecutable {
 
@@ -44,6 +57,12 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 			boolean debug) {
 		super(launch, scenario, debug);
 		variantName = new ArrayList<String>();
+		try {
+			Preconditions.checkNotNull(scenario.getModifiedNamedElement());
+			Preconditions.checkArgument(!getActualElement().getModifiedNamedElement().getId().isEmpty());
+		} catch (ModelException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	@Override
@@ -66,6 +85,7 @@ public class EclScenarioExecutable extends ScenarioExecutable {
 
 			ReportMaker.beginReportNode(getName(), props, launch);
 		}
+		
 		IStatus resultStatus;
 		try {
 			doExecuteTest(executionMonitor);

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="commands" nsURI="http://www.eclipse.org/ecl/data/apache/poi/commands.ecore"
+    nsPrefix="dataCommands">
+  <eClassifiers xsi:type="ecore:EClass" name="WriteExcelFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Writes tables from input pipe to into excel (xls or xlsx) file. Fails if file is not found or format is invalid."/>
+      <details key="returns" value="The value of &lt;code>tables&lt;/code> argument"/>
+      <details key="example" value="global [val supportedDevices [list&#xA;&#x9;[list &quot;Device Name&quot; &quot;Device Info&quot;]&#xA;&#x9;[list &quot;Device 1&quot; &quot;Info 1&quot;]&#xA;&#x9;[list &quot;Device 2&quot; &quot;Info 2&quot;]&#xA;&#x9;[list &quot;Device 3&quot; &quot;Info 3&quot;]&#xA;]]&#xA;&#xA;global [val allDevices [list&#xA;&#x9;[list &quot;Device Name&quot; &quot;Device Info&quot;]&#xA;&#x9;[list &quot;Device 1&quot; &quot;Info 1&quot;]&#xA;&#x9;[list &quot;Device 2&quot; &quot;Info 2&quot;]&#xA;&#x9;[list &quot;Device 3&quot; &quot;Info 3&quot;]&#xA;&#x9;[list &quot;Device 4&quot; &quot;Info 4&quot;]&#xA;&#x9;[list &quot;Device 5&quot; &quot;Info 5&quot;]&#xA;]]&#xA;&#xA;&#xA;proc newTable [val table] [val name] {&#xA;&#x9;$table | list-as-table-data | set-page-name $name&#xA;}&#xA;&#xA;&#xA;emit [newTable $supportedDevices &quot;Supported devices&quot;] [newTable $allDevices &quot;All devices&quot;]&#xA;&#x9;| write-excel-file &quot;workspace:/excel/devices.xlsx&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tables" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.rcptt.ecl.data/model/objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Tables to write"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to write Excel data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="append" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadExcelFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Parses given excel file (xls or xlsx) into tables and write them to output pipe. Fails if file is not found or format is invalid."/>
+      <details key="returns" value="List of &lt;code>Table&lt;/code> EMF Objects"/>
+      <details key="example" value="global [val devicesInfo [&#xA;&#x9;read-excel-file &quot;workspace:/excel/devices.xlsx&quot; &quot;Supported devices&quot; &quot;All devices&quot;&#xA;&#x9;&#x9;| to-list&#xA;]]&#xA;&#xA;&#xA;clear-log-view&#xA;&#xA;$devicesInfo | each [val table] {&#xA;&#x9;log [format &quot;Page name: %s&quot; [$table | get pageName]]&#xA;&#x9;$table | list [get rows] | each [val row] {&#xA;&#x9;&#x9;$row | list [get values] | each [val value] {&#xA;&#x9;&#x9;&#x9;log $value&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}&#xA;&#xA;read-excel-file &quot;workspace:/excel/devices.xlsx&quot; &quot;Additional info&quot;&#xA;&#x9;| get rows | get values | log"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to read Excel data from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sheets" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="List of Excel sheet names to read data from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTableCells" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets cell values by excel names and writes them into the output pipe"/>
+      <details key="returns" value="Cell values"/>
+      <details key="example" value="read-excel-file &quot;workspace:/excel/devices.xlsx&quot; &quot;Supported devices&quot;&#xA;&#x9;| get-table-cells A1 | eq &quot;Device Name&quot; | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.rcptt.ecl.data/model/objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to get cells from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cells" lowerBound="1" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Cell names"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTableRange" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets range by excel name and writes it into the output pipe"/>
+      <details key="returns" value="&lt;code>Table&lt;/code> EMF Object"/>
+      <details key="example" value="read-excel-file &quot;workspace:/excel/devices.xlsx&quot; &quot;Supported devices&quot;&#xA;&#x9;| get-table-range &quot;A2:B4&quot; | list [get rows] | each [val row] {&#xA;&#x9;&#x9;$row | list [get values] | each [val value] {&#xA;&#x9;&#x9;&#x9;log $value&#xA;&#x9;&#x9;}&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.rcptt.ecl.data/model/objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to get range from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="range" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Range name in the excel format (for example &quot;A1:B2&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetTableCells" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets cell values to the table"/>
+      <details key="returns" value="The value of 'table' argument"/>
+      <details key="example" value="read-excel-file &quot;workspace:/excel/devices.xlsx&quot; &quot;Supported devices&quot;&#xA;&#x9;| set-table-cells [map [entry &quot;A1&quot; &quot;New Device Name&quot;] [entry &quot;B1&quot; &quot;New Device Target&quot;]]&#xA;&#x9;| write-excel-file &quot;workspace:/excel/devices.xlsx&quot; -append"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.rcptt.ecl.data/model/objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to set cell values to"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cells" lowerBound="1" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//EclMap">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Map where key is cell name and value is cell value to set"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

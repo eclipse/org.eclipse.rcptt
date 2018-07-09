@@ -42,6 +42,8 @@
         <details key="description" value="URI to write CSV data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="append" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExcludeColumns" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -112,7 +114,8 @@
       <details key="description" value="Reads objects from input pipe and writes them into file line-by-line as strings"/>
       <details key="example" value="//writes a list of launch configuration into a file line-by-line&#xA;list-launch-configurations | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot;&#xA;// appends &quot;New line&quot; into a file. &#xA;str &quot;New line&quot; | write-lines -uri &quot;workspace:/Project/Folder/file.txt&quot; -append&#xA;"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        defaultValueLiteral="UTF-8">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="description" value="URI to write lines to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
       </eAnnotations>
@@ -123,6 +126,7 @@
         <details key="description" value="Whether to append given lines into file. Default value is false"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="encode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReadLines" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -233,6 +237,253 @@
         <details key="description" value="URI to read file from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetPageName" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Set page name to table"/>
+      <details key="returns" value="The value of &lt;code>table&lt;/code> argument."/>
+      <details key="example" value="get-view &quot;Error Log&quot; | get-tree | expand-all&#xA;get-view &quot;Error Log&quot; | get-tree | get-table-data&#xA;&#x9;| set-page-name &quot;Table&quot; | write-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#xA;read-excel-file &quot;workspace:/MyProject/AssertData/table.xls&quot;&#xA;&#x9;| get pageName | equals &quot;Table&quot; | assert-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass objects.ecore#//Table">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Table to set page name to"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Page name to set"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListAsTableData" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Converts input list to table data format"/>
+      <details key="returns" value="&lt;code>Table&lt;/code> EMF Object"/>
+      <details key="example" value="proc newTable [val table] [val name] {&#xA;&#x9;$table | list-as-table-data | set-page-name $name&#xA;}&#xA;&#xA;global [val devices [list&#xA;&#x9;[list &quot;Device Name&quot; &quot;Device Target&quot;]&#xA;&#x9;[list &quot;Device 1&quot; &quot;Info 1&quot;]&#xA;&#x9;[list &quot;Device 2&quot; &quot;Info 2&quot;]&#xA;&#x9;[list &quot;Device 3&quot; &quot;Info 3&quot;]&#xA;]]&#xA;&#xA;newTable $devices &quot;Devices&quot;&#xA;&#x9;| write-excel-file &quot;workspace:/excel/devices.xls&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="list" lowerBound="1" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//EclList">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="List of List of String to convert to Table"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadXmlFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Parses given xml file into tree and write it to output pipe. Fails if file is not found or if it is invalid xml."/>
+      <details key="returns" value="&lt;code>Tree&lt;/code> EMF Object"/>
+      <details key="example" value="proc logDevice [val device] {&#xA;&#x9;if [$device | has-attr &quot;id&quot;] {&#xA;&#x9;&#x9;log [format &quot;Device ID: %s&quot; [$device | get-attr &quot;id&quot;]]&#xA;&#x9;}&#xA;&#x9;log [format &quot;Device Name: %s&quot; [$device | get-nodes &quot;DeviceName&quot; | get text]]&#xA;&#x9;log [format &quot;Device Target: %s&quot; [$device | get-nodes &quot;DeviceTarget&quot;  | get text]]&#xA;}&#xA; &#xA; &#xA;global [val supportedDevices [&#xA;&#x9;read-xml-file &quot;workspace:/xml/devices.xml&quot;&#xA;&#x9;&#x9;| get-nodes &quot;SupportedDevices&quot; | get-nodes &quot;Device&quot; | to-list&#xA;]]&#xA; &#xA;$supportedDevices | each [val device] {&#xA;&#x9;logDevice $device&#xA;}"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to read xml data from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="XPath expression to find xml nodes"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WriteXmlFile" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Writes tree from input pipe to into xml file"/>
+      <details key="returns" value="The value of &lt;code>tree&lt;/code> argument"/>
+      <details key="example" value="proc newDevice [val id] [val name] [val target] {&#xA;&#x9;tree-node &quot;Device&quot;&#xA;&#x9;&#x9;[map [entry &quot;id&quot; $id]]&#xA;&#x9;&#x9;[tree-node -name &quot;DeviceName&quot; -text $name]&#xA;&#x9;&#x9;[tree-node -name &quot;DeviceTarget&quot; -text $target]&#xA;}&#xA; &#xA; &#xA;global [val supportedDevices [tree-node &quot;SupportedDevices&quot;&#xA;&#x9;[newDevice &quot;1&quot; &quot;device 1&quot; &quot;target 1&quot;]&#xA;&#x9;[newDevice &quot;2&quot; &quot;device 2&quot; &quot;target 2&quot;]&#xA;&#x9;[newDevice &quot;3&quot; &quot;device 3&quot; &quot;target 3&quot;]&#xA;]]&#xA; &#xA;global [val allDevices [tree-node &quot;AllDevices&quot;&#xA;&#x9;[newDevice &quot;1&quot; &quot;device 1&quot; &quot;target 1&quot;]&#xA;&#x9;[newDevice &quot;2&quot; &quot;device 2&quot; &quot;target 2&quot;]&#xA;&#x9;[newDevice &quot;3&quot; &quot;device 3&quot; &quot;target 3&quot;]&#xA;&#x9;[newDevice &quot;4&quot; &quot;device 4&quot; &quot;target 4&quot;]&#xA;&#x9;[newDevice &quot;5&quot; &quot;device 5&quot; &quot;target 5&quot;]&#xA;]]&#xA; &#xA;global [val tree [&#xA;&#x9;tree-node &quot;DevicesInfo&quot; $supportedDevices $allDevices&#xA;]]&#xA; &#xA;$tree | write-xml-file &quot;workspace:/xml/devices.xml&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tree" lowerBound="1" eType="ecore:EClass objects.ecore#//Tree">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Tree to write"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="URI to write xml data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeNode" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Creates a new tree node"/>
+      <details key="returns" value="&lt;code>Tree&lt;/code> EMF Object"/>
+      <details key="example" value="tree-node &quot;Device&quot;&#xA;&#x9;[map [entry &quot;id&quot; &quot;1&quot;]]&#xA;&#x9;[tree-node -name &quot;DeviceName&quot; -text &quot;device&quot;]&#xA;&#x9;[tree-node -name &quot;DeviceTarget&quot; -text &quot;target&quot;]"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Name of the new node"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attrs" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//EclMap">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Map with node attributes"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="ecore:EClass objects.ecore#//Tree">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Children of the new node"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Text of the new node"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetAttrs" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets attributes from the object"/>
+      <details key="returns" value="Map with object attributes"/>
+      <details key="example" value="tree-node &quot;Device&quot; [map [entry &quot;id&quot; &quot;1&quot;] [entry &quot;name&quot; &quot;first&quot;]]&#xA;&#x9;| get-attrs | get &quot;name&quot; | log"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to get attributes from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetAttr" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets attribute from the object by name. Fails if attribute is not found."/>
+      <details key="returns" value="Value of the attribute"/>
+      <details key="example" value="tree-node &quot;Device&quot; [map [entry &quot;id&quot; &quot;1&quot;] [entry &quot;name&quot; &quot;first&quot;]]&#xA;&#x9;| get-attr &quot;name&quot; | log"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Tree node to get attribute from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Name of the attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetAttr" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Sets value of the object attribute. If &lt;code>value&lt;/code> parameter is not specified, the attribute will be removed."/>
+      <details key="returns" value="The value of &lt;code>object&lt;/code> argument"/>
+      <details key="example" value="tree-node &quot;Device&quot; [map [entry &quot;id&quot; &quot;1&quot;] [entry &quot;name&quot; &quot;first&quot;]]&#xA;&#x9;| get-attr &quot;name&quot; | log&#xA;&#xA;&#xA;--set-attr-&#xA;&#xA;&#xA;&#xA;tree-node &quot;Device&quot; [map [entry &quot;id&quot; &quot;1&quot;] [entry &quot;name&quot; &quot;first&quot;]]&#xA;&#x9;| set-attr &quot;name&quot; &quot;second&quot; | get-attr &quot;name&quot; | log"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to set attribute to"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Name of the attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="New value of the attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HasAttr" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Checks if the object has attribute"/>
+      <details key="returns" value="&lt;code>true&lt;/code> when attribute is exist, &lt;code>false&lt;/code> otherwise"/>
+      <details key="example" value="tree-node &quot;Device&quot; [map [entry &quot;id&quot; &quot;1&quot;] [entry &quot;name&quot; &quot;first&quot;]]&#xA;&#x9;| has-attr &quot;name&quot; | log"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to check attribute from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Name of the attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetNodes" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets child nodes from the object and writes them into output pipe. Fails if &lt;code>pos&lt;/code> of &lt;code>len&lt;/code> parameter is out of range."/>
+      <details key="returns" value="Child nodes of the object"/>
+      <details key="example" value="proc newDevice [val id] [val name] [val target] {&#xA;&#x9;tree-node &quot;Device&quot;&#xA;&#x9;&#x9;[map [entry &quot;id&quot; $id]]&#xA;&#x9;&#x9;[tree-node -name &quot;DeviceName&quot; -text $name]&#xA;&#x9;&#x9;[tree-node -name &quot;DeviceTarget&quot; -text $target]&#xA;}&#xA; &#xA;global [val supportedDevices [tree-node &quot;SupportedDevices&quot;&#xA;&#x9;[newDevice &quot;1&quot; &quot;device 1&quot; &quot;target 1&quot;]&#xA;&#x9;[newDevice &quot;2&quot; &quot;device 2&quot; &quot;target 2&quot;]&#xA;&#x9;[newDevice &quot;3&quot; &quot;device 3&quot; &quot;target 3&quot;]&#xA;]]&#xA; &#xA;$supportedDevices | get-nodes &quot;Device&quot; -pos 1 -len 1&#xA;&#x9;| get-nodes &quot;DeviceName&quot; | get text&#xA;&#x9;| equals &quot;device 2&quot; | verify-true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to get child nodes from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Name of the nodes"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pos" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Start position. If &lt;code>name&lt;/code> attribute is provided, &lt;code>pos&lt;/code> is relative to the node list filtered by name."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="len" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Count of nodes. Default value is &lt;code>-1&lt;/code> and it means the end of the node list. If &lt;code>name&lt;/code> attribute is provided, &lt;code>len&lt;/code> is relative to the node list filtered by name."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Append" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Adds child nodes to the object. Fails if &lt;code>index&lt;/code> parameter is out of range."/>
+      <details key="returns" value="The value of &lt;code>object&lt;/code> argument"/>
+      <details key="example" value="tree-node &quot;Device&quot; [tree-node -name &quot;DeviceName&quot; -text &quot;device&quot;]&#xA;&#x9;| append [tree-node -name &quot;DeviceTarget&quot; -text &quot;target&quot;] -index 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to add child nodes to"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="New child nodes to add to the object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Index of the first child node added in the node list. Min value is &lt;code>0&lt;/code> and max value is size of node list. Default value is &lt;code>-1&lt;/code> and it means size of node list."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Remove" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Removes child node from the object by index. Fails if &lt;code>index&lt;/code> parameter is out of range."/>
+      <details key="returns" value="The value of &lt;code>object&lt;/code> argument"/>
+      <details key="example" value="tree-node &quot;Device&quot;&#xA;&#x9;[tree-node -name &quot;DeviceName&quot; -text &quot;device&quot;]&#xA;&#x9;[tree-node -name &quot;DeviceTarget&quot; -text &quot;target&quot;]&#xA;&#x9;&#x9;| remove -index 1"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Object to remove child node from"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Index of the child node. Min value is &lt;code>0&lt;/code> and max value is the last index in the node list. Default value is &lt;code>-1&lt;/code> and the last index in the node list."/>
+      </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

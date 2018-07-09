@@ -1,5 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.launching.multiaut;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +32,14 @@ import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Script;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerBaseTransport;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.Executable;
 import org.eclipse.rcptt.internal.launching.ExecutionSession;
 import org.eclipse.rcptt.internal.launching.PrepareExecutionWrapper;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager;
-import org.eclipse.rcptt.internal.launching.Q7LaunchManager.ExecutableFabric;
+import org.eclipse.rcptt.internal.launching.Q7LaunchManager.ExecutableFactory;
 import org.eclipse.rcptt.internal.launching.Q7LaunchManager.SessionRunnable;
 import org.eclipse.rcptt.internal.launching.Q7Process;
 import org.eclipse.rcptt.internal.launching.Q7TestLaunch;
@@ -60,11 +71,11 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 			AutLaunch autLaunch = getLaunch(entry.aut, monitor);
 			elements.add(entry.element);
 			autLaunches.put(entry.aut, autLaunch);
-			Q7Process q7process = new Q7Process(launch, autLaunch);
+			Q7Process q7process = new Q7Process(launch, autLaunch, this::createDebugTransport);
 			processes.put(entry.aut, q7process);
 
-			ExecutableFabric f = new ExecutableFabric(autLaunch, null, q7process.getDebugger());
-			Executable[] testExecs = f.map(new IQ7NamedElement[] { entry.element }, null);
+			ExecutableFactory f = new ExecutableFactory(autLaunch, null, q7process.getDebugger());
+			Executable[] testExecs = f.map(new IQ7NamedElement[] { entry.element }, null, autLaunch.getCapability());
 			for (int i = 0; i < testExecs.length; i++) {
 				Executable e = testExecs[i];
 				if (e instanceof PrepareExecutionWrapper) {
@@ -102,6 +113,14 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		// start execution
 		Q7LaunchManager.getInstance().execute(launchId, session,
 				new MultiAutSessionRunnable(launchId, session, processes.values()));
+	}
+	
+	private DebuggerTransport createDebugTransport(String host, Integer port) {
+		try {
+			return DebuggerBaseTransport.create(port, host);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private AutLaunch getLaunch(Aut aut, IProgressMonitor m) throws CoreException {
@@ -253,9 +272,8 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 			launch.run(test, timeout, monitor, phase);
 		}
 
-		public void debug(IQ7NamedElement test, long timeout, IProgressMonitor monitor, TestCaseDebugger debugger,
-				ExecutionPhase phase) throws CoreException {
-			launch.debug(test, timeout, monitor, debugger, phase);
+		public void debug(IQ7NamedElement test, IProgressMonitor monitor, TestCaseDebugger debugger, ExecutionPhase phase) throws CoreException {
+			launch.debug(test, monitor, debugger, phase);
 		}
 
 		public void execute(Script script, long timeout, IProgressMonitor monitor) throws CoreException {
@@ -290,7 +308,11 @@ public class MultiAutLaunchDelegate extends LaunchConfigurationDelegate implemen
 		public void handleAutEvent(org.eclipse.rcptt.core.launching.events.AutEvent autEvent) {
 			launch.handleAutEvent(autEvent);
 		}
-		
-		
+
+		@Override
+		public String getCapability() {
+			return launch.getCapability();
+		}
+
 	}
 }

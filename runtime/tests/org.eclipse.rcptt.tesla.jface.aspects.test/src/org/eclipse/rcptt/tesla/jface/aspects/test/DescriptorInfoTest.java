@@ -1,8 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.tesla.jface.aspects.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.rcptt.tesla.jface.DescriptorInfo;
 import org.junit.Test;
 
@@ -24,8 +35,9 @@ public class DescriptorInfoTest {
 
 	@Test
 	public void testBundleEntry() {
-		String str = "URLImageDescriptor(bundleentry://562.fwk1873444284/icons/full/eview16/filenav_nav.gif)";
-		assertEquals("org.eclipse.rcptt.verifications.tree/icons/full/eview16/filenav_nav.gif",
+		long id = Platform.getBundle("org.eclipse.rcptt.tesla.jface.aspects.test").getBundleId();
+		String str = "URLImageDescriptor(bundleentry://"+id+".fwk1873444284/icons/full/eview16/filenav_nav.gif)";
+		assertEquals("org.eclipse.rcptt.tesla.jface.aspects.test/icons/full/eview16/filenav_nav.gif",
 				DescriptorInfo.BUNDLE_URL.extract(str));
 	}
 
@@ -46,5 +58,6 @@ public class DescriptorInfoTest {
 		String str = "FileImageDescriptor(location=class org.eclipse.jface.action.StatusLine, name=images/stop.gif)";
 		assertEquals("org.eclipse.jface.action.StatusLineimages/stop.gif", DescriptorInfo.FILE_CLASS.extract(str));
 	}
+	
 
 }

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getStartTime <em>Start Time</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getEndTime <em>End Time</em>}</li>
@@ -26,8 +27,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getClassId <em>Class Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getTypeId <em>Type Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getTicks <em>Ticks</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getDuration <em>Duration</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getLastStartTime <em>Last Start Time</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getQ7WaitInfo()
  * @model
@@ -189,5 +191,57 @@ public interface Q7WaitInfo extends EObject {
 	 * @generated
 	 */
 	void setTicks(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Duration</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Duration</em>' attribute.
+	 * @see #setDuration(long)
+	 * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getQ7WaitInfo_Duration()
+	 * @model
+	 * @generated
+	 */
+	long getDuration();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Duration</em>' attribute.
+	 * @see #getDuration()
+	 * @generated
+	 */
+	void setDuration(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Last Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Last Start Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Last Start Time</em>' attribute.
+	 * @see #setLastStartTime(long)
+	 * @see org.eclipse.rcptt.tesla.core.info.InfoPackage#getQ7WaitInfo_LastStartTime()
+	 * @model
+	 * @generated
+	 */
+	long getLastStartTime();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getLastStartTime <em>Last Start Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Last Start Time</em>' attribute.
+	 * @see #getLastStartTime()
+	 * @generated
+	 */
+	void setLastStartTime(long value);
 
 } // Q7WaitInfo

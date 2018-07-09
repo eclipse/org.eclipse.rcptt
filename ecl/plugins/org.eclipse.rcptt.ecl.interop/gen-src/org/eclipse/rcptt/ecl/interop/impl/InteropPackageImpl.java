@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -180,6 +180,15 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 	 */
 	public EAttribute getInvoke_Args() {
 		return (EAttribute)invokeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvoke_NoResult() {
+		return (EAttribute)invokeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -403,6 +412,7 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		createEAttribute(invokeEClass, INVOKE__OBJECT);
 		createEAttribute(invokeEClass, INVOKE__NAME);
 		createEAttribute(invokeEClass, INVOKE__ARGS);
+		createEAttribute(invokeEClass, INVOKE__NO_RESULT);
 
 		execProcessEClass = createEClass(EXEC_PROCESS);
 		createEAttribute(execProcessEClass, EXEC_PROCESS__COMMAND);
@@ -476,6 +486,7 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 		initEAttribute(getInvoke_Object(), theEcorePackage.getEJavaObject(), "object", null, 1, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInvoke_Name(), theEcorePackage.getEString(), "name", null, 1, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInvoke_Args(), theEcorePackage.getEJavaObject(), "args", null, 0, -1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInvoke_NoResult(), theEcorePackage.getEBoolean(), "noResult", null, 0, 1, Invoke.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(execProcessEClass, ExecProcess.class, "ExecProcess", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExecProcess_Command(), theEcorePackage.getEString(), "command", null, 1, 1, ExecProcess.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -521,7 +532,7 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (invokeEClass, 
 		   source, 
@@ -529,25 +540,25 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 			 "description", "Invokes method on Java object.",
 			 "returns", "Value returned by method.",
 			 "example", "get-eclipse-window | get-object | invoke setSize 700 700"
-		   });			
+		   });	
 		addAnnotation
 		  (getInvoke_Object(), 
 		   source, 
 		   new String[] {
 			 "description", "Object to call the method on."
-		   });		
+		   });	
 		addAnnotation
 		  (getInvoke_Name(), 
 		   source, 
 		   new String[] {
 			 "description", "Name of the method to call. As a useful addtion, there are three pseudo-methods for arrays: <code>get <i>index</i></code>, <code>set <i>index value</i></code> and <code>length</code>."
-		   });		
+		   });	
 		addAnnotation
 		  (getInvoke_Args(), 
 		   source, 
 		   new String[] {
 			 "description", "Variable number of arguments to the method."
-		   });		
+		   });	
 		addAnnotation
 		  (execProcessEClass, 
 		   source, 
@@ -555,43 +566,43 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 			 "description", "Executes shell command.",
 			 "returns", "ExecProcessResult filled with execution results: exit code, captured stdout and stderr.",
 			 "example", "exec-process \"\\\"C:\\\\Program Files\\\\Sikuli X\\\\Sikuli-IDE.exe\\\"\"\"-r\" [substitute-variables \"\\\"${resource_loc:sikuli/MistypeClassName.sikuli}\\\"\"]\"-s\"-ignoreExitCode"
-		   });		
+		   });	
 		addAnnotation
 		  (getExecProcess_Command(), 
 		   source, 
 		   new String[] {
 			 "description", "Shell command to execute."
-		   });		
+		   });	
 		addAnnotation
 		  (getExecProcess_Args(), 
 		   source, 
 		   new String[] {
 			 "description", "Arguments for the command."
-		   });		
+		   });	
 		addAnnotation
 		  (getExecProcess_Timeout(), 
 		   source, 
 		   new String[] {
 			 "description", "Timeout period in seconds. Use zero timeout (<code>-timeout 0</code>) for infinite timeout."
-		   });		
+		   });	
 		addAnnotation
 		  (getExecProcess_IgnoreExitCode(), 
 		   source, 
 		   new String[] {
 			 "description", "If set to true, command will not fail with error message if non-zero exit code returned."
-		   });		
+		   });	
 		addAnnotation
 		  (getExecProcess_IgnoreStderr(), 
 		   source, 
 		   new String[] {
 			 "description", "If set to true, command will not fail with error message if stderr is not empty."
-		   });			
+		   });	
 		addAnnotation
 		  (getExecProcess_Stdin(), 
 		   source, 
 		   new String[] {
 			 "description", "String to send to stdin of executed command."
-		   });		
+		   });	
 		addAnnotation
 		  (getJavaPropertyEClass, 
 		   source, 
@@ -599,19 +610,19 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 			 "description", "Gets the Java system property indicated by the specified key.",
 			 "returns", "The string value of the system property.",
 			 "example", "get-java-property \"java.home\" | log"
-		   });		
+		   });	
 		addAnnotation
 		  (getGetJavaProperty_Key(), 
 		   source, 
 		   new String[] {
 			 "description", "The name of the system property."
-		   });		
+		   });	
 		addAnnotation
 		  (getGetJavaProperty_Default(), 
 		   source, 
 		   new String[] {
 			 "description", "Default value to use if there is no property with the key."
-		   });		
+		   });	
 		addAnnotation
 		  (getInvokeStatic_Args(), 
 		   source, 
@@ -627,17 +638,17 @@ public class InteropPackageImpl extends EPackageImpl implements InteropPackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";			
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getInvoke_Object(), 
 		   source, 
 		   new String[] {
-		   });											
+		   });	
 		addAnnotation
 		  (getExecProcess_Stdin(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });
 	}
 
 } // InteropPackageImpl

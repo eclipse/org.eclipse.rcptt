@@ -174,6 +174,10 @@ public class Q7CoreAdapterFactory extends AdapterFactoryImpl {
 				return createTerminateAutAdapter();
 			}
 			@Override
+			public Adapter caseSetOption(SetOption object) {
+				return createSetOptionAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -530,6 +534,20 @@ public class Q7CoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTerminateAutAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.core.ecl.core.model.SetOption <em>Set Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.SetOption
+	 * @generated
+	 */
+	public Adapter createSetOptionAdapter() {
 		return null;
 	}
 

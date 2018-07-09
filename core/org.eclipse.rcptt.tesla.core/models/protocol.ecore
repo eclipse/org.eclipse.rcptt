@@ -202,6 +202,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ActivationEventType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ApplyCellEditor" eSuperTypes="#//ElementCommand">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="deactivate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
@@ -433,5 +436,27 @@
   <eClassifiers xsi:type="ecore:EClass" name="UpdateControlCommand" eSuperTypes="rawProtocol.ecore#//Command">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" eType="ecore:EClass rawProtocol.ecore#//Element"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RapDownloadFile" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="handler" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RapUploadFile" eSuperTypes="rawProtocol.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="base64file" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActivationEventType">
+    <eLiterals name="Programmatic" value="4"/>
+    <eLiterals name="KeyPressed" value="1"/>
+    <eLiterals name="MouseClickSelection" value="2"/>
+    <eLiterals name="MouseDoubleClickSelection" value="3"/>
+    <eLiterals name="Traversal" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItems" eSuperTypes="#//ElementCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetItemsResponse" eSuperTypes="rawProtocol.ecore#//Response">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

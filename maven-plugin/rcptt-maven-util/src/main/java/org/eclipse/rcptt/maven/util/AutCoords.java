@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,54 +16,62 @@ import org.eclipse.rcptt.maven.util.Coords;
  * AUT specific data.
  */
 public class AutCoords extends Coords {
-    private Injection[] injections;
-    private boolean ignoreOtherInjections;
-    private String[] args;
-    private String vm;
+	private Injection[] injections;
+	private boolean ignoreOtherInjections;
+	private String[] args;
+	private String vm;
 	private boolean reuseExistingWorkspace = false;
+	private Rap rap;
 
-    public AutCoords() {
-	super();
-    }
-	
-    public Injection[] getInjections() {
-	return injections;
-    }
+	public AutCoords() {
+		super();
+	}
 
-    public void setInjections(Injection[] injections) {
-	this.injections = injections;
-    }
+	public Injection[] getInjections() {
+		return injections;
+	}
 
-    public boolean isIgnoreOtherInjections() {
-	return ignoreOtherInjections;
-    }
-	
-    public void setIgnoreOtherInjections(boolean ignoreOtherInjections) {
-	this.ignoreOtherInjections = ignoreOtherInjections;
-    }
-	
-    public String[] getArgs() {
-	return args;
-    }
-	
-    public void setArgs(String[] args) {
-	this.args = args;
-    }
+	public void setInjections(Injection[] injections) {
+		this.injections = injections;
+	}
 
-    public String getVm() {
-	return vm;
-    }
+	public boolean isIgnoreOtherInjections() {
+		return ignoreOtherInjections;
+	}
 
-    public void setVm(String vm) {
-	this.vm = vm;
-    }
-    
-    public boolean reuseExistingWorkspace() {
-    	return reuseExistingWorkspace;
-    }
-    
-    public void setReuseExistingWorkspace(boolean reuseExistingWorkspace) {
-    	this.reuseExistingWorkspace = reuseExistingWorkspace;
-    }
+	public void setIgnoreOtherInjections(boolean ignoreOtherInjections) {
+		this.ignoreOtherInjections = ignoreOtherInjections;
+	}
 
+	public String[] getArgs() {
+		return args;
+	}
+
+	public void setArgs(String[] args) {
+		this.args = args;
+	}
+
+	public String getVm() {
+		return vm;
+	}
+
+	public void setVm(String vm) {
+		this.vm = vm;
+	}
+
+	public boolean reuseExistingWorkspace() {
+		return reuseExistingWorkspace;
+	}
+
+	public void setReuseExistingWorkspace(boolean reuseExistingWorkspace) {
+		this.reuseExistingWorkspace = reuseExistingWorkspace;
+	}
+
+	public Rap getRap() {
+		return rap;
+	}
+
+	public void setRap(Rap rap) {
+		this.rap = rap;
+	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.scenario.impl;
 
+import java.util.Map;
 import org.eclipse.rcptt.core.scenario.Attachment;
+import org.eclipse.rcptt.core.scenario.CapabilityContext;
+import org.eclipse.rcptt.core.scenario.CapabilityContextItem;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.scenario.Editor;
 import org.eclipse.rcptt.core.scenario.FileEditor;
@@ -20,6 +23,7 @@ import org.eclipse.rcptt.core.scenario.ProjectMetadata;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.core.scenario.SuperContext;
 import org.eclipse.rcptt.core.scenario.TestSuite;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
@@ -58,6 +62,13 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * @generated
 	 */
 	private EClass scenarioEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass scenarioPropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -156,6 +167,20 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * @generated
 	 */
 	private EClass widgetVerificationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass capabilityContextEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass capabilityContextItemEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -363,6 +388,42 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 */
 	public EAttribute getScenario_Verifications() {
 		return (EAttribute)scenarioEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenario_Properties() {
+		return (EReference)scenarioEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getScenarioProperty() {
+		return scenarioPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioProperty_Name() {
+		return (EAttribute)scenarioPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioProperty_Value() {
+		return (EAttribute)scenarioPropertyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -721,6 +782,51 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCapabilityContext() {
+		return capabilityContextEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCapabilityContext_Items() {
+		return (EReference)capabilityContextEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCapabilityContextItem() {
+		return capabilityContextItemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCapabilityContextItem_Capability() {
+		return (EAttribute)capabilityContextItemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCapabilityContextItem_ContextReferences() {
+		return (EAttribute)capabilityContextItemEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ScenarioFactory getScenarioFactory() {
 		return (ScenarioFactory)getEFactoryInstance();
 	}
@@ -761,6 +867,11 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEAttribute(scenarioEClass, SCENARIO__TYPE);
 		createEAttribute(scenarioEClass, SCENARIO__EXTERNAL_REFERENCE);
 		createEAttribute(scenarioEClass, SCENARIO__VERIFICATIONS);
+		createEReference(scenarioEClass, SCENARIO__PROPERTIES);
+
+		scenarioPropertyEClass = createEClass(SCENARIO_PROPERTY);
+		createEAttribute(scenarioPropertyEClass, SCENARIO_PROPERTY__NAME);
+		createEAttribute(scenarioPropertyEClass, SCENARIO_PROPERTY__VALUE);
 
 		contextEClass = createEClass(CONTEXT);
 
@@ -814,6 +925,13 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 
 		widgetVerificationEClass = createEClass(WIDGET_VERIFICATION);
 		createEAttribute(widgetVerificationEClass, WIDGET_VERIFICATION__SELECTOR);
+
+		capabilityContextEClass = createEClass(CAPABILITY_CONTEXT);
+		createEReference(capabilityContextEClass, CAPABILITY_CONTEXT__ITEMS);
+
+		capabilityContextItemEClass = createEClass(CAPABILITY_CONTEXT_ITEM);
+		createEAttribute(capabilityContextItemEClass, CAPABILITY_CONTEXT_ITEM__CAPABILITY);
+		createEAttribute(capabilityContextItemEClass, CAPABILITY_CONTEXT_ITEM__CONTEXT_REFERENCES);
 	}
 
 	/**
@@ -856,6 +974,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		verificationEClass.getESuperTypes().add(this.getNamedElement());
 		unresolvedVerificationEClass.getESuperTypes().add(this.getVerification());
 		widgetVerificationEClass.getESuperTypes().add(this.getVerification());
+		capabilityContextEClass.getESuperTypes().add(this.getContext());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -875,6 +994,11 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEAttribute(getScenario_Type(), ecorePackage.getEString(), "type", null, 0, 1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScenario_ExternalReference(), ecorePackage.getEString(), "externalReference", "", 0, 1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScenario_Verifications(), ecorePackage.getEString(), "verifications", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenario_Properties(), this.getScenarioProperty(), null, "properties", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(scenarioPropertyEClass, ScenarioProperty.class, "ScenarioProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getScenarioProperty_Name(), ecorePackage.getEString(), "name", null, 0, 1, ScenarioProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScenarioProperty_Value(), ecorePackage.getEString(), "value", null, 0, 1, ScenarioProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(contextEClass, Context.class, "Context", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -928,6 +1052,13 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 
 		initEClass(widgetVerificationEClass, WidgetVerification.class, "WidgetVerification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWidgetVerification_Selector(), ecorePackage.getEString(), "selector", null, 1, 1, WidgetVerification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(capabilityContextEClass, CapabilityContext.class, "CapabilityContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCapabilityContext_Items(), this.getCapabilityContextItem(), null, "items", null, 0, -1, CapabilityContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(capabilityContextItemEClass, CapabilityContextItem.class, "CapabilityContextItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCapabilityContextItem_Capability(), ecorePackage.getEString(), "Capability", null, 1, -1, CapabilityContextItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCapabilityContextItem_ContextReferences(), ecorePackage.getEString(), "contextReferences", null, 0, -1, CapabilityContextItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

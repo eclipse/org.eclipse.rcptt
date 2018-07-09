@@ -12,17 +12,15 @@ package org.eclipse.rcptt.tesla.swt.util;
 
 import static org.eclipse.rcptt.tesla.core.protocol.IWindowProvider.CLASS_PATH_MARK;
 import static org.eclipse.rcptt.tesla.core.protocol.IWindowProvider.FROM_PATH_MARK;
-import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.getText;
-import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.removeAcceleratorFromText;
+import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.getTrimmedText;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerTextUtils.safeMatches;
 import static org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils.unwrapWidget;
-
-import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.jface.TeslaWindowManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.swt.util.IndexUtil.Criterion;
+import org.eclipse.swt.widgets.Shell;
 
 
 public class GetWindowUtil {
@@ -82,10 +80,7 @@ public class GetWindowUtil {
 			public boolean fits(SWTUIElement uie) {
 				if (pattern == null) return true;
 
-				String text = getText(uie);
-				if (text == null) return false;
-
-				text = removeAcceleratorFromText(text);
+				String text = getTrimmedText(uie);
 				return (text != null) &&
 						(text.equals(pattern) || safeMatches(text, pattern));
 			}

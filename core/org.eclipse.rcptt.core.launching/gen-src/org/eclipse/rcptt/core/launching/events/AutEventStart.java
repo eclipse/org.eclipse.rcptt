@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,13 +18,15 @@ package org.eclipse.rcptt.core.launching.events;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getEclPort <em>Ecl Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getTeslaPort <em>Tesla Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getState <em>State</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getPlatform <em>Platform</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getCapability <em>Capability</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutEventStart()
  * @model
@@ -137,5 +139,65 @@ public interface AutEventStart extends AutEvent {
 	 * @generated
 	 */
 	void setState(AutStartState value);
+
+	/**
+	 * Returns the value of the '<em><b>Platform</b></em>' attribute.
+	 * The default value is <code>"Other"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.rcptt.core.launching.events.Platform}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Platform</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Platform</em>' attribute.
+	 * @see org.eclipse.rcptt.core.launching.events.Platform
+	 * @see #setPlatform(Platform)
+	 * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutEventStart_Platform()
+	 * @model default="Other"
+	 * @generated
+	 */
+	Platform getPlatform();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getPlatform <em>Platform</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Platform</em>' attribute.
+	 * @see org.eclipse.rcptt.core.launching.events.Platform
+	 * @see #getPlatform()
+	 * @generated
+	 */
+	void setPlatform(Platform value);
+
+	/**
+	 * Returns the value of the '<em><b>Capability</b></em>' attribute.
+	 * The default value is <code>"Other"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.rcptt.core.launching.events.Capability}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Capability</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Capability</em>' attribute.
+	 * @see org.eclipse.rcptt.core.launching.events.Capability
+	 * @see #setCapability(Capability)
+	 * @see org.eclipse.rcptt.core.launching.events.EventsPackage#getAutEventStart_Capability()
+	 * @model default="Other"
+	 * @generated
+	 */
+	Capability getCapability();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.core.launching.events.AutEventStart#getCapability <em>Capability</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Capability</em>' attribute.
+	 * @see org.eclipse.rcptt.core.launching.events.Capability
+	 * @see #getCapability()
+	 * @generated
+	 */
+	void setCapability(Capability value);
 
 } // AutEventStart

@@ -221,13 +221,22 @@ public interface ReportPackage extends EPackage {
 	int NODE__SNAPSHOTS = 8;
 
 	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__DURATION = 9;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = 9;
+	int NODE_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl <em>Event</em>}' class.
@@ -294,13 +303,22 @@ public interface ReportPackage extends EPackage {
 	int EVENT__COLOR = 5;
 
 	/**
+	 * The feature id for the '<em><b>Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__COUNT = 6;
+
+	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 6;
+	int EVENT_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventSourceImpl <em>Event Source</em>}' class.
@@ -764,6 +782,17 @@ public interface ReportPackage extends EPackage {
 	EReference getNode_Snapshots();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getDuration <em>Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Duration</em>'.
+	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node#getDuration()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EAttribute getNode_Duration();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event <em>Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -838,6 +867,17 @@ public interface ReportPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEvent_Color();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event#getCount <em>Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Count</em>'.
+	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event#getCount()
+	 * @see #getEvent()
+	 * @generated
+	 */
+	EAttribute getEvent_Count();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.EventSource <em>Event Source</em>}'.
@@ -1255,6 +1295,14 @@ public interface ReportPackage extends EPackage {
 		EReference NODE__SNAPSHOTS = eINSTANCE.getNode_Snapshots();
 
 		/**
+		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE__DURATION = eINSTANCE.getNode_Duration();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventImpl <em>Event</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1311,6 +1359,14 @@ public interface ReportPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EVENT__COLOR = eINSTANCE.getEvent_Color();
+
+		/**
+		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EVENT__COUNT = eINSTANCE.getEvent_Count();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.EventSourceImpl <em>Event Source</em>}' class.

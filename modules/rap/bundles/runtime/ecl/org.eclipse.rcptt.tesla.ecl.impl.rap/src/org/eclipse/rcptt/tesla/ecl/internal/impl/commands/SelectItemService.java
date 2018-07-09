@@ -1,0 +1,50 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.rcptt.tesla.ecl.internal.impl.commands;
+
+import static org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin.error;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.rcptt.tesla.ecl.impl.rap.AbstractActionService;
+import org.eclipse.rcptt.tesla.ecl.impl.rap.TeslaBridge;
+import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
+import org.eclipse.rcptt.tesla.ecl.model.SelectItem;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.viewers.Viewers;
+import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+
+public class SelectItemService extends AbstractActionService {
+	@Override
+	protected Object exec(Command command) throws CoreException {
+		SelectItem select = (SelectItem) command;
+		ControlHandler control = select.getControl();
+		final SWTUIElement item = TeslaBridge.getClient()
+				.getProcessor(SWTUIProcessor.class).getMapper()
+				.get(TeslaBridge.find(control));
+
+		if (!(item.widget instanceof TreeItem)
+				&& !(item.widget instanceof TableItem)) {
+			throw new CoreException(
+					error("'select-item' can only be used on table or tree item"));
+		}
+
+		item.getPlayer().exec("Selecting table item", new Runnable() {
+			public void run() {
+				Viewers.selectItem(item, false);
+			}
+		});
+
+		return control;
+	}
+}

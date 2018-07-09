@@ -76,7 +76,7 @@ public abstract class UIPlayer implements IUIPlayer, IWindowProvider {
 
 	/**
 	 * Retrieve failures list, and clear it
-	 * 
+	 *
 	 * @return
 	 */
 	public List<Response> getFailures() {

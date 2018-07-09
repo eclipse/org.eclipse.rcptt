@@ -54,6 +54,7 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.ecl.operations.RepeatWith;
 import org.eclipse.rcptt.ecl.operations.Split;
 import org.eclipse.rcptt.ecl.operations.Str;
+import org.eclipse.rcptt.ecl.operations.ThrowError;
 import org.eclipse.rcptt.ecl.operations.ToList;
 import org.eclipse.rcptt.ecl.operations.Try;
 
@@ -277,6 +278,10 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseParseTime(ParseTime object) {
 				return createParseTimeAdapter();
+			}
+			@Override
+			public Adapter caseThrowError(ThrowError object) {
+				return createThrowErrorAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -875,6 +880,20 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParseTimeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.operations.ThrowError <em>Throw Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.operations.ThrowError
+	 * @generated
+	 */
+	public Adapter createThrowErrorAdapter() {
 		return null;
 	}
 

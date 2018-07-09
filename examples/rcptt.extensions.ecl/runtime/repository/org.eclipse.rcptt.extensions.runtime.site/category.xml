@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
 <site>
-   <feature url="features/org.eclipse.rcptt.extensions.runtime.feature_2.1.0.qualifier.jar" id="org.eclipse.rcptt.extensions.runtime.feature" version="2.1.0.qualifier">
+   <feature url="features/org.eclipse.rcptt.extensions.runtime.feature_2.4.0.qualifier.jar" id="org.eclipse.rcptt.extensions.runtime.feature" version="2.4.0.qualifier">
       <category name="org.eclipse.rcptt.extensions"/>
    </feature>
    <category-def name="org.eclipse.rcptt.extensions" label="RCPTT Extensions"/>

@@ -93,6 +93,13 @@ aspectj - provides aspectj components update.
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="platform" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

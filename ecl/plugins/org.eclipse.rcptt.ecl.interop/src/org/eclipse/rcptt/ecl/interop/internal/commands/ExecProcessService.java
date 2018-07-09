@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -78,8 +78,8 @@ public class ExecProcessService implements ICommandService {
 					result.setStderr(executor.stderr);
 
 					if (!cmd.isIgnoreExitCode() && result.getExitCode() != 0)
-						return error("Execution failed, exit code: %s.",
-								result.getExitCode());
+						return error("Execution failed, exit code: %s. stderr:\n %s",
+								result.getExitCode(), result.getStderr());
 
 					if (!cmd.isIgnoreStderr()
 							&& result.getStderr().length() > 0)

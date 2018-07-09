@@ -22,12 +22,16 @@ import org.eclipse.rcptt.core.model.IQ7ProjectMetadata;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
+import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.core.ecl.model.providers.DeclarationFactory;
 import org.eclipse.rcptt.core.ecl.parser.ast.Parser;
 import org.eclipse.rcptt.core.ecl.parser.ast.Script;
 import org.eclipse.rcptt.core.ecl.parser.model.LocalContainer;
+import org.eclipse.rcptt.core.internal.ecl.parser.Q7EclParserPlugin;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.core.model.Q7InternalTestCase;
 
@@ -37,7 +41,8 @@ public class Q7ElementContainer implements IDeclContainer {
 
 	public final Script script;
 	public int offset;
-	private IDeclContainer localDeclarations = null;
+	private LocalContainer localDeclarations = null;
+	private LocalContainer propertyDeclarations = null;
 	private List<IDeclContainer> referenceDeclarations = new ArrayList<IDeclContainer>();
 	private boolean buildins = true;
 	private String text;
@@ -50,11 +55,36 @@ public class Q7ElementContainer implements IDeclContainer {
 		this.offset = offset;
 		this.buildins = includeBuiltin;
 		localDeclarations = LocalContainer.fromScript(script, offset, resource);
+
+		calculatePropertyDeclarations(element);
+
 		referenceDeclarations = new ArrayList<IDeclContainer>();
 		referencesList = calculateDependenciesHash(element);
 		initReferences(element);
 
 		initComposite();
+	}
+
+	/**
+	* Add a testcase property declarations.
+	*/
+	private void calculatePropertyDeclarations(IQ7NamedElement element) {
+		if( element == null) {
+			return;
+		}
+		try {
+			
+			propertyDeclarations = new LocalContainer();
+			NamedElement namedElement = element.getNamedElement();
+			if (namedElement instanceof Scenario) {
+				EList<ScenarioProperty> properties = ((Scenario) namedElement).getProperties();
+				for (ScenarioProperty sp : properties) {
+					propertyDeclarations.addVar(new VarDecl(sp.getName(), new SrcLoc(0, 0)));
+				}
+			}
+		} catch (ModelException e) {
+			Q7EclParserPlugin.log(e);
+		}
 	}
 
 	public boolean isSameContent(String value, IQ7NamedElement element) {
@@ -102,6 +132,7 @@ public class Q7ElementContainer implements IDeclContainer {
 		if (buildins) {
 			all.add(BuiltinContainer.INSTANCE);
 		}
+		all.add(propertyDeclarations);
 		composite = new CompositeContainer(all.toArray(new IDeclContainer[0]));
 	}
 

@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _zICVQKkzEeCJlq1kn3zjLA
-Runtime-Version: 2.0.0.201505131625
-Save-Time: 5/14/15 5:18 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/22/17 11:45 AM
 Tags: TestCase, Delete, UndoRedo
 Testcase-Type: ecl
 
@@ -42,7 +42,7 @@ Entry-Name: .content
 get-menu "Window/Perspective/Open Perspective/Other..." | click
 with [get-window "Open Perspective"] {
     get-table | select Resource
-    get-button OK | click
+    get-button Open | click
 }
 with [get-view "Project Explorer" | get-tree] {
     select "Q7Project/context.ctx" | get-item "Q7Project/context.ctx" | drag-start 17 12 none

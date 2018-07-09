@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -140,6 +140,13 @@ public class PrepareExecutionWrapper extends Executable {
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
+		if (executable instanceof GroupExecutable) {
+			IExecutable rootExecutable = ((GroupExecutable) executable).getRoot();
+			if (rootExecutable instanceof EclScenarioExecutable) {
+				EclScenarioExecutable scenario = (EclScenarioExecutable) rootExecutable;
+				TestEngineManager.getInstance().fireExecutionStarted(scenario);
+			}
+		}
 		return executable.execute();
 	}
 
@@ -236,6 +243,7 @@ public class PrepareExecutionWrapper extends Executable {
 	private static void closeAllNodes(long endTime, Node node) {
 		if (node.getEndTime() == 0) {
 			node.setEndTime(endTime);
+			node.setDuration(node.getEndTime() - node.getStartTime());
 		}
 		Q7Info info = ReportHelper.getInfo(node);
 		for (Node child : node.getChildren()) {
@@ -291,6 +299,13 @@ public class PrepareExecutionWrapper extends Executable {
 			return rv;
 		} finally {
 			Preconditions.checkNotNull(resultReport);
+			if (executable instanceof GroupExecutable) {
+				IExecutable rootExecutable = ((GroupExecutable) executable).getRoot();
+				if (rootExecutable instanceof EclScenarioExecutable) {
+					EclScenarioExecutable scenario = (EclScenarioExecutable) rootExecutable;
+					TestEngineManager.getInstance().fireExecutionCompleted(scenario, resultReport);
+				}
+			}
 			if (this.reportSession != null) {
 				resultReportID = this.reportSession.write(resultReport);
 			}
@@ -302,6 +317,7 @@ public class PrepareExecutionWrapper extends Executable {
 		Report report = TestSuiteUtils.generateReport(getActualElement(), status);
 		Node root = report.getRoot();
 		root.setEndTime(root.getStartTime() + getTime());
+		root.setDuration(root.getEndTime() - root.getStartTime());
 		ReportHelper.appendLog(root, LoggingCategory.NORMAL, getLog());
 		return report;
 	}

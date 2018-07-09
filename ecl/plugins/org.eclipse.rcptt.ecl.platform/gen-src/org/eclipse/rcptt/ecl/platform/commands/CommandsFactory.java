@@ -192,6 +192,24 @@ public interface CommandsFactory extends EFactory {
 	FindInWorkspace createFindInWorkspace();
 
 	/**
+	 * Returns a new object of class '<em>Get Status Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Status Message</em>'.
+	 * @generated
+	 */
+	GetStatusMessage createGetStatusMessage();
+
+	/**
+	 * Returns a new object of class '<em>Get Status Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Status Trace</em>'.
+	 * @generated
+	 */
+	GetStatusTrace createGetStatusTrace();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

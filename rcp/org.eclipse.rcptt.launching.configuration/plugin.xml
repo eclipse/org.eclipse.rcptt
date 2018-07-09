@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
 <plugin>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
@@ -8,7 +19,7 @@
             id="org.eclipse.rcptt.launching.configuration"
             modes="run, debug"
             name="Eclipse Application under Test"
-            sourceLocatorId="org.eclipse.jdt.debug.ui.javaSourceLocator"
+            sourceLocatorId="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"
             sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
       </launchConfigurationType>
    </extension>

@@ -143,7 +143,7 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 			if (this.sync.contains(async)) {
 				kind = "sync";
 			}
-			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
+			ReportHelper.startWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 
@@ -167,7 +167,7 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 				kind = "sync";
 				this.sync.remove(async);
 			}
-			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
+			ReportHelper.finishWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 
@@ -180,7 +180,7 @@ final class AsyncInfoSupport implements IAsyncEventListener {
 			if (sync) {
 				this.sync.add(async);
 			}
-			ReportHelper.updateWaitInfo(builder.getCurrent(), kind, className);
+			ReportHelper.startWaitInfo(builder.getCurrent(), kind, className);
 		}
 	}
 

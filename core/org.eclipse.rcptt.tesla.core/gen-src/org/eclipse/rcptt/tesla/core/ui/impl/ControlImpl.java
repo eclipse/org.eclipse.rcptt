@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl#isEnablement <em>Enablement</em>}</li>
@@ -43,7 +44,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl#getBorderWith <em>Border With</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.ControlImpl#getDecorators <em>Decorators</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

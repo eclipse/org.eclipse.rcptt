@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,9 +28,6 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.OpenStrategy;
-import org.osgi.framework.Bundle;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
 import org.eclipse.rcptt.core.IContextProcessor;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -46,6 +43,9 @@ import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.impl.UIRunnable;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
+import org.osgi.framework.Bundle;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 public class PreferencesContextProcessor implements IContextProcessor {
 
@@ -299,7 +299,8 @@ public class PreferencesContextProcessor implements IContextProcessor {
 	private void applyPreferences(PrefNode currentPrefNode,
 			Preferences parentPreferences, boolean clean)
 			throws BackingStoreException {
-		String nodeName = currentPrefNode.getName();
+		String nodeName = PrefUtils.substituteVariables(currentPrefNode.getName());
+		
 		Preferences preferences = parentPreferences.node(nodeName);
 
 		Map<String, String> storedProperties = new HashMap<String, String>();
@@ -319,7 +320,7 @@ public class PreferencesContextProcessor implements IContextProcessor {
 			// preferences.removeNode();
 		}
 
-		preferences = parentPreferences.node(currentPrefNode.getName());
+		preferences = parentPreferences.node(nodeName);
 
 		EList<PrefData> datas = currentPrefNode.getData();
 		Set<String> datasSet = new HashSet<String>();
@@ -344,6 +345,7 @@ public class PreferencesContextProcessor implements IContextProcessor {
 			}
 			PrefUtils.decodePrefData(prefData);
 			PrefUtils.decodeWorkspaceLocation(prefData);
+			PrefUtils.substituteVariables(prefData);
 			try {
 				preferences.put(prefData.getKey(), prefData.getValue());
 			} catch (Throwable e) {

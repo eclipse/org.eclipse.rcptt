@@ -53,6 +53,7 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.ecl.operations.RepeatWith;
 import org.eclipse.rcptt.ecl.operations.Split;
 import org.eclipse.rcptt.ecl.operations.Str;
+import org.eclipse.rcptt.ecl.operations.ThrowError;
 import org.eclipse.rcptt.ecl.operations.ToList;
 import org.eclipse.rcptt.ecl.operations.Try;
 
@@ -429,6 +430,13 @@ public class OperationsSwitch<T> {
 				ParseTime parseTime = (ParseTime)theEObject;
 				T result = caseParseTime(parseTime);
 				if (result == null) result = caseCommand(parseTime);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OperationsPackage.THROW_ERROR: {
+				ThrowError throwError = (ThrowError)theEObject;
+				T result = caseThrowError(throwError);
+				if (result == null) result = caseCommand(throwError);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1049,6 +1057,21 @@ public class OperationsSwitch<T> {
 	 * @generated
 	 */
 	public T caseParseTime(ParseTime object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Throw Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Throw Error</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseThrowError(ThrowError object) {
 		return null;
 	}
 

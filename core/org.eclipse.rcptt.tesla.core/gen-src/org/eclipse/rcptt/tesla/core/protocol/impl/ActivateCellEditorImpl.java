@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.tesla.core.protocol.impl;
 
 import org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
 
 import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getElement <em>Element</em>}</li>
@@ -43,8 +45,9 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getPattern <em>Pattern</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getColumn <em>Column</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ActivateCellEditorImpl#getButton <em>Button</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -148,6 +151,46 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 	 * @ordered
 	 */
 	protected int column = COLUMN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ActivationEventType TYPE_EDEFAULT = ActivationEventType.PROGRAMMATIC;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected ActivationEventType type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getButton() <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getButton()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int BUTTON_EDEFAULT = 1;
+
+	/**
+	 * The cached value of the '{@link #getButton() <em>Button</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getButton()
+	 * @generated
+	 * @ordered
+	 */
+	protected int button = BUTTON_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -312,6 +355,48 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ActivationEventType getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(ActivationEventType newType) {
+		ActivationEventType oldType = type;
+		type = newType == null ? TYPE_EDEFAULT : newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ProtocolPackage.ACTIVATE_CELL_EDITOR__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getButton() {
+		return button;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setButton(int newButton) {
+		int oldButton = button;
+		button = newButton;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ProtocolPackage.ACTIVATE_CELL_EDITOR__BUTTON, oldButton, button));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -341,6 +426,10 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 				return getIndex();
 			case ProtocolPackage.ACTIVATE_CELL_EDITOR__COLUMN:
 				return getColumn();
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__TYPE:
+				return getType();
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__BUTTON:
+				return getButton();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -373,6 +462,12 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 			case ProtocolPackage.ACTIVATE_CELL_EDITOR__COLUMN:
 				setColumn((Integer)newValue);
 				return;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__TYPE:
+				setType((ActivationEventType)newValue);
+				return;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__BUTTON:
+				setButton((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -403,6 +498,12 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 			case ProtocolPackage.ACTIVATE_CELL_EDITOR__COLUMN:
 				setColumn(COLUMN_EDEFAULT);
 				return;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__BUTTON:
+				setButton(BUTTON_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -427,6 +528,10 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 				return INDEX_EDEFAULT == null ? index != null : !INDEX_EDEFAULT.equals(index);
 			case ProtocolPackage.ACTIVATE_CELL_EDITOR__COLUMN:
 				return column != COLUMN_EDEFAULT;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__TYPE:
+				return type != TYPE_EDEFAULT;
+			case ProtocolPackage.ACTIVATE_CELL_EDITOR__BUTTON:
+				return button != BUTTON_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -451,6 +556,10 @@ public class ActivateCellEditorImpl extends EObjectImpl implements ActivateCellE
 		result.append(index);
 		result.append(", column: ");
 		result.append(column);
+		result.append(", type: ");
+		result.append(type);
+		result.append(", button: ");
+		result.append(button);
 		result.append(')');
 		return result.toString();
 	}

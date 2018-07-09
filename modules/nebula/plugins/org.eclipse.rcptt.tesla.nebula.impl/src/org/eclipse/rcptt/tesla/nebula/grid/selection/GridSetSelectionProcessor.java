@@ -60,7 +60,7 @@ public class GridSetSelectionProcessor {
 		if (msie.isRowHeader())
 			return new RowHeader(item);
 		else if (msie.getCellColumn() != null)
-			return ItemCell.from(msie.getCellColumn(), item);
+			return ItemCell.from(msie.getCellColumn(), item, msie.getIndex());
 
 		throw new IllegalArgumentException("Cannot create an item part from the command");
 	}

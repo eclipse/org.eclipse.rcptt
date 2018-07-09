@@ -75,14 +75,14 @@ public class RepeatService implements ICommandService {
 	}
 
 	private static Command wrapBody(int i, Val indexVal, Command body) {
-		if (indexVal == null) {
-			return body;
-		}
-
 		Let let = CoreFactory.eINSTANCE.createLet();
-		indexVal.setValue(BoxedValues.box(i));
-		let.getVals().add(indexVal);
 		let.setBody(body);
+
+		if (indexVal != null) {
+			indexVal.setValue(BoxedValues.box(i));
+			let.getVals().add(indexVal);
+		}
 		return let;
 	}
+
 }

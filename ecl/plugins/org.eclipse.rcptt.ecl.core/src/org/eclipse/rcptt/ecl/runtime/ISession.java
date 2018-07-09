@@ -32,4 +32,17 @@ public interface ISession {
 	void close() throws CoreException;
 
 	boolean isClosed();
+	
+	/**
+	 * Return property associated with session. Could be used with chained ECL command execution.
+	 * @param key
+	 * @return
+	 */
+	Object getProperty(String key);
+	/**
+	 * Set property associated with session.
+	 * @param key
+	 * @param value
+	 */
+	void putProperty( String key, Object value);
 }

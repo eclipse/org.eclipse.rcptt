@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl#getImage <em>Image</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.LabelImpl#getCaption <em>Caption</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

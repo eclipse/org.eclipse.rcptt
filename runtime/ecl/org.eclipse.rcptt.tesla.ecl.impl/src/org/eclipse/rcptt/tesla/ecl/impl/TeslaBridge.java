@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.rcptt.ecl.core.Command;
+import org.eclipse.rcptt.ecl.core.util.ISessionPropertyConstants;
 import org.eclipse.rcptt.ecl.internal.core.AbstractRootSession;
 import org.eclipse.rcptt.ecl.internal.core.AbstractSession;
 import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
@@ -119,15 +120,13 @@ public class TeslaBridge {
 	}
 
 	public static void waitDelay() throws CoreException {
-		Option option = TeslaFeatures.getInstance().getOption(
-				TeslaFeatures.COMMAND_EXECUTION_DELAY);
+		Option option = TeslaFeatures.getInstance().getOption(TeslaFeatures.COMMAND_EXECUTION_DELAY);
 		int delay = Integer.parseInt(option.getValue());
 		if (delay > 0) {
 			try {
 				Thread.sleep(delay);
 			} catch (InterruptedException e) {
-				throw new CoreException(new Status(Status.ERROR,
-						TeslaImplPlugin.PLUGIN_ID, e.getMessage(), e));
+				throw new CoreException(new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, e.getMessage(), e));
 			}
 		}
 	}
@@ -155,12 +154,16 @@ public class TeslaBridge {
 		lastControlUIElement = null;
 	}
 
+	public static Element find(ControlHandler handler) throws CoreException {
+		return find(handler, null);
+	}
+
 	/**
 	 * @param handler
 	 * @return element or null
 	 * @throws CoreException
 	 */
-	public static Element find(ControlHandler handler) throws CoreException {
+	public static Element find(ControlHandler handler, IProcess process) throws CoreException {
 		Assert.isNotNull(handler);
 
 		// Check if resolved already
@@ -174,8 +177,8 @@ public class TeslaBridge {
 			if (widget == null)
 				throw new CoreException(TeslaImplPlugin.err("Unable to resolve bound widget by ID."));
 			final SWTUIProcessor processor = getClient().getProcessor(SWTUIProcessor.class);
-			final Element element = processor.getMapper().get(new SWTUIElement(widget,
-					SWTUIPlayer.getPlayer(widget.getDisplay())));
+			final Element element = processor.getMapper()
+					.get(new SWTUIElement(widget, SWTUIPlayer.getPlayer(widget.getDisplay())));
 
 			widget.getDisplay().syncExec(new Runnable() {
 				@Override
@@ -192,24 +195,21 @@ public class TeslaBridge {
 		ElementKind kind = handler.getKind();
 		UISelector<ControlUIElement> selector;
 		if (kind == ElementKind.Custom)
-			selector = new UISelector<ControlUIElement>(
-					handler.getCustomKindId(), getPlayer(),
-					ControlUIElement.class);
+			selector = new UISelector<ControlUIElement>(handler.getCustomKindId(), getPlayer(), ControlUIElement.class);
 		else
-			selector = new UISelector<ControlUIElement>(kind, getPlayer(),
-					ControlUIElement.class);
+			selector = new UISelector<ControlUIElement>(kind, getPlayer(), ControlUIElement.class);
 
 		// Setup parent
 		ControlHandler parent = handler.getParent();
 		if (parent != null)
-			selector = selector.parent(find(parent));
+			selector = selector.parent(find(parent, process));
 		else
 			selector = selector.parent(eclipseWindow());
 
 		// Setup after
 		ControlHandler after = handler.getAfter();
 		if (after != null) {
-			selector = selector.after(find(after));
+			selector = selector.after(find(after, process));
 		}
 
 		// Setup path
@@ -226,18 +226,15 @@ public class TeslaBridge {
 		if (indexes != null)
 			selector = selector.indexesList(parseIndexes(indexes));
 		else if (kind == ElementKind.Item && handler.getRow() != null)
-			selector = selector.indexesList(Arrays.asList(handler.getColumn(),
-					handler.getRow()));
+			selector = selector.indexesList(Arrays.asList(handler.getColumn(), handler.getRow()));
 
 		if (ElementKind.Region.equals(kind)) {
 			String rawImage = handler.getRawImage();
 			byte[] image = Base64.decode(rawImage);
-			selector = selector.image(image).indexes(handler.getX(),
-					handler.getY());
+			selector = selector.image(image).indexes(handler.getX(), handler.getY());
 		}
 		// Search by text and index
-		ControlUIElement control = selector.find(handler.getText(),
-				handler.getIndex());
+		ControlUIElement control = selector.find(handler.getText(), handler.getIndex());
 
 		if (control != null) {
 			Element element = control.getElement();
@@ -249,10 +246,11 @@ public class TeslaBridge {
 		TeslaErrorStatus teslaFailure = getTeslaFailure();
 		if (teslaFailure != null) {
 			if (selector.getParent() != null) {
-				lastControlUIElement = new ControlUIElement(
-						selector.getParent(), getPlayer());
+				lastControlUIElement = new ControlUIElement(selector.getParent(), getPlayer());
 			}
-			TeslaBridge.makeScreenshot(true, teslaFailure.getMessage());
+			if (isAllowScreenshotOnError(process)) {
+				TeslaBridge.makeScreenshot(true, teslaFailure.getMessage());
+			}
 			throw new CoreException(teslaFailure);
 		}
 		String kindName = kind.name().toLowerCase();
@@ -265,10 +263,11 @@ public class TeslaBridge {
 		else if (handler.getPath() != null)
 			message.append(" \"").append(handler.getPath()).append("\"");
 		if (selector.getParent() != null) {
-			lastControlUIElement = new ControlUIElement(selector.getParent(),
-					getPlayer());
+			lastControlUIElement = new ControlUIElement(selector.getParent(), getPlayer());
 		}
-		TeslaBridge.makeScreenshot(true, message.toString());
+		if (isAllowScreenshotOnError(process)) {
+			TeslaBridge.makeScreenshot(true, message.toString());
+		}
 		throw new CoreException(TeslaImplPlugin.err(message.toString()));
 	}
 
@@ -277,8 +276,7 @@ public class TeslaBridge {
 		if (failures.isEmpty())
 			return null;
 		Response last = failures.get(failures.size() - 1);
-		return new TeslaErrorStatus(last.getMessage(),
-				last.getAdvancedInformation());
+		return new TeslaErrorStatus(last.getMessage(), last.getAdvancedInformation());
 	}
 
 	public static List<String> parsePath(String path) throws CoreException {
@@ -317,8 +315,7 @@ public class TeslaBridge {
 			}
 			return indexes;
 		} catch (NumberFormatException e) {
-			throw new CoreException(CorePlugin.err("Invalid path: " + path
-					+ ".\nMust contains integers only"));
+			throw new CoreException(CorePlugin.err("Invalid path: " + path + ".\nMust contains integers only"));
 		}
 	}
 
@@ -344,8 +341,7 @@ public class TeslaBridge {
 				if (teslaFailure != null) {
 					throw new CoreException(teslaFailure);
 				}
-				throw new CoreException(
-						TeslaImplPlugin.err("Cannot find Eclipse window"));
+				throw new CoreException(TeslaImplPlugin.err("Cannot find Eclipse window"));
 			}
 		}
 		return eclipseWindow.getElement();
@@ -370,8 +366,7 @@ public class TeslaBridge {
 		if (noErrorMode && onError) {
 			return;
 		}
-		if (TeslaFeatures.getInstance().isTrue(TeslaFeatures.CAPTURE_EXECUTION)
-				|| onError) {
+		if (TeslaFeatures.getInstance().isTrue(TeslaFeatures.CAPTURE_EXECUTION) || onError) {
 			Display display = PlatformUI.getWorkbench().getDisplay();
 			ReportScreenshotProvider.takeScreenshot(display, onError, message);
 		}
@@ -393,8 +388,7 @@ public class TeslaBridge {
 		noErrorMode = false;
 	}
 
-	public static Widget resolveWidget(String selector, IProcess process,
-			String... classNames) throws CoreException {
+	public static Widget resolveWidget(String selector, IProcess process, String... classNames) throws CoreException {
 		List<Class<?>> classes = new ArrayList<Class<?>>(classNames.length);
 		for (int i = 0; i < classNames.length; ++i)
 			try {
@@ -406,8 +400,7 @@ public class TeslaBridge {
 		return resolveWidget(selector, process, classes.toArray(new Class<?>[classes.size()]));
 	}
 
-	public static Widget resolveWidget(String selector, IProcess process,
-			Class<?>... classes) throws CoreException {
+	public static Widget resolveWidget(String selector, IProcess process, Class<?>... classes) throws CoreException {
 		Widget widget = resolveWidget(Widget.class, selector, process);
 		for (Class<?> c : classes)
 			if (c.isInstance(widget))
@@ -422,23 +415,19 @@ public class TeslaBridge {
 		}
 		String classesList = sb.toString();
 
-		throw new CoreException(new Status(Status.ERROR,
-				TeslaImplPlugin.PLUGIN_ID,
-				String.format("Wrong type of a widget. %s expected, got %s.",
-						classesList, widget.getClass().getSimpleName())));
+		throw new CoreException(new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, String.format(
+				"Wrong type of a widget. %s expected, got %s.", classesList, widget.getClass().getSimpleName())));
 	}
 
-	public static <T> T resolveWidget(Class<T> class_, String selector,
-			IProcess process) throws CoreException {
+	public static <T> T resolveWidget(Class<T> class_, String selector, IProcess process) throws CoreException {
 		SWTUIElement swtuiElement = TeslaBridge.resolveSWTUIElement(selector, process);
 
 		Widget widget = swtuiElement.widget;
 
 		if (!class_.isInstance(widget))
-			throw new CoreException(new Status(Status.ERROR,
-					TeslaImplPlugin.PLUGIN_ID,
-					String.format("Wrong type of a widget. %s expected, got %s.",
-							class_.getSimpleName(), widget.getClass().getSimpleName())));
+			throw new CoreException(new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID,
+					String.format("Wrong type of a widget. %s expected, got %s.", class_.getSimpleName(),
+							widget.getClass().getSimpleName())));
 
 		return class_.cast(widget);
 	}
@@ -446,8 +435,8 @@ public class TeslaBridge {
 	public static SWTUIElement resolveSWTUIElement(String selector, IProcess process) throws CoreException {
 		ISession session = process.getSession();
 		if (!(session instanceof AbstractSession))
-			throw new CoreException(new Status(Status.ERROR,
-					TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (no session)."));
+			throw new CoreException(
+					new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (no session)."));
 		AbstractRootSession rootSession = ((AbstractSession) session).getRoot();
 
 		Command command = EclCoreParser.newCommand(selector);
@@ -463,23 +452,21 @@ public class TeslaBridge {
 			try {
 				IStatus status = result.waitFor();
 				if (!status.isOK())
-					throw new CoreException(new Status(Status.ERROR,
-							TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget."));
+					throw new CoreException(status);
 			} catch (InterruptedException e) {
-				throw new CoreException(new Status(Status.ERROR,
-						TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (timeout)."));
+				throw new CoreException(
+						new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (timeout)."));
 			}
 			Object wannabeControlHandler = result.getOutput().take(ISession.DEFAULT_TAKE_TIMEOUT);
 
 			if (!(wannabeControlHandler instanceof ControlHandler))
-				throw new CoreException(new Status(Status.ERROR,
-						TeslaImplPlugin.PLUGIN_ID, "Unable to resolve widget (not a ControlHandler)."));
+				throw new CoreException(new Status(Status.ERROR, TeslaImplPlugin.PLUGIN_ID,
+						"Unable to resolve widget (not a ControlHandler)."));
 
 			ControlHandler controlHandler = (ControlHandler) wannabeControlHandler;
-			Element element = TeslaBridge.find(controlHandler);
+			Element element = TeslaBridge.find(controlHandler, process);
 
-			SWTUIElement swtuiElement = TeslaBridge.getClient()
-					.getProcessor(SWTUIProcessor.class).getMapper()
+			SWTUIElement swtuiElement = TeslaBridge.getClient().getProcessor(SWTUIProcessor.class).getMapper()
 					.get(element);
 
 			return swtuiElement;
@@ -487,5 +474,15 @@ public class TeslaBridge {
 			if (doShutdown)
 				shutdown();
 		}
+	}
+
+	public static boolean isAllowScreenshotOnError(IProcess context) {
+		if (context == null) {
+			return true;
+		}
+		Object noScreenshot = context.getSession().getProperty(ISessionPropertyConstants.NO_SCREENSHOT);
+
+		boolean allowScreenshot = (noScreenshot == null);
+		return allowScreenshot;
 	}
 }

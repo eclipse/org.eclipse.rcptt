@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -118,6 +118,7 @@ public class CommandToStringConverter {
 				.eClass());
 
 		boolean forced = false;
+		boolean bigTextCommand = commandName.equals("upload-file") || commandName.equals("match-binary");
 
 		for (EStructuralFeature feature : attributes) {
 			if (feature.getEAnnotation(CoreUtils.INTERNAL_ANN) != null)
@@ -154,7 +155,10 @@ public class CommandToStringConverter {
 							String value = convertValue(val, type);
 							if (value != null) {
 								formatter.addAttrName(name, forced);
-								formatter.addAttrValue(value);
+								if (bigTextCommand)
+									formatter.addAttrValueWithLineBreak(value);
+								else
+									formatter.addAttrValue(value);
 								skippped = false;
 							}
 						}

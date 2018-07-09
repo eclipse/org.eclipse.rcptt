@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
 <feature
       id="org.eclipse.rcptt.module.nebula"
       label="RCPTT Nebula Widgets Support"
-      version="2.1.0.qualifier"
+      version="2.4.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -21,21 +32,21 @@
          id="org.eclipse.rcptt.tesla.nebula"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -49,6 +60,6 @@
          id="org.eclipse.rcptt.module.nebula.updates"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"/>
+         version="2.4.0.qualifier"/>
 
 </feature>

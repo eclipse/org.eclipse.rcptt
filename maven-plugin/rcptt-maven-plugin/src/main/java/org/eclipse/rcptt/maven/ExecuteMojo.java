@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,13 +34,15 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.eclipse.rcptt.maven.util.Injection;
 import org.eclipse.rcptt.maven.util.JavaExec;
 import org.eclipse.rcptt.maven.util.NetUtils;
+import org.eclipse.rcptt.maven.util.Rap;
+import org.eclipse.rcptt.maven.util.TestEngine;
 import org.eclipse.rcptt.maven.util.TestOptions;
 
 /**
  * Executes q7 tests
- * 
+ *
  * @author ivaninozemtsev
- * 
+ *
  * @goal execute
  * @phase compile
  */
@@ -69,10 +71,16 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String SHUTDOWN_LISTENER_PORT = "-shutdownListenerPort";
 	private static final String SKIP_TAGS = "-skipTags";
 	private static final String SUITES = "-suites";
+	private static final String TESTS = "-tests";
 	private static final String LIMIT = "-limit";
 	private static final String SPLIT_HTML_REPORT = "-splitHtmlReport";
 	private static final String NO_SECURITY_OVERRIDE = "-noSecurityOverride";
 	private static final String EXECUTION_TIMEOUT = "-timeout";
+	private static final String RAP_PORT = "-rapPort";
+	private static final String RAP_SERVLET_PATH = "-rapPath";
+	private static final String RAP_BROWSER_COMMAND = "-browserCmd";
+	private static final String RUNNER_PLATFORM = "-runnerPlatform";
+	private static final String TESTENGINE = "-testEngine";
 
 	private static int shutdownListenerPort;
 	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms128m", "-Xmx256m",
@@ -83,7 +91,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		if (skipTests) {
+		if (skipTests()) {
 			getLog().info("Tests are skipped");
 			return;
 		}
@@ -96,7 +104,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		JavaExec java = JavaExec.getDefault();
 		Commandline cmd = new Commandline();
 		cmd.setExecutable(java.getFile().getAbsolutePath());
-		cmd.setWorkingDirectory(getResolvedQ7Dir());
+		cmd.setWorkingDirectory(getResolvedQ7Dir(getQ7Coords().getPlatform()));
 
 		// Q7 VM Args
 
@@ -121,8 +129,11 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		// Workspace
 		cmd.createArg().setValue("-application");
 		ComparableVersion version = RunnerVersionDispatcher.parseVersion(getQ7Coords().getVersion());
-		String applicationId = RunnerVersionDispatcher.getApplicationId(version);
+		String applicationId = RunnerVersionDispatcher.getApplicationId(version, getQ7Coords().getPlatform());
 		cmd.createArg().setValue(applicationId);
+
+		cmd.createArg().setValue(RUNNER_PLATFORM);
+		cmd.createArg().setValue(getQ7Coords().getPlatform());
 
 		cmd.createArg().setValue(WORKSPACE);
 		cmd.createArg().setFile(getQ7WsDir());
@@ -158,6 +169,10 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		if (aut.getVm() != null) {
 			cmd.createArg().setValue(AUT_VM);
 			cmd.createArg().setValue(aut.getVm());
+		}
+
+		if (getQ7Coords().getPlatform().toLowerCase().equals("rap")) {
+			setRapParams(cmd, aut.getRap());
 		}
 
 		// Memory usage
@@ -209,6 +224,14 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		cmd.createArg().setValue(EXECUTION_TIMEOUT);
 		cmd.createArg().setValue(TestOptions.get(getTestOptions(), TestOptions.EXEC_TIMEOUT));
 
+		// test engines
+		if( getTestEngines() != null ) { 
+			for (TestEngine engine : getTestEngines() ) {
+				cmd.createArg().setValue(TESTENGINE);
+				cmd.createArg().setValue(engine.toString());
+			}
+		}	
+
 		int shift = (int) (new Random().nextLong() % 1000);
 		shutdownListenerPort = NetUtils.findFreePort(9000 + shift, 9999 + shift);
 		if (shutdownListenerPort != -1) {
@@ -223,6 +246,10 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		if (suites != null && suites.length > 0) {
 			cmd.createArg().setValue(SUITES);
 			cmd.createArg().setValue(StringUtils.join(suites, ";"));
+		}
+		if (tests != null && tests.length > 0) {
+			cmd.createArg().setValue(TESTS);
+			cmd.createArg().setValue(StringUtils.join(tests, ";"));
 		}
 		// whoo, almost ready to launch
 		getLog().info(format("Runner command line is %s", cmd.toString()));
@@ -249,12 +276,17 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 						throw new MojoFailureException("There are test failures");
 					}
 				} else {
-					throw new MojoFailureException(format("Runner exit code is: %d", exitCode));
+					throw new MojoExecutionException(
+							format("Failed to launch RCPTT runner. Runner exit code is: %d", exitCode));
 				}
 			}
 			Runtime.getRuntime().removeShutdownHook(ShutdownHook);
 			outConsumer.done();
 			errConsumer.done();
+		} catch (MojoExecutionException e) {
+			throw e;
+		} catch (MojoFailureException e) {
+			throw e;
 		} catch (/* CommandLine */Exception e) {
 			throw new MojoExecutionException("Failed to launch RCPTT runner", e);
 		}
@@ -293,7 +325,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	/**
 	 * Validate that all necessary information is present and no one has
 	 * corrupted the results of {@link PrepareMojo} by customizing lifecycle
-	 * 
+	 *
 	 * @throws MojoFailureException
 	 */
 	private void validatePreparation() throws MojoFailureException {
@@ -301,7 +333,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		ok &= getProjectsDir().exists();
 		ok &= getThisProjectDir().exists();
 		ok &= getAutDir().exists();
-		ok &= getQ7Dir().exists();
+		ok &= getQ7Dir(getQ7Coords().getPlatform()).exists();
 		if (!ok) {
 			throw new MojoFailureException(
 					"Cannot execute RCPTT tests. Something is corrupted during prepare goal. Is lifecycle have been modified?");
@@ -370,6 +402,27 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		if (aut.isIgnoreOtherInjections()) {
 			cmd.createArg().setValue(IGNORE_OTHER_INJECTIONS);
 			cmd.createArg().setValue(Boolean.toString(aut.isIgnoreOtherInjections()));
+		}
+	}
+
+	private void setRapParams(Commandline cmd, Rap rap) {
+		if (rap == null) {
+			return;
+		}
+
+		if (rap.getPort() != -1) {
+			cmd.createArg().setValue(RAP_PORT);
+			cmd.createArg().setValue(Integer.toString(rap.getPort()));
+		}
+
+		if (rap.getServletPath() != null && rap.getServletPath().length() != 0) {
+			cmd.createArg().setValue(RAP_SERVLET_PATH);
+			cmd.createArg().setValue(rap.getServletPath());
+		}
+
+		if (rap.getBrowserCmd() != null && rap.getBrowserCmd().length() != 0) {
+			cmd.createArg().setValue(RAP_BROWSER_COMMAND);
+			cmd.createArg().setValue(rap.getBrowserCmd());
 		}
 	}
 

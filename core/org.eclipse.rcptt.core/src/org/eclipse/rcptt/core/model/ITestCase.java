@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.model;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
 
 public interface ITestCase extends IQ7NamedElement {
@@ -22,6 +24,8 @@ public interface ITestCase extends IQ7NamedElement {
 	EObject getTesla() throws ModelException;
 
 	String getExternalReference() throws ModelException;
+
+	Map<String,String> getProperties() throws ModelException;
 
 	String getType() throws ModelException;
 

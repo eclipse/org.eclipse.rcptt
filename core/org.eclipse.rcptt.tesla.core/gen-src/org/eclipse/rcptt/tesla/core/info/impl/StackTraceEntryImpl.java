@@ -27,13 +27,13 @@ import org.eclipse.rcptt.tesla.core.info.StackTraceEntry;
  * <em><b>Stack Trace Entry</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.StackTraceEntryImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.StackTraceEntryImpl#getStackTrace <em>Stack Trace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.StackTraceEntryImpl#getThreadName <em>Thread Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.StackTraceEntryImpl#getThreadClass <em>Thread Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

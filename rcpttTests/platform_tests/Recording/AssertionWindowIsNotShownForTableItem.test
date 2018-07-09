@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _rJk8kMh1EeS7pauvSu6jpw
-Runtime-Version: 1.5.4.201412181238
-Save-Time: 3/12/15 12:31 PM
+Runtime-Version: 2.3.0.201805111148
+Save-Time: 5/12/18 12:01 AM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -35,14 +35,13 @@ with [get-window "Control Panel - selfQ7 .*"] {
 get-aut "selfQ7" | eval {
 	get-menu "Help/Install New Software..." | click
 	with [get-window Install] {
-	     get-link "Find more software by working with the <a>\"Available Software Sites\"</a> preferences." 
-    | click-link
+	     get-button "Manage..." | click
 	    with [get-window Preferences] {
 	        get-button "Add..." | click
 	        with [get-window "Add Site"] {
 	            get-editbox -after [get-label "Name:"] | set-text 1
 	            get-editbox -after [get-label "Location:"] | set-text "http://2"
-	            get-button OK | click
+	            get-button Add | click
 	        }
 	    }
 	}

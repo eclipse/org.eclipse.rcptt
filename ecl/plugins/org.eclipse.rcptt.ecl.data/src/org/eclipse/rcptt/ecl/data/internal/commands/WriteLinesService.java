@@ -28,11 +28,11 @@ import org.eclipse.rcptt.ecl.runtime.BoxedValues;
 import org.eclipse.rcptt.ecl.runtime.CoreUtils;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 
 public class WriteLinesService implements ICommandService {
 
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		if (!(command instanceof WriteLines)) {
 			return Status.CANCEL_STATUS;
 		}
@@ -41,16 +41,19 @@ public class WriteLinesService implements ICommandService {
 		EclFile out = FileResolver.resolve(cmd.getUri());
 		PrintStream ps = null;
 		try {
-			Writer fileWriter = Util.getWriter(out, cmd.isAppend());
+			Writer fileWriter = Util.getWriter(out, cmd.isAppend(), cmd.getEncode());
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			for (Object obj : CoreUtils.readPipeContent(context.getInput())) {
+				if (obj instanceof Wrapper) {
+					obj = ((Wrapper) obj).getObject();
+				}
+
 				writer.write("" + BoxedValues.unbox(obj));
 				writer.newLine();
 			}
 			writer.close();
 		} catch (IOException e) {
-			throw new CoreException(EclDataPlugin.createErr(e,
-					"Cannot write to %s", out.toURI()));
+			throw new CoreException(EclDataPlugin.createErr(e, "Cannot write to %s", out.toURI()));
 		} finally {
 			if (ps != null) {
 				ps.close();

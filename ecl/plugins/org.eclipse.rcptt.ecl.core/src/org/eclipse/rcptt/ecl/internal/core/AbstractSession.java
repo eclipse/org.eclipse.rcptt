@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,9 @@ package org.eclipse.rcptt.ecl.internal.core;
 import static org.eclipse.rcptt.ecl.internal.core.CorePlugin.err;
 import static org.eclipse.rcptt.ecl.internal.core.CorePlugin.log;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -31,10 +33,10 @@ import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
 
 public abstract class AbstractSession implements ISession {
+	private Map<String, Object> properties = null;
 
-	protected abstract void doExecute(final Command scriptlet,
-			final ICommandService svc, final List<Object> inputContent,
-			final Process process);
+	protected abstract void doExecute(final Command scriptlet, final ICommandService svc,
+			final List<Object> inputContent, final Process process);
 
 	protected abstract CommandStack getStack();
 
@@ -44,15 +46,12 @@ public abstract class AbstractSession implements ISession {
 		return execute(command, null, null);
 	}
 
-	//public IProcess execute(final Command scriptlet, IPipe in, IPipe out)
-	//		throws CoreException 
-	public IProcess execute(Command scriptlet, IPipe in, IPipe out)
-					throws CoreException {
+	// public IProcess execute(final Command scriptlet, IPipe in, IPipe out)
+	// throws CoreException
+	public IProcess execute(Command scriptlet, IPipe in, IPipe out) throws CoreException {
 		final ICommandService svc = scriptlet instanceof ProcInstance ? new ProcInstanceService()
-				: CorePlugin.getScriptletManager().getScriptletService(
-						scriptlet);
-		final IPipe tinput = in == null ? createPipe().close(Status.OK_STATUS)
-				: in;
+				: CorePlugin.getScriptletManager().getScriptletService(scriptlet);
+		final IPipe tinput = in == null ? createPipe().close(Status.OK_STATUS) : in;
 		final IPipe output = out == null ? createPipe() : out;
 		final List<Object> inputContent = CoreUtils.readPipeContent(tinput);
 		final IPipe input = createPipe();
@@ -60,22 +59,20 @@ public abstract class AbstractSession implements ISession {
 			input.write(o);
 		input.close(Status.OK_STATUS);
 
-		CommandSession session = new CommandSession(getRoot(),
-				new CommandStack(scriptlet, getStack()));
+		CommandSession session = new CommandSession(getRoot(), new CommandStack(scriptlet, getStack()), this);
+
 		final Process process = new Process(session, input, output);
 		doExecute(scriptlet, svc, inputContent, process);
 		return process;
-	}	
-	
-	//protected void internalDoExecute(final Command scriptlet,
-	//		final ICommandService svc, final List<Object> inputContent,
-	//		final Process process)
-	protected void internalDoExecute(Command scriptlet,
-			final ICommandService svc, final List<Object> inputContent,
-			final Process process){
+	}
+
+	// protected void internalDoExecute(final Command scriptlet,
+	// final ICommandService svc, final List<Object> inputContent,
+	// final Process process)
+	protected void internalDoExecute(Command scriptlet, final ICommandService svc, final List<Object> inputContent,
+			final Process process) {
 		IStatus s = null;
-		CommandStack stack = ((AbstractSession) process.getSession())
-				.getStack();
+		CommandStack stack = ((AbstractSession) process.getSession()).getStack();
 		try {
 			resolveBindings(scriptlet, inputContent);
 			setupInputFeature(scriptlet, inputContent);
@@ -111,19 +108,14 @@ public abstract class AbstractSession implements ISession {
 		}
 	}
 
-
-	protected void setupInputFeature(Command scriptlet,
-			List<Object> inputContent) throws CoreException {
+	protected void setupInputFeature(Command scriptlet, List<Object> inputContent) throws CoreException {
 		EStructuralFeature inputFeature = null;
-		for (EStructuralFeature feature : CoreUtils.getFeatures(scriptlet
-				.eClass())) {
-			if (feature.getEAnnotation(CoreUtils.INPUT_ANN) != null
-					&& !scriptlet.eIsSet(feature)) {
+		for (EStructuralFeature feature : CoreUtils.getFeatures(scriptlet.eClass())) {
+			if (feature.getEAnnotation(CoreUtils.INPUT_ANN) != null && !scriptlet.eIsSet(feature)) {
 				if (inputFeature == null) {
 					inputFeature = feature;
 				} else {
-					IStatus status = new Status(IStatus.ERROR,
-							CorePlugin.PLUGIN_ID,
+					IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
 							"Command has more than one input param");
 					throw new CoreException(status);
 				}
@@ -148,20 +140,38 @@ public abstract class AbstractSession implements ISession {
 			IStatus status = process.waitFor();
 			if (!status.isOK())
 				throw new CoreException(status);
-			CoreUtils.featureSafeSet(scriptlet, feature,
-					CoreUtils.readPipeContent(out));
+			CoreUtils.featureSafeSet(scriptlet, feature, CoreUtils.readPipeContent(out));
 		}
 	}
 
 	protected void checkParams(Command scriptlet) throws CoreException {
-		for (EStructuralFeature feature : scriptlet.eClass()
-				.getEStructuralFeatures()) {
+		for (EStructuralFeature feature : scriptlet.eClass().getEStructuralFeatures()) {
 			CoreUtils.checkBounds(feature, scriptlet.eGet(feature));
 		}
 	}
 
 	public IPipe createPipe() {
 		return new Pipe();
+	}
+
+	public synchronized void putProperty(String key, Object value) {
+		if (value == null) {
+			if (properties != null) {
+				properties.remove(key);
+			}
+		} else {
+			if (properties == null) {
+				properties = new HashMap<String, Object>();
+			}
+			properties.put(key, value);
+		}
+	}
+
+	public synchronized Object getProperty(String key) {
+		if (properties != null) {
+			return properties.get(key);
+		}
+		return null;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -212,13 +212,22 @@ public interface LogPackage extends EPackage {
 	int ERROR_LOG_VERIFICATION__REQUIRED = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Include Contexts</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Error Log Verification</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ERROR_LOG_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 3;
+	int ERROR_LOG_VERIFICATION_FEATURE_COUNT = ScenarioPackage.VERIFICATION_FEATURE_COUNT + 4;
 
 
 	/**
@@ -319,6 +328,17 @@ public interface LogPackage extends EPackage {
 	EReference getErrorLogVerification_Required();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.verifications.log.ErrorLogVerification#isIncludeContexts <em>Include Contexts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Include Contexts</em>'.
+	 * @see org.eclipse.rcptt.verifications.log.ErrorLogVerification#isIncludeContexts()
+	 * @see #getErrorLogVerification()
+	 * @generated
+	 */
+	EAttribute getErrorLogVerification_IncludeContexts();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -415,6 +435,14 @@ public interface LogPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ERROR_LOG_VERIFICATION__REQUIRED = eINSTANCE.getErrorLogVerification_Required();
+
+		/**
+		 * The meta object literal for the '<em><b>Include Contexts</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ERROR_LOG_VERIFICATION__INCLUDE_CONTEXTS = eINSTANCE.getErrorLogVerification_IncludeContexts();
 
 	}
 

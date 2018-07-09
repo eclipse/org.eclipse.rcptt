@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.log.persistence;
 
-import static org.eclipse.rcptt.util.StringUtils.nullToEmpty;
 import static java.lang.String.format;
+import static org.eclipse.rcptt.util.StringUtils.nullToEmpty;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.persistence.plain.IPlainTextPersistenceExtension;
 import org.eclipse.rcptt.core.persistence.plain.PlainTextPersistenceModel;
@@ -39,6 +38,7 @@ public class ErrorLogVerificationPlainExtension implements
 		IPlainTextPersistenceExtension {
 
 	private static final String ERROR_LOG_VERIFICATION_FILE = ".errorlog.verification";
+	private static final String INCLUDE_CONTEXTS = "INCLUDE CONTEXTS: ";
 	
 	public ErrorLogVerificationPlainExtension() {
 	}
@@ -95,6 +95,7 @@ public class ErrorLogVerificationPlainExtension implements
 				OutputStreamWriter writer = new OutputStreamWriter(store,
 						IPlainConstants.ENCODING);
 				try {
+					writer.write(INCLUDE_CONTEXTS + elv.isIncludeContexts() + "\n");
 					if (!elv.getRequired().isEmpty()) {
 						writer.write("REQUIRED:\n");
 						savePredicates(elv.getRequired(), writer);
@@ -138,6 +139,8 @@ public class ErrorLogVerificationPlainExtension implements
 						String line = reader.readLine();
 						if (line == null)
 							return;
+						else if (line.startsWith(INCLUDE_CONTEXTS))
+							elv.setIncludeContexts(Boolean.parseBoolean(line.substring(INCLUDE_CONTEXTS.length())));
 						else if (line.contentEquals("REQUIRED:"))
 							predicates = elv.getRequired();
 						else if (line.contentEquals("ALLOWED:"))
@@ -159,6 +162,7 @@ public class ErrorLogVerificationPlainExtension implements
 		}
 	}
 
+	@Override
 	public void performObjectPreSaveUpdate(EObject eObject) {
 		if (eObject instanceof ErrorLogVerification) {
 			ErrorLogVerification elv = (ErrorLogVerification) eObject;
@@ -168,6 +172,7 @@ public class ErrorLogVerificationPlainExtension implements
 		}
 	}
 
+	@Override
 	public String getTextContentType(String fName) {
 		if (ERROR_LOG_VERIFICATION_FILE.equals(fName)) {
 			return "text/errorlog-verification";

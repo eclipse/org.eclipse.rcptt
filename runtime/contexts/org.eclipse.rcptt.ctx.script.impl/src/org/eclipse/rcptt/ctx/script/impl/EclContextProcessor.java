@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,43 +16,42 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.core.IContextProcessor;
+import org.eclipse.rcptt.core.IEclAwareProcessor;
 import org.eclipse.rcptt.core.ecl.context.EclContext;
 import org.eclipse.rcptt.core.ecl.internal.context.EclContextPlugin;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.ecl.parser.ScriptErrorStatus;
-import org.eclipse.rcptt.ecl.runtime.EclRuntime;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.ecl.runtime.ISession;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 
-public class EclContextProcessor implements IContextProcessor {
+public class EclContextProcessor implements IContextProcessor, IEclAwareProcessor {
 
 	private boolean applied = false;
 
+	@Override
 	public Context create(EObject param) throws CoreException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void apply(Context context) throws CoreException {
+	@Override
+	public void apply(Context context, final ISession session) throws CoreException {
 		final EclContext eclContext = (EclContext) context;
 		final Exception[] resultE = new Exception[] { null };
 		final Boolean[] finished = new Boolean[] { false };
 		Runnable r = new Runnable() {
+			@Override
 			public void run() {
-				ISession session = EclRuntime.createSession();
 				try {
-					IProcess process = session.execute(TeslaFactory.eINSTANCE
-							.createSetupPlayer());
-					process.waitFor();
+					session.execute(TeslaFactory.eINSTANCE.createSetupPlayer()).waitFor();
 					// eclipse 3.4 compatibility:
 					// EcoreUtil.copy raise exception if argument is null
 					Script eclScript = (eclContext.getScript() != null) ? (Script) EcoreUtil
 							.copy(eclContext.getScript()) : null;
-					process = session.execute(eclScript);
-					IStatus status = process.waitFor();
+					IStatus status = session.execute(eclScript).waitFor();
 					if (!status.isOK() && status instanceof ScriptErrorStatus) {
 						ScriptErrorStatus st = (ScriptErrorStatus) status;
 						String msg = st.getCause().getMessage()
@@ -83,13 +82,6 @@ public class EclContextProcessor implements IContextProcessor {
 								IStatus.ERROR, EclContextPlugin.PLUGIN_ID,
 								"Failed to launch ECL context", e));
 					}
-					if (session != null) {
-						try {
-							session.close();
-						} catch (Exception e) {
-							resultE[0] = e;
-						}
-					}
 				}
 			}
 		};
@@ -107,7 +99,7 @@ public class EclContextProcessor implements IContextProcessor {
 		}
 		if (resultE[0] != null) {
 			if (!(resultE[0] instanceof CoreException)) {
-				throw new CoreException(new Status(Status.ERROR,
+				throw new CoreException(new Status(IStatus.ERROR,
 						Activator.PLUGIN_ID, resultE[0].getMessage(),
 						resultE[0]));
 			} else {
@@ -117,6 +109,13 @@ public class EclContextProcessor implements IContextProcessor {
 		applied = true;
 	}
 
+	@Override
+	public void apply(Context context) throws CoreException {
+		throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+				"EclContextProcessor is ECL-aware and must be passed a session object", null));
+	}
+
+	@Override
 	public boolean isApplied(Context context) {
 		return applied;
 	}

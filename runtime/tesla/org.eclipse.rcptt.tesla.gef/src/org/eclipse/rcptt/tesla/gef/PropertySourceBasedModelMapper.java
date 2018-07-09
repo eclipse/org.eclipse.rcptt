@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,15 +10,17 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.gef;
 
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.internal.views.ViewsPlugin;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.IPropertySourceProvider;
-
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.rcptt.tesla.core.ui.DiagramItem;
 import org.eclipse.rcptt.tesla.core.ui.PropertyNodeList;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.swt.properties.PropertySourceSupport;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 @SuppressWarnings("restriction")
 public class PropertySourceBasedModelMapper {
@@ -83,7 +85,41 @@ public class PropertySourceBasedModelMapper {
 		if (selection instanceof IPropertySourceProvider)
 			return ((IPropertySourceProvider) selection)
 					.getPropertySource(selection);
-		return (IPropertySource) ViewsPlugin.getAdapter(selection,
+		return (IPropertySource) getAdapter(selection,
 				IPropertySource.class, false);
 	}
+	public static Object getAdapter(Object sourceObject, Class<?> adapter, boolean activatePlugins) {
+    	Assert.isNotNull(adapter);
+        if (sourceObject == null) {
+            return null;
+        }
+        if (adapter.isInstance(sourceObject)) {
+			return adapter.cast(sourceObject);
+        }
+
+        if (sourceObject instanceof IAdaptable) {
+            IAdaptable adaptable = (IAdaptable) sourceObject;
+
+			Object result = adaptable.getAdapter(adapter);
+            if (result != null) {
+                // Sanity-check
+                Assert.isTrue(adapter.isInstance(result));
+                return result;
+            }
+        }
+
+        if (!(sourceObject instanceof PlatformObject)) {
+        	Object result;
+        	if (activatePlugins) {
+				result = adapter.cast(Platform.getAdapterManager().loadAdapter(sourceObject, adapter.getName()));
+        	} else {
+        		result = Platform.getAdapterManager().getAdapter(sourceObject, adapter);
+        	}
+            if (result != null) {
+                return result;
+            }
+        }
+
+        return null;
+    }
 }

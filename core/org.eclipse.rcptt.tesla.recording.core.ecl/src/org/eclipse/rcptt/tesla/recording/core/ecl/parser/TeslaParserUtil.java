@@ -24,13 +24,12 @@ import org.eclipse.rcptt.ecl.core.LiteralParameter;
 import org.eclipse.rcptt.ecl.core.Parameter;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.util.EclCommandNameConvention;
-
-import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 import org.eclipse.rcptt.tesla.ecl.TeslaScriptletFactory;
 import org.eclipse.rcptt.tesla.ecl.model.GetItem;
 import org.eclipse.rcptt.tesla.ecl.model.Select;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
+import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 
 public class TeslaParserUtil {
 
@@ -199,7 +198,7 @@ public class TeslaParserUtil {
 		return TeslaScriptletFactory.makePipe((List<Command>) items);
 	}
 
-	public static Command makeMenu(List<String> path) {
+	public static Command makeMenu(List<String> path, Integer index) {
 		if (path.size() == 0)
 			throw new IllegalArgumentException("Empty path");
 		List<Command> items = new ArrayList<Command>();
@@ -223,7 +222,7 @@ public class TeslaParserUtil {
 			}
 		}
 		if (item.length() > 0) {
-			items.add(TeslaScriptletFactory.makeMenu(item.toString(), null));
+			items.add(TeslaScriptletFactory.makeMenu(item.toString(), index));
 		}
 		if (items.size() == 1) {
 			return items.get(0);

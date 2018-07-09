@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Control#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Control#isEnablement <em>Enablement</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Control#getBorderWith <em>Border With</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Control#getDecorators <em>Decorators</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getControl()
  * @model

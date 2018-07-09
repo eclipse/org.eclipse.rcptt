@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,11 +56,14 @@ import com.google.common.collect.Iterables;
 
 public class ReportUtils {
 
-	private static final Function<? super VerificationStatusData, String> datumToMessage = new Function<VerificationStatusData, String>() {
+	public static final Function<EObject, String> DEFAULT_DATUM_TO_MESSAGE = new Function<EObject, String>() {
 
 		@Override
-		public String apply(VerificationStatusData input) {
-			return input.getMessage();
+		public String apply(EObject input) {
+			if (input instanceof VerificationStatusData) {
+				return ((VerificationStatusData) input).getMessage();
+			}
+			return "";
 		}
 
 	};
@@ -70,8 +73,7 @@ public class ReportUtils {
 	}
 
 	public static Q7Statistics calculateStatistics(Iterator<Report> iterator) {
-		Q7Statistics statistics = ReportingFactory.eINSTANCE
-				.createQ7Statistics();
+		Q7Statistics statistics = ReportingFactory.eINSTANCE.createQ7Statistics();
 
 		long startTime = Long.MAX_VALUE;
 		long endTime = Long.MIN_VALUE;
@@ -93,8 +95,7 @@ public class ReportUtils {
 			}
 
 			total += 1;
-			Q7Info q7info = (Q7Info) localRoot.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info q7info = (Q7Info) localRoot.getProperties().get(IQ7ReportConstants.ROOT);
 			SimpleSeverity severity = SimpleSeverity.create(q7info);
 			switch (severity) {
 			case CANCEL:
@@ -109,7 +110,7 @@ public class ReportUtils {
 			}
 			startTime = Math.min(startTime, localRoot.getStartTime());
 			endTime = Math.max(endTime, localRoot.getEndTime());
-			totalTime += (localRoot.getEndTime() - localRoot.getStartTime());
+			totalTime += (localRoot.getDuration());
 		}
 
 		statistics.setTime((int) totalTime);
@@ -127,8 +128,7 @@ public class ReportUtils {
 	 * @param session
 	 * @return
 	 */
-	public static Report combineReports(Iterable<Report> reports, int len,
-			IProgressMonitor monitor) {
+	public static Report combineReports(Iterable<Report> reports, int len, IProgressMonitor monitor) {
 
 		monitor.beginTask("Combine Q7 testcase reports", len * 10);
 		Report report = ReportFactory.eINSTANCE.createReport();
@@ -169,8 +169,7 @@ public class ReportUtils {
 		return report;
 	}
 
-	private static boolean compareSources(EventSource source,
-			EventSource rootSource) {
+	private static boolean compareSources(EventSource source, EventSource rootSource) {
 		if (source == null || rootSource == null) {
 			return false;
 		}
@@ -191,8 +190,7 @@ public class ReportUtils {
 		return true;
 	}
 
-	private static void updateSource(Report copy, EventSource source,
-			EventSource rootSource) {
+	private static void updateSource(Report copy, EventSource source, EventSource rootSource) {
 		TreeIterator<EObject> contents = copy.eAllContents();
 		List<Event> eventsToUpdate = new ArrayList<Event>();
 		while (contents.hasNext()) {
@@ -214,8 +212,7 @@ public class ReportUtils {
 	public static String getScenarioTags(Node item) {
 		EList<Node> children = item.getChildren();
 		for (Node node : children) {
-			Q7Info info = (Q7Info) node.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info info = (Q7Info) node.getProperties().get(IQ7ReportConstants.ROOT);
 			if (info != null && info.getType() == ItemKind.SCRIPT) {
 				return info.getTags();
 			}
@@ -226,8 +223,7 @@ public class ReportUtils {
 	public static String getScenarioDescription(Node item) {
 		EList<Node> children = item.getChildren();
 		for (Node node : children) {
-			Q7Info info = (Q7Info) node.getProperties().get(
-					IQ7ReportConstants.ROOT);
+			Q7Info info = (Q7Info) node.getProperties().get(IQ7ReportConstants.ROOT);
 			if (info != null && info.getType() == ItemKind.SCRIPT) {
 				return info.getDescription();
 			}
@@ -237,7 +233,7 @@ public class ReportUtils {
 
 	/**
 	 * Is it a 'trace' or 'take-screenshot' command?
-	 * */
+	 */
 	public static boolean isLoggedCommand(String name) {
 		return isTraceCommand(name) || isScreenshotCommand(name);
 	}
@@ -258,8 +254,7 @@ public class ReportUtils {
 		if (text == null) {
 			return null;
 		}
-		return text.replace("\"", "&quot;").replace("<", "&lt;")
-				.replace(">", "&gt;");
+		return text.replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 
 	public static List<Screenshot> findScreenshots(Node node) {
@@ -285,27 +280,50 @@ public class ReportUtils {
 		if (current == null) {
 			return "Non Q7 report node";
 		}
-		return getFailMessage(current.getResult());
+		return getFailMessage(current.getResult(), true, DEFAULT_DATUM_TO_MESSAGE);
 	}
 
-	private static String getFailMessage(ProcessStatus result) {
-		ProcessStatus firstFail = getFirstFail(result.getChildren());
-		String resultMessage = getDirectFailMessage(result);
+	public static String getFailMessage(Node item, Function<EObject, String> datumToMessage) {
+		Q7Info current = (Q7Info) item.getProperties().get(IQ7ReportConstants.ROOT);
+		if (current == null) {
+			return "Non Q7 report node";
+		}
+		return getFailMessage(current.getResult(), true, datumToMessage);
+	}
+
+	private static String getFailMessage(ProcessStatus result, boolean addExtra,
+			Function<EObject, String> datumToMessage) {
+		StringBuilder extraFailures = new StringBuilder();
+		ProcessStatus firstFail = getFirstFail(result.getChildren(), extraFailures, datumToMessage);
+		String resultMessage = getDirectFailMessage(result, datumToMessage);
+		
 		if (firstFail != null) {
-			String childrenMessage = getFailMessage(firstFail);
+			String childrenMessage = getFailMessage(firstFail, false, datumToMessage);
 			if (!resultMessage.equals(childrenMessage)) {
-				return getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
+				String basePart = getLineMessage(firstFail) + resultMessage + ": " + childrenMessage;
+				if (addExtra) {
+					String extraMsg = extraFailures.toString().replace(childrenMessage, "").replace("\n", " " );
+					return basePart + " " + extraMsg;
+				} else {
+					return basePart;
+				}
 			}
 		}
-		return resultMessage;
+		if (addExtra) {
+			String extraMsg = extraFailures.toString().replace(resultMessage, "").replace("\n", " " );;
+			return resultMessage + " " + extraMsg;
+		} else {
+			return resultMessage;
+		}
 	}
 
-	private static String getDirectFailMessage(ProcessStatus result) {
+	public static String getDirectFailMessage(ProcessStatus result,
+			Function<EObject, String> datumToMessage) {
 		StringBuilder sb = new StringBuilder(result.getMessage());
 		if (result instanceof EVerificationStatus) {
 			EVerificationStatus vs = (EVerificationStatus) result;
-			sb.append(" ");
-			sb.append(Joiner.on(", ").join(Iterables.transform(vs.getData(), datumToMessage)));
+			sb.append("\n");
+			sb.append(Joiner.on("\n").join(Iterables.transform(vs.getData(), datumToMessage)));
 		}
 		return sb.toString();
 	}
@@ -317,14 +335,21 @@ public class ReportUtils {
 		return "";
 	}
 
-	private static ProcessStatus getFirstFail(List<ProcessStatus> children) {
+	private static ProcessStatus getFirstFail(List<ProcessStatus> children, StringBuilder extraFailures,
+			Function<EObject, String> datumToMessage) {
+		ProcessStatus result = null;
 		for (ProcessStatus processStatus : children) {
 			if (processStatus.getSeverity() != IStatus.OK) {
-				ProcessStatus grandChild = getFirstFail(processStatus.getChildren());
-				return grandChild != null ? grandChild : processStatus;
+				ProcessStatus grandChild = getFirstFail(processStatus.getChildren(), extraFailures, datumToMessage);
+				if (result == null) {
+					result = grandChild != null ? grandChild : processStatus;
+				}
+				if (result != grandChild) {
+					extraFailures.append(getFailMessage(processStatus, false, datumToMessage)).append(" ");
+				}
 			}
 		}
-		return null;
+		return result;
 	}
 
 	public static String replaceHtmlEntities(String string) {
@@ -343,6 +368,10 @@ public class ReportUtils {
 		return string;
 	}
 
+	public static String getHtmlPreformatted(String message) {
+		return String.format("<pre>%s</pre>", message);
+	}
+
 	public static String getDetails(Node item) {
 		// Collect and print all snapshots
 		StringBuilder builder = new StringBuilder();
@@ -357,10 +386,23 @@ public class ReportUtils {
 	 * @return
 	 */
 	private static String maskIllegalChars(String str) {
+		StringBuilder sb = new StringBuilder();
 		if (str == null || str.length() == 0) {
 			return str;
 		}
-		return str.replace("\0", "\\0").replace("]]>", "]] >");
+		for (char c : str.toCharArray()) {
+			boolean isControl = c == '\t' || c == ' ' || c == '\r' || c == '\n' || c == '.' || c == ';' || c == ':'
+					|| c == '-' || c == '+' || c == '=' || c == '#' || c == '$' || c == '%' || c == '^' || c == '*'
+					|| c == '(' || c == ')' || c == '{' || c == '}' || c == '\"' || c == '\'' || c == '|' || c == '\\'
+					|| c == '/' || c == '<' || c == '>' || c == '!' || c == '@' || c == ',' || c == '_' || c == '['
+					|| c == ']';
+			if (!(Character.isLetterOrDigit(c) || isControl || Character.isAlphabetic(c))) {
+				sb.append("(0x").append(Integer.toHexString(c)).append(")");
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString().replace("\0", "\\0").replace("]]>", "]] >");
 	}
 
 	public static String combineNames(EList<String> list, String separator) {
@@ -428,7 +470,7 @@ public class ReportUtils {
 	}
 
 	public static final String getTime(Node nde) {
-		return formatTime(nde.getEndTime() - nde.getStartTime());
+		return formatTime(nde.getDuration());
 	}
 
 }

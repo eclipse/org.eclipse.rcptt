@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,10 @@
 package org.eclipse.rcptt.tesla.internal.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -49,6 +52,8 @@ public class TeslaProcessorManager {
 				e.printStackTrace();
 			}
 		}
+		
+		Collections.sort(processors, new ProcessorComparator());
 	}
 
 	public void collectInformation(AdvancedInformation collector, Command command) {
@@ -56,7 +61,7 @@ public class TeslaProcessorManager {
 			processor.collectInformation(collector, command);
 		}
 	}
-	
+
 	public void initializeProcessors(AbstractTeslaClient client, String clientId) {
 		for (ITeslaCommandProcessor processor : processors) {
 			processor.initialize(client, clientId);
@@ -95,7 +100,8 @@ public class TeslaProcessorManager {
 		return null;
 	}
 
-	public Response executeCommand(Command command, IElementProcessorMapper abstractTeslaClient, boolean returnOnFirstResult) {
+	public Response executeCommand(Command command, IElementProcessorMapper abstractTeslaClient,
+			boolean returnOnFirstResult) {
 		for (ITeslaCommandProcessor processor : processors) {
 			if (!processor.isCommandSupported(command))
 				continue;
@@ -156,5 +162,14 @@ public class TeslaProcessorManager {
 		for (ITeslaCommandProcessor processor : processors) {
 			processor.notifyUI();
 		}
+	}
+
+	private static class ProcessorComparator implements Comparator<ITeslaCommandProcessor> {
+
+		@Override
+		public int compare(ITeslaCommandProcessor first, ITeslaCommandProcessor second) {
+			return Integer.compare(first.getPriority(), second.getPriority());
+		}
+
 	}
 }

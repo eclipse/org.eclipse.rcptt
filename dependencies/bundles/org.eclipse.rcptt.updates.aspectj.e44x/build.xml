@@ -1,0 +1,67 @@
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+<project>
+  <macrodef name="unsignjar">
+    
+    <attribute name="jar"/>
+    
+    <sequential>
+      <!-- Remove any existing signatures from a JAR file. -->
+      <tempfile prefix="usignjar-" destdir="${java.io.tmpdir}" property="temp.file"/>
+      <echo message="Removing signatures from JAR: @{jar}"/>
+      <mkdir dir="${temp.file}"/>
+      
+      <unjar src="@{jar}" dest="${temp.file}">
+	<patternset>
+          <include name="**"/>
+          <exclude name="META-INF/*.SF"/>
+          <exclude name="META-INF/*.DSA"/>
+          <exclude name="META-INF/*.RSA"/>
+	</patternset>
+      </unjar>
+      
+      <delete file="@{jar}" failonerror="true"/>
+      
+      <replaceregexp file="${temp.file}/META-INF/MANIFEST.MF"
+		     match="\nName:.*?c\s*l\s*a\s*s\s*s\s*\n"
+		     flags="gs"
+		     replace=""/>
+      <replaceregexp file="${temp.file}/META-INF/MANIFEST.MF"
+		     match="SHA-256-Digest: .*?="
+		     flags="gs"
+		     replace=""/>
+
+
+
+      <jar destfile="@{jar}" 
+	   basedir="${temp.file}" 
+	   includes="**" 
+	   manifest="${temp.file}/META-INF/MANIFEST.MF"/>
+      
+      <delete dir="${temp.file}" failonerror="true"/>
+    </sequential>
+  </macrodef>
+  
+  <target name="main">
+
+    <ac:for param="file" xmlns:ac="antlib:net.sf.antcontrib">
+      <path>
+	<fileset dir="dependencies/plugins" includes="**/*.jar"/>
+      </path>
+      <sequential>
+	<unsignjar jar="@{file}"/>
+      </sequential>
+    </ac:for>
+
+    <delete file="dependencies/content.jar"/>
+    <delete file="dependencies/artifacts.jar"/>
+  </target>
+</project>

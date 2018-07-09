@@ -23,8 +23,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.Pipeline;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
-
-import org.eclipse.rcptt.util.Base64;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.core.protocol.IMLSelectData;
 import org.eclipse.rcptt.tesla.core.protocol.IWindowProvider;
@@ -45,6 +43,7 @@ import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.recording.core.ecl.ISelectorParserExtension;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaRecordingPlugin;
 import org.eclipse.rcptt.tesla.recording.core.ecl.parser.TeslaParserUtil;
+import org.eclipse.rcptt.util.Base64;
 
 public class TeslaSelectorParser extends TeslaScriptletFactory {
 
@@ -133,7 +132,7 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 			}
 		}
 		if (kind == ElementKind.Menu) {
-			Command selector = TeslaParserUtil.makeMenu(data.getPath());
+			Command selector = TeslaParserUtil.makeMenu(data.getPath(), data.getIndex());
 			// index and after are not recorded for menus, so skip them
 			Command parent = selectorOf(data.getParent());
 			if (parent != null) {
@@ -239,6 +238,9 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 				} else if ("editpart.feature".equals(first)) {
 					return makeEditPartByFeature(second, text);
 				} else if ("editpart".equals(first)
+						&& "customId".equals(second)) {
+					return makeEditPartByCustomId(text);
+				} else if ("editpart".equals(first)
 						&& "classname".equals(second)) {
 					return makeEditPartByClassName(text);
 				} else if ("handle".equals(first) && "class".equals(second)) {
@@ -308,7 +310,7 @@ public class TeslaSelectorParser extends TeslaScriptletFactory {
 		case List:
 			return makeList();
 		case Menu:
-			return makeMenu(TeslaPathUtils.makePathFromList(path), null);
+			return makeMenu(TeslaPathUtils.makePathFromList(path), index);
 		case PaletteViewer:
 			return makePaletteViewer();
 		case State:

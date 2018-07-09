@@ -43,7 +43,7 @@ public class GetItemExtension implements IScriptletExtension {
 			result.setPath(index == null ? path : String.format("%s%%%d%%",
 					path, index));
 		}
-		TeslaBridge.find(result);
+		TeslaBridge.find(result, context);
 		context.getOutput().write(result);
 		return Status.OK_STATUS;
 	}

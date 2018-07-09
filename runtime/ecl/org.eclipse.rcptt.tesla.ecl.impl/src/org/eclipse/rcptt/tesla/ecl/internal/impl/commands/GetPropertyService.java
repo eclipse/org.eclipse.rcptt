@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,8 +36,7 @@ import org.eclipse.rcptt.tesla.ecl.model.VerifyHandler;
 
 public class GetPropertyService implements ICommandService {
 
-	public IStatus service(Command command, IProcess context)
-			throws InterruptedException, CoreException {
+	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		TeslaBridge.waitDelay();
 		GetProperty gp = (GetProperty) command;
 		EObject object = gp.getObject();
@@ -46,7 +45,7 @@ public class GetPropertyService implements ICommandService {
 				return serviceRawGet(gp, context);
 			}
 			VerifyHandler handler = TeslaFactory.eINSTANCE.createVerifyHandler();
-			Element element = TeslaBridge.find((ControlHandler) object);
+			Element element = TeslaBridge.find((ControlHandler) object, context);
 			handler.setElement(element);
 			handler.setAttribute(gp.getName());
 			handler.setIndex(gp.getIndex());
@@ -56,7 +55,7 @@ public class GetPropertyService implements ICommandService {
 			final MessageBoxInfo info = (MessageBoxInfo) object;
 			try {
 				final Field field = info.getClass().getDeclaredField(gp.getName());
-			    field.setAccessible(true);
+				field.setAccessible(true);
 				context.getOutput().write(field.get(info).toString());
 			} catch (Exception e) {
 				return propertyGetError(gp.getName());
@@ -67,25 +66,21 @@ public class GetPropertyService implements ICommandService {
 	}
 
 	private IStatus propertyGetError(String name) {
-		return TeslaImplPlugin.err(String.format(
-				"Failed to retrieve property '%s'", name));
+		return TeslaImplPlugin.err(String.format("Failed to retrieve property '%s'", name));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private IStatus serviceRawGet(GetProperty gp, IProcess cx)
-			throws CoreException {
+	private IStatus serviceRawGet(GetProperty gp, IProcess cx) throws CoreException {
 		if (!(gp.getObject() instanceof ControlHandler)) {
 			return propertyGetError(gp.getName());
 		}
-		GetPropertyValue gv = ProtocolFactory.eINSTANCE
-				.createGetPropertyValue();
-		gv.setElement(TeslaBridge.find((ControlHandler) gp.getObject()));
+		GetPropertyValue gv = ProtocolFactory.eINSTANCE.createGetPropertyValue();
+		gv.setElement(TeslaBridge.find((ControlHandler) gp.getObject(), cx));
 		gv.setIndex(gp.getIndex());
 		gv.setName(gp.getName());
 		gv.setAllowRawValues(true);
 		Response response = TeslaBridge.getPlayer().safeExecuteCommand(gv);
-		if (!(response instanceof ObjectResponse)
-				|| ((ObjectResponse) response).getResult() == null) {
+		if (!(response instanceof ObjectResponse) || ((ObjectResponse) response).getResult() == null) {
 			return propertyGetError(gp.getName());
 		}
 		ObjectResponse r = (ObjectResponse) response;
@@ -101,8 +96,7 @@ public class GetPropertyService implements ICommandService {
 			for (Object elem : data) {
 				cx.getOutput().write(elem);
 			}
-		}
-		else {
+		} else {
 			cx.getOutput().write(r.getResult());
 		}
 		cx.getOutput().close(Status.OK_STATUS);

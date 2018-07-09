@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,26 +19,37 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.rcptt.ecl.core.CorePackage;
+import org.eclipse.rcptt.ecl.data.commands.Append;
 import org.eclipse.rcptt.ecl.data.commands.AsTableData;
 import org.eclipse.rcptt.ecl.data.commands.AssertTablesMatch;
 import org.eclipse.rcptt.ecl.data.commands.CommandsFactory;
 import org.eclipse.rcptt.ecl.data.commands.CommandsPackage;
 import org.eclipse.rcptt.ecl.data.commands.ExcludeColumns;
 import org.eclipse.rcptt.ecl.data.commands.ExcludeRows;
+import org.eclipse.rcptt.ecl.data.commands.GetAttr;
+import org.eclipse.rcptt.ecl.data.commands.GetAttrs;
+import org.eclipse.rcptt.ecl.data.commands.GetNodes;
+import org.eclipse.rcptt.ecl.data.commands.HasAttr;
 import org.eclipse.rcptt.ecl.data.commands.IgnoreColumnsMode;
+import org.eclipse.rcptt.ecl.data.commands.ListAsTableData;
 import org.eclipse.rcptt.ecl.data.commands.Print;
 import org.eclipse.rcptt.ecl.data.commands.ReadCsvFile;
 import org.eclipse.rcptt.ecl.data.commands.ReadFile;
 import org.eclipse.rcptt.ecl.data.commands.ReadLines;
 import org.eclipse.rcptt.ecl.data.commands.ReadProperties;
+import org.eclipse.rcptt.ecl.data.commands.ReadXmlFile;
+import org.eclipse.rcptt.ecl.data.commands.Remove;
 import org.eclipse.rcptt.ecl.data.commands.RowMatchMode;
 import org.eclipse.rcptt.ecl.data.commands.SelectColumns;
 import org.eclipse.rcptt.ecl.data.commands.SelectRows;
+import org.eclipse.rcptt.ecl.data.commands.SetAttr;
+import org.eclipse.rcptt.ecl.data.commands.SetPageName;
+import org.eclipse.rcptt.ecl.data.commands.TreeNode;
 import org.eclipse.rcptt.ecl.data.commands.WriteCsvFile;
 import org.eclipse.rcptt.ecl.data.commands.WriteLines;
+import org.eclipse.rcptt.ecl.data.commands.WriteXmlFile;
 import org.eclipse.rcptt.ecl.data.objects.ObjectsPackage;
 
 /**
@@ -138,6 +149,90 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * @generated
 	 */
 	private EClass readFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass setPageNameEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass listAsTableDataEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass readXmlFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass writeXmlFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass treeNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getAttrsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getAttrEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass setAttrEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass hasAttrEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getNodesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass appendEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass removeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -286,6 +381,15 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWriteCsvFile_Append() {
+		return (EAttribute)writeCsvFileEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExcludeColumns() {
 		return excludeColumnsEClass;
 	}
@@ -405,6 +509,15 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 */
 	public EAttribute getWriteLines_Append() {
 		return (EAttribute)writeLinesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWriteLines_Encode() {
+		return (EAttribute)writeLinesEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -574,6 +687,366 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getSetPageName() {
+		return setPageNameEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSetPageName_Table() {
+		return (EReference)setPageNameEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSetPageName_Name() {
+		return (EAttribute)setPageNameEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getListAsTableData() {
+		return listAsTableDataEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getListAsTableData_List() {
+		return (EReference)listAsTableDataEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReadXmlFile() {
+		return readXmlFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReadXmlFile_Uri() {
+		return (EAttribute)readXmlFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReadXmlFile_XPath() {
+		return (EAttribute)readXmlFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getWriteXmlFile() {
+		return writeXmlFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getWriteXmlFile_Tree() {
+		return (EReference)writeXmlFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWriteXmlFile_Uri() {
+		return (EAttribute)writeXmlFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTreeNode() {
+		return treeNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTreeNode_Name() {
+		return (EAttribute)treeNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTreeNode_Attrs() {
+		return (EReference)treeNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTreeNode_Children() {
+		return (EReference)treeNodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTreeNode_Text() {
+		return (EAttribute)treeNodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetAttrs() {
+		return getAttrsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGetAttrs_Object() {
+		return (EReference)getAttrsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetAttr() {
+		return getAttrEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGetAttr_Object() {
+		return (EReference)getAttrEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetAttr_Name() {
+		return (EAttribute)getAttrEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSetAttr() {
+		return setAttrEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSetAttr_Object() {
+		return (EReference)setAttrEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSetAttr_Name() {
+		return (EAttribute)setAttrEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSetAttr_Value() {
+		return (EAttribute)setAttrEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getHasAttr() {
+		return hasAttrEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getHasAttr_Object() {
+		return (EReference)hasAttrEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getHasAttr_Name() {
+		return (EAttribute)hasAttrEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetNodes() {
+		return getNodesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGetNodes_Object() {
+		return (EReference)getNodesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetNodes_Name() {
+		return (EAttribute)getNodesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetNodes_Pos() {
+		return (EAttribute)getNodesEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetNodes_Len() {
+		return (EAttribute)getNodesEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAppend() {
+		return appendEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAppend_Object() {
+		return (EReference)appendEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAppend_Children() {
+		return (EReference)appendEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAppend_Index() {
+		return (EAttribute)appendEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRemove() {
+		return removeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRemove_Object() {
+		return (EReference)removeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRemove_Index() {
+		return (EAttribute)removeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getIgnoreColumnsMode() {
 		return ignoreColumnsModeEEnum;
 	}
@@ -624,6 +1097,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		writeCsvFileEClass = createEClass(WRITE_CSV_FILE);
 		createEReference(writeCsvFileEClass, WRITE_CSV_FILE__TABLE);
 		createEAttribute(writeCsvFileEClass, WRITE_CSV_FILE__URI);
+		createEAttribute(writeCsvFileEClass, WRITE_CSV_FILE__APPEND);
 
 		excludeColumnsEClass = createEClass(EXCLUDE_COLUMNS);
 		createEReference(excludeColumnsEClass, EXCLUDE_COLUMNS__TABLE);
@@ -642,6 +1116,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		writeLinesEClass = createEClass(WRITE_LINES);
 		createEAttribute(writeLinesEClass, WRITE_LINES__URI);
 		createEAttribute(writeLinesEClass, WRITE_LINES__APPEND);
+		createEAttribute(writeLinesEClass, WRITE_LINES__ENCODE);
 
 		readLinesEClass = createEClass(READ_LINES);
 		createEAttribute(readLinesEClass, READ_LINES__URI);
@@ -666,6 +1141,58 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 
 		readFileEClass = createEClass(READ_FILE);
 		createEAttribute(readFileEClass, READ_FILE__URI);
+
+		setPageNameEClass = createEClass(SET_PAGE_NAME);
+		createEReference(setPageNameEClass, SET_PAGE_NAME__TABLE);
+		createEAttribute(setPageNameEClass, SET_PAGE_NAME__NAME);
+
+		listAsTableDataEClass = createEClass(LIST_AS_TABLE_DATA);
+		createEReference(listAsTableDataEClass, LIST_AS_TABLE_DATA__LIST);
+
+		readXmlFileEClass = createEClass(READ_XML_FILE);
+		createEAttribute(readXmlFileEClass, READ_XML_FILE__URI);
+		createEAttribute(readXmlFileEClass, READ_XML_FILE__XPATH);
+
+		writeXmlFileEClass = createEClass(WRITE_XML_FILE);
+		createEReference(writeXmlFileEClass, WRITE_XML_FILE__TREE);
+		createEAttribute(writeXmlFileEClass, WRITE_XML_FILE__URI);
+
+		treeNodeEClass = createEClass(TREE_NODE);
+		createEAttribute(treeNodeEClass, TREE_NODE__NAME);
+		createEReference(treeNodeEClass, TREE_NODE__ATTRS);
+		createEReference(treeNodeEClass, TREE_NODE__CHILDREN);
+		createEAttribute(treeNodeEClass, TREE_NODE__TEXT);
+
+		getAttrsEClass = createEClass(GET_ATTRS);
+		createEReference(getAttrsEClass, GET_ATTRS__OBJECT);
+
+		getAttrEClass = createEClass(GET_ATTR);
+		createEReference(getAttrEClass, GET_ATTR__OBJECT);
+		createEAttribute(getAttrEClass, GET_ATTR__NAME);
+
+		setAttrEClass = createEClass(SET_ATTR);
+		createEReference(setAttrEClass, SET_ATTR__OBJECT);
+		createEAttribute(setAttrEClass, SET_ATTR__NAME);
+		createEAttribute(setAttrEClass, SET_ATTR__VALUE);
+
+		hasAttrEClass = createEClass(HAS_ATTR);
+		createEReference(hasAttrEClass, HAS_ATTR__OBJECT);
+		createEAttribute(hasAttrEClass, HAS_ATTR__NAME);
+
+		getNodesEClass = createEClass(GET_NODES);
+		createEReference(getNodesEClass, GET_NODES__OBJECT);
+		createEAttribute(getNodesEClass, GET_NODES__NAME);
+		createEAttribute(getNodesEClass, GET_NODES__POS);
+		createEAttribute(getNodesEClass, GET_NODES__LEN);
+
+		appendEClass = createEClass(APPEND);
+		createEReference(appendEClass, APPEND__OBJECT);
+		createEReference(appendEClass, APPEND__CHILDREN);
+		createEAttribute(appendEClass, APPEND__INDEX);
+
+		removeEClass = createEClass(REMOVE);
+		createEReference(removeEClass, REMOVE__OBJECT);
+		createEAttribute(removeEClass, REMOVE__INDEX);
 
 		// Create enums
 		ignoreColumnsModeEEnum = createEEnum(IGNORE_COLUMNS_MODE);
@@ -718,6 +1245,18 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		asTableDataEClass.getESuperTypes().add(theCorePackage.getCommand());
 		readPropertiesEClass.getESuperTypes().add(theCorePackage.getCommand());
 		readFileEClass.getESuperTypes().add(theCorePackage.getCommand());
+		setPageNameEClass.getESuperTypes().add(theCorePackage.getCommand());
+		listAsTableDataEClass.getESuperTypes().add(theCorePackage.getCommand());
+		readXmlFileEClass.getESuperTypes().add(theCorePackage.getCommand());
+		writeXmlFileEClass.getESuperTypes().add(theCorePackage.getCommand());
+		treeNodeEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getAttrsEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getAttrEClass.getESuperTypes().add(theCorePackage.getCommand());
+		setAttrEClass.getESuperTypes().add(theCorePackage.getCommand());
+		hasAttrEClass.getESuperTypes().add(theCorePackage.getCommand());
+		getNodesEClass.getESuperTypes().add(theCorePackage.getCommand());
+		appendEClass.getESuperTypes().add(theCorePackage.getCommand());
+		removeEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(readCsvFileEClass, ReadCsvFile.class, "ReadCsvFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -729,6 +1268,7 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEClass(writeCsvFileEClass, WriteCsvFile.class, "WriteCsvFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWriteCsvFile_Table(), theObjectsPackage.getTable(), null, "table", null, 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWriteCsvFile_Uri(), theEcorePackage.getEString(), "uri", null, 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteCsvFile_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteCsvFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(excludeColumnsEClass, ExcludeColumns.class, "ExcludeColumns", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExcludeColumns_Table(), theObjectsPackage.getTable(), null, "table", null, 0, 1, ExcludeColumns.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -745,8 +1285,9 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		initEAttribute(getAssertTablesMatch_IgnoreMissingColumns(), this.getIgnoreColumnsMode(), "ignoreMissingColumns", "NONE", 0, 1, AssertTablesMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(writeLinesEClass, WriteLines.class, "WriteLines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWriteLines_Uri(), theEcorePackage.getEString(), "uri", null, 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteLines_Uri(), theEcorePackage.getEString(), "uri", "UTF-8", 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWriteLines_Append(), theEcorePackage.getEBoolean(), "append", "false", 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteLines_Encode(), theEcorePackage.getEString(), "encode", null, 0, 1, WriteLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(readLinesEClass, ReadLines.class, "ReadLines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadLines_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadLines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -771,6 +1312,58 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 
 		initEClass(readFileEClass, ReadFile.class, "ReadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadFile_Uri(), theEcorePackage.getEString(), "uri", null, 1, 1, ReadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(setPageNameEClass, SetPageName.class, "SetPageName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSetPageName_Table(), theObjectsPackage.getTable(), null, "table", null, 1, 1, SetPageName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSetPageName_Name(), theEcorePackage.getEString(), "name", null, 1, 1, SetPageName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(listAsTableDataEClass, ListAsTableData.class, "ListAsTableData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getListAsTableData_List(), theCorePackage.getEclList(), null, "list", null, 1, 1, ListAsTableData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(readXmlFileEClass, ReadXmlFile.class, "ReadXmlFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getReadXmlFile_Uri(), ecorePackage.getEString(), "uri", null, 1, 1, ReadXmlFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReadXmlFile_XPath(), ecorePackage.getEString(), "xPath", null, 0, 1, ReadXmlFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(writeXmlFileEClass, WriteXmlFile.class, "WriteXmlFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getWriteXmlFile_Tree(), theObjectsPackage.getTree(), null, "tree", null, 1, 1, WriteXmlFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWriteXmlFile_Uri(), ecorePackage.getEString(), "uri", null, 1, 1, WriteXmlFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(treeNodeEClass, TreeNode.class, "TreeNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTreeNode_Name(), ecorePackage.getEString(), "name", null, 1, 1, TreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTreeNode_Attrs(), theCorePackage.getEclMap(), null, "attrs", null, 0, 1, TreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTreeNode_Children(), theObjectsPackage.getTree(), null, "children", null, 0, -1, TreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTreeNode_Text(), ecorePackage.getEString(), "text", null, 0, 1, TreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getAttrsEClass, GetAttrs.class, "GetAttrs", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGetAttrs_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, GetAttrs.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getAttrEClass, GetAttr.class, "GetAttr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGetAttr_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, GetAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGetAttr_Name(), ecorePackage.getEString(), "name", null, 1, 1, GetAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(setAttrEClass, SetAttr.class, "SetAttr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSetAttr_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, SetAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSetAttr_Name(), ecorePackage.getEString(), "name", null, 1, 1, SetAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSetAttr_Value(), ecorePackage.getEString(), "value", null, 0, 1, SetAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(hasAttrEClass, HasAttr.class, "HasAttr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getHasAttr_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, HasAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHasAttr_Name(), ecorePackage.getEString(), "name", null, 1, 1, HasAttr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getNodesEClass, GetNodes.class, "GetNodes", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGetNodes_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, GetNodes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGetNodes_Name(), ecorePackage.getEString(), "name", null, 0, 1, GetNodes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGetNodes_Pos(), theEcorePackage.getEInt(), "pos", "0", 0, 1, GetNodes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGetNodes_Len(), theEcorePackage.getEInt(), "len", "-1", 0, 1, GetNodes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(appendEClass, Append.class, "Append", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAppend_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, Append.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAppend_Children(), theEcorePackage.getEObject(), null, "children", null, 1, -1, Append.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAppend_Index(), theEcorePackage.getEInt(), "index", "-1", 0, 1, Append.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(removeEClass, Remove.class, "Remove", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRemove_Object(), theEcorePackage.getEObject(), null, "object", null, 1, 1, Remove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRemove_Index(), theEcorePackage.getEInt(), "index", "-1", 1, 1, Remove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(ignoreColumnsModeEEnum, IgnoreColumnsMode.class, "IgnoreColumnsMode");
@@ -1040,6 +1633,270 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   source, 
 		   new String[] {
 			 "description", "URI to read file from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
+		   });	
+		addAnnotation
+		  (setPageNameEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Set page name to table",
+			 "returns", "The value of <code>table</code> argument.",
+			 "example", "get-view \"Error Log\" | get-tree | expand-all\nget-view \"Error Log\" | get-tree | get-table-data\n\t| set-page-name \"Table\" | write-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\nread-excel-file \"workspace:/MyProject/AssertData/table.xls\"\n\t| get pageName | equals \"Table\" | assert-true"
+		   });	
+		addAnnotation
+		  (getSetPageName_Table(), 
+		   source, 
+		   new String[] {
+			 "description", "Table to set page name to"
+		   });	
+		addAnnotation
+		  (getSetPageName_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Page name to set"
+		   });	
+		addAnnotation
+		  (listAsTableDataEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Converts input list to table data format",
+			 "returns", "<code>Table</code> EMF Object",
+			 "example", "proc newTable [val table] [val name] {\n\t$table | list-as-table-data | set-page-name $name\n}\n\nglobal [val devices [list\n\t[list \"Device Name\" \"Device Target\"]\n\t[list \"Device 1\" \"Info 1\"]\n\t[list \"Device 2\" \"Info 2\"]\n\t[list \"Device 3\" \"Info 3\"]\n]]\n\nnewTable $devices \"Devices\"\n\t| write-excel-file \"workspace:/excel/devices.xls\""
+		   });	
+		addAnnotation
+		  (getListAsTableData_List(), 
+		   source, 
+		   new String[] {
+			 "description", "List of List of String to convert to Table"
+		   });	
+		addAnnotation
+		  (readXmlFileEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Parses given xml file into tree and write it to output pipe. Fails if file is not found or if it is invalid xml.",
+			 "returns", "<code>Tree</code> EMF Object",
+			 "example", "proc logDevice [val device] {\n\tif [$device | has-attr \"id\"] {\n\t\tlog [format \"Device ID: %s\" [$device | get-attr \"id\"]]\n\t}\n\tlog [format \"Device Name: %s\" [$device | get-nodes \"DeviceName\" | get text]]\n\tlog [format \"Device Target: %s\" [$device | get-nodes \"DeviceTarget\"  | get text]]\n}\n \n \nglobal [val supportedDevices [\n\tread-xml-file \"workspace:/xml/devices.xml\"\n\t\t| get-nodes \"SupportedDevices\" | get-nodes \"Device\" | to-list\n]]\n \n$supportedDevices | each [val device] {\n\tlogDevice $device\n}"
+		   });	
+		addAnnotation
+		  (getReadXmlFile_Uri(), 
+		   source, 
+		   new String[] {
+			 "description", "URI to read xml data from. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
+		   });	
+		addAnnotation
+		  (getReadXmlFile_XPath(), 
+		   source, 
+		   new String[] {
+			 "description", "XPath expression to find xml nodes"
+		   });	
+		addAnnotation
+		  (writeXmlFileEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Writes tree from input pipe to into xml file",
+			 "returns", "The value of <code>tree</code> argument",
+			 "example", "proc newDevice [val id] [val name] [val target] {\n\ttree-node \"Device\"\n\t\t[map [entry \"id\" $id]]\n\t\t[tree-node -name \"DeviceName\" -text $name]\n\t\t[tree-node -name \"DeviceTarget\" -text $target]\n}\n \n \nglobal [val supportedDevices [tree-node \"SupportedDevices\"\n\t[newDevice \"1\" \"device 1\" \"target 1\"]\n\t[newDevice \"2\" \"device 2\" \"target 2\"]\n\t[newDevice \"3\" \"device 3\" \"target 3\"]\n]]\n \nglobal [val allDevices [tree-node \"AllDevices\"\n\t[newDevice \"1\" \"device 1\" \"target 1\"]\n\t[newDevice \"2\" \"device 2\" \"target 2\"]\n\t[newDevice \"3\" \"device 3\" \"target 3\"]\n\t[newDevice \"4\" \"device 4\" \"target 4\"]\n\t[newDevice \"5\" \"device 5\" \"target 5\"]\n]]\n \nglobal [val tree [\n\ttree-node \"DevicesInfo\" $supportedDevices $allDevices\n]]\n \n$tree | write-xml-file \"workspace:/xml/devices.xml\""
+		   });	
+		addAnnotation
+		  (getWriteXmlFile_Tree(), 
+		   source, 
+		   new String[] {
+			 "description", "Tree to write"
+		   });	
+		addAnnotation
+		  (getWriteXmlFile_Uri(), 
+		   source, 
+		   new String[] {
+			 "description", "URI to write xml data to. Currently supported schemes are workspace:/ for files in workspace and file:/ for files on local file system"
+		   });	
+		addAnnotation
+		  (treeNodeEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Creates a new tree node",
+			 "returns", "<code>Tree</code> EMF Object",
+			 "example", "tree-node \"Device\"\n\t[map [entry \"id\" \"1\"]]\n\t[tree-node -name \"DeviceName\" -text \"device\"]\n\t[tree-node -name \"DeviceTarget\" -text \"target\"]"
+		   });	
+		addAnnotation
+		  (getTreeNode_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Name of the new node"
+		   });	
+		addAnnotation
+		  (getTreeNode_Attrs(), 
+		   source, 
+		   new String[] {
+			 "description", "Map with node attributes"
+		   });	
+		addAnnotation
+		  (getTreeNode_Children(), 
+		   source, 
+		   new String[] {
+			 "description", "Children of the new node"
+		   });	
+		addAnnotation
+		  (getTreeNode_Text(), 
+		   source, 
+		   new String[] {
+			 "description", "Text of the new node"
+		   });	
+		addAnnotation
+		  (getAttrsEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets attributes from the object",
+			 "returns", "Map with object attributes",
+			 "example", "tree-node \"Device\" [map [entry \"id\" \"1\"] [entry \"name\" \"first\"]]\n\t| get-attrs | get \"name\" | log"
+		   });	
+		addAnnotation
+		  (getGetAttrs_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to get attributes from"
+		   });	
+		addAnnotation
+		  (getAttrEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets attribute from the object by name. Fails if attribute is not found.",
+			 "returns", "Value of the attribute",
+			 "example", "tree-node \"Device\" [map [entry \"id\" \"1\"] [entry \"name\" \"first\"]]\n\t| get-attr \"name\" | log"
+		   });	
+		addAnnotation
+		  (getGetAttr_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Tree node to get attribute from"
+		   });	
+		addAnnotation
+		  (getGetAttr_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Name of the attribute"
+		   });	
+		addAnnotation
+		  (setAttrEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Sets value of the object attribute. If <code>value</code> parameter is not specified, the attribute will be removed.",
+			 "returns", "The value of <code>object</code> argument",
+			 "example", "tree-node \"Device\" [map [entry \"id\" \"1\"] [entry \"name\" \"first\"]]\n\t| get-attr \"name\" | log\n\n\n--set-attr-\n\n\n\ntree-node \"Device\" [map [entry \"id\" \"1\"] [entry \"name\" \"first\"]]\n\t| set-attr \"name\" \"second\" | get-attr \"name\" | log"
+		   });	
+		addAnnotation
+		  (getSetAttr_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to set attribute to"
+		   });	
+		addAnnotation
+		  (getSetAttr_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Name of the attribute"
+		   });	
+		addAnnotation
+		  (getSetAttr_Value(), 
+		   source, 
+		   new String[] {
+			 "description", "New value of the attribute"
+		   });	
+		addAnnotation
+		  (hasAttrEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Checks if the object has attribute",
+			 "returns", "<code>true</code> when attribute is exist, <code>false</code> otherwise",
+			 "example", "tree-node \"Device\" [map [entry \"id\" \"1\"] [entry \"name\" \"first\"]]\n\t| has-attr \"name\" | log"
+		   });	
+		addAnnotation
+		  (getHasAttr_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to check attribute from"
+		   });	
+		addAnnotation
+		  (getHasAttr_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Name of the attribute"
+		   });	
+		addAnnotation
+		  (getNodesEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Gets child nodes from the object and writes them into output pipe. Fails if <code>pos</code> of <code>len</code> parameter is out of range.",
+			 "returns", "Child nodes of the object",
+			 "example", "proc newDevice [val id] [val name] [val target] {\n\ttree-node \"Device\"\n\t\t[map [entry \"id\" $id]]\n\t\t[tree-node -name \"DeviceName\" -text $name]\n\t\t[tree-node -name \"DeviceTarget\" -text $target]\n}\n \nglobal [val supportedDevices [tree-node \"SupportedDevices\"\n\t[newDevice \"1\" \"device 1\" \"target 1\"]\n\t[newDevice \"2\" \"device 2\" \"target 2\"]\n\t[newDevice \"3\" \"device 3\" \"target 3\"]\n]]\n \n$supportedDevices | get-nodes \"Device\" -pos 1 -len 1\n\t| get-nodes \"DeviceName\" | get text\n\t| equals \"device 2\" | verify-true"
+		   });	
+		addAnnotation
+		  (getGetNodes_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to get child nodes from"
+		   });	
+		addAnnotation
+		  (getGetNodes_Name(), 
+		   source, 
+		   new String[] {
+			 "description", "Name of the nodes"
+		   });	
+		addAnnotation
+		  (getGetNodes_Pos(), 
+		   source, 
+		   new String[] {
+			 "description", "Start position. If <code>name</code> attribute is provided, <code>pos</code> is relative to the node list filtered by name."
+		   });	
+		addAnnotation
+		  (getGetNodes_Len(), 
+		   source, 
+		   new String[] {
+			 "description", "Count of nodes. Default value is <code>-1</code> and it means the end of the node list. If <code>name</code> attribute is provided, <code>len</code> is relative to the node list filtered by name."
+		   });	
+		addAnnotation
+		  (appendEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Adds child nodes to the object. Fails if <code>index</code> parameter is out of range.",
+			 "returns", "The value of <code>object</code> argument",
+			 "example", "tree-node \"Device\" [tree-node -name \"DeviceName\" -text \"device\"]\n\t| append [tree-node -name \"DeviceTarget\" -text \"target\"] -index 0"
+		   });	
+		addAnnotation
+		  (getAppend_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to add child nodes to"
+		   });	
+		addAnnotation
+		  (getAppend_Children(), 
+		   source, 
+		   new String[] {
+			 "description", "New child nodes to add to the object"
+		   });	
+		addAnnotation
+		  (getAppend_Index(), 
+		   source, 
+		   new String[] {
+			 "description", "Index of the first child node added in the node list. Min value is <code>0</code> and max value is size of node list. Default value is <code>-1</code> and it means size of node list."
+		   });	
+		addAnnotation
+		  (removeEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Removes child node from the object by index. Fails if <code>index</code> parameter is out of range.",
+			 "returns", "The value of <code>object</code> argument",
+			 "example", "tree-node \"Device\"\n\t[tree-node -name \"DeviceName\" -text \"device\"]\n\t[tree-node -name \"DeviceTarget\" -text \"target\"]\n\t\t| remove -index 1"
+		   });	
+		addAnnotation
+		  (getRemove_Object(), 
+		   source, 
+		   new String[] {
+			 "description", "Object to remove child node from"
+		   });	
+		addAnnotation
+		  (getRemove_Index(), 
+		   source, 
+		   new String[] {
+			 "description", "Index of the child node. Min value is <code>0</code> and max value is the last index in the node list. Default value is <code>-1</code> and the last index in the node list."
 		   });
 	}
 
@@ -1108,6 +1965,56 @@ public class CommandsPackageImpl extends EPackageImpl implements CommandsPackage
 		   });	
 		addAnnotation
 		  (getReadFile_Uri(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getSetPageName_Table(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getListAsTableData_List(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getWriteXmlFile_Tree(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getGetAttrs_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getGetAttr_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getSetAttr_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getHasAttr_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getGetNodes_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getAppend_Object(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getRemove_Object(), 
 		   source, 
 		   new String[] {
 		   });

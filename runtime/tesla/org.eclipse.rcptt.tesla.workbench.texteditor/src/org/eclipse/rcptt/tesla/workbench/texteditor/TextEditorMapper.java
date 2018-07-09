@@ -54,6 +54,7 @@ public class TextEditorMapper {
 		}
 		TextEditorAnnotationFinder finder = new TextEditorAnnotationFinder();
 		text.getMarkers().putAll(finder.findAnnotations(viewer));
+		text.setMarkersCount(text.getMarkers().size());
 	}
 
 	private static void updateStyleEntry(StyleRangeEntry entry,

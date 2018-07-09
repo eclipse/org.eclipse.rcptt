@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,7 @@ import org.eclipse.rcptt.core.recording.NetworkRecorder;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.utils.TeslaUtils;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
 import org.eclipse.rcptt.tesla.core.protocol.Type;
 import org.eclipse.rcptt.tesla.internal.core.network.DefaultConnectionMonitor;
 

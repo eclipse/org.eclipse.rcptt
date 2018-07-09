@@ -255,6 +255,13 @@ public class Q7CoreSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case Q7CorePackage.SET_OPTION: {
+				SetOption setOption = (SetOption)theEObject;
+				T result = caseSetOption(setOption);
+				if (result == null) result = caseCommand(setOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -616,6 +623,21 @@ public class Q7CoreSwitch<T> {
 	 * @generated
 	 */
 	public T caseTerminateAut(TerminateAut object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Set Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Set Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSetOption(SetOption object) {
 		return null;
 	}
 

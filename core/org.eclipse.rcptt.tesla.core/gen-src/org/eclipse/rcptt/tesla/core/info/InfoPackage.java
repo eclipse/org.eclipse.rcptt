@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -398,13 +398,31 @@ public interface InfoPackage extends EPackage {
 	int Q7_WAIT_INFO__TICKS = 5;
 
 	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int Q7_WAIT_INFO__DURATION = 6;
+
+	/**
+	 * The feature id for the '<em><b>Last Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int Q7_WAIT_INFO__LAST_START_TIME = 7;
+
+	/**
 	 * The number of structural features of the '<em>Q7 Wait Info</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int Q7_WAIT_INFO_FEATURE_COUNT = 6;
+	int Q7_WAIT_INFO_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl <em>Q7 Wait Info Root</em>}' class.
@@ -852,6 +870,28 @@ public interface InfoPackage extends EPackage {
 	EAttribute getQ7WaitInfo_Ticks();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getDuration <em>Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Duration</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getDuration()
+	 * @see #getQ7WaitInfo()
+	 * @generated
+	 */
+	EAttribute getQ7WaitInfo_Duration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getLastStartTime <em>Last Start Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Last Start Time</em>'.
+	 * @see org.eclipse.rcptt.tesla.core.info.Q7WaitInfo#getLastStartTime()
+	 * @see #getQ7WaitInfo()
+	 * @generated
+	 */
+	EAttribute getQ7WaitInfo_LastStartTime();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot <em>Q7 Wait Info Root</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1212,6 +1252,20 @@ public interface InfoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute Q7_WAIT_INFO__TICKS = eINSTANCE.getQ7WaitInfo_Ticks();
+		/**
+		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute Q7_WAIT_INFO__DURATION = eINSTANCE.getQ7WaitInfo_Duration();
+		/**
+		 * The meta object literal for the '<em><b>Last Start Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute Q7_WAIT_INFO__LAST_START_TIME = eINSTANCE.getQ7WaitInfo_LastStartTime();
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.core.info.impl.Q7WaitInfoRootImpl <em>Q7 Wait Info Root</em>}' class.
 		 * <!-- begin-user-doc -->

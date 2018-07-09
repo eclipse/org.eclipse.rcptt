@@ -21,10 +21,10 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Concat#getStrs <em>Strs</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getConcat()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Concatenates strings passed as arguments' returns='Concatenated string value' example='concat \"Mess\" \"age\" | equals \"Message\" | assert-true'"

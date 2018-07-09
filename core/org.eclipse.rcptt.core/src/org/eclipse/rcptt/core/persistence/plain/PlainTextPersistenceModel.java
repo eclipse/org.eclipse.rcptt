@@ -39,8 +39,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.osgi.framework.Bundle;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.VerificationType;
@@ -53,15 +51,16 @@ import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.ProjectMetadata;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioFactory;
+import org.eclipse.rcptt.core.scenario.ScenarioProperty;
 import org.eclipse.rcptt.core.scenario.TestSuite;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.util.FileUtil;
+import org.osgi.framework.Bundle;
 
-public class PlainTextPersistenceModel extends BasePersistenceModel implements
-		IPlainConstants {
+public class PlainTextPersistenceModel extends BasePersistenceModel implements IPlainConstants {
 	private static final String KIND_PROJECT_METADATA = "projectMetadata";
 	private static final String KIND_TESTSUITE = "testsuite";
 	private static final String KIND_CONTEXT = "context";
@@ -79,6 +78,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 
 	private static final String ATTR_TESTCASE_TYPE = "Testcase-Type";
 	private static final String ATTR_EXTERNAL_REFERENCE = "External-Reference";
+	private static final String ATTR_PROPERTY_PREFIX = "Property-";
 	private static final String ATTR_ELEMENT_VERSION = "Element-Version";
 	// private static final String ATTR_DESCRIPTION = "Description";
 	private static final String ATTR_ID = "Id";
@@ -96,16 +96,14 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 	}
 
 	@Override
-	protected synchronized void doExtractAll(InputStream contents)
-			throws IOException {
+	protected synchronized void doExtractAll(InputStream contents) throws IOException {
 		PlainReader reader = null;
 		try {
 			reader = new PlainReader(contents);
 			Map<String, String> header = reader.readHeader();
 			if (header != null) {
 				String version = header.get(IPlainConstants.ATTR_FORMAT_VERSION);
-				if (version != null
-						&& version.equals(IPlainConstants.FORMAT_VERSION)) {
+				if (version != null && version.equals(IPlainConstants.FORMAT_VERSION)) {
 					while (true) {
 						Entry entry = reader.readEntry();
 						if (entry == null) {
@@ -117,17 +115,14 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 							try {
 								byte[] data = null;
 								if (entry.getContent() instanceof String) {
-									data = ((String) entry.getContent())
-											.getBytes(ENCODING);
+									data = ((String) entry.getContent()).getBytes(ENCODING);
 								} else if (entry.getContent() instanceof byte[]) {
 									data = (byte[]) entry.getContent();
 								}
 								if (data != null) {
-									FileUtil.copy(new ByteArrayInputStream(
-											data), outputStream);
+									FileUtil.copy(new ByteArrayInputStream(data), outputStream);
 								} else {
-									throw new IOException(
-											"Wrong Plain file format");
+									throw new IOException("Wrong Plain file format");
 								}
 							} finally {
 								outputStream.close();
@@ -135,8 +130,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 						}
 					}
 				} else {
-					throw new Exception(
-							"Q7 plain format version is unsupported.");
+					throw new Exception("Q7 plain format version is unsupported.");
 				}
 			}
 		} catch (Exception e) {
@@ -149,16 +143,14 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 	}
 
 	@Override
-	protected void doExtractFile(String fName, InputStream contents)
-			throws IOException {
+	protected void doExtractFile(String fName, InputStream contents) throws IOException {
 		PlainReader reader = null;
 		try {
 			reader = new PlainReader(contents);
 			Map<String, String> header = reader.readHeader();
 			if (header != null) {
 				String version = header.get(IPlainConstants.ATTR_FORMAT_VERSION);
-				if (version != null
-						&& version.equals(IPlainConstants.FORMAT_VERSION)) {
+				if (version != null && version.equals(IPlainConstants.FORMAT_VERSION)) {
 					while (true) {
 						Entry entry = reader.readEntry();
 						if (entry == null) {
@@ -168,14 +160,12 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 							OutputStream outputStream = internalStore(fName);
 							byte[] data = null;
 							if (entry.getContent() instanceof String) {
-								data = ((String) entry.getContent())
-										.getBytes(ENCODING);
+								data = ((String) entry.getContent()).getBytes(ENCODING);
 							} else if (entry.getContent() instanceof byte[]) {
 								data = (byte[]) entry.getContent();
 							}
 							if (data != null) {
-								FileUtil.copy(new ByteArrayInputStream(data),
-										outputStream);
+								FileUtil.copy(new ByteArrayInputStream(data), outputStream);
 							} else {
 								outputStream.close();
 								delete(fName);
@@ -185,10 +175,15 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 						}
 					}
 				} else {
-					throw new Exception(
-							"Q7 plain format version is unsupported.");
+					throw new Exception("Q7 plain format version is unsupported.");
 				}
 			}
+		} catch (PlainFormatException e) {
+			IFile file = element != null ? Q7Utils.getLocation(element) : null;
+			if (file != null) {
+				e.setFileName(file.getLocation().toString());
+			}
+			RcpttPlugin.log(e);
 		} catch (Exception e) {
 			RcpttPlugin.log(e);
 		} finally {
@@ -206,8 +201,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 			Map<String, String> header = reader.readHeader();
 			if (header != null) {
 				String version = header.get(IPlainConstants.ATTR_FORMAT_VERSION);
-				if (version != null
-						&& version.equals(IPlainConstants.FORMAT_VERSION)) {
+				if (version != null && version.equals(IPlainConstants.FORMAT_VERSION)) {
 					while (true) {
 						Entry entry = reader.readEntry();
 						if (entry == null) {
@@ -217,8 +211,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 						putFileItem(entry.name, filePath);
 					}
 				} else {
-					throw new Exception(
-							"Q7 plain format version is unsupported.");
+					throw new Exception("Q7 plain format version is unsupported.");
 				}
 			}
 		} catch (Exception e) {
@@ -231,26 +224,19 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 	}
 
 	@Override
-	protected synchronized void doStoreTo(File file)
-			throws FileNotFoundException, IOException {
+	protected synchronized void doStoreTo(File file) throws FileNotFoundException, IOException {
 		PlainWriter writer = null;
 		try {
-			writer = new PlainWriter(new BufferedOutputStream(
-					new FileOutputStream(file)), plainStoreFormat);
+			writer = new PlainWriter(new BufferedOutputStream(new FileOutputStream(file)), plainStoreFormat);
 			Map<String, String> saveAttrs = new HashMap<String, String>();
 			if (masterAttributes != null) {
 				saveAttrs.putAll(masterAttributes);
 			}
-			saveAttrs.put(
-					"Save-Time",
-					DateFormat.getDateTimeInstance(DateFormat.SHORT,
-							DateFormat.SHORT, Locale.US).format(
-							new Date(System.currentTimeMillis())));
-			Bundle runtimeBundle = Platform
-					.getBundle("org.eclipse.rcptt.updates.runtime");
+			saveAttrs.put("Save-Time", DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US)
+					.format(new Date(System.currentTimeMillis())));
+			Bundle runtimeBundle = Platform.getBundle("org.eclipse.rcptt.updates.runtime");
 			if (runtimeBundle != null) {
-				saveAttrs.put("Runtime-Version", runtimeBundle.getVersion()
-						.toString());
+				saveAttrs.put("Runtime-Version", runtimeBundle.getVersion().toString());
 			}
 
 			writer.writeHeader(saveAttrs);
@@ -273,8 +259,8 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 					try {
 						Map<String, String> attrs = new HashMap<String, String>();
 						String storeAsText = null;
-						IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager
-								.getInstance().getExtensions();
+						IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager.getInstance()
+								.getExtensions();
 						for (IPlainTextPersistenceExtension ext : extensions) {
 							storeAsText = ext.getTextContentType(fName);
 							if (storeAsText != null) {
@@ -282,32 +268,22 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 							}
 						}
 						if (storeAsText != null) {
-							attrs.put(IPlainConstants.ATTR_CONTENT_TYPE,
-									storeAsText);
+							attrs.put(IPlainConstants.ATTR_CONTENT_TYPE, storeAsText);
 							byte[] content = FileUtil.getStreamContent(in);
-							writer.writeNode(fName, attrs, new String(content,
-									ENCODING));
+							writer.writeNode(fName, attrs, new String(content, ENCODING));
 						} else {
-							if (fName
-									.equals(PersistenceManager.ECL_CONTENT_ENTRY)) {
-								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE,
-										"text/ecl");
+							if (fName.equals(PersistenceManager.ECL_CONTENT_ENTRY)) {
+								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE, "text/ecl");
 								byte[] content = FileUtil.getStreamContent(in);
-								writer.writeNode(fName, attrs, new String(
-										content, ENCODING));
-							} else if (fName
-									.equals(PersistenceManager.DESCRIPTION_ENTRY)) {
-								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE,
-										"text/plain");
+								writer.writeNode(fName, attrs, new String(content, ENCODING));
+							} else if (fName.equals(PersistenceManager.DESCRIPTION_ENTRY)) {
+								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE, "text/plain");
 								byte[] content = FileUtil.getStreamContent(in);
-								writer.writeNode(fName, attrs, new String(
-										content, ENCODING));
+								writer.writeNode(fName, attrs, new String(content, ENCODING));
 							} else if (fName.equals(TESTCASE_ITEMS)) {
-								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE,
-										"text/testcase");
+								attrs.put(IPlainConstants.ATTR_CONTENT_TYPE, "text/testcase");
 								byte[] content = FileUtil.getStreamContent(in);
-								writer.writeNode(fName, attrs, new String(
-										content, ENCODING));
+								writer.writeNode(fName, attrs, new String(content, ENCODING));
 							} else {
 								byte[] content = FileUtil.getStreamContent(in);
 								writer.writeNode(fName, attrs, content);
@@ -327,18 +303,16 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 	public boolean isContentEntryRequired() {
 		EList<EObject> contents = element.getContents();
 		boolean optional = false;
-		IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager
-				.getInstance().getExtensions();
+		IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager.getInstance()
+				.getExtensions();
 		for (IPlainTextPersistenceExtension ext : extensions) {
 			if (ext.isContentEntryOptional(contents)) {
 				optional = true;
 				break;
 			}
 		}
-		return contents.size() != 1
-				|| !(contents.get(0) instanceof Scenario
-						|| contents.get(0) instanceof TestSuite
-						|| contents.get(0) instanceof ProjectMetadata || optional);
+		return contents.size() != 1 || !(contents.get(0) instanceof Scenario || contents.get(0) instanceof TestSuite
+				|| contents.get(0) instanceof ProjectMetadata || optional);
 	}
 
 	@Override
@@ -371,8 +345,8 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 			if (eObject instanceof ProjectMetadata) {
 				updateProjectMetadataAttributes(eObject);
 			}
-			IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager
-					.getInstance().getExtensions();
+			IPlainTextPersistenceExtension[] extensions = PlainTextPersistenceExtensionManager.getInstance()
+					.getExtensions();
 			for (IPlainTextPersistenceExtension ext : extensions) {
 				ext.updateAttributes(this, masterAttributes, eObject);
 			}
@@ -397,8 +371,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		TestSuite suite = (TestSuite) eObject;
 		masterAttributes.put(ATTR_ELEMENT_TYPE, KIND_TESTSUITE);
 		if (suite.isManuallyOrdered())
-			masterAttributes.put(ATTR_MANUALY_ORDERED, String.valueOf(
-					suite.isManuallyOrdered()));
+			masterAttributes.put(ATTR_MANUALY_ORDERED, String.valueOf(suite.isManuallyOrdered()));
 		EList<TestSuiteItem> items = suite.getItems();
 		delete(TESTCASE_ITEMS);
 		if (items.size() > 0) {
@@ -410,17 +383,13 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 					stream.append("\t//");
 
 					if (testSuiteItem.getKind() != null) {
-						stream.append(" kind: '")
-								.append(testSuiteItem.getKind()).append("'");
+						stream.append(" kind: '").append(testSuiteItem.getKind()).append("'");
 					}
 					if (testSuiteItem.getNamedElemetName() != null) {
-						stream.append(" name: '")
-								.append(testSuiteItem.getNamedElemetName())
-								.append("'");
+						stream.append(" name: '").append(testSuiteItem.getNamedElemetName()).append("'");
 					}
 					if (testSuiteItem.getPath() != null) {
-						stream.append(" path: '")
-								.append(testSuiteItem.getPath()).append("'");
+						stream.append(" path: '").append(testSuiteItem.getPath()).append("'");
 					}
 					stream.append("\n");
 				}
@@ -436,46 +405,45 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		ProjectMetadata md = (ProjectMetadata) eObject;
 		masterAttributes.put(ATTR_ELEMENT_TYPE, KIND_PROJECT_METADATA);
 		if (md.getContexts().size() > 0) {
-			masterAttributes
-					.put(ATTR_CONTEXTS, namesToString(md.getContexts()));
+			masterAttributes.put(ATTR_CONTEXTS, namesToString(md.getContexts()));
 		}
 		if (md.getVerifications().size() > 0) {
-			masterAttributes
-					.put(ATTR_VERIFICATIONS, namesToString(md.getVerifications()));
+			masterAttributes.put(ATTR_VERIFICATIONS, namesToString(md.getVerifications()));
 		}
 		if (md.getIgnores().size() > 0) {
-			masterAttributes.put(ATTR_IGNORED_TESTCASES,
-					namesToString(md.getIgnores()));
+			masterAttributes.put(ATTR_IGNORED_TESTCASES, namesToString(md.getIgnores()));
 		}
 	}
 
 	private void updateContextAttributes(EObject eObject) {
 		Context ctx = (Context) eObject;
 		masterAttributes.put(ATTR_ELEMENT_TYPE, KIND_CONTEXT);
-		masterAttributes.put(ATTR_CONTEXT_TYPE, ContextTypeManager
-				.getInstance().getTypeByContext(ctx).getId());
+		masterAttributes.put(ATTR_CONTEXT_TYPE, ContextTypeManager.getInstance().getTypeByContext(ctx).getId());
 	}
 
 	private void updateVerificationAttributes(EObject eObject) {
 		Verification verification = (Verification) eObject;
 		masterAttributes.put(ATTR_ELEMENT_TYPE, KIND_VERIFICATION);
-		masterAttributes.put(ATTR_VERIFICATION_TYPE, VerificationTypeManager
-				.getInstance().getTypeByVerification(verification).getId());
+		masterAttributes.put(ATTR_VERIFICATION_TYPE,
+				VerificationTypeManager.getInstance().getTypeByVerification(verification).getId());
 	}
 
 	private void updateScenarioAttributes(EObject eObject) {
 		Scenario sc = (Scenario) eObject;
 		masterAttributes.put(ATTR_ELEMENT_TYPE, KIND_TESTCASE);
-		masterAttributes
-				.put(ATTR_EXTERNAL_REFERENCE, sc.getExternalReference());
+		masterAttributes.put(ATTR_EXTERNAL_REFERENCE, sc.getExternalReference());
+
+		EList<ScenarioProperty> properties = sc.getProperties();
+		for (ScenarioProperty p : properties) {
+			masterAttributes.put(ATTR_PROPERTY_PREFIX + p.getName(), p.getValue());
+		}
+
 		masterAttributes.put(ATTR_TESTCASE_TYPE, sc.getType());
 		if (sc.getContexts().size() > 0) {
-			masterAttributes
-					.put(ATTR_CONTEXTS, namesToString(sc.getContexts()));
+			masterAttributes.put(ATTR_CONTEXTS, namesToString(sc.getContexts()));
 		}
 		if (sc.getVerifications().size() > 0) {
-			masterAttributes
-					.put(ATTR_VERIFICATIONS, namesToString(sc.getVerifications()));
+			masterAttributes.put(ATTR_VERIFICATIONS, namesToString(sc.getVerifications()));
 		}
 	}
 
@@ -508,43 +476,35 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 				reader = new PlainReader(contents);
 				Map<String, String> header = reader.readHeader();
 				if (header != null) {
-					String version = header
-							.get(IPlainConstants.ATTR_FORMAT_VERSION);
-					if (version != null
-							&& version.equals(IPlainConstants.FORMAT_VERSION)) {
+					String version = header.get(IPlainConstants.ATTR_FORMAT_VERSION);
+					if (version != null && version.equals(IPlainConstants.FORMAT_VERSION)) {
 						EList<EObject> eList = element.getContents();
 						if (eList.size() == 0) {
 							// Create new empty object is type are specified
 							String elementType = header.get(ATTR_ELEMENT_TYPE);
 							if (KIND_TESTCASE.equals(elementType)) {
-								Scenario scenario = ScenarioFactory.eINSTANCE
-										.createScenario();
+								Scenario scenario = ScenarioFactory.eINSTANCE.createScenario();
 								eList.add(scenario);
 							} else if (KIND_CONTEXT.equals(elementType)) {
-								String contextType = header
-										.get(ATTR_CONTEXT_TYPE);
-								ContextType type = ContextTypeManager
-										.getInstance().getTypeById(contextType);
+								String contextType = header.get(ATTR_CONTEXT_TYPE);
+								ContextType type = ContextTypeManager.getInstance().getTypeById(contextType);
 								if (type != null) {
 									Context context = type.create(element, "");
 									eList.add(context);
 								}
 							} else if (KIND_VERIFICATION.equals(elementType)) {
 								String verificationType = header.get(ATTR_VERIFICATION_TYPE);
-								VerificationType type = VerificationTypeManager
-										.getInstance().getTypeById(verificationType);
+								VerificationType type = VerificationTypeManager.getInstance()
+										.getTypeById(verificationType);
 								if (type != null) {
 									Verification verification = type.create(element, "");
 									eList.add(verification);
 								}
 							} else if (KIND_TESTSUITE.equals(elementType)) {
-								TestSuite suite = ScenarioFactory.eINSTANCE
-										.createTestSuite();
+								TestSuite suite = ScenarioFactory.eINSTANCE.createTestSuite();
 								eList.add(suite);
-							} else if (KIND_PROJECT_METADATA
-									.equals(elementType)) {
-								ProjectMetadata suite = ScenarioFactory.eINSTANCE
-										.createProjectMetadata();
+							} else if (KIND_PROJECT_METADATA.equals(elementType)) {
+								ProjectMetadata suite = ScenarioFactory.eINSTANCE.createProjectMetadata();
 								eList.add(suite);
 							}
 						}
@@ -569,8 +529,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 						}
 
 					} else {
-						throw new Exception(
-								"Q7 plain format version is unsupported.");
+						throw new Exception("Q7 plain format version is unsupported.");
 					}
 				}
 			} catch (Exception e) {
@@ -593,13 +552,12 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		TestSuite sc = (TestSuite) eObject;
 		InputStream items = read(TESTCASE_ITEMS);
 
-		sc.setManuallyOrdered(header.containsKey(ATTR_MANUALY_ORDERED) &&
-				header.get(ATTR_MANUALY_ORDERED).equalsIgnoreCase("true"));
+		sc.setManuallyOrdered(
+				header.containsKey(ATTR_MANUALY_ORDERED) && header.get(ATTR_MANUALY_ORDERED).equalsIgnoreCase("true"));
 
 		if (items != null) {
 			try {
-				BufferedReader stream = new BufferedReader(
-						new InputStreamReader(items));
+				BufferedReader stream = new BufferedReader(new InputStreamReader(items));
 				while (true) {
 					String line = stream.readLine();
 					if (line == null) {
@@ -609,8 +567,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 						int pos = line.indexOf("\t//");
 						if (pos != -1) {
 							String id = line.substring(0, pos);
-							TestSuiteItem item = ScenarioFactory.eINSTANCE
-									.createTestSuiteItem();
+							TestSuiteItem item = ScenarioFactory.eINSTANCE.createTestSuiteItem();
 							item.setNamedElementId(id);
 							sc.getItems().add(item);
 						}
@@ -622,8 +579,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		}
 	}
 
-	private void processScenarioAttrs(Map<String, String> header,
-			EObject eObject) {
+	private void processScenarioAttrs(Map<String, String> header, EObject eObject) {
 		Scenario sc = (Scenario) eObject;
 
 		if (header.containsKey(ATTR_EXTERNAL_REFERENCE)) {
@@ -631,6 +587,15 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		}
 		if (header.containsKey(ATTR_TESTCASE_TYPE)) {
 			sc.setType(header.get(ATTR_TESTCASE_TYPE));
+		}
+		for (Map.Entry<String, String> e : header.entrySet()) {
+			if (e.getKey().startsWith(ATTR_PROPERTY_PREFIX)) {
+				EList<ScenarioProperty> properties = sc.getProperties();
+				ScenarioProperty prop = ScenarioFactory.eINSTANCE.createScenarioProperty();
+				prop.setName(e.getKey().substring(ATTR_PROPERTY_PREFIX.length()));
+				prop.setValue(e.getValue());
+				properties.add(prop);
+			}
 		}
 
 		if (header.containsKey(ATTR_CONTEXTS)) {
@@ -646,8 +611,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		}
 	}
 
-	private void processProjectMetadataAttrs(Map<String, String> header,
-			EObject eObject) throws IOException {
+	private void processProjectMetadataAttrs(Map<String, String> header, EObject eObject) throws IOException {
 		ProjectMetadata md = (ProjectMetadata) eObject;
 		if (header.containsKey(ATTR_CONTEXTS)) {
 			String contexts = header.get(ATTR_CONTEXTS);
@@ -666,8 +630,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements
 		}
 	}
 
-	private void processGeneralNamedElementAttrs(Map<String, String> header,
-			EObject eObject) {
+	private void processGeneralNamedElementAttrs(Map<String, String> header, EObject eObject) {
 		NamedElement e = (NamedElement) eObject;
 		if (header.containsKey(ATTR_ID)) {
 			e.setId(header.get(ATTR_ID));

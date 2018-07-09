@@ -416,6 +416,7 @@ public class DragSupport {
 			IWidgetDescriber itemDescriber, Point destinationPoint, int[] states) {
 		currentTarget = getDropTarget(controlDescriber.getWidget());
 		if (currentTarget != null) {
+			resolveDataType();
 			DNDEventAdapter adapter = createDNDEvent(destinationPoint, states,
 					DND.DragOver);
 			Event e = (Event) adapter.getEvent();
@@ -433,6 +434,7 @@ public class DragSupport {
 			IWidgetDescriber itemDescriber, Point destinationPoint, int[] states) {
 		currentTarget = getDropTarget(controlDescriber.getWidget());
 		if (currentTarget != null) {
+			resolveDataType();
 			DNDEventAdapter adapter = createDNDEvent(destinationPoint, states,
 					DND.DragEnter);
 			Event e = (Event) adapter.getEvent();
@@ -479,21 +481,7 @@ public class DragSupport {
 
 		}
 		if (!isDataTypeSupported) {
-			if (currentTarget != null) {
-				List<Transfer> fromTransfer = Arrays.asList(currentSource
-						.getTransfer());
-				Transfer[] transfer = currentTarget.getTransfer();
-				for (Transfer t : transfer) {
-					if (fromTransfer.contains(t)) {
-						TransferData[] supportedTypes = t.getSupportedTypes();
-						for (TransferData td : supportedTypes) {
-							dataType = td;
-							break;
-						}
-						break;
-					}
-				}
-			}
+			resolveDataType();
 		}
 
 		if (dataType == null) {
@@ -505,6 +493,24 @@ public class DragSupport {
 				(Event) event.getEvent());
 		Event e = (Event) event.getEvent();
 		currentData = e.data;
+	}
+
+	private void resolveDataType() {
+		if (currentSource != null && currentTarget != null) {
+			List<Transfer> fromTransfer = Arrays.asList(currentSource
+					.getTransfer());
+			Transfer[] transfer = currentTarget.getTransfer();
+			for (Transfer t : transfer) {
+				if (fromTransfer.contains(t)) {
+					TransferData[] supportedTypes = t.getSupportedTypes();
+					for (TransferData td : supportedTypes) {
+						dataType = td;
+						break;
+					}
+					break;
+				}
+			}
+		}
 	}
 
 	private void showItemBeforeDrag(IWidgetDescriber itemDescriber) {

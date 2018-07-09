@@ -14,10 +14,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridItem;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.protocol.SelectData;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerSelectionFilter;
 import org.eclipse.rcptt.tesla.internal.ui.player.PlayerWrapUtils;
@@ -25,6 +21,9 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.nebula.Messages;
 import org.eclipse.rcptt.tesla.nebula.viewers.NebulaViewers;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Widget;
 
 public class ItemCell extends ItemPart {
 
@@ -46,7 +45,7 @@ public class ItemCell extends ItemPart {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = super.hashCode();	
 		result = prime * result + ((column == null) ? 0 : column.hashCode());
 		return result;
 	}
@@ -70,14 +69,19 @@ public class ItemCell extends ItemPart {
 
 	//
 
-	public static ItemCell from(SelectData data, GridItem item) {
-		return from(data.getPattern(), item);
+	public static ItemCell from(SelectData data, GridItem item, Integer index) {
+		return from(data.getPattern(), item, index);
 	}
 
-	public static ItemCell from(String pattern, GridItem item) {
+	public static ItemCell from(String pattern, GridItem item, Integer index) {
 
 		Grid grid = ((GridItem) item).getParent();
-		GridColumn column = NebulaViewers.findColumn(grid, pattern, 0);
+		GridColumn column = null;
+		if(index != null)
+			column = NebulaViewers.findColumn(grid, pattern, index);
+		else {
+			column = NebulaViewers.findColumn(grid, pattern, 0);
+		}
 		if (column == null)
 			throw new IllegalArgumentException(Messages.bind(Messages.ColumnNotExist, pattern));
 		// TODO check that this exception handled on menu-clicks replaying (maybe in SWTUIProcessor)
@@ -90,7 +94,7 @@ public class ItemCell extends ItemPart {
 		if (!(item instanceof GridItem))
 			return null;
 
-		return p.wrap(ItemCell.from(f.pattern, (GridItem) item));
+		return p.wrap(ItemCell.from(f.pattern, (GridItem) item, f.index));
 	}
 
 	//
@@ -98,10 +102,13 @@ public class ItemCell extends ItemPart {
 	@Override
 	public Rectangle bounds() {
 		Rectangle columnHeaderBounds = NebulaViewers.getColumnHeaderBounds(column);
-		
-		return new Rectangle(
-				columnHeaderBounds.x, itemBounds().y,
-				columnHeaderBounds.width, itemBounds().height);
+		if (columnHeaderBounds != null) {
+			return new Rectangle(columnHeaderBounds.x, itemBounds().y, columnHeaderBounds.width, itemBounds().height);
+		}
+		if (item == null || NebulaViewers.getColumnCurrentPosition(column) == -1 || item.isDisposed()){
+            return new Rectangle(0, 0, 0, 0);
+	 }
+	return item.getBounds(NebulaViewers.getColumnCurrentPosition(column));
 	}
 
 	// replaying selection stuff

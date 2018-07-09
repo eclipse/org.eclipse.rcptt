@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.scenario.util;
 
+import java.util.Map;
 import org.eclipse.rcptt.core.scenario.*;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -17,6 +18,7 @@ import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -84,6 +86,10 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioAdapter();
 			}
 			@Override
+			public Adapter caseScenarioProperty(ScenarioProperty object) {
+				return createScenarioPropertyAdapter();
+			}
+			@Override
 			public Adapter caseContext(Context object) {
 				return createContextAdapter();
 			}
@@ -140,6 +146,14 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createWidgetVerificationAdapter();
 			}
 			@Override
+			public Adapter caseCapabilityContext(CapabilityContext object) {
+				return createCapabilityContextAdapter();
+			}
+			@Override
+			public Adapter caseCapabilityContextItem(CapabilityContextItem object) {
+				return createCapabilityContextItemAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -184,6 +198,20 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScenarioAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.core.scenario.ScenarioProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.core.scenario.ScenarioProperty
+	 * @generated
+	 */
+	public Adapter createScenarioPropertyAdapter() {
 		return null;
 	}
 
@@ -380,6 +408,34 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createWidgetVerificationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.core.scenario.CapabilityContext <em>Capability Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.core.scenario.CapabilityContext
+	 * @generated
+	 */
+	public Adapter createCapabilityContextAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.core.scenario.CapabilityContextItem <em>Capability Context Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.core.scenario.CapabilityContextItem
+	 * @generated
+	 */
+	public Adapter createCapabilityContextItemAdapter() {
 		return null;
 	}
 

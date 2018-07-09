@@ -41,13 +41,12 @@ public class GetItemsService extends AbstractActionService {
 		GetItems cmd = (GetItems) command;
 		final ControlHandler handler = cmd.getControl();
 
-		Element element = TeslaBridge.find(handler);
-		final Widget widget = (Widget) TeslaBridge.getClient()
-				.getProcessor(SWTUIProcessor.class).getMapper().get(element).widget;
+		Element element = TeslaBridge.find(handler, getContext());
+		final Widget widget = (Widget) TeslaBridge.getClient().getProcessor(SWTUIProcessor.class).getMapper()
+				.get(element).widget;
 
 		if (!(widget instanceof Tree || widget instanceof TreeItem || widget instanceof Table)) {
-			return TeslaImplPlugin
-					.err("'get-items' can be used only on table or tree or tree item");
+			return TeslaImplPlugin.err("'get-items' can be used only on table or tree or tree item");
 		}
 
 		final List<ControlHandler> items = new ArrayList<ControlHandler>();
@@ -64,15 +63,13 @@ public class GetItemsService extends AbstractActionService {
 		return null; // prevents writing to output pipe
 	}
 
-	private static void getItems(List<ControlHandler> result, Widget widget,
-			ControlHandler parent) {
+	private static void getItems(List<ControlHandler> result, Widget widget, ControlHandler parent) {
 		Map<String, Integer> counters = new HashMap<String, Integer>();
 
 		if (widget instanceof Table) {
 			Table table = (Table) widget;
 			for (TableItem i : table.getItems()) {
-				ControlHandler handler = TeslaFactory.eINSTANCE
-						.createControlHandler();
+				ControlHandler handler = TeslaFactory.eINSTANCE.createControlHandler();
 				handler.setKind(ElementKind.Item);
 				handler.setParent(parent);
 
@@ -82,20 +79,19 @@ public class GetItemsService extends AbstractActionService {
 				} else {
 					int index = counters.get(i.getText());
 					counters.put(i.getText(), index + 1);
-					handler.setPath(escapePathFragment(i.getText()) + "%"
-							+ index + "%");
+					handler.setPath(escapePathFragment(i.getText()) + "%" + index + "%");
 				}
 
 				result.add(handler);
 			}
 		} else if (widget instanceof Tree || widget instanceof TreeItem) {
 			if (widget instanceof TreeItem && !((TreeItem) widget).getExpanded()) {
-				return; // At least on Mac OS X SWT API returns a single tree item child
+				return; // At least on Mac OS X SWT API returns a single tree
+						// item child
 						// for a collapsed tree item, which is wrong
 						//
 			}
-			TreeItem[] roots = widget instanceof Tree ? ((Tree) widget)
-					.getItems() : ((TreeItem) widget).getItems();
+			TreeItem[] roots = widget instanceof Tree ? ((Tree) widget).getItems() : ((TreeItem) widget).getItems();
 			if (widget instanceof TreeItem)
 				parent = parent.getParent();
 
@@ -103,8 +99,7 @@ public class GetItemsService extends AbstractActionService {
 			listExpanded(expanded, roots);
 
 			for (TreeItem i : expanded) {
-				ControlHandler handler = TeslaFactory.eINSTANCE
-						.createControlHandler();
+				ControlHandler handler = TeslaFactory.eINSTANCE.createControlHandler();
 				handler.setKind(ElementKind.Item);
 				handler.setParent(parent);
 

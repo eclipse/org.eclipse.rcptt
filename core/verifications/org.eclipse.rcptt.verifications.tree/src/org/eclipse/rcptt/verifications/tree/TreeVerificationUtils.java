@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.rcptt.verifications.tree;
 
+import java.util.List;
+
 import org.eclipse.rcptt.tesla.core.ui.Image;
 
 public class TreeVerificationUtils {
+
 	public static String getDecoratedImagePath(Image img) {
 		if (img == null) {
 			return null;
@@ -24,4 +27,20 @@ public class TreeVerificationUtils {
 		}
 		return sb.toString();
 	}
+
+	public static boolean isExcludedColumn(VerifyTreeData tree, int ind) {
+		List<Integer> excludedColumns = tree.getExcludedColumns();
+		return excludedColumns.contains(ind);
+	}
+
+	public static void addExcludedColumn(VerifyTreeData tree, int excludedColumnIndex) {
+		tree.getExcludedColumns().add(excludedColumnIndex);
+	}
+
+	public static void removeExcludedColumn(VerifyTreeData tree, int excludedColumnIndex) {
+		List<Integer> excludedColumns = tree.getExcludedColumns();
+		int index = excludedColumns.indexOf(Integer.valueOf(excludedColumnIndex));
+		excludedColumns.remove(index);
+	}
+
 }

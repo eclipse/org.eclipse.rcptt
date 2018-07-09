@@ -26,10 +26,10 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.report.impl.ReportContainerImpl#getContent <em>Content</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

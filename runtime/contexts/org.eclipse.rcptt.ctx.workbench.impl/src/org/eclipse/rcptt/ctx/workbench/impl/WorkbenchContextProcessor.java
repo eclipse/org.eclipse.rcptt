@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@ package org.eclipse.rcptt.ctx.workbench.impl;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -143,19 +142,13 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 			}
 			String perspectiveId = getPerspectiveId(ctx);
 			if (page != null && perspectiveId != null && perspectiveId.length() > 0 && ctx.isResetPerspective()) {
-
-				List<IPerspectiveDescriptor> descriptors = Arrays.asList(page.getSortedPerspectives());
-
 				// Close all perspectives
 
 				// Wait until some jobs to finish, before trying to close
 				// perspective
 				// collector.addAllJobs(10 * 1000);
-				for (final IPerspectiveDescriptor desc : descriptors) {
-					setPageInput(page, getDefaultPageInput());
-					UIRunnable.exec(closePerspective(page, desc));
-				}
-
+				setPageInput(page, getDefaultPageInput());
+				UIRunnable.exec(closeAllPerspectives(page));
 				UIRunnable.exec(cleanOtherPerspectives(page));
 			}
 
@@ -256,12 +249,12 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 		};
 	}
 
-	private UIRunnable<Object> closePerspective(final IWorkbenchPage page, final IPerspectiveDescriptor desc) {
+	private UIRunnable<Object> closeAllPerspectives(final IWorkbenchPage page) {
 		return new UIRunnable<Object>() {
 			@Override
 			public Object run() throws CoreException {
 				try {
-					page.closePerspective(desc, false, false);
+					page.closeAllPerspectives(false, false);
 				} catch (Throwable e) {
 					RcpttPlugin.log(e);
 				}

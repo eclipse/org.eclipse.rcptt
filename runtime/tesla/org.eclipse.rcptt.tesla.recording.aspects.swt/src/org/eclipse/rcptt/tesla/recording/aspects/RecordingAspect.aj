@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Widget;
 
 import org.eclipse.rcptt.tesla.core.am.AspectManager;
 import org.eclipse.rcptt.tesla.core.utils.TeslaUtils;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
+import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.swt.logging.SwtEventLog;
 
 public aspect RecordingAspect {
@@ -467,6 +469,20 @@ public aspect RecordingAspect {
 	// target(control) && args(menu) {
 	// SWTEventManager.processMenuCreation(menu, control);
 	// }
+	
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(org.eclipse.swt.widgets.Shell shell, boolean visible):
+		execution(void org.eclipse.swt.widgets.Shell.setVisible(boolean))
+		&& target(shell) && args(visible) {
+		if (!visible) {
+			try {
+				SWTUIElement wrappedShell = SWTUIPlayer.getPlayer().wrap(shell);
+				SWTEventManager.removeClosedShell(wrappedShell);
+			} catch (Throwable e) {
+				RecordingSWTActivator.log(e);
+			}
+		}
+	}
 	
 // -- THE CODE BELLOW USED FOR CUSTOM BUILDS
 	

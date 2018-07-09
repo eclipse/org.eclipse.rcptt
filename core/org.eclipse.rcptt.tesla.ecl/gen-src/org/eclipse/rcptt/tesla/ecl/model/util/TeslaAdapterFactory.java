@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,7 @@ import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
+import org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
 import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
@@ -67,6 +68,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -92,12 +94,14 @@ import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
 import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
 import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.GetSection;
 import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetTable;
 import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
+import org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName;
 import org.eclipse.rcptt.tesla.ecl.model.GetText;
 import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
 import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
@@ -163,7 +167,6 @@ import org.eclipse.rcptt.tesla.ecl.model.Wait;
 import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
 import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.model.*;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyError;
 
 /**
  * <!-- begin-user-doc -->
@@ -804,6 +807,22 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseGetLastMessageBox(GetLastMessageBox object) {
 				return createGetLastMessageBoxAdapter();
+			}
+			@Override
+			public Adapter caseCheckDownloadResult(CheckDownloadResult object) {
+				return createCheckDownloadResultAdapter();
+			}
+			@Override
+			public Adapter caseGetRuntimeTarget(GetRuntimeTarget object) {
+				return createGetRuntimeTargetAdapter();
+			}
+			@Override
+			public Adapter caseGetTestCaseName(GetTestCaseName object) {
+				return createGetTestCaseNameAdapter();
+			}
+			@Override
+			public Adapter caseGetComboItems(GetComboItems object) {
+				return createGetComboItemsAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -2874,6 +2893,62 @@ public class TeslaAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGetLastMessageBoxAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult <em>Check Download Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult
+	 * @generated
+	 */
+	public Adapter createCheckDownloadResultAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget <em>Get Runtime Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget
+	 * @generated
+	 */
+	public Adapter createGetRuntimeTargetAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName <em>Get Test Case Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName
+	 * @generated
+	 */
+	public Adapter createGetTestCaseNameAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.tesla.ecl.model.GetComboItems <em>Get Combo Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.GetComboItems
+	 * @generated
+	 */
+	public Adapter createGetComboItemsAdapter() {
 		return null;
 	}
 

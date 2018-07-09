@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 
 import static java.util.Arrays.asList;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,6 +25,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -50,8 +52,11 @@ import org.eclipse.ui.progress.UIJob;
 
 /**
  * Manages jobs information and statuses.
- * */
+ */
 public class UIJobCollector implements IJobChangeListener {
+	private static final boolean DEBUG = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/jobCollector"));
+	private static final PrintWriter DEBUG_WRITER = new PrintWriter(System.out);
+
 	private class JobInfo {
 		private final Job job;
 		private JobStatus status;
@@ -72,6 +77,8 @@ public class UIJobCollector implements IJobChangeListener {
 			sleeping = false;
 			done = false;
 			startingTime = System.currentTimeMillis();
+			status = calcJobStatus(job, 0);
+			debug(this + " is awake with " + status);
 		}
 
 		synchronized void sleeping() {
@@ -96,22 +103,26 @@ public class UIJobCollector implements IJobChangeListener {
 		synchronized void printJobTimeoutLogEntry() {
 			if (!infoPrinted) {
 				infoPrinted = true;
-				SWTTeslaActivator
-						.logToReport("---->>> Waiting timeout exceed then execute: "
-								+ getCurrentReportNodeName()
-								+ " <<---\n(skipping)"
-								+ getJobMessage(this));
+				SWTTeslaActivator.logToReport("---->>> Waiting timeout exceed then execute: "
+						+ getCurrentReportNodeName() + " <<---\n(skipping)" + getJobMessage(this));
 			}
 		}
 
 		synchronized boolean isActive() {
-			if (done)
+			if (done) {
+				debug(this + " is done");
 				return false;
-			if (!JobStatus.REQUIRED.equals(status))
+			}
+			if (!JobStatus.REQUIRED.equals(status)) {
+				debug(this + " not required: " + status);
 				return false;
+			}
 			if (sleeping) {
 				long delay = startingTime - System.currentTimeMillis();
-				return delay < TeslaLimits.getJobWaitForDelayedTimeout();
+				boolean rv = delay < TeslaLimits.getJobWaitForDelayedTimeout();
+				if (!rv)
+					debug(this + " is sleeping");
+				return rv;
 			}
 
 			return true;
@@ -123,6 +134,7 @@ public class UIJobCollector implements IJobChangeListener {
 			checkForTimeout = true;
 			jobInStepMode = false;
 			status = calcJobStatus(job, delay);
+			debug(this + " is scheduled as " + status);
 			startingTime = System.currentTimeMillis() + delay;
 		}
 
@@ -145,26 +157,29 @@ public class UIJobCollector implements IJobChangeListener {
 				rv = new JobInfo(job);
 				JobsManager.getInstance().removeCanceled(job);
 				if (TeslaFeatures.isActivityLogging()) {
-					String msg = "waiting for job: "
-							+ job.getClass().getName();
-					System.out.println(msg);
-					Q7LoggingManager.get("jobs").log(
-							msg, null);
+					String msg = "waiting for job: " + job.getClass().getName();
+					if (!IGNORED_BY_DEFAULT.contains(job.getClass().getName()))
+						debug(msg);
+					Q7LoggingManager.get("jobs").log(msg, null);
 					ReportManager.appendLogExtra(msg);
 				}
+				debug("New job: " + job.getClass().getName());
 				jobs.put(job, rv);
 			}
 			return rv;
 		}
 	}
 
+	@Override
 	public void aboutToRun(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void awake(IJobChangeEvent event) {
 		getOrCreateJobInfo(event.getJob()).awake();
 	}
 
+	@Override
 	public void done(IJobChangeEvent event) {
 		JobsManager.getInstance().removeCanceled(event.getJob());
 		synchronized (jobs) {
@@ -173,14 +188,19 @@ public class UIJobCollector implements IJobChangeListener {
 			if (needDisable && isJoinEmpty()) {
 				disable();
 			}
-			if (!reschedule)
+			if (!reschedule) {
 				jobs.remove(event.getJob());
+				if (!IGNORED_BY_DEFAULT.contains(event.getJob().getClass().getName()))
+					debug("Done: " + event.getJob().getClass().getName());
+			}
 		}
 	}
 
+	@Override
 	public void running(IJobChangeEvent event) {
 	}
 
+	@Override
 	public void scheduled(IJobChangeEvent event) {
 		if (!state) {
 			return;
@@ -189,10 +209,11 @@ public class UIJobCollector implements IJobChangeListener {
 		jobInfo.scheduled(event.getDelay());
 		if (JobStatus.REQUIRED.equals(jobInfo.status)) {
 			if (event.getJob().belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {
+				debug("Delay for " + jobInfo + " is nullified as it is a decoration job");
 				JobsManager.getInstance().nulifyTime(event.getJob());
 			}
-			if (jobInfo.rescheduleCounter < TeslaLimits
-					.getJobNullifyRescheduleMaxValue()) {
+			if (jobInfo.rescheduleCounter < TeslaLimits.getJobNullifyRescheduleMaxValue()) {
+				debug("Delay for " + jobInfo + " is nullified as it is a required job scheduled in a nearest future");
 				JobsManager.getInstance().nulifyTime(event.getJob());
 			}
 		}
@@ -202,32 +223,27 @@ public class UIJobCollector implements IJobChangeListener {
 		return detectJobStatus(job, delay);
 	}
 
-	private static final Set<String> IGNORED_BY_DEFAULT = Collections.unmodifiableSet(
-			new HashSet<String>(
-					asList(
-							"org.eclipse.jdt.internal.core.search.processing.JobManager$1$ProgressJob",
-							"org.eclipse.ui.internal.progress.ProgressViewUpdater$1",
-							"org.eclipse.ui.internal.progress.WorkbenchSiteProgressService$SiteUpdateJob",
-							"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshProgressMessageJob",
-							"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog$RefreshProgressMessageJob",
-							"org.eclipse.ui.internal.progress.AnimationManager$1",
-							"org.eclipse.ui.internal.progress.ProgressManager$6",
-							"org.eclipse.ui.internal.progress.TaskBarProgressManager$2",
-							"org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$1"
-					)
-			)
-			);
+	private static final Set<String> IGNORED_BY_DEFAULT = Collections.unmodifiableSet(new HashSet<>(asList(
+			"org.eclipse.jdt.internal.core.search.processing.JobManager$1$ProgressJob",
+			"org.eclipse.ui.internal.progress.ProgressViewUpdater$1",
+			"org.eclipse.ui.internal.progress.WorkbenchSiteProgressService$SiteUpdateJob",
+			"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshProgressMessageJob",
+			"org.eclipse.ui.dialogs.FilteredItemsSelectionDialog$RefreshProgressMessageJob",
+			"org.eclipse.ui.internal.progress.AnimationManager$1",
+			"org.eclipse.ui.internal.progress.ProgressManager$6",
+			"org.eclipse.ui.internal.progress.TaskBarProgressManager$1", // Since Oxygen
+			"org.eclipse.ui.internal.progress.TaskBarProgressManager$2", // Before Oxygen
+			"org.eclipse.rcptt.ecl.internal.core.Session$1",
+			"org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$1")));
 
 	public static JobStatus detectJobStatus(Job job, long delay) {
 		JobStatus status = null;
-		IJobCollector[] collectors = JobCollectorExtensions.getDefault()
-				.getCollectors();
+		IJobCollector[] collectors = JobCollectorExtensions.getDefault().getCollectors();
 
 		// Take first status
 		for (IJobCollector cl : collectors) {
 			JobStatus jobStatus = cl.testJob(job);
-			if (jobStatus != null
-					&& (!jobStatus.equals(JobStatus.UNKNOWN) && status == null)) {
+			if (jobStatus != null && (!jobStatus.equals(JobStatus.UNKNOWN) && status == null)) {
 				status = jobStatus;
 				break;
 			}
@@ -240,6 +256,9 @@ public class UIJobCollector implements IJobChangeListener {
 			if (job.belongsTo(getFamilyAutoBuild())) {
 				status = JobStatus.REQUIRED;
 			}
+			if (job.isUser()) {
+				status = JobStatus.REQUIRED;
+			}
 			// if (TeslaSWTAccess.isDefferedTreeContentProvider(job)) {
 			// status = JobStatus.REQUIRED;
 			// }
@@ -250,6 +269,7 @@ public class UIJobCollector implements IJobChangeListener {
 		return status;
 	}
 
+	@Override
 	public void sleeping(IJobChangeEvent event) {
 		getOrCreateJobInfo(event.getJob()).sleeping();
 	}
@@ -264,7 +284,7 @@ public class UIJobCollector implements IJobChangeListener {
 		return getJobMessage(getOrCreateJobInfo(job));
 	}
 
-	private String getJobMessage(JobInfo jobInfo) {
+	private static String getJobMessage(JobInfo jobInfo) {
 		Job job = jobInfo.job;
 		StringBuilder msg = new StringBuilder();
 		msg.append("Job: ").append(job.getName()).append("\n");
@@ -287,9 +307,7 @@ public class UIJobCollector implements IJobChangeListener {
 		if (rule != null) {
 			if (rule instanceof IResource) {
 				IPath location = ((IResource) rule).getLocation();
-				msg.append("\trule is resource: ")
-						.append(location != null ? location.toOSString() : "/")
-						.append("\n");
+				msg.append("\trule is resource: ").append(location != null ? location.toOSString() : "/").append("\n");
 			} else {
 				msg.append("\trule: ").append(rule.toString()).append("\n");
 			}
@@ -309,25 +327,17 @@ public class UIJobCollector implements IJobChangeListener {
 					break;
 				}
 				c++;
-				msg.append(
-						"\t\t"
-								+ stackTraceElement.getClassName()
-								+ "."
-								+ stackTraceElement.getMethodName()
-								+ ":"
-								+ stackTraceElement.getLineNumber()
-								+ (stackTraceElement.getFileName() != null ? (" ["
-										+ stackTraceElement
-												.getFileName() + "]")
-										: "")).append("\n");
+				msg.append("\t\t" + stackTraceElement.getClassName() + "." + stackTraceElement.getMethodName() + ":"
+						+ stackTraceElement.getLineNumber() + (stackTraceElement.getFileName() != null
+								? (" [" + stackTraceElement.getFileName() + "]") : ""))
+						.append("\n");
 
 			}
 		}
 		return msg.toString();
 	}
 
-	private boolean logReturnResult(boolean result, List<Job> realJobs,
-			List<Job> jobsInUI, Q7WaitInfoRoot info) {
+	private boolean logReturnResult(boolean result, List<Job> realJobs, List<Job> jobsInUI, Q7WaitInfoRoot info) {
 		try {
 			long curTime = System.currentTimeMillis();
 			if (result) {
@@ -369,8 +379,8 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	private void logJobInformation(List<Job> realJobs, List<Job> jobsInUI) {
-		List<Job> otherJobs = new ArrayList<Job>(jobs.keySet());
-		Set<Job> jobInStepMode = new HashSet<Job>();
+		List<Job> otherJobs = new ArrayList<>(jobs.keySet());
+		Set<Job> jobInStepMode = new HashSet<>();
 		for (Job job : otherJobs) {
 			if (getOrCreateJobInfo(job).jobInStepMode)
 				jobInStepMode.add(job);
@@ -380,8 +390,7 @@ public class UIJobCollector implements IJobChangeListener {
 		otherJobs.removeAll(jobInStepMode);
 		StringBuilder reportMessage = new StringBuilder();
 
-		reportMessage.append("----->>> Waiting for Jobs during execution: ")
-				.append(getCurrentReportNodeName())
+		reportMessage.append("----->>> Waiting for Jobs during execution: ").append(getCurrentReportNodeName())
 				.append(" -----<<<< \n");
 
 		if (realJobs.size() > 0) {
@@ -413,22 +422,28 @@ public class UIJobCollector implements IJobChangeListener {
 
 	public boolean isEmpty(Context context, Q7WaitInfoRoot info) {
 		// Filter already executed UI jobs with async finish status.
-		List<Job> realJobs = new ArrayList<Job>();
+		List<Job> realJobs = new ArrayList<>();
 		long current = System.currentTimeMillis();
 		boolean wasInStepMode = false;
-		List<Job> jobsInUI = new ArrayList<Job>();
+		List<Job> jobsInUI = new ArrayList<>();
 		synchronized (jobs) {
 			// Remove all canceled jobs
 			removeCanceledJobs();
 			if (jobs.isEmpty()) {
+				debug("JobCollector nothing left");
 				return logReturnResult(true, realJobs, jobsInUI, info);
 			}
 			for (JobInfo jobInfo : jobs.values()) {
-				if (!jobInfo.isActive())
-					continue;
 				Job job = jobInfo.job;
-				IJobCollector[] collectors = JobCollectorExtensions.getDefault()
-						.getCollectors();
+				if (!jobInfo.isActive()) {
+					if (DEBUG) {
+						String name = job.getClass().getName();
+						if (!IGNORED_BY_DEFAULT.contains(name))
+							debug("JobCollector not active: " + name);
+					}
+					continue;
+				}
+				IJobCollector[] collectors = JobCollectorExtensions.getDefault().getCollectors();
 				boolean allowSkip = true;
 				for (IJobCollector ext : collectors) {
 					if (ext.noSkipMode(job)) {
@@ -437,14 +452,47 @@ public class UIJobCollector implements IJobChangeListener {
 					}
 				}
 				if (allowSkip) {
+					debug("JobCollector skip: " + job.getClass().getName());
 					continue;
 				}
-				// SWTTeslaActivator.debugLog("Waiting job:" + job.getName() + ": "
+				// SWTTeslaActivator.debugLog("Waiting job:" + job.getName() +
+				// ": "
 				// + job.getClass().getName());
 				long jobStartTime = jobInfo.startingTime;
+
+
+				if (job.getClass().getName().contains("org.eclipse.debug.internal.ui.DebugUIPlugin$")) {
+					// It looks like background launching job.
+					Thread thread = job.getThread();
+					if (thread == null) {
+						SWTTeslaActivator.logToReport("Active job " + job.getName() + " has no thread");
+						jobInfo.done(false);
+					}
+					Context ctx = ContextManagement.makeContext(thread.getStackTrace());
+					// If Auto-build job is active and on lock and there is Modal
+					// Dialog in main thread,
+					// lets' skip job from important for us.
+					if (ctx.contains("java.util.concurrent.locks.LockSupport", "park")
+							|| ctx.contains("java.util.concurrent.locks.LockSupport", "parkNanos")
+							|| ctx.contains("java.lang.Object", "wait")) {
+						// We are waiting some stuff, let's check if main thread
+						// have a MessageDialog and if so skip this job right
+						// now.
+						if (context.contains("org.eclipse.jface.dialogs.MessageDialogWithToggle", "open")
+								|| context.contains("org.eclipse.jface.dialogs.MessageDialog", "open")) {
+							// Skip job from processing since it in lock and
+							// waits for a dialog.
+							SWTTeslaActivator.logToReport("Active job " + job.getName()
+									+ " has skipped since it in lock state and Message dialog are active");
+							continue;
+						}
+					}
+				}
+				debug("JobCollector checking: " + job.getClass().getName());
+
+
 				if (jobInfo.checkForTimeout) {
-					if (jobStartTime + TeslaLimits.getStepModeEnableTimeout() < current
-							&& job.getState() == Job.RUNNING
+					if (jobStartTime + TeslaLimits.getStepModeEnableTimeout() < current && job.getState() == Job.RUNNING
 							&& stepModeNext < current) {
 						// Job is sleepping to long time already.
 						// Check for job are slepping
@@ -462,21 +510,17 @@ public class UIJobCollector implements IJobChangeListener {
 						// // Skip model context, since it could
 						// continue;
 						// }
-						if (ctx.contains("java.lang.Thread",
-								"sleep")
-								|| ctx.contains("java.lang.Object",
-										"wait")) {
+
+						if (ctx.contains("java.lang.Thread", "sleep") || ctx.contains("java.lang.Object", "wait")
+								|| ctx.contains("java.util.concurrent.locks.LockSupport", "park")) {
 							/*
-							 * Job are in Thread.sleep(), lets allow
-							 * one operation.
+							 * Job are in Thread.sleep(), lets allow one
+							 * operation.
 							 */
 							if (!jobInfo.jobInStepMode) {
 								// Print step information
-								SWTTeslaActivator
-										.logToReport("---->>> Begin step mode for Job: "
-												+ getCurrentReportNodeName()
-												+ " <<---\n(skipping)"
-												+ getJobMessage(jobInfo));
+								SWTTeslaActivator.logToReport("---->>> Begin step mode for Job: "
+										+ getCurrentReportNodeName() + " <<---\n(skipping)" + getJobMessage(jobInfo));
 							}
 							jobInfo.jobInStepMode = true;
 							wasInStepMode = true;
@@ -491,25 +535,23 @@ public class UIJobCollector implements IJobChangeListener {
 					if (jobInfo.jobInStepMode) {
 						timeout = TeslaLimits.getStepModeTimeout();
 					}
-					if (job.getClass()
-							.getName()
-							.contains(
-									"org.eclipse.debug.internal.ui.DebugUIPlugin")) {
+					if (job.getClass().getName().contains("org.eclipse.debug.internal.ui.DebugUIPlugin")) {
 						timeout = TeslaLimits.getDebugJobTimeout();
 					}
 					if (jobStartTime + timeout < current) {
-						if (context != null
-								&& TeslaEventManager.getManager()
-										.isJobInSyncExec(job, context)) {
+						if (context != null && TeslaEventManager.getManager().isJobInSyncExec(job, context)) {
 							// Remove from stop waited jobs if called sync
 							// exec
+							debug(jobInfo + " is in sync exec");
 							jobInfo.checkForTimeout = false;
 						} else {
+							debug(job + " has timed out");
 							printJobTimeoutLogEntry(job);
 							continue;
 						}
 					}
 				}
+
 				if (context != null) {
 					if (isAsyncSupported()) {
 						// If we are executed from async finished job lets
@@ -524,22 +566,16 @@ public class UIJobCollector implements IJobChangeListener {
 					if (isSyncSupported()) {
 						// Check for any other job running Display.sleep()
 						if (context.contains(Display.class.getName(), "sleep")) {
-							if (TeslaEventManager.getManager().isJobInSyncExec(
-									job, context)) {
+							if (TeslaEventManager.getManager().isJobInSyncExec(job, context)) {
 								// If and only if job is already in synchronizer
-								Map<Thread, StackTraceElement[]> traces = Thread
-										.getAllStackTraces();
+								Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
 								Set<String> names = getSuperClassNames(job);
 								Thread jobThread = null;
 								Context jobContext = null;
-								for (Map.Entry<Thread, StackTraceElement[]> thread : traces
-										.entrySet()) {
-									Context ctx = ContextManagement
-											.makeContext(thread.getValue());
+								for (Map.Entry<Thread, StackTraceElement[]> thread : traces.entrySet()) {
+									Context ctx = ContextManagement.makeContext(thread.getValue());
 									for (String name : names) {
-										if (ctx.contains(
-												"org.eclipse.core.internal.jobs.Worker",
-												"run")
+										if (ctx.contains("org.eclipse.core.internal.jobs.Worker", "run")
 												&& ctx.contains(name, "run")) {
 											jobThread = thread.getKey();
 											jobContext = ctx;
@@ -547,44 +583,31 @@ public class UIJobCollector implements IJobChangeListener {
 									}
 								}
 								if (jobThread != null && jobContext != null) {
-									if (jobContext
-											.contains(
-													"org.eclipse.ui.internal.UISynchronizer",
-													"syncExec")
-											&& jobContext
-													.contains(
-															"org.eclipse.ui.internal.Semaphore",
-															"acquire")) {
-										if (!SWTUIPlayer
-												.hasRunnables(PlatformUI
-														.getWorkbench()
-														.getDisplay())) {
-											// also check what sync exec are on
-											// current stack trace
-											List<Context> execs = TeslaEventManager
-													.getManager()
-													.getSyncExecs();
+									if (jobContext.contains("org.eclipse.ui.internal.UISynchronizer", "syncExec")
+											&& (jobContext.contains("org.eclipse.ui.internal.Semaphore", "acquire")||
+													jobContext.contains("org.eclipse.ui.internal.PendingSyncExec", "waitUntilExecuted"))) {
+										if (!SWTUIPlayer.hasRunnables(PlatformUI.getWorkbench().getDisplay())) {
+											List<Context> execs = TeslaEventManager.getManager().getSyncExecs();
 											boolean toContinue = true;
 											for (Context context2 : execs) {
-												StackTraceElement[] stackTrace = context2
-														.getStackTrace();
+												StackTraceElement[] stackTrace = context2.getStackTrace();
 												String className = null;
 												for (int i = 0; i < stackTrace.length; i++) {
-													if (stackTrace[i]
-															.getClassName()
+													if (stackTrace[i].getClassName()
 															.equals("org.eclipse.swt.widgets.Display")
-															&& stackTrace[i]
-																	.getMethodName()
-																	.equals("syncExec")) {
-														className = stackTrace[i + 1]
-																.getClassName();
+															&& stackTrace[i].getMethodName().equals("syncExec")) {
+														className = stackTrace[i + 1].getClassName();
 														break;
 													}
 												}
-												if (!context
-														.containsClass(className)) {
+												if (className.equals("org.eclipse.e4.ui.internal.workbench.swt.E4Application$1")) //
+													continue;
+												if (!context.containsClass(className)) {
+													// There is a syncExec invocation, in another thread, assume they are waiting for UI, not this job
 													toContinue = false;
+													break;
 												}
+
 											}
 											if (toContinue) {
 												jobsInUI.add(job);
@@ -602,8 +625,7 @@ public class UIJobCollector implements IJobChangeListener {
 			}
 		}
 		if (!jobsInUI.isEmpty()) {
-			if (realJobs.size() == 1
-					&& realJobs.get(0).belongsTo(getFamilyAutoBuild())) {
+			if (realJobs.size() == 1 && realJobs.get(0).belongsTo(getFamilyAutoBuild())) {
 				realJobs.clear();
 			}
 		}
@@ -620,6 +642,7 @@ public class UIJobCollector implements IJobChangeListener {
 				final boolean value[] = { false };
 				display.syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						Shell[] shells = display.getShells();
 						for (Shell shell : shells) {
@@ -641,6 +664,8 @@ public class UIJobCollector implements IJobChangeListener {
 		if (wasInStepMode && realJobs.isEmpty()) {
 			stepModeNext = current + TeslaLimits.getStepModeStepTime();
 		}
+		if (DEBUG)
+			debug("Active jobs: " + realJobs);
 		return logReturnResult(realJobs.isEmpty(), realJobs, jobsInUI, info);
 	}
 
@@ -662,7 +687,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 	private Set<String> getSuperClassNames(Job job) {
 		Class<?> cl = job.getClass();
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 		while (true) {
 			if (cl.equals(Job.class)) {
 				break;
@@ -695,16 +720,15 @@ public class UIJobCollector implements IJobChangeListener {
 		// Add all current jobs to wait queue
 		Job[] find = Job.getJobManager().find(null);
 		for (Job job : find) {
-			if ((job instanceof UIJob && job.getState() != Job.SLEEPING)
-					|| job.belongsTo(getFamilyAutoBuild())) {
+			if ((job instanceof UIJob && job.getState() != Job.SLEEPING) || job.belongsTo(getFamilyAutoBuild())
+					|| job.isUser()) {
 				JobStatus status = calcJobStatus(job, (long) 0);
 				if (JobStatus.REQUIRED.equals(status)) {
 					if (job.belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {
 						JobsManager.getInstance().nulifyTime(job);
 					}
 					JobInfo jobInfo = getOrCreateJobInfo(job);
-					if (jobInfo.rescheduleCounter < TeslaLimits
-							.getJobNullifyRescheduleMaxValue()) {
+					if (jobInfo.rescheduleCounter < TeslaLimits.getJobNullifyRescheduleMaxValue()) {
 						JobsManager.getInstance().nulifyTime(job);
 					}
 				}
@@ -738,7 +762,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 	public List<Job> getJobs() {
 		synchronized (jobs) {
-			ArrayList<Job> rv = new ArrayList<Job>();
+			ArrayList<Job> rv = new ArrayList<>();
 			for (JobInfo info : jobs.values())
 				if (info.isActive())
 					rv.add(info.job);
@@ -768,8 +792,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 			List<Job> jobs2 = getJobs();
 			for (Job job : jobs2) {
-				SWTTeslaActivator.debugLog("Waiting for job:" + job.getName() + " "
-						+ job.getState());
+				SWTTeslaActivator.debugLog("Waiting for job:" + job.getName() + " " + job.getState());
 			}
 			SWTTeslaActivator.debugLog("UIJobCollector is going to join");
 			Thread.sleep(50);
@@ -777,7 +800,7 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	private boolean isJoinEmpty() {
-		List<Job> realJobs = new ArrayList<Job>();
+		List<Job> realJobs = new ArrayList<>();
 		synchronized (jobs) {
 			if (jobs.isEmpty()) {
 				return true;
@@ -789,19 +812,14 @@ public class UIJobCollector implements IJobChangeListener {
 				Set<String> names = getSuperClassNames(job);
 
 				// Locate thread
-				Map<Thread, StackTraceElement[]> traces = Thread
-						.getAllStackTraces();
+				Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
 				boolean toContinue = false;
-				for (Map.Entry<Thread, StackTraceElement[]> thread : traces
-						.entrySet()) {
-					Context ctx = ContextManagement.makeContext(thread
-							.getValue());
+				for (Map.Entry<Thread, StackTraceElement[]> thread : traces.entrySet()) {
+					Context ctx = ContextManagement.makeContext(thread.getValue());
 					for (String name : names) {
-						if (ctx.contains(name, "run")
-								|| ctx.contains(name, "runInUIThread")) {
+						if (ctx.contains(name, "run") || ctx.contains(name, "runInUIThread")) {
 							// Job already running
-							if (ctx.contains("org.eclipse.swt.widgets.Display",
-									"sleep")) {
+							if (ctx.contains("org.eclipse.swt.widgets.Display", "sleep")) {
 								// Job are showing dialog. Skip waiting for such
 								// job.
 								toContinue = true;
@@ -834,6 +852,13 @@ public class UIJobCollector implements IJobChangeListener {
 		synchronized (jobs) {
 			jobs.clear();
 			stepModeNext = 0;
+		}
+	}
+
+	private static void debug(String message) {
+		if (DEBUG) {
+			DEBUG_WRITER.println("UIJobCollector: " + message);
+			DEBUG_WRITER.flush();
 		}
 	}
 }

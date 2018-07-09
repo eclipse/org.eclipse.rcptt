@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nLU3oKvSEeKhFfhAE-FJzg
-Runtime-Version: 1.5.0.201407281253
-Save-Time: 7/29/14 7:29 AM
+Runtime-Version: 2.2.0.201704071302
+Save-Time: 5/18/17 3:54 PM
 Tags: Context, LaunchContext, selfAUT
 Testcase-Type: ecl
 
@@ -36,12 +36,28 @@ TEST STEPS:
 Content-Type: text/ecl
 Entry-Name: .content
 
+proc waitForTaskToComplete {
+	loop {
+		if [get-view "Execution View" | get-label ".*/1"
+			| get-property caption -raw | not-eq "1/1"] {
+			wait 500
+			recur
+		}
+	}
+}
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/PrefContext" | double-click
 get-editor PrefContext | get-button Apply | click
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/JavaProgram" | double-click
 get-editor JavaProgram | get-button Apply | click
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/FilteringLCTestContext" | double-click
 get-editor FilteringLCTestContext | get-button Apply | click
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext" | double-click
 with [get-editor EmptyLaunchContext] {
     with [get-section Options] {
@@ -54,6 +70,8 @@ with [get-editor EmptyLaunchContext] {
     }
     get-button Apply | click
 }
+waitForTaskToComplete
+
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/EmptyLaunchContext2" | double-click
 get-editor EmptyLaunchContext2 | get-button Capture | click
 with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree] {
@@ -83,14 +101,17 @@ with [get-editor FilteringLCTestContext] {
     click
     get-button Apply | click
 }
+
 with [get-editor EmptyLaunchContext] {
     click
     get-button Apply | click
 }
+
 with [get-editor EmptyLaunchContext2] {
     click
     get-button Capture | click
 }
+
 with [get-editor EmptyLaunchContext2 | get-section "Launch configurations" | get-tree] {
     get-item "Launch configurations/RCPTT Test Suite" | get-property childCount | equals 1 | verify-true
     get-item "Launch configurations/RCPTT Test Suite/Empty Test Suite" | get-property caption | equals "Empty Test Suite" | verify-true
@@ -109,6 +130,7 @@ with [get-editor FilteringLCTestContext] {
     click
     get-button Apply | click
 }
+
 with [get-editor EmptyLaunchContext] {
     click
     get-button Apply | click

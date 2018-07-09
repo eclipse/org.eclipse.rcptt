@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1109,6 +1109,15 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 	 */
 	public EReference getText_Markers() {
 		return (EReference)textEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getText_MarkersCount() {
+		return (EAttribute)textEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -2608,6 +2617,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		createEReference(textEClass, TEXT__CARET_POSITION);
 		createEReference(textEClass, TEXT__STYLE_AT_CARET);
 		createEReference(textEClass, TEXT__MARKERS);
+		createEAttribute(textEClass, TEXT__MARKERS_COUNT);
 
 		textPositionEClass = createEClass(TEXT_POSITION);
 		createEAttribute(textPositionEClass, TEXT_POSITION__LINE);
@@ -2949,6 +2959,7 @@ public class UiPackageImpl extends EPackageImpl implements UiPackage {
 		initEReference(getText_CaretPosition(), this.getTextPosition(), null, "caretPosition", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getText_StyleAtCaret(), this.getStyleRangeEntry(), null, "styleAtCaret", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getText_Markers(), this.getLineMarkersValue(), null, "markers", null, 0, -1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getText_MarkersCount(), ecorePackage.getEInt(), "markersCount", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(textPositionEClass, TextPosition.class, "TextPosition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTextPosition_Line(), ecorePackage.getEInt(), "line", null, 0, 1, TextPosition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -1,28 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt</groupId>
   <artifactId>ide</artifactId>
-  <version>2.1.0-SNAPSHOT</version>
+  <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <parent>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.4.0-SNAPSHOT</version>
     <artifactId>core</artifactId>
     <relativePath>../core/pom.xml</relativePath>
   </parent>
   <modules>
+    <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
     <module>../../modules/nebula</module>
     <module>../../launching</module>
+    <module>../../modules/testrail</module>
     <module>../../rcp</module>
     <module>../../testing</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.helios</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.galileo</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.kepler</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates-feature</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e3x</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e38x</module>
-    <module>../../runtime/updates/org.eclipse.rcptt.updates.aspectj.e44x</module>
+
     <module>../../repository/full</module>
   </modules>
   <properties>
@@ -31,17 +37,18 @@
     <e3xRepository>${buildUrl}/repository/e3x/target/repository</e3xRepository>
     <e4xRepository>${buildUrl}/repository/e4x/target/repository</e4xRepository>
     <coreRepository>${buildUrl}/repository/core/target/repository</coreRepository>
+    <rcpttExternalDepencenciesRepository>${buildUrl}/repository/dependencies/target/repository</rcpttExternalDepencenciesRepository>
   </properties>
   <repositories>
     <repository>
-      <id>mars</id>
+      <id>photon</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/mars</url>
+      <url>http://download.eclipse.org/releases/photon</url>
     </repository>
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/</url>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</url>
     </repository>
     <repository>
       <id>core</id>
@@ -56,6 +63,7 @@
       <layout>p2</layout>
       <url>${e3xRepository}</url>
     </repository>
+
     <repository>
       <snapshots>
         <updatePolicy>always</updatePolicy>
@@ -63,6 +71,11 @@
       <id>e4x-ide</id>
       <layout>p2</layout>
       <url>${e4xRepository}</url>
+    </repository>
+    <repository>
+       <id>rcptt-external-dependencies</id>
+       <layout>p2</layout>
+       <url>${rcpttExternalDepencenciesRepository}</url>
     </repository>
   </repositories>
 </project>

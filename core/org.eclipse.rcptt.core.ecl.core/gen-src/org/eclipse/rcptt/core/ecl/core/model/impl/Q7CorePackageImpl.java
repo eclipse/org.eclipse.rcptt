@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,6 +42,7 @@ import org.eclipse.rcptt.core.ecl.core.model.Q7Information;
 import org.eclipse.rcptt.core.ecl.core.model.ReportAppend;
 import org.eclipse.rcptt.core.ecl.core.model.ResetVerifications;
 import org.eclipse.rcptt.core.ecl.core.model.SetCommandsDelay;
+import org.eclipse.rcptt.core.ecl.core.model.SetOption;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Features;
 import org.eclipse.rcptt.core.ecl.core.model.SetQ7Option;
 import org.eclipse.rcptt.core.ecl.core.model.TerminateAut;
@@ -205,6 +206,13 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	private EClass terminateAutEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass setOptionEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -259,6 +267,8 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		isInited = true;
 
 		// Initialize simple dependencies
+		CorePackage.eINSTANCE.eClass();
+		EcorePackage.eINSTANCE.eClass();
 		ScenarioPackage.eINSTANCE.eClass();
 		ReportPackage.eINSTANCE.eClass();
 		ReportingPackage.eINSTANCE.eClass();
@@ -769,6 +779,33 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSetOption() {
+		return setOptionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSetOption_Key() {
+		return (EAttribute)setOptionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSetOption_Value() {
+		return (EAttribute)setOptionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -886,6 +923,10 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 
 		terminateAutEClass = createEClass(TERMINATE_AUT);
 
+		setOptionEClass = createEClass(SET_OPTION);
+		createEAttribute(setOptionEClass, SET_OPTION__KEY);
+		createEAttribute(setOptionEClass, SET_OPTION__VALUE);
+
 		// Create enums
 		executionPhaseEEnum = createEEnum(EXECUTION_PHASE);
 	}
@@ -942,6 +983,7 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		resetVerificationsEClass.getESuperTypes().add(theCorePackage.getCommand());
 		createVerificationEClass.getESuperTypes().add(theCorePackage.getCommand());
 		terminateAutEClass.getESuperTypes().add(theCorePackage.getCommand());
+		setOptionEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(enterContextEClass, EnterContext.class, "EnterContext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1027,6 +1069,10 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		initEAttribute(getCreateWidgetVerificationParam_Selector(), theEcorePackage.getEString(), "selector", null, 0, 1, CreateWidgetVerificationParam.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(terminateAutEClass, TerminateAut.class, "TerminateAut", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(setOptionEClass, SetOption.class, "SetOption", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSetOption_Key(), theEcorePackage.getEString(), "key", null, 1, 1, SetOption.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSetOption_Value(), theEcorePackage.getEString(), "value", null, 1, 1, SetOption.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(executionPhaseEEnum, ExecutionPhase.class, "ExecutionPhase");
@@ -1172,6 +1218,19 @@ public class Q7CorePackageImpl extends EPackageImpl implements Q7CorePackage {
 		   });	
 		addAnnotation
 		  (getSetQ7Option_Key(), 
+		   source, 
+		   new String[] {
+			 "description", "<br/>\r\nAvailable keys:\r\n<ul>\r\n    <li> <b>jobDebugjobTimeout</b> Eclipse job debug plugin jobs timeout (def: 300000 ms) </li>\r\n    <li> <b>jobSleepingStepTime</b> Step in step mode (def: 200 ms) </li>\r\n    <li> <b>jobSleepingStepTimeout</b> Stepping job timeout (def: 120000 ms) </li>\r\n    <li> <b>jobTreatAsSleepingTimeout</b> Enable Job step mode timeout (def: 10000 ms) </li>\r\n    <li> <b>jobHangTimeout</b> Job skip timeout (def: 30000 ms) </li>\r\n    <li> <b>jobScheduleDelayedMaxtime</b> Wait for jobs with delay less timeout (def: 600 ms) </li>\r\n    <li> <b>eclExecutionDelay</b> Wait for time between each ECL command (def: 0 ms) </li>\r\n    <li> <b>workspaceClearForceGc</b> Forces garbage collection on workspace cleanup (def: true) </li>\r\n</ul>"
+		   });	
+		addAnnotation
+		  (setOptionEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Sets RCPTT runtime option.",
+			 "example", "<code>set-option eclExecutionDelay 0</code>"
+		   });	
+		addAnnotation
+		  (getSetOption_Key(), 
 		   source, 
 		   new String[] {
 			 "description", "<br/>\r\nAvailable keys:\r\n<ul>\r\n    <li> <b>jobDebugjobTimeout</b> Eclipse job debug plugin jobs timeout (def: 300000 ms) </li>\r\n    <li> <b>jobSleepingStepTime</b> Step in step mode (def: 200 ms) </li>\r\n    <li> <b>jobSleepingStepTimeout</b> Stepping job timeout (def: 120000 ms) </li>\r\n    <li> <b>jobTreatAsSleepingTimeout</b> Enable Job step mode timeout (def: 10000 ms) </li>\r\n    <li> <b>jobHangTimeout</b> Job skip timeout (def: 30000 ms) </li>\r\n    <li> <b>jobScheduleDelayedMaxtime</b> Wait for jobs with delay less timeout (def: 600 ms) </li>\r\n    <li> <b>eclExecutionDelay</b> Wait for time between each ECL command (def: 0 ms) </li>\r\n    <li> <b>workspaceClearForceGc</b> Forces garbage collection on workspace cleanup (def: true) </li>\r\n</ul>"

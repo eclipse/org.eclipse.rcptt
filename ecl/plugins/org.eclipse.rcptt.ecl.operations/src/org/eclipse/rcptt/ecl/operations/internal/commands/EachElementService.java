@@ -14,6 +14,7 @@ import static org.eclipse.rcptt.ecl.runtime.BoxedValues.box;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.rcptt.ecl.core.Command;
@@ -52,6 +53,11 @@ public class EachElementService implements IScriptletExtension {
 			let.setBody(EcoreUtil.copy(cmd.getDo()));
 			IStatus bodyStatus = context.getSession().execute(let, null, out).waitFor();
 			if (!bodyStatus.isOK()) {
+				if (bodyStatus instanceof MultiStatus) {
+					((MultiStatus) bodyStatus).add(new Status(bodyStatus.getSeverity(), bodyStatus.getPlugin(),
+							"List each failed on value " + val.getName() + ": "
+									+ CoreUtils.adaptSingleObject(String.class, val.getValue(), false)));
+				}
 				return bodyStatus;
 			}
 			for (Object outObj : CoreUtils.readPipeContent(out)) {

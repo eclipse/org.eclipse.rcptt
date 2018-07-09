@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ import static java.util.Arrays.asList;
 
 import java.io.File;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
+import org.eclipse.rcptt.internal.launching.TestEngineManager;
 import org.eclipse.rcptt.launching.injection.Directory;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
 import org.eclipse.rcptt.launching.injection.InjectionFactory;
@@ -39,8 +41,12 @@ public class RunnerConfiguration {
 	private static final int DEFAULT_WAIT_AUT_TIMEOUT = 5 * 60;
 
 	enum CommandArg {
+		Runner("The runner platform (SWT or RAP)", "runnerPlatform"),
 		Location("AUT Product location", "aut"), //
 		Count("AUT Instances count", "autCount"), //
+		RAPPort("RAP AUT Server port", "rapPort"), //
+		RAPServletPath("RAP AUT servlet path", "rapPath"), //
+		RAPOpenBrowserCommand("Start browser command", "browserCmd"), //
 		WsPrefix(
 				"AUT workspaces prefix to use. Workspaces will contain numeric number.",
 				"autWsPrefix", "wsPrefix"), //
@@ -75,6 +81,7 @@ public class RunnerConfiguration {
 		TimeoutRestartTestCount(
 				"Restart AUT then specified amount of tests are failed with timeout (default value is 2, one by one)",
 				"timeoutRestartTestCount"), //
+		ConnectionResetRetry("Retry tests after connection reset errors", "connectionResetRetry"), //
 		OnlySpecified("Inject only specified sites", "injectSpecified"), //
 		NoSecurityStorage("Do not override secure storage location",
 				"noSecurityOverride"), //
@@ -89,7 +96,8 @@ public class RunnerConfiguration {
 		ReuseExisingWorkspace(
 				"When true, treat autWsPrefix as full workspace path and do not change it",
 				"reuseExistingWorkspace"), //
-		Tests("Semicolon-separated list of test name glob patterns (* - any chars, ? - exactly one char)", "tests");
+		Tests("Semicolon-separated list of test name glob patterns (* - any chars, ? - exactly one char)", "tests"), //
+		TestEngine("Semicolon-separated list of test engines configuration parameters", "testEngine");
 
 		CommandArg(String message, String... val) {
 			this.val = val;
@@ -123,9 +131,14 @@ public class RunnerConfiguration {
 	public String[] autArgs;
 	public String[] autVMArgs = new String[0];
 	public int timeoutRestart = 2;
+	public int connectionResetRetry = 3;
 	public boolean splitHTMLReport = false;
 	public boolean reuseExistingWorkspace = false;
 	public boolean outputMemoryUsage = false;
+	public String path = null;
+	public String browserCmd = null;
+	public Integer port = null;
+	public boolean rapPlatform = false;
 
 	public static class UserReport {
 		public String id;
@@ -153,6 +166,8 @@ public class RunnerConfiguration {
 	public String[] tagsToSkip = new String[] { "skipExecution" };
 
 	public boolean overrideSecurityStorage = true;
+
+	public Map<String, Map<String, String>> testEngines = new HashMap<String, Map<String, String>>();
 
 	public RunnerConfiguration() {
 
@@ -349,6 +364,14 @@ public class RunnerConfiguration {
 							.info("WARNING: AUT Timeout Restart test count must be integer value.");
 				}
 				break;
+			case ConnectionResetRetry:
+				try {
+					connectionResetRetry = Integer.parseInt(i.next());
+				} catch (NumberFormatException e) {
+					HeadlessRunnerPlugin.getDefault()
+							.info("WARNING: AUT Connection Reset retry count must be an integer value.");
+				}
+				break;
 			case Count:
 				try {
 					autCount = Integer.parseInt(i.next());
@@ -503,6 +526,61 @@ public class RunnerConfiguration {
 							.getDefault()
 							.info("WARNING: Shutdown timeout parameter must be an integer value.");
 				}
+				break;
+			case RAPPort:
+				try {
+					port = Integer.parseInt(i.next());
+				} catch (final NumberFormatException e) {
+					HeadlessRunnerPlugin.getDefault().info(
+							"WARNING: RAP server port parameter must be an integer value.");
+					port = null;
+				}
+				break;
+			case RAPServletPath:
+				path = i.next();
+				break;
+			case RAPOpenBrowserCommand:
+				browserCmd = i.next();
+				break;
+			case Runner:
+				rapPlatform = i.next().equalsIgnoreCase("rap");
+				break;
+			case TestEngine:
+				String testEngineStr = i.next();
+				int colIndex = testEngineStr.indexOf(':');
+				if (colIndex == -1) {
+					HeadlessRunnerPlugin
+							.getDefault()
+							.info("WARNING: Invalid value for testEngine. Should be 'testEngineId:key1=value1;key2=value2'");
+					break;
+				}
+				String id = testEngineStr.substring(0, colIndex).trim();
+				String paramsStr = testEngineStr.substring(colIndex + 1).trim();
+				Map<String, String> params = new HashMap<String, String>();
+				for (String paramStr : paramsStr.split(";")) {
+					if (paramStr.trim().length() == 0) {
+						continue;
+					}
+					int eqIndex = paramStr.indexOf('=');
+					if (eqIndex == -1) {
+						HeadlessRunnerPlugin
+								.getDefault()
+								.info("WARNING: Invalid value for testEngine. Should be 'testEngineId:key1=value1;key2=value2'");
+						break;
+					}
+					String name = paramStr.substring(0, eqIndex).trim();
+					String value = paramStr.substring(eqIndex + 1).trim();
+					String message = TestEngineManager.getInstance()
+							.validateParameter(id, name, value);
+					if (message != null && !message.equals("")) {
+						HeadlessRunnerPlugin
+								.getDefault()
+								.info(MessageFormat.format("WARNING: Invalid value for {0}. {1}", name, message));
+						continue;
+					}
+					params.put(name, value);
+				}
+				testEngines.put(id, params);
 				break;
 			}
 		}

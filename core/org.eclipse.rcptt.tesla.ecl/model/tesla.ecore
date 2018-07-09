@@ -770,6 +770,17 @@
         <details key="description" value=""/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ActivationEventType">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ApplyCellEdit" eSuperTypes="#//CellEdit">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -1743,6 +1754,34 @@
       <details key="example" value="set-dialog-result MessageBox 128&#xD;&#xA;get-view &quot;Q7 Quality Mockups&quot; | get-group &quot;MessageBox Test&quot; | get-button &quot;Message Box with YES/NO Buttons&quot; | click&#xD;&#xA;with [get-last-message-box] {&#xD;&#xA;    get-property title | equals &quot;Warning&quot; | verify-true&#xD;&#xA;    get-property message | equals &quot;Yes or No?&quot; | verify-true&#xD;&#xA;}"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CheckDownloadResult" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentOnBase64" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetRuntimeTarget" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GetTestCaseName" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns current test case name"/>
+      <details key="returns" value="Current test case name"/>
+      <details key="example" value="get-test-case-name | log"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActivationEventType">
+    <eLiterals name="Programmatic" value="4"/>
+    <eLiterals name="KeyPressed" value="1"/>
+    <eLiterals name="MouseClickSelection" value="2"/>
+    <eLiterals name="MouseDoubleClickSelection" value="3"/>
+    <eLiterals name="Traversal" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GetComboItems" eSuperTypes="#//ControlCommand">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Gets combo box items and writes them into output pipe"/>
+      <details key="returns" value="combo box items"/>
+      <details key="recorded" value="false"/>
+      <details key="example" value="get-combo | get-combo-items | to-list | each [val item] {&#xA;&#x9;log $item&#xA;}"/>
+    </eAnnotations>
+  </eClassifiers>
   <eSubpackages name="diagram" nsURI="http://eclipse.org/rcptt/tesla/ecl/diagram"
       nsPrefix="org.eclipse.rcptt.ecl.tesla.diagram">
     <eClassifiers xsi:type="ecore:EClass" name="GetDiagram" eSuperTypes="#//Selector">
@@ -1781,6 +1820,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="feature" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="customId" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="GetFigure" eSuperTypes="#//PathSelector">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">

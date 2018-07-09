@@ -11,7 +11,6 @@
 package org.eclipse.rcptt.tesla.gef;
 
 import org.eclipse.osgi.util.NLS;
-
 import org.eclipse.rcptt.tesla.core.TeslaMessages;
 
 public class TeslaGefMessages extends TeslaMessages {
@@ -23,6 +22,7 @@ public class TeslaGefMessages extends TeslaMessages {
 	}
 
 	public static String GefProcessor_CannotFindEditPart;
+	public static String GefProcessor_CannotFindEditPart_DetailedMsg;
 	public static String GefProcessor_CannotFindFigure;
 	public static String GefProcessor_CannotFindFigure_DetailedMsg;
 	public static String GefProcessor_CannotFindPalette;

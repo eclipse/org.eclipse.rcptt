@@ -29,11 +29,10 @@ public class ViewerUIElement extends ControlUIElement {
 	public ViewerUIElement(Element e, UIPlayer player) {
 		super(e, player);
 		this.selector.set_item = new UISetSelector(player).parent(element);
-		this.selector.item = new UISelector<ItemUIElement>(ElementKind.Item,
-				player, ItemUIElement.class).parent(getElement());
-		this.selector.column = new UISelector<ControlUIElement>(
-				ElementKind.ColumnHeader, player, ControlUIElement.class)
+		this.selector.item = new UISelector<ItemUIElement>(ElementKind.Item, player, ItemUIElement.class)
 				.parent(getElement());
+		this.selector.column = new UISelector<ControlUIElement>(ElementKind.ColumnHeader, player,
+				ControlUIElement.class).parent(getElement());
 	}
 
 	@Override
@@ -51,8 +50,7 @@ public class ViewerUIElement extends ControlUIElement {
 	}
 
 	public ControlUIElement column(String pattern, Integer index) {
-		return this.selector.column.find(pattern,
-				index != null && index == 0 ? null : index);
+		return this.selector.column.find(pattern, index != null && index == 0 ? null : index);
 	}
 
 	/**
@@ -67,26 +65,18 @@ public class ViewerUIElement extends ControlUIElement {
 	}
 
 	public boolean setMultiSelection(String[]... selection) {
-		UISetSelector e = this.selector.set_item;
-		if (selection.length > 0) {
-			e = e.path(selection[0]);
-			for (int i = 1; i < selection.length; i++) {
-				e = e.additional(selection[i]);
-			}
-		}
-		return e.select();
+		return fillSelection(selection).select();
 	}
 
-	public boolean setMultiSelectionList(List<List<String>> selection,
-			boolean all) {
-		UISetSelector e = this.selector.set_item;
-		if (!selection.isEmpty()) {
-			e = e.pathList(selection.get(0));
-			for (int i = 1; i < selection.size(); i++) {
-				e = e.additionalPathList(selection.get(i));
-			}
+	public boolean setMultiSelectionList(List<List<String>> selection, boolean all) {
+		final String[][] converted = new String[selection.size()][];
+		final int size = selection.size() - 1;
+		// reverse for replay
+		for (int i = 0; i <= size; i++) {
+			List<String> each = selection.get(i);
+			converted[size - i] = each.toArray(new String[each.size()]);
 		}
-		return e.select(all);
+		return fillSelection(converted).select(all);
 	}
 
 	/**
@@ -136,8 +126,7 @@ public class ViewerUIElement extends ControlUIElement {
 	public String[][] getSelection() {
 		GetSelection cmd = factory.createGetSelection();
 		cmd.setElement(getElement());
-		SelectionResponse response = (SelectionResponse) player
-				.safeExecuteCommand(cmd);
+		SelectionResponse response = (SelectionResponse) player.safeExecuteCommand(cmd);
 		player.clearFailures();
 		if (response == null) { // In case we are in recording
 			return null;
@@ -176,11 +165,21 @@ public class ViewerUIElement extends ControlUIElement {
 		player.safeExecuteCommand(cmd);
 	}
 
+	public void activateCellEditor(int column, ActivationEventType type, int button) {
+		ActivateCellEditor cmd = factory.createActivateCellEditor();
+		cmd.setElement(getElement());
+		cmd.setColumn(column);
+		cmd.setType(type);
+		cmd.setButton(button);
+		player.safeExecuteCommand(cmd);
+	}
+
 	public void applyCellEditor() {
 		ApplyCellEditor cmd = factory.createApplyCellEditor();
 		cmd.setElement(getElement());
 		player.safeExecuteCommand(cmd);
 	}
+
 	public void deactivateCellEditor() {
 		DeactivateCellEditor cmd = factory.createDeactivateCellEditor();
 		cmd.setElement(getElement());
@@ -203,5 +202,17 @@ public class ViewerUIElement extends ControlUIElement {
 		click.setColumn(index);
 		click.setElement(getElement());
 		player.safeExecuteCommand(click);
+	}
+
+	private UISetSelector fillSelection(String[]... selection) {
+		UISetSelector e = this.selector.set_item;
+		if (selection.length > 0) {
+			int last = selection.length - 1;
+			e = e.path(selection[last]);
+			for (int i = --last; i >= 0; i--) {
+				e = e.additional(selection[i]);
+			}
+		}
+		return e;
 	}
 }

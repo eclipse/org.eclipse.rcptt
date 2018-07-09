@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,70 +36,90 @@ public class JDTSupportProcessor implements ITeslaCommandProcessor {
 	public JDTSupportProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 200;
+	}
+
 	public boolean callMasterProcess(Context currentContext) {
 		return false;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		// return JavaModelManager.getIndexManager().awaitingJobsCount() == 0;
 		return true;
 	}
 
+	@Override
 	public void clean() {
 		elements.clear();
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public String getFeatureID() {
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		// this.id = id;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		return false;
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return null;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public void terminate() {
 		clean();
 		client = null;
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 	}
 
+	@Override
 	public void notifyUI() {
 	}
 }

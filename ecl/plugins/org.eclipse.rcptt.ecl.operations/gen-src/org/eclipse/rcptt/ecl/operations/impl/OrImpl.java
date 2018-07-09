@@ -25,10 +25,10 @@ import org.eclipse.rcptt.ecl.operations.Or;
  * <em><b>Or</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.OrImpl#getArgs <em>Args</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

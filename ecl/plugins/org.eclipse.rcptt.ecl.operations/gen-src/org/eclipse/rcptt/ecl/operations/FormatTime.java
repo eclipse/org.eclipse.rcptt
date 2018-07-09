@@ -18,13 +18,13 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.FormatTime#getFormat <em>Format</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getFormatTime()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in <code>java.text.SimpleDateFormat</code>.' returns='String representation of given time' example='get-time | format-time -format \"dd.MM.yyyy\" | log\n// writes current date, month and year into log'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in &lt;code&gt;java.text.SimpleDateFormat&lt;/code&gt;.' returns='String representation of given time' example='get-time | format-time -format \"dd.MM.yyyy\" | log\n// writes current date, month and year into log'"
  * @generated
  */
 public interface FormatTime extends Command {

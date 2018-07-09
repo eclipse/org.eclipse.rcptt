@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -94,6 +95,7 @@ import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.util.FileUtil;
 import org.osgi.framework.Version;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
@@ -105,7 +107,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public static final String PRODUCT_PROPERTY = "eclipse.product"; //$NON-NLS-1$
 	private static final String ID_PROPERTY = "id"; //$NON-NLS-1$
 	private static final String OSGI_BUNDLES = "osgi.bundles";
-	private static final String SIMPLECONFIGURATOR = "org.eclipse.equinox.simpleconfigurator"; //$NON-NLS-1$
+	public static final String SIMPLECONFIGURATOR = "org.eclipse.equinox.simpleconfigurator"; //$NON-NLS-1$
 	private static final String SC_BUNDLES_PATH = "configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"; //$NON-NLS-1$
 	private IStatus status = Status.OK_STATUS;
 	private final ITargetDefinition target;
@@ -120,7 +122,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		this.target = target;
 		initialize();
 	}
-
 
 	public Q7Target getQ7Target() {
 		return q7target;
@@ -214,10 +215,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private void reportUnexistingFile(BundleInfo info) {
-		// Skip problem of unexisted file.
+		// Skip problem of nonexistent file.
 		Q7LaunchingPlugin.log(Q7LaunchingPlugin.createStatus(IStatus.WARNING,
-				"Skip unexisted bundle: " + info.getSymbolicName()
-						+ ", then resolve configuration.", null));
+				"Skip nonexistent bundle: " + info.getSymbolicName()
+						+ ", then resolve configuration.",
+				null));
 	}
 
 	public IStatus getBundleWarningStatus() {
@@ -242,7 +244,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					if (uri != null) {
 						File file = new File(uri);
 						if (!file.exists()) {
-							// Skip problem of unexisted file.
+							// Skip problem of nonexistent file.
 							IStatus st = new Status(IStatus.WARNING,
 									status.getPlugin(), status.getMessage(),
 									status.getException());
@@ -410,7 +412,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		List<IPluginModelBase> hooks = new ArrayList<IPluginModelBase>();
 		for (IPluginModelBase model : models) {
 			String name = model.getBundleDescription().getSymbolicName();
-			if (name.equals(AJConstants.HOOK)) {
+			if (Objects.equal(name, AJConstants.HOOK)) {
 				hooks.add(model);
 			}
 		}
@@ -523,7 +525,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				result.add(id);
 			}
 		}
-		//		result.add(IDE_APPLICATION); //$NON-NLS-1$
+		// result.add(IDE_APPLICATION); //$NON-NLS-1$
 		return result.toArray(new String[result.size()]);
 	}
 
@@ -692,9 +694,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			if (entry instanceof UpdateSite) {
 				result = processUpdateSite(mon, (UpdateSite) entry);
 			} else if (entry instanceof Directory) {
-				result = processDirectory(mon, (Directory) entry);
+				result = processDirectory((Directory) entry);
 			}
-			if (result.matches(IStatus.ERROR |IStatus.CANCEL)) {
+			if (result.matches(IStatus.ERROR | IStatus.CANCEL)) {
 				return result;
 			}
 		}
@@ -714,7 +716,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return Status.OK_STATUS;
 	}
 
-	private IStatus processDirectory(IProgressMonitor monitor, Directory entry) {
+	private IStatus processDirectory(Directory entry) {
 		String path = entry.getPath();
 		MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Processing " + path, null);
 		if (path.startsWith("platform:///")) {
@@ -750,10 +752,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 		try {
 			URI uri = URI.create(
-				Platform.getOS().equals(Platform.OS_WIN32) ?
-					site.getUri().replace('\\', '/') :
-					site.getUri()
-			);
+					Platform.getOS().equals(Platform.OS_WIN32) ? site.getUri().replace('\\', '/') : site.getUri());
 			IMetadataRepository repository = PDEHelper.safeLoadRepository(uri,
 					monitor);
 			IArtifactRepository artifactRepository = PDEHelper
@@ -826,6 +825,18 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 
 		return Status.OK_STATUS;
+	}
+
+	public Map<String, String> getIniEnvironment() {
+		List<File> iniFiles = getAppIniFiles();
+		Map<String, String> result = new HashMap<String, String>();
+		for (File file : iniFiles) {
+			Map<String, String> envs = readEnvironmentFromIniFile(file);
+			if (envs != null) {
+				result.putAll(envs);
+			}
+		}
+		return result;
 	}
 
 	public String getIniVMArgs() {
@@ -904,7 +915,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
-	@SuppressWarnings("resource")
 	private String readLauncherLibraryFromIniFile(File eclipseIniFile) {
 		BufferedReader in = null;
 		try {
@@ -928,6 +938,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
+	private static final String GTK_VERSION = "--launcher.GTK_version";
 	private static final String VMARGS = "-vmargs";
 	private static final String VM = "-vm";
 
@@ -967,6 +978,30 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return null;
 	}
 
+	private Map<String, String> readEnvironmentFromIniFile(File eclipseIniFile) {
+		if (!eclipseIniFile.exists()) {
+			return null;
+		}
+
+		List<String> lines = parseIniFile(eclipseIniFile);
+		Map<String, String> envs = new HashMap<String, String>();
+
+		// mirror GTK_VERSION parameter processing
+		// from org.eclipse.equinox.executable.feature / library / eclipse.c
+		// see more:
+		// https://git.eclipse.org/r/plugins/gitiles/equinox/rt.equinox.framework/+/master/features/org.eclipse.equinox.executable.feature/library/eclipse.c
+		int gtkVersionIdx = lines.indexOf(GTK_VERSION);
+		if (gtkVersionIdx != -1 && Platform.getOS().equals(Platform.OS_LINUX)) {
+			String gtkVersion = lines.get(gtkVersionIdx + 1);
+			if ("2".equals(gtkVersion)) {
+				envs.put("SWT_GTK3", "0");
+			} else {
+				envs.put("SWT_GTK3", "1");
+			}
+		}
+		return envs;
+	}
+
 	private String readVMArgsFromIniFile(File eclipseIniFile) {
 		if (!eclipseIniFile.exists()) {
 			return null;
@@ -987,7 +1022,57 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			return null;
 		}
 
+		removeUnsupportedVMArgs(lines);
+
 		return Q7LaunchDelegateUtils.joinCommandArgs(lines);
+	}
+
+	private static final String VMARG_ADD_MODULES = "--add-modules";
+	private static final String VMARG_PERMIT_ILLEGAL_ACCESS = "--permit-illegal-access";
+
+	private void removeUnsupportedVMArgs(List<String> lines) {
+		String[] javaVersions = getJavaVersions();
+
+		// remove args was added into .ini file to support java 9
+		// see more: https://bugs.eclipse.org/bugs/show_bug.cgi?id=493761
+		if ((getMajorVersion(javaVersions) == 1 && getMinorVersion(javaVersions) < 9)
+				|| getMajorVersion(javaVersions) < 9) {
+			Iterator<String> iterator = lines.iterator();
+			while (iterator.hasNext()) {
+				String line = iterator.next();
+				if (line.startsWith(VMARG_ADD_MODULES)
+						|| line.startsWith(VMARG_PERMIT_ILLEGAL_ACCESS)) {
+					iterator.remove();
+				}
+			}
+		}
+	}
+
+	private static String[] getJavaVersions() {
+		String javaVersion = System.getProperty("java.version");
+		return javaVersion.split("\\.|-"); // '.' and '-' are separators
+	}
+
+	private static int getMajorVersion(String[] versions) {
+		if (versions.length < 1) {
+			return 0;
+		}
+		try {
+			return Integer.valueOf(versions[0]);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	private static int getMinorVersion(String[] versions) {
+		if (versions.length < 2) {
+			return 0;
+		}
+		try {
+			return Integer.valueOf(versions[1]);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public String getTemplateConfigLocation() {
@@ -1039,41 +1124,27 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			for (TargetBundle b : bundles) {
 				BundleInfo info = b.getBundleInfo();
 				String name = info.getSymbolicName();
-				if (name.startsWith("org.eclipse.equinox.launcher")) {
+				if (name != null && name.startsWith("org.eclipse.equinox.launcher")) {
+					URI location = info.getLocation();
+					if (location == null || location.getPath() == null) {
+						continue;
+					}
+					String pathString = new Path(info.getLocation().getPath())
+							.removeFirstSegments(targetPlatformProfilePath.segmentCount()).toOSString();
 					if (name.contains("x86_64")) {
 						if (name.contains(os)) {
 							has64 = true;
-							launcher64 = "Equinox launcher\n\t- "
-									+ new Path(info.getLocation().getPath())
-											.removeFirstSegments(
-													targetPlatformProfilePath
-															.segmentCount())
-											.toOSString();
+							launcher64 = "Equinox launcher\n\t- " + pathString;
 						} else {
-							availableLaunchers.add("\t- "
-									+ new Path(info.getLocation().getPath())
-											.removeFirstSegments(
-													targetPlatformProfilePath
-															.segmentCount())
-											.toOSString());
+							availableLaunchers.add("\t- " + pathString);
 						}
 					} else if (name.contains("x86")
 							|| name.contains("cocoa.macosx")) {
 						if (name.contains(os)) {
 							has32 = true;
-							launcher32 = "Equinox launcher\n\t- "
-									+ new Path(info.getLocation().getPath())
-											.removeFirstSegments(
-													targetPlatformProfilePath
-															.segmentCount())
-											.toOSString();
+							launcher32 = "Equinox launcher\n\t- " + pathString;
 						} else {
-							availableLaunchers.add("\t- "
-									+ new Path(info.getLocation().getPath())
-											.removeFirstSegments(
-													targetPlatformProfilePath
-															.segmentCount())
-											.toOSString());
+							availableLaunchers.add("\t- " + pathString);
 						}
 					}
 				}
@@ -1096,18 +1167,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			OSArchitecture result = isCurrentVm64 ? OSArchitecture.x86_64
 					: OSArchitecture.x86;
 			if (detectMsg != null && result.equals(OSArchitecture.x86)) {
-				if (detectMsg != null) {
-					detectMsg
-							.append("32bit arch is selected because\n- JVM is 32bit\n- AUT contains both launcher plugins\n\t-"
-									+ launcher32 + "\n\t-" + launcher64);
-				}
+				detectMsg
+						.append("32bit arch is selected because\n- JVM is 32bit\n- AUT contains both launcher plugins\n\t-"
+								+ launcher32 + "\n\t-" + launcher64);
 			}
 			if (detectMsg != null && result.equals(OSArchitecture.x86_64)) {
-				if (detectMsg != null) {
-					detectMsg
-							.append("64bit arch is selected because\n- JVM is 64bit\n- AUT contains both launcher plugins\n\t-"
-									+ launcher32 + "\n\t-" + launcher64);
-				}
+				detectMsg
+						.append("64bit arch is selected because\n- JVM is 64bit\n- AUT contains both launcher plugins\n\t-"
+								+ launcher32 + "\n\t-" + launcher64);
 			}
 			return result;
 		} else {
@@ -1140,10 +1207,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			input = new FileInputStream(infoFile);
 			for (org.eclipse.equinox.internal.simpleconfigurator.utils.BundleInfo bi : (List<org.eclipse.equinox.internal.simpleconfigurator.utils.BundleInfo>) SimpleConfiguratorUtils
 					.readConfiguration(input, infoFile.toURI())) {
-				result.put(
-						bi.getSymbolicName(),
-						String.format("%d:%b", bi.getStartLevel(),
-								bi.isMarkedAsStarted()));
+				String name = bi.getSymbolicName();
+				if (name != null) {
+					result.put(name, String.format("%d:%b", bi.getStartLevel(), bi.isMarkedAsStarted()));
+				}
 			}
 		} catch (Throwable e) {
 			FileUtil.safeClose(input);
@@ -1200,10 +1267,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				TargetBundle[] bundles = iBundleContainer.getBundles();
 				if (bundles != null) {
 					for (TargetBundle iResolvedBundle : bundles) {
-						if (iResolvedBundle.getBundleInfo().getSymbolicName()
-								.equals(name)) {
-							return new Version(iResolvedBundle.getBundleInfo()
-									.getVersion());
+						BundleInfo info = iResolvedBundle.getBundleInfo();
+						if (Objects.equal(info.getSymbolicName(), name)) {
+							return new Version(info.getVersion());
 						}
 					}
 				}
@@ -1265,12 +1331,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		initialize();
 	}
 
-
 	@Override
 	public String toString() {
 		return (getName() == null ? "No name" : getName()) + " " + getTargetPlatformProfilePath();
 	}
-
 
 	@Override
 	public Map<String, org.eclipse.equinox.p2.metadata.Version> getVersions() throws CoreException {
@@ -1279,5 +1343,4 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return AUTInformation.getInformationMap(target);
 	}
 
-	
 }

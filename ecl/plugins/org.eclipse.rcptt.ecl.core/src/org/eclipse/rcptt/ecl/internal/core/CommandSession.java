@@ -16,15 +16,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CommandStack;
 import org.eclipse.rcptt.ecl.runtime.ICommandService;
+import org.eclipse.rcptt.ecl.runtime.ISession;
 
 public class CommandSession extends AbstractSession {
 
 	private final CommandStack stack;
 	private final AbstractRootSession session;
+	private final ISession parent;
 
-	public CommandSession(AbstractRootSession session, CommandStack stack) {
+	public CommandSession(AbstractRootSession session, CommandStack stack, ISession parent) {
 		this.session = session;
 		this.stack = stack;
+		this.parent = parent;
 	}
 
 	@Override
@@ -33,8 +36,7 @@ public class CommandSession extends AbstractSession {
 	}
 
 	@Override
-	protected void doExecute(Command scriptlet, ICommandService svc,
-			List<Object> inputContent, Process process) {
+	protected void doExecute(Command scriptlet, ICommandService svc, List<Object> inputContent, Process process) {
 		session.doExecute(scriptlet, svc, inputContent, process);
 	}
 
@@ -54,6 +56,15 @@ public class CommandSession extends AbstractSession {
 
 	public boolean isClosed() {
 		return session.isClosed();
+	}
+
+	@Override
+	public synchronized Object getProperty(String key) {
+		Object value = super.getProperty(key);
+		if (value == null) {
+			value = this.parent.getProperty(key);
+		}
+		return value;
 	}
 
 }

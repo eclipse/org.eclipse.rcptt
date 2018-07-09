@@ -25,8 +25,7 @@ public class ExpandService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		Expand expand = (Expand) command;
 		ControlHandler control = expand.getControl();
-		new ItemUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer())
-				.expand();
+		new ItemUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer()).expand();
 		return control;
 	}
 

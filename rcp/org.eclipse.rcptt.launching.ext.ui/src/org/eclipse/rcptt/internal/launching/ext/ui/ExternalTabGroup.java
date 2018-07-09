@@ -11,13 +11,11 @@
 package org.eclipse.rcptt.internal.launching.ext.ui;
 
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.ui.EnvironmentTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.pde.ui.launcher.ConfigurationTab;
 import org.eclipse.pde.ui.launcher.EclipseLauncherTabGroup;
 import org.eclipse.pde.ui.launcher.TracingTab;
-
 import org.eclipse.rcptt.internal.launching.ext.UpdateVMArgs;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 
@@ -27,7 +25,7 @@ public class ExternalTabGroup extends EclipseLauncherTabGroup {
 		ILaunchConfigurationTab[] tabs = null;
 		tabs = new ILaunchConfigurationTab[] { new ExternalAUTMainTab(this),
 				new AUTArgumentsTab(), new ConfigurationTab(),
-				new TracingTab(), new EnvironmentTab(), new AUTCommonTab() };
+				new TracingTab(), new AUTEnvironmentTab(), new AUTCommonTab() };
 		setTabs(tabs);
 	}
 

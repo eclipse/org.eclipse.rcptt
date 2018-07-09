@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_bbpo0a2vEeCqpoE1MJ1fFQ
 Element-Name: WorkspaceContextCaptureTests
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _7r_KYa20EeClLPYnwKXU_A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/22/17 11:49 AM
 Tags: Runtime, selfAUT, Create, WorkspaceContext
 Testcase-Type: ecl
 
@@ -45,7 +44,7 @@ get-view "Test Explorer" | get-tree | select "q7project/defaultWS" | double-clic
 with [get-editor defaultWS] {
     get-section Workspace | get-tree | select q7project
     get-button Apply | click
-    get-window "Save Resource" | get-button Yes | click
+    get-window "Save Resource" | get-button Save | click
 }
 get-view "Test Explorer" | get-tree | select q7project | get-menu "New/Context" | click
 with [get-window "New Context Wizard"] {
@@ -68,7 +67,7 @@ with [get-window "New Context Wizard"] {
 with [get-editor myworkspace2] {
     get-button Capture | click
     get-button Apply | click
-    get-window "Save Resource" | get-button Yes | click
+    get-window "Save Resource" | get-button Save | click
     get-section Workspace | get-tree | select q7project | key-type "M1+s"
     get-button Apply | click
     }

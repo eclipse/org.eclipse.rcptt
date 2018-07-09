@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,8 +9,6 @@
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.rcptt.forms.impl;
-
-import static org.eclipse.rcptt.forms.impl.internal.Plugin.UTILS;
 
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -42,6 +40,11 @@ import org.eclipse.ui.internal.forms.widgets.FormTextModel;
 public class EclipseFormsProcessor implements ITeslaCommandProcessor, ISWTModelMapperExtension {
 
 	private final ISWTUIPlayerExtension extension = new EclipseFormsPlayerExtension();
+
+	@Override
+	public int getPriority() {
+		return 300;
+	}
 
 	@Override
 	public void initialize(AbstractTeslaClient client, String id) {

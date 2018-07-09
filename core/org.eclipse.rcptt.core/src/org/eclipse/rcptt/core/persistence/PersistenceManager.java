@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,7 +43,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLInfoImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.rcptt.core.persistence.plain.IPlainConstants;
 import org.eclipse.rcptt.core.persistence.plain.IPlainTextPersistenceExtension;
 import org.eclipse.rcptt.core.persistence.plain.PlainTextPersistenceExtensionManager;
@@ -51,6 +50,7 @@ import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
+import org.eclipse.rcptt.core.workspace.WorkspaceSynchronizer;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.Script;
 import org.eclipse.rcptt.internal.core.Q7LazyResource;
@@ -72,8 +72,6 @@ public class PersistenceManager implements IPlainConstants {
 	public static final String TESLA_CONTENT_ENTRY = ".content.raw";
 
 	private static PersistenceManager persistenceManager;
-	// private Map<IFile, IPersistenceModel> models = new HashMap<IFile,
-	// IPersistenceModel>();
 	private Map<Resource, IPersistenceModel> resourceOnlyModels = Collections
 			.synchronizedMap(new HashMap<Resource, IPersistenceModel>());
 
@@ -128,7 +126,7 @@ public class PersistenceManager implements IPlainConstants {
 	static {
 		legacyNamespaces.put("http://com/xored/q7/scenario.ecore", ScenarioPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/q7/scenario.ecore", ScenarioPackage.eNS_URI);
-		
+
 		legacyNamespaces.put("http://com/xored/q7/filesystem.ecore", "http://eclipse.org/rcptt/ctx/filesystem");
 		legacyNamespaces.put("http://xored.com/q7/debug", "http://eclipse.org/rcptt/ctx/debug");
 		legacyNamespaces.put("http:///com/xored/q7/workspace.ecore", "http://eclipse.org/rcptt/ctx/workspace");
@@ -143,7 +141,7 @@ public class PersistenceManager implements IPlainConstants {
 				"http://eclipse.org/rcptt/verifications/time");
 		legacyNamespaces.put("http://com/xored/q7/verifications/tree.ecore",
 				"http://eclipse.org/rcptt/verifications/tree");
-		
+
 		legacyNamespaces.put("http:///com/xored/tesla/core/protocol/raw.ecore", RawPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/tesla/core/ui.ecore", UiPackage.eNS_URI);
 		legacyNamespaces.put("http:///com/xored/tesla/core/protocol.ecore", ProtocolPackage.eNS_URI);
@@ -271,7 +269,7 @@ public class PersistenceManager implements IPlainConstants {
 
 	/**
 	 * Store scenario content/teslaContent in separate resources
-	 * 
+	 *
 	 * @param element
 	 * @param model
 	 */

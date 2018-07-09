@@ -29,10 +29,10 @@ import org.eclipse.rcptt.ecl.operations.OperationsPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.impl.AbsImpl#getArg <em>Arg</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

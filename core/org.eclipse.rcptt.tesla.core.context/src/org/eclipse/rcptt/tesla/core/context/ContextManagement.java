@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -131,7 +131,7 @@ public class ContextManagement {
 
 		public boolean containsClass(String clName) {
 			for (StackTraceElement e : getStack()) {
-				if (e.getClassName().equals(clName)) {
+				if (e.getClassName().contains(clName)) {
 					return true;
 				}
 			}

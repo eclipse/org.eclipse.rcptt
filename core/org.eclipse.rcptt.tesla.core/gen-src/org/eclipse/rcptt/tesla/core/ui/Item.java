@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#getCaption <em>Caption</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#isSelection <em>Selection</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Item#getCells <em>Cells</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getItem()
  * @model

@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_zyoccGk6EeOVJ9Fi6d7JYQ
 Element-Name: CopyPaste In Test Case Editor From Menu
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Z-Vp4Wk4EeOVJ9Fi6d7JYQ
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/22/17 12:34 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -82,13 +81,13 @@ with [get-editor TestScriptrefDescriptionTagsTest | get-section Verifications] {
 }
 get-menu "Edit/Copy" | click
 get-menu "Edit/Paste" | click
+get-window "Project Context and Verification References" | get-button No | click
 get-editor TestScriptrefDescriptionTagsTest | get-section Verifications | get-table 
     | select "Verification \\(Q7Project - default verification\\)"
 with [get-editor TestScriptrefDescriptionTagsTest | get-section Verifications | get-table] {
     select "Verification \\(Q7Project - default verification\\)" | get-menu Copy | click
     select "Verification \\(Q7Project - default verification\\)" | get-menu Paste | click
 }
-get-window "Project Context and Verification References" | get-button No | click
 with [get-editor TestScriptrefDescriptionTagsTest] {
     get-editbox -after [get-label "Name:"] | get-property text | equals TestScriptrefDescriptionTagsTest | verify-true
     get-editbox -after [get-label "Tags:"] | get-property text | equals TagsTest | verify-true

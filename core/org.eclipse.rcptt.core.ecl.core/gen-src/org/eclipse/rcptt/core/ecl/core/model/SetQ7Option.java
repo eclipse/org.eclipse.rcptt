@@ -19,14 +19,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.SetQ7Option#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.ecl.core.model.SetQ7Option#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getSetQ7Option()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets Q7 runtime option.' example='<code>set-q7-option eclExecutionDelay 0</code>'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets Q7 runtime option.' example='&lt;code&gt;set-q7-option eclExecutionDelay 0&lt;/code&gt;'"
  * @generated
  */
 public interface SetQ7Option extends Command {
@@ -42,7 +42,7 @@ public interface SetQ7Option extends Command {
 	 * @see #setKey(String)
 	 * @see org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage#getSetQ7Option_Key()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='<br/>\r\nAvailable keys:\r\n<ul>\r\n    <li> <b>jobDebugjobTimeout</b> Eclipse job debug plugin jobs timeout (def: 300000 ms) </li>\r\n    <li> <b>jobSleepingStepTime</b> Step in step mode (def: 200 ms) </li>\r\n    <li> <b>jobSleepingStepTimeout</b> Stepping job timeout (def: 120000 ms) </li>\r\n    <li> <b>jobTreatAsSleepingTimeout</b> Enable Job step mode timeout (def: 10000 ms) </li>\r\n    <li> <b>jobHangTimeout</b> Job skip timeout (def: 30000 ms) </li>\r\n    <li> <b>jobScheduleDelayedMaxtime</b> Wait for jobs with delay less timeout (def: 600 ms) </li>\r\n    <li> <b>eclExecutionDelay</b> Wait for time between each ECL command (def: 0 ms) </li>\r\n    <li> <b>workspaceClearForceGc</b> Forces garbage collection on workspace cleanup (def: true) </li>\r\n</ul>'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='&lt;br/&gt;\r\nAvailable keys:\r\n&lt;ul&gt;\r\n    &lt;li&gt; &lt;b&gt;jobDebugjobTimeout&lt;/b&gt; Eclipse job debug plugin jobs timeout (def: 300000 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;jobSleepingStepTime&lt;/b&gt; Step in step mode (def: 200 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;jobSleepingStepTimeout&lt;/b&gt; Stepping job timeout (def: 120000 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;jobTreatAsSleepingTimeout&lt;/b&gt; Enable Job step mode timeout (def: 10000 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;jobHangTimeout&lt;/b&gt; Job skip timeout (def: 30000 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;jobScheduleDelayedMaxtime&lt;/b&gt; Wait for jobs with delay less timeout (def: 600 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;eclExecutionDelay&lt;/b&gt; Wait for time between each ECL command (def: 0 ms) &lt;/li&gt;\r\n    &lt;li&gt; &lt;b&gt;workspaceClearForceGc&lt;/b&gt; Forces garbage collection on workspace cleanup (def: true) &lt;/li&gt;\r\n&lt;/ul&gt;'"
 	 * @generated
 	 */
 	String getKey();

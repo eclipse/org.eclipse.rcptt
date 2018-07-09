@@ -51,6 +51,19 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.rcptt.core.model.ModelException;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.ui.Images;
+import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.parameters.Parameter;
+import org.eclipse.rcptt.parameters.ParametersContext;
+import org.eclipse.rcptt.parameters.ParametersFactory;
+import org.eclipse.rcptt.ui.commons.ArrayTreeContentProvider;
+import org.eclipse.rcptt.ui.context.BaseContextEditor;
+import org.eclipse.rcptt.ui.editors.EditorHeader;
+import org.eclipse.rcptt.ui.editors.IQ7EditorActionsProvider;
+import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
+import org.eclipse.rcptt.util.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -82,22 +95,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
-import org.eclipse.rcptt.internal.ui.Images;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
-import org.eclipse.rcptt.parameters.Parameter;
-import org.eclipse.rcptt.parameters.ParametersContext;
-import org.eclipse.rcptt.parameters.ParametersFactory;
-import org.eclipse.rcptt.ui.commons.ArrayTreeContentProvider;
-import org.eclipse.rcptt.ui.context.BaseContextEditor;
-import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.editors.IQ7EditorActionsProvider;
-import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
-import org.eclipse.rcptt.util.StringUtils;
 
 public class ParametersContextEditor extends BaseContextEditor implements
 		IQ7EditorActionsProvider {
@@ -291,7 +288,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 
 	private static Collection<Conflict> findConflicts(
 			Map<String, String> first, Map<String, String> second) {
-		List<Conflict> rv = Lists.newArrayList();
+		List<Conflict> rv = new ArrayList<Conflict>();
 		
 		for (Object key: (Diffs.computeMapDiff(first, second).getChangedKeys())) {
 			String name = (String) key;
@@ -372,7 +369,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 		Object[] result = dialog.getResult();
 		if (result == null)
 			return null;
-		List<Conflict> rv = Lists.newArrayList();
+		List<Conflict> rv = new ArrayList<Conflict>();
 		for (Object object : result) {
 			rv.add((Conflict) object);
 		}
@@ -431,7 +428,7 @@ public class ParametersContextEditor extends BaseContextEditor implements
 				}
 			}
 
-			Map<String, Parameter> paramMap = Maps.newHashMap();
+			Map<String, Parameter> paramMap = new HashMap<String, Parameter>();
 			for (Parameter parameter : element.getParameters()) {
 				paramMap.put(parameter.getName(), parameter);
 			}

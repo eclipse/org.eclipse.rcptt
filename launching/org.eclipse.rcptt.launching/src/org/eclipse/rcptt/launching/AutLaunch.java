@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,56 +22,63 @@ import org.eclipse.rcptt.ecl.core.Script;
 /**
  * This interface represents launched {@link Aut application under test} and
  * allows to manage this application.
- * 
+ *
  * @author Yuri Strot
  */
 public interface AutLaunch {
 
 	/**
 	 * Return unique launch identifier
-	 * 
+	 *
 	 * @return launch identifier
 	 */
 	String getId();
 
 	/**
 	 * Return AUT which was launched
-	 * 
+	 *
 	 * @return application under test
 	 */
 	Aut getAut();
 
 	/**
 	 * Return state of the launched AUT
-	 * 
+	 *
 	 * @return launch state
 	 */
 	AutLaunchState getState();
 
 	/**
+	 * Return the aut capability platform "e3", "e4", "rap".
+	 *
+	 * @return capability platform
+	 */
+	String getCapability();
+
+	/**
 	 * Returns associated ILaunch
-	 * 
+	 *
 	 * @return
 	 */
 	ILaunch getLaunch();
 
 	/**
 	 * Add launch listener
-	 * 
+	 *
 	 * @param listener
 	 */
 	void addListener(AutLaunchListener listener);
 
 	/**
 	 * Remove launch listener
-	 * 
+	 *
 	 * @param listener
 	 */
 	void removeListener(AutLaunchListener listener);
 
 	/**
 	 * Execute ECL command and return result of this execution
-	 * 
+	 *
 	 * @param command
 	 *            ECL command
 	 * @return result of the command execution
@@ -85,7 +92,7 @@ public interface AutLaunch {
 	/**
 	 * Execute ECL command and return result of this execution. This method
 	 * allows to specify exact timeout to wait command result.
-	 * 
+	 *
 	 * @param command
 	 *            ECL command
 	 * @param timeout
@@ -103,7 +110,7 @@ public interface AutLaunch {
 	 * Execute ECL command and return result of this execution. This method
 	 * allows to specify exact timeout and to cancel the execution with a
 	 * monitor.
-	 * 
+	 *
 	 * @param command
 	 *            ECL command
 	 * @param timeout
@@ -121,7 +128,7 @@ public interface AutLaunch {
 
 	/**
 	 * Execute Q7 test case
-	 * 
+	 *
 	 * @param test
 	 *            test case
 	 * @param monitor
@@ -134,7 +141,7 @@ public interface AutLaunch {
 
 	/**
 	 * Execute Q7 test case in debug mode
-	 * 
+	 *
 	 * @param test
 	 *            test case
 	 * @param monitor
@@ -145,12 +152,12 @@ public interface AutLaunch {
 	 * @throws CoreException
 	 *             if script fail to execute
 	 */
-	void debug(IQ7NamedElement test, long timeout, IProgressMonitor monitor,
-			TestCaseDebugger debugger, ExecutionPhase phase) throws CoreException;
+	void debug(IQ7NamedElement test, IProgressMonitor monitor, TestCaseDebugger debugger,
+			ExecutionPhase phase) throws CoreException;
 
 	/**
 	 * Execute ECL script
-	 * 
+	 *
 	 * @param script
 	 *            ECL script
 	 * @param monitor
@@ -163,7 +170,7 @@ public interface AutLaunch {
 
 	/**
 	 * Connect to launched AUT to make sure it's available
-	 * 
+	 *
 	 * @throws CoreException
 	 *             if AUT is not available
 	 * @throws InterruptedException
@@ -173,7 +180,7 @@ public interface AutLaunch {
 	/**
 	 * Wait for AUT restart. This method can be called even if AUT still active
 	 * but going to be restarted.
-	 * 
+	 *
 	 * @param monitor
 	 *            progress monitor (only for cancellation status)
 	 * @throws CoreException

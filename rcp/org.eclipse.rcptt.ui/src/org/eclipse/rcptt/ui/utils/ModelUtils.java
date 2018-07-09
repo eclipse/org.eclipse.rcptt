@@ -11,17 +11,10 @@
 package org.eclipse.rcptt.ui.utils;
 
 import static org.eclipse.rcptt.core.model.search.Q7SearchCore.findContextTypeByDocument;
+import static org.eclipse.rcptt.core.model.search.Q7SearchCore.findVerificationTypeByDocument;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.part.FileEditorInput;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.Scenarios;
@@ -50,6 +43,13 @@ import org.eclipse.rcptt.ui.context.ContextViewer;
 import org.eclipse.rcptt.ui.editors.INamedElementEditor;
 import org.eclipse.rcptt.ui.verification.VerificationUIManager;
 import org.eclipse.rcptt.ui.verification.VerificationViewer;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class ModelUtils {
 
@@ -268,6 +268,23 @@ public class ModelUtils {
 			return clazz.cast(namedElement);
 		} catch (ModelException e) {
 			RcpttPlugin.log("Can't load " + context.getName() + " as " + clazz.getSimpleName(), e);
+			return null;
+		}
+	}
+
+	/** Loads verification lazily, checking its type first */
+	public static <T> T loadVerification(IVerification verification, Class<T> clazz) {
+		try {
+			String typeId = findVerificationTypeByDocument(verification);
+			VerificationType type = VerificationTypeManager.getInstance().getTypeById(typeId);
+			if (type == null)
+				return null;
+			if (!clazz.isAssignableFrom(type.getEClass().getInstanceClass()))
+				return null;
+			NamedElement namedElement = verification.getNamedElement();
+			return clazz.cast(namedElement);
+		} catch (ModelException e) {
+			RcpttPlugin.log("Can't load " + verification.getName() + " as " + clazz.getSimpleName(), e);
 			return null;
 		}
 	}

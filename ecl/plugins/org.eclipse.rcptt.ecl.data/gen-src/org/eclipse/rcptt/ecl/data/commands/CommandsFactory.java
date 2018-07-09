@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -145,6 +145,114 @@ public interface CommandsFactory extends EFactory {
 	 * @generated
 	 */
 	ReadFile createReadFile();
+
+	/**
+	 * Returns a new object of class '<em>Set Page Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Set Page Name</em>'.
+	 * @generated
+	 */
+	SetPageName createSetPageName();
+
+	/**
+	 * Returns a new object of class '<em>List As Table Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>List As Table Data</em>'.
+	 * @generated
+	 */
+	ListAsTableData createListAsTableData();
+
+	/**
+	 * Returns a new object of class '<em>Read Xml File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Read Xml File</em>'.
+	 * @generated
+	 */
+	ReadXmlFile createReadXmlFile();
+
+	/**
+	 * Returns a new object of class '<em>Write Xml File</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Write Xml File</em>'.
+	 * @generated
+	 */
+	WriteXmlFile createWriteXmlFile();
+
+	/**
+	 * Returns a new object of class '<em>Tree Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tree Node</em>'.
+	 * @generated
+	 */
+	TreeNode createTreeNode();
+
+	/**
+	 * Returns a new object of class '<em>Get Attrs</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Attrs</em>'.
+	 * @generated
+	 */
+	GetAttrs createGetAttrs();
+
+	/**
+	 * Returns a new object of class '<em>Get Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Attr</em>'.
+	 * @generated
+	 */
+	GetAttr createGetAttr();
+
+	/**
+	 * Returns a new object of class '<em>Set Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Set Attr</em>'.
+	 * @generated
+	 */
+	SetAttr createSetAttr();
+
+	/**
+	 * Returns a new object of class '<em>Has Attr</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Has Attr</em>'.
+	 * @generated
+	 */
+	HasAttr createHasAttr();
+
+	/**
+	 * Returns a new object of class '<em>Get Nodes</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Nodes</em>'.
+	 * @generated
+	 */
+	GetNodes createGetNodes();
+
+	/**
+	 * Returns a new object of class '<em>Append</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Append</em>'.
+	 * @generated
+	 */
+	Append createAppend();
+
+	/**
+	 * Returns a new object of class '<em>Remove</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Remove</em>'.
+	 * @generated
+	 */
+	Remove createRemove();
 
 	/**
 	 * Returns the package supported by this factory.

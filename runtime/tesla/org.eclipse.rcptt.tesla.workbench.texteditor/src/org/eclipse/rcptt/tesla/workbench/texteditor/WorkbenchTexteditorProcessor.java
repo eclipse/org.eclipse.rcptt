@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.workbench.texteditor;
 
+import static java.lang.Integer.parseInt;
 import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.failResponse;
 import static org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor.okResponse;
-import static java.lang.Integer.parseInt;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,15 +31,6 @@ import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.OverviewRuler;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.rcptt.util.swt.Events;
-import org.eclipse.rcptt.util.swt.ShellUtilsProvider;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -82,6 +73,15 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.rcptt.tesla.jface.text.JFaceTextManager;
 import org.eclipse.rcptt.tesla.jface.text.JFaceTextProcessor;
+import org.eclipse.rcptt.util.ShellUtilsProvider;
+import org.eclipse.rcptt.util.swt.Events;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Widget;
 
 public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 		ISWTModelMapperExtension {
@@ -124,6 +124,11 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 	public WorkbenchTexteditorProcessor() {
 		SWTUIPlayer.addExtension(extension);
+	}
+
+	@Override
+	public int getPriority() {
+		return 25;
 	}
 
 	private static ElementKind getTextEditorRulerKind(Object widget) {
@@ -189,7 +194,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param widget
 	 * @return Ruler object corresponding to given widget. <code>null</code> if
 	 *         widget is not a canvas or ruler cannot be found
@@ -310,7 +315,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 
 	/**
 	 * x is line, y is column. If there is only one digit then line is set to 1
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -444,7 +449,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	 * <li>{@link Event#y}</li>
 	 * </ul>
 	 * Before sending, sets
-	 * 
+	 *
 	 */
 	private Response sendRulerEvents(Element element, final int line,
 			String operationName, final Event... events) {
@@ -494,7 +499,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 					event.y = y;
 					eventSender.sendEvent(control, event);
 				}
-				//eventSender.sendUnfocus(control);
+				// eventSender.sendUnfocus(control);
 			}
 		});
 		return result;
@@ -720,7 +725,7 @@ public class WorkbenchTexteditorProcessor implements ITeslaCommandProcessor,
 	/**
 	 * Transforms user-friendly coords into coords corresponding to styled text
 	 * control
-	 * 
+	 *
 	 * @param control
 	 *            Styled text
 	 * @param line

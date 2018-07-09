@@ -25,6 +25,8 @@ public class TeslaMessages extends NLS {
 	public static String CommandProcessor_CannotExecuteCommandBecauseOfModalDialog;
 	public static String CommandProcessor_CannotFindProperty;
 
+	public static String TeslaFeatures_IdentifyMethodsNotProvided;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, TeslaMessages.class);
 	}

@@ -1,0 +1,110 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _oVVaEPqmEeecLeABbSXk4g,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: VerifyWorkspace
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _0MlU4PqmEeecLeABbSXk4g
+Runtime-Version: 2.3.0.201801161316
+Save-Time: 1/16/18 8:50 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "TestProject/WSContext" | double-click
+get-editor WSContext | get-button Apply | click
+get-view "Test Explorer" | get-tree | select TestProject | get-menu -path "New/Verification" | click
+with [get-window "New Verification Wizard"] {
+    get-editbox -after [get-label "Name:"] | set-text WSVerification
+    get-table | select Workspace
+    get-button Finish | click
+}
+get-editor WSVerification | get-section "Workspace Options" | get-editbox 
+    -after [get-label "Ignore lines matched by following patterns (one regex per line):"] | set-text "Save-Time:.*\nRuntime-Version:.*"
+get-button "Save (M1+S)" | click
+get-editor WSVerification | get-button Capture | click
+get-button "Save (M1+S)" | click
+get-editor WSVerification | get-button Verify | click
+get-view "Execution View" | get-tree | get-item -path "WSVerification.*" | get-property "image.path" 
+    | equals "org.eclipse.rcptt.ui/icons/launching/verification-pass.png" | verify-true
+
+get-view "Test Explorer" | get-tree | select "TestProject/CopyTestData" | double-click
+get-editor CopyTestData | get-button Replay | click
+get-view "Test Explorer" | get-tree | select "TestProject/WSVerification" | double-click
+get-editor WSVerification | get-button Verify | click
+with [get-view "Execution View"] {
+    get-tree | get-item -path "WSVerification.*" | get-property "image.path" 
+        | equals "org.eclipse.rcptt.ui/icons/launching/verification-fail.png" | verify-true
+    get-editbox -after [get-label "Message:"] | get-property text 
+        | equals "Workspace verification 'WSVerification' failed:\n"
+        + "4 differences in 'MyProject/folder1/folder11/case112.test' file:\n"
+        + " 13 >Content-Type: text/ecl\n"
+        + " 14 >Entry-Name: .content\n"
+        + " 15 >\n"
+        + "-16 >get-view \"Test Explorer\" | get-tree | select MyProject | get-menu \"New/Verification\" | click\n"
+        + "-17 >with [get-window \"New Verification Wizard\"] {\n"
+        + "-18 >    get-table | select \"Execution Time\"\n"
+        + "-19 >    get-editbox -after [get-label \"Name:\"] | set-text TV\n"
+        + "-20 >    get-button Finish | click\n"
+        + "+16 >get-view \"Test Explorer\" | get-tree | select \"MyProject/TC\" | double-click\n"
+        + "+17 >with [get-editor TC | get-section Verifications] {\n"
+        + "+18 >    click\n"
+        + "+19 >    get-button \"Add...\" | click\n"
+        + "-22 >get-editor TV | get-property active | equals true | verify-true\n\n"
+        + " 19 >    get-button \"Add...\" | click\n"
+        + " 20 >}\n"
+        + " 21 >\n"
+        + "-24 >with [get-editor TV | get-section \"Execution Time\"] {\n"
+        + "-25 >    get-label \"Execution Time\" | get-property caption | equals \"Execution Time\" | verify-true\n"
+        + "-26 >    get-label \"Test case execution time should be less than:\" | get-property caption \n"
+        + "-27 >        | equals \"Test case execution time should be less than:\" | verify-true\n"
+        + "-28 >    get-label \"minute(s) and\" | get-property caption | equals \"minute(s) and\" | verify-true\n"
+        + "-29 >    get-label \"second(s)\" | get-property caption | equals \"second(s)\" | verify-true\n"
+        + "-30 >    get-editbox -after [get-label \"Test case execution time should be less than:\"] | get-property text | equals 1 \n"
+        + "+22 >\n"
+        + "+23 >with [get-window \"Select verification\"] {\n"
+        + "+24 >    get-editbox -after [get-label \"Enter verification name prefix or pattern (*, ?):\"] | set-focus\n"
+        + "+25 >    get-table | select \"TextVerification \\\\(MyProject\\\\)\" \"TimeVerification \\\\(MyProject\\\\)\"\n"
+        + "+26 >    get-button OK | click\n"
+        + "+27 >}\n"
+        + "+28 >with [get-editor TC | get-section Verifications | get-table] {\n"
+        + "+29 >    get-property itemCount | equals 2 | verify-true\n"
+        + "+30 >    get-item \"TextVerification \\\\(MyProject\\\\)\" | get-property caption | equals \"TextVerification (MyProject)\" \n"
+        + "+31 >        | verify-true\n"
+        + "+32 >    get-item \"TimeVerification \\\\(MyProject\\\\)\" | get-property caption | equals \"TimeVerification (MyProject)\" \n"
+        + "-32 >    get-editbox -after [get-label \"minute(s) and\"] | get-property text | equals 0 | verify-true\n"
+        + "-33 >    with [get-button \"Take into account the time spent executing contexts\"] {\n"
+        + "-34 >        get-property enablement | equals true | verify-true\n"
+        + "-35 >        get-property caption | equals \"Take into account the time spent executing contexts\" | verify-true\n"
+        + "-36 >        get-property selected | equals false | verify-true\n"
+        + "+34 >}\n"
+        + "+35 >get-editor TC | get-button Replay | click\n"
+        + "+36 >get-window \"Save Resource\" | get-button Save | click\n"
+        + "+37 >\n"
+        + "+38 >with [get-view \"Execution View\"] {\n"
+        + "+39 >    get-editbox -after [get-label \"Message:\"] | get-property text | equals \"Widget text verification \\'TextVerification'\\ failed:\\n"
+        + "\"\n"
+        + "+40 >        + \"Expected text is \\\"\\\", but it was \\\"TC\\\".\" | verify-true\n"
+        + "+41 >    with [get-tree] {\n"
+        + "+42 >        get-item \"TC.*\" | get-property childCount | equals 7 | verify-true\n"
+        + "+43 >        get-item \"TC.*/TimeVerification Start.*\" | get-property caption \n"
+        + "+44 >            | equals \"TimeVerification Start.*\" | verify-true\n"
+        + "+45 >        get-item \"TC.*/WsCntx.*\" | get-property caption | equals \"WsCntx.*\" \n"
+        + "+46 >            | verify-true\n"
+        + "+47 >        get-item \"TC.*/WbCntx.*\" | get-property caption | equals \"WbCntx.*\" \n"
+        + "+48 >            | verify-true\n"
+        + "+49 >        get-item \"TC.*/TimeVerification Run.*\" | get-property caption \n"
+        + "+50 >            | equals \"TimeVerification Run.*\" | verify-true\n"
+        + "+51 >        get-item \"TC.*/TC.*\" | get-property caption | equals \"TC.*\" | verify-true\n"
+        + "+52 >        get-item \"TC.*/TextVerification Finish.*\" | get-property caption \n"
+        + "+53 >            | equals \"TextVerification Finish.*\" | verify-true\n"
+        + "+54 >        get-item \"TC .*/TimeVerification Finish.*\" | get-property caption | equals \"TimeVerification Finish\" \n"
+        + "+55 >            | verify-true\n"
+        + " 56 >    }\n"
+        + " 57 >}\n"
+        + " 58 >------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--" | verify-true
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

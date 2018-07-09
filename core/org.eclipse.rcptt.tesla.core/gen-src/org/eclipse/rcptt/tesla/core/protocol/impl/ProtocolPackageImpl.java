@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.tesla.core.protocol.impl;
 
 import org.eclipse.rcptt.tesla.core.protocol.ActivateCellEditor;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.core.protocol.ApplyCellEditor;
 import org.eclipse.rcptt.tesla.core.protocol.Assert;
 import org.eclipse.rcptt.tesla.core.protocol.AssertImageData;
@@ -47,6 +48,8 @@ import org.eclipse.rcptt.tesla.core.protocol.Expand;
 import org.eclipse.rcptt.tesla.core.protocol.GetBounds;
 import org.eclipse.rcptt.tesla.core.protocol.GetColor;
 import org.eclipse.rcptt.tesla.core.protocol.GetColorResponse;
+import org.eclipse.rcptt.tesla.core.protocol.GetItems;
+import org.eclipse.rcptt.tesla.core.protocol.GetItemsResponse;
 import org.eclipse.rcptt.tesla.core.protocol.GetPropertyValue;
 import org.eclipse.rcptt.tesla.core.protocol.GetRegionText;
 import org.eclipse.rcptt.tesla.core.protocol.GetSelection;
@@ -81,6 +84,8 @@ import org.eclipse.rcptt.tesla.core.protocol.ParentResponse;
 import org.eclipse.rcptt.tesla.core.protocol.PasteTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolFactory;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
+import org.eclipse.rcptt.tesla.core.protocol.RapDownloadFile;
+import org.eclipse.rcptt.tesla.core.protocol.RapUploadFile;
 import org.eclipse.rcptt.tesla.core.protocol.RecordingModeRequest;
 import org.eclipse.rcptt.tesla.core.protocol.ReplaceTextSelection;
 import org.eclipse.rcptt.tesla.core.protocol.Restore;
@@ -125,6 +130,7 @@ import org.eclipse.rcptt.tesla.core.protocol.WaitForState;
 
 import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
 
+import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -133,6 +139,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.rcptt.tesla.core.info.InfoPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -888,6 +895,34 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass rapDownloadFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rapUploadFileEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getItemsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getItemsResponseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum swtDialogKindEEnum = null;
 
 	/**
@@ -910,6 +945,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * @generated
 	 */
 	private EEnum mouseEventKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum activationEventTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -958,7 +1000,9 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		isInited = true;
 
 		// Initialize simple dependencies
+		UiPackage.eINSTANCE.eClass();
 		EcorePackage.eINSTANCE.eClass();
+		InfoPackage.eINSTANCE.eClass();
 		RawPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -2205,6 +2249,24 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getActivateCellEditor_Type() {
+		return (EAttribute)activateCellEditorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActivateCellEditor_Button() {
+		return (EAttribute)activateCellEditorEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getApplyCellEditor() {
 		return applyCellEditorEClass;
 	}
@@ -3393,6 +3455,96 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRapDownloadFile() {
+		return rapDownloadFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Url() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Handler() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapDownloadFile_Content() {
+		return (EAttribute)rapDownloadFileEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRapUploadFile() {
+		return rapUploadFileEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapUploadFile_Base64file() {
+		return (EAttribute)rapUploadFileEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRapUploadFile_Path() {
+		return (EAttribute)rapUploadFileEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetItems() {
+		return getItemsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetItemsResponse() {
+		return getItemsResponseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGetItemsResponse_Result() {
+		return (EAttribute)getItemsResponseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSWTDialogKind() {
 		return swtDialogKindEEnum;
 	}
@@ -3422,6 +3574,15 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 */
 	public EEnum getMouseEventKind() {
 		return mouseEventKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getActivationEventType() {
+		return activationEventTypeEEnum;
 	}
 
 	/**
@@ -3645,6 +3806,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__PATTERN);
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__INDEX);
 		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__COLUMN);
+		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__TYPE);
+		createEAttribute(activateCellEditorEClass, ACTIVATE_CELL_EDITOR__BUTTON);
 
 		applyCellEditorEClass = createEClass(APPLY_CELL_EDITOR);
 		createEAttribute(applyCellEditorEClass, APPLY_CELL_EDITOR__DEACTIVATE);
@@ -3826,11 +3989,26 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		updateControlCommandEClass = createEClass(UPDATE_CONTROL_COMMAND);
 		createEReference(updateControlCommandEClass, UPDATE_CONTROL_COMMAND__ELEMENTS);
 
+		rapDownloadFileEClass = createEClass(RAP_DOWNLOAD_FILE);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__URL);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__HANDLER);
+		createEAttribute(rapDownloadFileEClass, RAP_DOWNLOAD_FILE__CONTENT);
+
+		rapUploadFileEClass = createEClass(RAP_UPLOAD_FILE);
+		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__BASE64FILE);
+		createEAttribute(rapUploadFileEClass, RAP_UPLOAD_FILE__PATH);
+
+		getItemsEClass = createEClass(GET_ITEMS);
+
+		getItemsResponseEClass = createEClass(GET_ITEMS_RESPONSE);
+		createEAttribute(getItemsResponseEClass, GET_ITEMS_RESPONSE__RESULT);
+
 		// Create enums
 		swtDialogKindEEnum = createEEnum(SWT_DIALOG_KIND);
 		assertKindEEnum = createEEnum(ASSERT_KIND);
 		dragKindEEnum = createEEnum(DRAG_KIND);
 		mouseEventKindEEnum = createEEnum(MOUSE_EVENT_KIND);
+		activationEventTypeEEnum = createEEnum(ACTIVATION_EVENT_TYPE);
 	}
 
 	/**
@@ -3967,6 +4145,10 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		setWidthEClass.getESuperTypes().add(this.getElementCommand());
 		setPositionEClass.getESuperTypes().add(this.getElementCommand());
 		updateControlCommandEClass.getESuperTypes().add(theRawPackage.getCommand());
+		rapDownloadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
+		rapUploadFileEClass.getESuperTypes().add(theRawPackage.getCommand());
+		getItemsEClass.getESuperTypes().add(this.getElementCommand());
+		getItemsResponseEClass.getESuperTypes().add(theRawPackage.getResponse());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(selectDataEClass, SelectData.class, "SelectData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -4162,6 +4344,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEAttribute(getActivateCellEditor_Pattern(), ecorePackage.getEString(), "pattern", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivateCellEditor_Index(), ecorePackage.getEIntegerObject(), "index", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivateCellEditor_Column(), ecorePackage.getEInt(), "column", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEditor_Type(), this.getActivationEventType(), "type", null, 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActivateCellEditor_Button(), theEcorePackage.getEInt(), "button", "1", 0, 1, ActivateCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(applyCellEditorEClass, ApplyCellEditor.class, "ApplyCellEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getApplyCellEditor_Deactivate(), theEcorePackage.getEBoolean(), "deactivate", "false", 0, 1, ApplyCellEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4343,6 +4527,20 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEClass(updateControlCommandEClass, UpdateControlCommand.class, "UpdateControlCommand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUpdateControlCommand_Elements(), theRawPackage.getElement(), null, "elements", null, 0, 1, UpdateControlCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(rapDownloadFileEClass, RapDownloadFile.class, "RapDownloadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRapDownloadFile_Url(), theEcorePackage.getEString(), "url", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapDownloadFile_Handler(), theEcorePackage.getEString(), "handler", null, 1, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapDownloadFile_Content(), theEcorePackage.getEString(), "content", null, 0, 1, RapDownloadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rapUploadFileEClass, RapUploadFile.class, "RapUploadFile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRapUploadFile_Base64file(), theEcorePackage.getEString(), "base64file", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRapUploadFile_Path(), theEcorePackage.getEString(), "path", null, 0, 1, RapUploadFile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(getItemsEClass, GetItems.class, "GetItems", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getItemsResponseEClass, GetItemsResponse.class, "GetItemsResponse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGetItemsResponse_Result(), theEcorePackage.getEString(), "result", null, 0, -1, GetItemsResponse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(swtDialogKindEEnum, SWTDialogKind.class, "SWTDialogKind");
 		addEEnumLiteral(swtDialogKindEEnum, SWTDialogKind.FILE_SELECTOR);
@@ -4385,6 +4583,13 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.EXIT);
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.DOUBLE_CLICK);
 		addEEnumLiteral(mouseEventKindEEnum, MouseEventKind.HOVER);
+
+		initEEnum(activationEventTypeEEnum, ActivationEventType.class, "ActivationEventType");
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.PROGRAMMATIC);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.KEY_PRESSED);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.MOUSE_DOUBLE_CLICK_SELECTION);
+		addEEnumLiteral(activationEventTypeEEnum, ActivationEventType.TRAVERSAL);
 
 		// Create resource
 		createResource(eNS_URI);

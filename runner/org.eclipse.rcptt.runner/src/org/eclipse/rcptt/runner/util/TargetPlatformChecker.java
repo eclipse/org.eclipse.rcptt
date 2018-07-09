@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,15 +12,16 @@ package org.eclipse.rcptt.runner.util;
 
 import static org.eclipse.rcptt.runner.HeadlessRunnerPlugin.PLUGIN_ID;
 
-import java.io.File;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer.Q7Info;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
@@ -30,6 +31,7 @@ import org.eclipse.rcptt.launching.injection.UpdateSite;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
+import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
 import org.eclipse.rcptt.runner.PrintStreamMonitor;
 import org.eclipse.rcptt.runner.Q7PluginValidator;
 import org.eclipse.rcptt.runner.RunnerConfiguration;
@@ -49,45 +51,45 @@ public class TargetPlatformChecker {
 		return targetPlatform;
 	}
 
-	/**
-	 * @return true, if the target platform is ok
-	 * @throws CoreException
-	 */
-	public boolean initAndCheckTargetPlatform() throws CoreException {
+	public void initAndCheckTargetPlatform() throws CoreException {
 
 		if (conf.location == null) {
-			System.out.println("AUT location is not set");
-			return false;
+			throw new CoreException(createError("AUT location is not set"));
 		}
 
-		final File file = new File(conf.location);
-		if (!file.exists()) {
-			System.out.println("AUT location doesn't exist: " + file);
-			return false;
+		IStatus locationStatus = PDELocationUtils.validateProductLocation(conf.location);
+		if (!locationStatus.isOK()) {
+			MultiStatus rv = new MultiStatus(HeadlessRunnerPlugin.PLUGIN_ID, 0, "AUT location is invalid: " + conf.location, null);
+			rv.add(locationStatus);
+			throw new CoreException(rv);
 		}
 
 		System.out.println("Initializing target platform...");
 		initializeTargetPlatform();
 		System.out.println("Target platform is valid.");
-
-		return true;
+	}
+	
+	private static IStatus createError(String message) {
+		return new Status(IStatus.ERROR, HeadlessRunnerPlugin.PLUGIN_ID, message, new RuntimeException());
 	}
 
 	private void initializeTargetPlatform() throws CoreException {
 		targetPlatform = null;
+		String location = PDELocationUtils.getProductLocation(conf.location).getAbsolutePath();
+		PrintStreamMonitor outMonitor = new PrintStreamMonitor(true);
 		if (conf.config != null) {
 			targetPlatform = TargetPlatformManager.createTargetPlatform(
-					conf.location, new PrintStreamMonitor());
+					location, outMonitor);
 			Map<String, Version> versions = targetPlatform.getVersions();
 			Q7Info q7Info = Q7TargetPlatformInitializer.getInfo(targetPlatform, versions);
 			if (!conf.onlySpecified) {
 				IMetadataRepository repository = PDEHelper
 						.safeLoadRepository(q7Info.q7,
-								new PrintStreamMonitor());
+								outMonitor);
 				if (repository != null) {
 					InjectionConfiguration configuration = Q7TargetPlatformInitializer
 							.createInjectionConfiguration(
-									new PrintStreamMonitor(), q7Info,
+									outMonitor, q7Info,
 									versions);
 					if (configuration != null) {
 						conf.config.getEntries().addAll(
@@ -101,7 +103,7 @@ public class TargetPlatformChecker {
 				conf.config.getEntries().add(aspectsSite);
 			}
 			targetPlatform.setTargetName("AUT");
-			IStatus rv = targetPlatform.applyInjection(conf.config, new PrintStreamMonitor());
+			IStatus rv = targetPlatform.applyInjection(conf.config, outMonitor);
 			if (!rv.isOK())
 				throw new CoreException(rv);
 			if (targetPlatform.getWeavingHook() == null) {
@@ -110,7 +112,7 @@ public class TargetPlatformChecker {
 			}
 		} else { // Try to initialize using Q7 bundled runtime
 			targetPlatform = Q7TargetPlatformManager.createTargetPlatform(
-					conf.location, new PrintStreamMonitor());
+					location, outMonitor);
 			targetPlatform.setTargetName("AUT");
 		}
 		targetPlatform.save();

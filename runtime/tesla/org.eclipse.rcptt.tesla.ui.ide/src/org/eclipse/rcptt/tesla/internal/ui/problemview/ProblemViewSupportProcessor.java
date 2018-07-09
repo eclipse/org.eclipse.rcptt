@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
@@ -38,6 +37,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.rcptt.tesla.ui.IJobCollector.JobStatus;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
@@ -49,44 +49,58 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 	public ProblemViewSupportProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 50;
+	}
+
 	public boolean callMasterProcess(Context currentContext) {
 		return false;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		return true;
 	}
 
+	@Override
 	public void clean() {
 		elements.clear();
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public String getFeatureID() {
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		// this.id = id;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		return false;
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 		SWTUIProcessor processor = client.getProcessor(SWTUIProcessor.class);
 		SWTUIElement swtuiElement = processor.getMapper().get(element);
@@ -102,7 +116,7 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 				WorkbenchUIElement wb = (WorkbenchUIElement) w;
 				IWorkbenchPart part = wb.getReference().getPart(true);
 				if (part != null) {
-					try { 
+					try {
 						if (part instanceof org.eclipse.ui.views.markers.MarkerSupportView) {
 							mapper.map(element, this);
 							this.elements.add(element.getId() + ":"
@@ -118,9 +132,10 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 
 	private class WaitForJobsStatus extends PreExecuteStatus {
 		final UIJobCollector collector = new UIJobCollector() {
+			@Override
 			protected JobStatus calcJobStatus(Job job, long delay) {
 				if (isMarkersJob(job)) {
-					return JobStatus.REQUIRED; 
+					return JobStatus.REQUIRED;
 				}
 				if (job.belongsTo(ResourcesPlugin.FAMILY_AUTO_BUILD)) {
 					return JobStatus.REQUIRED;
@@ -128,15 +143,17 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 				return super.calcJobStatus(job, delay);
 			};
 
+			@Override
 			protected boolean isAsyncSupported() {
 				return false;
 			};
 
+			@Override
 			protected boolean isSyncSupported() {
 				return false;
 			};
 		};
-		
+
 		@Override
 		public void clean() {
 			collector.disable();
@@ -148,6 +165,7 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 		}
 	};
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		if (command instanceof ElementCommand) {
@@ -234,27 +252,32 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public void terminate() {
 		clean();
 		client = null;
 	}
 
+	@Override
 	public void checkHang() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void notifyUI() {
 		// TODO Auto-generated method stub
 

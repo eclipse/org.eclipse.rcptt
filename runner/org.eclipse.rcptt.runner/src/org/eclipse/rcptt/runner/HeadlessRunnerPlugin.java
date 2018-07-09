@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,19 +45,19 @@ public class HeadlessRunnerPlugin extends Plugin {
 	public void info(final String message, Throwable e) {
 		getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
 	}
-	
+
 	public static void log(IStatus status) {
 		HeadlessRunnerPlugin p = getDefault();
-		if(p == null) {
+		if (p == null) {
 			return;
 		}
 		p.getLog().log(status);
 	}
-	
+
 	public static void logErr(String message) {
 		logErr(message, null);
 	}
-	
+
 	public static void logErr(String message, Throwable e) {
 		log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
 	}

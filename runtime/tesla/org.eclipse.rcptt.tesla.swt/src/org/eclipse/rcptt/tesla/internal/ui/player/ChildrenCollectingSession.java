@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
+import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
+import org.eclipse.rcptt.util.swt.TableTreeUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -43,9 +46,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.WorkbenchPartReference;
-import org.eclipse.rcptt.util.swt.TableTreeUtil;
-import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
-import org.eclipse.rcptt.tesla.swt.workbench.EclipseWorkbenchProvider;
 
 @SuppressWarnings("restriction")
 public class ChildrenCollectingSession {
@@ -87,8 +87,7 @@ public class ChildrenCollectingSession {
 		started = true;
 
 		// check extensions
-
-		for (ISWTUIPlayerExtension ext : SWTUIPlayer.extensions) {
+		for (ISWTUIPlayerExtension ext : SWTUIPlayer.getExtensions()) {
 			IChildrenCollectingExtension cce = ext.getChildrenCollectingExtension(this);
 			if (cce != null)
 				cce.collect();
@@ -315,7 +314,7 @@ public class ChildrenCollectingSession {
 	}
 
 	public void addItem(SWTUIElement control) {
-		ChildrenCollector.addItem(results, control, ignores, classes);
+		ChildrenCollector.addItem(results, control, ignores, classes, player);
 	}
 
 	private static boolean containClass(Class<?> cl, Class<?>[] classes) {

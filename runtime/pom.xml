@@ -1,60 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>runtime</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.4.0-SNAPSHOT</version>
     <relativePath>../releng/runtime/pom.xml</relativePath>
   </parent>
-  <!-- profiles>
-       <profile>
-       <id>runtime_e3x</id>
-       <modules>
-       <module>tesla</module>
-       <module>ecl</module>
-       <module>org.eclipse.rcptt.runtime.ui</module>
-       <module>org.eclipse.rcptt.core.ecl.debug</module>
-       <module>contexts</module>
-       <module>verifications</module>
-       <module>org.eclipse.rcptt.runtime-feature</module>
-       <module>org.eclipse.rcptt.runtime-updatesite</module>
-       <module>updates</module>
-       <module>org.eclipse.rcptt.expandbar.runtime</module>
-       </modules>
-       </profile>
-       <profile>
-       <id>runtime_e4x</id>
-       <modules>
-       <module>tesla</module>
-       <module>ecl</module>
-       <module>org.eclipse.rcptt.runtime.ui</module>
-       <module>org.eclipse.rcptt.core.ecl.debug</module>
-       <module>contexts</module>
-       <module>verifications</module>
-       <module>org.eclipse.rcptt.runtime-feature</module>
-       <module>org.eclipse.rcptt.runtime-updatesite</module>
-       <module>updates</module>
-       <module>org.eclipse.rcptt.expandbar.runtime</module>
-       </modules>
-       </profile>
-       <profile>
-       <id>full</id>
-       <modules>
-       <module>updates</module>
-       </modules>
-       </profile>
-       </profiles-->
+
   <groupId>org.eclipse.rcptt</groupId>
-  <version>2.1.0-SNAPSHOT</version>
+  <version>2.4.0-SNAPSHOT</version>
   <artifactId>rcptt.runtime</artifactId>
   <packaging>pom</packaging>
 
   <modules>
+    <module>org.eclipse.rcptt.runtime.ui</module>
+    <module>org.eclipse.rcptt.forms.impl</module>
+    <module>org.eclipse.rcptt.resources.impl</module>
+    <module>org.eclipse.rcptt.util.swt</module>
+    <module>watson</module>
+
     <module>tesla</module>
     <module>ecl</module>
-    <module>org.eclipse.rcptt.runtime.ui</module>
     <module>org.eclipse.rcptt.core.ecl.debug</module>
     <module>contexts</module>
     <module>verifications</module>
@@ -62,8 +41,8 @@
     <module>org.eclipse.rcptt.runtime-updatesite</module>
     <module>updates</module>
     <module>org.eclipse.rcptt.expandbar.runtime</module>
-    <module>org.eclipse.rcptt.forms.impl</module>
     <module>tests</module>
+    <module>org.eclipse.rcptt.ecl.data.apache.poi.impl</module>
   </modules>
 
 </project>

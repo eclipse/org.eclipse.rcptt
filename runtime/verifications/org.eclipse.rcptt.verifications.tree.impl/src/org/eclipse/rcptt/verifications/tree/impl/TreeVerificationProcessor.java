@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -54,10 +54,8 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 
 	@Override
 	public void finish(Verification verification, Object data, IProcess process) throws CoreException {
-		final VerifyTreeData treeVerification = (VerifyTreeData)
-				verification;
-		final SWTUIElement swtuiElement =
-				TeslaBridge.resolveSWTUIElement(treeVerification.getSelector(), process);
+		final VerifyTreeData treeVerification = (VerifyTreeData) verification;
+		final SWTUIElement swtuiElement = TeslaBridge.resolveSWTUIElement(treeVerification.getSelector(), process);
 		final Widget widget = swtuiElement.widget;
 		final ErrorList errors = new ErrorList();
 
@@ -68,14 +66,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				try {
 					Tree expectedTree = treeVerification.getTree();
 					Tree actualTree = TreeVerificationModeller.getTreeData(widget, false);
-
-					compareTrees(widget,
-							errors, expectedTree, actualTree,
-							treeVerification.isAllowUncapturedChildren(),
-							treeVerification.isAllowExtraColumns(),
-							treeVerification.isAllowMissingColumns(),
-							treeVerification.isVerifyIcons(),
-							treeVerification.getVerifyStyle());
+					compareTrees(widget, errors, expectedTree, actualTree, treeVerification.isAllowUncapturedChildren(),
+							treeVerification.isAllowExtraColumns(), treeVerification.isAllowMissingColumns(),
+							treeVerification.isVerifyIcons(), treeVerification.getVerifyStyle(), treeVerification.getExcludedColumns());
 				} catch (Throwable e) {
 					error[0] = e;
 				}
@@ -87,12 +80,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				this.getClass().getPackage().getName(), verification.getId());
 	}
 
-	private void compareTrees(final Widget widget,
-			final ErrorList errors,
-			final Tree expectedTree, Tree actualTree,
-			final boolean allowUncapturedChildren,
-			final boolean allowExtra, final boolean allowMissing,
-			final boolean verifyIcons, final VerifyStyleType verifyStyle) {
+	private void compareTrees(final Widget widget, final ErrorList errors, final Tree expectedTree, Tree actualTree,
+			final boolean allowUncapturedChildren, final boolean allowExtra, final boolean allowMissing,
+			final boolean verifyIcons, final VerifyStyleType verifyStyle, final EList<Integer> excludedColumns) {
 		if (expectedTree == null) {
 			errors.add("Expected tree is undefined");
 			return;
@@ -100,9 +90,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 
 		final EList<Column> expectingColumns = expectedTree.getColumns();
 		EList<Column> actualColumns = actualTree.getColumns();
-		final int[] mappedInds = (expectingColumns.size() > 0)
-				? new int[expectingColumns.size()]
-				: new int[] { 0 };
+		final int[] mappedInds = (expectingColumns.size() > 0) ? new int[expectingColumns.size()] : new int[] { -1 };
 		boolean[] mappedActualCols = new boolean[actualColumns.size()];
 		boolean correctMapping = true;
 
@@ -110,8 +98,15 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 			boolean mapped = false;
 
 			for (int j = 0; j < actualColumns.size(); j++) {
-				if (!mappedActualCols[j]
-						&& expectingColumns.get(i).getName().equals(actualColumns.get(j).getName())
+				for (Integer excludedColumn : excludedColumns) {
+					if (excludedColumn.equals(j)) {
+						mappedInds[i] = -1;
+						mappedActualCols[j] = true;
+						mapped = true;
+						break;
+					}
+				}
+				if (!mappedActualCols[j] && expectingColumns.get(i).getName().equals(actualColumns.get(j).getName())
 						&& isEqualStrings(expectingColumns.get(i).getTooltip(), actualColumns.get(i).getTooltip())) {
 					mappedInds[i] = j;
 					mappedActualCols[j] = true;
@@ -125,9 +120,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				} else {
 					correctMapping = false;
 					errors.add("Expected column \"%s\" %s was not found in actual columns list ",
-							expectingColumns.get(i).getName(),
-							(expectingColumns.get(i).getTooltip() == null)
-									? ""
+							expectingColumns.get(i).getName(), (expectingColumns.get(i).getTooltip() == null) ? ""
 									: String.format("with tooltip", expectingColumns.get(i)));
 				}
 			}
@@ -136,23 +129,23 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 			if (!mappedActualCols[i] && !allowExtra) {
 				correctMapping = false;
 				errors.add("Column \"%s\" %s is undefined in expected columns list", actualColumns.get(i).getName(),
-						(actualColumns.get(i).getTooltip() == null)
-								? ""
+						(actualColumns.get(i).getTooltip() == null) ? ""
 								: String.format("with tooltip", actualColumns.get(i)));
 			}
 		}
 		if (correctMapping) {
 			if (verifyIcons) {
 				for (int i = 0; i < expectingColumns.size(); i++) {
-					String expImgName = TreeVerificationUtils.
-							getDecoratedImagePath(expectingColumns.get(i).getImage());
-					String actImgName = TreeVerificationUtils.
-							getDecoratedImagePath(expectingColumns.get(mappedInds[i]).getImage());
+					if (mappedInds[i] == -1) {
+						break;
+					}
+					String expImgName = TreeVerificationUtils.getDecoratedImagePath(expectingColumns.get(i).getImage());
+					String actImgName = TreeVerificationUtils
+							.getDecoratedImagePath(expectingColumns.get(mappedInds[i]).getImage());
 
 					if ((expImgName == null && actImgName != null)
 							|| (expImgName != null && !expImgName.equals(actImgName))) {
-						errors.add(
-								"Expected %s for column \"%s\" but was %s",
+						errors.add("Expected %s for column \"%s\" but was %s",
 								(expImgName == null) ? "no icon" : String.format("icon \"%s\"", expImgName),
 								expectingColumns.get(i).getName(),
 								(actImgName == null) ? "no icon" : String.format("\"%s\"", actImgName));
@@ -182,8 +175,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 					return getNonBlankItemText(expectedTree, payload);
 				}
 			};
-			
-			List<TreeItemVerificationError> treeResults = comparison.assertNode(new ModelTreeNodeAdapter(expectedTree), new WidgetTreeNodeAdapter(widget));
+
+			List<TreeItemVerificationError> treeResults = comparison.assertNode(new ModelTreeNodeAdapter(expectedTree),
+					new WidgetTreeNodeAdapter(widget));
 			for (TreeItemVerificationError treeItemVerificationError : treeResults) {
 				errors.add(treeItemVerificationError);
 			}
@@ -206,16 +200,11 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 	}
 
 	private boolean isEqualStrings(String left, String right) {
-		return !((left == null && right != null)
-		|| (left != null && !left.equals(right)));
+		return !((left == null && right != null) || (left != null && !left.equals(right)));
 	}
 
-	private boolean compareRows(List<TreeItemVerificationError> errors,
-			Row expectedRow, Row actualRow,
-			Display display, VerifyStyleType verifyStyle,
-			boolean verifyIcons,
-			List<Column> columns,
-			int[] mappedInds) {
+	private boolean compareRows(List<TreeItemVerificationError> errors, Row expectedRow, Row actualRow, Display display,
+			VerifyStyleType verifyStyle, boolean verifyIcons, List<Column> columns, int[] mappedInds) {
 		boolean equal = true;
 		if (expectedRow == actualRow)
 			return true;
@@ -228,10 +217,9 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 		if (expectedRow.isChecked() != actualRow.isChecked()) {
 			equal = false;
 			TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
-			error.setMessage(
-					String.format("Expected to be %s, but actual row is %s",
-							expectedRow.isChecked() ? "checked" : "unchecked",
-							actualRow.isChecked() ? "checked" : "unchecked"));
+			error.setMessage(String.format("Expected to be %s, but actual row is %s",
+					expectedRow.isChecked() ? "checked" : "unchecked",
+					actualRow.isChecked() ? "checked" : "unchecked"));
 			errors.add(error);
 		}
 		for (int j = 0; j < mappedInds.length; j++) {
@@ -239,59 +227,83 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 				Cell expVal = expectedRow.getValues().get(j);
 				Cell actVal = actualRow.getValues().get(mappedInds[j]);
 				if (verifyIcons) {
-					String expImg = TreeVerificationUtils.getDecoratedImagePath(expVal.getData()
-							.getImage());
-					String actImg = TreeVerificationUtils.getDecoratedImagePath(actVal.getData()
-							.getImage());
+					String expImg = TreeVerificationUtils.getDecoratedImagePath(expVal.getData().getImage());
+					String actImg = TreeVerificationUtils.getDecoratedImagePath(actVal.getData().getImage());
 					if (!isEqualStrings(expImg, actImg)) {
 						equal = false;
-						TreeItemVerificationError error = StatusFactory.eINSTANCE.
-								createTreeItemVerificationError();
-						error.setMessage(
-								String.format("Expected %s, but was %s",
-										(expImg == null) ? "no icon" : String.format("icon \"%s\"", expImg),
-										(actImg == null) ? "no icon" : String.format("\"%s\"", actImg)));
+						TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
+						error.setMessage(String.format("Expected %s, but was %s",
+								(expImg == null) ? "no icon" : String.format("icon \"%s\"", expImg),
+								(actImg == null) ? "no icon" : String.format("\"%s\"", actImg)));
 						if (columns.size() > j) {
 							error.setColumn(columns.get(j).getName());
 						}
 						errors.add(error);
 					}
 				}
-				String expText = expVal.getData().getText();
-				String actText = actVal.getData().getText();
+
 				Iterable<StyleRangeEntry> expectedStyles = expVal.getStyle();
 				Iterable<StyleRangeEntry> actualStyles = actVal.getStyle();
 
-				if (verifyStyle == VerifyStyleType.IGNORE_STYLED_TEXT) {
-					expText = WidgetModels.getTextWithoutStyle(expectedStyles, expText);
-					actText = WidgetModels.getTextWithoutStyle(actualStyles, actText);
-				}
-				if (!expText.equals(actText)) {
-					equal = false;
-					TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
-					error.setMessage(
-							String.format("Expected \"%s\", but was \"%s\"",
-									expVal.getData().getText(), actVal.getData().getText()));
-					if (columns.size() > j) {
-						error.setColumn(columns.get(j).getName());
-					}
-					errors.add(error);
-				} else if (verifyStyle == VerifyStyleType.ALL) {
-					StyleDiff diff = WidgetModels.getDiff(0, expText.length(), expectedStyles, actualStyles);
+				String expText = WidgetModels.getTextWithoutStyle(expectedStyles, expVal.getData().getText());
+				String actText = WidgetModels.getTextWithoutStyle(actualStyles, actVal.getData().getText());
 
-					if (diff != null) {
+				if (verifyStyle == VerifyStyleType.ALL) {
+					String expStyledText = WidgetModels.getStyledText(expectedStyles, expVal.getData().getText());
+					String actStyledText = WidgetModels.getStyledText(actualStyles, actVal.getData().getText());
+
+					if (!expStyledText.equals(actStyledText)) {
 						equal = false;
-						TreeItemStyleVerificationError error = StatusFactory.eINSTANCE
-								.createTreeItemStyleVerificationError();
-						error.setMessage(String.format("Different text style from position %d.", diff.at));
+						TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
+						error.setMessage(String.format("Expected styled text \"%s\", but was \"%s\"", expStyledText,
+								actStyledText));
 						if (columns.size() > j) {
 							error.setColumn(columns.get(j).getName());
 						}
-						error.setExpectedStyle(diff.expected);
-						error.setActualStyle(diff.actual);
+						errors.add(error);
+					} else {
+						StyleDiff diff = WidgetModels.getDiff(0, expText.length(), expectedStyles, actualStyles);
+
+						if (diff != null) {
+							equal = false;
+							TreeItemStyleVerificationError error = StatusFactory.eINSTANCE
+									.createTreeItemStyleVerificationError();
+							error.setMessage(String.format("Different text style from position %d.", diff.at));
+							if (columns.size() > j) {
+								error.setColumn(columns.get(j).getName());
+							}
+							error.setExpectedStyle(diff.expected);
+							error.setActualStyle(diff.actual);
+							errors.add(error);
+						}
+					}
+				}
+
+				if (!expText.equals(actText) && equal) {
+					equal = false;
+					try {
+						equal = (actText).matches(expText);
+						if (!equal) {
+							TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
+							error.setMessage(String.format("Expected \"%s\", but was \"%s\"",
+									expVal.getData().getText(), actVal.getData().getText()));
+							if (columns.size() > j) {
+								error.setColumn(columns.get(j).getName());
+							}
+							errors.add(error);
+						}
+					} catch (Throwable e) {
+						equal = false;
+						TreeItemVerificationError error = StatusFactory.eINSTANCE.createTreeItemVerificationError();
+						error.setMessage(String.format("Assert failed with \"%s\" regexp expression, but was \"%s\"",
+								expText, actText));
+						if (columns.size() > j) {
+							error.setColumn(columns.get(j).getName());
+						}
 						errors.add(error);
 					}
 				}
+
 			}
 		}
 		return equal;
@@ -300,8 +312,7 @@ public class TreeVerificationProcessor extends VerificationProcessor {
 	@Override
 	public Verification create(EObject param, IProcess process) throws CoreException {
 		final CreateWidgetVerificationParam p = (CreateWidgetVerificationParam) param;
-		final SWTUIElement swtuiElement =
-				TeslaBridge.resolveSWTUIElement(p.getSelector(), process);
+		final SWTUIElement swtuiElement = TeslaBridge.resolveSWTUIElement(p.getSelector(), process);
 		final Widget widget = swtuiElement.widget;
 		final CaptureTreeVerificationData result = TreeFactory.eINSTANCE.createCaptureTreeVerificationData();
 

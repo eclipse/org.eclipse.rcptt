@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ * 	Xored Software Inc - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.rcptt.reporting.html;
 
 import static com.google.common.collect.Iterables.concat;
@@ -34,6 +44,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Screenshot;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
 import org.eclipse.rcptt.sherlock.core.reporting.SimpleReportGenerator;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.InfoNode;
 import org.eclipse.rcptt.tesla.core.info.JobEntry;
@@ -41,6 +52,7 @@ import org.eclipse.rcptt.tesla.core.info.NodeProperty;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfo;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
 import org.eclipse.rcptt.tesla.core.info.StackTraceEntry;
+import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -55,6 +67,22 @@ public class FullSingleTestHtmlRenderer {
 	private final NumberFormat durationFormat;
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 	private final Function<Screenshot, String> imageStorage;
+
+	public static final Function<EObject, String> HTML_DATUM_TO_MESSAGE = new Function<EObject, String>() {
+
+		@Override
+		public String apply(EObject input) {
+			String message = ReportUtils.DEFAULT_DATUM_TO_MESSAGE.apply(input);
+			message = ReportUtils.replaceHtmlEntities(message);
+			message = ReportUtils.replaceLineBreaks(message);
+
+			if (input instanceof VerificationStatusData) {
+				return String.format("<pre>%s</pre>", message);
+			}
+			return message;
+		}
+
+	};
 
 	/**
 	 * @param writer
@@ -163,11 +191,15 @@ public class FullSingleTestHtmlRenderer {
 		writer.println("<th>Class</th>");
 		writer.println("<th>Time taken (ms)</th></tr>");
 		for (Q7WaitInfo info : nonIgnored) {
-			long duration = info.getEndTime() - info.getStartTime();
+			long duration = info.getDuration();
 			String type = SimpleReportGenerator.getType(root, info);
 			assert type != null : "Should be prefiltered";
-			row(type, SimpleReportGenerator.getClassName(root, info), ""
-					+ duration);
+			String className = SimpleReportGenerator.getClassName(root, info);
+			if (!TeslaFeatures.isIncludeEclipseMethodsWaitDetails()
+					&& className.startsWith("org.eclipse")) { //$NON-NLS-1$
+				continue;
+			}
+			row(type, className, "" + duration);
 		}
 		writer.println("</table>");
 	}
@@ -177,7 +209,15 @@ public class FullSingleTestHtmlRenderer {
 			return;
 		renderHeader(2, "Events", "");
 		for (Event e : events) {
-			renderHeader(3, dateFormat.format(e.getTime()), "");
+			if (e.getCount() == 1) {
+				renderHeader(3, "Event at " + dateFormat.format(e.getTime()), "");
+			} else {
+				String header = "Event: "
+						+ e.getCount()
+						+ " times, first at "
+						+ dateFormat.format(e.getTime());
+				renderHeader(3, header, "");
+			}
 			renderEvent(e.getData());
 		}
 	}
@@ -362,9 +402,7 @@ public class FullSingleTestHtmlRenderer {
 	}
 
 	private void renderMain(Node root) {
-		String message = ReportUtils.getFailMessage(root);
-		message = ReportUtils.replaceHtmlEntities(message);
-		message = ReportUtils.replaceLineBreaks(message);
+		String message = ReportUtils.getFailMessage(root, HTML_DATUM_TO_MESSAGE);
 		writer.println("<table class=\"" + toFailureClass(root) + "\">");
 		titledRow("Failure Reason", message);
 		String tags = ReportUtils.getScenarioTags(root);
@@ -417,7 +455,7 @@ public class FullSingleTestHtmlRenderer {
 	};
 
 	private static float durationSeconds(Node node) {
-		long millseconds = node.getEndTime() - node.getStartTime();
+		long millseconds = node.getDuration();
 		return (millseconds) / 1000f;
 	}
 

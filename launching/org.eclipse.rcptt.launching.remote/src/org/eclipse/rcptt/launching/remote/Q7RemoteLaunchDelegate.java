@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,32 +20,34 @@ import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutLaunch;
 import org.eclipse.rcptt.internal.launching.aut.BaseAutManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
+import org.eclipse.rcptt.launching.Q7Launcher;
 import org.eclipse.rcptt.launching.events.AutEventManager;
 
 /**
  * Version of this plugin is strictly requires eclipse 3.6
- * 
+ *
  * @author haiodo
- * 
+ *
  */
 public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 
 		int ecl = configuration.getAttribute(IQ7Launch.ATTR_ECL_PORT, -1);
 		int tesla = configuration.getAttribute(IQ7Launch.ATTR_TESLA_PORT, -1);
-		String host = configuration.getAttribute(IQ7Launch.ATTR_HOST,
-				IQ7Launch.DEFAULT_HOST);
-
+		String host = configuration.getAttribute(IQ7Launch.ATTR_HOST, IQ7Launch.DEFAULT_HOST);
+		String platform = configuration.getAttribute(IQ7Launch.ATTR_AUT_PLATFORM, IQ7Launch.DEFAULT_PLATFORM);
+		String capability = configuration.getAttribute(IQ7Launch.ATTR_AUT_CAPABILITY, IQ7Launch.DEFAULT_CAPABILITY);
 		BaseAutLaunch aut = BaseAutManager.INSTANCE.getByLaunch(launch);
-		aut.activate(host, ecl, tesla, 2, monitor);
+		aut.activate(host, ecl, tesla, platform, capability, 2, monitor);
 
 		AutReconnect reconnect = EventsFactory.eINSTANCE.createAutReconnect();
 		reconnect.setQ7EclPort(AutEventManager.INSTANCE.getPort());
 		reconnect.setId(aut.getId());
 		try {
-			aut.execute(reconnect);
+			aut.execute(reconnect, Q7Launcher.getLaunchTimeout()* 1000, monitor);
 		} catch (InterruptedException e) {
 			Q7RemoteLaunchingPlugin.getDefault().log(e);
 		}
@@ -55,21 +57,25 @@ public class Q7RemoteLaunchDelegate implements ILaunchConfigurationDelegate2 {
 		launch.addProcess(process);
 	}
 
+	@Override
 	public ILaunch getLaunch(ILaunchConfiguration configuration, String mode)
 			throws CoreException {
 		return null;
 	}
 
+	@Override
 	public boolean buildForLaunch(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return false;
 	}
 
+	@Override
 	public boolean finalLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return true;
 	}
 
+	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		return true;

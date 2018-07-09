@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,11 +18,13 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.rcptt.tesla.core.protocol.ElementKind;
 import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
+import org.eclipse.rcptt.tesla.ecl.model.ActivationEventType;
 import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
 import org.eclipse.rcptt.tesla.ecl.model.Button;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
+import org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
 import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
@@ -67,6 +69,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -92,12 +95,14 @@ import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
 import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
 import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.GetSection;
 import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetTable;
 import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
+import org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName;
 import org.eclipse.rcptt.tesla.ecl.model.GetText;
 import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
 import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
@@ -161,7 +166,6 @@ import org.eclipse.rcptt.tesla.ecl.model.Wait;
 import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
 import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.model.*;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyError;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -346,6 +350,10 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 			case TeslaPackage.RESTART_AUT: return createRestartAut();
 			case TeslaPackage.MESSAGE_BOX_INFO: return createMessageBoxInfo();
 			case TeslaPackage.GET_LAST_MESSAGE_BOX: return createGetLastMessageBox();
+			case TeslaPackage.CHECK_DOWNLOAD_RESULT: return createCheckDownloadResult();
+			case TeslaPackage.GET_RUNTIME_TARGET: return createGetRuntimeTarget();
+			case TeslaPackage.GET_TEST_CASE_NAME: return createGetTestCaseName();
+			case TeslaPackage.GET_COMBO_ITEMS: return createGetComboItems();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -360,6 +368,8 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 		switch (eDataType.getClassifierID()) {
 			case TeslaPackage.BUTTON:
 				return createButtonFromString(eDataType, initialValue);
+			case TeslaPackage.ACTIVATION_EVENT_TYPE:
+				return createActivationEventTypeFromString(eDataType, initialValue);
 			case TeslaPackage.ELEMENT_KIND:
 				return createElementKindFromString(eDataType, initialValue);
 			default:
@@ -376,6 +386,8 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 		switch (eDataType.getClassifierID()) {
 			case TeslaPackage.BUTTON:
 				return convertButtonToString(eDataType, instanceValue);
+			case TeslaPackage.ACTIVATION_EVENT_TYPE:
+				return convertActivationEventTypeToString(eDataType, instanceValue);
 			case TeslaPackage.ELEMENT_KIND:
 				return convertElementKindToString(eDataType, instanceValue);
 			default:
@@ -1663,6 +1675,46 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CheckDownloadResult createCheckDownloadResult() {
+		CheckDownloadResultImpl checkDownloadResult = new CheckDownloadResultImpl();
+		return checkDownloadResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetRuntimeTarget createGetRuntimeTarget() {
+		GetRuntimeTargetImpl getRuntimeTarget = new GetRuntimeTargetImpl();
+		return getRuntimeTarget;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetTestCaseName createGetTestCaseName() {
+		GetTestCaseNameImpl getTestCaseName = new GetTestCaseNameImpl();
+		return getTestCaseName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetComboItems createGetComboItems() {
+		GetComboItemsImpl getComboItems = new GetComboItemsImpl();
+		return getComboItems;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1679,6 +1731,26 @@ public class TeslaFactoryImpl extends EFactoryImpl implements TeslaFactory {
 	 */
 	public String convertButtonToString(EDataType eDataType,
 			Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActivationEventType createActivationEventTypeFromString(EDataType eDataType, String initialValue) {
+		ActivationEventType result = ActivationEventType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActivationEventTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,13 +19,13 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Response;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.BoundsResponse#getX <em>X</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.BoundsResponse#getY <em>Y</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.BoundsResponse#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.BoundsResponse#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getBoundsResponse()
  * @model

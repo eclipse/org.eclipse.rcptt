@@ -1,12 +1,11 @@
 package org.eclipse.rcptt.tesla.swt.aspects;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.ImageData;
-
 import org.eclipse.rcptt.tesla.core.am.AspectManager;
 import org.eclipse.rcptt.tesla.swt.images.ImageDataMapping;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 
 public aspect ImagesAspect {
 	public ImagesAspect() {
@@ -19,6 +18,13 @@ public aspect ImagesAspect {
 		execution(public ImageData Image.getImageData()) {
 		ImageDataMapping.INSTANCE.imageDataFromImage(result, image);
 	}
+	
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Image image) returning(ImageData result): target(image) &&
+		execution(public ImageData Image.getImageData(int)) {
+		ImageDataMapping.INSTANCE.imageDataFromImage(result, image);
+	}
+
 
 	@SuppressAjWarnings("adviceDidNotMatch")
 	after(Image image, ImageData imageData) : execution(public Image.new(Device, ImageData)) 

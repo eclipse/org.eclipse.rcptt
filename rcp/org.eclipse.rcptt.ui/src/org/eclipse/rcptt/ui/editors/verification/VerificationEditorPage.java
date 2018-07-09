@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -136,7 +136,6 @@ public class VerificationEditorPage extends NamedElementEditorPage implements IG
 				((VerificationEditor) getEditor()).setVerificationActions(((IQ7EditorActionsProvider) editor)
 						.createActions());
 			}
-
 			ImageDescriptor descriptor = viewer.getIcon();
 			if (descriptor != null) {
 				Image img = imageManager.getImage(descriptor);
@@ -185,7 +184,6 @@ public class VerificationEditorPage extends NamedElementEditorPage implements IG
 			imageManager.dispose();
 			imageManager = null;
 		}
-
 	}
 
 	@Override

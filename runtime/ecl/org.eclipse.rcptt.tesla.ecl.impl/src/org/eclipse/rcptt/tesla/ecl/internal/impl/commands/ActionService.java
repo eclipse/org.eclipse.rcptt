@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,8 @@ import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.EclBoolean;
 import org.eclipse.rcptt.ecl.core.EclString;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
+import org.eclipse.rcptt.tesla.core.protocol.ActivationEventType;
 import org.eclipse.rcptt.tesla.core.protocol.CanvasUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.ClickAboutMenu;
 import org.eclipse.rcptt.tesla.core.protocol.ClickPreferencesMenu;
@@ -49,6 +51,7 @@ import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickRuler;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.ClickText;
 import org.eclipse.rcptt.tesla.ecl.model.Close;
 import org.eclipse.rcptt.tesla.ecl.model.ControlHandler;
@@ -90,7 +93,7 @@ import org.eclipse.rcptt.tesla.ecl.model.Unfocus;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.DirectEdit;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseAction;
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
+import org.eclipse.rcptt.util.KeysAndButtons;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 
@@ -185,51 +188,53 @@ public class ActionService extends AbstractActionService {
 		else if (command instanceof DoubleClickText)
 			handleDoubleClickText((DoubleClickText) command);
 		else if (command instanceof Decrypt)
-			return handleDecrypt((Decrypt)command);
+			return handleDecrypt((Decrypt) command);
 		// Options
 		else if (command instanceof Options)
 			handleOptions((Options) command);
+		else if (command instanceof GetRuntimeTarget)
+			return handleRuntimeTarget((GetRuntimeTarget) command);
 		return result;
 	}
 
-	private DecryptResult  handleDecrypt(Decrypt command) {
+	private Object handleRuntimeTarget(GetRuntimeTarget command) {
+		EclString result = CoreFactory.eINSTANCE.createEclString();
+		result.setValue("swt"); //$NON-NLS-1$
+		return result;
+	}
+
+	private DecryptResult handleDecrypt(Decrypt command) {
 		DecryptResult result = TeslaFactory.eINSTANCE.createDecryptResult();
 		result.setValue(command.getValue());
 		return result;
 	}
 
 	private Object handleMinimize(Minimize command) throws CoreException {
-		ControlUIElement controlUIElement = getControlUIElement(command
-				.getControl());
+		ControlUIElement controlUIElement = getControlUIElement(command.getControl());
 		controlUIElement.minimize();
 		return command.getControl();
 	}
 
 	private Object handleMaximize(Maximize command) throws CoreException {
-		ControlUIElement controlUIElement = getControlUIElement(command
-				.getControl());
+		ControlUIElement controlUIElement = getControlUIElement(command.getControl());
 		controlUIElement.maximize();
 		return command.getControl();
 	}
 
 	private Object handleRestore(Restore command) throws CoreException {
-		ControlUIElement controlUIElement = getControlUIElement(command
-				.getControl());
+		ControlUIElement controlUIElement = getControlUIElement(command.getControl());
 		controlUIElement.restore();
 		return command.getControl();
 	}
 
 	private Object handleShowTabList(ShowTabList command) throws CoreException {
-		ControlUIElement controlUIElement = getControlUIElement(command
-				.getControl());
+		ControlUIElement controlUIElement = getControlUIElement(command.getControl());
 		controlUIElement.showTabList();
 		return command.getControl();
 	}
 
-	private Object handleTypeCommandKey(TypeCommandKey tck)
-			throws CoreException {
-		ControlUIElement controlUIElement = getControlUIElement(tck
-				.getControl());
+	private Object handleTypeCommandKey(TypeCommandKey tck) throws CoreException {
+		ControlUIElement controlUIElement = getControlUIElement(tck.getControl());
 		controlUIElement.typeAction(tck.getCommandId());
 		return tck.getControl();
 	}
@@ -261,26 +266,20 @@ public class ActionService extends AbstractActionService {
 			Integer column = control.getIndex();
 			ControlHandler itemParent = control.getParent();
 			if (itemParent == null)
-				throw new CoreException(
-						TeslaImplPlugin.err("Cell parent is not specified"));
+				throw new CoreException(TeslaImplPlugin.err("Cell parent is not specified"));
 			switch (itemParent.getKind()) {
 			case Tree:
 			case Table:
 				ControlHandler viewer = itemParent;
-				Element viewerElement = TeslaBridge.find(viewer);
+				Element viewerElement = TeslaBridge.find(viewer, getContext());
 				if (viewerElement == null)
-					throw new CoreException(
-							TeslaImplPlugin.err("Couldn't find "
-									+ viewer.getKind().name()));
-				ViewerUIElement viewerUIElement = new ViewerUIElement(
-						viewerElement, TeslaBridge.getPlayer());
+					throw new CoreException(TeslaImplPlugin.err("Couldn't find " + viewer.getKind().name()));
+				ViewerUIElement viewerUIElement = new ViewerUIElement(viewerElement, TeslaBridge.getPlayer());
 				// viewerUIElement.setSelection(control.getPath());
 				viewerUIElement.cellClick(column);
 				break;
 			default:
-				throw new CoreException(
-						TeslaImplPlugin
-								.err("Cell parent must be table or tree"));
+				throw new CoreException(TeslaImplPlugin.err("Cell parent must be table or tree"));
 			}
 			return control;
 		} else if (control.getKind() == ElementKind.AboutMenu) {
@@ -289,8 +288,7 @@ public class ActionService extends AbstractActionService {
 			TeslaBridge.getPlayer().safeExecuteCommand(a);
 			return control;
 		} else if (control.getKind() == ElementKind.PreferencesMenu) {
-			ClickPreferencesMenu a = ProtocolFactory.eINSTANCE
-					.createClickPreferencesMenu();
+			ClickPreferencesMenu a = ProtocolFactory.eINSTANCE.createClickPreferencesMenu();
 			a.setElement(TeslaBridge.eclipseWindow());
 			TeslaBridge.getPlayer().safeExecuteCommand(a);
 			return control;
@@ -310,16 +308,14 @@ public class ActionService extends AbstractActionService {
 		return control;
 	}
 
-	private ControlHandler handleDoubleClick(DoubleClick dc)
-			throws CoreException {
+	private ControlHandler handleDoubleClick(DoubleClick dc) throws CoreException {
 		ControlUIElement controlUIElement = getControlUIElement(dc.getControl());
 		controlUIElement.doubleClick(!dc.isNowait());
 		return dc.getControl();
 	}
 
 	private ControlHandler handleTypeText(TypeText tt) throws CoreException {
-		getControlUIElement(tt.getControl()).type(tt.getText(), 0,
-				tt.isDisplay());
+		getControlUIElement(tt.getControl()).type(tt.getText(), 0, tt.isDisplay());
 		return tt.getControl();
 	}
 
@@ -343,19 +339,16 @@ public class ActionService extends AbstractActionService {
 			int keyCode = key.getNaturalKey();
 			int mask = key.getModifierKeys();
 			if (keyCode == 0) {
-				controlUIElement.press(mask, 0, kt.isDisplay(), ch, 0, false,
-						kt.getTimes());
+				controlUIElement.press(mask, 0, kt.isDisplay(), ch, 0, false, kt.getTimes());
 			} else {
 				if (ch == 0) {
 					if (!(keyCode >= SWT.ARROW_UP && keyCode <= SWT.PRINT_SCREEN)) {
 						// That means that null char means duplicate not 0
 						int ctrlForm = Character.toUpperCase(keyCode) - 0x40;
-						if ((mask & SWT.SHIFT) != 0 && (mask & SWT.CTRL) != 0
-								&& (ctrlForm < 0x20 || ctrlForm == 0x7F)
+						if ((mask & SWT.SHIFT) != 0 && (mask & SWT.CTRL) != 0 && (ctrlForm < 0x20 || ctrlForm == 0x7F)
 								&& (ctrlForm & SWT.KEYCODE_BIT) == 0) {
 							ch = (char) ctrlForm;
-						} else if ((mask & SWT.CTRL) != 0
-								&& (ctrlForm < 0x20 || ctrlForm == 0x7F)
+						} else if ((mask & SWT.CTRL) != 0 && (ctrlForm < 0x20 || ctrlForm == 0x7F)
 								&& (ctrlForm & SWT.KEYCODE_BIT) == 0) {
 							ch = (char) ctrlForm;
 						} else if ((mask & SWT.SHIFT) != 0)
@@ -364,14 +357,12 @@ public class ActionService extends AbstractActionService {
 							ch = (char) keyCode;
 					}
 				} else {
-					if ((mask & SWT.CTRL) != 0
-							&& (ch - 0x40 < 0x20 || ch - 0x40 == 0x7F)
+					if ((mask & SWT.CTRL) != 0 && (ch - 0x40 < 0x20 || ch - 0x40 == 0x7F)
 							&& (ch - 0x40 & SWT.KEYCODE_BIT) == 0) {
 						ch -= 0x40;
 					}
 				}
-				controlUIElement.press(keyCode, mask, kt.isDisplay(), ch, 0,
-						false, kt.getTimes());
+				controlUIElement.press(keyCode, mask, kt.isDisplay(), ch, 0, false, kt.getTimes());
 			}
 		} catch (IllegalArgumentException e) {
 			throw new CoreException(TeslaImplPlugin.err("Illegal key"));
@@ -405,8 +396,7 @@ public class ActionService extends AbstractActionService {
 			try {
 				ch = charStr == null ? 0 : stringToChar(charStr);
 			} catch (ParseException e1) {
-				throw new CoreException(
-						TeslaImplPlugin.err("Illegal character"));
+				throw new CoreException(TeslaImplPlugin.err("Illegal character"));
 			}
 		} else if (Key.equals("TRAVERSE_PAGE_NEXT"))
 			traverseType = SWT.TRAVERSE_PAGE_NEXT;
@@ -414,8 +404,7 @@ public class ActionService extends AbstractActionService {
 			traverseType = SWT.TRAVERSE_PAGE_PREVIOUS;
 
 		if (traverseType != null) {
-			ControlUIElement controlUIElement = getControlUIElement(kt
-					.getControl());
+			ControlUIElement controlUIElement = getControlUIElement(kt.getControl());
 			controlUIElement.traverse(traverseType, ch, kt.getTimes());
 			return true;
 		}
@@ -494,8 +483,7 @@ public class ActionService extends AbstractActionService {
 			kind = DragKind.START;
 			break;
 		default:
-			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported kind of DnD"));
+			throw new CoreException(TeslaImplPlugin.err("Unsupported kind of DnD"));
 		}
 		int detail = parseDetail(d.getDetail());
 		int button = d.getButton() == null ? 0 : d.getButton().getValue();
@@ -507,8 +495,7 @@ public class ActionService extends AbstractActionService {
 		style += "button:" + button + ",";
 		style += "mask:" + stateMask + ",";
 		style += "operations:" + operations;
-		getControlUIElement(d.getControl()).drag(kind, d.getX(), d.getY(),
-				style);
+		getControlUIElement(d.getControl()).drag(kind, d.getX(), d.getY(), style);
 		return d.getControl();
 	}
 
@@ -516,17 +503,17 @@ public class ActionService extends AbstractActionService {
 		ControlHandler control = st.getControl();
 		if (ElementKind.Item.equals(control.getKind())) {
 			ControlHandler parent = control.getParent();
-			ViewerUIElement viewer = new ViewerUIElement(
-					TeslaBridge.find(parent), TeslaBridge.getPlayer());
+			ViewerUIElement viewer = new ViewerUIElement(TeslaBridge.find(parent, getContext()),
+					TeslaBridge.getPlayer());
 			viewer.setSelection(control.getPath());
 			viewer.activateCellEditor(1);
-			PartUIElement part = new PartUIElement(TeslaBridge.find(parent
-					.getParent()), TeslaBridge.getPlayer());
+			PartUIElement part = new PartUIElement(TeslaBridge.find(parent.getParent(), getContext()),
+					TeslaBridge.getPlayer());
 			TextUIElement text = part.text();
 			text.setText(st.getText());
 			viewer.applyCellEditor();
 		} else
-			getTextUIElement(control).setText(st.getText());
+			getTextUIElement(control, getContext()).setText(st.getText());
 		return control;
 	}
 
@@ -534,110 +521,91 @@ public class ActionService extends AbstractActionService {
 		ControlHandler control = st.getControl();
 		if (ElementKind.Item.equals(control.getKind())) {
 			ControlHandler parent = control.getParent();
-			ViewerUIElement viewer = new ViewerUIElement(
-					TeslaBridge.find(parent), TeslaBridge.getPlayer());
+			ViewerUIElement viewer = new ViewerUIElement(TeslaBridge.find(parent, getContext()),
+					TeslaBridge.getPlayer());
 			viewer.setSelection(control.getPath());
 			viewer.activateCellEditor(1);
-			PartUIElement part = new PartUIElement(TeslaBridge.find(parent
-					.getParent()), TeslaBridge.getPlayer());
+			PartUIElement part = new PartUIElement(TeslaBridge.find(parent.getParent(), getContext()),
+					TeslaBridge.getPlayer());
 			TextUIElement text = part.text();
 			text.setText(st.getValue());
 			viewer.applyCellEditor();
 		} else
-			getTextUIElement(control).setText(st.getValue());
+			getTextUIElement(control, getContext()).setText(st.getValue());
 		return control;
 	}
 
-	private ControlHandler handleSetTextSelection(SetTextSelection st)
-			throws CoreException {
+	private ControlHandler handleSetTextSelection(SetTextSelection st) throws CoreException {
 		ControlHandler control = st.getControl();
 
-		if (st.getStartLine() != null && st.getEndLine() != null
-				&& st.getEndOffset() != null) {
-			getTextUIElement(control).setSelection(st.getStartLine(),
-					st.getOffset(), st.getEndLine(), st.getEndOffset());
+		if (st.getStartLine() != null && st.getEndLine() != null && st.getEndOffset() != null) {
+			getTextUIElement(control, getContext()).setSelection(st.getStartLine(), st.getOffset(), st.getEndLine(),
+					st.getEndOffset());
 		} else {
-			getTextUIElement(control).setSelection(st.getOffset(),
-					st.getLength());
+			getTextUIElement(control, getContext()).setSelection(st.getOffset(), st.getLength());
 		}
 		return control;
 	}
 
-	private ControlHandler handleSelectRange(SelectRange st)
-			throws CoreException {
+	private ControlHandler handleSelectRange(SelectRange st) throws CoreException {
 		ControlHandler control = st.getControl();
 
-		getTextUIElement(control).setSelection2(st.getLine(), st.getColumn(),
-				st.getEndLine(), st.getEndColumn());
+		getTextUIElement(control, getContext()).setSelection2(st.getLine(), st.getColumn(), st.getEndLine(),
+				st.getEndColumn());
 		return control;
 	}
 
-	private ControlHandler handleSetTextOffset(SetTextOffset st)
-			throws CoreException {
+	private ControlHandler handleSetTextOffset(SetTextOffset st) throws CoreException {
 		if (st.getLine() != null) {
-			getTextUIElement(st.getControl()).setTextOffset(st.getLine(),
-					st.getValue());
+			getTextUIElement(st.getControl(), getContext()).setTextOffset(st.getLine(), st.getValue());
 		} else {
-			getTextUIElement(st.getControl()).setTextOffset(-1, st.getValue());
+			getTextUIElement(st.getControl(), getContext()).setTextOffset(-1, st.getValue());
 		}
 		return st.getControl();
 	}
 
-	private ControlHandler handleSetCaretPos(SetCaretPos st)
-			throws CoreException {
-		getTextUIElement(st.getControl()).setTextCursor(st.getLine(),
-				st.getColumn());
+	private ControlHandler handleSetCaretPos(SetCaretPos st) throws CoreException {
+		getTextUIElement(st.getControl(), getContext()).setTextCursor(st.getLine(), st.getColumn());
 		return st.getControl();
 	}
 
-	private ControlHandler handleOpenDeclaration(OpenDeclaration od)
-			throws CoreException {
-		getTextUIElement(od.getControl()).openDeclaration();
+	private ControlHandler handleOpenDeclaration(OpenDeclaration od) throws CoreException {
+		getTextUIElement(od.getControl(), getContext()).openDeclaration();
 		return od.getControl();
 	}
 
-	private ControlHandler handleHoverAtTextOffset(HoverAtTextOffset st)
-			throws CoreException {
-		getTextUIElement(st.getControl()).hoverAtOffset(st.getOffset(),
-				st.getLine());
+	private ControlHandler handleHoverAtTextOffset(HoverAtTextOffset st) throws CoreException {
+		getTextUIElement(st.getControl(), getContext()).hoverAtOffset(st.getOffset(), st.getLine());
 		return st.getControl();
 	}
 
 	private ControlHandler handleHoverAtText(HoverText st) throws CoreException {
-		getTextUIElement(st.getControl()).hoverAtText(st.getLine(),
-				st.getColumn(), KeysAndButtons.stateMaskFromStr(st.getWith()));
+		getTextUIElement(st.getControl(), getContext()).hoverAtText(st.getLine(), st.getColumn(),
+				KeysAndButtons.stateMaskFromStr(st.getWith()));
 		return st.getControl();
 	}
 
-	private ControlHandler handleRulerClick(ClickRuler rulerClick)
-			throws CoreException {
+	private ControlHandler handleRulerClick(ClickRuler rulerClick) throws CoreException {
 		int button = KeysAndButtons.getButtonNumber(rulerClick.getButton());
 		int stateMask = KeysAndButtons.stateMaskFromStr(rulerClick.getWith());
-		getTextUIElement(rulerClick.getControl()).RulerClick(
-				rulerClick.getLine(), button, stateMask);
+		getTextUIElement(rulerClick.getControl(), getContext()).RulerClick(rulerClick.getLine(), button, stateMask);
 		return rulerClick.getControl();
 	}
 
-	private ControlHandler handleRulerDoubleClick(
-			DoubleClickRuler rulerDoubleClick) throws CoreException {
-		int button = KeysAndButtons.getButtonNumber(rulerDoubleClick
-				.getButton());
-		getTextUIElement(rulerDoubleClick.getControl()).RulerDoubleClick(
-				rulerDoubleClick.getLine(), button,
-				KeysAndButtons.stateMaskFromStr(rulerDoubleClick.getWith()));
+	private ControlHandler handleRulerDoubleClick(DoubleClickRuler rulerDoubleClick) throws CoreException {
+		int button = KeysAndButtons.getButtonNumber(rulerDoubleClick.getButton());
+		getTextUIElement(rulerDoubleClick.getControl(), getContext()).RulerDoubleClick(rulerDoubleClick.getLine(),
+				button, KeysAndButtons.stateMaskFromStr(rulerDoubleClick.getWith()));
 		return rulerDoubleClick.getControl();
 	}
 
-	private ControlHandler handleRulerHover(HoverRuler rulerHover)
-			throws CoreException {
-		getTextUIElement(rulerHover.getControl()).RulerHover(
-				rulerHover.getLine(),
+	private ControlHandler handleRulerHover(HoverRuler rulerHover) throws CoreException {
+		getTextUIElement(rulerHover.getControl(), getContext()).RulerHover(rulerHover.getLine(),
 				KeysAndButtons.stateMaskFromStr(rulerHover.getWith()));
 		return rulerHover.getControl();
 	}
 
-	private ControlHandler handleMouseAction(MouseAction ma)
-			throws CoreException {
+	private ControlHandler handleMouseAction(MouseAction ma) throws CoreException {
 		int x = ma.getX() == null ? 0 : ma.getX();
 		int y = ma.getY() == null ? 0 : ma.getY();
 		int button = ma.getButton() == null ? 0 : ma.getButton().getValue();
@@ -669,8 +637,7 @@ public class ActionService extends AbstractActionService {
 			kind = MouseCommandKind.UP;
 			break;
 		default:
-			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported mouse command kind"));
+			throw new CoreException(TeslaImplPlugin.err("Unsupported mouse command kind"));
 		}
 		ControlHandler control = ma.getControl();
 		Integer height = ma.getHeight();
@@ -693,20 +660,18 @@ public class ActionService extends AbstractActionService {
 			// //target = target.getParent();
 			// }
 			if (target.getKind().equals(ElementKind.PaletteEntry)) {
-				Element paletteEntry = TeslaBridge.find(target);
-				FigureUIElement uiElement = new FigureUIElement(paletteEntry,
-						TeslaBridge.getPlayer());
-				uiElement.executeFigureMouseCommand(x, y, button, kind, null,
-						/* figurePath */null, width, height, width, height, mask);
+				Element paletteEntry = TeslaBridge.find(target, getContext());
+				FigureUIElement uiElement = new FigureUIElement(paletteEntry, TeslaBridge.getPlayer());
+				uiElement.executeFigureMouseCommand(x, y, button, kind, null, /* figurePath */null, width, height,
+						width, height, mask);
 				return target;
 			}
 			if (target.getKind().equals(ElementKind.Canvas)
 			/* || target.getKind().is(ElementKind.NebulaGrid) */) { // FIXME
-				Element paletteEntry = TeslaBridge.find(target);
-				FigureUIElement uiElement = new FigureUIElement(paletteEntry,
-						TeslaBridge.getPlayer());
-				uiElement.executeFigureMouseCommand(x, y, button, kind, null,
-						/* figurePath */null, width, height, width, height, mask);
+				Element paletteEntry = TeslaBridge.find(target, getContext());
+				FigureUIElement uiElement = new FigureUIElement(paletteEntry, TeslaBridge.getPlayer());
+				uiElement.executeFigureMouseCommand(x, y, button, kind, null, /* figurePath */null, width, height,
+						width, height, mask);
 				return target;
 			}
 			// if (target.getKind().is(ElementKind.DiagramFigure)) {
@@ -725,27 +690,23 @@ public class ActionService extends AbstractActionService {
 			switch (target.getKind()) {
 			case DiagramFigure:
 				FigureUIElement element = getFigureUIElement(target);
-				element.executeFigureMouseCommand(x, y, button, kind,
-						/* editPartPath */null, /* figurePath */null, width, height,
-						width, height, mask);
+				element.executeFigureMouseCommand(x, y, button, kind, /* editPartPath */null, /* figurePath */null,
+						width, height, width, height, mask);
 				return target;
 			case DiagramViewer:
 			case PaletteViewer:
 				element = getDiagramViewerUIElement(target);
-				element.executeFigureMouseCommand(x, y, button, kind,
-						/* editPartPath */null, /* figurePath */null, width, height,
-						width, height, mask);
+				element.executeFigureMouseCommand(x, y, button, kind, /* editPartPath */null, /* figurePath */null,
+						width, height, width, height, mask);
 				return target;
 			default:
-				throw new CoreException(
-						TeslaImplPlugin.err("Illegal control kind: "
-								+ target.getKind()));
+				throw new CoreException(TeslaImplPlugin.err("Illegal control kind: " + target.getKind()));
 			}
 		}
 		MouseCommand command = DiagramFactory.eINSTANCE.createMouseCommand();
 		command.setKind(kind);
 		command.setButton(button);
-		command.setElement(TeslaBridge.find(control));
+		command.setElement(TeslaBridge.find(control, getContext()));
 		command.setX(x);
 		command.setY(y);
 		command.setStateMask(mask);
@@ -762,14 +723,13 @@ public class ActionService extends AbstractActionService {
 	private ControlHandler handleCheck(Check c) throws CoreException {
 		ControlHandler control = c.getControl();
 		String path = control.getPath();
-		if (path == null
-				|| (path != null && control.getKind().equals(ElementKind.Menu))) {
+		if (path == null || (path != null && control.getKind().equals(ElementKind.Menu))) {
 			ControlUIElement controlUIElement = getControlUIElement(control);
 			controlUIElement.check(true);
 			return control;
 		}
-		boolean result = getViewerUIElement(control.getParent()).checkItemList(
-				true, TeslaBridge.parsePath(path));
+		boolean result = getViewerUIElement(control.getParent(), getContext()).checkItemList(true,
+				TeslaBridge.parsePath(path));
 		if (!result)
 			throw new CoreException(TeslaImplPlugin.err("Cannot check item(s)"));
 
@@ -779,67 +739,59 @@ public class ActionService extends AbstractActionService {
 	private ControlHandler handleUncheck(Uncheck c) throws CoreException {
 		ControlHandler control = c.getControl();
 		String path = control.getPath();
-		if (path == null
-				|| (path != null && control.getKind().equals(ElementKind.Menu))) {
+		if (path == null || (path != null && control.getKind().equals(ElementKind.Menu))) {
 			ControlUIElement controlUIElement = getControlUIElement(control);
 			controlUIElement.check(false);
 			return control;
 		}
-		boolean result = getViewerUIElement(control.getParent()).checkItemList(
-				false, TeslaBridge.parsePath(path));
+		boolean result = getViewerUIElement(control.getParent(), getContext()).checkItemList(false,
+				TeslaBridge.parsePath(path));
 		if (!result)
-			throw new CoreException(
-					TeslaImplPlugin.err("Cannot uncheck item(s)"));
+			throw new CoreException(TeslaImplPlugin.err("Cannot uncheck item(s)"));
 
 		return control;
 	}
 
-	private ControlHandler handleCellEditorAction(CellEdit c)
-			throws CoreException {
+	private ControlHandler handleCellEditorAction(CellEdit c) throws CoreException {
 		ControlHandler control = c.getControl();
 		Integer column = null;
-		if (control.getKind() == ElementKind.Item
-				&& control.getColumn() != null) {
+		if (control.getKind() == ElementKind.Item && control.getColumn() != null) {
 			column = control.getColumn();
 			control = control.getParent();
 			if (control == null)
-				throw new CoreException(
-						TeslaImplPlugin.err("Parent is not specified"));
+				throw new CoreException(TeslaImplPlugin.err("Parent is not specified"));
 		}
-		if (control.getKind() != ElementKind.Tree
-				&& control.getKind() != ElementKind.Table) {
+		if (control.getKind() != ElementKind.Tree && control.getKind() != ElementKind.Table) {
 			if (control.getKind() == ElementKind.Item) {
 				control = control.getParent();
 				if (control == null)
-					throw new CoreException(
-							TeslaImplPlugin.err("Parent is not specified"));
+					throw new CoreException(TeslaImplPlugin.err("Parent is not specified"));
 			}
 		}
 
-		boolean capable = control.getKind().equals(ElementKind.Tree)
-				|| control.getKind().equals(ElementKind.Table)
+		boolean capable = control.getKind().equals(ElementKind.Tree) || control.getKind().equals(ElementKind.Table)
 				|| "NebulaGrid".equals(control.getCustomKindId()); // !!!
 		// TODO design some extensibility mechanism for custom element kind
 		// capabilities
 
 		if (capable) {
-			Element viewerElement = TeslaBridge.find(control);
+			Element viewerElement = TeslaBridge.find(control, getContext());
 			if (viewerElement == null)
-				throw new CoreException(TeslaImplPlugin.err("Couldn't find "
-						+ control.getKind().name()));
-			ViewerUIElement viewerUIElement = new ViewerUIElement(
-					viewerElement, TeslaBridge.getPlayer());
+				throw new CoreException(TeslaImplPlugin.err("Couldn't find " + control.getKind().name()));
+			ViewerUIElement viewerUIElement = new ViewerUIElement(viewerElement, TeslaBridge.getPlayer());
 			switch (c.eClass().getClassifierID()) {
 			case TeslaPackage.ACTIVATE_CELL_EDIT:
+				ActivateCellEdit activateCellEdit = (ActivateCellEdit) c;
 				if (column == null) {
-					column = ((ActivateCellEdit) c).getColumn();
+					column = activateCellEdit.getColumn();
 				}
 				if (column == null) {
-					throw new CoreException(
-							TeslaImplPlugin.err("Column is not specified"));
+					throw new CoreException(TeslaImplPlugin.err("Column is not specified"));
 				}
+				ActivationEventType type = ActivationEventType.get(activateCellEdit.getType().getValue());
+				int button = activateCellEdit.getButton();
 				// viewerUIElement.setSelection(item.getPath());
-				viewerUIElement.activateCellEditor(column);
+				viewerUIElement.activateCellEditor(column, type, button);
 				break;
 			case TeslaPackage.APPLY_CELL_EDIT:
 				viewerUIElement.applyCellEditor();
@@ -851,24 +803,19 @@ public class ActionService extends AbstractActionService {
 				viewerUIElement.deactivateCellEditor();
 				break;
 			default:
-				throw new CoreException(
-						TeslaImplPlugin.err("Unsupported cell operation"));
+				throw new CoreException(TeslaImplPlugin.err("Unsupported cell operation"));
 			}
 		} else {
-			throw new CoreException(
-					TeslaImplPlugin.err("Cell parent must be table or tree"));
+			throw new CoreException(TeslaImplPlugin.err("Cell parent must be table or tree"));
 		}
 		return c.getControl();
 	}
 
 	private ControlHandler handleDirectEdit(DirectEdit c) throws CoreException {
 		ControlHandler control = c.getControl();
-		if (control.getKind() != ElementKind.DiagramViewer
-				&& control.getKind() != ElementKind.PaletteViewer
-				&& control.getKind() != ElementKind.DiagramFigure
-				&& control.getKind() != ElementKind.PaletteEntry) {
-			throw new CoreException(
-					TeslaImplPlugin.err("Diagram element is not specified"));
+		if (control.getKind() != ElementKind.DiagramViewer && control.getKind() != ElementKind.PaletteViewer
+				&& control.getKind() != ElementKind.DiagramFigure && control.getKind() != ElementKind.PaletteEntry) {
+			throw new CoreException(TeslaImplPlugin.err("Diagram element is not specified"));
 		}
 
 		FigureUIElement diagramUIElement = getFigureUIElement(control);
@@ -883,16 +830,13 @@ public class ActionService extends AbstractActionService {
 			diagramUIElement.cancelDirectEdit();
 			break;
 		default:
-			throw new CoreException(
-					TeslaImplPlugin.err("Unsupported direct edit operation"));
+			throw new CoreException(TeslaImplPlugin.err("Unsupported direct edit operation"));
 		}
 		return c.getControl();
 	}
 
-	private void handleReturnFromOsDialog(ReturnFromOsDialog c)
-			throws CoreException {
-		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE
-				.createSetSWTDialogInfo();
+	private void handleReturnFromOsDialog(ReturnFromOsDialog c) throws CoreException {
+		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE.createSetSWTDialogInfo();
 		SWTDialogKind kind = SWTDialogKind.valueOf(c.getKind());
 		if (kind == null)
 			throw new CoreException(TeslaImplPlugin.err("Illegal kind"));
@@ -904,8 +848,7 @@ public class ActionService extends AbstractActionService {
 	}
 
 	private void handleSetDialogResult(SetDialogResult c) throws CoreException {
-		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE
-				.createSetSWTDialogInfo();
+		SetSWTDialogInfo info = ProtocolFactory.eINSTANCE.createSetSWTDialogInfo();
 		SWTDialogKind kind = null;
 		String k = c.getKind();
 		if (k.equalsIgnoreCase("File")) {
@@ -929,17 +872,14 @@ public class ActionService extends AbstractActionService {
 	}
 
 	private void handleOptions(Options c) throws CoreException {
-		SetStatusDialogMode mode = ProtocolFactory.eINSTANCE
-				.createSetStatusDialogMode();
+		SetStatusDialogMode mode = ProtocolFactory.eINSTANCE.createSetStatusDialogMode();
 		mode.setEnabled(c.isAllowStatusDialog());
 		TeslaBridge.getPlayer().safeExecuteCommand(mode);
 	}
 
-	private void handleShowContentAssist(ShowContentAssist c)
-			throws CoreException {
-		org.eclipse.rcptt.tesla.core.protocol.ShowContentAssist a = ProtocolFactory.eINSTANCE
-				.createShowContentAssist();
-		a.setElement(TeslaBridge.find(c.getControl()));
+	private void handleShowContentAssist(ShowContentAssist c) throws CoreException {
+		org.eclipse.rcptt.tesla.core.protocol.ShowContentAssist a = ProtocolFactory.eINSTANCE.createShowContentAssist();
+		a.setElement(TeslaBridge.find(c.getControl(), getContext()));
 		TeslaBridge.getPlayer().safeExecuteCommand(a);
 	}
 
@@ -947,76 +887,62 @@ public class ActionService extends AbstractActionService {
 		getControlUIElement(c.getControl()).setFocus();
 		return c.getControl();
 	}
+
 	private ControlHandler handleUnfocus(Unfocus c) throws CoreException {
 		getControlUIElement(c.getControl()).unfocus();
 		return c.getControl();
 	}
 
 	private ControlHandler handleClickText(ClickText c) throws CoreException {
-		getControlUIElement(c.getControl()).clickText(c.getStart(), c.getEnd(),
-				c.getButton());
+		getControlUIElement(c.getControl()).clickText(c.getStart(), c.getEnd(), c.getButton());
 		return c.getControl();
 	}
 
-	private ControlHandler handleDoubleClickText(DoubleClickText c)
-			throws CoreException {
-		getControlUIElement(c.getControl()).doubleClickText(c.getPosition(),
-				c.getButton());
+	private ControlHandler handleDoubleClickText(DoubleClickText c) throws CoreException {
+		getControlUIElement(c.getControl()).doubleClickText(c.getPosition(), c.getButton());
 		return c.getControl();
 	}
 
-	private ControlUIElement getControlUIElement(ControlHandler control)
-			throws CoreException {
-		ControlUIElement element = new ControlUIElement(
-				TeslaBridge.find(control), TeslaBridge.getPlayer());
+	private ControlUIElement getControlUIElement(ControlHandler control) throws CoreException {
+		ControlUIElement element = new ControlUIElement(TeslaBridge.find(control, getContext()),
+				TeslaBridge.getPlayer());
 		TeslaBridge.storeLastControlUIElement(element);
 		return element;
 	}
 
-	static TextUIElement getTextUIElement(ControlHandler control)
-			throws CoreException {
-		TextUIElement element = new TextUIElement(TeslaBridge.find(control),
-				TeslaBridge.getPlayer());
+	static TextUIElement getTextUIElement(ControlHandler control, IProcess context) throws CoreException {
+		TextUIElement element = new TextUIElement(TeslaBridge.find(control, context), TeslaBridge.getPlayer());
 		TeslaBridge.storeLastControlUIElement(element);
 		return element;
 	}
 
 	@SuppressWarnings("unused")
-	private CanvasUIElement getCanvasUIElement(ControlHandler control)
-			throws CoreException {
-		CanvasUIElement element = new CanvasUIElement(
-				TeslaBridge.find(control), TeslaBridge.getPlayer());
+	private CanvasUIElement getCanvasUIElement(ControlHandler control) throws CoreException {
+		CanvasUIElement element = new CanvasUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer());
 		return element;
 	}
 
-	private PartUIElement getPartUIElement(ControlHandler control)
-			throws CoreException {
-		PartUIElement element = new PartUIElement(TeslaBridge.find(control),
-				TeslaBridge.getPlayer());
+	private PartUIElement getPartUIElement(ControlHandler control) throws CoreException {
+		PartUIElement element = new PartUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer());
 		TeslaBridge.storeLastControlUIElement(element);
 		return element;
 	}
 
 	// TODO move these methods into some ActionServiceUtils
-	static ViewerUIElement getViewerUIElement(ControlHandler control)
-			throws CoreException {
-		ViewerUIElement element = new ViewerUIElement(
-				TeslaBridge.find(control), TeslaBridge.getPlayer());
+	static ViewerUIElement getViewerUIElement(ControlHandler control, IProcess context) throws CoreException {
+		ViewerUIElement element = new ViewerUIElement(TeslaBridge.find(control, context), TeslaBridge.getPlayer());
 		TeslaBridge.storeLastControlUIElement(element);
 		return element;
 	}
 
-	private DiagramViewerUIElement getDiagramViewerUIElement(
-			ControlHandler control) throws CoreException {
-		DiagramViewerUIElement element = new DiagramViewerUIElement(
-				TeslaBridge.find(control), TeslaBridge.getPlayer());
+	private DiagramViewerUIElement getDiagramViewerUIElement(ControlHandler control) throws CoreException {
+		DiagramViewerUIElement element = new DiagramViewerUIElement(TeslaBridge.find(control, getContext()),
+				TeslaBridge.getPlayer());
 		return element;
 	}
 
-	private FigureUIElement getFigureUIElement(ControlHandler control)
-			throws CoreException {
-		return new FigureUIElement(TeslaBridge.find(control),
-				TeslaBridge.getPlayer());
+	private FigureUIElement getFigureUIElement(ControlHandler control) throws CoreException {
+		return new FigureUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer());
 	}
 
 	private KeyStroke parseKey(final String string) {
@@ -1027,8 +953,7 @@ public class ActionService extends AbstractActionService {
 		final IKeyLookup lookup = KeyLookupFactory.getDefault();
 		int modifierKeys = KeyStroke.NO_KEY;
 		int naturalKey = KeyStroke.NO_KEY;
-		final StringTokenizer stringTokenizer = new StringTokenizer(string,
-				KeyStroke.KEY_DELIMITERS, true);
+		final StringTokenizer stringTokenizer = new StringTokenizer(string, KeyStroke.KEY_DELIMITERS, true);
 		int i = 0;
 
 		while (stringTokenizer.hasMoreTokens()) {
@@ -1067,13 +992,13 @@ public class ActionService extends AbstractActionService {
 
 	/**
 	 * Convert string to character.
-	 * 
+	 *
 	 * String must contain single character or unicode escape sequence.
-	 * 
+	 *
 	 * If string contains single character method returns it as is. If string is
 	 * unicode escape sequence method encode it to character. Otherwise method
 	 * return throws ParseException.
-	 * 
+	 *
 	 * @param s
 	 *            string presentation of character
 	 * @return character or null if string format is invalid

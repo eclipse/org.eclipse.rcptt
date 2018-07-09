@@ -24,8 +24,7 @@ public class CollapseService extends AbstractActionService {
 	@Override
 	protected Object exec(Command command) throws CoreException {
 		ControlHandler control = ((Collapse) command).getControl();
-		new ItemUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer())
-				.collapse();
+		new ItemUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer()).collapse();
 		return control;
 	}
 }

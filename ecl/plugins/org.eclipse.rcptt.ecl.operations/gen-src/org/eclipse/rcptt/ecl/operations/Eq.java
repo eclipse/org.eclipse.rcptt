@@ -21,14 +21,14 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Eq#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.operations.Eq#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.operations.OperationsPackage#getEq()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments on equality' returns='<code>true</code> when args are equal, <code>false</code> otherwise.'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Compares arguments on equality' returns='&lt;code&gt;true&lt;/code&gt; when args are equal, &lt;code&gt;false&lt;/code&gt; otherwise.'"
  * @generated
  */
 public interface Eq extends Command {

@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl#getAccelerator <em>Accelerator</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.MenuItemImpl#isCascade <em>Cascade</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

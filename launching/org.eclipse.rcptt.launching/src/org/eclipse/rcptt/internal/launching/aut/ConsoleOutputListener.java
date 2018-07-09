@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,9 @@
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching.aut;
+
+import static org.eclipse.rcptt.tesla.core.TeslaFeatures.REPORT_LOGGING_SIZE_OF_INITIAL_PART;
+import static org.eclipse.rcptt.tesla.core.TeslaFeatures.REPORT_LOGGING_SIZE_OF_ROTATION_PART;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,17 +23,26 @@ import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamMonitor;
 import org.eclipse.debug.core.model.IStreamsProxy;
 import org.eclipse.rcptt.core.launching.events.AutBundleState;
+import org.eclipse.rcptt.internal.launching.utils.LogBuilder;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchListener;
 import org.eclipse.rcptt.launching.AutLaunchState;
+import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
 public class ConsoleOutputListener implements AutLaunchListener {
 
-	private final StringBuilder log = new StringBuilder();
+	private static final int BITE_IN_MEGABITE = 1024 * 1024;
+
+	private final LogBuilder log;
 	private AutLaunch launch = null;
+
+	public ConsoleOutputListener()
+	{
+		log = new LogBuilder(getLogSizeOfInitPart(), getLogSizeOfRotationPart());
+	}
 
 	private IStreamListener listener = new IStreamListener() {
 		public void streamAppended(String text, IStreamMonitor monitor) {
@@ -56,11 +68,12 @@ public class ConsoleOutputListener implements AutLaunchListener {
 
 	public void startLogging(AutLaunch launch) {
 		stopLogging();
-		log.setLength(0);
+		log.clear();
 		this.launch = launch;
 		for (IStreamMonitor sm : getMonitors(launch.getLaunch())) {
 			sm.addListener(listener);
 		}
+
 	}
 
 	public void stopLogging() {
@@ -94,6 +107,14 @@ public class ConsoleOutputListener implements AutLaunchListener {
 
 	@Override
 	public void autLocationChange(BaseAutLaunch baseAutLaunch, String location) {
+	}
+
+	private int getLogSizeOfInitPart() {
+		return TeslaFeatures.getInstance().getIntValue(REPORT_LOGGING_SIZE_OF_INITIAL_PART) * BITE_IN_MEGABITE;
+	}
+
+	private int getLogSizeOfRotationPart() {
+		return TeslaFeatures.getInstance().getIntValue(REPORT_LOGGING_SIZE_OF_ROTATION_PART) * BITE_IN_MEGABITE;
 	}
 
 }

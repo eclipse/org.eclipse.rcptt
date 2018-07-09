@@ -124,6 +124,8 @@ public class CellEditorSupport {
 							}
 							try {
 								instance.makeNewAsForced(true);
+								instance.setNextCellEditorActivateEventType(command.getType().getValue());
+								instance.setNextCellEditorActivateEventButton(command.getButton());
 								Object toEdit = ti.getData();
 								if (toEdit == null)
 									// TODO: Need a way to activate cell
@@ -195,6 +197,8 @@ public class CellEditorSupport {
 											}
 										}
 										instance.makeNewAsForced(true);
+										instance.setNextCellEditorActivateEventType(command.getType().getValue());
+										instance.setNextCellEditorActivateEventButton(command.getButton());
 										try {
 											viewer.editElement(ti.getData(),
 													column);

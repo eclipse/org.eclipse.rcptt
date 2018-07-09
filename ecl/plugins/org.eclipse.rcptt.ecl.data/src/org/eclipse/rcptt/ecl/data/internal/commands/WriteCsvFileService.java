@@ -41,7 +41,6 @@ public class WriteCsvFileService implements ICommandService {
 		}
 		WriteCsvFile wcf = (WriteCsvFile) command;
 		EclFile file = FileResolver.resolve(wcf.getUri());
-//		file.getParentFile().mkdirs();
 		Table table = wcf.getTable();
 
 		List<String> columns = new ArrayList<String>();
@@ -53,7 +52,7 @@ public class WriteCsvFileService implements ICommandService {
 		columns.addAll(table.getColumns());
 
 		try {
-			Writer fileWriter = Util.getWriter(file, false);
+			Writer fileWriter = Util.getWriter(file, wcf.isAppend());
 			CSVWriter writer = new CSVWriter(fileWriter);
 			writer.writeNext(columns.toArray(new String[columns.size()]), false);
 			for (Row row : table.getRows()) {

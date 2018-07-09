@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1180,6 +1180,61 @@ public interface Q7CorePackage extends EPackage {
 	int TERMINATE_AUT_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl <em>Set Option</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl
+	 * @see org.eclipse.rcptt.core.ecl.core.model.impl.Q7CorePackageImpl#getSetOption()
+	 * @generated
+	 */
+	int SET_OPTION = 24;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_OPTION__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_OPTION__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_OPTION__KEY = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_OPTION__VALUE = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Set Option</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_OPTION_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase <em>Execution Phase</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1187,7 +1242,7 @@ public interface Q7CorePackage extends EPackage {
 	 * @see org.eclipse.rcptt.core.ecl.core.model.impl.Q7CorePackageImpl#getExecutionPhase()
 	 * @generated
 	 */
-	int EXECUTION_PHASE = 24;
+	int EXECUTION_PHASE = 25;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.ecl.core.model.EnterContext <em>Enter Context</em>}'.
@@ -1826,6 +1881,38 @@ public interface Q7CorePackage extends EPackage {
 	EClass getTerminateAut();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.core.ecl.core.model.SetOption <em>Set Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Set Option</em>'.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.SetOption
+	 * @generated
+	 */
+	EClass getSetOption();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.core.ecl.core.model.SetOption#getKey <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.SetOption#getKey()
+	 * @see #getSetOption()
+	 * @generated
+	 */
+	EAttribute getSetOption_Key();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.core.ecl.core.model.SetOption#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see org.eclipse.rcptt.core.ecl.core.model.SetOption#getValue()
+	 * @see #getSetOption()
+	 * @generated
+	 */
+	EAttribute getSetOption_Value();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase <em>Execution Phase</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2384,6 +2471,32 @@ public interface Q7CorePackage extends EPackage {
 		 * @generated
 		 */
 		EClass TERMINATE_AUT = eINSTANCE.getTerminateAut();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl <em>Set Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.core.ecl.core.model.impl.SetOptionImpl
+		 * @see org.eclipse.rcptt.core.ecl.core.model.impl.Q7CorePackageImpl#getSetOption()
+		 * @generated
+		 */
+		EClass SET_OPTION = eINSTANCE.getSetOption();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SET_OPTION__KEY = eINSTANCE.getSetOption_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SET_OPTION__VALUE = eINSTANCE.getSetOption_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase <em>Execution Phase</em>}' enum.

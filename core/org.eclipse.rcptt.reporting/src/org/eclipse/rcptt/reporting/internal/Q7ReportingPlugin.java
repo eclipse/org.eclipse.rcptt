@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,20 +41,7 @@ public class Q7ReportingPlugin extends Plugin {
 		super.start(bundleContext);
 		plugin = this;
 		ReportManager.reload();
-		Job cleanPreviousExecutionSessions = new Job(
-				"Q7: Clean execution sessions") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				File root = getConfigStateLocation();
-				if (root.exists()) {
-					FileUtil.deleteFiles(root.listFiles());
-				}
-				return Status.OK_STATUS;
-			}
-		};
-		cleanPreviousExecutionSessions.setSystem(true);
-		cleanPreviousExecutionSessions.schedule();
-	}
+		}
 
 	public static File getConfigStateLocation() {
 		File result = null;

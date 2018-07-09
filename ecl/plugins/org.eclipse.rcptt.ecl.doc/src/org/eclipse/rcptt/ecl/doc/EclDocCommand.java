@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -94,7 +94,7 @@ public class EclDocCommand implements IEclDocProvider {
 			"control-not-found", "pipeline", "setup-player", "shutdown-player",
 			"get-global", "set-global", "script", "get-region",
 			"get-region-text", "alert", "get-memory-usage", "get-val",
-			"proc-instance", "save-session", "restore-session", "upload-file", "declaration", "unzip-file",
+			"proc-instance", "save-session", "restore-session", "declaration", "unzip-file",
 			"shoutdown-player", "path-utils", "list-executed-suites",
 			"kill-all-executed", "binary-op");
 

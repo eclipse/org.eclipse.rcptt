@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -27,10 +28,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Control;
-
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
 import org.eclipse.rcptt.tesla.core.protocol.CompositeUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.diagram.DiagramFeatures;
@@ -54,6 +51,10 @@ import org.eclipse.rcptt.tesla.recording.core.TeslaRecorder;
 import org.eclipse.rcptt.tesla.recording.core.gef.GefRecordingHelper.GraphicalViewerEntry;
 import org.eclipse.rcptt.tesla.recording.core.swt.BasicRecordingHelper.ElementEntry;
 import org.eclipse.rcptt.tesla.recording.core.swt.SWTEventRecorder;
+import org.eclipse.rcptt.tesla.swt.util.IdentifyObjectUtil;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * Class for locating edit part.
@@ -377,6 +378,22 @@ public class GefFigureLocator {
 					result = new ElementEntry(element.getElement());
 					result.set("text", text);
 				}
+			}
+		}
+		if (element == null && TeslaFeatures.isIdentifyMethodsProvided()) {
+			try {
+				String id = IdentifyObjectUtil.getObjectIdByClassMethods(part);
+				if (id != null) {
+					if (needCreateElement) {
+						element = parentPart.figureByCustomId(id);
+					} else {
+						element = new FigureUIElement(null, null);
+					}
+					result = new ElementEntry(element.getElement());
+					result.set("customId", id);
+				}
+			} catch (CoreException e) {
+				// ignore, go to the next identification method
 			}
 		}
 		if (element == null) {

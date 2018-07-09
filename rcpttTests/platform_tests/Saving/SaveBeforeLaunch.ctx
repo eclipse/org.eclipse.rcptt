@@ -1,13 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Context-Type: org.eclipse.rcptt.ctx.ecl
 Element-Name: SaveBeforeLaunch
 Element-Type: context
 Element-Version: 2.0
 Id: _4QQJ8GJ5EeOG77tsPvjNlQ
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/21/17 2:40 PM
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
@@ -36,7 +35,7 @@ proc "set-save-before-launch" [val mode] {
 	with [get-window Preferences] {
 	    get-tree | select "Run\\/Debug/Launching"
 	    get-group "Save required dirty editors before launching" | get-button $mode | click
-	    get-button OK | click
+	    get-button "Apply and Close" | click
 	}
 }
 

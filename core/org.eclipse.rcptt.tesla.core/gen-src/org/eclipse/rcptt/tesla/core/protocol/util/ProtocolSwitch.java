@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -902,6 +902,35 @@ public class ProtocolSwitch<T> {
 				UpdateControlCommand updateControlCommand = (UpdateControlCommand)theEObject;
 				T result = caseUpdateControlCommand(updateControlCommand);
 				if (result == null) result = caseCommand(updateControlCommand);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProtocolPackage.RAP_DOWNLOAD_FILE: {
+				RapDownloadFile rapDownloadFile = (RapDownloadFile)theEObject;
+				T result = caseRapDownloadFile(rapDownloadFile);
+				if (result == null) result = caseCommand(rapDownloadFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProtocolPackage.RAP_UPLOAD_FILE: {
+				RapUploadFile rapUploadFile = (RapUploadFile)theEObject;
+				T result = caseRapUploadFile(rapUploadFile);
+				if (result == null) result = caseCommand(rapUploadFile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProtocolPackage.GET_ITEMS: {
+				GetItems getItems = (GetItems)theEObject;
+				T result = caseGetItems(getItems);
+				if (result == null) result = caseElementCommand(getItems);
+				if (result == null) result = caseCommand(getItems);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProtocolPackage.GET_ITEMS_RESPONSE: {
+				GetItemsResponse getItemsResponse = (GetItemsResponse)theEObject;
+				T result = caseGetItemsResponse(getItemsResponse);
+				if (result == null) result = caseResponse(getItemsResponse);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -2496,6 +2525,66 @@ public class ProtocolSwitch<T> {
 	 * @generated
 	 */
 	public T caseUpdateControlCommand(UpdateControlCommand object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rap Download File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rap Download File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRapDownloadFile(RapDownloadFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rap Upload File</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rap Upload File</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRapUploadFile(RapUploadFile object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Items</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetItems(GetItems object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Items Response</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Items Response</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetItemsResponse(GetItemsResponse object) {
 		return null;
 	}
 

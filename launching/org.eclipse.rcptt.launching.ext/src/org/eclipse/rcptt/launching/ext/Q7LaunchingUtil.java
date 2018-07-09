@@ -36,7 +36,6 @@ import org.eclipse.equinox.p2.repository.artifact.IFileArtifactRepository;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
@@ -130,6 +129,14 @@ public class Q7LaunchingUtil {
 			}
 			config.setAttribute(IQ7Launch.AUT_LOCATION,
 					target.getTargetPlatformProfilePath());
+
+			Map<String, String> iniEnvs = target.getIniEnvironment();
+			Map<String, String> configEnvs = config.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES,
+					(Map<String, String>) null);
+			if (configEnvs != null) {
+				iniEnvs.putAll(configEnvs);
+			}
+			config.setAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, iniEnvs);
 		}
 		config.setAttribute(IQ7Launch.DOCLEAR, false);
 		config.setAttribute(IQ7Launch.ASKCLEAR, false);

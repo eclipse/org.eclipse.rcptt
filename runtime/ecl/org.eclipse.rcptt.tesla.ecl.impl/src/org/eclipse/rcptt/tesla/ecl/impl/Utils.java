@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,12 +19,16 @@ import java.util.Set;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -84,7 +88,11 @@ public class Utils {
 							}
 							TeslaSWTAccess.setWizardDialogHasActiveOperations(
 									dialog, 0);
-							dialog.close();
+
+							pressCancel(dialog);
+							if (!shell.isDisposed()) {
+								dialog.close();
+							}
 							// try to cancel monitor if there is one
 						} catch (Throwable e) {
 							TeslaCore.log(e);
@@ -103,4 +111,14 @@ public class Utils {
 			SWTDialogManager.setCancelMessageBoxesDisplay(false);
 		}
 	}
+
+	private static void pressCancel(WizardDialog dialog) {
+		Button cancelButton = TeslaSWTAccess.getWizardDialogButton(
+				dialog, IDialogConstants.CANCEL_ID);
+		if (cancelButton == null) {
+			return;
+		}
+		cancelButton.notifyListeners(SWT.Selection, new Event());
+	}
+
 }

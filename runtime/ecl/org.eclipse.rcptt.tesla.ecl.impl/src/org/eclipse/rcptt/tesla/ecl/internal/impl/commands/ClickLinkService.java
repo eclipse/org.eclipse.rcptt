@@ -25,8 +25,7 @@ public class ClickLinkService extends AbstractActionService {
 	protected Object exec(Command command) throws CoreException {
 		ClickLink cl = (ClickLink) command;
 		ControlHandler control = cl.getControl();
-		new LinkUIElement(TeslaBridge.find(control), TeslaBridge.getPlayer())
-				.clickLink(cl.getRef());
+		new LinkUIElement(TeslaBridge.find(control, getContext()), TeslaBridge.getPlayer()).clickLink(cl.getRef());
 		return control;
 	}
 

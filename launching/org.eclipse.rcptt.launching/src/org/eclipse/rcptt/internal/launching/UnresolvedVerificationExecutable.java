@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.launching;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -19,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.core.ecl.core.model.ExecutionPhase;
 import org.eclipse.rcptt.core.model.IVerification;
+import org.eclipse.rcptt.core.scenario.Verification;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.reporting.ReportMaker;
 import org.eclipse.rcptt.launching.AutLaunch;
@@ -26,6 +26,8 @@ import org.eclipse.rcptt.reporting.ItemKind;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.IQ7ReportConstants;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
+
+import com.google.common.collect.ImmutableMap;
 
 public class UnresolvedVerificationExecutable extends VerificationExecutable {
 
@@ -36,16 +38,18 @@ public class UnresolvedVerificationExecutable extends VerificationExecutable {
 
 	@Override
 	protected IStatus doExecute() throws CoreException, InterruptedException {
-		Map<String, EObject> props = new HashMap<String, EObject>();
-
+		Verification verification = (Verification) getActualElement().getModifiedNamedElement();
 		Q7Info info = ReportHelper.createInfo();
 		info.setType(ItemKind.VERIFICATION);
-		props.put(IQ7ReportConstants.ROOT, info);
+		info.setTags(verification.getTags());
+		info.setId(verification.getId());
+		info.setDescription(verification.getDescription());
+		Map<String, EObject> props = ImmutableMap.<String, EObject> of(IQ7ReportConstants.ROOT, info);
 
 		ReportMaker.beginReportNode(getName(), props, launch);
 		ReportMaker.endReportNode(false, launch,
 				RcpttPlugin.createProcessStatus(IStatus.ERROR, "Verification is unresolved"));
-		return new Status(Status.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
+		return new Status(IStatus.ERROR, Q7LaunchingPlugin.PLUGIN_ID,
 				"Verification could not be resolved:" + getName());
 	}
 

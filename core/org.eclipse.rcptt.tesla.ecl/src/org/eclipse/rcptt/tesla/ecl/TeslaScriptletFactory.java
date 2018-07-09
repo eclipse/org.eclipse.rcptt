@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,9 +16,8 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.rcptt.ecl.core.Command;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
-
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
 import org.eclipse.rcptt.tesla.ecl.model.ActivateCellEdit;
+import org.eclipse.rcptt.tesla.ecl.model.ActivationEventType;
 import org.eclipse.rcptt.tesla.ecl.model.ApplyCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Button;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
@@ -126,6 +125,11 @@ import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseHover;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseMove;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MousePress;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.MouseRelease;
+// import org.eclipse.rcptt.tesla.ecl.rap.model.ExecWithoutJs;
+// import org.eclipse.rcptt.tesla.ecl.rap.model.RapTeslaFactory;
+// import org.eclipse.rcptt.tesla.ecl.rap.model.SetDownloadResultFile;
+// import org.eclipse.rcptt.tesla.ecl.rap.model.VerifyDownloadFile;
+import org.eclipse.rcptt.util.KeysAndButtons;
 
 public class TeslaScriptletFactory extends ScriptletFactory {
 
@@ -621,6 +625,12 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 		return cmd;
 	}
 
+	public static GetEditPart makeEditPartByCustomId(String value) {
+		GetEditPart cmd = DiagramFactory.eINSTANCE.createGetEditPart();
+		cmd.setCustomId(value);
+		return cmd;
+	}
+
 	public static GetEditPart makeEditPartByClassName(String value) {
 		GetEditPart cmd = DiagramFactory.eINSTANCE.createGetEditPart();
 		cmd.setClassName(value);
@@ -876,9 +886,11 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 		return cmd;
 	}
 
-	public static ActivateCellEdit makeCellEditorActivate(Integer column) {
+	public static ActivateCellEdit makeCellEditorActivate(Integer column, Integer type, Integer button) {
 		ActivateCellEdit c = TeslaFactory.eINSTANCE.createActivateCellEdit();
 		c.setColumn(column);
+		c.setType(ActivationEventType.get(type));
+		c.setButton(button);
 		return c;
 	}
 
@@ -891,6 +903,7 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 	public static CancelCellEdit makeCellEditorCancel() {
 		return TeslaFactory.eINSTANCE.createCancelCellEdit();
 	}
+
 	public static DeactivateCellEdit makeCellEditorDeactivate() {
 		return TeslaFactory.eINSTANCE.createDeactivateCellEdit();
 	}

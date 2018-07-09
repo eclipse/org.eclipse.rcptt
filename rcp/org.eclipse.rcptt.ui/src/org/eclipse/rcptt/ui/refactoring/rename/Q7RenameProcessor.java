@@ -33,12 +33,12 @@ import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 import org.eclipse.ltk.internal.core.refactoring.BasicElementLabels;
 import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.ltk.internal.core.refactoring.RefactoringCoreMessages;
-import org.eclipse.ltk.internal.core.refactoring.Resources;
 import org.eclipse.ltk.internal.core.refactoring.resource.ResourceModifications;
 import org.eclipse.ltk.internal.core.refactoring.resource.ResourceProcessors;
 
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.ui.refactoring.delete.Resources;
 import org.eclipse.rcptt.util.resources.ResourcesUtil;
 
 @SuppressWarnings("restriction")

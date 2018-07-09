@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=457228
 Id: _FlV8IBo4EeWWoJrMH1MOVQ
-Runtime-Version: 2.0.0.201506230636
-Save-Time: 6/24/15 1:14 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/21/17 2:35 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -34,7 +34,7 @@ get-view "Test Explorer" | get-tree | select "MyProject/Context1 - ReadOnly" | s
 with [get-window "Properties for Context1 - ReadOnly.ctx"] {
     get-table | get-button -index 1 | uncheck
     get-button Apply | click
-    get-button OK | click
+    get-button "Apply and Close" | click
 }
 get-view "Test Explorer" | get-tree | select "MyProject/Context1 - ReadOnly" | select "MyProject/Context1 - ReadOnly" 
     | double-click
@@ -49,7 +49,7 @@ get-window "Read-only Resource Encountered"
     | verify-true
 get-window "Read-only Resource Encountered" | get-button No | click
 get-editor "Context1 - ReadOnly" | close
-get-window "Save Resource" | get-button No | click
+get-window "Save Resource" | get-button "Don't Save" | click
 
 get-view "Test Explorer" | get-tree | select "MyProject/Context1 - ReadOnly" | select "MyProject/Context1 - ReadOnly" 
     | double-click

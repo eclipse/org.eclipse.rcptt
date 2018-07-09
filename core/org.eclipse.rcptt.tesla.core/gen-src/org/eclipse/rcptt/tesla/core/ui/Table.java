@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Table#getColumns <em>Columns</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Table#isLinesVisible <em>Lines Visible</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Table#isHeaderVisible <em>Header Visible</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.Table#getItemCount <em>Item Count</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTable()
  * @model

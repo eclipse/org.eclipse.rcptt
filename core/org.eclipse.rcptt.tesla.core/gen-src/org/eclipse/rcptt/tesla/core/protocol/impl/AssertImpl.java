@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImpl#getElement <em>Element</em>}</li>
@@ -45,7 +46,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImpl#getImageData <em>Image Data</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.AssertImpl#isShowIndex <em>Show Index</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

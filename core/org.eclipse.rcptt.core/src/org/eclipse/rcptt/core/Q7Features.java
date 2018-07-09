@@ -48,7 +48,8 @@ public class Q7Features extends AbstractFeatureManager {
 		option(Q7_CONTEXTS_RESOURCES_ZIPPED_TRANSFER)
 				.category("Resources Context")
 				.name("Transfer use compression(zip)")
-				.description("Transfer content with workspace context")
+				.description(
+						"Transfer content with workspace context (the option is also used in workspace verification)")
 				.value("true").defaultValue("true")
 				.values(AbstractFeatureManager.BOOLEAN_VALUES).editable(true)
 				.showIn(TeslaFeatures.NONE);

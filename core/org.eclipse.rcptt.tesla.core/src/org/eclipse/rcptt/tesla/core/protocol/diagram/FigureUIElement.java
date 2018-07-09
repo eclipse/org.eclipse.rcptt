@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.rcptt.tesla.core.protocol.BasicUIElement;
 import org.eclipse.rcptt.tesla.core.protocol.Children;
 import org.eclipse.rcptt.tesla.core.protocol.ChildrenResponse;
@@ -323,8 +322,13 @@ public class FigureUIElement extends BasicUIElement {
 		return selector.childFigure.path("editpart", "text").find(value, index);
 	}
 
+	public FigureUIElement figureByCustomId(String value) {
+		return selector.childFigure.path("editpart", "customId").find(value);
+	}
+
 	public FigureUIElement figureByClassName(String value, Integer index) {
 		return selector.childFigure.path("editpart", "classname").find(value,
 				index);
 	}
+
 }

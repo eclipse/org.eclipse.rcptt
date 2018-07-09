@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -435,6 +435,24 @@ public class InfoPackageImpl extends EPackageImpl implements InfoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getQ7WaitInfo_Duration() {
+		return (EAttribute)q7WaitInfoEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getQ7WaitInfo_LastStartTime() {
+		return (EAttribute)q7WaitInfoEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getQ7WaitInfoRoot() {
 		return q7WaitInfoRootEClass;
 	}
@@ -584,6 +602,8 @@ public class InfoPackageImpl extends EPackageImpl implements InfoPackage {
 		createEAttribute(q7WaitInfoEClass, Q7_WAIT_INFO__CLASS_ID);
 		createEAttribute(q7WaitInfoEClass, Q7_WAIT_INFO__TYPE_ID);
 		createEAttribute(q7WaitInfoEClass, Q7_WAIT_INFO__TICKS);
+		createEAttribute(q7WaitInfoEClass, Q7_WAIT_INFO__DURATION);
+		createEAttribute(q7WaitInfoEClass, Q7_WAIT_INFO__LAST_START_TIME);
 
 		q7WaitInfoRootEClass = createEClass(Q7_WAIT_INFO_ROOT);
 		createEReference(q7WaitInfoRootEClass, Q7_WAIT_INFO_ROOT__INFOS);
@@ -664,6 +684,8 @@ public class InfoPackageImpl extends EPackageImpl implements InfoPackage {
 		initEAttribute(getQ7WaitInfo_ClassId(), ecorePackage.getEInt(), "classId", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7WaitInfo_TypeId(), ecorePackage.getEInt(), "typeId", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getQ7WaitInfo_Ticks(), ecorePackage.getELong(), "ticks", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQ7WaitInfo_Duration(), ecorePackage.getELong(), "duration", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getQ7WaitInfo_LastStartTime(), ecorePackage.getELong(), "lastStartTime", null, 0, 1, Q7WaitInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(q7WaitInfoRootEClass, Q7WaitInfoRoot.class, "Q7WaitInfoRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getQ7WaitInfoRoot_Infos(), this.getQ7WaitInfo(), null, "infos", null, 0, -1, Q7WaitInfoRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

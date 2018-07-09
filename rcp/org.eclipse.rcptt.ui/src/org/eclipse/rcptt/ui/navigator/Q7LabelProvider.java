@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,21 +16,20 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-
 import org.eclipse.rcptt.core.model.IElementChangedListener;
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.Q7ElementChangedEvent;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
+import org.eclipse.rcptt.core.workspace.WorkspaceSynchronizer;
 import org.eclipse.rcptt.ui.utils.ModelUtils;
 import org.eclipse.rcptt.ui.utils.WorkbenchUtils;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class Q7LabelProvider extends LabelProvider implements
 		IElementChangedListener {
@@ -39,10 +38,7 @@ public class Q7LabelProvider extends LabelProvider implements
 	private ProblemsLabelDecorator decorator;
 
 	public Q7LabelProvider() {
-		provider = /*
-					 * WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider
-					 * ()
-					 */new WorkbenchLabelProvider();
+		provider = new WorkbenchLabelProvider();
 		RcpttCore.addElementChangedListener(this);
 		decorator = new ProblemsLabelDecorator();
 	}
@@ -121,10 +117,6 @@ public class Q7LabelProvider extends LabelProvider implements
 		if (result == null) {
 			result = provider.getImage(element);
 		}
-		// if (result != null) {
-		// return PlatformUI.getWorkbench().getDecoratorManager()
-		// .decorateImage(result, element);
-		// }
 		if (result != null) {
 			Object el = element;
 			if (element instanceof NamedElement) {

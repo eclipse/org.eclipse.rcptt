@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="workspace" nsURI="http://eclipse.org/rcptt/ctx/workspace" nsPrefix="org.eclipse.rcptt.ctx.workspace">
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceData" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" eType="#//WSRoot"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceContext" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//Context #//WorkspaceData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clearWorkspace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoredByClearPattern"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceVerification" eSuperTypes="../../org.eclipse.rcptt.core.scenario/models/scenario.ecore#//Verification #//WorkspaceData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowUncapturedFiles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="notAllowedPatterns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoredLines" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreWhiteSpace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSResource" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSContainer" abstract="true" eSuperTypes="#//WSResource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WSFile" eSuperTypes="#//WSResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="executable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSFolder" eSuperTypes="#//WSContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//WSFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
+        eType="#//WSFolder" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="folderLinks" upperBound="-1"
+        eType="#//WSFolderLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fileLinks" upperBound="-1"
+        eType="#//WSFileLink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSProject" eSuperTypes="#//WSFolder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WSRoot" eSuperTypes="#//WSContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projects" upperBound="-1"
+        eType="#//WSProject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projectLinks" upperBound="-1"
+        eType="#//WSProjectLink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSLink" eSuperTypes="#//WSResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="project" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSFileLink" eSuperTypes="#//WSLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSFolderLink" eSuperTypes="#//WSLink">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
+        eType="#//WSFolderLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//WSFileLink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WSProjectLink" eSuperTypes="#//WSFolderLink"/>
+</ecore:EPackage>

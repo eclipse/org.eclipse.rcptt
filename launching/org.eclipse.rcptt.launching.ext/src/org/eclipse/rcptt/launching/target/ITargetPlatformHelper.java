@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -110,6 +110,11 @@ public interface ITargetPlatformHelper {
 	 */
 	IStatus applyInjection(InjectionConfiguration configuration,
 			IProgressMonitor monitor);
+
+	/**
+	 * Get initial environment variables from eclipse.ini of target platform.
+	 */
+	Map<String, String> getIniEnvironment();
 
 	/**
 	 * Get initial vmargs readed from eclipse.ini of target platform.

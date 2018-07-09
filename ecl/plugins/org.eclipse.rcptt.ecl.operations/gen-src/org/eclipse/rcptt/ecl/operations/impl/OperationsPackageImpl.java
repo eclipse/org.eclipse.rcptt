@@ -57,6 +57,7 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.ecl.operations.RepeatWith;
 import org.eclipse.rcptt.ecl.operations.Split;
 import org.eclipse.rcptt.ecl.operations.Str;
+import org.eclipse.rcptt.ecl.operations.ThrowError;
 import org.eclipse.rcptt.ecl.operations.ToList;
 import org.eclipse.rcptt.ecl.operations.Try;
 
@@ -322,6 +323,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass parseTimeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass throwErrorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -613,6 +621,24 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 */
 	public EAttribute getTry_Delay() {
 		return (EAttribute)tryEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTry_NoScreenshot() {
+		return (EAttribute)tryEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTry_Error() {
+		return (EReference)tryEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1143,6 +1169,24 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getThrowError() {
+		return throwErrorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getThrowError_Message() {
+		return (EAttribute)throwErrorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getParseTime_Input() {
 		return (EAttribute)parseTimeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1238,6 +1282,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		createEReference(tryEClass, TRY__FINALLY);
 		createEAttribute(tryEClass, TRY__TIMES);
 		createEAttribute(tryEClass, TRY__DELAY);
+		createEAttribute(tryEClass, TRY__NO_SCREENSHOT);
+		createEReference(tryEClass, TRY__ERROR);
 
 		formatEClass = createEClass(FORMAT);
 		createEAttribute(formatEClass, FORMAT__FORMAT);
@@ -1332,6 +1378,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		parseTimeEClass = createEClass(PARSE_TIME);
 		createEAttribute(parseTimeEClass, PARSE_TIME__INPUT);
 		createEAttribute(parseTimeEClass, PARSE_TIME__FORMAT);
+
+		throwErrorEClass = createEClass(THROW_ERROR);
+		createEAttribute(throwErrorEClass, THROW_ERROR__MESSAGE);
 	}
 
 	/**
@@ -1407,6 +1456,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		eachEClass.getESuperTypes().add(theCorePackage.getCommand());
 		splitEClass.getESuperTypes().add(theCorePackage.getCommand());
 		parseTimeEClass.getESuperTypes().add(theCorePackage.getCommand());
+		throwErrorEClass.getESuperTypes().add(theCorePackage.getCommand());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(eqEClass, Eq.class, "Eq", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1450,6 +1500,8 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEReference(getTry_Finally(), theCorePackage.getCommand(), null, "finally", null, 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTry_Times(), theEcorePackage.getEIntegerObject(), "times", "1", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTry_Delay(), theEcorePackage.getEIntegerObject(), "delay", "0", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTry_NoScreenshot(), theEcorePackage.getEBoolean(), "noScreenshot", "false", 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTry_Error(), theCorePackage.getVal(), null, "error", null, 0, 1, Try.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(formatEClass, Format.class, "Format", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFormat_Format(), theEcorePackage.getEString(), "format", null, 0, 1, Format.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1545,6 +1597,9 @@ public class OperationsPackageImpl extends EPackageImpl implements
 		initEAttribute(getParseTime_Input(), theEcorePackage.getEString(), "input", null, 1, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParseTime_Format(), theEcorePackage.getEString(), "format", null, 0, 1, ParseTime.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(throwErrorEClass, ThrowError.class, "ThrowError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getThrowError_Message(), theEcorePackage.getEString(), "message", null, 1, 1, ThrowError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Create resource
 		createResource(eNS_URI);
 
@@ -1563,26 +1618,26 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";		
+		String source = "http://www.eclipse.org/ecl/docs";	
 		addAnnotation
 		  (eqEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Compares arguments on equality",
 			 "returns", "<code>true</code> when args are equal, <code>false</code> otherwise."
-		   });			
+		   });	
 		addAnnotation
 		  (getEq_Left(), 
 		   source, 
 		   new String[] {
 			 "description", "Left argument"
-		   });		
+		   });	
 		addAnnotation
 		  (getEq_Right(), 
 		   source, 
 		   new String[] {
 			 "description", "Right argument"
-		   });		
+		   });	
 		addAnnotation
 		  (intEClass, 
 		   source, 
@@ -1590,21 +1645,21 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Converts its argument to int.",
 			 "returns", "Returns integer value or fails if value cannot be converted. <code>true</code> is converted to <code>1</code> and <code>false</code> is converted to <code>0</code>.",
 			 "example", "//verifies that the number of Stops it less then 3\nget-view \"Execution View\" | get-label -after [get-label \"Stops:\"] | get-text | int | lt 3 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (longEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Converts its argument to long.",
 			 "returns", "Returns long value or fails if value cannot be converted. <code>true</code> is converted to <code>1L</code> and <code>false</code> is converted to <code>0L</code>."
-		   });		
+		   });	
 		addAnnotation
 		  (floatEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Converts its argument to float.",
 			 "returns", "<p>Returns float value or fails if value cannot be converted. <code>true</code> is converted to <code>1.0</code> and <code>false</code> is converted to <code>0</code>. This command uses <code>java.lang.Float.parseFloat</code> method, but also supports a few additional text values for infinity:</p>\n<ul>\n  <li><b>+inf</b> &ndash; returns <code>Float.POSITIVE_INFINITY</code></li>\n  <li><b>inf</b> &ndash; returns <code>Float.POSITIVE_INFINITY</code></li>\n  <li><b>-inf</b> &ndash; returns <code>Float.NEGATIVE_INFINITY</code></li>\n</ul>"
-		   });		
+		   });	
 		addAnnotation
 		  (boolEClass, 
 		   source, 
@@ -1612,7 +1667,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Converts its argument to boolean.",
 			 "returns", "Returns boolean value or fails if value cannot be converted. ",
 			 "example", "bool true | assert-true\nbool 1 | assert-true"
-		   });		
+		   });	
 		addAnnotation
 		  (strEClass, 
 		   source, 
@@ -1620,13 +1675,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Converts its argument to string.",
 			 "returns", "Returns string value or fails if value cannot be converted. ",
 			 "example", "//Types \"2\" into log\ndiv 10 5 | str | log"
-		   });			
+		   });	
 		addAnnotation
 		  (getConvert_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Argument to be converted."
-		   });			
+		   });	
 		addAnnotation
 		  (assertTrueEClass, 
 		   source, 
@@ -1634,19 +1689,19 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "If input is not true, fails",
 			 "returns", "Nothing",
 			 "example", "...get-tree | get-item Project | get-property childCount -raw | gt 3 | assert-true -message \"Child count is not greater then 3!\" "
-		   });		
+		   });	
 		addAnnotation
 		  (getAssertTrue_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Input value. Must be true."
-		   });			
+		   });	
 		addAnnotation
 		  (getAssertTrue_Message(), 
 		   source, 
 		   new String[] {
 			 "description", "Message to fail with when input is not true"
-		   });		
+		   });	
 		addAnnotation
 		  (lengthEClass, 
 		   source, 
@@ -1654,13 +1709,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Returns count of objects got from input pipe",
 			 "returns", "Object count",
 			 "example", "emit 1 2 3 | length | equals 3 | verify-true\n\n// verifies that Project item has 10 children\nget-view \"Q7 Explorer\" | get-tree | get-item Project | get-items | length | equals 10 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (getLength_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "List of objects to get the length for"
-		   });			
+		   });	
 		addAnnotation
 		  (notEqEClass, 
 		   source, 
@@ -1668,19 +1723,19 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Compares arguments are different",
 			 "returns", "<code>false</code> when args are equal, <code>true</code> otherwise.",
 			 "example", " int 9 | not-eq 10 | verify-true"
-		   });			
+		   });	
 		addAnnotation
 		  (getNotEq_Left(), 
 		   source, 
 		   new String[] {
 			 "description", "Left argument"
-		   });		
+		   });	
 		addAnnotation
 		  (getNotEq_Right(), 
 		   source, 
 		   new String[] {
 			 "description", "Right argument"
-		   });		
+		   });	
 		addAnnotation
 		  (gtEClass, 
 		   source, 
@@ -1688,7 +1743,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Compares arguments on to one be greater then another",
 			 "returns", "<code>true</code> when left are greater then right, <code>false</code> otherwise.",
 			 "example", "plus 6 4 | gt 8 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (ltEClass, 
 		   source, 
@@ -1696,7 +1751,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Compares arguments one are less then another",
 			 "returns", "<code>true</code> when left is less then right, <code>false</code> otherwise.",
 			 "example", "plus 6 4 | lt 12 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (notEClass, 
 		   source, 
@@ -1704,21 +1759,27 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Return !value",
 			 "returns", "<code>true</code> when value is false, <code>false</code> otherwise.",
 			 "example", "minus 10 7 | equals 2 | not | verify-true"
-		   });			
+		   });	
 		addAnnotation
 		  (getNot_Left(), 
 		   source, 
 		   new String[] {
 			 "description", "Left argument"
-		   });		
+		   });	
 		addAnnotation
 		  (tryEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Try to execute command, retry times with delay if command are failed.\nExecute catch if all operations is not succesfull. Execute finally in anyway.",
 			 "returns", "return\'s -command output if command is successed.",
-			 "example", "try -times 10 -delay 100 -command {\r\n\t// some ECL scripts\r\n}"
-		   });		
+			 "example", "try -times 10 -delay 100 -command {\r\n\t// some ECL scripts\r\n} -error [val errorObj] -catch {\r\n\tlog [$errorObj | get message]\n}"
+		   });	
+		addAnnotation
+		  (getTry_Error(), 
+		   source, 
+		   new String[] {
+			 "description", "A variable to store an error object in. Accessible from catch block."
+		   });	
 		addAnnotation
 		  (formatEClass, 
 		   source, 
@@ -1726,19 +1787,19 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Writes a formatted string to output pipe",
 			 "returns", "Formatted string",
 			 "example", "format \"string: %s, int: %d\" \"foo\" 5 | log"
-		   });		
+		   });	
 		addAnnotation
 		  (getFormat_Format(), 
 		   source, 
 		   new String[] {
 			 "description", "Format string as in Java\'s <a href=\"http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html\">String.format</a>"
-		   });		
+		   });	
 		addAnnotation
 		  (getFormat_Args(), 
 		   source, 
 		   new String[] {
 			 "description", "Arguments for format string"
-		   });		
+		   });	
 		addAnnotation
 		  (emitEClass, 
 		   source, 
@@ -1746,7 +1807,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Writes its arguments into output pipe. ",
 			 "returns", "List of arguments",
 			 "example", "emit \"hello\" \"world\" | foreach { log }"
-		   });		
+		   });	
 		addAnnotation
 		  (repeatWithEClass, 
 		   source, 
@@ -1754,7 +1815,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Takes list of commands from input pipe and single command as argument and executes them in following order: \n<pre>\ncommand-from-input-1 | command-from-arg\ncommand-from-input-2 | command-from-arg\n...\n</pre>",
 			 "returns", "Aggregated output of command from argument",
 			 "example", "// executes commands:\r\n// echo 1 | gt 2\r\n// echo 2 | gt 2\r\n// echo 3 | gt 2\r\n// output: false, false, true\r\nemit { echo 1} { echo 2} { echo 3} | repeat-with { gt 2 } "
-		   });			
+		   });	
 		addAnnotation
 		  (repeatEClass, 
 		   source, 
@@ -1762,13 +1823,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Execute specified command multiple times.",
 			 "returns", "Aggregated command output",
 			 "example", "//creates file0, file1, file2, file3, file4 \n\nrepeat [val index] -times 5 -command {\n\n\tget-view \"Q7 Explorer\" | get-tree | select \"Project/Folder\" | get-menu \"New/Other...\" | click\n\twith [get-window New] {\n    \t\tget-tree | select \"General/File\"\n    \t\tget-button \"Next >\" | click\n\t}\n\twith [get-window \"New File\"] {\n    \t\tget-editbox -after [get-label \"File name:\"] | set-text [concat \"file\" [$index | str]]\n    \t\tget-button Finish | click\n\t}\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getRepeat_Index(), 
 		   source, 
 		   new String[] {
 			 "description", "Optional value declaration to hold a current index"
-		   });		
+		   });	
 		addAnnotation
 		  (assertEmptyEClass, 
 		   source, 
@@ -1776,13 +1837,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Asserts that input pipe doesn\'t contain anything",
 			 "returns", "Nothing",
 			 "example", "find-in-workspace -path \"Project/nonexisting.file\" | assert-empty"
-		   });		
+		   });	
 		addAnnotation
 		  (getAssertEmpty_Message(), 
 		   source, 
 		   new String[] {
 			 "description", "Message to fail with when input is not empty"
-		   });		
+		   });	
 		addAnnotation
 		  (assertNonEmptyEClass, 
 		   source, 
@@ -1790,13 +1851,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Asserts that input pipe contain something",
 			 "returns", "Nothing",
 			 "example", "find-in-workspace -path \"Project/.*\" | assert-non-empty"
-		   });		
+		   });	
 		addAnnotation
 		  (getAssertNonEmpty_Message(), 
 		   source, 
 		   new String[] {
 			 "description", "Message to fail with when input is empty"
-		   });		
+		   });	
 		addAnnotation
 		  (concatEClass, 
 		   source, 
@@ -1804,7 +1865,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Concatenates strings passed as arguments",
 			 "returns", "Concatenated string value",
 			 "example", "concat \"Mess\" \"age\" | equals \"Message\" | assert-true"
-		   });		
+		   });	
 		addAnnotation
 		  (orEClass, 
 		   source, 
@@ -1812,13 +1873,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Computes the result of logical Or operation for passed arguments.",
 			 "returns", "<code>true</code> or <code>false</code>.",
 			 "example", "with [get-view \"Q7 Explorer\" | get-tree] {\n  if [or[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"One of two verifications passed\"\n  }\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getOr_Args(), 
 		   source, 
 		   new String[] {
 			 "description", "Arguments to compute on."
-		   });		
+		   });	
 		addAnnotation
 		  (andEClass, 
 		   source, 
@@ -1826,13 +1887,13 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Computes the result of logical And operation for passed arguments.",
 			 "returns", "<code>true</code> or <code>false</code>.",
 			 "example", "with [get-view \"Q7 Explorer\" | get-tree] {\n  if [and[get-item Project | get-property caption -raw | eq Project][get-property itemCount -raw | eq 1]] {\n    log -message \"Both verifications passed\"\n  }\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getAnd_Args(), 
 		   source, 
 		   new String[] {
 			 "description", "Arguments to compute on."
-		   });		
+		   });	
 		addAnnotation
 		  (getTimeEClass, 
 		   source, 
@@ -1840,7 +1901,7 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Returns current time as a number of milliseconds since January, 1, 1970.",
 			 "returns", "Current time as long integer",
 			 "example", "get-time | format-time -format \"hh:mm:ss\" | log"
-		   });		
+		   });	
 		addAnnotation
 		  (formatTimeEClass, 
 		   source, 
@@ -1848,165 +1909,178 @@ public class OperationsPackageImpl extends EPackageImpl implements
 			 "description", "Reads timestamp value (as a number of milliseconds since January, 1, 1970) from input pipe and formats according to given format string. Format string is the same as used in <code>java.text.SimpleDateFormat</code>.",
 			 "returns", "String representation of given time",
 			 "example", "get-time | format-time -format \"dd.MM.yyyy\" | log\n// writes current date, month and year into log"
-		   });			
+		   });	
 		addAnnotation
 		  (getBinaryOp_Left(), 
 		   source, 
 		   new String[] {
 			 "description", "Left argument"
-		   });		
+		   });	
 		addAnnotation
 		  (getBinaryOp_Right(), 
 		   source, 
 		   new String[] {
 			 "description", "Right argument"
-		   });		
+		   });	
 		addAnnotation
 		  (plusEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>left + right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "plus 10 3 | equals 13 | verify-true\nint 8 | plus 2 | equals 10 | assert-true \"8 + 2 not equals 10!\""
-		   });		
+		   });	
 		addAnnotation
 		  (minusEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>left - right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "minus 8 5 | equals 3 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (divEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>left / right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "div 10 5 | equals 2 | assert-true -message \"10/5 not equals 2!\""
-		   });		
+		   });	
 		addAnnotation
 		  (multEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>left * right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "mult 5 7 | equals 35 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (absEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>java.lang.Math.abs(arg)</code></p>\n<p>The return type of an operation is determined by the following rules:</p>\n<ol>\n  <li><code>string</code> arg is converted to <code>long</code></li>\n  <li><code>boolean</code> arg is converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li><code>double</code>, <code>float</code>, <code>long</code> args retain its original type</li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) the returned value has type <code>int</code></li>\n</ol>\n",
 			 "example", " emit \"-10.6\" | int | abs | str | log (writes 10 to  log)"
-		   });			
+		   });	
 		addAnnotation
 		  (modEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>left % right</code></p>\n<p>Before performing an operation, arguments are converted to the widest type according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "mod 11 3 | equals 2 | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (betweenEClass, 
 		   source, 
 		   new String[] {
 			 "description", "<p>returns <code>true</code> if <code>input</code> is greater than or equal to <code>left</code> and less than or equal to <code>right</code></p>\n\n<p>Before performing an operation, arguments are converted according to the following rules:</p>\n<ol>\n  <li><code>string</code> arguments converted to <code>long</code></li>\n  <li><code>boolean</code> arguments converted to <code>long</code> (1 for <code>true</code> and 0 for <code>false</code>)</li>\n  <li>If one of arguments is <code>double</code>, converts the other one to <code>double</code></li>\n  <li>If one of arguments is <code>float</code>, converts the other one to <code>float</code></li>\n  <li>If one of arguments is <code>long</code>, converts the other one to <code>long</code></li>\n  <li>Otherwise (in case of <code>byte</code>, <code>char</code>, or <code>short</code>) converts both arguments to <code>int</code></li>\n</ol>\n",
 			 "example", "int 10 | between 7 12 | verify-true"
-		   });			
+		   });	
 		addAnnotation
 		  (entryEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Creates a new map entry. Can only be used as an argument for <a href=\"#map\">map</a> command."
-		   });		
+		   });	
 		addAnnotation
 		  (mapEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Creates a new map. Also see <a href=\"#get\">get</a> command to find a value by key.",
 			 "example", "let [val myMap [map \n   [entry firstName \"Ivan\"]\n   [entry lastName \"Inozemtsev\"]]] {\n   log [format \"%s %s\" [$myMap | get firstName] [$myMap | get lastName]]\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getMap_Entries(), 
 		   source, 
 		   new String[] {
 			 "description", "An arbitrary number of <a href=\"#entry\">entries</a>."
-		   });		
+		   });	
 		addAnnotation
 		  (listEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Creates a new list. Also see <a href=\"#get\">get</a> command to find an element by index.",
 			 "example", "list January Febuary March | get 1 | equals \"Febuary\" | verify-true"
-		   });		
+		   });	
 		addAnnotation
 		  (loopEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Executes recursive looping of a body. Allows to emulate \'while\' and \'for\' loops while preserving variable immutability. The idea is taken from Clojure\'s <a href=\"http://clojure.org/functional_programming#Functional%20Programming--Recursive%20Looping\">loop/recur</a> approach. Also see <a href=\"#recur\">recur</a> command.",
 			 "example", "// Example 1. returns how many times a 81 is divisible by 3\nloop [val count 0] [val n 81] {\n    if [mod $n 3 | eq 0] {\n        recur [$count | plus 1] [$n | div 3]\n    } -else {\n        log [format \"The answer is %d\" $count] //prints \'The answer is 4\'\n    }\n}\n\n\n// Example 2. deletes all elements from a tree\nproc \"get-my-tree\" { get-view \"My View\" | get-tree }\n\nproc \"has-elements\" {\n    get-my-tree | get-property itemCount -raw | int | gt 0\n}\n\nloop {\n    if [has-elements] {\n        // Selects a first top-level item and invokes \"Delete\" from context menu\n        get-my-tree | select \".*\" | get-menu \"Delete\" | click\n        // Confirms a removal in popup dialog\n        get-window \"Confirm Delete\" | get-button OK | click\n        // Continues execution from the beginning of loop body\n        recur\n    }\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getLoop_Vals(), 
 		   source, 
 		   new String[] {
 			 "description", "Valus which are going to be modified during iterations. All initial values must be set."
-		   });		
+		   });	
 		addAnnotation
 		  (getLoop_Body(), 
 		   source, 
 		   new String[] {
 			 "description", "A script to execute. Whenever script invokes <a href=\"#recur\">recur</a> command, an execution jumps to the beginning of loop body script."
-		   });		
+		   });	
 		addAnnotation
 		  (recurEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Returns an execution to the beginning of <a href=\"#loop\">loop</a> command. Cannot be used outside of a loop.",
 			 "example", "// calc and show a sum of ints from 3 to 10\n\nloop [val result 0] [val i 3] {\n    if [$i | eq 10] {\n        show-alert [str [$result | plus $i]]\n    } -else {\n        recur [$result | plus $i] [$i | plus 1]\n    }\n}"
-		   });		
+		   });	
 		addAnnotation
 		  (getRecur_Values(), 
 		   source, 
 		   new String[] {
 			 "description", "A list of new values for variables, declared in <code>loop</code> command. Value count must exactly match to corresponding val count of a <code>loop</code> command."
-		   });		
+		   });	
 		addAnnotation
 		  (toListEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Loads whole input pipe and returns a single EclList object, containing it.",
 			 "example", "emit 1 2 3 | to-list // same as list 1 2 3\nemit 1 2 3 | to-list | to-list // same as list [list 1 2 3]"
-		   });		
+		   });	
 		addAnnotation
 		  (eachEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Iterates over <a href=\"#list\">list</a> or <a href=\"#map\">map</a>. Accepts one or two variable declarations, when only one variable given, it will be hold list elements or map values. A second variable, if provided, used for map keys or list element indices.",
 			 "example", "// Iterate over elements.\nlist 1 2 3 | each [val element] {\n    log [format \"%d\" $element]\n}\n\n// Iterate over elements with indices\nlist 1 2 3 | each [val element] [val index] {\n    log [format \"list[%d] = %d\" $index $element]\n}\n\n// Iterate over map values\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val value] { log [str $value] }\n\n// Iterate over map values with keys\nmap [entry \"one\" 1] [entry \"two\" 2] | each [val v] [val k] { log [concat $k \" = \" [str $v]] }"
-		   });			
+		   });	
 		addAnnotation
 		  (getEach_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "Map or List"
-		   });		
+		   });	
 		addAnnotation
 		  (splitEClass, 
 		   source, 
 		   new String[] {
 			 "description", "",
 			 "example", "str \"1, 2, 3, 4, 5\" | split -sep \",\" -trimResults | foreach [val item]{\n\t$item | log\n}\n"
-		   });			
+		   });	
 		addAnnotation
 		  (parseTimeEClass, 
 		   source, 
 		   new String[] {
 			 "description", "Reads a string from input pipe and parses it accoridng to a given format string.",
 			 "returns", "Timestamp value (as a number of milliseconds since January, 1, 1970)"
-		   });			
+		   });	
 		addAnnotation
 		  (getParseTime_Input(), 
 		   source, 
 		   new String[] {
 			 "description", "String representation of date."
+		   });	
+		addAnnotation
+		  (throwErrorEClass, 
+		   source, 
+		   new String[] {
+			 "description", "Fails with specified error message",
+			 "example", "throw-error \"Test Case has one or more failed verifications\""
+		   });	
+		addAnnotation
+		  (getThrowError_Message(), 
+		   source, 
+		   new String[] {
+			 "description", "Error message"
 		   });
 	}
 
@@ -2016,72 +2090,72 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";			
+		String source = "http://www.eclipse.org/ecl/input";	
 		addAnnotation
 		  (getEq_Left(), 
 		   source, 
 		   new String[] {
-		   });											
+		   });	
 		addAnnotation
 		  (getConvert_Input(), 
 		   source, 
 		   new String[] {
-		   });				
+		   });	
 		addAnnotation
 		  (getAssertTrue_Input(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });	
 		addAnnotation
 		  (getLength_Input(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getNotEq_Left(), 
 		   source, 
 		   new String[] {
-		   });							
+		   });	
 		addAnnotation
 		  (getNot_Left(), 
 		   source, 
 		   new String[] {
-		   });									
+		   });	
 		addAnnotation
 		  (getRepeatWith_Commands(), 
 		   source, 
 		   new String[] {
-		   });															
+		   });	
 		addAnnotation
 		  (getBinaryOp_Left(), 
 		   source, 
 		   new String[] {
-		   });									
+		   });	
 		addAnnotation
 		  (getAbs_Arg(), 
 		   source, 
 		   new String[] {
-		   });				
+		   });	
 		addAnnotation
 		  (getBetween_Input(), 
 		   source, 
 		   new String[] {
-		   });													
+		   });	
 		addAnnotation
 		  (getEach_Input(), 
 		   source, 
 		   new String[] {
-		   });				
+		   });	
 		addAnnotation
 		  (getSplit_Str(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getParseTime_Input(), 
 		   source, 
 		   new String[] {
-		   });	
+		   });
 	}
 
 	/**
@@ -2091,12 +2165,12 @@ public class OperationsPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";											
+		String source = "http://www.eclipse.org/ecl/internal";	
 		addAnnotation
 		  (convertEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																				
+		   });
 	}
 
 } // OperationsPackageImpl

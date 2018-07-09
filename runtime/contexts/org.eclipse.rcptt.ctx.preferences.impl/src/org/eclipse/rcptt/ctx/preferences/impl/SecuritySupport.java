@@ -15,7 +15,6 @@ import java.io.IOException;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
-
 import org.eclipse.rcptt.internal.preferences.PrefUtils;
 import org.eclipse.rcptt.preferences.PrefData;
 import org.eclipse.rcptt.preferences.PrefNode;
@@ -88,6 +87,7 @@ public class SecuritySupport {
 			if (data instanceof StringPrefData) {
 				StringPrefData stringData = (StringPrefData) data;
 				PrefUtils.decodeWorkspaceLocation(stringData);
+				PrefUtils.substituteVariables(stringData);
 				secureNode.put(stringData.getKey(), stringData.getValue(),
 						false);
 			}

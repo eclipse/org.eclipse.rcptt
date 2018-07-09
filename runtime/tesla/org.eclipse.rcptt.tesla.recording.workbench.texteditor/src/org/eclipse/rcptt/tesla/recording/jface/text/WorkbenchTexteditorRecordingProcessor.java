@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -70,7 +70,7 @@ import org.eclipse.rcptt.tesla.recording.core.swt.SWTRecordingHelper;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.LastEvents;
 import org.eclipse.rcptt.tesla.recording.core.swt.util.RecordedEvent;
 import org.eclipse.rcptt.tesla.workbench.texteditor.TextEditorMapper;
-import org.eclipse.rcptt.util.swt.KeysAndButtons;
+import org.eclipse.rcptt.util.KeysAndButtons;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.StyledText;
@@ -101,7 +101,7 @@ public class WorkbenchTexteditorRecordingProcessor implements
 
 	public WorkbenchTexteditorRecordingProcessor() {
 
-		SWTUIPlayer.addExtension(new AbstractSWTUIPlayerExtension() {
+		processor = new AbstractSWTUIPlayerExtension() {
 			public GenericElementKind getKind(Object w) {
 				if (useTextViewer.get() == 1) {
 					if (isTextEditorStyledText(w)) {
@@ -118,7 +118,8 @@ public class WorkbenchTexteditorRecordingProcessor implements
 			public String getRawText(SWTUIElement element) {
 				return getTextEditorRulerText(element.unwrap());
 			}
-		});
+		};
+		SWTUIPlayer.addExtension(processor);
 	}
 
 	public void clear() {
@@ -441,6 +442,7 @@ public class WorkbenchTexteditorRecordingProcessor implements
 
 	private static final int[] rulerEvents = new int[] { MouseUp,
 			MouseDoubleClick };
+	private AbstractSWTUIPlayerExtension processor;
 
 	private void processRulerCanvas(Widget widget, int type, Event event,
 			FindResult canvas) {
@@ -827,5 +829,9 @@ public class WorkbenchTexteditorRecordingProcessor implements
 	@Override
 	public boolean isPartOfParent(Object widget, Object parent) {
 		return false;
+	}
+
+	@Override
+	public void removeClosedShell(SWTUIElement wrappedShell) {		
 	}
 }

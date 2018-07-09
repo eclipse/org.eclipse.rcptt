@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,19 +37,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-
 import org.eclipse.rcptt.core.model.IQ7Element;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
@@ -68,6 +55,18 @@ import org.eclipse.rcptt.launching.utils.TestSuiteUtils;
 import org.eclipse.rcptt.ui.commons.ColumnViewerSorter;
 import org.eclipse.rcptt.ui.controls.TestSuiteButtonsPanel;
 import org.eclipse.rcptt.ui.utils.ModelUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 	private static final String NOTHING_SELECTED = ""; 
@@ -261,7 +260,6 @@ public class ScenariosLaunchTab extends AbstractLaunchConfigurationTab {
 		Label label = new Label(testSuiteButtonsPanel, SWT.BOTTOM);
 		label.setText("AUT:");
 		autCombo = createAutCombo(testSuiteButtonsPanel);
-		
 	}
 
 	private ComboViewer createAutCombo(Composite parent) {

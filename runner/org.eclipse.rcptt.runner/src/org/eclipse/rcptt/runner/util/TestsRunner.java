@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,8 +47,10 @@ import org.eclipse.rcptt.core.workspace.ProjectUtil;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
 import org.eclipse.rcptt.internal.core.model.Q7InternalContext;
+import org.eclipse.rcptt.internal.core.model.Q7TestCase;
 import org.eclipse.rcptt.internal.core.model.index.NamedElementCollector;
 import org.eclipse.rcptt.internal.core.model.index.TestSuiteElementCollector;
+import org.eclipse.rcptt.internal.launching.TestEngineManager;
 import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
 import org.eclipse.rcptt.runner.HeadlessRunner;
 import org.eclipse.rcptt.runner.HeadlessRunnerPlugin;
@@ -83,12 +85,12 @@ public class TestsRunner {
 		System.out.println("Looking for tests...");
 
 		TestSuite[] tests;
-			tests = findScenarios();
-			if (tests.length > 0) {
-				return runTests(tests);
-			} else {
-				System.out.println("No tests to run.");
-			}
+		tests = findScenarios();
+		if (tests.length > 0) {
+			return runTests(tests);
+		} else {
+			System.out.println("No tests to run.");
+		}
 
 		return null;
 	}
@@ -168,7 +170,7 @@ public class TestsRunner {
 							skipBy = s;
 						}
 					}
-					System.out.println("-- Testcase is skiped by tag \""
+					System.out.println("-- Testcase is skipped by tag \""
 							+ skipBy + "\" -- " + tcase.getName());
 					continue;
 				}
@@ -177,7 +179,7 @@ public class TestsRunner {
 					continue;
 				}
 
-				if (ensureEntegrity(tcase, finder, new HashSet<String>()))
+				if (ensureIntegrity(tcase, finder, new HashSet<String>()))
 					suite.add(tcase);
 
 			}
@@ -205,22 +207,12 @@ public class TestsRunner {
 		return false;
 	}
 
-	private boolean ensureEntegrity(IQ7NamedElement tcase,
+	private boolean ensureIntegrity(IQ7NamedElement tcase,
 			IWorkspaceFinder finder, Set<String> processedIds) {
-		IContext[] contexts = null;
 		if (!processedIds.add(tcase.getPath().toString())) {
 			return true;// Already processed
 		}
-		if (tcase instanceof ITestCase) {
-			contexts = RcpttCore.getInstance().getContexts((ITestCase) tcase,
-					finder, false);
-		} else if (tcase instanceof IContext) {
-			contexts = RcpttCore.getInstance().getContexts((IContext) tcase,
-					finder, false);
-		}
-		if (contexts == null) {
-			return true;
-		}
+		IContext[] contexts = RcpttCore.getInstance().getContexts(tcase, finder, false);
 		List<String> unresolved = new ArrayList<String>();
 		for (IContext ctx : contexts) {
 			if (ctx instanceof Q7InternalContext) {
@@ -237,15 +229,14 @@ public class TestsRunner {
 					return false;
 				}
 			} else {
-				if (!ensureEntegrity(ctx, finder, processedIds)) {
+				if (!ensureIntegrity(ctx, finder, processedIds)) {
 					return false;
 				}
 			}
 		}
 		if (unresolved.size() > 0) {
 			try {
-				System.out
-						.println("-- Testcase is skiped because incorrect dependencies -- "
+				System.out.println("-- Testcase is skipped because of incorrect dependencies -- "
 								+ tcase.getName()
 								+ ". Requires contexts: ["
 								+ Joiner.on(",").join(unresolved) + "]");
@@ -282,15 +273,15 @@ public class TestsRunner {
 		Set<String> failed = new HashSet<String>();
 		try {
 			int count = 0;
-			for (final TestSuite suit : tests) {
-				suit.setLimit(conf.limit);
-				count += suit.getScenarios().size();
+			for (final TestSuite suite : tests) {
+				suite.setLimit(conf.limit);
+				count += suite.getScenarios().size();
 			}
 			int artifacts = 0;
-			for (final TestSuite suit : tests) {
-				for (final IQ7NamedElement scenario : suit.getScenarios()) {
+			for (final TestSuite suite : tests) {
+				for (final IQ7NamedElement scenario : suite.getScenarios()) {
 					ScenarioRunnable runnable = new ScenarioRunnable(
-							resultsHandler, scenario, suit, "("
+							resultsHandler, scenario, suite, "("
 									+ Integer.valueOf(artifacts) + " from "
 									+ Integer.valueOf(count) + ")",
 							reportWriter);
@@ -299,6 +290,17 @@ public class TestsRunner {
 				}
 			}
 			System.out.println("Testcase Artifacts:" + artifacts);
+
+			List<Q7TestCase> testCases = new ArrayList<Q7TestCase>();
+			for (final TestSuite suite : tests) {
+				for (final IQ7NamedElement scenario : suite.getScenarios()) {
+					if (scenario instanceof Q7TestCase) {
+						testCases.add((Q7TestCase) scenario);
+					}
+				}
+			}
+			TestEngineManager.getInstance()
+					.fireTestRunStarted(conf.testEngines, testCases);
 
 			auts.initShutdownHook();
 			auts.launchAutsAndStartTheirThreads(runnables);
@@ -316,7 +318,7 @@ public class TestsRunner {
 								thread.join();
 							} catch (InterruptedException e) {
 								HeadlessRunnerPlugin.getDefault().info(
-										"Exception during join for aut thread termination because of timeout", e);
+										"Exception during join for AUT thread termination because of timeout", e);
 							}
 						}
 					}
@@ -367,7 +369,11 @@ public class TestsRunner {
 			}
 		} catch (InterruptedException e) {
 			HeadlessRunnerPlugin.getDefault().info("Execution interrupted");
-		} finally {
+		}
+		catch( Exception e ) {
+			HeadlessRunnerPlugin.getDefault().info("Unexpected error happened...", e);
+		}
+		finally {
 			skipRemaining(runnables, "Execution finished");
 			HeadlessRunnerPlugin.getDefault().info("Shut down AUTs: executed");
 			try {
@@ -379,6 +385,7 @@ public class TestsRunner {
 			failedCount = failed.size();
 			if (reportWriter != null)
 				reportWriter.close();
+			TestEngineManager.getInstance().fireTestRunCompleted();
 		}
 
 		if (reportFile.exists()) {

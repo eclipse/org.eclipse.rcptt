@@ -31,13 +31,13 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl#getSelection <em>Selection</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl#getPages <em>Pages</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl#getActivePage <em>Active Page</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TabFolderImpl#getTabCount <em>Tab Count</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

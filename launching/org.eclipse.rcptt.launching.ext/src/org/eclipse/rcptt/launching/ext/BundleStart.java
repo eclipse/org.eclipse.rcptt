@@ -14,6 +14,7 @@ import org.eclipse.equinox.frameworkadmin.BundleInfo;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -157,7 +158,7 @@ public class BundleStart {
 
 	public static BundleStart fromQ7Headers(String q7sl, String q7as) {
 		return fromModelString(Joiner.on(':').join(
-				Objects.firstNonNull(q7sl, DEF_STR),
-				Objects.firstNonNull(q7as, DEF_STR)));
+				MoreObjects.firstNonNull(q7sl, DEF_STR),
+				MoreObjects.firstNonNull(q7as, DEF_STR)));
 	}
 }

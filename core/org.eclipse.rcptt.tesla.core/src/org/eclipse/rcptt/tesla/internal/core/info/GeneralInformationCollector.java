@@ -28,7 +28,7 @@ public class GeneralInformationCollector {
 		collectJobInformation(information);
 		collectThreadInformation(information);
 		// Collect memory information
-		
+
 		Runtime runtime = Runtime.getRuntime();
 		Node nde = InfoUtils.newNode("java.runtime").add(information);
 		nde.property("cpus", Integer.toString(runtime.availableProcessors()));
@@ -38,21 +38,40 @@ public class GeneralInformationCollector {
 	}
 
 	private static void collectThreadInformation(AdvancedInformation information) {
-		Map<Thread, StackTraceElement[]> allStackTraces = Thread
-				.getAllStackTraces();
-		for (Map.Entry<Thread, StackTraceElement[]> e : allStackTraces
-				.entrySet()) {
+		Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
+		for (Map.Entry<Thread, StackTraceElement[]> e : allStackTraces.entrySet()) {
 			Thread key = e.getKey();
-			StackTraceElement[] value = e.getValue();
-			StackTraceEntry entry = InfoFactory.eINSTANCE
-					.createStackTraceEntry();
-			entry.setId(Integer.toHexString(key.hashCode()));
-			entry.setThreadClass(key.getClass().getName());
-			entry.setThreadName(key.getName());
-			for (StackTraceElement stackTraceElement : value) {
-				entry.getStackTrace().add(stackTraceElement.toString());
+			String threadClassName = key.getClass().getName();
+			if (threadClassName.contains("org.eclipse.osgi.framework.eventmgr.EventManager")
+					|| threadClassName.contains("java.lang.ref.Finalizer")
+					|| threadClassName.contains("org.eclipse.emf.common.util.CommonUtil")
+					|| threadClassName.contains("java.lang.ref.Reference")
+					|| threadClassName.contains("org.eclipse.rcptt.tesla.core.server.TeslaNetworkServer")
+					|| threadClassName.contains("org.eclipse.rcptt.ecl.server.tcp.EclTcpServer")
+					|| threadClassName.contains("org.eclipse.osgi.framework.eventmgr")) {
+				continue;
 			}
-			information.getThreads().add(entry);
+			StackTraceElement[] value = e.getValue();
+			StackTraceEntry entry = InfoFactory.eINSTANCE.createStackTraceEntry();
+			entry.setId(Integer.toHexString(key.hashCode()));
+			entry.setThreadClass(threadClassName);
+			entry.setThreadName(key.getName());
+			boolean add = true;
+			for (StackTraceElement stackTraceElement : value) {
+				String stElement = stackTraceElement.toString();
+				if (stElement.contains("org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaInfoProvider")
+						|| stElement.contains("org.eclipse.rcptt.ecl.server.tcp.SessionRequestHandler.writeOutput")
+						|| stElement.contains("org.eclipse.rcptt.ecl.server.tcp.SessionRequestHandler")
+						|| stElement.contains("org.eclipse.rcptt.ecl.client.tcp.EclTcpSession")
+						|| stElement.contains("org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector")) {
+					add = false;
+					break;
+				}
+				entry.getStackTrace().add(stElement);
+			}
+			if (add) {
+				information.getThreads().add(entry);
+			}
 		}
 	}
 

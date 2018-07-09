@@ -21,7 +21,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.rcptt.core.ContextType;
 import org.eclipse.rcptt.core.ContextTypeManager;
 import org.eclipse.rcptt.core.Scenarios;

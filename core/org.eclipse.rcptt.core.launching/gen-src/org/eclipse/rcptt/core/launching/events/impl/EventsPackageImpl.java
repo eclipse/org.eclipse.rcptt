@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,9 +20,11 @@ import org.eclipse.rcptt.core.launching.events.AutEventStart;
 import org.eclipse.rcptt.core.launching.events.AutReconnect;
 import org.eclipse.rcptt.core.launching.events.AutSendEvent;
 import org.eclipse.rcptt.core.launching.events.AutStartState;
+import org.eclipse.rcptt.core.launching.events.Capability;
 import org.eclipse.rcptt.core.launching.events.EventsFactory;
 import org.eclipse.rcptt.core.launching.events.EventsPackage;
 
+import org.eclipse.rcptt.core.launching.events.Platform;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -109,6 +111,20 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 	 * @generated
 	 */
 	private EEnum autStartStateEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum platformEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum capabilityEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -244,6 +260,24 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 	 */
 	public EAttribute getAutEventStart_State() {
 		return (EAttribute)autEventStartEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAutEventStart_Platform() {
+		return (EAttribute)autEventStartEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAutEventStart_Capability() {
+		return (EAttribute)autEventStartEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -395,6 +429,24 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getPlatform() {
+		return platformEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getCapability() {
+		return capabilityEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EventsFactory getEventsFactory() {
 		return (EventsFactory)getEFactoryInstance();
 	}
@@ -428,6 +480,8 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 		createEAttribute(autEventStartEClass, AUT_EVENT_START__TESLA_PORT);
 		createEAttribute(autEventStartEClass, AUT_EVENT_START__MESSAGE);
 		createEAttribute(autEventStartEClass, AUT_EVENT_START__STATE);
+		createEAttribute(autEventStartEClass, AUT_EVENT_START__PLATFORM);
+		createEAttribute(autEventStartEClass, AUT_EVENT_START__CAPABILITY);
 
 		autBundleStateEClass = createEClass(AUT_BUNDLE_STATE);
 		createEAttribute(autBundleStateEClass, AUT_BUNDLE_STATE__ID);
@@ -452,6 +506,8 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 
 		// Create enums
 		autStartStateEEnum = createEEnum(AUT_START_STATE);
+		platformEEnum = createEEnum(PLATFORM);
+		capabilityEEnum = createEEnum(CAPABILITY);
 	}
 
 	/**
@@ -504,6 +560,8 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 		initEAttribute(getAutEventStart_TeslaPort(), theEcorePackage.getEInt(), "teslaPort", null, 0, 1, AutEventStart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAutEventStart_Message(), theEcorePackage.getEString(), "message", null, 0, 1, AutEventStart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAutEventStart_State(), this.getAutStartState(), "state", null, 0, 1, AutEventStart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAutEventStart_Platform(), this.getPlatform(), "platform", "Other", 0, 1, AutEventStart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAutEventStart_Capability(), this.getCapability(), "capability", "Other", 0, 1, AutEventStart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(autBundleStateEClass, AutBundleState.class, "AutBundleState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAutBundleState_Id(), theEcorePackage.getEString(), "id", null, 0, 1, AutBundleState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -530,6 +588,18 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 		initEEnum(autStartStateEEnum, AutStartState.class, "AutStartState");
 		addEEnumLiteral(autStartStateEEnum, AutStartState.OK);
 		addEEnumLiteral(autStartStateEEnum, AutStartState.FAIL);
+
+		initEEnum(platformEEnum, Platform.class, "Platform");
+		addEEnumLiteral(platformEEnum, Platform.OTHER);
+		addEEnumLiteral(platformEEnum, Platform.MAC_OS);
+		addEEnumLiteral(platformEEnum, Platform.WINDOWS);
+		addEEnumLiteral(platformEEnum, Platform.LINUX);
+
+		initEEnum(capabilityEEnum, Capability.class, "Capability");
+		addEEnumLiteral(capabilityEEnum, Capability.OTHER);
+		addEEnumLiteral(capabilityEEnum, Capability.E3);
+		addEEnumLiteral(capabilityEEnum, Capability.E4);
+		addEEnumLiteral(capabilityEEnum, Capability.RAP);
 
 		// Create resource
 		createResource(eNS_URI);

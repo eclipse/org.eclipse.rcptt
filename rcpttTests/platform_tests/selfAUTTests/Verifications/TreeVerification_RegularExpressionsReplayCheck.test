@@ -1,0 +1,37 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _IFNjAFuCEeW3sah-fvxvew,_ZQYygK2sEeCqBbDEJWufvQ
+Element-Name: TreeVerification_RegularExpressionsReplayCheck
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: https://bugs.eclipse.org/bugs/show_bug.cgi?id=475311
+Id: _X8Wm8Gz-EeWCMLmV-Godvw
+Runtime-Version: 2.2.0.201510070509
+Save-Time: 10/7/15 9:30 PM
+Testcase-Type: ecl
+Verifications: _qTHGYGz_EeWCMLmV-Godvw,_vqYGAGz_EeWCMLmV-Godvw
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2009, 2014 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS:
+
+1. This test case contains 2 verifications - one with regular expressions and one without. Both  should pass.
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+//this test has no code, but 2 verifications instead that both should pass. 
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

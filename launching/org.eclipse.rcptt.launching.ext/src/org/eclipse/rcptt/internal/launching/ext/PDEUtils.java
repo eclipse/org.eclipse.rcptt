@@ -20,6 +20,10 @@ import org.eclipse.pde.internal.launching.launcher.BundleLauncherHelper;
 
 @SuppressWarnings("restriction")
 public class PDEUtils {
+	
+	// Eclipse 4.8 doesn't contain this item.
+	public static final String BUNDLE_UPDATE_CONFIGURATOR = "org.eclipse.update.configurator"; //$NON-NLS-1$
+	
 	public static void addBundleToMap(Map<Object, String> map,
 			IPluginModelBase bundle, String sl) {
 		BundleDescription desc = bundle.getBundleDescription();
@@ -27,7 +31,7 @@ public class PDEUtils {
 		if (desc != null && defaultsl) {
 			String modelName = desc.getSymbolicName();
 			if (IPDEBuildConstants.BUNDLE_DS.equals(modelName)) {
-				map.put(bundle, "1:true"); //$NON-NLS-1$ 
+				map.put(bundle, "2:true"); //$NON-NLS-1$ 
 			} else if (IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR
 					.equals(modelName)) {
 				map.put(bundle, "1:true"); //$NON-NLS-1$
@@ -36,7 +40,7 @@ public class PDEUtils {
 				map.put(bundle, "2:true"); //$NON-NLS-1$
 			} else if (IPDEBuildConstants.BUNDLE_OSGI.equals(modelName)) {
 				map.put(bundle, "-1:true"); //$NON-NLS-1$
-			} else if (IPDEBuildConstants.BUNDLE_UPDATE_CONFIGURATOR
+			} else if (BUNDLE_UPDATE_CONFIGURATOR
 					.equals(modelName)) {
 				map.put(bundle,
 						BundleLauncherHelper.DEFAULT_UPDATE_CONFIGURATOR_START_LEVEL);

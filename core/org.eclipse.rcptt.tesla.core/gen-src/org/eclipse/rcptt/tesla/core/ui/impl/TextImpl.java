@@ -43,6 +43,7 @@ import org.eclipse.rcptt.tesla.core.ui.Marker;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getTooltip <em>Tooltip</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getValue <em>Value</em>}</li>
@@ -54,8 +55,8 @@ import org.eclipse.rcptt.tesla.core.ui.Marker;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getCaretPosition <em>Caret Position</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getStyleAtCaret <em>Style At Caret</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getMarkers <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.ui.impl.TextImpl#getMarkersCount <em>Markers Count</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -209,6 +210,26 @@ public class TextImpl extends ControlImpl implements Text {
 	 * @ordered
 	 */
 	protected EMap<String, EList<Marker>> markers;
+
+	/**
+	 * The default value of the '{@link #getMarkersCount() <em>Markers Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMarkersCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MARKERS_COUNT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getMarkersCount() <em>Markers Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMarkersCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int markersCount = MARKERS_COUNT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -456,6 +477,27 @@ public class TextImpl extends ControlImpl implements Text {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMarkersCount() {
+		return markersCount;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMarkersCount(int newMarkersCount) {
+		int oldMarkersCount = markersCount;
+		markersCount = newMarkersCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UiPackage.TEXT__MARKERS_COUNT, oldMarkersCount, markersCount));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -499,6 +541,8 @@ public class TextImpl extends ControlImpl implements Text {
 			case UiPackage.TEXT__MARKERS:
 				if (coreType) return getMarkers();
 				else return getMarkers().map();
+			case UiPackage.TEXT__MARKERS_COUNT:
+				return getMarkersCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -544,6 +588,9 @@ public class TextImpl extends ControlImpl implements Text {
 			case UiPackage.TEXT__MARKERS:
 				((EStructuralFeature.Setting)getMarkers()).set(newValue);
 				return;
+			case UiPackage.TEXT__MARKERS_COUNT:
+				setMarkersCount((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -586,6 +633,9 @@ public class TextImpl extends ControlImpl implements Text {
 			case UiPackage.TEXT__MARKERS:
 				getMarkers().clear();
 				return;
+			case UiPackage.TEXT__MARKERS_COUNT:
+				setMarkersCount(MARKERS_COUNT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -618,6 +668,8 @@ public class TextImpl extends ControlImpl implements Text {
 				return styleAtCaret != null;
 			case UiPackage.TEXT__MARKERS:
 				return markers != null && !markers.isEmpty();
+			case UiPackage.TEXT__MARKERS_COUNT:
+				return markersCount != MARKERS_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -644,6 +696,8 @@ public class TextImpl extends ControlImpl implements Text {
 		result.append(styleRanges);
 		result.append(", text: ");
 		result.append(text);
+		result.append(", markersCount: ");
+		result.append(markersCount);
 		result.append(')');
 		return result.toString();
 	}

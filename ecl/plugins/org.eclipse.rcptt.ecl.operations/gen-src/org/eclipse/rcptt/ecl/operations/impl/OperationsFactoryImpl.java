@@ -54,6 +54,7 @@ import org.eclipse.rcptt.ecl.operations.Repeat;
 import org.eclipse.rcptt.ecl.operations.RepeatWith;
 import org.eclipse.rcptt.ecl.operations.Split;
 import org.eclipse.rcptt.ecl.operations.Str;
+import org.eclipse.rcptt.ecl.operations.ThrowError;
 import org.eclipse.rcptt.ecl.operations.ToList;
 import org.eclipse.rcptt.ecl.operations.Try;
 
@@ -141,6 +142,7 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 			case OperationsPackage.EACH: return createEach();
 			case OperationsPackage.SPLIT: return createSplit();
 			case OperationsPackage.PARSE_TIME: return createParseTime();
+			case OperationsPackage.THROW_ERROR: return createThrowError();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -514,6 +516,16 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 	public ParseTime createParseTime() {
 		ParseTimeImpl parseTime = new ParseTimeImpl();
 		return parseTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ThrowError createThrowError() {
+		ThrowErrorImpl throwError = new ThrowErrorImpl();
+		return throwError;
 	}
 
 	/**

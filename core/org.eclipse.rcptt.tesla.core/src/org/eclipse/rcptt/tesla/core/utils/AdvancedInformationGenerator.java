@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,10 +44,10 @@ public class AdvancedInformationGenerator {
 			w(tabs).println("Jobs information:");
 			for (JobEntry jobEntry : jobs) {
 				w(tabs + 1).println("Job:" + jobEntry.getName());
-				w(tabs + 2).println("class=" + jobEntry.getJobClass());
-				w(tabs + 2).println("state=" + jobEntry.getState());
+				w(tabs + 3).println("class=" + jobEntry.getJobClass());
+				w(tabs + 3).println("state=" + jobEntry.getState());
 				if (jobEntry.getRule() != null) {
-					w(tabs + 2).println("rule=" + jobEntry.getRule());
+					w(tabs + 4).println("rule=" + jobEntry.getRule());
 				}
 			}
 		}
@@ -62,11 +62,11 @@ public class AdvancedInformationGenerator {
 					// Skip Worker threads sleep state
 					continue;
 				}
-				w(tabs + 1).println("Thread:" + trace.getThreadName());
-				w(tabs + 2).println("class=" + trace.getThreadClass());
+				w(tabs + 2).println("Thread:" + trace.getThreadName());
+				w(tabs + 3).println("class=" + trace.getThreadClass());
 				EList<String> list = trace.getStackTrace();
 				for (int i = 0; i < list.size(); i++) {
-					w(tabs + 3).append(Integer.toString(list.size() - i - 1))
+					w(tabs + 4).append(Integer.toString(list.size() - i - 1))
 							.append(": ").append(list.get(i))
 							.println();
 
@@ -76,23 +76,24 @@ public class AdvancedInformationGenerator {
 	}
 
 	private void printNode(InfoNode infoNode, int tabs) {
-		w(tabs).println(infoNode.getName());
+		writer.println();
+		w(tabs).print(infoNode.getName());
 		EList<NodeProperty> list = infoNode.getProperties();
 		EList<InfoNode> childs = infoNode.getChildren();
 		if (!list.isEmpty() || !childs.isEmpty()) {
-			w(tabs).println(" {");
 			// Out properties
 			if (list.size() != 0) {
+				writer.println();
 				for (NodeProperty nodeProperty : list) {
-					w(tabs + 1).println(nodeProperty.getName() + "=" + nodeProperty.getValue());
+					w(tabs + 2).println(nodeProperty.getName() + "=" + nodeProperty.getValue());
 				}
 			}
 			if (childs.size() != 0) {
 				for (InfoNode child : childs) {
-					printNode(child, tabs + 2);
+					printNode(child, tabs + 3);
 				}
+//				w(tabs).println("");
 			}
-			w(tabs).println("}");
 		}
 	}
 }

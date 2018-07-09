@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,14 +14,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.runtime.Status;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.internal.WorkbenchPartReference;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyList;
-
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
@@ -47,6 +39,13 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.internal.ui.player.WorkbenchUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.internal.WorkbenchPartReference;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite;
+import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyList;
 
 @SuppressWarnings("restriction")
 public class PropertiesViewProcessor implements ITeslaCommandProcessor {
@@ -55,12 +54,17 @@ public class PropertiesViewProcessor implements ITeslaCommandProcessor {
 	private SWTUIProcessor swtUIProcessor;
 
 	private ISWTUIPlayerExtension extension = new AbstractSWTUIPlayerExtension() {
+		@Override
 		public GenericElementKind getKind(Object w) {
 			if (w instanceof TabbedPropertyList.ListElement)
 				return new GenericElementKind(ElementKind.PropertyTab);
 			return null;
 		}
 	};
+
+	public int getPriority() {
+		return 125;
+	}
 
 	public PropertiesViewProcessor() {
 		SWTUIPlayer.addExtension(extension);

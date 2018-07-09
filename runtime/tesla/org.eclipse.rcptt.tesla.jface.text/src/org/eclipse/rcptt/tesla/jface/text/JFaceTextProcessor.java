@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,9 +19,6 @@ import org.eclipse.jface.text.reconciler.AbstractReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Widget;
-
 import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.TeslaMessages;
@@ -48,6 +45,8 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
 import org.eclipse.rcptt.tesla.jface.TextReconcilerManager;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Widget;
 
 public class JFaceTextProcessor implements ITeslaCommandProcessor {
 
@@ -60,19 +59,28 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 	public JFaceTextProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 150;
+	}
+
+	@Override
 	public String getFeatureID() {
 		return "jface.text";
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		if (cmd instanceof ShowContentAssist) {
 			return true;
@@ -80,6 +88,7 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 		return false;
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		if (command instanceof ShowContentAssist) {
@@ -115,16 +124,19 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 		return client.getProcessor(SWTUIProcessor.class);
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 		// this.id = id;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 		// Map text elements to support this processor operations
 		if (element.getKind().equals(ElementKind.Text.name())) {
@@ -132,10 +144,12 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 		}
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		List<AbstractReconciler> reconcilers = TextReconcilerManager
 				.getInstance().getReconcilers();
@@ -146,12 +160,12 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 						.getDeclaredField("fThread");
 				threadField.setAccessible(true);
 				Thread threadObject = (Thread) threadField.get(reconciler);
-				if (threadObject != null) { 
+				if (threadObject != null) {
 					State state = threadObject.getState();
 					if (!(state.equals(State.BLOCKED)
 							|| state.equals(State.WAITING)
 							|| state.equals(State.TIMED_WAITING) || state
-								.equals(State.TERMINATED))) {
+									.equals(State.TERMINATED))) {
 						// Reconciler are in execution of some action phase
 						Q7WaitUtils.updateInfo("reconciler.thread", reconciler.getClass().getName(), info);
 						needWait = true;
@@ -175,8 +189,8 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 					Long firstTime = reconcilerTimeours.get(reconciler);
 					if (firstTime == null) {
 						reconcilerTimeours.put(reconciler, Long.valueOf(System.currentTimeMillis()));
-					}
-					else if (System.currentTimeMillis() - firstTime.longValue() > TeslaLimits.getReconcilerTimeout()) {
+					} else if (System.currentTimeMillis() - firstTime.longValue() > TeslaLimits
+							.getReconcilerTimeout()) {
 						Q7WaitUtils.updateInfo("reconciler.thread.skip", reconciler.getClass().getName(), info);
 						// Ignore if timeout
 						return true;
@@ -191,23 +205,28 @@ public class JFaceTextProcessor implements ITeslaCommandProcessor {
 		return true;
 	}
 
+	@Override
 	public void clean() {
 		this.reconcilerTimeours.clear();
 	}
 
+	@Override
 	public void terminate() {
 		client = null;
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void notifyUI() {
 		// TODO Auto-generated method stub
 

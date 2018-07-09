@@ -49,14 +49,16 @@ import org.eclipse.rcptt.core.persistence.IPersistenceModel;
 import org.eclipse.rcptt.core.persistence.PersistenceManager;
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.core.workspace.Q7Utils;
-import org.eclipse.rcptt.ctx.resources.ImportUtils;
-import org.eclipse.rcptt.ctx.resources.WSUtils;
-import org.eclipse.rcptt.ctx.resources.WorkspaceContextImporter;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.resources.ImportUtils;
+import org.eclipse.rcptt.resources.WSUtils;
+import org.eclipse.rcptt.resources.WorkspaceDataImporter;
+import org.eclipse.rcptt.resources.ui.actions.WSAction;
+import org.eclipse.rcptt.resources.ui.viewers.WorkspaceContentProvider;
+import org.eclipse.rcptt.resources.ui.viewers.WorkspaceLabelProvider;
 import org.eclipse.rcptt.ui.context.BaseContextEditor;
 import org.eclipse.rcptt.ui.controls.SectionWithComposite;
 import org.eclipse.rcptt.ui.editors.EditorHeader;
-import org.eclipse.rcptt.ui.resources.actions.WSAction;
 import org.eclipse.rcptt.ui.utils.DefaultTreeViewerEditStrategy;
 import org.eclipse.rcptt.ui.utils.UIContentAdapter;
 import org.eclipse.rcptt.workspace.WSContainer;
@@ -146,7 +148,7 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 					.getModel(getContextElement().eResource());
 			// if (model.getNames().length == 0) {
 			// Convert resources to new format
-			WorkspaceContextImporter importer = new WorkspaceContextImporter(
+			WorkspaceDataImporter importer = new WorkspaceDataImporter(
 					getContextElement());
 
 			EList<WSProject> projects = getContextElement().getContent()

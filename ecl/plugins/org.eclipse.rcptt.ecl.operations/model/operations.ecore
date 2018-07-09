@@ -142,7 +142,7 @@
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
       <details key="description" value="Try to execute command, retry times with delay if command are failed.&#xA;Execute catch if all operations is not succesfull. Execute finally in anyway."/>
       <details key="returns" value="return's -command output if command is successed."/>
-      <details key="example" value="try -times 10 -delay 100 -command {&#xD;&#xA;&#x9;// some ECL scripts&#xD;&#xA;}"/>
+      <details key="example" value="try -times 10 -delay 100 -command {&#xD;&#xA;&#x9;// some ECL scripts&#xD;&#xA;} -error [val errorObj] -catch {&#xD;&#xA;&#x9;log [$errorObj | get message]&#xA;}"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="catch" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command"/>
@@ -151,6 +151,13 @@
         defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="delay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noScreenshot" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="error" eType="ecore:EClass ../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Val">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="A variable to store an error object in. Accessible from catch block."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Format" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -455,5 +462,17 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThrowError" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Fails with specified error message"/>
+      <details key="example" value="throw-error &quot;Test Case has one or more failed verifications&quot;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Error message"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

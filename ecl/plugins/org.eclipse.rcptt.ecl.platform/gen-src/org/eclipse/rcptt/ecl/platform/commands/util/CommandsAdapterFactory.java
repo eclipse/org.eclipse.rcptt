@@ -150,6 +150,14 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 				return createFindInWorkspaceAdapter();
 			}
 			@Override
+			public Adapter caseGetStatusMessage(GetStatusMessage object) {
+				return createGetStatusMessageAdapter();
+			}
+			@Override
+			public Adapter caseGetStatusTrace(GetStatusTrace object) {
+				return createGetStatusTraceAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -422,6 +430,34 @@ public class CommandsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFindInWorkspaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage <em>Get Status Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusMessage
+	 * @generated
+	 */
+	public Adapter createGetStatusMessageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace <em>Get Status Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.platform.commands.GetStatusTrace
+	 * @generated
+	 */
+	public Adapter createGetStatusTraceAdapter() {
 		return null;
 	}
 

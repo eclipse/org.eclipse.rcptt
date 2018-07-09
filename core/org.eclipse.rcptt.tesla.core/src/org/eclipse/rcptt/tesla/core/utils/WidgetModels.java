@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,6 +41,33 @@ public class WidgetModels {
 			}
 		}
 		return result.toString();
+	}
+	
+	public static String getStyledText(Iterable<StyleRangeEntry> entries, String text) {
+		if (text == null) {
+			return null;
+		}
+		char[] chars = text.toCharArray();
+		boolean[] mask = new boolean[chars.length];
+		Arrays.fill(mask, false);
+
+		boolean isEmpty = true;
+
+		for (StyleRangeEntry entry : entries) {
+			isEmpty = false;
+			int start = entry.getStart();
+			Arrays.fill(mask, start, start + entry.getLength(), true);
+		}
+
+		StringBuilder styledResult = new StringBuilder();
+		if (!isEmpty) {
+			for (int i = 0; i < chars.length; i++) {
+				if (mask[i]) {
+					styledResult.append(chars[i]);
+				}
+			}
+		}
+		return styledResult.toString();
 	}
 
 	public static StyleDiff getDiff(int start, int length, Iterable<StyleRangeEntry> left,

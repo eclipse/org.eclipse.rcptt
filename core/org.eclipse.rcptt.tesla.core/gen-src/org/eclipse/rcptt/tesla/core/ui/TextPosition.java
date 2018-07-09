@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TextPosition#getLine <em>Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TextPosition#getColumn <em>Column</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTextPosition()
  * @model

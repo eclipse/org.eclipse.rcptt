@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TableItem#isSelected <em>Selected</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TableItem#isChecked <em>Checked</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TableItem#getStyles <em>Styles</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.TableItem#getValues <em>Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTableItem()
  * @model
@@ -263,7 +263,7 @@ public interface TableItem extends Item, WithImage {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Values</em>' map.
 	 * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getTableItem_Values()
-	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.ValuesMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @model mapType="org.eclipse.rcptt.tesla.core.ui.ValuesMap&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
 	 * @generated
 	 */
 	EMap<String, String> getValues();

@@ -14,13 +14,12 @@ import java.util.LinkedHashMap;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import org.eclipse.rcptt.verifications.status.TreeItemStyleVerificationError;
-import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
-import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 import org.eclipse.rcptt.tesla.core.ui.Color;
 import org.eclipse.rcptt.tesla.core.ui.StyleRangeEntry;
 import org.eclipse.rcptt.tesla.core.ui.UiFactory;
+import org.eclipse.rcptt.verifications.status.TreeItemStyleVerificationError;
+import org.eclipse.rcptt.verifications.status.TreeItemVerificationError;
+import org.eclipse.rcptt.verifications.status.VerificationStatusData;
 
 public class VerificationReporter {
 	public static StyledMessage getStyledMessage(VerificationStatus status) {
@@ -88,13 +87,17 @@ public class VerificationReporter {
 			buffer.append("\"");
 		}
 		if (error.getItemPath() != null) {
-			buffer.append(" at item ");
-			buffer.append("\"");
-			int start = buffer.length();
-			buffer.append(error.getItemPath());
-			int length = buffer.length() - start;
-			ranges.put(createLinkStyle(start, length), error);
-			buffer.append("\"");
+			if ("".equals(error.getItemPath())) {
+				buffer.append(" at the root item");
+			} else {
+				buffer.append(" at item ");
+				buffer.append("\"");
+				int start = buffer.length();
+				buffer.append(error.getItemPath());
+				int length = buffer.length() - start;
+				ranges.put(createLinkStyle(start, length), error);
+				buffer.append("\"");
+			}
 		}
 	}
 

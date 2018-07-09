@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -107,7 +107,7 @@ public class XMLReportGenerator {
 		// nodeElement.setAttribute("terminateTime",
 		// Long.toString(infoNode.getEndTime()));
 		nodeElement.setAttribute("totalTime",
-				Long.toString(infoNode.getEndTime() - infoNode.getStartTime()));
+				Long.toString(infoNode.getDuration()));
 
 		processAttributes(nodeElement, infoNode.getProperties());
 		if (!infoNode.getChildren().isEmpty()) {
@@ -139,6 +139,7 @@ public class XMLReportGenerator {
 		childrenElement.appendChild(eventElement);
 
 		eventElement.setAttribute("time", Long.toString(child.getTime()));
+		eventElement.setAttribute("count", Integer.toString(child.getCount()));
 		if (child.getSource() != null) {
 			eventElement.setAttribute(
 					"source",

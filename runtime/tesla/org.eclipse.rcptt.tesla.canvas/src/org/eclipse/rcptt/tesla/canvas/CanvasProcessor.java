@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,6 @@
  *     Xored Software Inc - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.canvas;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Event;
 
 import org.eclipse.rcptt.tesla.core.context.ContextManagement.Context;
 import org.eclipse.rcptt.tesla.core.info.AdvancedInformation;
@@ -34,6 +30,9 @@ import org.eclipse.rcptt.tesla.internal.ui.player.SWTEvents;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIElement;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
 import org.eclipse.rcptt.tesla.internal.ui.processors.SWTUIProcessor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Event;
 
 public class CanvasProcessor implements ITeslaCommandProcessor {
 
@@ -42,19 +41,28 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 	public CanvasProcessor() {
 	}
 
+	@Override
+	public int getPriority() {
+		return 275;
+	}
+
+	@Override
 	public String getFeatureID() {
 		return "canvas";
 	}
 
+	@Override
 	public boolean isSelectorSupported(String kind) {
 		return false;
 	}
 
+	@Override
 	public SelectResponse select(SelectCommand cmd, ElementGenerator generator,
 			IElementProcessorMapper mapper) {
 		return null;
 	}
 
+	@Override
 	public boolean isCommandSupported(Command cmd) {
 		if (cmd instanceof MouseCommand) {
 			return true;
@@ -62,6 +70,7 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 		return false;
 	}
 
+	@Override
 	public Response executeCommand(Command command,
 			IElementProcessorMapper mapper) {
 		if (command instanceof MouseCommand) {
@@ -77,6 +86,7 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 		final org.eclipse.swt.graphics.Rectangle oldBounds = canvas.getBounds();
 
 		getPlayer().exec("Set bounds and location", new Runnable() {
+			@Override
 			public void run() {
 				if (command.getBoundsHeight() != 0
 						&& command.getBoundsWidth() != 0) {
@@ -86,6 +96,7 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 			}
 		});
 		getPlayer().exec("Canvas executable", new Runnable() {
+			@Override
 			public void run() {
 				SWTEvents events = getPlayer().getEvents();
 				final Event e = events.createEvent(element);
@@ -141,15 +152,18 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 		return client.getProcessor(SWTUIProcessor.class);
 	}
 
+	@Override
 	public PreExecuteStatus preExecute(Command command,
 			PreExecuteStatus previousStatus, Q7WaitInfoRoot info) {
 		return null;
 	}
 
+	@Override
 	public void initialize(AbstractTeslaClient client, String id) {
 		this.client = client;
 	}
 
+	@Override
 	public void postSelect(Element element, IElementProcessorMapper mapper) {
 		// Map text elements to support this processor operations
 		if (element.getKind().equals(ElementKind.Canvas.name())
@@ -162,28 +176,35 @@ public class CanvasProcessor implements ITeslaCommandProcessor {
 		}
 	}
 
+	@Override
 	public boolean isInactivityRequired() {
 		return false;
 	}
 
+	@Override
 	public boolean canProceed(Context context, Q7WaitInfoRoot info) {
 		return true;
 	}
 
+	@Override
 	public void clean() {
 	}
 
+	@Override
 	public void terminate() {
 		client = null;
 	}
 
+	@Override
 	public void checkHang() {
 	}
 
+	@Override
 	public void collectInformation(AdvancedInformation information,
 			Command lastCommand) {
 	}
 
+	@Override
 	public void notifyUI() {
 		// TODO Auto-generated method stub
 

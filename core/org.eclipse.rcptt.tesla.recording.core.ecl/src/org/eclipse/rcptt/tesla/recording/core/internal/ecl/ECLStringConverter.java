@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
 package org.eclipse.rcptt.tesla.recording.core.internal.ecl;
 
 import org.eclipse.rcptt.ecl.core.util.CommandToStringConverter;
-
 import org.eclipse.rcptt.tesla.recording.core.ecl.ISelectorParserExtension;
 
 /**
  * @author Yuri Strot
- * 
+ *
  */
 public class ECLStringConverter extends CommandToStringConverter {
 
@@ -42,7 +41,13 @@ public class ECLStringConverter extends CommandToStringConverter {
 			new String[] { null, "width" },
 			new String[] { null, "detail" },
 			new String[] { null, "operation" },
-			new String[] { null, "with" } };
+			new String[] { null, "with" },
+			new String[] { null, "url" },
+			new String[] { null, "path" },
+			new String[] { null, "file" },
+			new String[] { null, "base64" },
+			new String[] { "download-file", null }
+			};
 
 	@Override
 	protected boolean isForced(String commandName, String paramName) {

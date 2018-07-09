@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,7 @@ import org.eclipse.rcptt.tesla.ecl.model.BoundControlHandle;
 import org.eclipse.rcptt.tesla.ecl.model.CancelCellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.CellEdit;
 import org.eclipse.rcptt.tesla.ecl.model.Check;
+import org.eclipse.rcptt.tesla.ecl.model.CheckDownloadResult;
 import org.eclipse.rcptt.tesla.ecl.model.Click;
 import org.eclipse.rcptt.tesla.ecl.model.ClickColumn;
 import org.eclipse.rcptt.tesla.ecl.model.ClickLink;
@@ -67,6 +68,7 @@ import org.eclipse.rcptt.tesla.ecl.model.GetCheckbox;
 import org.eclipse.rcptt.tesla.ecl.model.GetColorSelector;
 import org.eclipse.rcptt.tesla.ecl.model.GetColumnHeader;
 import org.eclipse.rcptt.tesla.ecl.model.GetCombo;
+import org.eclipse.rcptt.tesla.ecl.model.GetComboItems;
 import org.eclipse.rcptt.tesla.ecl.model.GetControl;
 import org.eclipse.rcptt.tesla.ecl.model.GetCoolbar;
 import org.eclipse.rcptt.tesla.ecl.model.GetDateTime;
@@ -92,12 +94,14 @@ import org.eclipse.rcptt.tesla.ecl.model.GetRegion;
 import org.eclipse.rcptt.tesla.ecl.model.GetRegionText;
 import org.eclipse.rcptt.tesla.ecl.model.GetRightRuler;
 import org.eclipse.rcptt.tesla.ecl.model.GetRulerColumn;
+import org.eclipse.rcptt.tesla.ecl.model.GetRuntimeTarget;
 import org.eclipse.rcptt.tesla.ecl.model.GetSection;
 import org.eclipse.rcptt.tesla.ecl.model.GetSlider;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabFolder;
 import org.eclipse.rcptt.tesla.ecl.model.GetTabItem;
 import org.eclipse.rcptt.tesla.ecl.model.GetTable;
 import org.eclipse.rcptt.tesla.ecl.model.GetTableData;
+import org.eclipse.rcptt.tesla.ecl.model.GetTestCaseName;
 import org.eclipse.rcptt.tesla.ecl.model.GetText;
 import org.eclipse.rcptt.tesla.ecl.model.GetTextViewer;
 import org.eclipse.rcptt.tesla.ecl.model.GetToolbar;
@@ -163,7 +167,6 @@ import org.eclipse.rcptt.tesla.ecl.model.Wait;
 import org.eclipse.rcptt.tesla.ecl.model.WaitUntilEclipseIsReady;
 import org.eclipse.rcptt.tesla.ecl.model.Wrapper;
 import org.eclipse.rcptt.tesla.ecl.model.*;
-import org.eclipse.rcptt.tesla.ecl.model.VerifyError;
 
 /**
  * <!-- begin-user-doc -->
@@ -1337,6 +1340,35 @@ public class TeslaSwitch<T> {
 				GetLastMessageBox getLastMessageBox = (GetLastMessageBox)theEObject;
 				T result = caseGetLastMessageBox(getLastMessageBox);
 				if (result == null) result = caseCommand(getLastMessageBox);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.CHECK_DOWNLOAD_RESULT: {
+				CheckDownloadResult checkDownloadResult = (CheckDownloadResult)theEObject;
+				T result = caseCheckDownloadResult(checkDownloadResult);
+				if (result == null) result = caseCommand(checkDownloadResult);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.GET_RUNTIME_TARGET: {
+				GetRuntimeTarget getRuntimeTarget = (GetRuntimeTarget)theEObject;
+				T result = caseGetRuntimeTarget(getRuntimeTarget);
+				if (result == null) result = caseCommand(getRuntimeTarget);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.GET_TEST_CASE_NAME: {
+				GetTestCaseName getTestCaseName = (GetTestCaseName)theEObject;
+				T result = caseGetTestCaseName(getTestCaseName);
+				if (result == null) result = caseCommand(getTestCaseName);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TeslaPackage.GET_COMBO_ITEMS: {
+				GetComboItems getComboItems = (GetComboItems)theEObject;
+				T result = caseGetComboItems(getComboItems);
+				if (result == null) result = caseControlCommand(getComboItems);
+				if (result == null) result = caseCommand(getComboItems);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -3531,6 +3563,66 @@ public class TeslaSwitch<T> {
 	 * @generated
 	 */
 	public T caseGetLastMessageBox(GetLastMessageBox object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Check Download Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Check Download Result</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCheckDownloadResult(CheckDownloadResult object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Runtime Target</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Runtime Target</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetRuntimeTarget(GetRuntimeTarget object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Test Case Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Test Case Name</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetTestCaseName(GetTestCaseName object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Combo Items</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Combo Items</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetComboItems(GetComboItems object) {
 		return null;
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,9 +25,9 @@ import org.eclipse.rcptt.maven.util.CoordResolver;
  * Prepares resources for q7 launching: - copies project to target dir - unpacks
  * all dependencies to target dir - resolves and unpacks AUT - resolves and
  * unpacks q7 launcher
- * 
+ *
  * @author ivaninozemtsev
- * 
+ *
  * @goal resources
  * @phase generate-resources
  * @requiresDependencyResolution compile
@@ -35,13 +35,13 @@ import org.eclipse.rcptt.maven.util.CoordResolver;
 public class PrepareMojo extends AbstractRCPTTMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		if (skipTests) {
+		if (skipTests()) {
 			return;
 		}
 
 		unpackApps();
-		if (getQ7Dir().exists()) {
-			installPlugins(getResolvedQ7Dir(), getQ7Coords().getPlugins());
+		if (getQ7Dir(getQ7Coords().getPlatform()).exists()) {
+			installPlugins(getResolvedQ7Dir(getQ7Coords().getPlatform()), getQ7Coords().getPlugins());
 		}
 		copyProjectToTarget();
 		unpackDependencies();
@@ -79,7 +79,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 
 	/**
 	 * Copy project contents (except for the target dir) to target
-	 * 
+	 *
 	 * @throws MojoFailureException
 	 * @throws MojoExecutionException
 	 */
@@ -104,7 +104,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 
 	/**
 	 * Resolve and extract Q7 and AUT to target directory
-	 * 
+	 *
 	 * @throws MojoFailureException
 	 * @throws MojoExecutionException
 	 */
@@ -117,7 +117,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 		File autArchive = resolver.resolve("AUT", aut, remoteProjectRepos);
 		File q7Archive = resolver.resolve("RCPTT runner", getQ7Coords(), remotePluginRepos);
 		File autDir = getAutDir();
-		File q7Dir = getQ7Dir();
+		File q7Dir = getQ7Dir(getQ7Coords().getPlatform());
 		if (autArchive.isFile()) {
 			getLog().info(String.format("Extracting AUT to %s", autDir));
 			getArchiveUtil().extract(autArchive, getAutDir());
@@ -127,7 +127,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 		}
 		if (q7Archive.isFile()) {
 			getLog().info(String.format("Extracting RCPTT runner to %s", q7Dir));
-			getArchiveUtil().extract(q7Archive, getQ7Dir());
+			getArchiveUtil().extract(q7Archive, getQ7Dir(getQ7Coords().getPlatform()));
 		} else {
 			getLog().info(String.format("Using RCPTT Runner from %s", q7Archive));
 			setQ7Dir(q7Archive);
@@ -136,7 +136,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 
 	/**
 	 * Unpack all transitive dependencies to target/projects
-	 * 
+	 *
 	 * @throws MojoExecutionException
 	 * @throws MojoFailureException
 	 */
@@ -162,7 +162,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 
 	/**
 	 * Remote repositories of current plugin, used to resolve q7 runner
-	 * 
+	 *
 	 * @parameter default-value="${project.remotePluginRepositories}"
 	 * @readonly
 	 */
@@ -170,7 +170,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 
 	/**
 	 * Remote repositories of project we are building, used to resolve aut
-	 * 
+	 *
 	 * @parameter default-value="${project.remoteProjectRepositories}"
 	 * @readonly
 	 */

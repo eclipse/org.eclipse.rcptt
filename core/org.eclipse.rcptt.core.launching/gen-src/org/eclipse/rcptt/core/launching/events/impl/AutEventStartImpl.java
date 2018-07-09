@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,10 @@ package org.eclipse.rcptt.core.launching.events.impl;
 
 import org.eclipse.rcptt.core.launching.events.AutEventStart;
 import org.eclipse.rcptt.core.launching.events.AutStartState;
+import org.eclipse.rcptt.core.launching.events.Capability;
 import org.eclipse.rcptt.core.launching.events.EventsPackage;
 
+import org.eclipse.rcptt.core.launching.events.Platform;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -26,13 +28,15 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getEclPort <em>Ecl Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getTeslaPort <em>Tesla Port</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getState <em>State</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getPlatform <em>Platform</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.core.launching.events.impl.AutEventStartImpl#getCapability <em>Capability</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -116,6 +120,46 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 	 * @ordered
 	 */
 	protected AutStartState state = STATE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPlatform() <em>Platform</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPlatform()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Platform PLATFORM_EDEFAULT = Platform.OTHER;
+
+	/**
+	 * The cached value of the '{@link #getPlatform() <em>Platform</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPlatform()
+	 * @generated
+	 * @ordered
+	 */
+	protected Platform platform = PLATFORM_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCapability() <em>Capability</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCapability()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Capability CAPABILITY_EDEFAULT = Capability.OTHER;
+
+	/**
+	 * The cached value of the '{@link #getCapability() <em>Capability</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCapability()
+	 * @generated
+	 * @ordered
+	 */
+	protected Capability capability = CAPABILITY_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,6 +269,48 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Platform getPlatform() {
+		return platform;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPlatform(Platform newPlatform) {
+		Platform oldPlatform = platform;
+		platform = newPlatform == null ? PLATFORM_EDEFAULT : newPlatform;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EventsPackage.AUT_EVENT_START__PLATFORM, oldPlatform, platform));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Capability getCapability() {
+		return capability;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCapability(Capability newCapability) {
+		Capability oldCapability = capability;
+		capability = newCapability == null ? CAPABILITY_EDEFAULT : newCapability;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EventsPackage.AUT_EVENT_START__CAPABILITY, oldCapability, capability));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -236,6 +322,10 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 				return getMessage();
 			case EventsPackage.AUT_EVENT_START__STATE:
 				return getState();
+			case EventsPackage.AUT_EVENT_START__PLATFORM:
+				return getPlatform();
+			case EventsPackage.AUT_EVENT_START__CAPABILITY:
+				return getCapability();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -259,6 +349,12 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 				return;
 			case EventsPackage.AUT_EVENT_START__STATE:
 				setState((AutStartState)newValue);
+				return;
+			case EventsPackage.AUT_EVENT_START__PLATFORM:
+				setPlatform((Platform)newValue);
+				return;
+			case EventsPackage.AUT_EVENT_START__CAPABILITY:
+				setCapability((Capability)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -284,6 +380,12 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 			case EventsPackage.AUT_EVENT_START__STATE:
 				setState(STATE_EDEFAULT);
 				return;
+			case EventsPackage.AUT_EVENT_START__PLATFORM:
+				setPlatform(PLATFORM_EDEFAULT);
+				return;
+			case EventsPackage.AUT_EVENT_START__CAPABILITY:
+				setCapability(CAPABILITY_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -304,6 +406,10 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
 			case EventsPackage.AUT_EVENT_START__STATE:
 				return state != STATE_EDEFAULT;
+			case EventsPackage.AUT_EVENT_START__PLATFORM:
+				return platform != PLATFORM_EDEFAULT;
+			case EventsPackage.AUT_EVENT_START__CAPABILITY:
+				return capability != CAPABILITY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -326,6 +432,10 @@ public class AutEventStartImpl extends AutEventImpl implements AutEventStart {
 		result.append(message);
 		result.append(", state: ");
 		result.append(state);
+		result.append(", platform: ");
+		result.append(platform);
+		result.append(", capability: ");
+		result.append(capability);
 		result.append(')');
 		return result.toString();
 	}

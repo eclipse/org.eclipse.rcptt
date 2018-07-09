@@ -79,6 +79,7 @@ import org.eclipse.rcptt.util.TableTreeItemPathUtil;
 
 public class SelectorService implements ICommandService {
 
+	@Override
 	public IStatus service(Command command, IProcess context)
 			throws InterruptedException, CoreException {
 		//
@@ -125,12 +126,14 @@ public class SelectorService implements ICommandService {
 				path += "%" + index + "%";
 			}
 			if (column != null) {
-				path += "#" + column + "#";
+				path += TableTreeItemPathUtil.COLUMN_DELIMITER
+						+ column
+						+ TableTreeItemPathUtil.COLUMN_DELIMITER;
 			}
 			handler.setKind(ElementKind.Item);
 			handler.setParent(parent.getParent());
 			handler.setPath(path);
-			TeslaBridge.find(handler);
+			TeslaBridge.find(handler, context);
 			context.getOutput().write(handler);
 			return Status.OK_STATUS;
 		}
@@ -279,6 +282,9 @@ public class SelectorService implements ICommandService {
 			} else if (partSelector.getText() != null) {
 				handler.setPath("editpart/text");
 				handler.setText(partSelector.getText());
+			} else if (partSelector.getCustomId() != null) {
+				handler.setPath("editpart/customId");
+				handler.setText(partSelector.getCustomId());
 			} else if (partSelector.getClassName() != null) {
 				handler.setPath("editpart/classname");
 				handler.setText(partSelector.getClassName());
@@ -316,8 +322,8 @@ public class SelectorService implements ICommandService {
 		} else if (selector instanceof GetPropertyTab) {
 			handler.setKind(ElementKind.PropertyTab);
 		}
-
-		TeslaBridge.find(handler);
+		
+		TeslaBridge.find(handler, context);
 
 		context.getOutput().write(handler);
 		TeslaBridge.waitExecution();

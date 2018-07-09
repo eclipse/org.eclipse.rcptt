@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _KSuaANiJEeSXouPau0KnWQ
-Runtime-Version: 2.0.0.201505131625
-Save-Time: 5/14/15 4:16 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/23/17 12:20 PM
 Tags: eclipse_forms
 Testcase-Type: ecl
 
@@ -25,7 +25,7 @@ get-aut "mockupsQ7" | eval {
 	get-menu "Window/Show View/Other..." | click
 	with [get-window "Show View"] {
     get-tree | select "Q7 Quality/Q7 Quality Mockups"
-    get-button OK | click
+    get-button Open | click
     }
 	
 	    get-tree | select "eclipse/form/FormToolkit Test"
@@ -40,10 +40,29 @@ get-aut "mockupsQ7" | eval {
 
 
 get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
-    | contains "with [get-group \"FormToolkit Test\"] {\n"
-    + "    get-button TEST | click\n"
-    + "    get-button \"Test button\" | click\n"
-    + "    get-link \"Test link\" | click\n"
-    + "    get-tree | select \"node 4/node 4 - 3\"\n"
+    | contains "with [get-view \"Q7 Quality Mockups\"] {\n"
+    + "    get-tree | select \"eclipse/form/FormToolkit Test\"\n"
+    + "    with [get-group \"FormToolkit Test\"] {\n"
+    + "        get-button TEST | click\n"
+    + "        get-button \"Test button\" | click\n"
+    + "        get-link \"Test link\" | click\n"
+    + "        get-tree | select \"node 4/node 4 - 3\"\n"
+    + "    }\n" | verify-true
+/*    
+get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
+    | equals "get-button \"Open Perspective\" | click\n"
+    + "get-window \"Open Perspective\" | get-table | select \"Q7 Quality\" | double-click\n"
+    + "with [get-window \"Show View\"] {\n"
+    + "    get-tree | select \"Q7 Quality/Q7 Quality Mockups\"\n"
+    + "    get-button OK | click\n}\n"
+    + "with [get-view \"Q7 Quality Mockups\"] {\n"
+    + "    get-tree | select \"eclipse/form/FormToolkit Test\"\n"
+    + "    with [get-group \"FormToolkit Test\"] {\n"
+    + "        get-button TEST | click\n"
+    + "        get-button \"Test button\" | click\n"
+    + "        get-link \"Test link\" | click\n"
+    + "        get-tree | select \"node 4/node 4 - 3\"\n"
+    + "    }\n"
     + "}" | verify-true
+*/
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

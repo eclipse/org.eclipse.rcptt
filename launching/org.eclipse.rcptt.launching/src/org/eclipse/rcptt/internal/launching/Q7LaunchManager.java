@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,12 +14,15 @@ import static org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin.PLUGIN_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -45,11 +48,10 @@ import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ITestSuite;
 import org.eclipse.rcptt.core.model.IVerification;
 import org.eclipse.rcptt.core.model.ModelException;
-import org.eclipse.rcptt.core.model.SuperContextSupport;
-import org.eclipse.rcptt.core.model.SuperContextSupport.ContextConfiguration;
 import org.eclipse.rcptt.core.model.search.ISearchScope;
 import org.eclipse.rcptt.core.model.search.Q7SearchCore;
 import org.eclipse.rcptt.core.scenario.GroupContext;
+import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.SuperContext;
 import org.eclipse.rcptt.core.scenario.TestSuiteItem;
 import org.eclipse.rcptt.core.scenario.UnresolvedContext;
@@ -59,6 +61,7 @@ import org.eclipse.rcptt.core.utils.SortingUtils;
 import org.eclipse.rcptt.core.workspace.IWorkspaceFinder;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.core.workspace.WorkspaceFinder;
+import org.eclipse.rcptt.ecl.debug.core.DebuggerTransport;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ecl.EclContextExecutable;
 import org.eclipse.rcptt.internal.launching.ecl.EclDebugContextExecutable;
@@ -74,6 +77,9 @@ import org.eclipse.rcptt.launching.ILaunchListener;
 import org.eclipse.rcptt.launching.TestCaseDebugger;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 public class Q7LaunchManager {
 
@@ -111,7 +117,8 @@ public class Q7LaunchManager {
 			final Executable[] executables = session.getExecutables();
 
 			Q7LaunchManager.getInstance().fireStarted(session);
-			IStatus result = null;
+			TestEngineManager.getInstance().fireSessionStarted(session);
+			IStatus result = Status.OK_STATUS;
 			try {
 				List<Executable> massUpdateOnTerminate = new ArrayList<Executable>();
 				final Executable.Listener listener = new Executable.Listener() {
@@ -124,7 +131,7 @@ public class Q7LaunchManager {
 
 					@Override
 					public void updateSessionCounters(Executable executable, IStatus status) {
-						Q7LaunchManager.getInstance().updateSessionCounters(session, executable, status);
+						Q7LaunchManager.getInstance().updateSessionCounters(session, status);
 					}
 				};
 				for (final Executable executable : executables) {
@@ -138,6 +145,9 @@ public class Q7LaunchManager {
 					executable.addListener(listener);
 					try {
 						executable.executeAndRememberResult();
+						if (result.isOK()) {
+							result = executable.getResultStatus();
+						}
 					} finally {
 						executable.removeListener(listener);
 						session.setActive(null);
@@ -150,7 +160,7 @@ public class Q7LaunchManager {
 							.toArray(new Executable[massUpdateOnTerminate
 									.size()]));
 				}
-				result = Status.OK_STATUS;
+				TestEngineManager.getInstance().fireSessionCompleted(session);
 			} catch (final Throwable e) {
 				result = RcpttPlugin.createStatus(e);
 			} finally {
@@ -240,7 +250,8 @@ public class Q7LaunchManager {
 
 	public void execute(IQ7NamedElement[] elements, AutLaunch aut,
 			Q7TestLaunch launch, IWorkspaceFinder finder,
-			Map<IQ7NamedElement, List<List<String>>> namedVariants)
+			Map<IQ7NamedElement, List<List<String>>> namedVariants, 
+			BiFunction<String, Integer, DebuggerTransport> debugTransport)
 			throws CoreException {
 		// avoid circles
 		if (ModelCycleDetector.hasCycles(elements)) {
@@ -254,13 +265,11 @@ public class Q7LaunchManager {
 		}
 
 		// create process
-		Q7Process process = new Q7Process(launch, aut);
+		Q7Process process = new Q7Process(launch, aut, debugTransport);
 
 		// create executable elements
-		ExecutableFabric executableFabric = new ExecutableFabric(aut, finder,
-				process.getDebugger());
-		Executable[] executables = executableFabric
-				.map(elements, namedVariants);
+		ExecutableFactory executableFabric = new ExecutableFactory(aut, finder, process.getDebugger());
+		Executable[] executables = executableFabric.map(elements, namedVariants, aut.getCapability());
 		if (executableFabric.unresolvedItems.size() > 0) {
 			if (!checkContinueOnUnresolved())
 				return;
@@ -433,175 +442,208 @@ public class Q7LaunchManager {
 		return false;
 	}
 
-	public static class ExecutableFabric {
+	/**
+	 * A combination of variant choices for all super contexts.
+	 */
+	private static class ContextVariant {
+		/** The names of the chosen context variants. */
+		List<String> name;
+		/** The map assigning to each super context the chosen variant. */
+		Map<IContext, IContext> choices;
+
+		ContextVariant() {
+			this.name = new ArrayList<String>();
+			this.choices = new HashMap<IContext, IContext>();
+		}
+
+		ContextVariant(String name, IContext superContext, IContext childContext) {
+			this.name = ImmutableList.of(name);
+			this.choices = ImmutableMap.of(superContext, childContext);
+		}
+
+		ContextVariant(ContextVariant first, ContextVariant second) {
+			this.name = ImmutableList.<String> builder().addAll(first.name).addAll(second.name).build();
+			this.choices = ImmutableMap.<IContext, IContext> builder().putAll(first.choices).putAll(second.choices)
+					.build();
+		}
+	}
+
+	public static class ExecutableFactory {
 		private final AutLaunch launch;
 		private final IWorkspaceFinder finder;
 		private final TestCaseDebugger debugger;
 		private final Set<ITestSuite> unresolvedItems = new HashSet<ITestSuite>();
 
-		public ExecutableFabric(AutLaunch launch, IWorkspaceFinder finder,
-				TestCaseDebugger debugger) {
+		public ExecutableFactory(AutLaunch launch, IWorkspaceFinder finder, TestCaseDebugger debugger) {
 			this.launch = launch;
 			this.finder = finder;
 			this.debugger = debugger;
-
 		}
 
-		private Executable makeContextExecutable(IContext context) throws ModelException {
+		private Executable makeContextExecutable(IContext context, ContextVariant variant)
+				throws ModelException {
 			boolean debug = debugger != null;
-			if (context.getNamedElement() instanceof SuperContext) {
-				return new EmptySuperContextExecutable(launch,
-						context, debug);
-			} else if (context.getNamedElement() instanceof GroupContext) {
-				List<Executable> children = new ArrayList<Executable>();
-				for (String contextId : ((GroupContext) context.getNamedElement()).getContextReferences()) {
-					children.add(makeContextExecutable(RcpttCore.getInstance().findContext(context, false, contextId,
-							finder)));
+			NamedElement element = context.getNamedElement();
+			if (element instanceof SuperContext) {
+				// Super context was not replaced, so it must be empty.
+				return new EmptySuperContextExecutable(launch, context, debug);
+			} else if (element instanceof GroupContext) {
+				List<IContext> children = new ArrayList<IContext>();
+				for (String contextId : ((GroupContext) element).getContextReferences()) {
+					children.add(RcpttCore.getInstance().findContext(context, false, contextId, finder));
 				}
-				Executable root = !debug ?
-						new EclContextExecutable(launch, context, debug)
+				List<Executable> plan = new ArrayList<Executable>();
+				addContextExecutables(plan, children, variant);
+				Executable root = !debug ? new EclContextExecutable(launch, context, debug)
 						: new EclDebugContextExecutable(launch, context, debugger);
-				return new GroupExecutable(root, children);
-			} else if (context.getNamedElement() instanceof UnresolvedContext) {
-				return new UnresolvedContextExecutable(launch,
-						context, debug);
+				return new GroupExecutable(root, plan);
+			} else if (element instanceof UnresolvedContext) {
+				return new UnresolvedContextExecutable(launch, context, debug);
 			} else {
-				return !debug ?
-						new EclContextExecutable(launch, context, debug)
+				return !debug ? new EclContextExecutable(launch, context, debug)
 						: new EclDebugContextExecutable(launch, context, debugger);
 			}
-
 		}
 
-		private Executable makeVerificationExecutable(IVerification verification,
-				ExecutionPhase phase)
+		private void addContextExecutables(Collection<Executable> plan, List<IContext> contexts, ContextVariant variant)
+				throws ModelException {
+			for (IContext c : contexts) {
+				while (variant.choices.containsKey(c)) {
+					c = variant.choices.get(c); // Replace super contexts according to choices.
+				}
+				plan.add(makeContextExecutable(c, variant));
+			}
+		}
+
+		private Executable makeVerificationExecutable(IVerification verification, ExecutionPhase phase)
 				throws ModelException {
 			boolean debug = debugger != null;
 			if (verification.getNamedElement() instanceof UnresolvedVerification) {
 				return new UnresolvedVerificationExecutable(launch, verification, debug, phase);
 			} else {
-				return !debug ?
-						new EclVerificationExecutable(launch, verification, debug, phase)
+				return !debug ? new EclVerificationExecutable(launch, verification, debug, phase)
 						: new EclDebugVerificationExecutable(launch, verification, debugger, phase);
 			}
-
 		}
 
-		private Executable makeExecutionPlan(Executable parent,
-				IContext[] contexts, IVerification[] verifications) {
-			List<Executable> plan = new ArrayList<Executable>();
-			Preconditions.checkNotNull(parent);
+		private void addVerificationExecutables(Collection<Executable> plan, Executable parent,
+				IVerification[] verifications, String verificationPhase, ExecutionPhase phase) {
+			for (IVerification v : verifications)
+				try {
+					if (v.getType().supportsPhase(verificationPhase)) {
+						plan.add(makeVerificationExecutable(v, phase));
+					}
+				} catch (ModelException e) {
+					Q7LaunchingPlugin.log("Failed to populate verifications for executable: " + parent.getName(), e);
+				}
+		}
+
+		private List<ContextVariant> getContextVariants(IContext context) {
+			try {
+				NamedElement element = context.getNamedElement();
+				if (element instanceof SuperContext) {
+					SuperContext superContext = (SuperContext) element;
+					List<ContextVariant> variants = new ArrayList<ContextVariant>();
+					for (String contextRef : superContext.getContextReferences()) {
+						IContext result = RcpttCore.getInstance().findContext(context, false, contextRef, finder);
+						for (ContextVariant subVariant : getContextVariants(result)) {
+							if (result != null) {
+								ContextVariant selectResultVariant = new ContextVariant(result.getElementName(),
+										context, result);
+								variants.add(new ContextVariant(selectResultVariant, subVariant));
+							}
+						}
+					}
+					if (!variants.isEmpty()) {
+						return variants;
+					}
+				} else if (element instanceof GroupContext) {
+					List<IContext> children = new ArrayList<IContext>();
+					for (String contextId : ((GroupContext) element).getContextReferences()) {
+						children.add(RcpttCore.getInstance().findContext(context, false, contextId, finder));
+					}
+					return getContextVariants(children);
+				}
+			} catch (ModelException e) {
+				RcpttPlugin.log(e);
+			}
+			return ImmutableList.of(new ContextVariant());
+		}
+
+		private List<ContextVariant> getContextVariants(Collection<IContext> contexts) {
+			List<ContextVariant> variants = new ArrayList<ContextVariant>();
+			variants.add(new ContextVariant());
+			for (IContext context : contexts) {
+				List<ContextVariant> ctxVariants = getContextVariants(context);
+				List<ContextVariant> oldVariants = variants;
+				variants = new ArrayList<ContextVariant>(variants.size() * ctxVariants.size());
+				for (ContextVariant oldVariant : oldVariants) {
+					for (ContextVariant ctxVariant : ctxVariants) {
+						variants.add(new ContextVariant(oldVariant, ctxVariant));
+					}
+				}
+			}
+			return variants;
+		}
+
+		private List<Executable> makeExecutionPlans(ITestCase test, IContext[] contexts,
+				IVerification[] verifications, List<List<String>> supportedVariants) {
 			if (contexts == null)
 				contexts = new IContext[0];
 			if (verifications == null)
 				verifications = new IVerification[0];
-
-			for (IVerification v : verifications)
-				try {
-					if (v == null)
-						throw new NullPointerException();
-					if (v.getType() == null)
-						throw new NullPointerException();
-
-					if (v.getType().supportsPhase(VerificationType.PHASE_START))
-						plan.add(makeVerificationExecutable(v, ExecutionPhase.START));
-				} catch (ModelException e) {
-					Q7LaunchingPlugin.log(
-							"Failed to populate verifications for executable: "
-									+ parent.getName(), e);
+			List<Executable> result = new ArrayList<Executable>();
+			for (ContextVariant variant : getContextVariants(Arrays.asList(contexts))) {
+				List<Executable> plan = new ArrayList<Executable>();
+				if (supportedVariants != null && !supportedVariants.contains(variant.name)) {
+					continue; // Skip variant if it is not required.
 				}
-
-			for (IContext c : contexts)
+				EclScenarioExecutable parent = debugger == null ? new EclScenarioExecutable(launch, test)
+						: new EclDebugTestExecutable(launch, test, debugger);
+				parent.setVariantName(Lists.newArrayList(variant.name));
+				addVerificationExecutables(plan, parent, verifications, VerificationType.PHASE_START,
+						ExecutionPhase.START);
 				try {
-					plan.add(makeContextExecutable(c));
+					addContextExecutables(plan, Lists.newArrayList(contexts), variant);
 				} catch (ModelException e) {
-					Q7LaunchingPlugin.log(
-							"Failed to populate contexts for executable: "
-									+ parent.getName(), e);
+					Q7LaunchingPlugin.log("Failed to populate contexts for executable: " + parent.getName(), e);
 				}
-
-			for (IVerification v : verifications)
-				try {
-					if (v.getType().supportsPhase(VerificationType.PHASE_RUN))
-						plan.add(makeVerificationExecutable(v, ExecutionPhase.RUN));
-				} catch (ModelException e) {
-					Q7LaunchingPlugin.log(
-							"Failed to populate verifications for executable: "
-									+ parent.getName(), e);
-				}
-
-			plan.add(parent);
-
-			for (IVerification v : verifications)
-				try {
-					if (v.getType().supportsPhase(VerificationType.PHASE_FINISH))
-						plan.add(makeVerificationExecutable(v, ExecutionPhase.FINISH));
-				} catch (ModelException e) {
-					Q7LaunchingPlugin.log(
-							"Failed to populate verifications for executable: "
-									+ parent.getName(), e);
-				}
-
-			return plan.size() > 1 ? new GroupExecutable(parent, plan) : parent;
+				addVerificationExecutables(plan, parent, verifications, VerificationType.PHASE_RUN, ExecutionPhase.RUN);
+				plan.add(parent);
+				addVerificationExecutables(plan, parent, verifications, VerificationType.PHASE_FINISH,
+						ExecutionPhase.FINISH);
+				result.add(plan.size() > 1 ? new GroupExecutable(parent, plan) : parent);
+			}
+			return result;
 		}
 
 		public Executable[] map(final IQ7NamedElement[] elements,
-				Map<IQ7NamedElement, List<List<String>>> namedVariants)
+				Map<IQ7NamedElement, List<List<String>>> namedVariants, String capability)
 				throws CoreException {
 			List<Executable> executables = new ArrayList<Executable>();
 			boolean debug = debugger != null;
 			for (int i = 0; i < elements.length; i++) {
 				final IQ7NamedElement element = elements[i];
+				List<List<String>> supportedVariants = null;
+				if (namedVariants != null) {
+					supportedVariants = namedVariants.get(element);
+				}
 				try {
 					if (element instanceof ITestCase) {
 						final ITestCase test = (ITestCase) element;
 
-						IContext[] contexts = RcpttCore.getInstance().getContexts(
-								test, finder, false);
-						IVerification[] verifications = RcpttCore.getInstance().getVerifications(
-								test, finder, false);
+						IContext[] contexts = RcpttCore.getInstance().getContexts(test, finder, false, capability);
+
+						IVerification[] verifications = RcpttCore.getInstance().getVerifications(test, finder, false);
 						assert !Arrays.asList(verifications).contains(null) : "Null verification in "
 								+ test.getElementName();
-
-						List<IContext> superContexts = SuperContextSupport
-								.findSuperContexts(contexts);
-						if (superContexts.size() == 0) {
-							final Executable exec = debugger == null ? new EclScenarioExecutable(
-									launch, test) : new EclDebugTestExecutable(
-									launch, test, debugger);
-							executables.add(makeExecutionPlan(exec, contexts, verifications));
-						} else {
-							// Create One executable per super context
-							List<ContextConfiguration> variants = SuperContextSupport
-									.findContextVariants(superContexts, contexts);
-							List<List<String>> supportedVariants = null;
-							if (namedVariants != null) {
-								supportedVariants = namedVariants.get(element);
-							}
-							for (ContextConfiguration contextConfiguration : variants) {
-								if (supportedVariants != null
-										&& !supportedVariants
-												.contains(contextConfiguration
-														.getVariantName())) {
-									continue; // Skip variant if it is not required.
-								}
-
-								final EclScenarioExecutable exec = debugger == null ? new EclScenarioExecutable(
-										launch, test) : new EclDebugTestExecutable(
-										launch, test, debugger);
-								exec.setVariantName(contextConfiguration
-										.getVariantName());
-								executables.add(makeExecutionPlan(exec,
-										contextConfiguration.getContexts(), verifications));
-							}
-						}
+						executables.addAll(makeExecutionPlans(test, contexts, verifications, supportedVariants));
 					} else if (element instanceof ITestSuite) {
 						ITestSuite suite = (ITestSuite) element;
 						ISearchScope scope = Q7SearchCore.getSearchScope(suite);
 						ArrayList<IQ7NamedElement> testSuiteItems = new ArrayList<IQ7NamedElement>();
 						for (TestSuiteItem item : suite.getItems()) {
-							IQ7NamedElement q7Element = Q7SearchCore
-									.getTestSuiteItemElement(item, scope);
+							IQ7NamedElement q7Element = Q7SearchCore.getTestSuiteItemElement(item, scope);
 							if (q7Element == null) {
 								unresolvedItems.add(suite);
 								continue;
@@ -613,12 +655,14 @@ public class Q7LaunchManager {
 							SortingUtils.sortNamedElements(testSuiteItems);
 
 						Executable[] children = map(
-								testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants);
-						executables.add(new TestSuiteExecutable(launch,
-								(ITestSuite) element, children, debug));
+								testSuiteItems.toArray(new IQ7NamedElement[testSuiteItems.size()]), namedVariants,
+								capability);
+						executables.add(new TestSuiteExecutable(launch, (ITestSuite) element, children, debug));
 					} else if (element instanceof IContext) {
 						IContext context = (IContext) element;
-						executables.add(makeContextExecutable(context));
+						for (ContextVariant variant : getContextVariants(context)) {
+							executables.add(makeContextExecutable(context, variant));
+						}
 					} else {
 						// Call prepare context for execution logic
 
@@ -643,8 +687,7 @@ public class Q7LaunchManager {
 		}
 	}
 
-	private void updateSessionCounters(final ExecutionSession session,
-			final IExecutable executable, IStatus status) {
+	private void updateSessionCounters(final ExecutionSession session, IStatus status) {
 		if (!status.isOK()) {
 			session.oneFailed();
 		} else {

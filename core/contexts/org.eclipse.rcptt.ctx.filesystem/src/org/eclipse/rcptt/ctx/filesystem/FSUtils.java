@@ -37,7 +37,9 @@ import org.eclipse.rcptt.filesystem.FSFolder;
 import org.eclipse.rcptt.filesystem.FSResource;
 import org.eclipse.rcptt.filesystem.FilesystemContext;
 import org.eclipse.rcptt.filesystem.FilesystemFactory;
+import org.eclipse.rcptt.util.FileSystemResolver;
 import org.eclipse.rcptt.util.FileUtil;
+import org.eclipse.rcptt.util.PrefixScheme;
 
 public class FSUtils {
 

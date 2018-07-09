@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Xored Software Inc and others.
+ * Copyright (c) 2014, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,13 +21,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getPluginId <em>Plugin Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getClassName <em>Class Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getMethodName <em>Method Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.interop.InvokeStatic#getArgs <em>Args</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.ecl.interop.InteropPackage#getInvokeStatic()
  * @model

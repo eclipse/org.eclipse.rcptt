@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_ZQYygK2sEeCqBbDEJWufvQ,_cNRdwDtvEeG8pezHWLcUvg,_ksxMcEMsEeGEmKn4hFNAmQ
 Element-Name: SetBreakpointToCommentLine
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _u_S3IHM6EeGsLtfm1BUmHg
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 12:48 PM
+Runtime-Version: 2.2.0.qualifier
+Save-Time: 5/22/17 11:41 AM
 Tags: feature/debug, selfAUT
 Testcase-Type: ecl
 
@@ -55,7 +54,7 @@ with [get-editor CreateJavaProject | get-section Script] {
 //get-window -from "Information Window" | get-control Browser | get-property text 
 //    | matches "^.*Line Breakpoint: CreateJavaProject\.test \[line: 8].*$" | verify-true
 get-menu "Run/Debug As/.* Test Cases" | click
-get-window "Save Resource" | get-button Yes | click
+get-window "Save Resource" | get-button Save | click
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true

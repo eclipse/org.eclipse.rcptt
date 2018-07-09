@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jdt.internal.launching.LaunchingPlugin;
@@ -34,6 +32,7 @@ import org.eclipse.pde.internal.core.target.P2TargetUtils;
 import org.eclipse.pde.internal.core.target.TargetPlatformService;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.launching.internal.target.PDEHelper;
 import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
@@ -56,7 +55,7 @@ public class TargetPlatformManager {
 	 * Creates new target platform based on specified AUT location
 	 * 
 	 * @throws CoreException
-	 * */
+	 */
 	public static ITargetPlatformHelper createTargetPlatform(final String location, IProgressMonitor monitor)
 			throws CoreException {
 		boolean isOk = false;
@@ -64,30 +63,27 @@ public class TargetPlatformManager {
 		final ITargetDefinition target = service.newTarget();
 		final TargetPlatformHelper info = new TargetPlatformHelper(target);
 		try {
+			final File productDir = PDELocationUtils.getProductLocation(location);
 			List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
 			ITargetLocation installationContainer = service
-					.newProfileLocation(location, null);
+					.newProfileLocation(productDir.getAbsolutePath(), null);
 			info.getQ7Target().setInstall(installationContainer);
 			containers.add(installationContainer);
 
-			IPath pluginsPath = new Path(location).append("plugins");
-			File pluginsDir = new File(pluginsPath.toOSString());
-			if (pluginsDir.exists() && pluginsDir.isDirectory()
-					&& pluginsDir.canRead()) {
-				ITargetLocation pluginsContainer = service
-						.newDirectoryLocation(pluginsPath.toOSString());
-				containers.add(pluginsContainer);
-				info.getQ7Target().pluginsDir = pluginsContainer;
-			}
+			final File pluginsDir = PDELocationUtils.getPluginFolder(location);
+			ITargetLocation pluginsContainer = service
+					.newDirectoryLocation(pluginsDir.getAbsolutePath());
+			containers.add(pluginsContainer);
+			info.getQ7Target().pluginsDir = pluginsContainer;
 			info.setBundleContainers(containers
 					.toArray(new ITargetLocation[containers.size()]));
 			throwOnError(info.resolve(monitor));
 			isOk = true;
 			return info;
 		} catch (StackOverflowError e) {
-			//StackOverflowError might happen in xerces
-			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, String.format("Invalid eclipse product location: %s",
-						location), e));
+			// StackOverflowError might happen in xerces
+			// throwsProductLocation(location, e);
+			throw createErrorProductLocationException(location, e);
 		} catch (CoreException e) {
 			throw e;
 		} catch (Throwable e) {
@@ -273,4 +269,14 @@ public class TargetPlatformManager {
 		}
 		return null;
 	}
+
+
+
+	private static CoreException createErrorProductLocationException(String location, Throwable e)
+			throws CoreException {
+		return new CoreException(
+				new Status(IStatus.ERROR, PLUGIN_ID, String.format("Invalid eclipse product location: %s",
+						location), e));
+	}
+
 }

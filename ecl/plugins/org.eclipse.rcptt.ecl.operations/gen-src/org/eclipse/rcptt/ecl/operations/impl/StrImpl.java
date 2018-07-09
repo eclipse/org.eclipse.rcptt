@@ -19,8 +19,6 @@ import org.eclipse.rcptt.ecl.operations.Str;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Str</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

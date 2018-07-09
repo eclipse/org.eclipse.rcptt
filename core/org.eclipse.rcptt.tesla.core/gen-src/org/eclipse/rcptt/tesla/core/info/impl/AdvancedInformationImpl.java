@@ -34,13 +34,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.AdvancedInformationImpl#getThreads <em>Threads</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.AdvancedInformationImpl#getJobs <em>Jobs</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.AdvancedInformationImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.info.impl.AdvancedInformationImpl#getNodes <em>Nodes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

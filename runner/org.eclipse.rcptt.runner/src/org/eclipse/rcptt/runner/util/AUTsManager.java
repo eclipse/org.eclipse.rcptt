@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,7 +64,7 @@ public class AUTsManager {
 					break;
 				} catch (RuntimeException e) {
 					if (a > 10)
-						throw new AutLaunchFail("Aut launch failed after 10 tries.", e);
+						throw new AutLaunchFail("AUT launch failed after 10 tries.", e);
 					System.out
 							.println("Failed to launch AUT:" + e.getMessage());
 					HeadlessRunnerPlugin.getDefault().info(
@@ -160,10 +160,7 @@ public class AUTsManager {
 						ivmInstallType.disposeVMInstall(ivmInstall.getId());
 					}
 					if (ivmInstallType.getId().equals(VM_INSTALL_TYPE)) {
-						IVMInstall install = null;
-						if (install == null) {
-							install = ivmInstallType.createVMInstall(autVM);
-						}
+						IVMInstall install = ivmInstallType.createVMInstall(autVM);
 						install.setInstallLocation(new File(conf.javaVM));
 						install.setName(autVM);
 						JavaRuntime.saveVMConfiguration();

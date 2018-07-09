@@ -13,10 +13,12 @@ package org.eclipse.rcptt.ecl.data.objects.impl;
 import java.util.Collection;
 
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
@@ -31,11 +33,12 @@ import org.eclipse.rcptt.ecl.data.objects.Table;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.TableImpl#getRows <em>Rows</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.TableImpl#getColumns <em>Columns</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.objects.impl.TableImpl#getPageName <em>Page Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -59,6 +62,26 @@ public class TableImpl extends EObjectImpl implements Table {
 	 * @ordered
 	 */
 	protected EList<String> columns;
+
+	/**
+	 * The default value of the '{@link #getPageName() <em>Page Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPageName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PAGE_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPageName() <em>Page Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPageName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String pageName = PAGE_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -108,6 +131,27 @@ public class TableImpl extends EObjectImpl implements Table {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPageName() {
+		return pageName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPageName(String newPageName) {
+		String oldPageName = pageName;
+		pageName = newPageName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ObjectsPackage.TABLE__PAGE_NAME, oldPageName, pageName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -115,6 +159,8 @@ public class TableImpl extends EObjectImpl implements Table {
 				return getRows();
 			case ObjectsPackage.TABLE__COLUMNS:
 				return getColumns();
+			case ObjectsPackage.TABLE__PAGE_NAME:
+				return getPageName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -136,6 +182,9 @@ public class TableImpl extends EObjectImpl implements Table {
 				getColumns().clear();
 				getColumns().addAll((Collection<? extends String>)newValue);
 				return;
+			case ObjectsPackage.TABLE__PAGE_NAME:
+				setPageName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -154,6 +203,9 @@ public class TableImpl extends EObjectImpl implements Table {
 			case ObjectsPackage.TABLE__COLUMNS:
 				getColumns().clear();
 				return;
+			case ObjectsPackage.TABLE__PAGE_NAME:
+				setPageName(PAGE_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -170,6 +222,8 @@ public class TableImpl extends EObjectImpl implements Table {
 				return rows != null && !rows.isEmpty();
 			case ObjectsPackage.TABLE__COLUMNS:
 				return columns != null && !columns.isEmpty();
+			case ObjectsPackage.TABLE__PAGE_NAME:
+				return PAGE_NAME_EDEFAULT == null ? pageName != null : !PAGE_NAME_EDEFAULT.equals(pageName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -186,6 +240,8 @@ public class TableImpl extends EObjectImpl implements Table {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (columns: ");
 		result.append(columns);
+		result.append(", pageName: ");
+		result.append(pageName);
 		result.append(')');
 		return result.toString();
 	}

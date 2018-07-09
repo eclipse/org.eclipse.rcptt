@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.rcptt.ui.commons.SWTFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,8 +28,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import org.eclipse.rcptt.ui.commons.SWTFactory;
 
 public abstract class DestinationsBox {
 	private DataBindingContext dbc;
@@ -112,14 +111,14 @@ public abstract class DestinationsBox {
 		SWTFactory.setButtonDimensionHint(browseFilesystem);
 
 		dbc.bindValue(SWTObservables.observeSelection(filesystemRadio),
-				fsSelected, new SelectionToModel(Selection.Filesystem), null);
+				fsSelected, new SelectionToModel(Selection.Filesystem), new ModelToSelection(Selection.Filesystem));
 		dbc.bindValue(SWTObservables.observeSelection(clipboardRadio),
-				fsSelected, new SelectionToModel(Selection.Clipboard), null);
+				fsSelected, new SelectionToModel(Selection.Clipboard), new ModelToSelection(Selection.Clipboard));
 
 		dbc.bindValue(SWTObservables.observeEnabled(browseFilesystem),
-				fsSelected, null, new ModelToSelection(Selection.Filesystem));
+				fsSelected, new SelectionToModel(Selection.Filesystem), new ModelToSelection(Selection.Filesystem));
 		dbc.bindValue(SWTObservables.observeEnabled(filesystemPath),
-				fsSelected, null, new ModelToSelection(Selection.Filesystem));
+				fsSelected, new SelectionToModel(Selection.Filesystem), new ModelToSelection(Selection.Filesystem));
 
 		dbc.bindValue(SWTObservables.observeText(filesystemPath, SWT.Modify),
 				filesystemPathValue);

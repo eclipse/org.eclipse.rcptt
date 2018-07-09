@@ -22,6 +22,9 @@ public class TeslaCellEditorManager {
 	private Set<CellEditor> directEditManagers = new HashSet<CellEditor>();
 	private boolean markNewAsForced = false;
 	private CellEditor lastActivated = null;
+	
+	private int nextCellEditorActivateEventType;
+	private int nextCellEditorActivateEventButton;
 
 	private CellEditor lastActivatedByAnyMethod = null;
 
@@ -82,5 +85,21 @@ public class TeslaCellEditorManager {
 
 	public boolean isInActivation() {
 		return this.markNewAsForced;
+	}
+	
+	public void setNextCellEditorActivateEventType(int nextCellEditorActivateEventType) {
+		this.nextCellEditorActivateEventType = nextCellEditorActivateEventType;
+	}
+	
+	public int getNextCellEditorActivateEventType() {
+		return this.nextCellEditorActivateEventType;
+	}
+	
+	public void setNextCellEditorActivateEventButton(int nextCellEditorActivateEventButton) {
+		this.nextCellEditorActivateEventButton = nextCellEditorActivateEventButton;
+	}
+	
+	public int getNextCellEditorActivateEventButton() {
+		return this.nextCellEditorActivateEventButton;
 	}
 }

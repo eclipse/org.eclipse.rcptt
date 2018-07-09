@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,6 +26,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  * <em><b>Type</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.TypeImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.TypeImpl#getElement <em>Element</em>}</li>
@@ -37,7 +38,6 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.TypeImpl#isTraverse <em>Traverse</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.TypeImpl#getTimes <em>Times</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

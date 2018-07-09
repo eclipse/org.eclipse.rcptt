@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,7 @@ import org.eclipse.rcptt.ecl.data.commands.WriteLines;
  * <ul>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteLinesImpl#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteLinesImpl#isAppend <em>Append</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.data.commands.impl.WriteLinesImpl#getEncode <em>Encode</em>}</li>
  * </ul>
  *
  * @generated
@@ -44,7 +45,7 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String URI_EDEFAULT = null;
+	protected static final String URI_EDEFAULT = "UTF-8";
 
 	/**
 	 * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
@@ -75,6 +76,26 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 	 * @ordered
 	 */
 	protected boolean append = APPEND_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getEncode() <em>Encode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEncode()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ENCODE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getEncode() <em>Encode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEncode()
+	 * @generated
+	 * @ordered
+	 */
+	protected String encode = ENCODE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -142,6 +163,27 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getEncode() {
+		return encode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEncode(String newEncode) {
+		String oldEncode = encode;
+		encode = newEncode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommandsPackage.WRITE_LINES__ENCODE, oldEncode, encode));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -149,6 +191,8 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 				return getUri();
 			case CommandsPackage.WRITE_LINES__APPEND:
 				return isAppend();
+			case CommandsPackage.WRITE_LINES__ENCODE:
+				return getEncode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,6 +210,9 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 				return;
 			case CommandsPackage.WRITE_LINES__APPEND:
 				setAppend((Boolean)newValue);
+				return;
+			case CommandsPackage.WRITE_LINES__ENCODE:
+				setEncode((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,6 +232,9 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 			case CommandsPackage.WRITE_LINES__APPEND:
 				setAppend(APPEND_EDEFAULT);
 				return;
+			case CommandsPackage.WRITE_LINES__ENCODE:
+				setEncode(ENCODE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -201,6 +251,8 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
 			case CommandsPackage.WRITE_LINES__APPEND:
 				return append != APPEND_EDEFAULT;
+			case CommandsPackage.WRITE_LINES__ENCODE:
+				return ENCODE_EDEFAULT == null ? encode != null : !ENCODE_EDEFAULT.equals(encode);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -219,6 +271,8 @@ public class WriteLinesImpl extends CommandImpl implements WriteLines {
 		result.append(uri);
 		result.append(", append: ");
 		result.append(append);
+		result.append(", encode: ");
+		result.append(encode);
 		result.append(')');
 		return result.toString();
 	}

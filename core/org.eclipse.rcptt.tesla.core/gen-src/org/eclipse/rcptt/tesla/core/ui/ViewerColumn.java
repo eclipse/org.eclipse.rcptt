@@ -18,13 +18,13 @@ package org.eclipse.rcptt.tesla.core.ui;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ViewerColumn#isResizable <em>Resizable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ViewerColumn#isMovable <em>Movable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ViewerColumn#getWidth <em>Width</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.ui.ViewerColumn#getTooltip <em>Tooltip</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.ui.UiPackage#getViewerColumn()
  * @model

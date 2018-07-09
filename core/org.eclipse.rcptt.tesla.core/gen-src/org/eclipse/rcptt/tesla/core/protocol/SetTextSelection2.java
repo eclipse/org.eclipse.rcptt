@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection2#getStartLine <em>Start Line</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection2#getStartOffset <em>Start Offset</em>}</li>
@@ -25,7 +26,6 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection2#getEndOffset <em>End Offset</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.SetTextSelection2#isBlockMode <em>Block Mode</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getSetTextSelection2()
  * @model

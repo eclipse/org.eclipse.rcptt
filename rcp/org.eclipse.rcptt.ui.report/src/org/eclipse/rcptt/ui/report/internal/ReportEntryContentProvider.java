@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.report.internal;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,18 +21,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.rcptt.reporting.Q7Info;
-import org.eclipse.rcptt.reporting.core.ImageEntry;
-import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.util.Q7ReportIterator;
-import org.eclipse.rcptt.reporting.util.RcpttReportGenerator;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
+import org.eclipse.rcptt.reporting.util.ReportEntry;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 
 import com.google.common.base.Preconditions;
 
-class ReportEntryContentProvider implements
-		IStructuredContentProvider {
+class ReportEntryContentProvider implements IStructuredContentProvider {
 	public void dispose() {
 		Job.getJobManager().cancel(this);
 	}
@@ -83,13 +76,9 @@ class ReportEntryContentProvider implements
 					if (next == null) {
 						break;
 					}
-					Node root = next.getRoot();
-					Q7Info info = ReportHelper.getInfo(root);
-					StringWriter writer = new StringWriter();
-					new RcpttReportGenerator(new PrintWriter(writer), new ArrayList<ImageEntry>()).writeResult(0,
-							info.getResult());
-					entries.add(new ReportEntry(root.getName(), info.getId(), (int) (root.getEndTime() - root
-							.getStartTime()), info.getResult(), writer.toString()));
+					{
+						entries.add(ReportEntry.create(next));
+					}
 				}
 			}
 			ReportEntryContentProvider.this.entries = entries;
@@ -103,5 +92,6 @@ class ReportEntryContentProvider implements
 			});
 			return Status.OK_STATUS;
 		}
+
 	}
 }
