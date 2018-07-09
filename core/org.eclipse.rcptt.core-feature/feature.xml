@@ -296,4 +296,11 @@ Not used in runtime.
          version="2.4.0.qualifier"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.rcptt.expandbar"
+         download-size="0"
+         install-size="0"
+         version="2.4.0.qualifier"
+         unpack="false"/>
+
 </feature>
