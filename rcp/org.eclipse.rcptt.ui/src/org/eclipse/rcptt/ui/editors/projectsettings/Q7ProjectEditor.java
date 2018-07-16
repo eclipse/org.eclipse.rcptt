@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,6 @@ import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.editors.NamedElementEditor;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions;
 import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
-import org.eclipse.rcptt.ui.editors.TextUtils;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -48,8 +47,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 	}
 
 	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		updateEditorTitle();
 	}
@@ -77,6 +75,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 			hideTabs();
 		}
 	}
+
 	@Override
 	public void createActions() {
 		actions = new NamedElementEditorActions(new INamedElementActions() {
@@ -96,7 +95,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 			@Override
 			public void undo() {
 				if (isDescriptionFocus()) {
-					page.getDescriptionComposite().undo();
+					page.getDescriptionComposite().getActions().undo();
 				}
 				updateEnablement();
 			}
@@ -104,7 +103,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 			@Override
 			public void redo() {
 				if (isDescriptionFocus()) {
-					page.getDescriptionComposite().redo();
+					page.getDescriptionComposite().getActions().redo();
 				}
 				updateEnablement();
 			}
@@ -116,7 +115,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				} else if (isVerificationFocus()) {
 					page.getVerificationsTable().paste();
 				} else if (isDescriptionFocus()) {
-					TextUtils.paste(page.getDescriptionComposite().getDescriptionControl());
+					page.getDescriptionComposite().getActions().paste();
 				}
 				updateEnablement();
 			}
@@ -128,7 +127,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				} else if (isVerificationFocus()) {
 					page.getVerificationsTable().cut();
 				} else if (isDescriptionFocus()) {
-					TextUtils.cut(page.getDescriptionComposite().getDescriptionControl());
+					page.getDescriptionComposite().getActions().cut();
 				}
 				updateEnablement();
 			}
@@ -140,7 +139,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 				} else if (isVerificationFocus()) {
 					page.getVerificationsTable().copy();
 				} else if (isDescriptionFocus()) {
-					TextUtils.copy(page.getDescriptionComposite().getDescriptionControl());
+					page.getDescriptionComposite().getActions().copy();
 				}
 				updateEnablement();
 			}
@@ -148,7 +147,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 			@Override
 			public boolean canUndo() {
 				if (isDescriptionFocus()) {
-					return page.getDescriptionComposite().canUndo();
+					return page.getDescriptionComposite().getActions().canUndo();
 				}
 				return false;
 			}
@@ -156,7 +155,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 			@Override
 			public boolean canRedo() {
 				if (isDescriptionFocus()) {
-					return page.getDescriptionComposite().canRedo();
+					return page.getDescriptionComposite().getActions().canRedo();
 				}
 				return false;
 			}
@@ -170,7 +169,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 					return page.getVerificationsTable().canPaste();
 				}
 				if (isDescriptionFocus()) {
-					return TextUtils.canPaste(page.getDescriptionComposite().getDescriptionControl());
+					return page.getDescriptionComposite().getActions().canPaste();
 				}
 				return false;
 			}
@@ -184,7 +183,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 					return page.getVerificationsTable().canCut();
 				}
 				if (isDescriptionFocus()) {
-					return TextUtils.canCut(page.getDescriptionComposite().getDescriptionControl());
+					return page.getDescriptionComposite().getActions().canCut();
 				}
 				return false;
 			}
@@ -198,7 +197,7 @@ public class Q7ProjectEditor extends NamedElementEditor {
 					return page.getVerificationsTable().canCopy();
 				}
 				if (isDescriptionFocus()) {
-					return TextUtils.canCopy(page.getDescriptionComposite().getDescriptionControl());
+					return page.getDescriptionComposite().getActions().canCopy();
 				}
 				return false;
 			}

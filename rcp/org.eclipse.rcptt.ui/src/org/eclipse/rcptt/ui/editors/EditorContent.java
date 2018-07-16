@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * Copyright (c) 2009, 2015, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,14 +24,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.rcptt.core.ecl.core.model.Q7CorePackage;
 import org.eclipse.rcptt.core.model.IQ7NamedElement;
 import org.eclipse.rcptt.core.model.ITestCase;
 import org.eclipse.rcptt.core.model.ModelException;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.Scenario;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
-import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.ui.Messages;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.ui.controls.ContextsTable;
@@ -46,7 +44,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -71,15 +68,13 @@ public class EditorContent implements INamedElementActions {
 
 	private ScenarioProperties propertiesSection;
 
-	private StyledText externalRefControl;
+	private ExternalReference externalRef;
 	private boolean scenarioEditor;
 	private final boolean supportRefs;
 
 	private VerificationsTable verificationsTable;
 	private Section verificationsSection;
 	private Section propertiesSectionSection;
-
-	// private StyledText descriptionControl;
 
 	public EditorContent(EditorHeader header, boolean refs, boolean scenario) {
 		this.header = header;
@@ -110,7 +105,7 @@ public class EditorContent implements INamedElementActions {
 			public void createControl(Composite parent) {
 				super.createControl(parent);
 				if (supportRefs) {
-					createExternalReferenceControl((Composite) getControl(), toolkit);
+					createExternalReference((Composite) getControl(), toolkit);
 				}
 			}
 		};
@@ -220,46 +215,66 @@ public class EditorContent implements INamedElementActions {
 		}
 	}
 
-	private void createExternalReferenceControl(Composite parent, FormToolkit toolkit) {
-		Composite composite = toolkit.createComposite(parent);
+	private final class ExternalReference {
+
+		private final TextViewer textViewer;
+		private final INamedElementActions actions;
+
+		public ExternalReference(final TextViewer textViewer, final Hyperlink externalRefLabel) {
+			this.textViewer = textViewer;
+			externalRefLabel.setToolTipText(EXT_REF_TOOLTIP);
+			externalRefLabel.setUnderlined(true);
+			externalRefLabel.addHyperlinkListener(new IHyperlinkListener() {
+
+				public void linkExited(HyperlinkEvent e) {
+				}
+
+				public void linkEntered(HyperlinkEvent e) {
+				}
+
+				public void linkActivated(HyperlinkEvent e) {
+					if (!"".equals(externalRef.getControl().getText().trim())) { //$NON-NLS-1$
+						Program.launch(externalRef.getControl().getText());
+					}
+				}
+			});
+
+			getControl().setToolTipText(EXT_REF_TOOLTIP);
+			getControl().addModifyListener(new ModifyListener() {
+
+				public void modifyText(ModifyEvent e) {
+					externalRefLabel.setEnabled(!"".equals(getControl() //$NON-NLS-1$
+							.getText().trim()));
+				}
+			});
+			actions = new TextViewerActions(textViewer);
+		}
+
+		public INamedElementActions getActions() {
+			return actions;
+		}
+
+		public StyledText getControl() {
+			return textViewer.getTextWidget();
+		}
+	}
+
+	private void createExternalReference(Composite parent, FormToolkit toolkit) {
+		final Composite composite = toolkit.createComposite(parent);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(composite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).span(2, 1).applyTo(composite);
 
 		final Hyperlink externalRefLabel = toolkit.createHyperlink(composite,
 				Messages.ScenarioEditorPage_ExternalReferenceLabel, SWT.NONE);
 		GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(externalRefLabel);
-		externalRefLabel.setToolTipText(EXT_REF_TOOLTIP);
-		externalRefLabel.setUnderlined(true);
-		externalRefControl = new StyledText(composite,
+
+		final TextViewer textViewer = new TextViewer(composite,
 				SWT.BORDER | SWT.SINGLE | toolkit.getBorderStyle() | toolkit.getOrientation());
-		toolkit.adapt(externalRefControl);
-		externalRefControl.setToolTipText(EXT_REF_TOOLTIP);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(externalRefControl);
+		toolkit.adapt(textViewer.getTextWidget());
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(textViewer.getTextWidget());
 
-		externalRefControl.addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent e) {
-				externalRefLabel.setEnabled(!"".equals(externalRefControl //$NON-NLS-1$
-						.getText().trim()));
-			}
-		});
-		externalRefLabel.addHyperlinkListener(new IHyperlinkListener() {
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkActivated(HyperlinkEvent e) {
-				if (!"".equals(externalRefControl.getText().trim())) { //$NON-NLS-1$
-					Program.launch(externalRefControl.getText());
-				}
-			}
-		});
-
-		update(this.getModel(), getElement());
-
+		externalRef = new ExternalReference(textViewer, externalRefLabel);
+		update(getModel(), getElement());
 	}
 
 	private IPropertySource createPropertySource() {
@@ -292,7 +307,7 @@ public class EditorContent implements INamedElementActions {
 
 	public boolean isInFocus() {
 		return descriptionComposite.getDescriptionControl().isFocusControl()
-				|| (externalRefControl != null && externalRefControl.isFocusControl())
+				|| (externalRef != null && externalRef.getControl().isFocusControl())
 				|| (contextTable != null && contextTable.getControl().isFocusControl())
 				|| (verificationsTable != null && verificationsTable.getControl().isFocusControl())
 				|| header.isInFocus() || (propertiesSection != null && propertiesSection.getControl().isFocusControl());
@@ -301,8 +316,8 @@ public class EditorContent implements INamedElementActions {
 	public void doSelectAll() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
 			descriptionComposite.getDescriptionControl().selectAll();
-		} else if (externalRefControl.isFocusControl()) {
-			externalRefControl.selectAll();
+		} else if (externalRef.getControl().isFocusControl()) {
+			externalRef.getControl().selectAll();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			((Table) contextTable.getControl()).selectAll();
 		} else if (verificationsTable != null && verificationsTable.getControl().isFocusControl()) {
@@ -312,9 +327,9 @@ public class EditorContent implements INamedElementActions {
 
 	public void copy() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			TextUtils.copy(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			TextUtils.copy(externalRefControl);
+			descriptionComposite.getActions().copy();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getActions().copy();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			if (contextTable.canCopy()) {
 				contextTable.copy();
@@ -330,9 +345,9 @@ public class EditorContent implements INamedElementActions {
 
 	public boolean canCopy() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return TextUtils.canCopy(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			return TextUtils.canCopy(externalRefControl);
+			return descriptionComposite.getActions().canCopy();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			return externalRef.getActions().canCopy();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			return contextTable.canCopy();
 		} else if (verificationsTable != null && verificationsTable.getControl().isFocusControl()) {
@@ -345,9 +360,9 @@ public class EditorContent implements INamedElementActions {
 
 	public boolean canPaste() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return TextUtils.canPaste(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			return TextUtils.canPaste(externalRefControl);
+			return descriptionComposite.getActions().canPaste();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			return externalRef.getActions().canPaste();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			return contextTable.canPaste();
 		} else if (verificationsTable != null && verificationsTable.getControl().isFocusControl()) {
@@ -360,9 +375,9 @@ public class EditorContent implements INamedElementActions {
 
 	public boolean canCut() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return TextUtils.canCut(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			return TextUtils.canCut(externalRefControl);
+			return descriptionComposite.getActions().canCut();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			return externalRef.getActions().canCut();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			return contextTable.canCut();
 		} else if (verificationsTable != null && verificationsTable.getControl().isFocusControl()) {
@@ -375,9 +390,9 @@ public class EditorContent implements INamedElementActions {
 
 	public void paste() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			TextUtils.paste(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			TextUtils.paste(externalRefControl);
+			descriptionComposite.getActions().paste();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getActions().paste();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			if (contextTable.canPaste()) {
 				contextTable.paste();
@@ -393,9 +408,9 @@ public class EditorContent implements INamedElementActions {
 
 	public void cut() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			TextUtils.cut(descriptionComposite.getDescriptionControl());
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			TextUtils.cut(externalRefControl);
+			descriptionComposite.getActions().cut();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getActions().cut();
 		} else if (contextTable != null && contextTable.getControl().isFocusControl()) {
 			if (contextTable.canCut()) {
 				contextTable.cut();
@@ -413,9 +428,9 @@ public class EditorContent implements INamedElementActions {
 		if (externalRefBinding != null) {
 			externalRefBinding.dispose();
 		}
-		if (externalRefControl != null) {
+		if (externalRef != null) {
 			externalRefBinding = header.getDataBindingContext().bindValue(
-					SWTObservables.observeText(externalRefControl, SWT.Modify),
+					SWTObservables.observeText(externalRef.getControl(), SWT.Modify),
 					EMFProperties.value(ScenarioPackage.Literals.SCENARIO__EXTERNAL_REFERENCE).observe(getElement()));
 		}
 		descriptionComposite.update(element);
@@ -433,8 +448,8 @@ public class EditorContent implements INamedElementActions {
 	public void doTextCommand(int fAction) {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
 			descriptionComposite.getDescriptionControl().invokeAction(fAction);
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
-			externalRefControl.invokeAction(fAction);
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getControl().invokeAction(fAction);
 		}
 	}
 
@@ -447,31 +462,35 @@ public class EditorContent implements INamedElementActions {
 
 	public boolean canUndo() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return descriptionComposite.canUndo();
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
+			return descriptionComposite.getActions().canUndo();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			return externalRef.getActions().canUndo();
 		}
 		return false;
 	}
 
 	public boolean canRedo() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			return descriptionComposite.canRedo();
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
+			return descriptionComposite.getActions().canRedo();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			return externalRef.getActions().canRedo();
 		}
 		return false;
 	}
 
 	public void undo() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			descriptionComposite.undo();
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
+			descriptionComposite.getActions().undo();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getActions().undo();
 		}
 	}
 
 	public void redo() {
 		if (descriptionComposite.getDescriptionControl().isFocusControl()) {
-			descriptionComposite.redo();
-		} else if (externalRefControl != null && externalRefControl.isFocusControl()) {
+			descriptionComposite.getActions().redo();
+		} else if (externalRef != null && externalRef.getControl().isFocusControl()) {
+			externalRef.getActions().redo();
 		}
 	}
 }

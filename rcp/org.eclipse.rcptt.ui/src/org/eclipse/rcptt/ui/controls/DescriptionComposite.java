@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,14 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ui.controls;
 
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.operations.IOperationHistory;
-import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -27,22 +23,19 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.ITextViewerExtension6;
-import org.eclipse.jface.text.IUndoManager;
-import org.eclipse.jface.text.IUndoManagerExtension;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.text.TextViewerUndoManager;
 import org.eclipse.rcptt.core.scenario.NamedElement;
 import org.eclipse.rcptt.core.scenario.ScenarioPackage;
 import org.eclipse.rcptt.internal.ui.Images;
 import org.eclipse.rcptt.internal.ui.Messages;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
+import org.eclipse.rcptt.ui.editors.NamedElementEditorActions.INamedElementActions;
+import org.eclipse.rcptt.ui.editors.TextViewerActions;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.PlatformUI;
 
 public class DescriptionComposite extends AbstractEmbeddedComposite {
 
@@ -50,6 +43,7 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 	private Composite control;
 	private TextViewer descriptionControl;
 	private Binding descriptionBinding;
+	private INamedElementActions actions;
 
 	@Override
 	protected void fillActions(IToolBarManager manager) {
@@ -60,8 +54,7 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 				descriptionControl.getControl().setFocus();
 			}
 		};
-		clearAction.setImageDescriptor(Images
-				.getImageDescriptor(Images.PANEL_CLEAR));
+		clearAction.setImageDescriptor(Images.getImageDescriptor(Images.PANEL_CLEAR));
 		clearAction.setToolTipText(Messages.DescriptionComposite_ClearToolTip);
 		manager.add(clearAction);
 	}
@@ -83,16 +76,11 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 
 		control = new Composite(parent, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(control);
-		GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(true)
-				.applyTo(control);
+		GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(true).applyTo(control);
 
-		descriptionControl = new TextViewer(control, SWT.MULTI | SWT.WRAP
-				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+		descriptionControl = new TextViewer(control, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 
-		Document document = new Document();
-		descriptionControl.setDocument(document);
-		descriptionControl.setUndoManager(new TextViewerUndoManager(25));
-		descriptionControl.activatePlugins();
+		actions = new TextViewerActions(descriptionControl);
 		// descriptionControl = new StyledText(control, SWT.MULTI | SWT.WRAP
 		// | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 		GridDataFactory.fillDefaults().grab(true, true).hint(100, 50).applyTo(descriptionControl.getControl());
@@ -101,14 +89,6 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 
 	public Control getControl() {
 		return control;
-	}
-
-	public StyledText getDescriptionControl() {
-		return (StyledText) descriptionControl.getControl();
-	}
-
-	public TextViewer getDescriptionViewer() {
-		return descriptionControl;
 	}
 
 	public void update(NamedElement element) {
@@ -127,8 +107,7 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 				if (value != null && value.trim().length() == 0) {
 					value = null;
 				}
-				String curDescr = DescriptionComposite.this.element
-						.getDescription();
+				String curDescr = DescriptionComposite.this.element.getDescription();
 				if (value == null && curDescr != null) {
 					DescriptionComposite.this.element.setDescription(value);
 				} else {
@@ -147,8 +126,7 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 			public void handleChange(ChangeEvent event) {
 				if (descriptionControl.getDocument() != null) {
 					String doc = descriptionControl.getDocument().get();
-					String descr = DescriptionComposite.this.element
-							.getDescription();
+					String descr = DescriptionComposite.this.element.getDescription();
 					if (!doc.equals(descr)) {
 						descriptionControl.getDocument().set(descr);
 					}
@@ -167,64 +145,19 @@ public class DescriptionComposite extends AbstractEmbeddedComposite {
 				descriptionControl.getDocument().set(descr);
 			}
 		}
-		
+
 		descriptionControl.getUndoManager().reset();
 	}
 
-	IOperationHistory getHistory() {
-		if (PlatformUI.getWorkbench() == null) {
-			return null;
-		}
-
-		return PlatformUI.getWorkbench().getOperationSupport()
-				.getOperationHistory();
+	public TextViewer getDescriptionViewer() {
+		return descriptionControl;
 	}
 
-	private IUndoContext getUndoContext() {
-		if (getDescriptionViewer() instanceof ITextViewerExtension6) {
-			IUndoManager undoManager = ((ITextViewerExtension6) getDescriptionViewer())
-					.getUndoManager();
-			if (undoManager instanceof IUndoManagerExtension)
-				return ((IUndoManagerExtension) undoManager).getUndoContext();
-		}
-		return null;
+	public StyledText getDescriptionControl() {
+		return getDescriptionViewer().getTextWidget();
 	}
 
-	public boolean canUndo() {
-		IUndoContext ctx = getUndoContext();
-		if (ctx != null) {
-			return getHistory().canUndo(ctx);
-		}
-		return false;
-	}
-
-	public boolean canRedo() {
-		IUndoContext ctx = getUndoContext();
-		if (ctx != null) {
-			return getHistory().canRedo(ctx);
-		}
-		return false;
-	}
-
-	public void undo() {
-		IUndoContext ctx = getUndoContext();
-		if (ctx != null) {
-			try {
-				getHistory().undo(ctx, new NullProgressMonitor(), null);
-			} catch (ExecutionException e) {
-				Q7UIPlugin.log(e);
-			}
-		}
-	}
-
-	public void redo() {
-		IUndoContext ctx = getUndoContext();
-		if (ctx != null) {
-			try {
-				getHistory().redo(ctx, new NullProgressMonitor(), null);
-			} catch (ExecutionException e) {
-				Q7UIPlugin.log(e);
-			}
-		}
+	public INamedElementActions getActions() {
+		return actions;
 	}
 }

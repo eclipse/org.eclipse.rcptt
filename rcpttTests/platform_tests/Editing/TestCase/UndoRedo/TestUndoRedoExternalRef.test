@@ -1,0 +1,60 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _ymiyse5IEeCU6db9MgIBkA,_IeEQkPSUEeCE1L2j6bYoFw
+Element-Name: TestUndoRedoExternalRef
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _hMpQMIW7EeimNbRMJ4yRJA
+Runtime-Version: 2.4.0.qualifier
+Save-Time: 7/12/18 6:31 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select "Q7Project/TestCase1" | double-click -nowait
+
+with [get-editor TestCase1 | get-section Description | get-text-viewer -index 1] {
+	type-text "text in external reference"
+	key-type "M1+s"
+}
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "text in exter" +
+	"nal reference" | verify-true
+
+with [get-editor TestCase1 | get-section Description | get-text-viewer -index 1] {
+	set-caret-pos 1 1
+	type-text "new "
+	key-type "M1+z"
+}
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "text in exter" +
+	"nal reference" | verify-true
+
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "text in exter" +
+	"nal reference" | verify-true
+with [get-editor TestCase1 | get-section Description | get-text-viewer -index 1] {
+	set-caret-pos 1 28
+	key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
+}
+
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "new text in e" +
+	"xternal reference" | verify-true
+
+log [get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text -raw]
+
+with [get-editor TestCase1 | get-section Description | get-text-viewer -index 1] {
+	set-caret-pos 1 31
+	key-type Space
+	type-text "new line in text"
+}
+log [get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text -raw]
+
+get-menu "Edit/Undo" | click
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "new text in e" +
+	"xternal reference" | verify-true
+get-menu "Edit/Redo" | click
+get-editor TestCase1 | get-section Description | get-text-viewer -index 1 | get-property text | equals "new text in e" +
+	"xternal reference new line in text" | verify-true
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
