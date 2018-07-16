@@ -13,9 +13,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.eclipse.rcptt</groupId>
   <artifactId>rcptt-module-nebula</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <parent>
@@ -60,14 +58,14 @@
     <module>plugins/org.eclipse.rcptt.tesla.nebula.ecl.impl</module>
     <module>plugins/org.eclipse.rcptt.tesla.recording.nebula</module>
     <module>plugins/org.eclipse.rcptt.tesla.recording.nebula.ecl</module>
-    <module>features/org.eclipse.rcptt.module.nebula.runtime</module>
-    <module>runtime-site</module>
     <module>plugins/org.eclipse.rcptt.module.nebula.updates</module>
-    <module>features/org.eclipse.rcptt.module.nebula</module>
     <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.impl</module>
     <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.ecl</module>
     <module>plugins/org.eclipse.rcptt.tesla.nebula.nattable.ecl.impl</module>
     <module>plugins/org.eclipse.rcptt.tesla.recording.nebula.nattable</module>
+    <module>runtime-site</module>
+    <module>features/org.eclipse.rcptt.module.nebula.runtime</module>
+    <module>features/org.eclipse.rcptt.module.nebula</module>
     <module>site</module>
   </modules>
 </project>

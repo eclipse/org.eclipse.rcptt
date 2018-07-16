@@ -39,14 +39,14 @@
          id="org.eclipse.rcptt.tesla.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.nebula.ecl.impl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -74,7 +74,7 @@
          id="org.eclipse.rcptt.tesla.nebula.nattable.impl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
          
    <plugin
@@ -88,14 +88,14 @@
          id="org.eclipse.rcptt.tesla.recording.nebula.ecl"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.nebula.nattable"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 
 </feature>

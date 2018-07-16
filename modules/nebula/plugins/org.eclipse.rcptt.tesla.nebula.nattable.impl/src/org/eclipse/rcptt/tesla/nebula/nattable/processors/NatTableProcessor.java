@@ -234,4 +234,9 @@ public class NatTableProcessor implements ITeslaCommandProcessor, ISWTModelMappe
 		response.setMessage(msg);
 		return response;
 	}
+
+	@Override
+	public int getPriority() {
+		return 400;
+	}
 }

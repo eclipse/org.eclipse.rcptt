@@ -99,6 +99,6 @@
          id="org.eclipse.rcptt.module.nebula.updates"
          download-size="0"
          install-size="0"
-         version="2.1.0.qualifier"
+         version="2.4.0.qualifier"
          unpack="false"/>
 </feature>
