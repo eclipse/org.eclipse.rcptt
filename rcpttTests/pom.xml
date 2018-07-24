@@ -37,6 +37,9 @@
               <arg>-nosplash</arg>
               <arg>-consoleLog</arg>
             </args>
+		<vmArgs>
+			<vmArg>-XX:HeapDumpOnOutOfMemoryError</vmarg>
+		</vmArgs>
           </aut>
           <runner>
             <version>${runner-version}</version>
