@@ -38,7 +38,7 @@
               <arg>-consoleLog</arg>
             </args>
 		<vmArgs>
-			<vmArg>-XX:HeapDumpOnOutOfMemoryError</vmArg>
+			<vmArg>-XX:+HeapDumpOnOutOfMemoryError</vmArg>
 			<vmArg>-XX:+UnlockCommercialFeatures</vmArg>
 			<vmArg>-XX:+FlightRecorder</vmArg>
 			<vmArg>-XX:StartFlightRecording=name=aut,delay=60s,filename=aut.jfr,dumponexit=true</vmArg>
