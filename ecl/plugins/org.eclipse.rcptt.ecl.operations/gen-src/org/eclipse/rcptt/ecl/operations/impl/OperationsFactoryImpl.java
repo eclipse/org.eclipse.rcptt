@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,6 +29,7 @@ import org.eclipse.rcptt.ecl.operations.Each;
 import org.eclipse.rcptt.ecl.operations.Emit;
 import org.eclipse.rcptt.ecl.operations.Entry;
 import org.eclipse.rcptt.ecl.operations.Eq;
+import org.eclipse.rcptt.ecl.operations.FindAll;
 import org.eclipse.rcptt.ecl.operations.Format;
 import org.eclipse.rcptt.ecl.operations.FormatTime;
 import org.eclipse.rcptt.ecl.operations.GetTime;
@@ -143,6 +144,7 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 			case OperationsPackage.SPLIT: return createSplit();
 			case OperationsPackage.PARSE_TIME: return createParseTime();
 			case OperationsPackage.THROW_ERROR: return createThrowError();
+			case OperationsPackage.FIND_ALL: return createFindAll();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -526,6 +528,16 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 	public ThrowError createThrowError() {
 		ThrowErrorImpl throwError = new ThrowErrorImpl();
 		return throwError;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FindAll createFindAll() {
+		FindAllImpl findAll = new FindAllImpl();
+		return findAll;
 	}
 
 	/**

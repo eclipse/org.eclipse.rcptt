@@ -40,6 +40,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Try/finally"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Try/times"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Try/delay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Try/noScreenshot"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operations.ecore#//Try/error"/>
     </genClasses>
     <genClasses ecoreClass="operations.ecore#//Format">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//Format/format"/>
@@ -127,6 +129,13 @@
     <genClasses ecoreClass="operations.ecore#//ParseTime">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//ParseTime/input"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//ParseTime/format"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//ThrowError">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//ThrowError/message"/>
+    </genClasses>
+    <genClasses ecoreClass="operations.ecore#//FindAll">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//FindAll/str"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//FindAll/regex"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

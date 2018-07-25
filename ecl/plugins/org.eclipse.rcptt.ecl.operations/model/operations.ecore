@@ -475,4 +475,15 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FindAll" eSuperTypes="../../org.eclipse.rcptt.ecl.core/model/ecl.ecore#//Command">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Returns all non-overlapping matches of regex in str with substrings captured by the groups"/>
+      <details key="example" value="find-all &quot;one 1 two 2 three 3&quot; &quot;(\\w+)\\W+(\\d+)&quot; | to-list | each [val groups] {&#xA;&#x9;$groups | get 0 | log&#xA;}"/>
+      <details key="returns" value="Lists of the match for a regex and substrings captured by the groups"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="str" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/input"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="regex" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

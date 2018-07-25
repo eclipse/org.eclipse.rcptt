@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.rcptt.ecl.operations.Each;
 import org.eclipse.rcptt.ecl.operations.Emit;
 import org.eclipse.rcptt.ecl.operations.Entry;
 import org.eclipse.rcptt.ecl.operations.Eq;
+import org.eclipse.rcptt.ecl.operations.FindAll;
 import org.eclipse.rcptt.ecl.operations.Format;
 import org.eclipse.rcptt.ecl.operations.FormatTime;
 import org.eclipse.rcptt.ecl.operations.GetTime;
@@ -282,6 +283,10 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseThrowError(ThrowError object) {
 				return createThrowErrorAdapter();
+			}
+			@Override
+			public Adapter caseFindAll(FindAll object) {
+				return createFindAllAdapter();
 			}
 			@Override
 			public Adapter caseCommand(Command object) {
@@ -894,6 +899,20 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createThrowErrorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.operations.FindAll <em>Find All</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.operations.FindAll
+	 * @generated
+	 */
+	public Adapter createFindAllAdapter() {
 		return null;
 	}
 

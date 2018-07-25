@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.rcptt.ecl.operations.Each;
 import org.eclipse.rcptt.ecl.operations.Emit;
 import org.eclipse.rcptt.ecl.operations.Entry;
 import org.eclipse.rcptt.ecl.operations.Eq;
+import org.eclipse.rcptt.ecl.operations.FindAll;
 import org.eclipse.rcptt.ecl.operations.Format;
 import org.eclipse.rcptt.ecl.operations.FormatTime;
 import org.eclipse.rcptt.ecl.operations.GetTime;
@@ -437,6 +438,13 @@ public class OperationsSwitch<T> {
 				ThrowError throwError = (ThrowError)theEObject;
 				T result = caseThrowError(throwError);
 				if (result == null) result = caseCommand(throwError);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OperationsPackage.FIND_ALL: {
+				FindAll findAll = (FindAll)theEObject;
+				T result = caseFindAll(findAll);
+				if (result == null) result = caseCommand(findAll);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1072,6 +1080,21 @@ public class OperationsSwitch<T> {
 	 * @generated
 	 */
 	public T caseThrowError(ThrowError object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Find All</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Find All</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFindAll(FindAll object) {
 		return null;
 	}
 

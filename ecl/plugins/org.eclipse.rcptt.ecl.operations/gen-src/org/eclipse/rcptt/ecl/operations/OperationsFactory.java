@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -397,6 +397,15 @@ public interface OperationsFactory extends EFactory {
 	 * @generated
 	 */
 	ThrowError createThrowError();
+
+	/**
+	 * Returns a new object of class '<em>Find All</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Find All</em>'.
+	 * @generated
+	 */
+	FindAll createFindAll();
 
 	/**
 	 * Returns a new object of class '<em>Binary Op</em>'.
