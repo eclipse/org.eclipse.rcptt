@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target includeMode="feature" name="photon" sequenceNumber="90">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target includeMode="feature" name="photon" sequenceNumber="91">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.google.gson" version="2.7.0.v20170129-0911"/>
@@ -8,8 +8,8 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="1.1.0.201804011600"/>
-<repository location="http://download.eclipse.org/nebula/snapshot/"/>
+<unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/nebula/releases/latest"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcptt.updates.feature.group" version="0.0.0"/>
