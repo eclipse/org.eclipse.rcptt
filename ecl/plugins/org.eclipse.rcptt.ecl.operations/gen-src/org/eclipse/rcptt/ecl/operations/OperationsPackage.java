@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2014, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -2325,6 +2325,61 @@ public interface OperationsPackage extends EPackage {
 	int THROW_ERROR_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.operations.impl.FindAllImpl <em>Find All</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.operations.impl.FindAllImpl
+	 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getFindAll()
+	 * @generated
+	 */
+	int FIND_ALL = 43;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIND_ALL__HOST = CorePackage.COMMAND__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIND_ALL__BINDINGS = CorePackage.COMMAND__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Str</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIND_ALL__STR = CorePackage.COMMAND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Regex</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIND_ALL__REGEX = CorePackage.COMMAND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Find All</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIND_ALL_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3317,6 +3372,38 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getThrowError_Message();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.FindAll <em>Find All</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Find All</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.FindAll
+	 * @generated
+	 */
+	EClass getFindAll();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.FindAll#getStr <em>Str</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Str</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.FindAll#getStr()
+	 * @see #getFindAll()
+	 * @generated
+	 */
+	EAttribute getFindAll_Str();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.FindAll#getRegex <em>Regex</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Regex</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.FindAll#getRegex()
+	 * @see #getFindAll()
+	 * @generated
+	 */
+	EAttribute getFindAll_Regex();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4216,6 +4303,32 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute THROW_ERROR__MESSAGE = eINSTANCE.getThrowError_Message();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.FindAllImpl <em>Find All</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.operations.impl.FindAllImpl
+		 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getFindAll()
+		 * @generated
+		 */
+		EClass FIND_ALL = eINSTANCE.getFindAll();
+
+		/**
+		 * The meta object literal for the '<em><b>Str</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FIND_ALL__STR = eINSTANCE.getFindAll_Str();
+
+		/**
+		 * The meta object literal for the '<em><b>Regex</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FIND_ALL__REGEX = eINSTANCE.getFindAll_Regex();
 
 		/**
 		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.
