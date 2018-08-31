@@ -25,6 +25,11 @@ public aspect ImagesAspect {
 		ImageDataMapping.INSTANCE.imageDataFromImage(result, image);
 	}
 
+	@SuppressAjWarnings("adviceDidNotMatch")
+	after(Image image, ImageData imageData): target(image) &&
+		execution(void Image.init(ImageData)) && args(imageData) {
+		ImageDataMapping.INSTANCE.imageFromImageData(image, imageData);
+	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
 	after(Image image, ImageData imageData) : execution(public Image.new(Device, ImageData)) 
