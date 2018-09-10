@@ -136,6 +136,8 @@ public enum ImageSources {
 					return;
 				}
 			}
+			if (source == null)
+				throw new NullPointerException();
 			children.add(source);
 		}
 

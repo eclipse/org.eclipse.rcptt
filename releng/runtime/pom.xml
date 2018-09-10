@@ -1,86 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-     
-    Contributors:
-    	Xored Software Inc - initial API and implementation and/or initial documentation
-    -->
+<!-- Copyright (c) 2009, 2016 Xored Software Inc and others. All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+	and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
+	Xored Software Inc - initial API and implementation and/or initial documentation -->
 
-    <project
-      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-      xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <modelVersion>4.0.0</modelVersion>
-      <groupId>org.eclipse.rcptt</groupId>
-      <artifactId>runtime</artifactId>
-      <version>2.4.0-SNAPSHOT</version>
-      <packaging>pom</packaging>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.rcptt</groupId>
+	<artifactId>runtime</artifactId>
+	<version>2.4.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-      <parent>
-        <groupId>org.eclipse.rcptt</groupId>
-        <artifactId>core</artifactId>
-        <version>2.4.0-SNAPSHOT</version>
-        <relativePath>../core/pom.xml</relativePath>
-      </parent>
-      
-      <properties>
-        <coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
-        <orbitRepository>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbitRepository>
-      </properties>
-      
-      <repositories>
-        <repository>
-          <id>rcptt-core</id>
-          <layout>p2</layout>
-          <snapshots>
-            <updatePolicy>always</updatePolicy>
-          </snapshots>
-          <url>${coreRepository}</url>
-        </repository>
-        <repository>
-          <id>ajdt37</id>
-          <layout>p2</layout>
-          <url>${ajdt37repository}</url>
-        </repository>
-        <repository>
-          <id>orbit</id>
-          <layout>p2</layout>
-          <url>${orbitRepository}</url>
-        </repository>
-      </repositories>
+	<parent>
+		<groupId>org.eclipse.rcptt</groupId>
+		<artifactId>core</artifactId>
+		<version>2.4.0-SNAPSHOT</version>
+		<relativePath>../core/pom.xml</relativePath>
+	</parent>
 
-      <profiles>
-        <profile>
-          <id>runtime3x</id>
-          <modules>
-            <module>../../runtime</module>
-            <module>../../repository/e3x</module>
-          </modules>
-          <repositories>
-           <repository>
-            <id>indigo</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/indigo</url>
-          </repository>
-        </repositories>
-      </profile>
-      
-      <profile>
-        <id>runtime4x</id>
-        <modules>
-          <module>../../runtime</module>
-          <module>../../repository/e4x</module>
-        </modules>
-        <repositories>
-          <repository>
-            <id>neon</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/neon</url>
-          </repository>
-        </repositories>
-      </profile>
-    </profiles>
-  </project>
+	<properties>
+		<coreRepository>file:/${user.dir}/repository/core/target/repository</coreRepository>
+		<orbitRepository>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbitRepository>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>rcptt-core</id>
+			<layout>p2</layout>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<url>${coreRepository}</url>
+		</repository>
+		<repository>
+			<id>orbit</id>
+			<layout>p2</layout>
+			<url>${orbitRepository}</url>
+		</repository>
+	</repositories>
+
+	<profiles>
+		<profile>
+			<id>runtime3x</id>
+			<modules>
+				<module>../../runtime</module>
+				<module>../../repository/e3x</module>
+			</modules>
+			<repositories>
+				<repository>
+					<id>indigo</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/indigo</url>
+				</repository>
+				<repository>
+					<id>ajdt37</id>
+					<layout>p2</layout>
+					<url>${ajdt37repository}</url>
+				</repository>
+			</repositories>
+		</profile>
+
+		<profile>
+			<id>runtime4x</id>
+			<modules>
+				<module>../../runtime</module>
+				<module>../../repository/e4x</module>
+			</modules>
+			<repositories>
+				<repository>
+					<id>neon</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/releases/neon</url>
+				</repository>
+				<repository>
+					<id>ajdt48</id>
+					<layout>p2</layout>
+					<url>http://download.eclipse.org/tools/ajdt/48/dev/update</url>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+</project>

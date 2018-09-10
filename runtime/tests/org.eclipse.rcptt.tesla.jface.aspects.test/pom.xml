@@ -1,24 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-     
-    Contributors:
-    	Xored Software Inc - initial API and implementation and/or initial documentation
- -->
+<!-- Copyright (c) 2009, 2016 Xored Software Inc and others. All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+	and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
+	Xored Software Inc - initial API and implementation and/or initial documentation -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>rcptt.runtime.tests</artifactId>
-    <groupId>org.eclipse.rcptt</groupId>
-    <version>2.4.0-SNAPSHOT</version>
-  </parent>
-  <groupId>org.eclipse.rcptt</groupId>
-  <artifactId>org.eclipse.rcptt.tesla.jface.aspects.test</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>rcptt.runtime.tests</artifactId>
+		<groupId>org.eclipse.rcptt</groupId>
+		<version>2.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>org.eclipse.rcptt.tesla.jface.aspects.test</artifactId>
+	<version>2.4.0-SNAPSHOT</version>
+	<packaging>eclipse-test-plugin</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>p2.osgi.bundle</groupId>
+			<artifactId>org.eclipse.equinox.weaving.hook</artifactId>
+			<version>${hookVersion}</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>runtime4x</id>
+			<properties>
+				<hookVersion>1.2.100.v20171221-2204</hookVersion>
+			</properties>
+		</profile>
+		<profile>
+			<id>runtime3x</id>
+			<properties>
+				<hookVersion>1.0.200.I20120427-0800</hookVersion>
+			</properties>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<groupId>org.eclipse.tycho</groupId>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>true</useUIThread>
+					<argLine>-Daj.weaving.verbose=true
+						-Dorg.aspectj.weaver.showWeaveInfo=true
+						-Dorg.aspectj.osgi.verbose=true</argLine>
+					<frameworkExtensions>
+						<frameworkExtension>
+							<groupId>p2.osgi.bundle</groupId>
+							<artifactId>org.eclipse.equinox.weaving.hook</artifactId>
+							<version>${hookVersion}</version>
+						</frameworkExtension>
+					</frameworkExtensions>
+					<bundleStartLevel>
+						<bundle>
+							<id>org.eclipse.equinox.weaving.aspectj</id>
+							<level>3</level>
+							<autoStart>true</autoStart>
+						</bundle>
+					</bundleStartLevel>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

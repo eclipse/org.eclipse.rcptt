@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.jface.aspects.test;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +63,10 @@ public class ImageSourcesTest {
 	private List<String> extractStrings(Image iconImage) {
 		ImageSource imageSource = ImageSources.INSTANCE.find(iconImage);
 		CompositeSource composite = (CompositeSource) imageSource;
-		List<String> strings = composite.children.stream().map(Object::toString).collect(Collectors.toList());
+		List<String> strings = new ArrayList<String>();
+		for (ImageSource source: composite.children) {
+			strings.add(source.toString());	
+		}
 		return strings;
 	}
 	
@@ -101,8 +106,14 @@ public class ImageSourcesTest {
 		return new DecorationOverlayIcon(disposeAfter(image1.createImage()), overlays);
 	}
 
-	private <T extends Resource> T disposeAfter(T disposable) {
-		closer.register(() -> disposable.dispose());
+	private <T extends Resource> T disposeAfter(final T disposable) {
+		closer.register(new Closeable() {
+			
+			@Override
+			public void close() throws IOException {
+				disposable.dispose();
+			}
+		});
 		return disposable;
 	}
 
