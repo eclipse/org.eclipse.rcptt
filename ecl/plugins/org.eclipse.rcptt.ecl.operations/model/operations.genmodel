@@ -137,5 +137,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//FindAll/str"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operations.ecore#//FindAll/regex"/>
     </genClasses>
+    <genClasses ecoreClass="operations.ecore#//Double"/>
   </genPackages>
 </genmodel:GenModel>

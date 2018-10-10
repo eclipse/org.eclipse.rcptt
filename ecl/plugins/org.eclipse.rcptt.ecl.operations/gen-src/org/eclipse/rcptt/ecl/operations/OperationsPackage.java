@@ -2380,6 +2380,52 @@ public interface OperationsPackage extends EPackage {
 	int FIND_ALL_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.operations.impl.DoubleImpl <em>Double</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rcptt.ecl.operations.impl.DoubleImpl
+	 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getDouble()
+	 * @generated
+	 */
+	int DOUBLE = 44;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE__HOST = CONVERT__HOST;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE__BINDINGS = CONVERT__BINDINGS;
+
+	/**
+	 * The feature id for the '<em><b>Input</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE__INPUT = CONVERT__INPUT;
+
+	/**
+	 * The number of structural features of the '<em>Double</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE_FEATURE_COUNT = CONVERT_FEATURE_COUNT + 0;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Eq <em>Eq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3404,6 +3450,16 @@ public interface OperationsPackage extends EPackage {
 	EAttribute getFindAll_Regex();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.operations.Double <em>Double</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Double</em>'.
+	 * @see org.eclipse.rcptt.ecl.operations.Double
+	 * @generated
+	 */
+	EClass getDouble();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.ecl.operations.ParseTime#getInput <em>Input</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4329,6 +4385,16 @@ public interface OperationsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FIND_ALL__REGEX = eINSTANCE.getFindAll_Regex();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.operations.impl.DoubleImpl <em>Double</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rcptt.ecl.operations.impl.DoubleImpl
+		 * @see org.eclipse.rcptt.ecl.operations.impl.OperationsPackageImpl#getDouble()
+		 * @generated
+		 */
+		EClass DOUBLE = eINSTANCE.getDouble();
 
 		/**
 		 * The meta object literal for the '<em><b>Input</b></em>' attribute feature.

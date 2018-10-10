@@ -486,4 +486,10 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="regex" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Double" eSuperTypes="#//Convert">
+    <eAnnotations source="http://www.eclipse.org/ecl/docs">
+      <details key="description" value="Converts its argument to double."/>
+      <details key="returns" value="&lt;p>Returns double value or fails if value cannot be converted. &lt;code>true&lt;/code> is converted to &lt;code>1.0&lt;/code> and &lt;code>false&lt;/code> is converted to &lt;code>0&lt;/code>. This command uses &lt;code>java.lang.Double.parseDouble&lt;/code> method, but also supports a few additional text values for infinity:&lt;/p>"/>
+    </eAnnotations>
+  </eClassifiers>
 </ecore:EPackage>

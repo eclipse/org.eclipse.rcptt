@@ -289,6 +289,10 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 				return createFindAllAdapter();
 			}
 			@Override
+			public Adapter caseDouble(org.eclipse.rcptt.ecl.operations.Double object) {
+				return createDoubleAdapter();
+			}
+			@Override
 			public Adapter caseCommand(Command object) {
 				return createCommandAdapter();
 			}
@@ -913,6 +917,20 @@ public class OperationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFindAllAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.ecl.operations.Double <em>Double</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rcptt.ecl.operations.Double
+	 * @generated
+	 */
+	public Adapter createDoubleAdapter() {
 		return null;
 	}
 

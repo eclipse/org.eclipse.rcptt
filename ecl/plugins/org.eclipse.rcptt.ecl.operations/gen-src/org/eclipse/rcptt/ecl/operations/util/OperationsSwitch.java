@@ -448,6 +448,14 @@ public class OperationsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case OperationsPackage.DOUBLE: {
+				org.eclipse.rcptt.ecl.operations.Double double_ = (org.eclipse.rcptt.ecl.operations.Double)theEObject;
+				T result = caseDouble(double_);
+				if (result == null) result = caseConvert(double_);
+				if (result == null) result = caseCommand(double_);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -1095,6 +1103,21 @@ public class OperationsSwitch<T> {
 	 * @generated
 	 */
 	public T caseFindAll(FindAll object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Double</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Double</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDouble(org.eclipse.rcptt.ecl.operations.Double object) {
 		return null;
 	}
 

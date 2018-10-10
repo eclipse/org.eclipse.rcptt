@@ -145,6 +145,7 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 			case OperationsPackage.PARSE_TIME: return createParseTime();
 			case OperationsPackage.THROW_ERROR: return createThrowError();
 			case OperationsPackage.FIND_ALL: return createFindAll();
+			case OperationsPackage.DOUBLE: return createDouble();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -538,6 +539,16 @@ public class OperationsFactoryImpl extends EFactoryImpl implements
 	public FindAll createFindAll() {
 		FindAllImpl findAll = new FindAllImpl();
 		return findAll;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public org.eclipse.rcptt.ecl.operations.Double createDouble() {
+		DoubleImpl double_ = new DoubleImpl();
+		return double_;
 	}
 
 	/**

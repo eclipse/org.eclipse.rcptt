@@ -408,6 +408,15 @@ public interface OperationsFactory extends EFactory {
 	FindAll createFindAll();
 
 	/**
+	 * Returns a new object of class '<em>Double</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Double</em>'.
+	 * @generated
+	 */
+	Double createDouble();
+
+	/**
 	 * Returns a new object of class '<em>Binary Op</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
