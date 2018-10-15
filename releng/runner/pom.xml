@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    Copyright (c) 2009, 2016, 2018 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -32,14 +32,14 @@
   </properties>
   <repositories>
     <repository>
-      <id>photon</id>
+      <id>2018-09</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/photon</url>
+      <url>http://download.eclipse.org/releases/2018-09</url>
     </repository>
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</url>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20180905201904/repository/</url>
     </repository>
     <repository>
       <snapshots>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    Copyright (c) 2009, 2016, 2018 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@
   <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <tycho-version>1.1.0</tycho-version>
+    <tycho-version>1.2.0</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update/</ajdt37repository>
@@ -27,6 +27,15 @@
     <ajJavaTarget>1.7</ajJavaTarget>
     <ajJavaCompilance>1.7</ajJavaCompilance>
     <cbi-version>1.1.4</cbi-version>
+    <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+    <maven-antrun-plugin-version>1.8</maven-antrun-plugin-version>
+    <maven-clean-plugin-version>3.1.0</maven-clean-plugin-version>
+    <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
+    <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
+    <maven-deploy-plugin-version>2.8.2</maven-deploy-plugin-version>
+    <maven-enforcer-plugin-version>1.4.1</maven-enforcer-plugin-version>
+    <maven-plugin-plugin-version>3.6.0</maven-plugin-plugin-version>
+    <maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
   </properties>
   <distributionManagement>
     <repository>
@@ -106,7 +115,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.0</version>
+        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>

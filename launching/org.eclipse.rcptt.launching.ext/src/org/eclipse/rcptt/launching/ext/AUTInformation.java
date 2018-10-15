@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016, 2018 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -210,6 +210,8 @@ public class AUTInformation {
 			values.put(VERSION, "4.7");
 		} else if (minor == 107) {
 			values.put(VERSION, "4.8");
+		} else if (minor == 108) {
+			values.put(VERSION, "4.9");
 		}
 	}
 
@@ -220,7 +222,7 @@ public class AUTInformation {
 		if (major != 3)
 			return;
 		int minor = ((OSGiVersion) swtVersion).getMinor();
-		if (minor <= 5) {
+		if (minor <= 6) {
 			values.put(VERSION, "4.3");
 		}
 	}
