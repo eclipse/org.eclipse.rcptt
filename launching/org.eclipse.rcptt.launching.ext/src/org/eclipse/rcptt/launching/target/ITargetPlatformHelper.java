@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2015 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
 import org.eclipse.rcptt.launching.internal.target.Q7Target;
+import org.eclipse.rcptt.launching.internal.target.Q7Target.AutInstall;
 
 /**
  * Class designed to access target platform features to configure it via easy
@@ -28,6 +29,8 @@ import org.eclipse.rcptt.launching.internal.target.Q7Target;
  */
 public interface ITargetPlatformHelper {
 	Q7Target getQ7Target();
+
+	String getUserArea();
 
 	/**
 	 * Return if target is already resolved.

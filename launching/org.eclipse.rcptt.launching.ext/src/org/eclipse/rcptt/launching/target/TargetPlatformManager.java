@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -74,7 +74,17 @@ public class TargetPlatformManager {
 			ITargetLocation pluginsContainer = service
 					.newDirectoryLocation(pluginsDir.getAbsolutePath());
 			containers.add(pluginsContainer);
-			info.getQ7Target().pluginsDir = pluginsContainer;
+			info.getQ7Target().addPluginsDir(pluginsContainer);
+
+			final String localLocation = info.getUserArea();
+			if (localLocation != null) {
+				final File localPluginsDir = PDELocationUtils.getPluginFolder(localLocation);
+				final ITargetLocation localPluginsContainer = service
+						.newDirectoryLocation(localPluginsDir.getAbsolutePath());
+				containers.add(localPluginsContainer);
+				info.getQ7Target().addPluginsDir(localPluginsContainer);
+			}
+
 			info.setBundleContainers(containers
 					.toArray(new ITargetLocation[containers.size()]));
 			throwOnError(info.resolve(monitor));

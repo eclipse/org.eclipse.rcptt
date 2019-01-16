@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,7 @@ import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.logW
 import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.status;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -30,6 +30,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
+import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.launching.ext.BundleStart;
@@ -76,7 +77,20 @@ public class Q7Target {
 	/**
 	 * Plugins directory, may be <code>null</code>
 	 */
-	public ITargetLocation pluginsDir;
+	private List<ITargetLocation> pluginsDirs = new ArrayList<ITargetLocation>();
+	
+	public List<ITargetLocation> getPluginsDirs() {
+		return pluginsDirs;
+	}
+
+	public void addPluginsDir(ITargetLocation container) {
+		if (pluginsDirs.contains(container)) {
+			return;
+		}
+		if (container instanceof DirectoryBundleContainer) {
+			pluginsDirs.add(container);
+		}		
+	}
 	/**
 	 * Q7 Runtime, Q7 runtime dependencies, other injections
 	 */
@@ -119,12 +133,15 @@ public class Q7Target {
 	 * 
 	 */
 	public static class AutInstall {
-		private static String OSGI_BUNDLES = "osgi.bundles";
+		private static final String OSGI_BUNDLES = "osgi.bundles";
+		private OriginalOrderProperties config;
 		public final ProfileBundleContainer container;
+		public String userArea;
 
 		public AutInstall(ProfileBundleContainer container) {
 			this.container = container;
-
+			this.userArea = null;
+			this.config = TargetPlatformHelper.processConfiguration(this);
 		}
 
 		public TargetBundle[] getBundles() {
@@ -168,18 +185,16 @@ public class Q7Target {
 			}
 		}
 
-		private OriginalOrderProperties config;
+		public URL getInstallLocationURL() {
+			try {
+				return TargetPlatformHelper.buildURL(container.getLocation(true), true, getInstallLocation().getAbsolutePath());
+			} catch (CoreException e) {
+				log(status("Can't get AUT location", e));
+				return null;
+			}
+		}
 
 		protected OriginalOrderProperties getConfig() {
-			if (config == null) {
-				try {
-					config = OriginalOrderProperties.fromFile(new File(
-							getInstallLocation(), "configuration/config.ini"));
-				} catch (IOException e) {
-					log(status("Error reading config.ini", e));
-					config = new OriginalOrderProperties();
-				}
-			}
 			return config;
 		}
 	}

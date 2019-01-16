@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,11 +21,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -53,6 +55,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
+import org.eclipse.equinox.internal.launcher.Constants;
 import org.eclipse.equinox.internal.simpleconfigurator.utils.SimpleConfiguratorUtils;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.query.IQuery;
@@ -125,6 +128,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public Q7Target getQ7Target() {
 		return q7target;
+	}
+
+	public String getUserArea() {
+		final AutInstall install = getAutInstall();
+		if (install == null) {
+			return null;
+		}
+		return install.userArea;
 	}
 
 	@Deprecated
@@ -294,7 +305,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				if (iUBundleContainer instanceof ProfileBundleContainer) {
 					getQ7Target().setInstall(iUBundleContainer);
 				} else if (iUBundleContainer instanceof DirectoryBundleContainer) {
-					getQ7Target().pluginsDir = iUBundleContainer;
+					getQ7Target().addPluginsDir(iUBundleContainer);
 				} else {
 					getQ7Target().addExtra(iUBundleContainer);
 				}
@@ -555,28 +566,16 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return status = Status.CANCEL_STATUS;
 	}
 
-	public OriginalOrderProperties getConfigIniProperties() {
-		File iniFile = new File(getTargetPlatformProfilePath(), "configuration/config.ini"); //$NON-NLS-1$
-		OriginalOrderProperties pini = new OriginalOrderProperties();
-		if (!iniFile.exists())
-			return pini;
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(iniFile);
-			pini.load(fis);
-			fis.close();
-			return pini;
-		} catch (IOException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
-		} finally {
-			try {
-				if (fis != null)
-					fis.close();
-			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
+	AutInstall getAutInstall() {
+		final Q7Target target = getQ7Target();
+		if (target == null) {
+			return null;
 		}
-		return pini;
+		return target.getInstall();
+	}
+
+	public OriginalOrderProperties getConfigIniProperties() {
+		return getAutInstall().getConfig();
 	}
 
 	protected String getEclipseProductFileProperty(String name) {
@@ -1315,11 +1314,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	ProfileBundleContainer getInstanceContainer() {
-		final Q7Target target = getQ7Target();
-		if (target == null) {
-			return null;
-		}
-		final AutInstall install = target.getInstall();
+		final AutInstall install = getAutInstall();
 		if (install == null) {
 			return null;
 		}
@@ -1343,4 +1338,435 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return AUTInformation.getInformationMap(target);
 	}
 
+	private static final String PROP_CONFIG_AREA = "osgi.configuration.area"; //$NON-NLS-1$
+	private static final String PROP_SHARED_CONFIG_AREA = "osgi.sharedConfiguration.area"; //$NON-NLS-1$
+	private static final String PROP_CONFIG_CASCADED = "osgi.configuration.cascaded"; //$NON-NLS-1$
+
+	// for variable substitution
+	public static final String VARIABLE_DELIM_STRING = "$"; //$NON-NLS-1$
+	public static final char VARIABLE_DELIM_CHAR = '$';
+
+	private static final String ECLIPSE = "eclipse"; //$NON-NLS-1$
+	private static final String PRODUCT_SITE_MARKER = ".eclipseproduct"; //$NON-NLS-1$
+	private static final String PRODUCT_SITE_ID = "id"; //$NON-NLS-1$
+	private static final String PRODUCT_SITE_VERSION = "version"; //$NON-NLS-1$
+
+	private static final String PROP_OS = "osgi.os"; //$NON-NLS-1$
+	private static final String PROP_WS = "osgi.ws"; //$NON-NLS-1$
+	private static final String PROP_ARCH = "osgi.arch"; //$NON-NLS-1$
+
+	private static final String CONFIG_DIR = "configuration/"; //$NON-NLS-1$
+	private static final String CONFIG_FILE = "config.ini"; //$NON-NLS-1$
+	private static final String NONE = "@none"; //$NON-NLS-1$
+	private static final String NO_DEFAULT = "@noDefault"; //$NON-NLS-1$
+	private static final String USER_HOME = "@user.home"; //$NON-NLS-1$
+	private static final String USER_DIR = "@user.dir"; //$NON-NLS-1$
+	private static final String PROP_USER_HOME = "user.home"; //$NON-NLS-1$
+	private static final String PROP_USER_DIR = "user.dir"; //$NON-NLS-1$
+	private static final String FILE_SCHEME = "file:"; //$NON-NLS-1$    
+
+	public static OriginalOrderProperties processConfiguration(AutInstall autInstall) {
+		URL baseConfigurationLocation = null;
+		OriginalOrderProperties baseConfiguration = null;
+		String location = null;
+			if (baseConfigurationLocation == null)
+				try {
+					baseConfigurationLocation = new URL(autInstall.getInstallLocationURL(), CONFIG_DIR);
+				} catch (MalformedURLException e) {
+					// leave baseConfigurationLocation null
+				}
+			baseConfiguration = loadConfiguration(baseConfigurationLocation);
+			if (baseConfiguration != null) {
+				// if the base sets the install area then use that value if the property.  We know the 
+				// property is not already set.
+				location = baseConfiguration.getProperty(PROP_CONFIG_AREA);
+			}
+
+		// Now we know where the base configuration is supposed to be.  Go ahead and load
+		// it and merge into the System properties.  Then, if cascaded, read the parent configuration.
+		// Note that in a cascaded situation, the user configuration may be ignored if the parent 
+		// configuration has changed since the user configuration has been written. 
+		// Note that the parent may or may not be the same parent as we read above since the 
+		// base can define its parent.  The first parent we read was either defined by the user
+		// on the command line or was the one in the install dir.  
+		// if the config or parent we are about to read is the same as the base config we read above,
+		// just reuse the base
+		OriginalOrderProperties configuration = baseConfiguration;
+		final URL configUrl = getConfigurationLocation(location, autInstall);
+		if (configuration == null || !configUrl.equals(baseConfigurationLocation))
+			configuration = loadConfiguration(configUrl);
+
+		if (configuration != null && "false".equalsIgnoreCase(configuration.getProperty(PROP_CONFIG_CASCADED))) { //$NON-NLS-1$
+			configuration.remove(PROP_SHARED_CONFIG_AREA);
+			return configuration;
+		} else {
+			if (configuration == null)
+				throw new RuntimeException("File config.ini from folder \"" + configUrl + "\" was not read");
+			URL sharedConfigURL = buildLocation(configuration.getProperty(PROP_SHARED_CONFIG_AREA), null, "", autInstall.getInstallLocation().getAbsolutePath()); //$NON-NLS-1$
+			if (sharedConfigURL == null)
+				try {
+					// there is no shared config value so compute one
+					sharedConfigURL = new URL(autInstall.getInstallLocationURL(), CONFIG_DIR);
+				} catch (MalformedURLException e) {
+					// leave sharedConfigurationLocation null
+				}
+			// if the parent location is different from the config location, read it too.
+			if (sharedConfigURL != null) {
+				if (sharedConfigURL.equals(configUrl)) {
+					//After all we are not in a shared configuration setup.
+					// - remove the property to show that we do not have a parent 
+					// - merge configuration with the system properties 
+					return configuration;
+				} else {
+					// if the parent we are about to read is the same as the base config we read above,
+					// just reuse the base
+					OriginalOrderProperties sharedConfiguration = baseConfiguration;
+					if (!sharedConfigURL.equals(baseConfigurationLocation)) {
+						sharedConfiguration = loadConfiguration(sharedConfigURL);
+					}
+					configuration.remove(PROP_SHARED_CONFIG_AREA);
+
+					return mergeProperties(sharedConfiguration, configuration);
+				}
+			}
+		}
+		return null;
+	}
+
+	private static OriginalOrderProperties loadConfiguration(URL url) {
+		OriginalOrderProperties result = null;
+		try {
+			url = new URL(url, CONFIG_FILE);
+		} catch (MalformedURLException e) {
+			return result;
+		}
+		try {
+			if (url != null)
+				result = OriginalOrderProperties.load(url);
+		} catch (IOException e) {
+		}
+		return substituteVars(result);
+	}
+
+	private static OriginalOrderProperties substituteVars(OriginalOrderProperties result) {
+		if (result == null) {
+			//nothing todo.
+			return null;
+		}
+		for (Enumeration<?> eKeys = result.keys(); eKeys.hasMoreElements();) {
+			Object key = eKeys.nextElement();
+			if (key instanceof String) {
+				String value = result.getProperty((String) key);
+				if (value != null)
+					result.put(key, substituteVars(value));
+			}
+		}
+		return result;
+	}
+
+	private static String substituteVars(String path) {
+		StringBuffer buf = new StringBuffer(path.length());
+		StringTokenizer st = new StringTokenizer(path, VARIABLE_DELIM_STRING, true);
+		boolean varStarted = false; // indicates we are processing a var subtitute
+		String var = null; // the current var key
+		while (st.hasMoreElements()) {
+			String tok = st.nextToken();
+			if (VARIABLE_DELIM_STRING.equals(tok)) {
+				if (!varStarted) {
+					varStarted = true; // we found the start of a var
+					var = ""; //$NON-NLS-1$
+				} else {
+					// we have found the end of a var
+					String prop = null;
+					// get the value of the var from system properties
+					if (var != null && var.length() > 0)
+						prop = System.getProperty(var);
+					if (prop == null) {
+						try {
+							// try using the System.getenv method if it exists (bug 126921)
+							Method getenv = System.class.getMethod("getenv", new Class[] {String.class}); //$NON-NLS-1$
+							prop = (String) getenv.invoke(null, new Object[] {var});
+						} catch (Throwable t) {
+							// do nothing; 
+							// on 1.4 VMs this throws an error
+							// on J2ME this method does not exist
+						}
+					}
+					if (prop != null) {
+						// found a value; use it
+						buf.append(prop);
+					} else {
+						// could not find a value append the var; keep delemiters
+						buf.append(VARIABLE_DELIM_CHAR);
+						buf.append(var == null ? "" : var); //$NON-NLS-1$
+						buf.append(VARIABLE_DELIM_CHAR);
+					}
+					varStarted = false;
+					var = null;
+				}
+			} else {
+				if (!varStarted)
+					buf.append(tok); // the token is not part of a var
+				else
+					var = tok; // the token is the var key; save the key to process when we find the end token
+			}
+		}
+		if (var != null)
+			// found a case of $var at the end of the path with no trailing $; just append it as is.
+			buf.append(VARIABLE_DELIM_CHAR).append(var);
+		return buf.toString();
+	}
+	
+	private static URL getConfigurationLocation(String configurationArea, AutInstall autInstall) {
+		URL configurationLocation = buildLocation(configurationArea, null, "", autInstall.getInstallLocation().getAbsolutePath()); //$NON-NLS-1$
+		if (configurationLocation == null)
+			configurationLocation = buildURL(computeDefaultConfigurationLocation(autInstall), true, autInstall.getInstallLocation().getAbsolutePath());
+		return configurationLocation;
+	}
+
+	private static URL buildLocation(String location, URL defaultLocation, String userDefaultAppendage, String installArea) {
+		URL result = null;
+		// if the instance location is not set, predict where the workspace will be and 
+		// put the instance area inside the workspace meta area.
+		if (location == null)
+			result = defaultLocation;
+		else if (location.equalsIgnoreCase(NONE))
+			return null;
+		else if (location.equalsIgnoreCase(NO_DEFAULT))
+			result = buildURL(location, true, installArea);
+		else {
+			if (location.startsWith(USER_HOME)) {
+				String base = substituteVar(location, USER_HOME, PROP_USER_HOME);
+				location = new File(base, userDefaultAppendage).getAbsolutePath();
+			} else if (location.startsWith(USER_DIR)) {
+				String base = substituteVar(location, USER_DIR, PROP_USER_DIR);
+				location = new File(base, userDefaultAppendage).getAbsolutePath();
+			}
+			result = buildURL(location, true, installArea);
+		}
+		return result;
+	}
+
+	private static String substituteVar(String source, String var, String prop) {
+		String value = System.getProperty(prop, ""); //$NON-NLS-1$
+		return value + source.substring(var.length());
+	}
+
+	public static URL buildURL(String spec, boolean trailingSlash, String installArea) {
+		if (spec == null)
+			return null;
+		if (File.separatorChar == '\\')
+			spec = spec.trim();
+		boolean isFile = spec.startsWith(FILE_SCHEME);
+		try {
+			if (isFile) {
+				File toAdjust = new File(spec.substring(5));
+				toAdjust = resolveFile(toAdjust, installArea);
+				if (toAdjust.isDirectory())
+					return adjustTrailingSlash(toAdjust.toURI().toURL(), trailingSlash);
+				return toAdjust.toURI().toURL();
+			}
+			return new URL(spec);
+		} catch (MalformedURLException e) {
+			// if we failed and it is a file spec, there is nothing more we can do
+			// otherwise, try to make the spec into a file URL.
+			if (isFile)
+				return null;
+			try {
+				File toAdjust = new File(spec);
+				if (toAdjust.isDirectory())
+					return adjustTrailingSlash(toAdjust.toURI().toURL(), trailingSlash);
+				return toAdjust.toURI().toURL();
+			} catch (MalformedURLException e1) {
+				return null;
+			}
+		}
+	}
+
+	private static File resolveFile(File toAdjust, String installArea) {
+		if (!toAdjust.isAbsolute()) {
+			if (installArea != null) {
+				if (installArea.startsWith(FILE_SCHEME))
+					toAdjust = new File(installArea.substring(5), toAdjust.getPath());
+				else if (new File(installArea).exists())
+					toAdjust = new File(installArea, toAdjust.getPath());
+			}
+		}
+		return toAdjust;
+	}
+	
+	private static URL adjustTrailingSlash(URL url, boolean trailingSlash) throws MalformedURLException {
+		String file = url.getFile();
+		if (trailingSlash == (file.endsWith("/"))) //$NON-NLS-1$
+			return url;
+		file = trailingSlash ? file + "/" : file.substring(0, file.length() - 1); //$NON-NLS-1$
+		return new URL(url.getProtocol(), url.getHost(), file);
+	}
+
+	private static String computeDefaultConfigurationLocation(AutInstall autInstall) {
+		// 1) We store the config state relative to the 'eclipse' directory if possible
+		// 2) If this directory is read-only 
+		//    we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home> 
+		//    is unique for each local user, and <application-id> is the one 
+		//    defined in .eclipseproduct marker file. If .eclipseproduct does not
+		//    exist, use "eclipse" as the application-id.
+
+		if (canWrite(autInstall.getInstallLocation()))
+			autInstall.userArea = autInstall.getInstallLocation().getAbsolutePath();
+		else 
+		// We can't write in the eclipse install dir so try for some place in the user's home dir
+			autInstall.userArea = computeDefaultUserAreaLocation(autInstall.getInstallLocation());
+		
+		return autInstall.userArea + File.separator + CONFIG_DIR;
+	}
+
+	private static boolean canWrite(File installDir) {
+		if (installDir.canWrite() == false)
+			return false;
+
+		if (!installDir.isDirectory())
+			return false;
+
+		File fileTest = null;
+		try {
+			// we use the .dll suffix to properly test on Vista virtual directories
+			// on Vista you are not allowed to write executable files on virtual directories like "Program Files"
+			fileTest = File.createTempFile("writableArea", ".dll", installDir); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (IOException e) {
+			return false;
+		} finally {
+			if (fileTest != null)
+				fileTest.delete();
+		}
+		return true;
+	}
+
+	private static String computeDefaultUserAreaLocation(File installDir) {
+		//    we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home> 
+		//    is unique for each local user, and <application-id> is the one 
+		//    defined in .eclipseproduct marker file. If .eclipseproduct does not
+		//    exist, use "eclipse" as the application-id.
+		String installDirHash = getInstallDirHash(installDir);
+
+		String appName = "." + ECLIPSE; //$NON-NLS-1$
+		File eclipseProduct = new File(installDir, PRODUCT_SITE_MARKER);
+		if (eclipseProduct.exists()) {
+			Properties props = new Properties();
+			try {
+				props.load(new FileInputStream(eclipseProduct));
+				String appId = props.getProperty(PRODUCT_SITE_ID);
+				if (appId == null || appId.trim().length() == 0)
+					appId = ECLIPSE;
+				String appVersion = props.getProperty(PRODUCT_SITE_VERSION);
+				if (appVersion == null || appVersion.trim().length() == 0)
+					appVersion = ""; //$NON-NLS-1$
+				appName += File.separator + appId + "_" + appVersion + "_" + installDirHash; //$NON-NLS-1$ //$NON-NLS-2$
+			} catch (IOException e) {
+				// Do nothing if we get an exception.  We will default to a standard location 
+				// in the user's home dir.
+				// add the hash to help prevent collisions
+				appName += File.separator + installDirHash;
+			}
+		} else {
+			// add the hash to help prevent collisions
+			appName += File.separator + installDirHash;
+		}
+		appName += '_' + OS_WS_ARCHToString();
+		String userHome = System.getProperty(PROP_USER_HOME);
+		return new File(userHome, appName).getAbsolutePath(); //$NON-NLS-1$
+	}
+
+	private static String OS_WS_ARCHToString() {
+		return getOS() + '_' + getWS() + '_' + getArch();
+	}
+
+	private static String getWS() {
+		String osgiWs = System.getProperty(PROP_WS);
+		if (osgiWs != null)
+			return osgiWs;
+		String osName = getOS();
+		if (osName.equals(Constants.OS_WIN32))
+			return Constants.WS_WIN32;
+		if (osName.equals(Constants.OS_LINUX))
+			return Constants.WS_GTK;
+		if (osName.equals(Constants.OS_MACOSX))
+			return Constants.WS_COCOA;
+		if (osName.equals(Constants.OS_HPUX))
+			return Constants.WS_GTK;
+		if (osName.equals(Constants.OS_AIX))
+			return Constants.WS_GTK;
+		if (osName.equals(Constants.OS_SOLARIS))
+			return Constants.WS_GTK;
+		if (osName.equals(Constants.OS_QNX))
+			return Constants.WS_PHOTON;
+		return Constants.WS_UNKNOWN;
+	}
+
+	private static String getOS() {
+		String osgiOs = System.getProperty(PROP_OS);
+		if (osgiOs != null)
+			return osgiOs;
+		String osName = System.getProperties().getProperty("os.name"); //$NON-NLS-1$
+		if (osName.regionMatches(true, 0, Constants.OS_WIN32, 0, 3))
+			return Constants.OS_WIN32;
+		// EXCEPTION: All mappings of SunOS convert to Solaris
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_SUNOS))
+			return Constants.OS_SOLARIS;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_LINUX))
+			return Constants.OS_LINUX;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_QNX))
+			return Constants.OS_QNX;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_AIX))
+			return Constants.OS_AIX;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_HPUX))
+			return Constants.OS_HPUX;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_OS400))
+			return Constants.OS_OS400;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_OS390))
+			return Constants.OS_OS390;
+		if (osName.equalsIgnoreCase(Constants.INTERNAL_OS_ZOS))
+			return Constants.OS_ZOS;
+		// os.name on Mac OS can be either Mac OS or Mac OS X
+		if (osName.regionMatches(true, 0, Constants.INTERNAL_OS_MACOSX, 0, Constants.INTERNAL_OS_MACOSX.length()))
+			return Constants.OS_MACOSX;
+		return Constants.OS_UNKNOWN;
+	}
+
+	private static String getArch() {
+		String osgiArch = System.getProperty(PROP_ARCH);
+		if (osgiArch != null)
+			return osgiArch;
+		String name = System.getProperties().getProperty("os.arch");//$NON-NLS-1$
+		// Map i386 architecture to x86
+		if (name.equalsIgnoreCase(Constants.INTERNAL_ARCH_I386))
+			return Constants.ARCH_X86;
+		// Map amd64 architecture to x86_64
+		else if (name.equalsIgnoreCase(Constants.INTERNAL_AMD64))
+			return Constants.ARCH_X86_64;
+
+		return name;
+	}
+
+	private static String getInstallDirHash(File installDir) {
+		// compute an install dir hash to prevent configuration area collisions with other eclipse installs
+		int hashCode;
+		try {
+			hashCode = installDir.getCanonicalPath().hashCode();
+		} catch (IOException ioe) {
+			// fall back to absolute path
+			hashCode = installDir.getAbsolutePath().hashCode();
+		}
+		if (hashCode < 0)
+			hashCode = -(hashCode);
+		String installDirHash = String.valueOf(hashCode);
+		return installDirHash;
+	}
+
+	private static OriginalOrderProperties mergeProperties(OriginalOrderProperties source, OriginalOrderProperties userConfiguration) {
+		if (userConfiguration != null) {
+			source.setBeginAdd(true);
+			source.putAll(userConfiguration);
+		}
+		return source;
+	}
 }
