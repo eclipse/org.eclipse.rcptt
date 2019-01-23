@@ -512,6 +512,7 @@ public class Q7ExternalLaunchDelegate extends
 					"osgi.bundles",
 					Q7LaunchDelegateUtils
 							.computeOSGiBundles(getBundlesToLaunch(info).latestVersionsOnly));
+			props.remove("osgi.framework");
 
 			// Append all other properties from original config file
 			OriginalOrderProperties properties = target.getConfigIniProperties();
