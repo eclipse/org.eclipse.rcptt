@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,6 @@ public class RestartAutService implements ICommandService {
 	@Override
 	public IStatus service(Command command, IProcess context) throws InterruptedException, CoreException {
 		ShutdownAutService.tryTerminateLaunches();
-		PlatformUI.getWorkbench().saveAllEditors(false);
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
