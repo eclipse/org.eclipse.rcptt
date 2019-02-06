@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1330
 Id: _ok65YPMBEeCE19s6EOk3LA
-Runtime-Version: 1.5.5.201502210521
-Save-Time: 2/24/15 4:00 PM
+Runtime-Version: 2.4.0.201901310013
+Save-Time: 2/4/19 8:41 PM
 Tags: selfAUT, ControlPanel, UndoRedo
 Testcase-Type: ecl
 
@@ -58,9 +58,10 @@ with [get-window "Control Panel.*" | get-editbox] {
     key-type CR
     key-type q
 }
-get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-editbox | get-property rawValue 
-    | equals "wait 200\\n"
+get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-text-viewer | get-property text 
+    | equals "wait 200\n"
     + "q" | verify-true
+
 with [get-window "Control Panel - Test scenario (TestQ7Prj) - selfQ7" | get-editbox] {
     set-text-offset 1 1
     key-type "M1+z"

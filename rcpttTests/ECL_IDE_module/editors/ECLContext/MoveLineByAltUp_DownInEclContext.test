@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _jpPnIGsyEeGhKJWOtX9noQ
-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 5:33 PM
+Runtime-Version: 2.4.0.201901310013
+Save-Time: 2/4/19 3:46 PM
 Tags: ECL_IDE_module, ECLContext
 Testcase-Type: ecl
 
@@ -52,8 +52,8 @@ get-editor "Create New Project" | get-section Script | get-editbox | get-propert
     | equals "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
     + "    get-button Finish | click\n}\n"
-    + "get-menu \"File/New/Q7 Project\" | click\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | double-click -nowait\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
     + "with [get-window \"New Test Case\"] {\n"
@@ -69,8 +69,8 @@ get-editor "Create New Project" | get-section Script | get-editbox | get-propert
     | equals "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
     + "    get-button Finish | click\n}\n"
-    + "get-menu \"File/New/Q7 Project\" | click\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n"
     + "    select qqq | double-click -nowait\n}\n"
     + "with [get-window \"New Test Case\"] {\n"
@@ -90,8 +90,8 @@ get-editor "Create New Project" | get-section Script | get-editbox | get-propert
     + "with [get-window \"New Test Case\"] {\n"
     + "    get-editbox -after [get-label \"Name:\"] | set-text qw\n"
     + "    get-button Finish | click\n}\n"
-    + "get-menu \"File/New/Q7 Project\" | click\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n"
     + "    select qqq | double-click -nowait\n"
     + "}" | verify-true

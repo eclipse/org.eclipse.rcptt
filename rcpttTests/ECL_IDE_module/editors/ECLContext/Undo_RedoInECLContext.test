@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _JsBsoGsxEeGhKJWOtX9noQ
-Runtime-Version: 2.0.0.201505131625
-Save-Time: 5/14/15 5:27 PM
+Runtime-Version: 2.4.0.201901310013
+Save-Time: 2/4/19 5:44 PM
 Tags: ECL_IDE_module, ECLContext, UndoRedo
 Testcase-Type: ecl
 
@@ -55,13 +55,13 @@ with [get-editor "Create New Project" | get-section Script | get-text-viewer] {
     key-type "M1+z"
 }
 get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
-    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    | equals "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
     + "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
     + "    get-button Finish | click\n}\n"
     + "// comment\n"
     + "test\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | double-click -nowait\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
     + "with [get-window \"New Test Case\"] {\n"
@@ -71,11 +71,11 @@ get-editor "Create New Project" | get-section Script | get-editbox | get-propert
 get-editor "Create New Project" | get-section Script | get-text-viewer | set-caret-pos 7 5
 get-menu "Edit/Undo" | click
 get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
-    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    | equals "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
     + "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
     + "    get-button Finish | click\n}\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | double-click -nowait\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n}\n"
     + "with [get-window \"New Test Case\"] {\n"
@@ -85,13 +85,13 @@ get-editor "Create New Project" | get-section Script | get-editbox | get-propert
 get-menu "Edit/Redo" | click
 get-eclipse-window | key-type [get-by-os -win "M1+y" -default "M1+M2+z"]
 get-editor "Create New Project" | get-section Script | get-editbox | get-property text 
-    | equals "get-menu \"File/New/Q7 Project\" | click\n"
+    | equals "get-menu \"File/New/RCP Testing Tool Project\" | click\n"
     + "with [get-window \"New Project\"] {\n"
     + "    get-editbox -after [get-label \"Project name:\"] | set-text qqq\n"
     + "    get-button Finish | click\n}\n"
     + "// comment\n"
     + "test\n"
-    + "with [get-view \"Q7 Explorer\" | get-tree] {\n"
+    + "with [get-view \"Test Explorer\" | get-tree] {\n"
     + "    select qqq | double-click -nowait\n"
     + "    select qqq | get-menu \"New/Test Case\" | click\n"
     + "}" | verify-true
