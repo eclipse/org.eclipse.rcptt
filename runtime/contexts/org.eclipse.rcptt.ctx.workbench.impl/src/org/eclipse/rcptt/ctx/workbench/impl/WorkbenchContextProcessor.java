@@ -48,22 +48,26 @@ import org.osgi.framework.Bundle;
 
 public class WorkbenchContextProcessor implements IContextProcessor {
 	public boolean isApplied(final Context context) {
-		return UIRunnable.safeExec(new UIRunnable<Boolean>() {
-			@Override
-			public Boolean run() throws CoreException {
-				IWorkbenchWindow window = getWindow();
-				if (window != null) {
-					IWorkbenchPage page = window.getActivePage();
-					if (page != null) {
-						IPerspectiveDescriptor descriptor = page.getPerspective();
-						if (descriptor != null) {
-							return descriptor.getId().equals(getPerspectiveId(context));
+		try {
+			return UIRunnable.exec(new UIRunnable<Boolean>() {
+				@Override
+				public Boolean run() throws CoreException {
+					IWorkbenchWindow window = getWindow();
+					if (window != null) {
+						IWorkbenchPage page = window.getActivePage();
+						if (page != null) {
+							IPerspectiveDescriptor descriptor = page.getPerspective();
+							if (descriptor != null) {
+								return descriptor.getId().equals(getPerspectiveId(context));
+							}
 						}
 					}
+					return false;
 				}
-				return false;
-			}
-		});
+			});
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public boolean isCreateAllowed() {

@@ -17,13 +17,16 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.reporting.core.ReportManager;
 import org.eclipse.rcptt.sherlock.core.reporting.ReportBuilder;
+import org.eclipse.rcptt.tesla.core.Q7WaitUtils;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 import org.eclipse.rcptt.tesla.core.info.Q7WaitInfoRoot;
+import org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaImplPlugin;
 import org.eclipse.rcptt.tesla.internal.core.queue.TeslaQClient;
 import org.eclipse.rcptt.tesla.internal.ui.player.ReportScreenshotProvider;
 import org.eclipse.rcptt.tesla.internal.ui.player.SWTUIPlayer;
@@ -35,6 +38,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 public abstract class UIRunnable<T> {
+	private static final boolean DEBUG_PROCEED = "true"
+			.equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.ecl.impl/debug/proceed"));
 	private enum RunningState {
 		Starting, Execution, Done, Finished
 	}
@@ -61,25 +66,31 @@ public abstract class UIRunnable<T> {
 					
 					if (!PlatformUI.getWorkbench().getDisplay()
 							.equals(Display.getCurrent())) {
+						Q7WaitUtils.updateInfo("display", "instance", info);
+						debugProceed("Wrong display");
 						resultValue = false;
 					}
 					// Return false if we have SWT observable in timers
 					if (SWTUIPlayer.hasTimers(display, info)) {
+						Q7WaitUtils.updateInfo("display", "timers", info);
+						debugProceed("Has timers");
 						resultValue = false;
 					}
 					// Check for asyncs in synchronizer
 					if (SWTUIPlayer.hasRunnables(display)) {
-						//Q7WaitUtils.updateInfo("display", "runnables", info);
+						Q7WaitUtils.updateInfo("display", "runnables", info);
+						debugProceed("Has runnables");
 						resultValue = false;
 					}
 					if (!collector.isEmpty(currentContext, info)) {
+						debugProceed("Has jobs");
 						resultValue = false;
 					}
 					if( !resultValue ) {
 						return false;
 					}
-					if (processed.get().equals(RunningState.Starting)) {
-						processed.set(RunningState.Execution);
+					if (processed.compareAndSet(RunningState.Starting, RunningState.Execution)) {
+						debugProceed("Starting");
 						try {
 							result[0] = runnable.run();
 						} catch (Throwable e) {
@@ -89,9 +100,13 @@ public abstract class UIRunnable<T> {
 							// collector.clean();
 							processed.set(RunningState.Finished);
 							return true;
+						} finally {
+							debugProceed("Done");
 						}
 						processed.set(RunningState.Done);
 						return true;
+					} else {
+						debugProceed("Already executing");
 					}
 					if (processed.get().equals(RunningState.Done)) {
 						collector.setNeedDisable();
@@ -133,7 +148,7 @@ public abstract class UIRunnable<T> {
 				if (time > start + getTimeout()) {
 					// Lets also capture all thread dump.
 					storeTimeoutInReport(display, collector);
-					MultiStatus status = new MultiStatus(PLUGIN_ID, IProcess.TIMEOUT_CODE, "Timeout during execution of " + runnable, null) {
+					MultiStatus status = new MultiStatus(PLUGIN_ID, IProcess.TIMEOUT_CODE, "Timeout during execution of " + runnable, new RuntimeException()) {
 						{
 							setSeverity(ERROR);
 						}
@@ -183,15 +198,12 @@ public abstract class UIRunnable<T> {
 		});
 	}
 
-	public static <T> T safeExec(final UIRunnable<T> runnable) {
-		try {
-			return exec(runnable);
-		} catch (CoreException e) {
-			// ignore exceptions
-			return null;
-		}
-	}
-
 	public abstract T run() throws CoreException;
 
+	private static void debugProceed(String message) {
+		if (DEBUG_PROCEED) {
+			System.out.println("UIRunnable: " + message);
+			System.out.flush();
+		}
+	}
 }
