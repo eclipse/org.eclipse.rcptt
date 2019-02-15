@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -793,12 +793,14 @@ public class Q7ExternalLaunchDelegate extends
 		install.done();
 
 		SubMonitor pluginsDirMonitor = subm.newChild(1000);
-		if (target.pluginsDir != null) {
-			TargetBundle[] bundles = target.pluginsDir.getBundles();
-			pluginsDirMonitor.beginTask("Scanning " + target.pluginsDir, bundles.length);
-			for (TargetBundle bundle : bundles) {
-				collector.addPluginBundle(bundle);
-				pluginsDirMonitor.worked(1);
+		if (target.getPluginsDirs().size() > 0) {
+			for(ITargetLocation location : target.getPluginsDirs()) {
+				TargetBundle[] bundles = location.getBundles();
+				pluginsDirMonitor.beginTask("Scanning " + location, bundles.length);
+				for (TargetBundle bundle : bundles) {
+					collector.addPluginBundle(bundle);
+					pluginsDirMonitor.worked(1);
+				}
 			}
 		}
 		pluginsDirMonitor.done();
@@ -885,8 +887,10 @@ public class Q7ExternalLaunchDelegate extends
 
 	private void copyConfiguratonFiles(
 			final ILaunchConfiguration configuration, CachedInfo info) throws CoreException {
-		String targetPlatformPath = ((ITargetPlatformHelper) info.target)
-				.getTargetPlatformProfilePath();
+		String targetPlatformPath = ((ITargetPlatformHelper) info.target).getUserArea();
+		if(targetPlatformPath == null)
+			targetPlatformPath = ((ITargetPlatformHelper) info.target)
+					.getTargetPlatformProfilePath();
 		File configFolder = new File(targetPlatformPath, "configuration"); //$NON-NLS-1$
 		if (!configFolder.exists())
 			return;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2014 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,8 @@ package org.eclipse.rcptt.launching.ext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -57,15 +59,32 @@ public class OriginalOrderProperties extends Properties {
 		this.addToBegining = b;
 	}
 
-	public static OriginalOrderProperties fromFile(File file)
-			throws IOException {
-		OriginalOrderProperties result = new OriginalOrderProperties();
-		FileInputStream f = null;
+	public static OriginalOrderProperties load(URL url) throws IOException {
+		final OriginalOrderProperties props = new OriginalOrderProperties();
+		InputStream is = null;
+		try {
+			is = getStream(url);
+			props.load(is);
+		} finally {
+			if (is != null)
+				try {
+					is.close();
+				} catch (IOException e) {
+					//ignore failure to close
+				}
+		}
+		return props;
+	}
 
-		f = new FileInputStream(file);
-		result.load(f);
-		f.close();
 
-		return result;
+	private static InputStream getStream(URL location) throws IOException {
+		if ("file".equalsIgnoreCase(location.getProtocol())) { //$NON-NLS-1$
+			// this is done to handle URLs with invalid syntax in the path
+			File f = new File(location.getPath());
+			if (f.exists()) {
+				return new FileInputStream(f);
+			}
+		}
+		return location.openStream();
 	}
 }
