@@ -220,7 +220,7 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
 		BundlesToLaunch bundlesToLaunch = Q7ExternalLaunchDelegate.collectBundlesCheck(target.getQ7Target(),
-				subm.newChild(50), configuration);
+				target.getTarget(), subm.newChild(50), configuration);
 
 		Q7ExternalLaunchDelegate.setBundlesToLaunch(info, bundlesToLaunch);
 

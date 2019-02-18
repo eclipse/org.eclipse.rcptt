@@ -75,7 +75,6 @@ import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.PDEExtensionRegistry;
 import org.eclipse.pde.internal.core.PDEState;
-import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
 import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
@@ -302,16 +301,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private void initialize() {
 		extra.clear();
-		q7target = new Q7Target();
+        q7target = new Q7Target();
 		if (this.target != null && this.target.getTargetLocations() != null) {
 			ITargetLocation[] containers = this.target.getTargetLocations();
 			for (ITargetLocation iUBundleContainer : containers) {
 				if (iUBundleContainer instanceof ProfileBundleContainer) {
 					getQ7Target().setInstall(iUBundleContainer);
-				} else if (iUBundleContainer instanceof DirectoryBundleContainer) {
-					getQ7Target().addPluginsDir(iUBundleContainer);
-				} else {
-					getQ7Target().addExtra(iUBundleContainer);
 				}
 				extra.add(iUBundleContainer);
 			}
@@ -755,7 +750,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		ITargetLocation container = PDEHelper.getTargetService()
 				.newDirectoryLocation(path);
-		q7target.addExtra(container);
 		extra.add(container);
 		return Status.OK_STATUS;
 	}
@@ -820,8 +814,6 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 								IUBundleContainer.INCLUDE_ALL_ENVIRONMENTS);
 
 				extra.add(container);
-				q7target.addExtra(container);
-
 			}
 
 			// Lets mirror all required artifacts into bundle pool, since we don't
@@ -1416,7 +1408,16 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		// if the config or parent we are about to read is the same as the base config we read above,
 		// just reuse the base
 		OriginalOrderProperties configuration = baseConfiguration;
-		final URL configUrl = getConfigurationLocation(location, autInstall);
+		final URL configUrl = getConfigurationLocation(location, autInstall.getInstallLocation());
+
+		String configurationArea = configUrl.getFile();
+    	int index = configurationArea.lastIndexOf("/");
+    	if (index == configurationArea.length() - 1) {
+    		configurationArea = configurationArea.substring(0, index);
+			index = configurationArea.lastIndexOf("/");
+		}
+    	autInstall.userArea = configurationArea.substring(0, index + 1);
+
 		if (configuration == null || !configUrl.equals(baseConfigurationLocation))
 			configuration = loadConfiguration(configUrl);
 
@@ -1541,10 +1542,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return buf.toString();
 	}
 	
-	private static URL getConfigurationLocation(String configurationArea, AutInstall autInstall) {
-		URL configurationLocation = buildLocation(configurationArea, null, "", autInstall.getInstallLocation().getAbsolutePath()); //$NON-NLS-1$
+	private static URL getConfigurationLocation(String configurationArea, File installLocation) {
+		URL configurationLocation = buildLocation(configurationArea, null, "", installLocation.getAbsolutePath()); //$NON-NLS-1$
 		if (configurationLocation == null)
-			configurationLocation = buildURL(computeDefaultConfigurationLocation(autInstall), true, autInstall.getInstallLocation().getAbsolutePath());
+			configurationLocation = buildURL(computeDefaultConfigurationLocation(installLocation), true, installLocation.getAbsolutePath());
+
 		return configurationLocation;
 	}
 
@@ -1627,7 +1629,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return new URL(url.getProtocol(), url.getHost(), file);
 	}
 
-	private static String computeDefaultConfigurationLocation(AutInstall autInstall) {
+	private static String computeDefaultConfigurationLocation(File installLocation) {
 		// 1) We store the config state relative to the 'eclipse' directory if possible
 		// 2) If this directory is read-only 
 		//    we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home> 
@@ -1635,13 +1637,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		//    defined in .eclipseproduct marker file. If .eclipseproduct does not
 		//    exist, use "eclipse" as the application-id.
 
-		if (canWrite(autInstall.getInstallLocation()))
-			autInstall.userArea = autInstall.getInstallLocation().getAbsolutePath();
+		String configurationLocation = null; 
+		if (canWrite(installLocation))
+			configurationLocation = installLocation.getAbsolutePath();
 		else 
 		// We can't write in the eclipse install dir so try for some place in the user's home dir
-			autInstall.userArea = computeDefaultUserAreaLocation(autInstall.getInstallLocation());
+			configurationLocation = computeDefaultUserAreaLocation(installLocation);
 		
-		return autInstall.userArea + File.separator + CONFIG_DIR;
+		return configurationLocation + File.separator + CONFIG_DIR;
 	}
 
 	private static boolean canWrite(File installDir) {

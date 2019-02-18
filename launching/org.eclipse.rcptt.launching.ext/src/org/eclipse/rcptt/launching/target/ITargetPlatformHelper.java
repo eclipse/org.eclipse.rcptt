@@ -17,11 +17,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
 import org.eclipse.rcptt.launching.internal.target.Q7Target;
-import org.eclipse.rcptt.launching.internal.target.Q7Target.AutInstall;
 
 /**
  * Class designed to access target platform features to configure it via easy
@@ -144,6 +144,8 @@ public interface ITargetPlatformHelper {
 	public abstract IPluginModelBase getWeavingHook();
 
 	IStatus getStatus();
-	
+
+	public ITargetDefinition getTarget();
+
 	Map<String, Version> getVersions() throws CoreException;
 }

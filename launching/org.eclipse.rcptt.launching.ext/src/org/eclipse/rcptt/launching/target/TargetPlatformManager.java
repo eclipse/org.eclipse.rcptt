@@ -63,26 +63,32 @@ public class TargetPlatformManager {
 		final ITargetDefinition target = service.newTarget();
 		final TargetPlatformHelper info = new TargetPlatformHelper(target);
 		try {
+			final List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
+
 			final File productDir = PDELocationUtils.getProductLocation(location);
-			List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
-			ITargetLocation installationContainer = service
+			final ITargetLocation installationContainer = service
 					.newProfileLocation(productDir.getAbsolutePath(), null);
 			info.getQ7Target().setInstall(installationContainer);
 			containers.add(installationContainer);
 
 			final File pluginsDir = PDELocationUtils.getPluginFolder(location);
-			ITargetLocation pluginsContainer = service
+			final ITargetLocation pluginsContainer = service
 					.newDirectoryLocation(pluginsDir.getAbsolutePath());
 			containers.add(pluginsContainer);
-			info.getQ7Target().addPluginsDir(pluginsContainer);
 
 			final String localLocation = info.getUserArea();
 			if (localLocation != null) {
+				/*
+				final File localProductDir = PDELocationUtils.getProductLocation(location);
+				final ITargetLocation localInstallationContainer = service
+						.newProfileLocation(localProductDir.getAbsolutePath(), null);
+				containers.add(localInstallationContainer);
+				*/
+
 				final File localPluginsDir = PDELocationUtils.getPluginFolder(localLocation);
 				final ITargetLocation localPluginsContainer = service
 						.newDirectoryLocation(localPluginsDir.getAbsolutePath());
 				containers.add(localPluginsContainer);
-				info.getQ7Target().addPluginsDir(localPluginsContainer);
 			}
 
 			info.setBundleContainers(containers

@@ -61,6 +61,7 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.build.IPDEBuildConstants;
@@ -605,7 +606,7 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
-		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), subm.newChild(50), configuration);
+		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), target.getTarget(), subm.newChild(50), configuration);
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
@@ -761,7 +762,7 @@ public class Q7ExternalLaunchDelegate extends
 
 	}
 
-	public static BundlesToLaunch collectBundlesCheck(Q7Target target, IProgressMonitor monitor,
+	public static BundlesToLaunch collectBundlesCheck(Q7Target target, ITargetDefinition targetDefinition, IProgressMonitor monitor,
 			ILaunchConfiguration configuration) {
 		if (target.getInstall() != null && isAutConfigSimpleconfiguratorSet(target)) {
 			final CachedInfo info = LaunchInfoCache.getInfo(configuration);
@@ -770,10 +771,10 @@ public class Q7ExternalLaunchDelegate extends
 			setBundlesLevels(target, levelMap);
 		}
 
-		return collectBundles(target, monitor);
+		return collectBundles(target, targetDefinition, monitor);
 	}
 
-	public static BundlesToLaunch collectBundles(Q7Target target, IProgressMonitor monitor) {
+	public static BundlesToLaunch collectBundles(Q7Target target, ITargetDefinition targetDefinition, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
 		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
 		SubMonitor install = subm.newChild(1000);
@@ -792,28 +793,14 @@ public class Q7ExternalLaunchDelegate extends
 		}
 		install.done();
 
-		SubMonitor pluginsDirMonitor = subm.newChild(1000);
-		if (target.getPluginsDirs().size() > 0) {
-			for(ITargetLocation location : target.getPluginsDirs()) {
-				TargetBundle[] bundles = location.getBundles();
-				pluginsDirMonitor.beginTask("Scanning " + location, bundles.length);
-				for (TargetBundle bundle : bundles) {
-					collector.addPluginBundle(bundle);
-					pluginsDirMonitor.worked(1);
-				}
-			}
+		final SubMonitor plugins = subm.newChild(1000);
+		TargetBundle[] bundles = targetDefinition.getAllBundles();
+		for (TargetBundle bundle : bundles) {
+			collector.addPluginBundle(bundle);
+			plugins.worked(1);
 		}
-		pluginsDirMonitor.done();
+		plugins.done();
 
-		SubMonitor extrasMonitor = subm.newChild(1000);
-		extrasMonitor.beginTask("Injecting RCPTT runtime", 1);
-		for (ITargetLocation extra : target.getExtras()) {
-			for (TargetBundle bundle : extra.getBundles()) {
-				collector.addExtraBundle(bundle);
-			}
-			extrasMonitor.worked(1);
-		}
-		extrasMonitor.done();
 
 		return new BundlesToLaunch(collector.rejectedBundles,
 				collector.plugins, collector.latestVersions);

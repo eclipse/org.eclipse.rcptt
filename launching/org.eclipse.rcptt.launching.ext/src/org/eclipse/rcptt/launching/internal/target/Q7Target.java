@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.internal.target;
 
-import static com.google.common.collect.Iterables.filter;
 import static java.lang.String.format;
 import static org.eclipse.pde.internal.build.IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR;
 import static org.eclipse.pde.internal.core.TargetPlatformHelper.getDefaultBundleList;
@@ -21,17 +20,12 @@ import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.stat
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
-import org.eclipse.pde.internal.core.target.DirectoryBundleContainer;
-import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.launching.ext.BundleStart;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
@@ -72,58 +66,6 @@ public class Q7Target {
 			install = null;
 		}
 		install = new AutInstall((ProfileBundleContainer) installation);
-	}
-
-	/**
-	 * Plugins directory, may be <code>null</code>
-	 */
-	private List<ITargetLocation> pluginsDirs = new ArrayList<ITargetLocation>();
-	
-	public List<ITargetLocation> getPluginsDirs() {
-		return pluginsDirs;
-	}
-
-	public void addPluginsDir(ITargetLocation container) {
-		if (pluginsDirs.contains(container)) {
-			return;
-		}
-		if (container instanceof DirectoryBundleContainer) {
-			pluginsDirs.add(container);
-		}		
-	}
-	/**
-	 * Q7 Runtime, Q7 runtime dependencies, other injections
-	 */
-	private List<ITargetLocation> extras = new ArrayList<ITargetLocation>();
-
-	public void addExtra(ITargetLocation container) {
-		if (!contains(container)) {
-			extras.add(container);
-		}
-	}
-
-	public Iterable<ITargetLocation> getExtras() {
-		return extras;
-	}
-
-	private boolean contains(ITargetLocation container) {
-		if (extras.contains(container)) {
-			return true;
-		}
-
-		if (!(container instanceof IUBundleContainer)) {
-			return false;
-		}
-
-		IUBundleContainer cont = (IUBundleContainer) container;
-		for (IUBundleContainer existing : filter(extras,
-				IUBundleContainer.class)) {
-			if (Arrays.equals(existing.getRepositories(),
-					cont.getRepositories())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

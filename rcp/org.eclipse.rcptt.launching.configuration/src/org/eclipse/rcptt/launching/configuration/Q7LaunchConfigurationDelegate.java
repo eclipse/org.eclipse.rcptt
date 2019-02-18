@@ -253,7 +253,7 @@ public class Q7LaunchConfigurationDelegate extends
 			collector.addInstallationBundle(entry.getKey(),
 					BundleStart.fromModelString(entry.getValue()));
 		}
-		for (ITargetLocation extra : target.getQ7Target().getExtras()) {
+		for (ITargetLocation extra : target.getTarget().getTargetLocations()) {
 			if (!Q7ExternalLaunchDelegate.isQ7BundleContainer(extra)) {
 				continue;
 			}
