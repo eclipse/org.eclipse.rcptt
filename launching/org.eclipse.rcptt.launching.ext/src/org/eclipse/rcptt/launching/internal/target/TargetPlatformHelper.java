@@ -105,6 +105,10 @@ import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
 public class TargetPlatformHelper implements ITargetPlatformHelper {
+	private static final boolean DEBUG = "true"
+		.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug"));
+	private static final boolean DEBUG_BUNDLES = "true"
+		.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug/bundles"));
 	public static final String IDE_APPLICATION = "org.eclipse.ui.ide.workbench";
 	public static final String APPLICATION_PROPERTY = "eclipse.application"; //$NON-NLS-1$
 	public static final String PRODUCT_PROPERTY = "eclipse.product"; //$NON-NLS-1$
@@ -415,8 +419,18 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 		PDEState state = new PDEState(urls.toArray(new URL[urls
 				.size()]), true, true, new NullProgressMonitor());
-		return new ArrayList<IPluginModelBase>(Arrays.asList(state
+		final List<IPluginModelBase> targetModels = new ArrayList<IPluginModelBase>(Arrays.asList(state
 				.getTargetModels()));
+
+		if (DEBUG_BUNDLES) {
+			final List<String> targetModelsLocations = new ArrayList<String>();
+			for(final IPluginModelBase model : targetModels) {
+				targetModelsLocations.add(model.getInstallLocation());
+			}
+			debug("Bundles: " + targetModelsLocations);
+		}
+
+		return targetModels;
 	}
 
 	private IPluginModelBase filterHooks(List<IPluginModelBase> models) {
@@ -609,8 +623,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public String getDefaultApplication() {
 		String app = getConfigIniProperty(APPLICATION_PROPERTY);
+		debug("Application from config.ini: " + app);
+
 		HashSet<String> apps = new HashSet<String>(
 				Arrays.asList(getApplications()));
+		debug("Valid applications: " + apps);
+
 		return isValidId(app, apps) ? app
 				: (isValidId(IDE_APPLICATION, apps) ? IDE_APPLICATION : null);
 	}
@@ -637,17 +655,21 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public String getDefaultProduct() {
 		Set<String> values = new HashSet<String>(Arrays.asList(getProducts()));
+		debug("Valid products: " + values);
+
 		String product = null;
 		String productProperty = getConfigIniProperty(PRODUCT_PROPERTY);
 		if (isValidId(productProperty, values)) {
 			product = productProperty;
 		}
+		debug(PRODUCT_PROPERTY + " from config.ini: " + productProperty);
 
 		// Try to load .eclipseproduct file
 		productProperty = getEclipseProductFileProperty(ID_PROPERTY);
 		if (isValidId(productProperty, values)) {
 			product = productProperty;
 		}
+		debug(ID_PROPERTY + " from config.ini: " + productProperty);
 
 		// Try to load from application ini file
 		List<File> iniFiles = getAppIniFiles();
@@ -656,7 +678,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			if (isValidId(productProperty, values)) {
 				product = productProperty;
 			}
+			debug("Product from " + file + ": " + productProperty);
 		}
+
 		return product;
 	}
 
@@ -1768,5 +1792,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			source.putAll(userConfiguration);
 		}
 		return source;
+	}
+
+	private static void debug(String message) {
+		if (DEBUG) {
+			Q7ExtLaunchingPlugin.getDefault().info(message);
+		}
 	}
 }
