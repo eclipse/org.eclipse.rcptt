@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,7 +45,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	public static final String JAR = "-jar";
 
 	/**
-	 * @parameter expression="${project}"
+	 * @parameter property="project"
 	 * @required
 	 * @readonly
 	 */
@@ -73,19 +73,19 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	protected String autCount;
 
 	/**
-	 * @parameter expression="${maven.test.failure.ignore}"
+	 * @parameter property="maven.test.failure.ignore"
 	 *            default-value="false"
 	 */
 	protected boolean testFailureIgnore = false;
 
 	/**
-	 * @parameter expression="${skipTests}" default-value="false"
+	 * @parameter property="skipTests" default-value="false"
 	 */
 	protected boolean skipTests = false;
 	/**
 	 * Same as {@link #skipTests}
 	 *
-	 * @parameter expression="${maven.test.skip}" default-value="false"
+	 * @parameter property="maven.test.skip" default-value="false"
 	 */
 	private boolean skip;
 
@@ -171,7 +171,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	/**
 	 * Target directory.
 	 *
-	 * @parameter expression="${project.build.directory}"
+	 * @parameter property="project.build.directory"
 	 * @required
 	 */
 	protected File outDir;
@@ -493,7 +493,7 @@ public abstract class AbstractRCPTTMojo extends AbstractMojo {
 	/**
 	 * The current repository/network configuration of Maven.
 	 *
-	 * @parameter default-value="${repositorySystemSession}"
+	 * @parameter default-value="repositorySystemSession"
 	 * @readonly
 	 */
 	private RepositorySystemSession repoSession;

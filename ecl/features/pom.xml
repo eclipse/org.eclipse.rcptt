@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -27,6 +27,7 @@
     <module>org.eclipse.rcptt.ecl.shell-feature</module>
     <module>org.eclipse.rcptt.ecl.platform-feature</module>
     <module>org.eclipse.rcptt.ecl.platform.ui-feature</module>
+    <module>org.eclipse.rcptt.ecl.sdk-feature</module>
     <module>org.eclipse.rcptt.ecl.server-feature</module>
     <module>org.eclipse.rcptt.ecl.server.ui-feature</module>
   </modules>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -9,18 +9,16 @@
     Contributors:
     	Xored Software Inc - initial API and implementation and/or initial documentation
  -->
-
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.rcptt.ecl</groupId>
   <artifactId>ecl-tests</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <parent>
     <artifactId>ecl</artifactId>
     <groupId>org.eclipse.rcptt</groupId>
     <version>2.4.0-SNAPSHOT</version>
-    <relativePath>../../releng/ecl/pom.xml</relativePath>    
+    <relativePath>../../releng/ecl/pom.xml</relativePath>
   </parent>
   <modules>
     <module>org.eclipse.rcptt.ecl.operations.tests</module>
@@ -29,5 +27,6 @@
     <module>org.eclipse.rcptt.ecl.core.tests</module>
     <module>org.eclipse.rcptt.ecl.parser.test</module>
     <module>org.eclipse.rcptt.ecl.perf.tests</module>
+    <module>org.eclipse.rcptt.ecl.doc.tests</module>
   </modules>
 </project>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016, 2018 Xored Software Inc and others.
+    Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -27,14 +27,6 @@
     <ajJavaTarget>1.7</ajJavaTarget>
     <ajJavaCompilance>1.7</ajJavaCompilance>
     <cbi-version>1.1.4</cbi-version>
-    <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
-    <maven-antrun-plugin-version>1.8</maven-antrun-plugin-version>
-    <maven-clean-plugin-version>3.1.0</maven-clean-plugin-version>
-    <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
-    <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-    <maven-deploy-plugin-version>2.8.2</maven-deploy-plugin-version>
-    <maven-enforcer-plugin-version>1.4.1</maven-enforcer-plugin-version>
-    <maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
   </properties>
   <distributionManagement>
     <repository>
@@ -51,13 +43,13 @@
   <build>
     <pluginManagement>
       <plugins>
-       <plugin>
-          <groupId>org.eclipse.tycho</groupId>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
           <artifactId>tycho-surefire-plugin</artifactId>
           <version>${tycho-version}</version>
-         </plugin>
+        </plugin>
         <plugin>
-          <groupId>org.eclipse.tycho</groupId>
+          <groupId>${tycho-groupid}</groupId>
           <artifactId>tycho-packaging-plugin</artifactId>
           <version>${tycho-version}</version>
           <dependencies>
@@ -74,7 +66,7 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.eclipse.tycho</groupId>
+          <groupId>${tycho-groupid}</groupId>
           <artifactId>tycho-p2-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
@@ -89,8 +81,38 @@
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
-          <groupId>org.eclipse.tycho</groupId>
+          <groupId>${tycho-groupid}</groupId>
           <artifactId>tycho-versions-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>target-platform-configuration</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>tycho-compiler-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>tycho-maven-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho.extras</groupId>
+          <artifactId>tycho-p2-extras-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>tycho-p2-repository-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>${tycho-groupid}</groupId>
+          <artifactId>tycho-p2-director-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
@@ -108,13 +130,57 @@
           <artifactId>eclipse-macsigner-plugin</artifactId>
           <version>${cbi-version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>aspectj-maven-plugin</artifactId>
+          <version>${aspectj_version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
@@ -123,7 +189,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <resolver>p2</resolver>
           <environments>
@@ -158,7 +223,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

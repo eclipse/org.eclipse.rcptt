@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (c) 2009, 2016, 2018 Xored Software Inc and others.
+    Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -34,7 +34,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>${maven-resources-plugin-version}</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -50,7 +49,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <repositoryName>RCPTT IDE</repositoryName>
           <profileProperties>
@@ -61,7 +59,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>tycho-p2-director-plugin</artifactId>
-        <version>${tycho-version}</version>
         <executions>
           <execution>
             <id>materialize-products</id>
@@ -113,7 +110,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <resolver>p2</resolver>
           <!--ignoreTychoRepositories>true</ignoreTychoRepositories -->
@@ -156,7 +152,6 @@
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-winsigner-plugin</artifactId>
-            <version>${cbi-version}</version>
             <executions>
               <execution>
                 <phase>package</phase>
@@ -174,7 +169,6 @@
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-macsigner-plugin</artifactId>
-            <version>${cbi-version}</version>
             <executions>
               <execution>
                 <phase>package</phase>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     /*******************************************************************************
-     * Copyright (c) 2009, 2016 Xored Software Inc and others.
+     * Copyright (c) 2009, 2019 Xored Software Inc and others.
      * All rights reserved. This program and the accompanying materials
      * are made available under the terms of the Eclipse Public License v1.0
      * which accompanies this distribution, and is available at
@@ -19,9 +19,7 @@
     <groupId>org.eclipse.rcptt.tesla</groupId>
     <version>2.4.0-SNAPSHOT</version>
   </parent>
-  <groupId>org.eclipse.rcptt.tesla</groupId>
   <artifactId>org.eclipse.rcptt.tesla.swt.rap</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <dependencies>
     <dependency>
@@ -36,7 +34,6 @@
       <plugin>
         <groupId>${tycho-groupid}</groupId>
         <artifactId>tycho-compiler-plugin</artifactId>
-        <version>${tycho-version}</version>
         <configuration>
           <extraClasspathElements>
             <extraClasspathElement>
