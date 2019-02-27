@@ -105,9 +105,9 @@ import com.google.common.io.Files;
 @SuppressWarnings("restriction")
 public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private static final boolean DEBUG = "true"
-		.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug"));
+			.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug"));
 	private static final boolean DEBUG_BUNDLES = "true"
-		.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug/bundles"));
+			.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug/bundles"));
 	public static final String IDE_APPLICATION = "org.eclipse.ui.ide.workbench";
 	public static final String APPLICATION_PROPERTY = "eclipse.application"; //$NON-NLS-1$
 	public static final String PRODUCT_PROPERTY = "eclipse.product"; //$NON-NLS-1$
@@ -301,7 +301,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private void initialize() {
 		extra.clear();
-        q7target = new Q7Target();
+		q7target = new Q7Target();
 		if (this.target != null && this.target.getTargetLocations() != null) {
 			ITargetLocation[] containers = this.target.getTargetLocations();
 			for (ITargetLocation iUBundleContainer : containers) {
@@ -419,7 +419,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 		if (DEBUG_BUNDLES) {
 			final List<String> targetModelsLocations = new ArrayList<String>();
-			for(final IPluginModelBase model : targetModels) {
+			for (final IPluginModelBase model : targetModels) {
 				targetModelsLocations.add(model.getInstallLocation());
 			}
 			debug("Bundles: " + targetModelsLocations);
@@ -539,8 +539,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			if (elements.length != 1)
 				continue;
 			String visiblity = elements[0].getAttribute("visible"); //$NON-NLS-1$
-			boolean visible = visiblity == null ? true : Boolean.valueOf(
-					visiblity).booleanValue();
+			boolean visible = visiblity == null ? true
+					: Boolean.valueOf(visiblity).booleanValue();
 			if (id != null && visible) {
 				result.add(id);
 			}
@@ -979,8 +979,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private String getVmArg(File eclipseIniFile) {
 		List<String> lines = parseIniFile(eclipseIniFile);
 		int vmIndex = lines.indexOf("-vm") + 1;
-		return vmIndex == 0 || vmIndex == lines.size() ? null : lines
-				.get(vmIndex);
+		return vmIndex == 0 || vmIndex == lines.size() ? null
+				: lines.get(vmIndex);
 	}
 
 	public String getVmFromIniFile() {
@@ -1379,55 +1379,60 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	private static final String USER_DIR = "@user.dir"; //$NON-NLS-1$
 	private static final String PROP_USER_HOME = "user.home"; //$NON-NLS-1$
 	private static final String PROP_USER_DIR = "user.dir"; //$NON-NLS-1$
-	private static final String FILE_SCHEME = "file:"; //$NON-NLS-1$    
+	private static final String FILE_SCHEME = "file:"; //$NON-NLS-1$
 
 	public static OriginalOrderProperties processConfiguration(AutInstall autInstall) {
 		URL baseConfigurationLocation = null;
 		OriginalOrderProperties baseConfiguration = null;
 		String location = null;
-			if (baseConfigurationLocation == null)
-				try {
-					baseConfigurationLocation = new URL(autInstall.getInstallLocationURL(), CONFIG_DIR);
-				} catch (MalformedURLException e) {
-					// leave baseConfigurationLocation null
-				}
-			baseConfiguration = loadConfiguration(baseConfigurationLocation);
-			if (baseConfiguration != null) {
-				// if the base sets the install area then use that value if the property.  We know the 
-				// property is not already set.
-				location = baseConfiguration.getProperty(PROP_CONFIG_AREA);
+		if (baseConfigurationLocation == null)
+			try {
+				baseConfigurationLocation = new URL(autInstall.getInstallLocationURL(), CONFIG_DIR);
+			} catch (MalformedURLException e) {
+				// leave baseConfigurationLocation null
 			}
+		baseConfiguration = loadConfiguration(baseConfigurationLocation);
+		if (baseConfiguration != null) {
+			// if the base sets the install area then use that value if the property. We know the
+			// property is not already set.
+			location = baseConfiguration.getProperty(PROP_CONFIG_AREA);
+		}
 
-		// Now we know where the base configuration is supposed to be.  Go ahead and load
-		// it and merge into the System properties.  Then, if cascaded, read the parent configuration.
-		// Note that in a cascaded situation, the user configuration may be ignored if the parent 
-		// configuration has changed since the user configuration has been written. 
-		// Note that the parent may or may not be the same parent as we read above since the 
-		// base can define its parent.  The first parent we read was either defined by the user
-		// on the command line or was the one in the install dir.  
+		// Now we know where the base configuration is supposed to be. Go ahead and load
+		// it and merge into the System properties. Then, if cascaded, read the parent configuration.
+		// Note that in a cascaded situation, the user configuration may be ignored if the parent
+		// configuration has changed since the user configuration has been written.
+		// Note that the parent may or may not be the same parent as we read above since the
+		// base can define its parent. The first parent we read was either defined by the user
+		// on the command line or was the one in the install dir.
 		// if the config or parent we are about to read is the same as the base config we read above,
 		// just reuse the base
 		OriginalOrderProperties configuration = baseConfiguration;
 		final URL configUrl = getConfigurationLocation(location, autInstall.getInstallLocation());
 
-		String configurationArea = configUrl.getFile();
-    	int index = configurationArea.lastIndexOf("/");
-    	if (index == configurationArea.length() - 1) {
-    		configurationArea = configurationArea.substring(0, index);
-			index = configurationArea.lastIndexOf("/");
-		}
-    	autInstall.userArea = configurationArea.substring(0, index + 1);
-
 		if (configuration == null || !configUrl.equals(baseConfigurationLocation))
 			configuration = loadConfiguration(configUrl);
 
-		if (configuration != null && "false".equalsIgnoreCase(configuration.getProperty(PROP_CONFIG_CASCADED))) { //$NON-NLS-1$
+		if (configuration == null) {
+			Q7ExtLaunchingPlugin.getDefault().info("File config.ini from folder \"" + configUrl + "\" was not read");
+			return baseConfiguration;
+		}
+
+		String configurationArea = configUrl.getFile();
+		int index = configurationArea.lastIndexOf("/");
+		if (index == configurationArea.length() - 1) {
+			configurationArea = configurationArea.substring(0, index);
+			index = configurationArea.lastIndexOf("/");
+		}
+		autInstall.userArea = configurationArea.substring(0, index + 1);
+
+		if ("false".equalsIgnoreCase(configuration.getProperty(PROP_CONFIG_CASCADED))) { //$NON-NLS-1$
 			configuration.remove(PROP_SHARED_CONFIG_AREA);
 			return configuration;
 		} else {
-			if (configuration == null)
-				throw new RuntimeException("File config.ini from folder \"" + configUrl + "\" was not read");
-			URL sharedConfigURL = buildLocation(configuration.getProperty(PROP_SHARED_CONFIG_AREA), null, "", autInstall.getInstallLocation().getAbsolutePath()); //$NON-NLS-1$
+
+			URL sharedConfigURL = buildLocation(configuration.getProperty(PROP_SHARED_CONFIG_AREA), null, "", //$NON-NLS-1$
+					autInstall.getInstallLocation().getAbsolutePath());
 			if (sharedConfigURL == null)
 				try {
 					// there is no shared config value so compute one
@@ -1438,9 +1443,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			// if the parent location is different from the config location, read it too.
 			if (sharedConfigURL != null) {
 				if (sharedConfigURL.equals(configUrl)) {
-					//After all we are not in a shared configuration setup.
-					// - remove the property to show that we do not have a parent 
-					// - merge configuration with the system properties 
+					// After all we are not in a shared configuration setup.
+					// - remove the property to show that we do not have a parent
+					// - merge configuration with the system properties
 					return configuration;
 				} else {
 					// if the parent we are about to read is the same as the base config we read above,
@@ -1475,7 +1480,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private static OriginalOrderProperties substituteVars(OriginalOrderProperties result) {
 		if (result == null) {
-			//nothing todo.
+			// nothing todo.
 			return null;
 		}
 		for (Enumeration<?> eKeys = result.keys(); eKeys.hasMoreElements();) {
@@ -1509,10 +1514,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					if (prop == null) {
 						try {
 							// try using the System.getenv method if it exists (bug 126921)
-							Method getenv = System.class.getMethod("getenv", new Class[] {String.class}); //$NON-NLS-1$
-							prop = (String) getenv.invoke(null, new Object[] {var});
+							Method getenv = System.class.getMethod("getenv", new Class[] { String.class }); //$NON-NLS-1$
+							prop = (String) getenv.invoke(null, new Object[] { var });
 						} catch (Throwable t) {
-							// do nothing; 
+							// do nothing;
 							// on 1.4 VMs this throws an error
 							// on J2ME this method does not exist
 						}
@@ -1541,18 +1546,20 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			buf.append(VARIABLE_DELIM_CHAR).append(var);
 		return buf.toString();
 	}
-	
+
 	private static URL getConfigurationLocation(String configurationArea, File installLocation) {
 		URL configurationLocation = buildLocation(configurationArea, null, "", installLocation.getAbsolutePath()); //$NON-NLS-1$
 		if (configurationLocation == null)
-			configurationLocation = buildURL(computeDefaultConfigurationLocation(installLocation), true, installLocation.getAbsolutePath());
+			configurationLocation = buildURL(computeDefaultConfigurationLocation(installLocation), true,
+					installLocation.getAbsolutePath());
 
 		return configurationLocation;
 	}
 
-	private static URL buildLocation(String location, URL defaultLocation, String userDefaultAppendage, String installArea) {
+	private static URL buildLocation(String location, URL defaultLocation, String userDefaultAppendage,
+			String installArea) {
 		URL result = null;
-		// if the instance location is not set, predict where the workspace will be and 
+		// if the instance location is not set, predict where the workspace will be and
 		// put the instance area inside the workspace meta area.
 		if (location == null)
 			result = defaultLocation;
@@ -1620,7 +1627,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		return toAdjust;
 	}
-	
+
 	private static URL adjustTrailingSlash(URL url, boolean trailingSlash) throws MalformedURLException {
 		String file = url.getFile();
 		if (trailingSlash == (file.endsWith("/"))) //$NON-NLS-1$
@@ -1631,19 +1638,19 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private static String computeDefaultConfigurationLocation(File installLocation) {
 		// 1) We store the config state relative to the 'eclipse' directory if possible
-		// 2) If this directory is read-only 
-		//    we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home> 
-		//    is unique for each local user, and <application-id> is the one 
-		//    defined in .eclipseproduct marker file. If .eclipseproduct does not
-		//    exist, use "eclipse" as the application-id.
+		// 2) If this directory is read-only
+		// we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home>
+		// is unique for each local user, and <application-id> is the one
+		// defined in .eclipseproduct marker file. If .eclipseproduct does not
+		// exist, use "eclipse" as the application-id.
 
-		String configurationLocation = null; 
+		String configurationLocation = null;
 		if (canWrite(installLocation))
 			configurationLocation = installLocation.getAbsolutePath();
-		else 
-		// We can't write in the eclipse install dir so try for some place in the user's home dir
+		else
+			// We can't write in the eclipse install dir so try for some place in the user's home dir
 			configurationLocation = computeDefaultUserAreaLocation(installLocation);
-		
+
 		return configurationLocation + File.separator + CONFIG_DIR;
 	}
 
@@ -1669,10 +1676,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private static String computeDefaultUserAreaLocation(File installDir) {
-		//    we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home> 
-		//    is unique for each local user, and <application-id> is the one 
-		//    defined in .eclipseproduct marker file. If .eclipseproduct does not
-		//    exist, use "eclipse" as the application-id.
+		// we store the state in <user.home>/.eclipse/<application-id>_<version> where <user.home>
+		// is unique for each local user, and <application-id> is the one
+		// defined in .eclipseproduct marker file. If .eclipseproduct does not
+		// exist, use "eclipse" as the application-id.
 		String installDirHash = getInstallDirHash(installDir);
 
 		String appName = "." + ECLIPSE; //$NON-NLS-1$
@@ -1689,7 +1696,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					appVersion = ""; //$NON-NLS-1$
 				appName += File.separator + appId + "_" + appVersion + "_" + installDirHash; //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (IOException e) {
-				// Do nothing if we get an exception.  We will default to a standard location 
+				// Do nothing if we get an exception. We will default to a standard location
 				// in the user's home dir.
 				// add the hash to help prevent collisions
 				appName += File.separator + installDirHash;
@@ -1700,7 +1707,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		appName += '_' + OS_WS_ARCHToString();
 		String userHome = System.getProperty(PROP_USER_HOME);
-		return new File(userHome, appName).getAbsolutePath(); //$NON-NLS-1$
+		return new File(userHome, appName).getAbsolutePath(); // $NON-NLS-1$
 	}
 
 	private static String OS_WS_ARCHToString() {
@@ -1789,7 +1796,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return installDirHash;
 	}
 
-	private static OriginalOrderProperties mergeProperties(OriginalOrderProperties source, OriginalOrderProperties userConfiguration) {
+	private static OriginalOrderProperties mergeProperties(OriginalOrderProperties source,
+			OriginalOrderProperties userConfiguration) {
 		if (userConfiguration != null) {
 			source.setBeginAdd(true);
 			source.putAll(userConfiguration);

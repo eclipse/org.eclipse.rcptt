@@ -17,6 +17,7 @@ import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.PLUG
 
 import java.io.File;
 
+import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -98,8 +99,8 @@ public final class PDELocationUtils {
 
 	private static IStatus validateDirectoryPath(File file) {
 		if (file == null || !file.exists()) {
-			return new Status(IStatus.ERROR, PLUGIN_ID,
-					"Directory \"" + (file != null ? file.getPath() : "null") + "\" does not exist."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return new Status(IStatus.ERROR, PLUGIN_ID, EFS.ERROR_NOT_EXISTS,
+					"Directory \"" + (file != null ? file.getPath() : "null") + "\" does not exist.", null); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		if (!file.isDirectory()) {

@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -79,16 +80,23 @@ public class TargetPlatformManager {
 			final String localLocation = info.getUserArea();
 			if (localLocation != null) {
 				/*
-				final File localProductDir = PDELocationUtils.getProductLocation(location);
-				final ITargetLocation localInstallationContainer = service
-						.newProfileLocation(localProductDir.getAbsolutePath(), null);
-				containers.add(localInstallationContainer);
-				*/
+				 * final File localProductDir = PDELocationUtils.getProductLocation(location);
+				 * final ITargetLocation localInstallationContainer = service
+				 * .newProfileLocation(localProductDir.getAbsolutePath(), null);
+				 * containers.add(localInstallationContainer);
+				 */
 
-				final File localPluginsDir = PDELocationUtils.getPluginFolder(localLocation);
-				final ITargetLocation localPluginsContainer = service
-						.newDirectoryLocation(localPluginsDir.getAbsolutePath());
-				containers.add(localPluginsContainer);
+				try {
+					final File localPluginsDir = PDELocationUtils.getPluginFolder(localLocation);
+					final ITargetLocation localPluginsContainer = service
+							.newDirectoryLocation(localPluginsDir.getAbsolutePath());
+					containers.add(localPluginsContainer);
+				} catch (CoreException e) {
+					if(e.getStatus().getCode() == EFS.ERROR_NOT_EXISTS) {
+						Q7ExtLaunchingPlugin.log(new Status(IStatus.INFO, PLUGIN_ID, EFS.ERROR_NOT_EXISTS, localLocation + " does not have plugins.", e));
+					} else
+						throw e;
+				}
 			}
 
 			info.setBundleContainers(containers
@@ -285,8 +293,6 @@ public class TargetPlatformManager {
 		}
 		return null;
 	}
-
-
 
 	private static CoreException createErrorProductLocationException(String location, Throwable e)
 			throws CoreException {

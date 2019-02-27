@@ -76,7 +76,7 @@ public class Q7Target {
 	 */
 	public static class AutInstall {
 		private static final String OSGI_BUNDLES = "osgi.bundles";
-		private OriginalOrderProperties config;
+		private final OriginalOrderProperties config;
 		public final ProfileBundleContainer container;
 		public String userArea;
 
@@ -129,7 +129,8 @@ public class Q7Target {
 
 		public URL getInstallLocationURL() {
 			try {
-				return TargetPlatformHelper.buildURL(container.getLocation(true), true, getInstallLocation().getAbsolutePath());
+				return TargetPlatformHelper.buildURL(container.getLocation(true), true,
+						getInstallLocation().getAbsolutePath());
 			} catch (CoreException e) {
 				log(status("Can't get AUT location", e));
 				return null;
