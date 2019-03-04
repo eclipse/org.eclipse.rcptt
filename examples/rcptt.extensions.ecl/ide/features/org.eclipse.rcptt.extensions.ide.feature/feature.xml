@@ -13,7 +13,7 @@
 <feature
       id="org.eclipse.rcptt.extensions.ide.feature"
       label="RCPTT ECL extensions example - IDE plugins"
-      version="2.4.0.qualifier"
+      version="2.4.1.qualifier"
       provider-name="Eclipse RCP Testing Tool Project"
       plugin="org.eclipse.rcptt.extensions.ecl.impl">
 
@@ -31,13 +31,13 @@
 
    <includes
          id="org.eclipse.rcptt.extensions.common.feature"
-         version="2.4.0.qualifier"/>
+         version="2.4.1.qualifier"/>
 
    <plugin
          id="org.eclipse.rcptt.extensions.updates"
          download-size="0"
          install-size="0"
-         version="2.4.0.qualifier"
+         version="2.4.1.qualifier"
          unpack="false"/>
 
 </feature>

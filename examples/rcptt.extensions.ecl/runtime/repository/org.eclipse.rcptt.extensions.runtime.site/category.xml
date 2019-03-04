@@ -11,7 +11,7 @@
  -->
 
 <site>
-   <feature url="features/org.eclipse.rcptt.extensions.runtime.feature_2.4.0.qualifier.jar" id="org.eclipse.rcptt.extensions.runtime.feature" version="2.4.0.qualifier">
+   <feature url="features/org.eclipse.rcptt.extensions.runtime.feature_2.4.1.qualifier.jar" id="org.eclipse.rcptt.extensions.runtime.feature" version="2.4.1.qualifier">
       <category name="org.eclipse.rcptt.extensions"/>
    </feature>
    <category-def name="org.eclipse.rcptt.extensions" label="RCPTT Extensions"/>

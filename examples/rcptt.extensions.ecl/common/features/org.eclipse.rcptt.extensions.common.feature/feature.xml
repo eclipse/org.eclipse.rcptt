@@ -13,7 +13,7 @@
 <feature
       id="org.eclipse.rcptt.extensions.common.feature"
       label="RCPTT ECL extensions example - Common plugins"
-      version="2.4.0.qualifier"
+      version="2.4.1.qualifier"
       provider-name="Eclipse RCP Testing Tool Project"
       plugin="org.eclipse.rcptt.extensions.ecl.impl">
 
@@ -33,7 +33,7 @@
          id="org.eclipse.rcptt.extensions.ecl.model"
          download-size="0"
          install-size="0"
-         version="2.4.0.qualifier"
+         version="2.4.1.qualifier"
          unpack="false"/>
 
 </feature>
