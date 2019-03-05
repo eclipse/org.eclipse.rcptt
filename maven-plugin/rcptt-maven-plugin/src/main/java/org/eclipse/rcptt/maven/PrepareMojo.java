@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2016 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -163,7 +163,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 	/**
 	 * Remote repositories of current plugin, used to resolve q7 runner
 	 *
-	 * @parameter default-value="project.remotePluginRepositories"
+	 * @parameter default-value="${project.remotePluginRepositories}"
 	 * @readonly
 	 */
 	private List<RemoteRepository> remotePluginRepos;
@@ -171,7 +171,7 @@ public class PrepareMojo extends AbstractRCPTTMojo {
 	/**
 	 * Remote repositories of project we are building, used to resolve aut
 	 *
-	 * @parameter default-value="project.remoteProjectRepositories"
+	 * @parameter default-value="${project.remoteProjectRepositories}"
 	 * @readonly
 	 */
 	private List<RemoteRepository> remoteProjectRepos;
