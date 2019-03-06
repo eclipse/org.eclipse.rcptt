@@ -238,8 +238,8 @@ public class ExecutableTest {
 		ExecutionSession session = new ExecutionSession(launchId, new Executable[] { secondSleepExecutable }, null,
 				null);
 		run(session);
-		assertInRange("Executable time", secondSleepExecutable.getTime(), 900, 1100);
-		assertInRange("Session time", session.getTotalTime(), 900, 1100);
+		assertInRange("Executable time", secondSleepExecutable.getTime(), 900, 7000);
+		assertInRange("Session time", session.getTotalTime(), 900, 7000);
 	}
 
 	@Test
@@ -248,8 +248,8 @@ public class ExecutableTest {
 		Executable executable = new PrepareExecutionWrapper(createLaunch(), secondSleepExecutable);
 		ExecutionSession session = new ExecutionSession(launchId, new Executable[] { executable }, null, null);
 		run(session);
-		assertInRange("Executable time", executable.getTime(), 900, 1200);
-		assertInRange("Session time", session.getTotalTime(), 900, 1200);
+		assertInRange("Executable time", executable.getTime(), 900, 7000);
+		assertInRange("Session time", session.getTotalTime(), 900, 7000);
 	}
 
 	@Test
@@ -259,8 +259,8 @@ public class ExecutableTest {
 		Executable executable = new PrepareExecutionWrapper(createLaunch(), group);
 		ExecutionSession session = new ExecutionSession(launchId, new Executable[] { executable }, null, null);
 		run(session);
-		assertInRange("Executable time", executable.getTime(), 900, 1200);
-		assertInRange("Session time", session.getTotalTime(), 900, 1200);
+		assertInRange("Executable time", executable.getTime(), 900, 7000);
+		assertInRange("Session time", session.getTotalTime(), 900, 7000);
 	}
 
 	@Test(expected = NullPointerException.class)
