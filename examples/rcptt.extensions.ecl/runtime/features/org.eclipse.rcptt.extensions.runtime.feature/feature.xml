@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2016 Xored Software Inc and others.
+    Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@
 <feature
       id="org.eclipse.rcptt.extensions.runtime.feature"
       label="RCPTT ECL extensions example - Runtime"
-      version="2.4.1.qualifier"
+      version="2.4.2.qualifier"
       provider-name="Eclipse RCP Testing Tool Project"
       plugin="org.eclipse.rcptt.extensions.ecl.impl">
 
@@ -31,13 +31,13 @@
 
    <includes
          id="org.eclipse.rcptt.extensions.common.feature"
-         version="2.4.1.qualifier"/>
+         version="2.4.2.qualifier"/>
 
    <plugin
          id="org.eclipse.rcptt.extensions.ecl.impl"
          download-size="0"
          install-size="0"
-         version="2.4.1.qualifier"
+         version="2.4.2.qualifier"
          unpack="false"/>
 
 </feature>
