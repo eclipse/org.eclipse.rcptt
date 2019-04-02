@@ -1,0 +1,179 @@
+RULE Part dirty state has changed
+CLASS org.eclipse.e4.ui.model.application.ui.basic.impl.PartImpl
+METHOD setDirty(boolean)
+AT ENTRY
+IF true
+DO traceStack($0.toString() + ".setDirty("+$1+")\n")
+ENDRULE
+
+RULE Part's dirty state is requested
+CLASS org.eclipse.e4.ui.model.application.ui.basic.impl.PartImpl
+METHOD isDirty()
+AT EXIT
+IF true
+DO traceStack($0.toString() + ".isDirty() = "+$!+"\n")
+ENDRULE
+
+RULE Command invoked
+CLASS org.eclipse.core.commands.Command
+METHOD executeWithChecks(org.eclipse.core.commands.ExecutionEvent)
+AT ENTRY
+IF true
+DO traceStack($0.toString() + ".executeWithChecks()\n")
+ENDRULE
+
+RULE Keyboard processing
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter
+METHOD handleEvent(org.eclipse.swt.widgets.Event)
+AT ENTRY
+IF false
+DO traceStack($0.toString() + ".handleEvent({keyCode:"+$1.keyCode + ", stateMask:" +$1.stateMask+"})\n")
+ENDRULE
+
+RULE Keystroke processing
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher
+METHOD press(java.util.List, org.eclipse.swt.widgets.Event)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".press("+$1 + ", " +$2 + "})\n")
+ENDRULE
+
+RULE Keybinding processing
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher
+METHOD press(java.util.List, org.eclipse.swt.widgets.Event)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".press("+$1 + ", " +$2 + "})\n")
+ENDRULE
+
+RULE Executable matches search
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher
+METHOD getExecutableMatches(org.eclipse.jface.bindings.keys.KeySequence, org.eclipse.e4.core.contexts.IEclipseContext)
+AT EXIT
+IF true
+DO trace($0.toString() + ".getExecutableMatches("+$1 + ", " +$2 + ") = " + $! + "\n")
+ENDRULE
+
+RULE Execute command
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher
+METHOD executeCommand(org.eclipse.core.commands.ParameterizedCommand, org.eclipse.swt.widgets.Event)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".executeCommand("+$1 + ", " +$2 + "})\n")
+ENDRULE
+
+RULE Binding service load
+CLASS org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher
+METHOD getBindingService()
+AT EXIT
+IF false
+DO trace($0.toString() + ".getBindingService() = " + $! + "\n")
+ENDRULE
+
+
+RULE Handler lookup
+CLASS org.eclipse.e4.core.commands.internal.HandlerServiceImpl
+METHOD lookUpHandler(org.eclipse.e4.core.IEclipseContext, java.lang.String)
+AT EXIT
+IF true
+DO trace("lookUpHandler(" + $1 +", " + $2 + ") = " + $! "\n")
+ENDRULE
+
+RULE Keybinding table inspection 
+CLASS org.eclipse.e4.ui.bindings.internal.BindingTable
+METHOD getPerfectMatch(org.eclipse.jface.bindings.TriggerSequence)
+AT EXIT
+IF true
+#"org.eclipse.ui.contexts.window".equals($0.getId())
+DO trace("getPerfectMatch(" + $1 + ") = " + $! "\n")
+ENDRULE
+
+RULE Keybinding manager inspection
+CLASS org.eclipse.e4.ui.bindings.internal.BindingTableManager 
+METHOD getPerfectMatch(org.eclipse.e4.ui.bindings.internal.ContextSet, org.eclipse.jface.bindings.TriggerSequence)
+AT EXIT
+IF true
+DO trace("getPerfectMatch(" + $1.getContexts() +", " + $2 + ") = " + $! "\n")
+ENDRULE
+
+RULE Keybinding service perfect match
+INTERFACE org.eclipse.e4.ui.bindings.EBindingService
+METHOD getPerfectMatch(org.eclipse.jface.bindings.TriggerSequence)
+AT EXIT
+IF true
+DO trace("getPerfectMatch(" + $1 + ") = " + $! "\n")
+ENDRULE
+
+RULE Keybinding service conflicts
+INTERFACE org.eclipse.e4.ui.bindings.EBindingService
+METHOD getConflictsFor(org.eclipse.jface.bindings.TriggerSequence)
+AT EXIT
+IF false
+DO traceStack("getConflictsFor(" + $1 + ") = " + $! "\n")
+ENDRULE
+
+RULE Handler service invocation
+CLASS org.eclipse.e4.core.commands.internal.HandlerServiceImpl
+METHOD executeHandler(org.eclipse.core.commands.ParameterizedCommand, org.eclipse.e4.core.contexts.IEclipseContext)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".executeHandler("+$1 + ", " +$2 + "})\n")
+ENDRULE
+
+RULE Handler service canExecute
+CLASS org.eclipse.e4.core.commands.internal.HandlerServiceImpl
+METHOD canExecute(org.eclipse.core.commands.ParameterizedCommand, org.eclipse.e4.core.contexts.IEclipseContext)
+AT ENTRY
+IF true
+DO traceStack($0.toString() + ".canExecute("+$1 + ", " +$2 + ") = " + $! "\n")
+ENDRULE
+
+RULE SaveHandler execute
+CLASS org.eclipse.ui.internal.handlers.SaveHandler
+METHOD execute(org.eclipse.core.commands.ExecutionEvent)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".execute("+$1 + ")\n")
+ENDRULE
+
+RULE SaveHandler tracing enablement evaluation
+CLASS org.eclipse.ui.internal.handlers.SaveHandler
+METHOD evaluate(org.eclipse.core.expressions.IEvaluationContext)
+AT ENTRY
+IF true
+DO traceStack($0.toString() + ".evaluate(" + $1 + ") = " + $! "\n")
+ENDRULE
+
+RULE AbstractEnabledHandler tracing enablement
+CLASS org.eclipse.ui.internal.AbstractEnabledHandler
+METHOD setEnabled(boolean)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".setEnabled(" + $1 + ")\n")
+ENDRULE
+
+RULE Workbench shell activation listener
+CLASS org.eclipse.e4.ui.internal.workbench.swt.ShellActivationListener
+METHOD handleEvent(org.eclipse.swt.widgets.Event)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".handleEvent(" + $1 + ")\n")
+ENDRULE
+
+RULE Shell active control
+CLASS org.eclipse.swt.widgets.Shell
+METHOD setActiveControl(org.eclipse.swt.widgets.Control, int)
+AT ENTRY
+IF true
+DO trace($0.toString() + ".handleEvent(" + $1 + ", " + $2 +")\n")
+ENDRULE
+
+RULE Shell focus event
+CLASS org.eclipse.swt.widgets.Shell
+METHOD gtk_focus_in_event(long, long)
+AT ENTRY
+IF true
+DO traceStack($0.toString() + ".gtk_focus_in_event(" + $1 + ", " + $2 +")\n")
+ENDRULE
+
+

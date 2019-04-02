@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _4zI9AWpgEeCzId1Gnkds9A,_BIzmMMyzEeCKjp0mPLHiEg
 Element-Name: FilteringContextsInContextList
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Gl17AMpgEeCVO9X7TqWdlg
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.4.1.qualifier
+Save-Time: 4/1/19 11:39 AM
 Tags: TestCase, Context
 Testcase-Type: ecl
 
@@ -71,7 +70,7 @@ with [get-window "Select context" | get-table] {
 with [get-window "Select context"] {
     get-editbox -after [get-label "Enter context name prefix or pattern (*, ?):"] | set-text script
 }
-get-window "Select context" | get-table | get-property itemCount | equals 0 | verify-true
+get-window "Select context" | get-table | get-property itemCount | equals 1 | verify-true
 with [get-window "Select context"] {
     get-editbox -after [get-label "Enter context name prefix or pattern (*, ?):"] | set-text "*script"
     get-table | select "ecl-script \\(Q7Project\\)"

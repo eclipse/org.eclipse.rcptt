@@ -46,9 +46,9 @@ Apache Software Foundation http://www.apache.org/
    <launcher name="rcptt">
       <linux icon="../../rcp/products/icons/rcptt.xpm"/>
       <macosx icon="../../rcp/products/icons/rcptt.icns"/>
-      <solaris/>
       <win useIco="true">
          <ico path="../../rcp/products/icons/rcptt.ico"/>
+         <bmp/>
       </win>
    </launcher>
 
@@ -58,7 +58,7 @@ Apache Software Foundation http://www.apache.org/
    <license>
         <url>http://www.eclipse.org/legal/epl-v10.html</url>
         <text>
-	  Eclipse Public License - v 1.0
+   Eclipse Public License - v 1.0
 
    THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE
    PUBLIC LICENSE (&quot;AGREEMENT&quot;). ANY USE, REPRODUCTION OR DISTRIBUTION OF
@@ -330,17 +330,17 @@ Apache Software Foundation http://www.apache.org/
       <feature id="org.eclipse.equinox.p2.rcp.feature"/>
       <feature id="org.eclipse.ecf.filetransfer.feature"/>
       <feature id="org.eclipse.e4.rcp"/>
-      <feature id="org.eclipse.egit"/>
-      <feature id="org.eclipse.jgit"/>
+      <feature id="org.eclipse.egit" version="5.3.0.201903130848-r"/>
+      <feature id="org.eclipse.jgit" version="5.3.0.201903130848-r"/>
       <feature id="org.eclipse.equinox.p2.discovery.feature"/>
       <feature id="org.eclipse.rcptt.module.nebula"/>
       <feature id="org.eclipse.rcptt.launching"/>
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
    </configurations>
 

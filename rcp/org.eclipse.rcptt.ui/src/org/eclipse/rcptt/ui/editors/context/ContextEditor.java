@@ -156,6 +156,7 @@ public class ContextEditor extends NamedElementEditor {
 			} else {
 				super.doSave(monitor);
 			}
+			assert !isDirty();
 		} catch (CoreException e) {
 			Q7UIPlugin.log(e);
 		}

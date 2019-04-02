@@ -1,0 +1,42 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: 2019-03_regression
+Element-Type: testsuite
+Element-Version: 2.0
+Id: _7BRNEFRJEemY1KVRTSK_ug
+Runtime-Version: 2.4.1.qualifier
+Save-Time: 4/2/19 12:21 PM
+
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8
+Content-Type: text/testcase
+Entry-Name: testcase-items
+
+_Gl17AMpgEeCVO9X7TqWdlg	// kind: 'test' name: 'FilteringContextsInContextList' path: 'platform_tests/Editing/TestCase/ContextList/FilteringContextsInContextList.test'
+_WXXeIK42EeKG-dRk9kbnJA	// kind: 'test' name: 'GenerateSecondPomFileInProject' path: 'platform_tests/q7Explorer/generatePom/GenerateSecondPomFileInProject.test'
+_ERrwwBkWEeOt9MVDSr4v5A	// kind: 'test' name: 'LaunchCheck_Group_SuperConext' path: 'ECL_IDE_module/selfAUTTests/SuperContext/LaunchCheck_Group_SuperConext.test'
+_cJ8b0BkVEeOt9MVDSr4v5A	// kind: 'test' name: 'LaunchCheck_Launch_SuperContext' path: 'ECL_IDE_module/selfAUTTests/SuperContext/LaunchCheck_Launch_SuperContext.test'
+_PumK4RkUEeOt9MVDSr4v5A	// kind: 'test' name: 'LaunchCheck_Wb_SuperContext' path: 'ECL_IDE_module/selfAUTTests/SuperContext/LaunchCheck_Wb_SuperContext.test'
+_xjq2oBkOEeOwAuU1H7YyVQ	// kind: 'test' name: 'LaunchCheck_Ws_Pref_SuperContext' path: 'ECL_IDE_module/selfAUTTests/SuperContext/LaunchCheck_Ws_Pref_SuperContext.test'
+_nZDtgIGUEeKRQ-O0Mh9igg	// kind: 'test' name: 'ListFeatures' path: 'ECL_IDE_module/selfAUTTests/q7commands/ListFeatures.test'
+_E1wokYJEEeKn_ZM6yFZIHw	// kind: 'test' name: 'ListPlugins' path: 'ECL_IDE_module/selfAUTTests/q7commands/ListPlugins.test'
+_cw0EYF0IEeGDGrudSYLu8w	// kind: 'test' name: 'MarkTaskAsCompleted' path: 'ECL_IDE_module/editors/ScenarioEditor/TasksInScriptEditor/MarkTaskAsCompleted.test'
+_hMoCUAu-EeOLiPM97zhEfw	// kind: 'test' name: 'QS-2821_Add tooltip information for references' path: 'ECL_IDE_module/editors/ScenarioEditor/QS-2821_Add tooltip information for references.test'
+_V4RUAAK-EeWIbeVIcuukYQ	// kind: 'test' name: 'RCPTT-478_HTML report looks different if it is copied as only html-file' path: 'platform_tests/selfAUTTests/RCPTT-478_HTML report looks different if it is copied as only html-file.test'
+_pLS-0CBTEeOjX5Yww5t2_A	// kind: 'test' name: 'Set Breakpoint In Proc_Step Into_Step Return' path: 'ECL_IDE_module/selfAUTTests/debugging/Set Breakpoint In Proc_Step Into_Step Return.test'
+_wFfUMDwFEeGWcueqnS9xrA	// kind: 'test' name: 'SetBreakpointInTestWithRestarting' path: 'ECL_IDE_module/selfAUTTests/debugging/SetBreakpointInTestWithRestarting.test'
+_K14SUHPREeGn3IInLDRicw	// kind: 'test' name: 'SetBreakpointOnPartOfLine' path: 'ECL_IDE_module/selfAUTTests/debugging/SetBreakpointOnPartOfLine.test'
+_u_S3IHM6EeGsLtfm1BUmHg	// kind: 'test' name: 'SetBreakpointToCommentLine' path: 'ECL_IDE_module/selfAUTTests/debugging/SetBreakpointToCommentLine.test'
+_EgTa4e_8EeCXWfaP50PILw	// kind: 'test' name: 'SwitchToAssertionMode' path: 'platform_tests/ControlPanel/SwitchToAssertionMode.test'
+_Jr67MPMdEeCE19s6EOk3LA	// kind: 'test' name: 'TestNumsAreDisplayedInExecutionView' path: 'ECL_IDE_module/selfAUTTests/executionView/TestNumsAreDisplayedInExecutionView.test'
+_6UOKUILYEeGVWel_bIqsJQ	// kind: 'test' name: 'UndoRedoDeleteProjectWithoutDeleteFromDiskByHotKey' path: 'platform_tests/Editing/ProjectAndFolder/UndoRedo/UndoDeleteProjectWithoutDeleteFromDiskByHotKey.test'
+_ok65YPMBEeCE19s6EOk3LA	// kind: 'test' name: 'Undo/Redo in Control Panel' path: 'ECL_IDE_module/ControlPanel/Undo_Redo in Control Panel.test'
+_BKzUsBZtEeWfXuiNKOMhqw	// kind: 'test' name: 'Verify/Not Verify Icons' path: 'ECL_IDE_module/selfAUTTests/verifications/TableTree/Verify_Not Verify Icons.test'
+_GVh0cM79EeCw4ppgsBRMGg	// kind: 'test' name: 'EnableClearWorkspaceInContext' path: 'platform_tests/Editing/Context/Workspace Context/Create/EnableClearWorkspaceInContext.test'
+_KE5VEWswEeGhKJWOtX9noQ	// kind: 'test' name: 'AddTaskToEclContext' path: 'ECL_IDE_module/editors/ECLContext/AddTaskToEclContext.test'
+_MOxZYM71EeCw4ppgsBRMGg	// kind: 'test' name: 'CreateNewObjectFromToolbar' path: 'platform_tests/toolbar/CreateNewObjectFromToolbar.test'
+_RtglkCbJEeS6GLpDYENyEA	// kind: 'test' name: 'Autocomplete' path: 'ECL_IDE_module/editors/ScenarioEditor/Content assist/Procedure documentation/Autocomplete.test'
+_EdBBULVEEeGHo51xlkPHGw	// kind: 'test' name: 'ContextMenuActionsRecordingForBrowser' path: 'platform_tests/Recording/ContextMenuActionsRecordingForBrowser.test'
+_GODpIF0IEeGDGrudSYLu8w	// kind: 'test' name: 'AddTaskToScriptEditor' path: 'ECL_IDE_module/editors/ScenarioEditor/TasksInScriptEditor/AddTaskToScriptEditor.test'
+_EdCW8CYfEeGbAuIIX5cVWQ	// kind: 'test' name: 'Ignore Some Files At Clearing Workspace' path: 'platform_tests/Editing/Context/Workspace Context/Create/Ignore Some Files At Clearing Workspace.test'
+
+------=_testcase-items-62c497da-4241-31f4-811a-6b453a3ecff8--

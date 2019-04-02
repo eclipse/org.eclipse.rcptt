@@ -53,9 +53,10 @@ public class WSValidators {
 							WSUtils.getFileStream(null, (WSFile) input, model)
 									.close();
 						} catch (IOException e) {
+							String elementName = (data instanceof IQ7NamedElement) ? ((IQ7NamedElement) data).getName() : data.toString();
 							String message = String
 									.format("File %s is absent in workspace %s. Please recapture the context or delete broken file.",
-											name, ((IQ7NamedElement) data).getName());
+											name, elementName);
 							reporter.reportProblem((IFile)element.getResource(), ProblemType.Error,
 									message, -1, -1, -1, -1);
 						}

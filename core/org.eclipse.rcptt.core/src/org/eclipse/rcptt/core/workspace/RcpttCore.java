@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -799,7 +799,7 @@ public class RcpttCore {
 		}
 
 		// runtimeVersion = "";
-		String runtimeBundleId = "org.eclipse.rcptt.updates.runtime";
+		String runtimeBundleId = "org.eclipse.rcptt.updates.runtime.e4x";
 		Bundle runtimeBundle = Platform.getBundle(runtimeBundleId);
 		if (runtimeBundle == null)
 			throw new NullPointerException(runtimeBundleId

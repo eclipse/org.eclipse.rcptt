@@ -212,17 +212,6 @@ Not used in runtime.
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rcptt.core.swt.win32"
-         os="win32"
-         ws="win32"
-         arch="x86"
-         download-size="0"
-         install-size="0"
-         version="2.4.2.qualifier"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.rcptt.core.swt.win64"
          os="win32"
          ws="win32"

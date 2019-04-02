@@ -43,7 +43,6 @@
 		<module>org.eclipse.rcptt.util</module>
 		<module>org.eclipse.rcptt.util.resources</module>
 		<module>org.eclipse.rcptt.core.swt</module>
-		<module>org.eclipse.rcptt.core.swt.win32</module>
 		<module>org.eclipse.rcptt.core.swt.win64</module>
 		<module>org.eclipse.rcptt.core-feature</module>
 		<!-- ECL modules -->

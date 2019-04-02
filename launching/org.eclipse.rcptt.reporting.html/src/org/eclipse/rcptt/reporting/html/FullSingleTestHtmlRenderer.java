@@ -344,8 +344,8 @@ public class FullSingleTestHtmlRenderer {
 	}
 	
 	private void openDetails(int level, String title, String classes) {
-		writer.println("<details class=\"closed\">");
-		writer.println("<summary>");
+		writer.print("<details class=\"closed\">");
+		writer.print("<summary>");
 		renderHeader(level, title, classes);
 		writer.println("</summary>");
 		writer.println("<div class=\"detailsContent\">");

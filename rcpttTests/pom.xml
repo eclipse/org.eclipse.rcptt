@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (c) 2009, 2019 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
@@ -23,8 +23,38 @@
   <properties>
     <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.4.2/latest/repository</rcpttRepo>
   </properties>
+  <dependencies>
+		<dependency>
+			<groupId>org.jboss.byteman</groupId>
+			<artifactId>byteman</artifactId>
+			<version>4.0.4</version>
+			<type>jar</type>
+		</dependency>
+  </dependencies>
   <build>
     <plugins>
+    		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<overWriteReleases>true</overWriteReleases>
+					<overWriteSnapshots>true</overWriteSnapshots>
+				</configuration>
+				<executions>
+					<execution>
+						<id>byteman</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeArtifactIds>byteman</includeArtifactIds>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+    
       <plugin>
         <groupId>${rcptt-maven-group}</groupId>
         <artifactId>${rcptt-maven-plugin}</artifactId>
@@ -36,8 +66,13 @@
             <args>
               <arg>-nosplash</arg>
               <arg>-consoleLog</arg>
+              <arg>-debug</arg>
+	      <arg>${basedir}/debug.options</arg>
             </args>
 		<vmArgs>
+			<!--vmArg>-javaagent:${project.build.directory}/dependency/byteman.jar=boot:${project.build.directory}/dependency/byteman.jar,script:${basedir}/trace.btm</vmArg>
+			<vmArg>-Dorg.jboss.byteman.transform.all</vmArg>
+			<vmArg>-Dorg.jboss.byteman.debug</vmArg-->
 			<vmArg>-XX:+HeapDumpOnOutOfMemoryError</vmArg>
 			<vmArg>-XX:+UnlockCommercialFeatures</vmArg>
 			<vmArg>-XX:+FlightRecorder</vmArg>
@@ -49,9 +84,13 @@
           </runner>
           <skipTags>
             <tag>skipExecution</tag>
+            <tag>Browser</tag> // Needs a web browser installed in test environment
           </skipTags>
+          <!--suites>
+            <suite>2019-03_regression</suite>
+          </suites-->
           <testOptions>
-            <execTimeout>25000</execTimeout>
+            <execTimeout>28800</execTimeout>
           </testOptions>
         </configuration>
       </plugin>

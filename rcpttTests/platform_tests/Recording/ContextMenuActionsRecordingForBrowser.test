@@ -6,9 +6,9 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-1111
 Id: _EdBBULVEEeGHo51xlkPHGw
-Runtime-Version: 2.4.0.qualifier
-Save-Time: 11/14/18 1:08 AM
-Tags: Recording
+Runtime-Version: 2.4.2.qualifier
+Save-Time: 4/3/19 5:59 PM
+Tags: Recording, Browser
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
