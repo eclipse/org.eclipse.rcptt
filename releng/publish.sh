@@ -51,7 +51,7 @@ mkdir $latest/full
 
 # copying products
 ideProductSourcePrefix=$WORKSPACE/repository/full/target/products/org.eclipse.rcptt.platform.product
-for arch in linux.gtk.x86 linux.gtk.x86_64 macosx.cocoa.x86_64 win32.win32.x86 win32.win32.x86_64 ; do
+for arch in linux.gtk.x86_64 macosx.cocoa.x86_64 win32.win32.x86_64 ; do
 	cp $ideProductSourcePrefix-$arch.zip $buildDestination/ide/rcptt.ide-$qualifiedDecoration-$arch.zip
 	cp $ideProductSourcePrefix-$arch.zip $latest/ide/rcptt.ide-$unqualifiedDecoration-$arch.zip
 done
