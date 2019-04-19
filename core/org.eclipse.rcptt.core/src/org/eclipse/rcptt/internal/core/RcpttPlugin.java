@@ -96,8 +96,11 @@ public class RcpttPlugin extends Plugin {
 	}
 
 	public static IStatus createStatus(Throwable t) {
-		if (t instanceof CoreException)
-			return ((CoreException) t).getStatus();
+		if (t instanceof CoreException) {
+			IStatus result = ((CoreException) t).getStatus();
+			if (result.getException() != null || result.getChildren().length != 0)
+				return result;
+		}
 		return new Status(Status.ERROR, PLUGIN_ID, t.getMessage(), t);
 	}
 

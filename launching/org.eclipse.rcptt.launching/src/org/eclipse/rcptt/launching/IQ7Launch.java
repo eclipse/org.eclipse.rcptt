@@ -184,12 +184,6 @@ public interface IQ7Launch {
 	String AUT_LOCATION = "aut-location"; //$NON-NLS-1$
 
 	/**
-	 * Launch configuration attribute key. The value is a string specifying
-	 * associated platform.
-	 */
-	String TARGET_PLATFORM = "aut-target-platform"; //$NON-NLS-1$
-
-	/**
 	 * Do not try to create target one more time
 	 */
 	String UPDATE_TARGET_SUPPORTED = "aut-target-updatable";//$NON-NLS-1$

@@ -18,11 +18,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationListener;
-import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
@@ -48,9 +47,9 @@ public class Q7TargetPlatformManager {
 			return cached;
 		}
 
-		monitor.beginTask("Initialize target platform...", 2);
+		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
 		ITargetPlatformHelper info = TargetPlatformManager.findTarget(
-				targetPlatform, new SubProgressMonitor(monitor, 1), true);
+				targetPlatform, subMonitor.split(1), true);
 		assert info.getStatus().isOK();
 		monitor.worked(1);
 		monitor.done();
@@ -77,11 +76,11 @@ public class Q7TargetPlatformManager {
 
 		String targetPlatformName = getTargetPlatformName(config);
 
-		monitor.beginTask("Initialize target platform...", 2);
-		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, new SubProgressMonitor(monitor, 1), true);
+		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
+		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, subMonitor.split(1), true);
 
 		if (info == null) {
-			info = newTargetPlatform(config, new SubProgressMonitor(monitor, 1), location);
+			info = newTargetPlatform(config, subMonitor.split(1), location);
 			assert info != null;
 		} else {
 			monitor.worked(1);
@@ -120,12 +119,11 @@ public class Q7TargetPlatformManager {
 		}
 		ITargetPlatformHelper platform = null;
 		try {
-			monitor.beginTask("Create AUT configuration", 100);
+			SubMonitor subMonitor = SubMonitor.convert(monitor, "Create AUT configuration", 100);
 			platform = TargetPlatformManager
-					.createTargetPlatform(location, new SubProgressMonitor(monitor,
-							50));
+					.createTargetPlatform(location, subMonitor.split(50));
 			throwOnError(platform.getStatus());
-			IStatus rv = Q7TargetPlatformInitializer.initialize(platform, new SubProgressMonitor(monitor, 50));
+			IStatus rv = Q7TargetPlatformInitializer.initialize(platform, subMonitor.split(50));
 			throwOnError(rv);
 			isOk = true;
 			return platform;
@@ -150,13 +148,7 @@ public class Q7TargetPlatformManager {
 	 * @throws CoreException
 	 */
 	public static String getTargetPlatformName(ILaunchConfiguration config) {
-		String defValue = getTargetPlatformName(config.getName());
-		try {
-			return config.getAttribute(IQ7Launch.TARGET_PLATFORM, defValue);
-		} catch (CoreException e) {
-			RcpttPlugin.log(e);
-			return defValue;
-		}
+		return getTargetPlatformName(config.getName());
 	}
 
 	public static String getTargetPlatformName(String name) {
@@ -171,10 +163,12 @@ public class Q7TargetPlatformManager {
 						new ILaunchConfigurationListener() {
 							public void launchConfigurationRemoved(
 									ILaunchConfiguration configuration) {
-								String target = getTargetPlatformName(configuration);
-								if (target != null) {
-									TargetPlatformManager
-											.deleteTargetPlatform(target);
+								if (configuration.exists()) {
+									String target = getTargetPlatformName(configuration);
+									if (target != null) {
+										TargetPlatformManager
+												.deleteTargetPlatform(target);
+									}
 									cachedHelpers.remove(target);
 								}
 							}

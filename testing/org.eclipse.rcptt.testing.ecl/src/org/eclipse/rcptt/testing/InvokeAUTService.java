@@ -94,7 +94,7 @@ public class InvokeAUTService implements ICommandService {
 				.createTargetPlatform(location,
 						new NullProgressMonitor());
 
-		platform.setTargetName(cmd.getName());
+		platform.setTargetName(Q7TargetPlatformManager.getTargetPlatformName(cmd.getName()));
 		
 		InjectionConfiguration configuration = InjectionFactory.eINSTANCE.createInjectionConfiguration();
 		configuration.getEntries().addAll(cmd.getInject());
