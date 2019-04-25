@@ -24,7 +24,6 @@ digraph unix {
 "launching" -> "core/verifications";
 "launching" -> "rcp";
 "launching" -> "ecl";
-"examples/rcptt.extensions.ecl/ide" -> "launching";
 "ecl" -> "core";
 "modules/rap/bundles/runtime/verifications" -> "core";
 "modules/rap/bundles/runtime/verifications" -> "modules/rap/bundles/runtime/tesla";
@@ -36,8 +35,6 @@ digraph unix {
 "modules/rap/bundles/launching" -> "rcp";
 "core/contexts" -> "core";
 "core/contexts" -> "ecl";
-"examples/rcptt.extensions.ecl/runtime" -> "examples/rcptt.extensions.ecl/common";
-"examples/rcptt.extensions.ecl/runtime" -> "ecl";
 "ecl/tests" -> "ecl";
 "runner" -> "core";
 "runner" -> "watson";
@@ -121,6 +118,5 @@ digraph unix {
 "runtime/ecl" -> "watson";
 "runtime/ecl" -> "runtime";
 "runtime/ecl" -> "ecl";
-"examples/rcptt.extensions.ecl/common" -> "ecl";
 
 }

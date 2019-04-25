@@ -453,18 +453,6 @@
 <path fill="none" stroke="#000000" d="M2327.7295,-295.3564C2321.7328,-292.7304 2315.1905,-290.0781 2309,-288 2243.5947,-266.0444 2224.9954,-268.4777 2158,-252 2152.6748,-250.6902 2147.1289,-249.311 2141.5878,-247.9228"/>
 <polygon fill="#000000" stroke="#000000" points="2142.2194,-244.4727 2131.6676,-245.4274 2140.5117,-251.2612 2142.2194,-244.4727"/>
 </g>
-<!-- examples/rcptt.extensions.ecl/ide -->
-<g id="node17" class="node">
-<title>examples/rcptt.extensions.ecl/ide</title>
-<ellipse fill="#b2dfee" stroke="#b2dfee" cx="2167" cy="-450" rx="127.48" ry="18"/>
-<text text-anchor="middle" x="2167" y="-445.8" font-family="Times,serif" font-size="14.00" fill="#000000">examples/rcptt.extensions.ecl/ide</text>
-</g>
-<!-- examples/rcptt.extensions.ecl/ide&#45;&gt;launching -->
-<g id="edge25" class="edge">
-<title>examples/rcptt.extensions.ecl/ide&#45;&gt;launching</title>
-<path fill="none" stroke="#000000" d="M2171.2898,-431.8314C2173.108,-424.131 2175.2699,-414.9743 2177.2905,-406.4166"/>
-<polygon fill="#000000" stroke="#000000" points="2180.7608,-406.95 2179.6524,-396.4133 2173.9481,-405.3414 2180.7608,-406.95"/>
-</g>
 <!-- modules/rap/bundles/runtime/verifications -->
 <g id="node18" class="node">
 <title>modules/rap/bundles/runtime/verifications</title>
@@ -566,36 +554,6 @@
 <title>modules/rap/bundles/launching&#45;&gt;rcp</title>
 <path fill="none" stroke="#000000" d="M2535.3348,-437.5314C2462.5319,-426.3169 2368.9985,-409.5686 2357,-396 2342.3036,-379.3806 2341.72,-353.6218 2344.1351,-333.9129"/>
 <polygon fill="#000000" stroke="#000000" points="2347.6049,-334.3763 2345.6634,-323.9609 2340.686,-333.3137 2347.6049,-334.3763"/>
-</g>
-<!-- examples/rcptt.extensions.ecl/runtime -->
-<g id="node21" class="node">
-<title>examples/rcptt.extensions.ecl/runtime</title>
-<ellipse fill="#b2dfee" stroke="#b2dfee" cx="2847" cy="-162" rx="144.3851" ry="18"/>
-<text text-anchor="middle" x="2847" y="-157.8" font-family="Times,serif" font-size="14.00" fill="#000000">examples/rcptt.extensions.ecl/runtime</text>
-</g>
-<!-- examples/rcptt.extensions.ecl/runtime&#45;&gt;ecl -->
-<g id="edge38" class="edge">
-<title>examples/rcptt.extensions.ecl/runtime&#45;&gt;ecl</title>
-<path fill="none" stroke="#000000" d="M2787.6389,-145.5598C2759.7276,-136.5419 2726.5978,-123.9277 2699,-108 2677.4127,-95.5412 2678.9001,-81.8397 2656,-72 2578.3358,-38.6293 2321.3475,-23.9772 2224.4297,-19.5438"/>
-<polygon fill="#000000" stroke="#000000" points="2224.3691,-16.0377 2214.2229,-19.0879 2224.0567,-23.0307 2224.3691,-16.0377"/>
-</g>
-<!-- examples/rcptt.extensions.ecl/common -->
-<g id="node22" class="node">
-<title>examples/rcptt.extensions.ecl/common</title>
-<ellipse fill="#b2dfee" stroke="#b2dfee" cx="2856" cy="-90" rx="147.768" ry="18"/>
-<text text-anchor="middle" x="2856" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#000000">examples/rcptt.extensions.ecl/common</text>
-</g>
-<!-- examples/rcptt.extensions.ecl/runtime&#45;&gt;examples/rcptt.extensions.ecl/common -->
-<g id="edge37" class="edge">
-<title>examples/rcptt.extensions.ecl/runtime&#45;&gt;examples/rcptt.extensions.ecl/common</title>
-<path fill="none" stroke="#000000" d="M2849.2711,-143.8314C2850.2336,-136.131 2851.3782,-126.9743 2852.4479,-118.4166"/>
-<polygon fill="#000000" stroke="#000000" points="2855.9309,-118.7702 2853.6983,-108.4133 2848.9849,-117.9019 2855.9309,-118.7702"/>
-</g>
-<!-- examples/rcptt.extensions.ecl/common&#45;&gt;ecl -->
-<g id="edge122" class="edge">
-<title>examples/rcptt.extensions.ecl/common&#45;&gt;ecl</title>
-<path fill="none" stroke="#000000" d="M2747.0811,-77.8291C2729.341,-75.8666 2711.1605,-73.8672 2694,-72 2518.047,-52.8547 2307.6613,-30.6742 2223.9677,-21.8792"/>
-<polygon fill="#000000" stroke="#000000" points="2224.2478,-18.3894 2213.9369,-20.8254 2223.5165,-25.3511 2224.2478,-18.3894"/>
 </g>
 <!-- ecl/tests -->
 <g id="node23" class="node">

@@ -1,6 +1,6 @@
 #!/bin/sh
 #*******************************************************************************
-# Copyright (c) 2009, 2017 Xored Software Inc and others.
+# Copyright (c) 2009, 2019 Xored Software Inc and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -25,12 +25,6 @@ mvn $GOAL -f releng/pom.xml -P update-version $OPTIONS || exit 100
 
 echo "================== Updating Maven Plugin =================="
 mvn $GOAL -f maven-plugin/pom.xml $OPTIONS || exit 101
-
-echo "==================== Updating Example ====================="
-mvn $GOAL -f examples/rcptt.extensions.ecl/pom.xml $OPTIONS || exit 102
-mvn $GOAL -f examples/rcptt.extensions.ecl/ide/pom.xml $OPTIONS || exit 103
-mvn $GOAL -f examples/rcptt.extensions.ecl/common/pom.xml $OPTIONS || exit 104
-mvn $GOAL -f examples/rcptt.extensions.ecl/runtime/pom.xml $OPTIONS || exit 105
 
 echo "================== Updating Maven Script =================="
 mvn versions:set -f clean-pom.xml -DnewVersion=$VERSION-SNAPSHOT -DgenerateBackupPoms=false || exit 106
