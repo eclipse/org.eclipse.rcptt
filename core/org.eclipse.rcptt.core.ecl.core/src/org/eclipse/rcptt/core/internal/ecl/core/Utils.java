@@ -32,6 +32,11 @@ public class Utils {
 		try {
 			runnable.run();
 			ReportHelper.setResult(nde, createStatus(IStatus.OK, " "));
+		} catch (CoreException e) {
+			IStatus status = e.getStatus();
+			setResult(nde, status);
+			ReportHelper.takeSnapshot(nde);
+			throw new CoreException(status);
 		} catch (Throwable e) {
 			IStatus status = RcpttPlugin.createStatus(e);
 			setResult(nde, status);

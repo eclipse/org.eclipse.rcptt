@@ -32,6 +32,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.IBreakpointManagerListener;
 import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.ILineBreakpoint;
@@ -109,7 +110,8 @@ public class EclDebugTarget extends EclDebugElement implements IDebugTarget,
 	}
 
 	public String getName() throws DebugException {
-		return getLaunch().getLaunchConfiguration().getName();
+		ILaunchConfiguration configuration = getLaunch().getLaunchConfiguration();
+		return configuration != null ? configuration.getName() : "Unknown";
 	}
 
 	public boolean canTerminate() {

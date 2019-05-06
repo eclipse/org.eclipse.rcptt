@@ -34,7 +34,11 @@ public class Q7Process implements IProcess {
 	private final TestCaseDebugger debugger;
 
 	public Q7Process(ILaunch launch, AutLaunch aut, BiFunction<String, Integer, DebuggerTransport> debugTransport) throws CoreException {
+		if (launch == null)
+			throw new NullPointerException("null launch");
 		this.launch = launch;
+		if (aut == null)
+			throw new NullPointerException("null autLaunch");
 		this.aut = aut;
 		launch.addProcess(this);
 

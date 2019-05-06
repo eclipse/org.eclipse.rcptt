@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _MOxZYM71EeCw4ppgsBRMGg
-Runtime-Version: 1.5.3.201409120955
-Save-Time: 9/24/14 2:11 PM
+Runtime-Version: 2.4.2.qualifier
+Save-Time: 4/23/19 9:05 PM
 Tags: Toolbar, Create, Context, TestCase, TestSuite, Folder, Project
 Testcase-Type: ecl
 
@@ -122,6 +122,7 @@ get-editor WS
 get-editor TestSuite | get-property active | equals true | verify-true
 
 with [get-view "Test Explorer" | get-tree] {
+	expand-all // Workaround for Common Navigator Framework bug that fails to show label for some resources
     get-item TestProject | get-property childCount | equals 4 | verify-true
     get-property itemCount | equals 1 | verify-true
     get-item "TestProject/Folder" | get-property childCount | equals 1 | verify-true

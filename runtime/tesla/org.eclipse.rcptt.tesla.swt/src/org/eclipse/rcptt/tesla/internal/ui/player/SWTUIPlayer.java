@@ -978,14 +978,12 @@ public final class SWTUIPlayer {
 				while (lowBound >= 0 && (items[lowBound].getStyle() & SWT.RADIO) != 0
 						&& !items[lowBound].isDisposed()) {
 					items[lowBound].setSelection(false);
-					events.sendEvent(items[lowBound], SWT.Selection);
 					--lowBound;
 				}
 				int upperBound = index + 1;
 				while (upperBound < items.length && (items[upperBound].getStyle() & SWT.RADIO) != 0
 						&& !items[upperBound].isDisposed()) {
 					items[upperBound].setSelection(false);
-					events.sendEvent(items[upperBound], SWT.Selection);
 					++upperBound;
 				}
 			}

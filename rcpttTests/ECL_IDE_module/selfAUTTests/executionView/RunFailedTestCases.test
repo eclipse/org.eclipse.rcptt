@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_bbpo0a2vEeCqpoE1MJ1fFQ,_18rr8K25EeCZfrGRg7GXDg
 Element-Name: RunFailedTestCases
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _vI7vQPMdEeCE19s6EOk3LA
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.4.2.qualifier
+Save-Time: 4/24/19 12:10 PM
 Tags: selfAUT, Runtime, TestCase, ExecutionView
 Testcase-Type: ecl
 
@@ -40,8 +39,9 @@ with [get-view "Test Explorer" | get-tree] {
     select "q7project/simpleTest1" "q7project/simpleTest2" "q7project/simpleTest3"
     get-menu "Run As/1 Test Cases" | click
 }
-wait 10000
-get-view "Execution View" | get-button "Run Failed Test Cases" | click
+try -times 20 -delay 1000 -command {
+	get-view "Execution View" | get-button "Run Failed Test Cases" | click
+}
 with [get-view "Execution View"] {
     get-label "1/1" | get-property caption | equals "1/1" | verify-true
     get-tree | get-item "simpleTest2.*" | get-property caption | equals "simpleTest2.*" 

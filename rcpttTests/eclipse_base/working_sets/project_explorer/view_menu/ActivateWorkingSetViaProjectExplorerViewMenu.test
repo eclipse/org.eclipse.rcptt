@@ -1,0 +1,55 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _F4UGQGHLEemi1p1zI885UA,_F4fFYGHLEemi1p1zI885UA
+Element-Name: ActivateWorkingSetViaProjectExplorerViewMenu
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _EEhNYGHLEemi1p1zI885UA
+Runtime-Version: 2.4.2.qualifier
+Save-Time: 4/22/19 11:57 AM
+Testcase-Type: ecl
+Verifications: _UnfUID8XEeSyDoCDFnaFCg
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-button "View Menu" | click
+with [get-view "Project Explorer"] {
+  get-menu -path "Top Level Elements/Working Sets" | click
+  get-menu -path "Select Working Set..." | click
+}
+with [get-window "Select Working Set"] {
+    try -command {
+	    with [get-table] {
+	        get-item -path ws1 | check
+	    } 
+	} -catch  {
+        get-button "New..." | click
+    	with [get-window "New Working Set"] {
+	        get-table | select Resource | double-click
+	        get-editbox -after [get-label "Working set name:"] | set-text ws1
+	        get-button Finish | click
+	    }
+	    with [get-table] {
+	        get-item -path ws1 | check
+	    } 
+    }
+    get-button OK | click
+}
+get-button "View Menu" | click
+get-view "Project Explorer" | get-menu -path "Edit Active Working Set..." | click
+with [get-window "Edit Working Set"] {
+    with [get-tree] {
+        get-item -path belongsToWs1 | check
+        select belongsToWs1
+    }
+    get-button Finish | click
+}
+with [get-view "Project Explorer"] {
+	get-menu -path "Deselect Working Set" | click
+	get-menu -path ".* ws1" | click
+    get-tree | select "ws1.*/belongsToWs1.*"
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
