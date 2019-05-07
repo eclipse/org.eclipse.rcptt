@@ -110,6 +110,8 @@ public class Q7LaunchingUtil {
 			Q7TargetPlatformManager.delete(target.getName());
 			Q7TargetPlatformManager.setHelper(target.getName(), target);
 
+			config.setAttribute(IQ7Launch.TARGET_PLATFORM, target.getName());
+
 			String product = target.getDefaultProduct();
 			if (product != null) {
 				config.setAttribute("useProduct", true);

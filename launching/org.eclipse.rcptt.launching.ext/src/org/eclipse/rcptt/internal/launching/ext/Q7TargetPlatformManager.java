@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationListener;
+import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
@@ -148,7 +149,15 @@ public class Q7TargetPlatformManager {
 	 * @throws CoreException
 	 */
 	public static String getTargetPlatformName(ILaunchConfiguration config) {
-		return getTargetPlatformName(config.getName());
+		String defValue = getTargetPlatformName(config.getName());
+		if (!config.exists())
+			return defValue;
+		try {
+			return config.getAttribute(IQ7Launch.TARGET_PLATFORM, defValue);
+		} catch (CoreException e) {
+			RcpttPlugin.log(e);
+			return defValue;
+		}
 	}
 
 	public static String getTargetPlatformName(String name) {
@@ -163,14 +172,9 @@ public class Q7TargetPlatformManager {
 						new ILaunchConfigurationListener() {
 							public void launchConfigurationRemoved(
 									ILaunchConfiguration configuration) {
-								if (configuration.exists()) {
-									String target = getTargetPlatformName(configuration);
-									if (target != null) {
-										TargetPlatformManager
-												.deleteTargetPlatform(target);
-									}
-									cachedHelpers.remove(target);
-								}
+								String target = getTargetPlatformName(configuration);
+								TargetPlatformManager.deleteTargetPlatform(target);
+								cachedHelpers.remove(target);
 							}
 
 							public void launchConfigurationChanged(

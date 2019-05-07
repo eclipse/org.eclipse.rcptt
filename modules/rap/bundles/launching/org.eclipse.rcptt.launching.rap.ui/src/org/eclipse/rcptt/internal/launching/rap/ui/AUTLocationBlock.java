@@ -189,6 +189,7 @@ public class AUTLocationBlock {
 			info.setTargetName(Q7TargetPlatformManager
 					.getTargetPlatformName(config));
 			info.save();
+			config.setAttribute(IQ7Launch.TARGET_PLATFORM, info.getName());
 			Q7TargetPlatformManager.setHelper(info.getName(), info);
 		}
 		config.setAttribute(IQ7Launch.UPDATE_TARGET_SUPPORTED, true);
