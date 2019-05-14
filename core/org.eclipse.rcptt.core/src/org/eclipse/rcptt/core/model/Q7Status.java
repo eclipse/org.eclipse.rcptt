@@ -34,7 +34,7 @@ public class Q7Status extends Status implements IStatus {
 	}
 
 	public Q7Status(int code, Throwable throwable) {
-		super(ERROR, RcpttPlugin.PLUGIN_ID, code, "Q7Status", throwable); //$NON-NLS-1$
+		super(ERROR, RcpttPlugin.PLUGIN_ID, code, throwable.getMessage(), throwable); //$NON-NLS-1$
 	}
 
 	public Q7Status(int severity, int code) {

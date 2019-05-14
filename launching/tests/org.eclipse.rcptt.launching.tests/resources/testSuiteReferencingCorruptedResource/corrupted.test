@@ -1,0 +1,18 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Element-Name: corrupted
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+<<<<< Corruption
+Id: _qf9gEHY5Eeml66Zx_xKITg
+Runtime-Version: 2.4.2.201905122359
+Save-Time: 5/14/19 6:16 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+Test body
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

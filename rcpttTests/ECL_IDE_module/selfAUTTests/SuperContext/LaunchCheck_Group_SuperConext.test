@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _9lhUYRkNEeOwAuU1H7YyVQ,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: LaunchCheck_Group_SuperConext
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _ERrwwBkWEeOt9MVDSr4v5A
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:10 PM
+Runtime-Version: 2.4.3.201905141211
+Save-Time: 5/15/19 1:30 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -34,7 +33,9 @@ get-view "Test Explorer" | get-tree | select "MyProject/Test_SuperFolder_SuperGr
 get-editor "Test_SuperFolder_SuperGroup" | get-button Replay | click
 wait 11000
 with [get-view "Execution View"] {
-    get-label "2/2" | get-property caption | equals "2/2" | verify-true
+	try -command {
+    	get-label "2/2" | get-property caption | equals "2/2" | verify-true
+   	} -times 60 -delay 1000
     get-label 0 | get-property caption | equals 0 | verify-true
 }
 with [get-view "Execution View" | get-tree] {
