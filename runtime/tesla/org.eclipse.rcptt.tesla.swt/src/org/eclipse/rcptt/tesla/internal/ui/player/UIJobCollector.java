@@ -604,6 +604,8 @@ public class UIJobCollector implements IJobChangeListener {
 													continue;
 												if (!context.containsClass(className)) {
 													// There is a syncExec invocation, in another thread, assume they are waiting for UI, not this job
+													if (DEBUG)
+														debug("Another thread is waiting for UI thread: " + className);
 													toContinue = false;
 													break;
 												}
@@ -615,6 +617,8 @@ public class UIJobCollector implements IJobChangeListener {
 											}
 										}
 									}
+								} else {
+									debug("Could not find job context");
 								}
 							}
 						}
