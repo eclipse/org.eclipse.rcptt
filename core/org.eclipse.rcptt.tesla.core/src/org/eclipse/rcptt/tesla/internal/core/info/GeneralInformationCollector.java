@@ -59,11 +59,9 @@ public class GeneralInformationCollector {
 			boolean add = true;
 			for (StackTraceElement stackTraceElement : value) {
 				String stElement = stackTraceElement.toString();
-				if (stElement.contains("org.eclipse.rcptt.tesla.ecl.internal.impl.TeslaInfoProvider")
-						|| stElement.contains("org.eclipse.rcptt.ecl.server.tcp.SessionRequestHandler.writeOutput")
+				if (stElement.contains("org.eclipse.rcptt.ecl.server.tcp.SessionRequestHandler.writeOutput")
 						|| stElement.contains("org.eclipse.rcptt.ecl.server.tcp.SessionRequestHandler")
-						|| stElement.contains("org.eclipse.rcptt.ecl.client.tcp.EclTcpSession")
-						|| stElement.contains("org.eclipse.rcptt.tesla.internal.core.info.GeneralInformationCollector")) {
+						|| stElement.contains("org.eclipse.rcptt.ecl.client.tcp.EclTcpSession")) {
 					add = false;
 					break;
 				}
