@@ -60,7 +60,7 @@
         	    </repository>
                <repository>
                 <id>rap</id>
-                <url>http://download.eclipse.org/rt/rap/3.6</url>
+                <url>http://download.eclipse.org/rt/rap/3.1</url>
                 <layout>p2</layout>
               </repository>
         	  </source>

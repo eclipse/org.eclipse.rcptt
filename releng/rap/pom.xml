@@ -51,7 +51,7 @@
     <buildUrl>file:/${user.dir}</buildUrl>
     <rapRcpttRepository>${buildUrl}/</rapRcpttRepository>
     <rcpttRepositoryFull>${buildUrl}/repository/full/target/repository/</rcpttRepositoryFull>
-    <rapRepository>http://download.eclipse.org/rt/rap/3.6</rapRepository>
+    <rapRepository>http://download.eclipse.org/rt/rap/3.1</rapRepository>
     <rcpttExternalDepencenciesRepository>${buildUrl}/repository/dependencies/target/repository</rcpttExternalDepencenciesRepository>
   </properties>
   
