@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getWith()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Executes a <code>do</code> script by passing given <code>object</code> to each command inside <code>do</code>. The primary use case for this command is to extract a common prefix for a sequence of commands.' returns='Output of a <code>do</code> command' example='get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Executes a &lt;code&gt;do&lt;/code&gt; script by passing given &lt;code&gt;object&lt;/code&gt; to each command inside &lt;code&gt;do&lt;/code&gt;. The primary use case for this command is to extract a common prefix for a sequence of commands.' returns='Output of a &lt;code&gt;do&lt;/code&gt; command' example='get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n'"
  * @generated
  */
 public interface With extends Command {

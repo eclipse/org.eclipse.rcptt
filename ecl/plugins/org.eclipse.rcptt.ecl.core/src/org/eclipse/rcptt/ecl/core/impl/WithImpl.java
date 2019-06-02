@@ -82,6 +82,7 @@ public class WithImpl extends CommandImpl implements With {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getObject() {
 		return object;
 	}
@@ -106,6 +107,7 @@ public class WithImpl extends CommandImpl implements With {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(EObject newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -125,6 +127,7 @@ public class WithImpl extends CommandImpl implements With {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getDo() {
 		return do_;
 	}
@@ -149,6 +152,7 @@ public class WithImpl extends CommandImpl implements With {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDo(Command newDo) {
 		if (newDo != do_) {
 			NotificationChain msgs = null;

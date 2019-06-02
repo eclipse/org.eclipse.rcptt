@@ -110,6 +110,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -119,6 +120,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -131,6 +133,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Declaration> getVals() {
 		if (vals == null) {
 			vals = new EObjectContainmentEList<Declaration>(Declaration.class, this, CorePackage.PROC__VALS);
@@ -143,6 +146,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getBody() {
 		return body;
 	}
@@ -167,6 +171,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(Command newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
@@ -286,7 +291,7 @@ public class ProcImpl extends CommandImpl implements Proc {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

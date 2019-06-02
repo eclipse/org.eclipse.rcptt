@@ -11,6 +11,7 @@
 package org.eclipse.rcptt.ecl.internal.core;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -74,41 +75,42 @@ public class ProcessStatusConverter implements
 			try {
 				String className = exception.getClassName();
 				Class<?> forName = Class.forName(className);
-				if (forName != null) {
+				try {
 					Constructor<?> constructor = forName.getConstructor(
 							String.class, Throwable.class);
-					if (constructor != null) {
-						Throwable newInstance = (Throwable) constructor
-								.newInstance(exception.getMessage(), null);
-						if (newInstance != null) {
-							EList<EclStackTraceEntry> list = exception
-									.getStackTrace();
-							if (list.size() > 0) {
-								newInstance.setStackTrace(constructStack(list));
-								th = newInstance;
-							}
-						}
-					}
+					Throwable newInstance = (Throwable) constructor
+							.newInstance(exception.getMessage(), null);
+					th = newInstance;
+				} catch (NoSuchMethodException  e) {
+					if (exception.getStatus() == null)
+						throw e;
+					Constructor<?> constructor = forName.getConstructor(IStatus.class);
+					Throwable newInstance = (Throwable) constructor
+							.newInstance(toIStatus(exception.getStatus()), null);
+					th = newInstance;
 				}
-			} catch (Throwable eee) {
-				Exception newex = new Exception(exception.getMessage(), null);
-				EList<EclStackTraceEntry> list = exception.getStackTrace();
-				if (list.size() > 0) {
-					newex.setStackTrace(constructStack(list));
-					th = newex;
+			} catch (Exception eee) {
+				if (exception.getStatus() != null) {
+					th = new CoreException(toIStatus(exception.getStatus()));
+				} else {
+					th = new Exception(exception.getMessage(), null);
 				}
 			}
 		}
 		if (th != null) {
-			EList<EclStackTraceEntry> list = exception.getStackTrace();
-			if (list.size() > 0) {
-				th.setStackTrace(constructStack(list));
-			}
+			copyAttributesFromEObject(exception, th);
 		}
 		if (exception.getCause() != null) {
 			th.initCause(getThrowable(exception.getCause()));
 		}
 		return th;
+	}
+
+	private static void copyAttributesFromEObject(EclException exception, Throwable newInstance) {
+		EList<EclStackTraceEntry> list = exception.getStackTrace();
+		if (list.size() > 0) {
+			newInstance.setStackTrace(constructStack(list));
+		}
 	}
 
 	private static StackTraceElement[] constructStack(EList<EclStackTraceEntry> list) {
@@ -206,6 +208,9 @@ public class ProcessStatusConverter implements
 		Throwable cause = exception.getCause();
 		if (cause != null) {
 			ex.setCause(toException(cause));
+		}
+		if (exception instanceof CoreException) {
+			ex.setStatus(toProcessStatus(((CoreException) exception).getStatus()));
 		}
 		return ex;
 	}

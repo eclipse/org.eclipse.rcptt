@@ -169,6 +169,7 @@ public class EclMapEntryImpl extends EObjectImpl implements EclMapEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getKey() {
 		return key;
 	}
@@ -193,6 +194,7 @@ public class EclMapEntryImpl extends EObjectImpl implements EclMapEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKey(EObject newKey) {
 		if (newKey != key) {
 			NotificationChain msgs = null;
@@ -212,6 +214,7 @@ public class EclMapEntryImpl extends EObjectImpl implements EclMapEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getValue() {
 		return value;
 	}
@@ -236,6 +239,7 @@ public class EclMapEntryImpl extends EObjectImpl implements EclMapEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(EObject newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

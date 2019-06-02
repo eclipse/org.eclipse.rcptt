@@ -68,6 +68,7 @@ public class EclIntegerImpl extends BoxedValueImpl implements EclInteger {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
@@ -76,6 +77,7 @@ public class EclIntegerImpl extends BoxedValueImpl implements EclInteger {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(int newValue) {
 		int oldValue = value;
 		value = newValue;
@@ -145,7 +147,7 @@ public class EclIntegerImpl extends BoxedValueImpl implements EclInteger {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
 		result.append(value);
 		result.append(')');

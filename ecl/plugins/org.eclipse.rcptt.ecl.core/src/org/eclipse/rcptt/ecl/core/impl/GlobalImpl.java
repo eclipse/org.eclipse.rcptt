@@ -96,6 +96,7 @@ public class GlobalImpl extends CommandImpl implements Global {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Declaration> getVals() {
 		if (vals == null) {
 			vals = new EObjectContainmentEList<Declaration>(Declaration.class, this, CorePackage.GLOBAL__VALS);
@@ -108,6 +109,7 @@ public class GlobalImpl extends CommandImpl implements Global {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isOverride() {
 		return override;
 	}
@@ -117,6 +119,7 @@ public class GlobalImpl extends CommandImpl implements Global {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOverride(boolean newOverride) {
 		boolean oldOverride = override;
 		override = newOverride;
@@ -217,7 +220,7 @@ public class GlobalImpl extends CommandImpl implements Global {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (override: ");
 		result.append(override);
 		result.append(')');

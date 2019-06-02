@@ -77,6 +77,7 @@ public class EclDoubleImpl extends BoxedValueImpl implements EclDouble {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getValue() {
 		return value;
 	}
@@ -86,6 +87,7 @@ public class EclDoubleImpl extends BoxedValueImpl implements EclDouble {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(double newValue) {
 		double oldValue = value;
 		value = newValue;
@@ -160,7 +162,7 @@ public class EclDoubleImpl extends BoxedValueImpl implements EclDouble {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
 		result.append(value);
 		result.append(')');

@@ -74,6 +74,7 @@ public abstract class BlockImpl extends CommandImpl implements Block {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Command> getCommands() {
 		if (commands == null) {
 			commands = new EObjectContainmentEList<Command>(Command.class, this, CorePackage.BLOCK__COMMANDS);

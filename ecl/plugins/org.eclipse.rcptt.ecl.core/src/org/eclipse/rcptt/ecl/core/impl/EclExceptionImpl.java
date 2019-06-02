@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.rcptt.ecl.core.CorePackage;
 import org.eclipse.rcptt.ecl.core.EclException;
 import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,6 +41,7 @@ import org.eclipse.rcptt.ecl.core.EclStackTraceEntry;
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getStackTrace <em>Stack Trace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getThrowable <em>Throwable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getCause <em>Cause</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.core.impl.EclExceptionImpl#getStatus <em>Status</em>}</li>
  * </ul>
  *
  * @generated
@@ -126,6 +128,16 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	protected EclException cause;
 
 	/**
+	 * The cached value of the '{@link #getStatus() <em>Status</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected ProcessStatus status;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -149,6 +161,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getClassName() {
 		return className;
 	}
@@ -158,6 +171,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setClassName(String newClassName) {
 		String oldClassName = className;
 		className = newClassName;
@@ -170,6 +184,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMessage() {
 		return message;
 	}
@@ -179,6 +194,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMessage(String newMessage) {
 		String oldMessage = message;
 		message = newMessage;
@@ -191,6 +207,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EclStackTraceEntry> getStackTrace() {
 		if (stackTrace == null) {
 			stackTrace = new EObjectContainmentEList<EclStackTraceEntry>(EclStackTraceEntry.class, this, CorePackage.ECL_EXCEPTION__STACK_TRACE);
@@ -203,6 +220,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Throwable getThrowable() {
 		return throwable;
 	}
@@ -212,6 +230,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setThrowable(Throwable newThrowable) {
 		Throwable oldThrowable = throwable;
 		throwable = newThrowable;
@@ -224,6 +243,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclException getCause() {
 		return cause;
 	}
@@ -248,6 +268,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCause(EclException newCause) {
 		if (newCause != cause) {
 			NotificationChain msgs = null;
@@ -268,12 +289,59 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	 * @generated
 	 */
 	@Override
+	public ProcessStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStatus(ProcessStatus newStatus, NotificationChain msgs) {
+		ProcessStatus oldStatus = status;
+		status = newStatus;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CorePackage.ECL_EXCEPTION__STATUS, oldStatus, newStatus);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setStatus(ProcessStatus newStatus) {
+		if (newStatus != status) {
+			NotificationChain msgs = null;
+			if (status != null)
+				msgs = ((InternalEObject)status).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CorePackage.ECL_EXCEPTION__STATUS, null, msgs);
+			if (newStatus != null)
+				msgs = ((InternalEObject)newStatus).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CorePackage.ECL_EXCEPTION__STATUS, null, msgs);
+			msgs = basicSetStatus(newStatus, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CorePackage.ECL_EXCEPTION__STATUS, newStatus, newStatus));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case CorePackage.ECL_EXCEPTION__STACK_TRACE:
 				return ((InternalEList<?>)getStackTrace()).basicRemove(otherEnd, msgs);
 			case CorePackage.ECL_EXCEPTION__CAUSE:
 				return basicSetCause(null, msgs);
+			case CorePackage.ECL_EXCEPTION__STATUS:
+				return basicSetStatus(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -296,6 +364,8 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 				return getThrowable();
 			case CorePackage.ECL_EXCEPTION__CAUSE:
 				return getCause();
+			case CorePackage.ECL_EXCEPTION__STATUS:
+				return getStatus();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -325,6 +395,9 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 			case CorePackage.ECL_EXCEPTION__CAUSE:
 				setCause((EclException)newValue);
 				return;
+			case CorePackage.ECL_EXCEPTION__STATUS:
+				setStatus((ProcessStatus)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -352,6 +425,9 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 			case CorePackage.ECL_EXCEPTION__CAUSE:
 				setCause((EclException)null);
 				return;
+			case CorePackage.ECL_EXCEPTION__STATUS:
+				setStatus((ProcessStatus)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -374,6 +450,8 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 				return THROWABLE_EDEFAULT == null ? throwable != null : !THROWABLE_EDEFAULT.equals(throwable);
 			case CorePackage.ECL_EXCEPTION__CAUSE:
 				return cause != null;
+			case CorePackage.ECL_EXCEPTION__STATUS:
+				return status != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -387,7 +465,7 @@ public class EclExceptionImpl extends EObjectImpl implements EclException {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (className: ");
 		result.append(className);
 		result.append(", message: ");

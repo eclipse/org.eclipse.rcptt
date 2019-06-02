@@ -90,6 +90,7 @@ public class ListenImpl extends CommandImpl implements Listen {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSource() {
 		return source;
 	}
@@ -99,6 +100,7 @@ public class ListenImpl extends CommandImpl implements Listen {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(String newSource) {
 		String oldSource = source;
 		source = newSource;
@@ -111,6 +113,7 @@ public class ListenImpl extends CommandImpl implements Listen {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getWhile() {
 		if (while_ != null && while_.eIsProxy()) {
 			InternalEObject oldWhile = (InternalEObject)while_;
@@ -137,6 +140,7 @@ public class ListenImpl extends CommandImpl implements Listen {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWhile(Command newWhile) {
 		Command oldWhile = while_;
 		while_ = newWhile;
@@ -222,7 +226,7 @@ public class ListenImpl extends CommandImpl implements Listen {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (source: ");
 		result.append(source);
 		result.append(')');

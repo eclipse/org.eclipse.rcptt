@@ -84,6 +84,7 @@ public class CaseImpl extends CommandImpl implements Case {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getCondition() {
 		if (condition != null && condition.eIsProxy()) {
 			InternalEObject oldCondition = (InternalEObject)condition;
@@ -110,6 +111,7 @@ public class CaseImpl extends CommandImpl implements Case {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(EObject newCondition) {
 		EObject oldCondition = condition;
 		condition = newCondition;
@@ -122,6 +124,7 @@ public class CaseImpl extends CommandImpl implements Case {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getThen() {
 		return then;
 	}
@@ -146,6 +149,7 @@ public class CaseImpl extends CommandImpl implements Case {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setThen(Command newThen) {
 		if (newThen != then) {
 			NotificationChain msgs = null;

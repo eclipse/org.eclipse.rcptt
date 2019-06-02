@@ -83,6 +83,7 @@ public class BindingImpl extends EObjectImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getFeature() {
 		if (feature != null && feature.eIsProxy()) {
 			InternalEObject oldFeature = (InternalEObject)feature;
@@ -109,6 +110,7 @@ public class BindingImpl extends EObjectImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFeature(EStructuralFeature newFeature) {
 		EStructuralFeature oldFeature = feature;
 		feature = newFeature;
@@ -121,6 +123,7 @@ public class BindingImpl extends EObjectImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getCommand() {
 		return command;
 	}
@@ -145,6 +148,7 @@ public class BindingImpl extends EObjectImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCommand(Command newCommand) {
 		if (newCommand != command) {
 			NotificationChain msgs = null;

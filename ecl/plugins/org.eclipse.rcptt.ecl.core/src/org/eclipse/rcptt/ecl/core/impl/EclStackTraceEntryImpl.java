@@ -183,6 +183,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getIndex() {
 		return index;
 	}
@@ -192,6 +193,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIndex(int newIndex) {
 		int oldIndex = index;
 		index = newIndex;
@@ -204,6 +206,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDeclaringClass() {
 		return declaringClass;
 	}
@@ -213,6 +216,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDeclaringClass(String newDeclaringClass) {
 		String oldDeclaringClass = declaringClass;
 		declaringClass = newDeclaringClass;
@@ -225,6 +229,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMethodName() {
 		return methodName;
 	}
@@ -234,6 +239,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMethodName(String newMethodName) {
 		String oldMethodName = methodName;
 		methodName = newMethodName;
@@ -246,6 +252,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFileName() {
 		return fileName;
 	}
@@ -255,6 +262,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFileName(String newFileName) {
 		String oldFileName = fileName;
 		fileName = newFileName;
@@ -267,6 +275,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getLineNumber() {
 		return lineNumber;
 	}
@@ -276,6 +285,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLineNumber(int newLineNumber) {
 		int oldLineNumber = lineNumber;
 		lineNumber = newLineNumber;
@@ -288,6 +298,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isNativeMethod() {
 		return nativeMethod;
 	}
@@ -297,6 +308,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNativeMethod(boolean newNativeMethod) {
 		boolean oldNativeMethod = nativeMethod;
 		nativeMethod = newNativeMethod;
@@ -421,7 +433,7 @@ public class EclStackTraceEntryImpl extends EObjectImpl implements EclStackTrace
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (index: ");
 		result.append(index);
 		result.append(", declaringClass: ");

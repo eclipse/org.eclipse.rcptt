@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getSwitch()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.' returns='An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.' example='list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Reads object from input pipe or &lt;code&gt;input&lt;/code&gt; parameter and executes a &lt;code&gt;case&lt;/code&gt; part with matching &lt;code&gt;condition&lt;/code&gt; parameter (if any) sending &lt;code&gt;input&lt;/code&gt; parameter as an input. If no &lt;code&gt;case&lt;/code&gt; matched, the &lt;code&gt;default&lt;code&gt; block (if any) will be executed.' returns='An output of executed block (&lt;code&gt;case&lt;/code&gt; command or &lt;code&gt;-default&lt;/code&gt; block). If nothing is executed, no output will be produced.' example='list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n'"
  * @generated
  */
 public interface Switch extends Command {
@@ -47,7 +47,7 @@ public interface Switch extends Command {
 	 * @return the value of the '<em>Items</em>' containment reference list.
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getSwitch_Items()
 	 * @model containment="true" required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='One or more <code>case</code> blocks. Block with a condition matching the input will be executed.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='One or more &lt;code&gt;case&lt;/code&gt; blocks. Block with a condition matching the input will be executed.'"
 	 * @generated
 	 */
 	EList<Case> getItems();
@@ -64,7 +64,7 @@ public interface Switch extends Command {
 	 * @see #setDefault(Command)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getSwitch_Default()
 	 * @model containment="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Optional parameter. The block which will be executed in case no <code>case</code> block is executed.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Optional parameter. The block which will be executed in case no &lt;code&gt;case&lt;/code&gt; block is executed.'"
 	 * @generated
 	 */
 	Command getDefault();
@@ -91,6 +91,7 @@ public interface Switch extends Command {
 	 * @see #setInput(EObject)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getSwitch_Input()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='The input object to match.'"
 	 * @generated
 	 */

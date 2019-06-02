@@ -25,6 +25,7 @@ package org.eclipse.rcptt.ecl.core;
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getProcInstance()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Marker superclass for user-defined procs'"
+ *        annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface ProcInstance extends Command {
@@ -39,7 +40,7 @@ public interface ProcInstance extends Command {
 	 * @return the value of the '<em>Definition</em>' reference.
 	 * @see #setDefinition(Proc)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getProcInstance_Definition()
-	 * @model
+	 * @model annotation="http://www.eclipse.org/ecl/internal"
 	 * @generated
 	 */
 	Proc getDefinition();

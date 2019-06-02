@@ -1228,13 +1228,22 @@ public interface CorePackage extends EPackage {
 	int ECL_EXCEPTION__CAUSE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ECL_EXCEPTION__STATUS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Ecl Exception</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ECL_EXCEPTION_FEATURE_COUNT = 5;
+	int ECL_EXCEPTION_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl <em>Ecl Stack Trace Entry</em>}' class.
@@ -2735,6 +2744,17 @@ public interface CorePackage extends EPackage {
 	EReference getEclException_Cause();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.rcptt.ecl.core.EclException#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Status</em>'.
+	 * @see org.eclipse.rcptt.ecl.core.EclException#getStatus()
+	 * @see #getEclException()
+	 * @generated
+	 */
+	EReference getEclException_Status();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.ecl.core.EclStackTraceEntry <em>Ecl Stack Trace Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4016,6 +4036,14 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference ECL_EXCEPTION__CAUSE = eINSTANCE.getEclException_Cause();
+
+		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ECL_EXCEPTION__STATUS = eINSTANCE.getEclException_Status();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.ecl.core.impl.EclStackTraceEntryImpl <em>Ecl Stack Trace Entry</em>}' class.

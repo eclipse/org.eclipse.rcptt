@@ -41,7 +41,7 @@ public interface Listen extends Command {
 	 * @see #setSource(String)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getListen_Source()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Source to listen for, for example, <code>errorLog</code>.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Source to listen for, for example, &lt;code&gt;errorLog&lt;/code&gt;.'"
 	 * @generated
 	 */
 	String getSource();

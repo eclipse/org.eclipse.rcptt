@@ -77,6 +77,7 @@ public class EclShortImpl extends BoxedValueImpl implements EclShort {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public short getValue() {
 		return value;
 	}
@@ -86,6 +87,7 @@ public class EclShortImpl extends BoxedValueImpl implements EclShort {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(short newValue) {
 		short oldValue = value;
 		value = newValue;
@@ -160,7 +162,7 @@ public class EclShortImpl extends BoxedValueImpl implements EclShort {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
 		result.append(value);
 		result.append(')');

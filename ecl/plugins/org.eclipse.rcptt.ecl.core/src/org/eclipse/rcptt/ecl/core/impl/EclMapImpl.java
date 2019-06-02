@@ -79,6 +79,7 @@ public class EclMapImpl extends EObjectImpl implements EclMap {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EclMapEntry> getEntries() {
 		if (entries == null) {
 			entries = new EObjectContainmentEList<EclMapEntry>(EclMapEntry.class, this, CorePackage.ECL_MAP__ENTRIES);

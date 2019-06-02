@@ -422,7 +422,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		if (isInited) return (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 
 		// Obtain or create and register package
-		CorePackageImpl theCorePackage = (CorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CorePackageImpl());
+		Object registeredCorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		CorePackageImpl theCorePackage = registeredCorePackage instanceof CorePackageImpl ? (CorePackageImpl)registeredCorePackage : new CorePackageImpl();
 
 		isInited = true;
 
@@ -438,7 +439,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		// Mark meta-data to indicate it can't be changed
 		theCorePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CorePackage.eNS_URI, theCorePackage);
 		return theCorePackage;
@@ -448,6 +448,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCommand() {
 		return commandEClass;
 	}
@@ -456,6 +457,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCommand_Host() {
 		return (EAttribute)commandEClass.getEStructuralFeatures().get(0);
 	}
@@ -464,6 +466,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCommand_Bindings() {
 		return (EReference)commandEClass.getEStructuralFeatures().get(1);
 	}
@@ -472,6 +475,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBinding() {
 		return bindingEClass;
 	}
@@ -480,6 +484,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_Feature() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -488,6 +493,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_Command() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(1);
 	}
@@ -496,6 +502,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBlock() {
 		return blockEClass;
 	}
@@ -504,6 +511,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBlock_Commands() {
 		return (EReference)blockEClass.getEStructuralFeatures().get(0);
 	}
@@ -512,6 +520,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPipeline() {
 		return pipelineEClass;
 	}
@@ -520,6 +529,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSequence() {
 		return sequenceEClass;
 	}
@@ -528,6 +538,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParallel() {
 		return parallelEClass;
 	}
@@ -536,6 +547,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWith() {
 		return withEClass;
 	}
@@ -544,6 +556,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWith_Object() {
 		return (EReference)withEClass.getEStructuralFeatures().get(0);
 	}
@@ -552,6 +565,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWith_Do() {
 		return (EReference)withEClass.getEStructuralFeatures().get(1);
 	}
@@ -560,6 +574,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExec() {
 		return execEClass;
 	}
@@ -568,6 +583,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExec_Namespace() {
 		return (EAttribute)execEClass.getEStructuralFeatures().get(0);
 	}
@@ -576,6 +592,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExec_Name() {
 		return (EAttribute)execEClass.getEStructuralFeatures().get(1);
 	}
@@ -584,6 +601,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExec_Parameters() {
 		return (EReference)execEClass.getEStructuralFeatures().get(2);
 	}
@@ -592,6 +610,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameter() {
 		return parameterEClass;
 	}
@@ -600,6 +619,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Name() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -608,6 +628,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExecutableParameter() {
 		return executableParameterEClass;
 	}
@@ -616,6 +637,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExecutableParameter_Command() {
 		return (EReference)executableParameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -624,6 +646,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLiteralParameter() {
 		return literalParameterEClass;
 	}
@@ -632,6 +655,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLiteralParameter_Literal() {
 		return (EAttribute)literalParameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -640,6 +664,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLiteralParameter_Format() {
 		return (EAttribute)literalParameterEClass.getEStructuralFeatures().get(1);
 	}
@@ -648,6 +673,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getForeach() {
 		return foreachEClass;
 	}
@@ -657,6 +683,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForeach_Item() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(0);
 	}
@@ -666,6 +693,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForeach_Index() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(1);
 	}
@@ -674,6 +702,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForeach_Do() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(2);
 	}
@@ -682,6 +711,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForeach_Input() {
 		return (EReference)foreachEClass.getEStructuralFeatures().get(3);
 	}
@@ -690,6 +720,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcessStatus() {
 		return processStatusEClass;
 	}
@@ -698,6 +729,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessStatus_PluginId() {
 		return (EAttribute)processStatusEClass.getEStructuralFeatures().get(0);
 	}
@@ -706,6 +738,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessStatus_Code() {
 		return (EAttribute)processStatusEClass.getEStructuralFeatures().get(1);
 	}
@@ -714,6 +747,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessStatus_Message() {
 		return (EAttribute)processStatusEClass.getEStructuralFeatures().get(2);
 	}
@@ -722,6 +756,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProcessStatus_Severity() {
 		return (EAttribute)processStatusEClass.getEStructuralFeatures().get(3);
 	}
@@ -730,6 +765,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProcessStatus_Exception() {
 		return (EReference)processStatusEClass.getEStructuralFeatures().get(4);
 	}
@@ -739,6 +775,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProcessStatus_Children() {
 		return (EReference)processStatusEClass.getEStructuralFeatures().get(5);
 	}
@@ -747,6 +784,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConvertedToEMFPipe() {
 		return convertedToEMFPipeEClass;
 	}
@@ -755,6 +793,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConvertedToEMFPipe_Object() {
 		return (EReference)convertedToEMFPipeEClass.getEStructuralFeatures().get(0);
 	}
@@ -763,6 +802,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSerialized() {
 		return serializedEClass;
 	}
@@ -771,6 +811,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSerialized_Bytes() {
 		return (EAttribute)serializedEClass.getEStructuralFeatures().get(0);
 	}
@@ -779,6 +820,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNullable() {
 		return nullableEClass;
 	}
@@ -787,6 +829,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNullable_Value() {
 		return (EReference)nullableEClass.getEStructuralFeatures().get(0);
 	}
@@ -795,6 +838,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNullable_Type() {
 		return (EAttribute)nullableEClass.getEStructuralFeatures().get(1);
 	}
@@ -803,6 +847,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIf() {
 		return ifEClass;
 	}
@@ -811,6 +856,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIf_Condition() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(0);
 	}
@@ -819,6 +865,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIf_Then() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(1);
 	}
@@ -827,6 +874,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIf_Else() {
 		return (EReference)ifEClass.getEStructuralFeatures().get(2);
 	}
@@ -835,6 +883,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclString() {
 		return eclStringEClass;
 	}
@@ -843,6 +892,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclString_Value() {
 		return (EAttribute)eclStringEClass.getEStructuralFeatures().get(0);
 	}
@@ -851,6 +901,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclException() {
 		return eclExceptionEClass;
 	}
@@ -859,6 +910,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclException_ClassName() {
 		return (EAttribute)eclExceptionEClass.getEStructuralFeatures().get(0);
 	}
@@ -867,6 +919,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclException_Message() {
 		return (EAttribute)eclExceptionEClass.getEStructuralFeatures().get(1);
 	}
@@ -875,6 +928,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclException_StackTrace() {
 		return (EReference)eclExceptionEClass.getEStructuralFeatures().get(2);
 	}
@@ -883,6 +937,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclException_Throwable() {
 		return (EAttribute)eclExceptionEClass.getEStructuralFeatures().get(3);
 	}
@@ -891,14 +946,26 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclException_Cause() {
 		return (EReference)eclExceptionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getEclException_Status() {
+		return (EReference)eclExceptionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclStackTraceEntry() {
 		return eclStackTraceEntryEClass;
 	}
@@ -907,6 +974,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_Index() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(0);
 	}
@@ -915,6 +983,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_DeclaringClass() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(1);
 	}
@@ -923,6 +992,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_MethodName() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(2);
 	}
@@ -931,6 +1001,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_FileName() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(3);
 	}
@@ -939,6 +1010,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_LineNumber() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(4);
 	}
@@ -947,6 +1019,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclStackTraceEntry_NativeMethod() {
 		return (EAttribute)eclStackTraceEntryEClass.getEStructuralFeatures().get(5);
 	}
@@ -955,6 +1028,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getListen() {
 		return listenEClass;
 	}
@@ -963,6 +1037,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getListen_Source() {
 		return (EAttribute)listenEClass.getEStructuralFeatures().get(0);
 	}
@@ -971,6 +1046,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getListen_While() {
 		return (EReference)listenEClass.getEStructuralFeatures().get(1);
 	}
@@ -980,6 +1056,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDeclaration() {
 		return declarationEClass;
 	}
@@ -989,6 +1066,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVal() {
 		return valEClass;
 	}
@@ -998,6 +1076,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVal_Name() {
 		return (EAttribute)valEClass.getEStructuralFeatures().get(0);
 	}
@@ -1007,6 +1086,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVal_Input() {
 		return (EAttribute)valEClass.getEStructuralFeatures().get(2);
 	}
@@ -1016,6 +1096,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVal_Value() {
 		return (EReference)valEClass.getEStructuralFeatures().get(1);
 	}
@@ -1025,6 +1106,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGetVal() {
 		return getValEClass;
 	}
@@ -1034,6 +1116,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getGetVal_Name() {
 		return (EAttribute)getValEClass.getEStructuralFeatures().get(0);
 	}
@@ -1043,6 +1126,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLet() {
 		return letEClass;
 	}
@@ -1052,6 +1136,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLet_Vals() {
 		return (EReference)letEClass.getEStructuralFeatures().get(0);
 	}
@@ -1061,6 +1146,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLet_Body() {
 		return (EReference)letEClass.getEStructuralFeatures().get(1);
 	}
@@ -1070,6 +1156,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProc() {
 		return procEClass;
 	}
@@ -1079,6 +1166,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getProc_Name() {
 		return (EAttribute)procEClass.getEStructuralFeatures().get(0);
 	}
@@ -1088,6 +1176,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProc_Vals() {
 		return (EReference)procEClass.getEStructuralFeatures().get(1);
 	}
@@ -1097,6 +1186,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProc_Body() {
 		return (EReference)procEClass.getEStructuralFeatures().get(2);
 	}
@@ -1106,6 +1196,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getProcInstance() {
 		return procInstanceEClass;
 	}
@@ -1115,6 +1206,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getProcInstance_Definition() {
 		return (EReference)procInstanceEClass.getEStructuralFeatures().get(0);
 	}
@@ -1124,6 +1216,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGlobal() {
 		return globalEClass;
 	}
@@ -1133,6 +1226,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGlobal_Vals() {
 		return (EReference)globalEClass.getEStructuralFeatures().get(0);
 	}
@@ -1142,6 +1236,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getGlobal_Override() {
 		return (EAttribute)globalEClass.getEStructuralFeatures().get(1);
 	}
@@ -1151,6 +1246,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSessionState() {
 		return sessionStateEClass;
 	}
@@ -1160,6 +1256,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSessionState_Procs() {
 		return (EReference)sessionStateEClass.getEStructuralFeatures().get(0);
 	}
@@ -1169,6 +1266,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSessionState_Decls() {
 		return (EReference)sessionStateEClass.getEStructuralFeatures().get(1);
 	}
@@ -1178,6 +1276,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSaveState() {
 		return saveStateEClass;
 	}
@@ -1187,6 +1286,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRestoreState() {
 		return restoreStateEClass;
 	}
@@ -1196,6 +1296,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRestoreState_State() {
 		return (EReference)restoreStateEClass.getEStructuralFeatures().get(0);
 	}
@@ -1205,6 +1306,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGet() {
 		return getEClass;
 	}
@@ -1214,6 +1316,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGet_Input() {
 		return (EReference)getEClass.getEStructuralFeatures().get(0);
 	}
@@ -1223,6 +1326,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGet_Key() {
 		return (EReference)getEClass.getEStructuralFeatures().get(1);
 	}
@@ -1232,6 +1336,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGet_Default() {
 		return (EReference)getEClass.getEStructuralFeatures().get(2);
 	}
@@ -1241,6 +1346,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclList() {
 		return eclListEClass;
 	}
@@ -1250,6 +1356,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclList_Elements() {
 		return (EReference)eclListEClass.getEStructuralFeatures().get(0);
 	}
@@ -1259,6 +1366,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclMap() {
 		return eclMapEClass;
 	}
@@ -1268,6 +1376,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclMap_Entries() {
 		return (EReference)eclMapEClass.getEStructuralFeatures().get(0);
 	}
@@ -1277,6 +1386,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclMapEntry() {
 		return eclMapEntryEClass;
 	}
@@ -1286,6 +1396,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclMapEntry_Key() {
 		return (EReference)eclMapEntryEClass.getEStructuralFeatures().get(0);
 	}
@@ -1295,6 +1406,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclMapEntry_Value() {
 		return (EReference)eclMapEntryEClass.getEStructuralFeatures().get(1);
 	}
@@ -1304,6 +1416,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCase() {
 		return caseEClass;
 	}
@@ -1313,6 +1426,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCase_Condition() {
 		return (EReference)caseEClass.getEStructuralFeatures().get(0);
 	}
@@ -1322,6 +1436,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCase_Then() {
 		return (EReference)caseEClass.getEStructuralFeatures().get(1);
 	}
@@ -1331,6 +1446,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSwitch() {
 		return switchEClass;
 	}
@@ -1340,6 +1456,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSwitch_Items() {
 		return (EReference)switchEClass.getEStructuralFeatures().get(1);
 	}
@@ -1349,6 +1466,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSwitch_Default() {
 		return (EReference)switchEClass.getEStructuralFeatures().get(2);
 	}
@@ -1358,6 +1476,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSwitch_Input() {
 		return (EReference)switchEClass.getEStructuralFeatures().get(0);
 	}
@@ -1366,6 +1485,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclBoolean() {
 		return eclBooleanEClass;
 	}
@@ -1374,6 +1494,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclBoolean_Value() {
 		return (EAttribute)eclBooleanEClass.getEStructuralFeatures().get(0);
 	}
@@ -1382,6 +1503,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclChar() {
 		return eclCharEClass;
 	}
@@ -1390,6 +1512,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclChar_Value() {
 		return (EAttribute)eclCharEClass.getEStructuralFeatures().get(0);
 	}
@@ -1398,6 +1521,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclInteger() {
 		return eclIntegerEClass;
 	}
@@ -1406,6 +1530,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclInteger_Value() {
 		return (EAttribute)eclIntegerEClass.getEStructuralFeatures().get(0);
 	}
@@ -1414,6 +1539,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclFloat() {
 		return eclFloatEClass;
 	}
@@ -1422,6 +1548,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclFloat_Value() {
 		return (EAttribute)eclFloatEClass.getEStructuralFeatures().get(0);
 	}
@@ -1430,6 +1557,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclLong() {
 		return eclLongEClass;
 	}
@@ -1438,6 +1566,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclLong_Value() {
 		return (EAttribute)eclLongEClass.getEStructuralFeatures().get(0);
 	}
@@ -1446,6 +1575,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclDouble() {
 		return eclDoubleEClass;
 	}
@@ -1454,6 +1584,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclDouble_Value() {
 		return (EAttribute)eclDoubleEClass.getEStructuralFeatures().get(0);
 	}
@@ -1462,6 +1593,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBoxedValue() {
 		return boxedValueEClass;
 	}
@@ -1470,6 +1602,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclByte() {
 		return eclByteEClass;
 	}
@@ -1478,6 +1611,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclByte_Value() {
 		return (EAttribute)eclByteEClass.getEStructuralFeatures().get(0);
 	}
@@ -1486,6 +1620,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclShort() {
 		return eclShortEClass;
 	}
@@ -1494,6 +1629,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclShort_Value() {
 		return (EAttribute)eclShortEClass.getEStructuralFeatures().get(0);
 	}
@@ -1502,6 +1638,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getThrowable() {
 		return throwableEDataType;
 	}
@@ -1510,6 +1647,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getScript() {
 		return scriptEClass;
 	}
@@ -1518,6 +1656,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getScript_Content() {
 		return (EAttribute)scriptEClass.getEStructuralFeatures().get(0);
 	}
@@ -1526,6 +1665,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CoreFactory getCoreFactory() {
 		return (CoreFactory)getEFactoryInstance();
 	}
@@ -1651,6 +1791,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		createEReference(eclExceptionEClass, ECL_EXCEPTION__STACK_TRACE);
 		createEAttribute(eclExceptionEClass, ECL_EXCEPTION__THROWABLE);
 		createEReference(eclExceptionEClass, ECL_EXCEPTION__CAUSE);
+		createEReference(eclExceptionEClass, ECL_EXCEPTION__STATUS);
 
 		eclStackTraceEntryEClass = createEClass(ECL_STACK_TRACE_ENTRY);
 		createEAttribute(eclStackTraceEntryEClass, ECL_STACK_TRACE_ENTRY__INDEX);
@@ -1895,6 +2036,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEReference(getEclException_StackTrace(), this.getEclStackTraceEntry(), null, "stackTrace", null, 0, -1, EclException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEclException_Throwable(), this.getThrowable(), "throwable", null, 0, 1, EclException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEclException_Cause(), this.getEclException(), null, "cause", null, 0, 1, EclException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEclException_Status(), this.getProcessStatus(), null, "status", null, 0, 1, EclException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eclStackTraceEntryEClass, EclStackTraceEntry.class, "EclStackTraceEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEclStackTraceEntry_Index(), theEcorePackage.getEInt(), "index", null, 0, 1, EclStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1989,40 +2131,40 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createInternalAnnotations() {
-		String source = "http://www.eclipse.org/ecl/internal";	
+		String source = "http://www.eclipse.org/ecl/internal";
 		addAnnotation
-		  (getCommand_Host(), 
-		   source, 
+		  (getCommand_Host(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getCommand_Bindings(), 
-		   source, 
+		  (getCommand_Bindings(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (execEClass, 
-		   source, 
+		  (execEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (procInstanceEClass, 
-		   source, 
+		  (procInstanceEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getProcInstance_Definition(), 
-		   source, 
+		  (getProcInstance_Definition(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (saveStateEClass, 
-		   source, 
+		  (saveStateEClass,
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (restoreStateEClass, 
-		   source, 
+		  (restoreStateEClass,
+		   source,
 		   new String[] {
 		   });
 	}
@@ -2033,20 +2175,20 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";	
+		String source = "http://www.eclipse.org/ecl/input";
 		addAnnotation
-		  (getForeach_Input(), 
-		   source, 
+		  (getForeach_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getGet_Input(), 
-		   source, 
+		  (getGet_Input(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getSwitch_Input(), 
-		   source, 
+		  (getSwitch_Input(),
+		   source,
 		   new String[] {
 		   });
 	}
@@ -2057,219 +2199,219 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";	
+		String source = "http://www.eclipse.org/ecl/docs";
 		addAnnotation
-		  (withEClass, 
-		   source, 
+		  (withEClass,
+		   source,
 		   new String[] {
-			 "description", "Executes a <code>do</code> script by passing given <code>object</code> to each command inside <code>do</code>. The primary use case for this command is to extract a common prefix for a sequence of commands.",
-			 "returns", "Output of a <code>do</code> command",
-			 "example", "get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n"
-		   });	
+			   "description", "Executes a <code>do</code> script by passing given <code>object</code> to each command inside <code>do</code>. The primary use case for this command is to extract a common prefix for a sequence of commands.",
+			   "returns", "Output of a <code>do</code> command",
+			   "example", "get-view \"Package Explorer\" | get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\nget-view \"Package Explorer\" | get-button \"Link with Editor\" | click\n// can be shorten to:\nwith [get-view \"Package Explorer\"] {\n    get-button \"Collapse All (M1+M2+Numpad_Divide)\" | click\n    get-button \"Link with Editor\" | click\n}\n"
+		   });
 		addAnnotation
-		  (foreachEClass, 
-		   source, 
+		  (foreachEClass,
+		   source,
 		   new String[] {
-			 "description", "Reads objects from input pipe and for each object executes a given <code>do</code> command for each item. An optional variable declaration to hold a current value can be passed, if it is not passed, then current value is sent into an input pipe of a <code>do</code> command.  ",
-			 "returns", "An aggregated output of <code>do</code> command",
-			 "example", "// Implicit item: sent to an input pipe of inner script\nlist-launch-configurations | foreach { get name | log }\n\n// Explicit item:\nlist-launch-configuration | foreach [val item] {\n   $item | get-name | log\n}"
-		   });	
+			   "description", "Reads objects from input pipe and for each object executes a given <code>do</code> command for each item. An optional variable declaration to hold a current value can be passed, if it is not passed, then current value is sent into an input pipe of a <code>do</code> command.  ",
+			   "returns", "An aggregated output of <code>do</code> command",
+			   "example", "// Implicit item: sent to an input pipe of inner script\nlist-launch-configurations | foreach { get name | log }\n\n// Explicit item:\nlist-launch-configuration | foreach [val item] {\n   $item | get-name | log\n}"
+		   });
 		addAnnotation
-		  (ifEClass, 
-		   source, 
+		  (ifEClass,
+		   source,
 		   new String[] {
-			 "description", "Based on a condition corresponds either command either from <code>then</code> or <code>else</code> branch. ",
-			 "returns", "Output of executed branch",
-			 "example", "if [get-property caption -raw | not-eq \"Test\" ] {\r\n\tselect-item\r\n\tget-menu Delete | click\r\n\tget-window \"Delete Resources\" | get-button OK | click\r\n}"
-		   });	
+			   "description", "Based on a condition corresponds either command either from <code>then</code> or <code>else</code> branch. ",
+			   "returns", "Output of executed branch",
+			   "example", "if [get-property caption -raw | not-eq \"Test\" ] {\r\n\tselect-item\r\n\tget-menu Delete | click\r\n\tget-window \"Delete Resources\" | get-button OK | click\r\n}"
+		   });
 		addAnnotation
-		  (getIf_Condition(), 
-		   source, 
+		  (getIf_Condition(),
+		   source,
 		   new String[] {
-			 "description", "Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
-		   });	
+			   "description", "Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
+		   });
 		addAnnotation
-		  (getIf_Then(), 
-		   source, 
+		  (getIf_Then(),
+		   source,
 		   new String[] {
-			 "description", "Branch being executed on <code>true</code> input. Can be omitted."
-		   });	
+			   "description", "Branch being executed on <code>true</code> input. Can be omitted."
+		   });
 		addAnnotation
-		  (getIf_Else(), 
-		   source, 
+		  (getIf_Else(),
+		   source,
 		   new String[] {
-			 "description", "Branch being executed on <code>false</code> input. Can be omitted."
-		   });	
+			   "description", "Branch being executed on <code>false</code> input. Can be omitted."
+		   });
 		addAnnotation
-		  (listenEClass, 
-		   source, 
+		  (listenEClass,
+		   source,
 		   new String[] {
-			 "description", "Listens for state changes while executing commands.",
-			 "returns", "State difference before and after execution.",
-			 "example", "// assert no new errors while clicking on the button\r\nlisten errorLog {\r\n\tget-button OK | click\r\n} | assert-empty"
-		   });	
+			   "description", "Listens for state changes while executing commands.",
+			   "returns", "State difference before and after execution.",
+			   "example", "// assert no new errors while clicking on the button\r\nlisten errorLog {\r\n\tget-button OK | click\r\n} | assert-empty"
+		   });
 		addAnnotation
-		  (getListen_Source(), 
-		   source, 
+		  (getListen_Source(),
+		   source,
 		   new String[] {
-			 "description", "Source to listen for, for example, <code>errorLog</code>."
-		   });	
+			   "description", "Source to listen for, for example, <code>errorLog</code>."
+		   });
 		addAnnotation
-		  (getListen_While(), 
-		   source, 
+		  (getListen_While(),
+		   source,
 		   new String[] {
-			 "description", "Commands to execute while listening for the source."
-		   });	
+			   "description", "Commands to execute while listening for the source."
+		   });
 		addAnnotation
-		  (valEClass, 
-		   source, 
+		  (valEClass,
+		   source,
 		   new String[] {
-			 "description", "Creates a new variable declaration. This command can be used only with <a href=\"#let\">let</a> and <a href=\"#proc\">proc</a>.",
-			 "returns", "An internal object, describing a variable",
-			 "example", "let [val button [get-button OK]] {\n    $button | click\n}"
-		   });	
+			   "description", "Creates a new variable declaration. This command can be used only with <a href=\"#let\">let</a> and <a href=\"#proc\">proc</a>.",
+			   "returns", "An internal object, describing a variable",
+			   "example", "let [val button [get-button OK]] {\n    $button | click\n}"
+		   });
 		addAnnotation
-		  (getVal_Name(), 
-		   source, 
+		  (getVal_Name(),
+		   source,
 		   new String[] {
-			 "description", "Variable name. Later this name can be used to refer to a variable value by prepending a dollar sign, i.e. $varName. If variable with the same name already defined in outer scope, then it will be hidden by inner variable with the same name."
-		   });	
+			   "description", "Variable name. Later this name can be used to refer to a variable value by prepending a dollar sign, i.e. $varName. If variable with the same name already defined in outer scope, then it will be hidden by inner variable with the same name."
+		   });
 		addAnnotation
-		  (getVal_Value(), 
-		   source, 
+		  (getVal_Value(),
+		   source,
 		   new String[] {
-			 "description", "Variable value. When variable is defined in <a href=\"#proc\">proc</a> block, this value denotes the default parameter value."
-		   });	
+			   "description", "Variable value. When variable is defined in <a href=\"#proc\">proc</a> block, this value denotes the default parameter value."
+		   });
 		addAnnotation
-		  (getVal_Input(), 
-		   source, 
+		  (getVal_Input(),
+		   source,
 		   new String[] {
-			 "description", "An option to indicate that variable value should be taken from input pipe. "
-		   });	
+			   "description", "An option to indicate that variable value should be taken from input pipe. "
+		   });
 		addAnnotation
-		  (getValEClass, 
-		   source, 
+		  (getValEClass,
+		   source,
 		   new String[] {
-			 "description", "Returns variable value by its name. Syntax sugar form <code>$name</code> can be used instead."
-		   });	
+			   "description", "Returns variable value by its name. Syntax sugar form <code>$name</code> can be used instead."
+		   });
 		addAnnotation
-		  (letEClass, 
-		   source, 
+		  (letEClass,
+		   source,
 		   new String[] {
-			 "description", "Defines variables and evaluates <code>body</code> script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has <code>-input</code> flag, then <code>let</code> command must be used in a pipeline (see example 2). ",
-			 "returns", "An output of a <code>body</code> script",
-			 "example", "// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n"
-		   });	
+			   "description", "Defines variables and evaluates <code>body</code> script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has <code>-input</code> flag, then <code>let</code> command must be used in a pipeline (see example 2). ",
+			   "returns", "An output of a <code>body</code> script",
+			   "example", "// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n"
+		   });
 		addAnnotation
-		  (getLet_Vals(), 
-		   source, 
+		  (getLet_Vals(),
+		   source,
 		   new String[] {
-			 "description", "List of variables"
-		   });	
+			   "description", "List of variables"
+		   });
 		addAnnotation
-		  (getLet_Body(), 
-		   source, 
+		  (getLet_Body(),
+		   source,
 		   new String[] {
-			 "description", "Script to be executed"
-		   });	
+			   "description", "Script to be executed"
+		   });
 		addAnnotation
-		  (procEClass, 
-		   source, 
+		  (procEClass,
+		   source,
 		   new String[] {
-			 "description", "Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.",
-			 "returns", "An output of a <code>body</code> script",
-			 "example", "// example 1\n// declaration:\nproc \"click-button\" [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc \"set-text-after-label\" [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\""
-		   });	
+			   "description", "Declares a new procedure in a context of current ECL session, which can later be accessed as a usual command.",
+			   "returns", "An output of a <code>body</code> script",
+			   "example", "// example 1\n// declaration:\nproc \"click-button\" [val window] [val button] {\n   get-window $window | get-button $button | click\n}\n\n// usage\nclick-button \"New Project\" \"Cancel\"\n\n// example #2, using input argument and default value\n// declaration:\nproc \"set-text-after-label\" [val parent -input] [val label] [val text \"\"] {\n\t$parent | get-editbox -after [get-label $label] | set-text $text\n}\n\n// usage:\nwith [get-window \"New Project\"] {\n   set-text-after-label \"Name:\" \"Sample Project\"\n}\nget-editor | set-text-after-label \"Text\""
+		   });
 		addAnnotation
-		  (getProc_Name(), 
-		   source, 
+		  (getProc_Name(),
+		   source,
 		   new String[] {
-			 "description", "Procedure name. Must be unique in a context of current ECL session"
-		   });	
+			   "description", "Procedure name. Must be unique in a context of current ECL session"
+		   });
 		addAnnotation
-		  (procInstanceEClass, 
-		   source, 
+		  (procInstanceEClass,
+		   source,
 		   new String[] {
-			 "description", "Marker superclass for user-defined procs"
-		   });	
+			   "description", "Marker superclass for user-defined procs"
+		   });
 		addAnnotation
-		  (globalEClass, 
-		   source, 
+		  (globalEClass,
+		   source,
 		   new String[] {
-			 "description", "Creates a new global variable declaration.",
-			 "returns", "An internal object, describing a variable",
-			 "example", "// declaring an empty list:\n\nglobal [val myList [list]]\n\n\n\n// filling the list with all New/... menu items:\n\nrepeat [val index] -times [get-elements-count] -command {\n\nlet [val oldlist [$myList]] [val itemName [get-item-property [$index] \"getText()\"]] {\n\n// check if the item is not separator or Other...\n\nif [and [$itemName | not-eq \"\"][$itemName | not-eq \"&Other.*\"]] {\n\nglobal [val myList [appendToList [$oldlist] [$itemName]]] -override\n\n}\n\n}\n\n}"
-		   });	
+			   "description", "Creates a new global variable declaration.",
+			   "returns", "An internal object, describing a variable",
+			   "example", "// declaring an empty list:\n\nglobal [val myList [list]]\n\n\n\n// filling the list with all New/... menu items:\n\nrepeat [val index] -times [get-elements-count] -command {\n\nlet [val oldlist [$myList]] [val itemName [get-item-property [$index] \"getText()\"]] {\n\n// check if the item is not separator or Other...\n\nif [and [$itemName | not-eq \"\"][$itemName | not-eq \"&Other.*\"]] {\n\nglobal [val myList [appendToList [$oldlist] [$itemName]]] -override\n\n}\n\n}\n\n}"
+		   });
 		addAnnotation
-		  (getEClass, 
-		   source, 
+		  (getEClass,
+		   source,
 		   new String[] {
-			 "description", "Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name.",
-			 "example", "//types 1 into  log\nemit \"1\" \"2\" \"3\" | to-list | get 0 | str | log\n//types Febuary into log\nmap [entry 1 January][entry 2 Febuary] | get 2 | log"
-		   });	
+			   "description", "Depending on input object, either returns a value by key from <a href=\"#map\">map</a>, or element by index from <a href=\"#list\">list</a>, or member of EMF object by name.",
+			   "example", "//types 1 into  log\nemit \"1\" \"2\" \"3\" | to-list | get 0 | str | log\n//types Febuary into log\nmap [entry 1 January][entry 2 Febuary] | get 2 | log"
+		   });
 		addAnnotation
-		  (getGet_Input(), 
-		   source, 
+		  (getGet_Input(),
+		   source,
 		   new String[] {
-			 "description", "Object to get a value from"
-		   });	
+			   "description", "Object to get a value from"
+		   });
 		addAnnotation
-		  (getGet_Key(), 
-		   source, 
+		  (getGet_Key(),
+		   source,
 		   new String[] {
-			 "description", "Depending on an input object either a key in a map, or index in a list, or name of a feature/attribute of EMF object"
-		   });	
+			   "description", "Depending on an input object either a key in a map, or index in a list, or name of a feature/attribute of EMF object"
+		   });
 		addAnnotation
-		  (getGet_Default(), 
-		   source, 
+		  (getGet_Default(),
+		   source,
 		   new String[] {
-			 "description", "Value to return if input object does not contain value by requested key"
-		   });	
+			   "description", "Value to return if input object does not contain value by requested key"
+		   });
 		addAnnotation
-		  (caseEClass, 
-		   source, 
+		  (caseEClass,
+		   source,
 		   new String[] {
-			 "description", "Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.",
-			 "returns", "An internal object describing the case.",
-			 "example", "list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]"
-		   });	
+			   "description", "Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.",
+			   "returns", "An internal object describing the case.",
+			   "example", "list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]"
+		   });
 		addAnnotation
-		  (getCase_Condition(), 
-		   source, 
+		  (getCase_Condition(),
+		   source,
 		   new String[] {
-			 "description", "Object used to match to the <code>input</code>. Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
-		   });	
+			   "description", "Object used to match to the <code>input</code>. Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). "
+		   });
 		addAnnotation
-		  (getCase_Then(), 
-		   source, 
+		  (getCase_Then(),
+		   source,
 		   new String[] {
-			 "description", "Branch being executed when <code>input</code> matches the object specified in <code>condition</code>"
-		   });	
+			   "description", "Branch being executed when <code>input</code> matches the object specified in <code>condition</code>"
+		   });
 		addAnnotation
-		  (switchEClass, 
-		   source, 
+		  (switchEClass,
+		   source,
 		   new String[] {
-			 "description", "Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.",
-			 "returns", "An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.",
-			 "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n"
-		   });	
+			   "description", "Reads object from input pipe or <code>input</code> parameter and executes a <code>case</code> part with matching <code>condition</code> parameter (if any) sending <code>input</code> parameter as an input. If no <code>case</code> matched, the <code>default<code> block (if any) will be executed.",
+			   "returns", "An output of executed block (<code>case</code> command or <code>-default</code> block). If nothing is executed, no output will be produced.",
+			   "example", "list 1 2 3 | get 0 | switch [case 1 {\n\techo \"Found 1\"\n}] [case 2 {\n\techo \"Found 2\"\n}] - default {\n\techo \"Unknown item\"\n} | equals \"Found 1\" | verify-true\n\n///////////\n\nproc \"set-schedules-view-value\" [val view] [val date] [val direction] {\n// First, determine View to set desired Date value in\nget-view Schedules | get-section $view | get-property \"getText()\" -raw | switch\n[case \"Year View\" {\necho \"The YEAR View is being Evaluated!\"\n// Second, determine if the desired Date is already set\nset-view-value $view \"\\d\\d\\d\\d\" $date $direction }]\n[case \"Month View\" {\necho \"The MONTH View is being Evaluated!\"\nset-view-value $view \"(January|February|March|April|May|June|July|August|September|October|November|December), \\d+\" $date $direction}]\n[case \"Week View\" {\necho \"The WEEK View is being Evaluated!\"\nset-view-value $view \"Week \\d+, \\d+\" $date $direction }]\n[case \"Day View\" {\necho \"The DAY View is being Evaluated!\"\nset-view-value $view \"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), .*? \\d+, \\d+\" $date $direction}]\n-default {\necho \"The View Value specified in NOT Supported!\"\n}\n}\n"
+		   });
 		addAnnotation
-		  (getSwitch_Input(), 
-		   source, 
+		  (getSwitch_Input(),
+		   source,
 		   new String[] {
-			 "description", "The input object to match."
-		   });	
+			   "description", "The input object to match."
+		   });
 		addAnnotation
-		  (getSwitch_Items(), 
-		   source, 
+		  (getSwitch_Items(),
+		   source,
 		   new String[] {
-			 "description", "One or more <code>case</code> blocks. Block with a condition matching the input will be executed."
-		   });	
+			   "description", "One or more <code>case</code> blocks. Block with a condition matching the input will be executed."
+		   });
 		addAnnotation
-		  (getSwitch_Default(), 
-		   source, 
+		  (getSwitch_Default(),
+		   source,
 		   new String[] {
-			 "description", "Optional parameter. The block which will be executed in case no <code>case</code> block is executed."
+			   "description", "Optional parameter. The block which will be executed in case no <code>case</code> block is executed."
 		   });
 	}
 

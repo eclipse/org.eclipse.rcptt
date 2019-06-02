@@ -88,6 +88,7 @@ public class SessionStateImpl extends EObjectImpl implements SessionState {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Proc> getProcs() {
 		if (procs == null) {
 			procs = new EObjectContainmentEList<Proc>(Proc.class, this, CorePackage.SESSION_STATE__PROCS);
@@ -100,6 +101,7 @@ public class SessionStateImpl extends EObjectImpl implements SessionState {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Declaration> getDecls() {
 		if (decls == null) {
 			decls = new EObjectContainmentEList<Declaration>(Declaration.class, this, CorePackage.SESSION_STATE__DECLS);

@@ -92,6 +92,7 @@ public class NullableImpl extends EObjectImpl implements Nullable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getValue() {
 		return value;
 	}
@@ -116,6 +117,7 @@ public class NullableImpl extends EObjectImpl implements Nullable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(EObject newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -135,6 +137,7 @@ public class NullableImpl extends EObjectImpl implements Nullable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getType() {
 		return type;
 	}
@@ -144,6 +147,7 @@ public class NullableImpl extends EObjectImpl implements Nullable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(String newType) {
 		String oldType = type;
 		type = newType;
@@ -242,7 +246,7 @@ public class NullableImpl extends EObjectImpl implements Nullable {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");
 		result.append(type);
 		result.append(')');

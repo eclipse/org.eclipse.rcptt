@@ -93,6 +93,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getCondition() {
 		if (condition != null && condition.eIsProxy()) {
 			InternalEObject oldCondition = (InternalEObject)condition;
@@ -119,6 +120,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(EObject newCondition) {
 		EObject oldCondition = condition;
 		condition = newCondition;
@@ -131,6 +133,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getThen() {
 		return then;
 	}
@@ -155,6 +158,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setThen(Command newThen) {
 		if (newThen != then) {
 			NotificationChain msgs = null;
@@ -174,6 +178,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getElse() {
 		return else_;
 	}
@@ -198,6 +203,7 @@ public class IfImpl extends CommandImpl implements If {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setElse(Command newElse) {
 		if (newElse != else_) {
 			NotificationChain msgs = null;

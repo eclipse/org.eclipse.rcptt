@@ -119,6 +119,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getNamespace() {
 		return namespace;
 	}
@@ -128,6 +129,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNamespace(String newNamespace) {
 		String oldNamespace = namespace;
 		namespace = newNamespace;
@@ -140,6 +142,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -149,6 +152,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -161,6 +165,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
 			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, CorePackage.EXEC__PARAMETERS);
@@ -271,7 +276,7 @@ public class ExecImpl extends CommandImpl implements Exec {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (namespace: ");
 		result.append(namespace);
 		result.append(", name: ");

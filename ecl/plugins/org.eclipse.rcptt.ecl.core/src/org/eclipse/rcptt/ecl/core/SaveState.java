@@ -18,7 +18,7 @@ package org.eclipse.rcptt.ecl.core;
  *
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getSaveState()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface SaveState extends Command {

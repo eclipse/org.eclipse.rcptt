@@ -153,6 +153,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="throwable" eType="#//Throwable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="cause" eType="#//EclException"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="status" eType="#//ProcessStatus"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EclStackTraceEntry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>

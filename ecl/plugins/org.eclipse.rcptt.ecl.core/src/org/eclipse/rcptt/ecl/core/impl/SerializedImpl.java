@@ -78,6 +78,7 @@ public class SerializedImpl extends EObjectImpl implements Serialized {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public byte[] getBytes() {
 		return bytes;
 	}
@@ -87,6 +88,7 @@ public class SerializedImpl extends EObjectImpl implements Serialized {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBytes(byte[] newBytes) {
 		byte[] oldBytes = bytes;
 		bytes = newBytes;
@@ -161,7 +163,7 @@ public class SerializedImpl extends EObjectImpl implements Serialized {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (bytes: ");
 		result.append(bytes);
 		result.append(')');

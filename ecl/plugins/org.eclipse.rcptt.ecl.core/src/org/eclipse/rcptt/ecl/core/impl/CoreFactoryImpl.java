@@ -148,6 +148,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command createCommand() {
 		CommandImpl command = new CommandImpl();
 		return command;
@@ -158,6 +159,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Binding createBinding() {
 		BindingImpl binding = new BindingImpl();
 		return binding;
@@ -168,6 +170,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Pipeline createPipeline() {
 		PipelineImpl pipeline = new PipelineImpl();
 		return pipeline;
@@ -178,6 +181,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Sequence createSequence() {
 		SequenceImpl sequence = new SequenceImpl();
 		return sequence;
@@ -188,6 +192,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Parallel createParallel() {
 		ParallelImpl parallel = new ParallelImpl();
 		return parallel;
@@ -198,6 +203,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public With createWith() {
 		WithImpl with = new WithImpl();
 		return with;
@@ -208,6 +214,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Exec createExec() {
 		ExecImpl exec = new ExecImpl();
 		return exec;
@@ -218,6 +225,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
@@ -228,6 +236,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExecutableParameter createExecutableParameter() {
 		ExecutableParameterImpl executableParameter = new ExecutableParameterImpl();
 		return executableParameter;
@@ -238,6 +247,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LiteralParameter createLiteralParameter() {
 		LiteralParameterImpl literalParameter = new LiteralParameterImpl();
 		return literalParameter;
@@ -248,6 +258,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Foreach createForeach() {
 		ForeachImpl foreach = new ForeachImpl();
 		return foreach;
@@ -258,6 +269,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcessStatus createProcessStatus() {
 		ProcessStatusImpl processStatus = new ProcessStatusImpl();
 		return processStatus;
@@ -268,6 +280,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConvertedToEMFPipe createConvertedToEMFPipe() {
 		ConvertedToEMFPipeImpl convertedToEMFPipe = new ConvertedToEMFPipeImpl();
 		return convertedToEMFPipe;
@@ -278,6 +291,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Serialized createSerialized() {
 		SerializedImpl serialized = new SerializedImpl();
 		return serialized;
@@ -288,6 +302,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Nullable createNullable() {
 		NullableImpl nullable = new NullableImpl();
 		return nullable;
@@ -298,6 +313,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public If createIf() {
 		IfImpl if_ = new IfImpl();
 		return if_;
@@ -308,6 +324,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclByte createEclByte() {
 		EclByteImpl eclByte = new EclByteImpl();
 		return eclByte;
@@ -318,6 +335,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclShort createEclShort() {
 		EclShortImpl eclShort = new EclShortImpl();
 		return eclShort;
@@ -328,6 +346,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclString createEclString() {
 		EclStringImpl eclString = new EclStringImpl();
 		return eclString;
@@ -338,6 +357,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclException createEclException() {
 		EclExceptionImpl eclException = new EclExceptionImpl();
 		return eclException;
@@ -348,6 +368,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclStackTraceEntry createEclStackTraceEntry() {
 		EclStackTraceEntryImpl eclStackTraceEntry = new EclStackTraceEntryImpl();
 		return eclStackTraceEntry;
@@ -358,6 +379,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Listen createListen() {
 		ListenImpl listen = new ListenImpl();
 		return listen;
@@ -368,6 +390,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Declaration createDeclaration() {
 		DeclarationImpl declaration = new DeclarationImpl();
 		return declaration;
@@ -378,6 +401,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Val createVal() {
 		ValImpl val = new ValImpl();
 		return val;
@@ -388,6 +412,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public GetVal createGetVal() {
 		GetValImpl getVal = new GetValImpl();
 		return getVal;
@@ -398,6 +423,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Let createLet() {
 		LetImpl let = new LetImpl();
 		return let;
@@ -408,6 +434,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Proc createProc() {
 		ProcImpl proc = new ProcImpl();
 		return proc;
@@ -418,6 +445,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProcInstance createProcInstance() {
 		ProcInstanceImpl procInstance = new ProcInstanceImpl();
 		return procInstance;
@@ -428,6 +456,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Global createGlobal() {
 		GlobalImpl global = new GlobalImpl();
 		return global;
@@ -438,6 +467,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SessionState createSessionState() {
 		SessionStateImpl sessionState = new SessionStateImpl();
 		return sessionState;
@@ -448,6 +478,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SaveState createSaveState() {
 		SaveStateImpl saveState = new SaveStateImpl();
 		return saveState;
@@ -458,6 +489,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RestoreState createRestoreState() {
 		RestoreStateImpl restoreState = new RestoreStateImpl();
 		return restoreState;
@@ -468,6 +500,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Get createGet() {
 		GetImpl get = new GetImpl();
 		return get;
@@ -478,6 +511,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclList createEclList() {
 		EclListImpl eclList = new EclListImpl();
 		return eclList;
@@ -488,6 +522,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclMap createEclMap() {
 		EclMapImpl eclMap = new EclMapImpl();
 		return eclMap;
@@ -498,6 +533,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclMapEntry createEclMapEntry() {
 		EclMapEntryImpl eclMapEntry = new EclMapEntryImpl();
 		return eclMapEntry;
@@ -508,6 +544,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Case createCase() {
 		CaseImpl case_ = new CaseImpl();
 		return case_;
@@ -518,6 +555,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Switch createSwitch() {
 		SwitchImpl switch_ = new SwitchImpl();
 		return switch_;
@@ -528,6 +566,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclBoolean createEclBoolean() {
 		EclBooleanImpl eclBoolean = new EclBooleanImpl();
 		return eclBoolean;
@@ -538,6 +577,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclChar createEclChar() {
 		EclCharImpl eclChar = new EclCharImpl();
 		return eclChar;
@@ -548,6 +588,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclInteger createEclInteger() {
 		EclIntegerImpl eclInteger = new EclIntegerImpl();
 		return eclInteger;
@@ -558,6 +599,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclFloat createEclFloat() {
 		EclFloatImpl eclFloat = new EclFloatImpl();
 		return eclFloat;
@@ -568,6 +610,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclLong createEclLong() {
 		EclLongImpl eclLong = new EclLongImpl();
 		return eclLong;
@@ -578,6 +621,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclDouble createEclDouble() {
 		EclDoubleImpl eclDouble = new EclDoubleImpl();
 		return eclDouble;
@@ -606,6 +650,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Script createScript() {
 		ScriptImpl script = new ScriptImpl();
 		return script;
@@ -616,6 +661,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CorePackage getCorePackage() {
 		return (CorePackage)getEPackage();
 	}

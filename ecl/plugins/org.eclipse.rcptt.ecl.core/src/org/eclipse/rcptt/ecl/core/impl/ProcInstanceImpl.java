@@ -69,6 +69,7 @@ public class ProcInstanceImpl extends CommandImpl implements ProcInstance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Proc getDefinition() {
 		if (definition != null && definition.eIsProxy()) {
 			InternalEObject oldDefinition = (InternalEObject)definition;
@@ -95,6 +96,7 @@ public class ProcInstanceImpl extends CommandImpl implements ProcInstance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefinition(Proc newDefinition) {
 		Proc oldDefinition = definition;
 		definition = newDefinition;

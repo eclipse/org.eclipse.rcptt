@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getIf()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Based on a condition corresponds either command either from <code>then</code> or <code>else</code> branch. ' returns='Output of executed branch' example='if [get-property caption -raw | not-eq \"Test\" ] {\r\n\tselect-item\r\n\tget-menu Delete | click\r\n\tget-window \"Delete Resources\" | get-button OK | click\r\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Based on a condition corresponds either command either from &lt;code&gt;then&lt;/code&gt; or &lt;code&gt;else&lt;/code&gt; branch. ' returns='Output of executed branch' example='if [get-property caption -raw | not-eq \"Test\" ] {\r\n\tselect-item\r\n\tget-menu Delete | click\r\n\tget-window \"Delete Resources\" | get-button OK | click\r\n}'"
  * @generated
  */
 public interface If extends Command {
@@ -43,7 +43,7 @@ public interface If extends Command {
 	 * @return the value of the '<em>Condition</em>' reference.
 	 * @see #setCondition(EObject)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getIf_Condition()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). '"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Accepted values are boolean, string (&lt;code&gt;true&lt;/code&gt; when case-insensitive equals to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise) and number (&lt;code&gt;0&lt;/code&gt; for &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;true&lt;/code&gt; otherwise). '"
 	 * @generated
 	 */
 	EObject getCondition();
@@ -70,7 +70,7 @@ public interface If extends Command {
 	 * @see #setThen(Command)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getIf_Then()
 	 * @model containment="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed on <code>true</code> input. Can be omitted.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed on &lt;code&gt;true&lt;/code&gt; input. Can be omitted.'"
 	 * @generated
 	 */
 	Command getThen();
@@ -97,7 +97,7 @@ public interface If extends Command {
 	 * @see #setElse(Command)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getIf_Else()
 	 * @model containment="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed on <code>false</code> input. Can be omitted.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed on &lt;code&gt;false&lt;/code&gt; input. Can be omitted.'"
 	 * @generated
 	 */
 	Command getElse();

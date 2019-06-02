@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getLet()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Defines variables and evaluates <code>body</code> script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has <code>-input</code> flag, then <code>let</code> command must be used in a pipeline (see example 2). ' returns='An output of a <code>body</code> script' example='// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Defines variables and evaluates &lt;code&gt;body&lt;/code&gt; script. Variable declarations are only visible from withing a body script and cannot be accessed after \'let\' command. If some variable has &lt;code&gt;-input&lt;/code&gt; flag, then &lt;code&gt;let&lt;/code&gt; command must be used in a pipeline (see example 2). ' returns='An output of a &lt;code&gt;body&lt;/code&gt; script' example='// example #1, simple usage of two variables\nlet [val foo \"hello\"]\n     [val bar \"world!\"] {\n\tformat \"%s, %s\" $foo $bar | show-alert\n}\n\n// example #2, using input argument\nget-window \"New Project\" | let [val window -input] [val button OK] {\n    $window | get-button $button | click\n}\n'"
  * @generated
  */
 public interface Let extends Command {

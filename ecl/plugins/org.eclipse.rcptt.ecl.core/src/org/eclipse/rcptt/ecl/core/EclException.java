@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getStackTrace <em>Stack Trace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getThrowable <em>Throwable</em>}</li>
  *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getCause <em>Cause</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.ecl.core.EclException#getStatus <em>Status</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getEclException()
@@ -153,5 +154,27 @@ public interface EclException extends EObject {
 	 * @generated
 	 */
 	void setCause(EclException value);
+
+	/**
+	 * Returns the value of the '<em><b>Status</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Status</em>' containment reference.
+	 * @see #setStatus(ProcessStatus)
+	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getEclException_Status()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ProcessStatus getStatus();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.ecl.core.EclException#getStatus <em>Status</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Status</em>' containment reference.
+	 * @see #getStatus()
+	 * @generated
+	 */
+	void setStatus(ProcessStatus value);
 
 } // EclException

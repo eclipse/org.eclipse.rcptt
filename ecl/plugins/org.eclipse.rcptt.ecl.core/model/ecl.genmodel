@@ -42,6 +42,7 @@
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//Foreach">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/item"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/index"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/do"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Foreach/input"/>
     </genClasses>
@@ -54,6 +55,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//ProcessStatus/severity"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference ecl.ecore#//ProcessStatus/exception"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//ProcessStatus/children"/>
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//ConvertedToEMFPipe">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//ConvertedToEMFPipe/object"/>
@@ -104,6 +106,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclException/stackTrace"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclException/throwable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclException/cause"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclException/status"/>
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//EclStackTraceEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ecl.ecore#//EclStackTraceEntry/index"/>
@@ -166,7 +169,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//EclMapEntry/value"/>
     </genClasses>
     <genClasses ecoreClass="ecl.ecore#//Case">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/input"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/condition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ecl.ecore#//Case/then"/>
     </genClasses>

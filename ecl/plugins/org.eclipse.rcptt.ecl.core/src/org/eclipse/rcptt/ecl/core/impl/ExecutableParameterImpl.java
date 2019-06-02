@@ -70,6 +70,7 @@ public class ExecutableParameterImpl extends ParameterImpl implements Executable
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getCommand() {
 		return command;
 	}
@@ -94,6 +95,7 @@ public class ExecutableParameterImpl extends ParameterImpl implements Executable
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCommand(Command newCommand) {
 		if (newCommand != command) {
 			NotificationChain msgs = null;

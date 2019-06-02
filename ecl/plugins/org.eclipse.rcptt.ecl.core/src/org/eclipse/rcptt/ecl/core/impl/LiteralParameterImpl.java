@@ -98,6 +98,7 @@ public class LiteralParameterImpl extends ParameterImpl implements LiteralParame
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -107,6 +108,7 @@ public class LiteralParameterImpl extends ParameterImpl implements LiteralParame
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLiteral(String newLiteral) {
 		String oldLiteral = literal;
 		literal = newLiteral;
@@ -119,6 +121,7 @@ public class LiteralParameterImpl extends ParameterImpl implements LiteralParame
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormat() {
 		return format;
 	}
@@ -128,6 +131,7 @@ public class LiteralParameterImpl extends ParameterImpl implements LiteralParame
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormat(String newFormat) {
 		String oldFormat = format;
 		format = newFormat;
@@ -212,7 +216,7 @@ public class LiteralParameterImpl extends ParameterImpl implements LiteralParame
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (literal: ");
 		result.append(literal);
 		result.append(", format: ");

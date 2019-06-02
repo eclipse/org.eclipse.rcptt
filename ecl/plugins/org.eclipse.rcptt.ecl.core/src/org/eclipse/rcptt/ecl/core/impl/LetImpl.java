@@ -89,6 +89,7 @@ public class LetImpl extends CommandImpl implements Let {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Declaration> getVals() {
 		if (vals == null) {
 			vals = new EObjectContainmentEList<Declaration>(Declaration.class, this, CorePackage.LET__VALS);
@@ -101,6 +102,7 @@ public class LetImpl extends CommandImpl implements Let {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getBody() {
 		return body;
 	}
@@ -125,6 +127,7 @@ public class LetImpl extends CommandImpl implements Let {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(Command newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;

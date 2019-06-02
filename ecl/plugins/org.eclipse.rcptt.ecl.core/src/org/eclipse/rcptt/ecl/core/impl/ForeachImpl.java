@@ -101,6 +101,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Val getItem() {
 		return item;
 	}
@@ -125,6 +126,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setItem(Val newItem) {
 		if (newItem != item) {
 			NotificationChain msgs = null;
@@ -144,6 +146,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Val getIndex() {
 		if (index != null && index.eIsProxy()) {
 			InternalEObject oldIndex = (InternalEObject)index;
@@ -170,6 +173,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIndex(Val newIndex) {
 		Val oldIndex = index;
 		index = newIndex;
@@ -181,6 +185,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getDo() {
 		return do_;
 	}
@@ -203,6 +208,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDo(Command newDo) {
 		if (newDo != do_) {
 			NotificationChain msgs = null;
@@ -221,6 +227,7 @@ public class ForeachImpl extends CommandImpl implements Foreach {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getInput() {
 		if (input == null) {
 			input = new EObjectResolvingEList<EObject>(EObject.class, this, CorePackage.FOREACH__INPUT);

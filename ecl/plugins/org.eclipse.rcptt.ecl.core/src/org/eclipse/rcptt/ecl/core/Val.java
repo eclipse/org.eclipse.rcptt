@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getVal()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new variable declaration. This command can be used only with <a href=\"#let\">let</a> and <a href=\"#proc\">proc</a>.' returns='An internal object, describing a variable' example='let [val button [get-button OK]] {\n    $button | click\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Creates a new variable declaration. This command can be used only with &lt;a href=\"#let\"&gt;let&lt;/a&gt; and &lt;a href=\"#proc\"&gt;proc&lt;/a&gt;.' returns='An internal object, describing a variable' example='let [val button [get-button OK]] {\n    $button | click\n}'"
  * @generated
  */
 public interface Val extends Declaration {
@@ -96,7 +96,7 @@ public interface Val extends Declaration {
 	 * @return the value of the '<em>Value</em>' reference.
 	 * @see #setValue(EObject)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getVal_Value()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Variable value. When variable is defined in <a href=\"#proc\">proc</a> block, this value denotes the default parameter value.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Variable value. When variable is defined in &lt;a href=\"#proc\"&gt;proc&lt;/a&gt; block, this value denotes the default parameter value.'"
 	 * @generated
 	 */
 	EObject getValue();

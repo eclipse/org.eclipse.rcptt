@@ -111,6 +111,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -120,6 +121,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -132,6 +134,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isInput() {
 		return input;
 	}
@@ -141,6 +144,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInput(boolean newInput) {
 		boolean oldInput = input;
 		input = newInput;
@@ -153,6 +157,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getValue() {
 		if (value != null && value.eIsProxy()) {
 			InternalEObject oldValue = (InternalEObject)value;
@@ -179,6 +184,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(EObject newValue) {
 		EObject oldValue = value;
 		value = newValue;
@@ -274,7 +280,7 @@ public class ValImpl extends DeclarationImpl implements Val {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", input: ");

@@ -92,6 +92,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getInput() {
 		return input;
 	}
@@ -116,6 +117,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInput(EObject newInput) {
 		if (newInput != input) {
 			NotificationChain msgs = null;
@@ -135,6 +137,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getKey() {
 		return key;
 	}
@@ -159,6 +162,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKey(EObject newKey) {
 		if (newKey != key) {
 			NotificationChain msgs = null;
@@ -178,6 +182,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getDefault() {
 		return default_;
 	}
@@ -202,6 +207,7 @@ public class GetImpl extends CommandImpl implements Get {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefault(EObject newDefault) {
 		if (newDefault != default_) {
 			NotificationChain msgs = null;

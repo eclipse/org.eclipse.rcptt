@@ -99,6 +99,7 @@ public class CommandImpl extends EObjectImpl implements Command {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getHost() {
 		return host;
 	}
@@ -108,6 +109,7 @@ public class CommandImpl extends EObjectImpl implements Command {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setHost(String newHost) {
 		String oldHost = host;
 		host = newHost;
@@ -120,6 +122,7 @@ public class CommandImpl extends EObjectImpl implements Command {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Binding> getBindings() {
 		if (bindings == null) {
 			bindings = new EObjectContainmentEList<Binding>(Binding.class, this, CorePackage.COMMAND__BINDINGS);
@@ -220,7 +223,7 @@ public class CommandImpl extends EObjectImpl implements Command {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (host: ");
 		result.append(host);
 		result.append(')');

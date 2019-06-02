@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getCase()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Corresponds command from <code>then</code> branch if an object from the <code>input</code> matches the <code>condition</code> object.' returns='An internal object describing the case.' example='list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Corresponds command from &lt;code&gt;then&lt;/code&gt; branch if an object from the &lt;code&gt;input&lt;/code&gt; matches the &lt;code&gt;condition&lt;/code&gt; object.' returns='An internal object describing the case.' example='list 1 2 3 | get 0 | switch [case 1 {\r\n\tlog -message \"First item is 1\"\r\n}] [case 2 {\n\tlog -message \"First item is 2\"\n}]'"
  * @generated
  */
 public interface Case extends Command {
@@ -44,7 +44,7 @@ public interface Case extends Command {
 	 * @see #setCondition(EObject)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getCase_Condition()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Object used to match to the <code>input</code>. Accepted values are boolean, string (<code>true</code> when case-insensitive equals to <code>true</code>, <code>false</code> otherwise) and number (<code>0</code> for <code>false</code>, <code>true</code> otherwise). '"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Object used to match to the &lt;code&gt;input&lt;/code&gt;. Accepted values are boolean, string (&lt;code&gt;true&lt;/code&gt; when case-insensitive equals to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt; otherwise) and number (&lt;code&gt;0&lt;/code&gt; for &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;true&lt;/code&gt; otherwise). '"
 	 * @generated
 	 */
 	EObject getCondition();
@@ -71,7 +71,7 @@ public interface Case extends Command {
 	 * @see #setThen(Command)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getCase_Then()
 	 * @model containment="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed when <code>input</code> matches the object specified in <code>condition</code>'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Branch being executed when &lt;code&gt;input&lt;/code&gt; matches the object specified in &lt;code&gt;condition&lt;/code&gt;'"
 	 * @generated
 	 */
 	Command getThen();

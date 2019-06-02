@@ -43,7 +43,7 @@ public interface Command extends EObject {
 	 * @return the value of the '<em>Host</em>' attribute.
 	 * @see #setHost(String)
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getCommand_Host()
-	 * @model
+	 * @model annotation="http://www.eclipse.org/ecl/internal"
 	 * @generated
 	 */
 	String getHost();
@@ -70,6 +70,7 @@ public interface Command extends EObject {
 	 * @return the value of the '<em>Bindings</em>' containment reference list.
 	 * @see org.eclipse.rcptt.ecl.core.CorePackage#getCommand_Bindings()
 	 * @model containment="true"
+	 *        annotation="http://www.eclipse.org/ecl/internal"
 	 * @generated
 	 */
 	EList<Binding> getBindings();

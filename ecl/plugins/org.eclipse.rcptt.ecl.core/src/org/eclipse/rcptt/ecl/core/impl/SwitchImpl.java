@@ -103,6 +103,7 @@ public class SwitchImpl extends CommandImpl implements Switch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Case> getItems() {
 		if (items == null) {
 			items = new EObjectContainmentEList<Case>(Case.class, this, CorePackage.SWITCH__ITEMS);
@@ -115,6 +116,7 @@ public class SwitchImpl extends CommandImpl implements Switch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Command getDefault() {
 		return default_;
 	}
@@ -139,6 +141,7 @@ public class SwitchImpl extends CommandImpl implements Switch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefault(Command newDefault) {
 		if (newDefault != default_) {
 			NotificationChain msgs = null;
@@ -158,6 +161,7 @@ public class SwitchImpl extends CommandImpl implements Switch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getInput() {
 		if (input != null && input.eIsProxy()) {
 			InternalEObject oldInput = (InternalEObject)input;
@@ -184,6 +188,7 @@ public class SwitchImpl extends CommandImpl implements Switch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInput(EObject newInput) {
 		EObject oldInput = input;
 		input = newInput;

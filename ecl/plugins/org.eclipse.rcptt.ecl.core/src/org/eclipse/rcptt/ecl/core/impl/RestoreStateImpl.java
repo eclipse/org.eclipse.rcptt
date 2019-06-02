@@ -70,6 +70,7 @@ public class RestoreStateImpl extends CommandImpl implements RestoreState {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SessionState getState() {
 		return state;
 	}
@@ -94,6 +95,7 @@ public class RestoreStateImpl extends CommandImpl implements RestoreState {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setState(SessionState newState) {
 		if (newState != state) {
 			NotificationChain msgs = null;

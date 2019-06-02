@@ -76,6 +76,7 @@ public class EclListImpl extends EObjectImpl implements EclList {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentEList<EObject>(EObject.class, this, CorePackage.ECL_LIST__ELEMENTS);

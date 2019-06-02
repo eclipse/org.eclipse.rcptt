@@ -24,7 +24,7 @@ package org.eclipse.rcptt.ecl.core;
  * </ul>
  *
  * @see org.eclipse.rcptt.ecl.core.CorePackage#getRestoreState()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface RestoreState extends Command {

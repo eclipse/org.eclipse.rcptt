@@ -71,6 +71,7 @@ public class ConvertedToEMFPipeImpl extends EObjectImpl implements ConvertedToEM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getObject() {
 		return object;
 	}
@@ -95,6 +96,7 @@ public class ConvertedToEMFPipeImpl extends EObjectImpl implements ConvertedToEM
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(EObject newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;

@@ -170,6 +170,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPluginId() {
 		return pluginId;
 	}
@@ -179,6 +180,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPluginId(String newPluginId) {
 		String oldPluginId = pluginId;
 		pluginId = newPluginId;
@@ -191,6 +193,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getCode() {
 		return code;
 	}
@@ -200,6 +203,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCode(int newCode) {
 		int oldCode = code;
 		code = newCode;
@@ -212,6 +216,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMessage() {
 		return message;
 	}
@@ -221,6 +226,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMessage(String newMessage) {
 		String oldMessage = message;
 		message = newMessage;
@@ -233,6 +239,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getSeverity() {
 		return severity;
 	}
@@ -242,6 +249,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSeverity(int newSeverity) {
 		int oldSeverity = severity;
 		severity = newSeverity;
@@ -254,6 +262,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclException getException() {
 		return exception;
 	}
@@ -278,6 +287,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setException(EclException newException) {
 		if (newException != exception) {
 			NotificationChain msgs = null;
@@ -297,6 +307,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ProcessStatus> getChildren() {
 		if (children == null) {
 			children = new EObjectContainmentEList<ProcessStatus>(ProcessStatus.class, this, CorePackage.PROCESS_STATUS__CHILDREN);
@@ -439,7 +450,7 @@ public class ProcessStatusImpl extends EObjectImpl implements ProcessStatus {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (pluginId: ");
 		result.append(pluginId);
 		result.append(", code: ");
