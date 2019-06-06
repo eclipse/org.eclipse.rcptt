@@ -35,9 +35,9 @@
 
   <properties>
     <rcptt-maven-group>org.eclipse.rcptt</rcptt-maven-group>
-    <rcptt-maven-version>2.4.2-SNAPSHOT</rcptt-maven-version>
+    <rcptt-maven-version>2.4.3-SNAPSHOT</rcptt-maven-version>
     <rcptt-maven-plugin>rcptt-maven-plugin</rcptt-maven-plugin>
-    <runner-version>2.4.2-SNAPSHOT</runner-version>
+    <runner-version>2.4.3-SNAPSHOT</runner-version>
     <autRepository>file://${basedir}/../modules/repository/target/repository</autRepository>
     <runtimeRepository>file:/${user.dir}/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7</runtimeRepository>
   </properties>
