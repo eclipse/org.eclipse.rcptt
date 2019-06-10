@@ -18,7 +18,7 @@
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcptt.updates.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/rcptt/nightly/2.4.3/latest/repository"/>
+<repository location="http://download.eclipse.org/rcptt/nightly/2.5.0/latest/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <repository location="http://download.eclipse.org/releases/2019-03"/>
