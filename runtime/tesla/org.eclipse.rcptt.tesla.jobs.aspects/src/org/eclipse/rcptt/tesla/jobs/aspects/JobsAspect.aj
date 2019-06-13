@@ -38,16 +38,6 @@ public aspect JobsAspect {
 	}
 
 	@SuppressAjWarnings("adviceDidNotMatch")
-	before(InternalJob job):
-		execution(boolean org.eclipse.core.internal.jobs.JobManager.cancel(InternalJob) ) && args(job) {
-		try {
-			JobsManager.getInstance().notifyJobCancel(job);
-		} catch (Throwable e) {
-			JobsActivator.log(e);
-		}
-	}
-
-	@SuppressAjWarnings("adviceDidNotMatch")
 	Object around(org.eclipse.core.internal.jobs.InternalJob job, long time):
 		execution(void org.eclipse.core.internal.jobs.InternalJob.setStartTime(long)) 
 		&& target(job) && args(time) {

@@ -23,8 +23,4 @@ public class EclJobCollector implements IJobCollector {
 		return JobStatus.UNKNOWN;
 	}
 
-	public boolean noSkipMode(Job job) {
-		return true;
-	}
-
 }

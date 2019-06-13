@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.rcptt.internal.runtime.ui;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -24,6 +28,17 @@ import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 
 public class SetOptionService implements ICommandService {
 
+	private final static Map<String, String> OPTION_SHIM;
+	
+	static {
+		// Map documented features to their internal ids
+		// Internal IDs are listed in org.eclipse.rcptt.tesla.core.TeslaLimits
+		HashMap<String, String> m = new HashMap<String, String>();
+		m.put("jobHangTimeout", "uijob.hang.timeout");
+		OPTION_SHIM = Collections.unmodifiableMap(m);
+	}
+	
+
 	public IStatus service(Command command, IProcess context)
 			throws InterruptedException, CoreException {
 		if (command instanceof SetOption) {
@@ -37,10 +52,16 @@ public class SetOptionService implements ICommandService {
 	}
 
 	private static void applyOption(String name, String value) {
-		new OptionsHandler().applyOption(name, value);
+		String id = OPTION_SHIM.get(name);
+		if (id == null)
+			id = name;
+		new OptionsHandler().applyOption(id, value);
+		
 		if (name.equals(TeslaFeatures.STATUS_DIALOG_ALLOWED)) {
 			TeslaEventManager.getManager().setStatusDialogModeAllowed(Boolean.valueOf(value));
 		}
 	}
+		
+	
 
 }

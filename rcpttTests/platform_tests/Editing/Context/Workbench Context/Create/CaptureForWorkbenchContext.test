@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _4_DbMM7_EeCw4ppgsBRMGg
-Runtime-Version: 1.5.0.201407290252
-Save-Time: 7/30/14 4:00 PM
+Runtime-Version: 2.5.0.201906170003
+Save-Time: 6/27/19 11:52 AM
 Tags: selfAUT, Context, WorkbenchContext, Create
 Testcase-Type: ecl
 
@@ -90,6 +90,7 @@ with [get-editor "WB_test"] {
     click -nowait
     with [get-button Capture] {
         click
+        set-q7-option jobTreatAsSleepingTimeout 60000
         key-type "M1+s"
     }
 }

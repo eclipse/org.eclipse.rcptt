@@ -14,10 +14,16 @@ import org.eclipse.core.runtime.jobs.Job;
 
 public interface IJobCollector {
 	enum JobStatus {
-		REQUIRED, IGNORED, UNKNOWN
+		REQUIRED, 
+		IGNORED, 
+		UNKNOWN
 	}
 
 	JobStatus testJob(Job job);
 
-	boolean noSkipMode(Job job);
+//  Return value of this method was ignored (due to trivial implementation of EclJobCollector which never returned false). 
+//  To make RCPTT wait for a job, return JobStatus.REQUIRED from testJob()
+//  
+//	boolean noSkipMode(Job job);
+
 }

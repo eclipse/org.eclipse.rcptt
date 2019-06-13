@@ -40,6 +40,7 @@ with [get-editor CreateJavaProject | get-section Script | get-left-ruler] {
     hover-ruler -line 1
 }
 get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Debug As/.* Test Cases" | click
+set-q7-option jobHangTimeout 60000
 get-view Debug | get-tree 
     | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 1\\)" 
     | get-property caption | equals "get-view (CreateJavaProject: 1)" | verify-true

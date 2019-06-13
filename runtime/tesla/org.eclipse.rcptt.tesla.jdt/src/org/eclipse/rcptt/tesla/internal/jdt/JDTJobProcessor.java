@@ -17,14 +17,10 @@ import org.eclipse.rcptt.tesla.ui.IJobCollector;
 
 public class JDTJobProcessor implements IJobCollector {
 	public JobStatus testJob(Job job) {
-		return JobStatus.UNKNOWN;
-	}
-
-	public boolean noSkipMode(Job job) {
 		if (job instanceof JDTWaitJob) {
-			return true;
+			return JobStatus.REQUIRED;
 		}
-		return false;
+		return JobStatus.UNKNOWN;
 	}
 
 }

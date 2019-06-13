@@ -176,15 +176,15 @@ public class TeslaLimits {
 		return getIntValue(CONTEXTS_WAITFORJOBS_TIMEOUT);
 	}
 
-	public static long getStepModeEnableTimeout() {
+	public static int getStepModeEnableTimeout() {
 		return getIntValue(JOB_STEPMODE_ENABLE_TIMEOUT);
 	}
 
-	public static long getStepModeStepTime() {
+	public static int getStepModeStepTime() {
 		return getIntValue(JOB_STEPMODE_STEP_TIME);
 	}
 
-	public static long getStepModeTimeout() {
+	public static int getStepModeTimeout() {
 		return getIntValue(JOB_STEPMODE_TIMEOUT);
 	}
 

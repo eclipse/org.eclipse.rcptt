@@ -2,3 +2,4 @@ com.xored.tesla.swt/logging=false
 org.eclipse.rcptt.tesla.swt/debug/jobCollector=false
 org.eclipse.rcptt.tesla.swt/debug/shellSelect=false
 org.eclipse.rcptt.tesla.swt/debug/proceed=false
+org.eclipse.rcptt.tesla.swt/debug/debugReportOutput=false
