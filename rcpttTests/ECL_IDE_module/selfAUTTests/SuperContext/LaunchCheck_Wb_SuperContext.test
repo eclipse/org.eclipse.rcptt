@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _PumK4RkUEeOt9MVDSr4v5A
-Runtime-Version: 1.5.0.qualifier
-Save-Time: 8/11/14 2:20 PM
+Runtime-Version: 2.4.3.201905310008
+Save-Time: 6/7/19 3:30 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -35,7 +35,7 @@ set-q7-option jobTreatAsSleepingTimeout 30000
 get-editor "Test_SuperWb" | get-button Replay | click
 
 with [get-view "Execution View"] {
-    try -delay 1000 -times 14 -command {    
+    try -delay 3000 -times 10 -command {    
     	get-label "4/4"
     }
     get-label 2 | get-property caption | equals 2 | verify-true

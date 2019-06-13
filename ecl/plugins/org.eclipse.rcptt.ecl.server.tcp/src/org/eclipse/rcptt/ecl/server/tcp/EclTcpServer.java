@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ecl.server.tcp;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,7 +37,7 @@ public class EclTcpServer extends Thread {
 	@Override
 	public void run() {
 		starting = false;
-		try {
+		try (Closeable closeable = socket) {
 			while (!isInterrupted()) {
 				try {
 					Socket client = socket.accept();
@@ -44,13 +45,13 @@ public class EclTcpServer extends Thread {
 					client.setTcpNoDelay(true);
 					manager.acceptNewConnection(client);
 				} catch (Exception e) {
-					CorePlugin.log(CorePlugin.err(
-							"Failed to accept connection", e));
+					if (!socket.isClosed()) {
+						CorePlugin.log(CorePlugin.err(
+								"Failed to accept connection", e));
+					}
 				}
 			}
-			if (socket != null) {
-				socket.close();
-			}
+			socket.close();
 		} catch (Exception e) {
 			CorePlugin.log(CorePlugin.err("Failed to start ECL TCP server", e));
 		}
@@ -58,5 +59,16 @@ public class EclTcpServer extends Thread {
 
 	public int getPort() {
 		return port;
+	}
+	
+	@Override
+	public void interrupt() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			super.interrupt();
+		}
 	}
 }

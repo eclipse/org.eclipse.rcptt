@@ -31,18 +31,13 @@ public class SessionManager {
 		this.useJobs = useJobs;
 	}
 
-	public void acceptNewConnection(Socket client) {
-		try {
-			count++;
-			String uuid = initRecover(client);
-			if (uuid != null) {
-				executor.execute(new SessionRequestHandler(client, useJobs));
-			} else {
-				client.close();
-			}
-
-		} catch (Throwable e) {
-			CorePlugin.log(e);
+	public void acceptNewConnection(Socket client) throws IOException {
+		count++;
+		String uuid = initRecover(client);
+		if (uuid != null) {
+			executor.execute(new SessionRequestHandler(client, useJobs));
+		} else {
+			client.close();
 		}
 	}
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/org.eclipse.rcptt.ecl.client.tcp.tests/src-gen"
+    modelPluginID="org.eclipse.rcptt.ecl.client.tcp.tests" modelName="Commands" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.rcptt.ecl.core/model/ecl.genmodel#//core platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>commands.ecore</foreignModel>
+  <genPackages prefix="Tests" basePackage="org.eclipse.rcptt.ecl.client.tcp" disposableProviderFactory="true"
+      literalsInterface="false" ecorePackage="commands.ecore#/">
+    <genClasses ecoreClass="commands.ecore#//EclInjectedCommand"/>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.rcptt.ecl.core.scriptlet">
+      <scriptlet
+            class="org.eclipse.rcptt.ecl.client.tcp.tests.EclInjectedCommandService"
+            name="EclInjectedCommand"
+            namespace="http://www.eclipse.org/ecl/testcommands.ecore">
+      </scriptlet>
+   </extension>
+null
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated commands -->
+      <package
+            uri="http://www.eclipse.org/ecl/testcommands.ecore"
+            class="org.eclipse.rcptt.ecl.client.tcp.tests.TestsPackage"
+            genModel="model/commands.genmodel"/>
+   </extension>
+
+</plugin>

@@ -13,6 +13,7 @@ package org.eclipse.rcptt.ecl.internal.core;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -66,10 +67,15 @@ public class ProcessStatusConverter implements
 	}
 
 	public static Throwable getThrowable(EclException exception) {
+		if (exception == null)
+			return null;
 		Throwable th = null;
 		try {
 			// Try to restore stored exception.
 			th = exception.getThrowable();
+			if (!Objects.equals(th.getClass().getName(), exception.getClassName())) {
+				throw new IllegalStateException(String.format("Bad class, expected: %s, actual: %s ", exception.getClassName(), th.getClass().getName()));
+			}
 		} catch (Throwable ee) {
 			// Failed to restore exception, try to construct new one
 			try {
@@ -79,7 +85,7 @@ public class ProcessStatusConverter implements
 					Constructor<?> constructor = forName.getConstructor(
 							String.class, Throwable.class);
 					Throwable newInstance = (Throwable) constructor
-							.newInstance(exception.getMessage(), null);
+							.newInstance(exception.getMessage(), getThrowable(exception.getCause()));
 					th = newInstance;
 				} catch (NoSuchMethodException  e) {
 					if (exception.getStatus() == null)
@@ -88,20 +94,20 @@ public class ProcessStatusConverter implements
 					Throwable newInstance = (Throwable) constructor
 							.newInstance(toIStatus(exception.getStatus()), null);
 					th = newInstance;
+					th.addSuppressed(e);
 				}
+				th.addSuppressed(ee);
 			} catch (Exception eee) {
 				if (exception.getStatus() != null) {
 					th = new CoreException(toIStatus(exception.getStatus()));
 				} else {
-					th = new Exception(exception.getMessage(), null);
+					th = new Exception(exception.getMessage(), getThrowable(exception.getCause()));
 				}
+				th.addSuppressed(eee);
 			}
 		}
 		if (th != null) {
 			copyAttributesFromEObject(exception, th);
-		}
-		if (exception.getCause() != null) {
-			th.initCause(getThrowable(exception.getCause()));
 		}
 		return th;
 	}

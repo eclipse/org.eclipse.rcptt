@@ -49,6 +49,14 @@ public enum EclTcpServerManager {
 		EclTcpServer server = servers.remove(port);
 		if (server != null) {
 			server.interrupt();
+			try {
+				server.join(10000);
+				if (server.isAlive())
+					throw new IOException("Failed to stop " + server);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new IOException("Failed to stop server", e);
+			}
 		} else {
 			throw new IOException("No server found on port " + port);
 		}
@@ -60,11 +68,16 @@ public enum EclTcpServerManager {
 
 	public synchronized void terminateAll() {
 		HashSet<Integer> ports = new HashSet<Integer>(servers.keySet());
+		IOException result = null;
 		for (int i : ports) {
 			try {
 				stopServer(i);
 			} catch (IOException e) {
-				e.printStackTrace();
+				if (result == null) {
+					result = e;
+				} else {
+					result.addSuppressed(e);
+				}
 			}
 		}
 	}
