@@ -35,7 +35,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 */
 	public static SherlockFactory init() {
 		try {
-			SherlockFactory theSherlockFactory = (SherlockFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/rcptt/sherlock/core"); 
+			SherlockFactory theSherlockFactory = (SherlockFactory)EPackage.Registry.INSTANCE.getEFactory(SherlockPackage.eNS_URI);
 			if (theSherlockFactory != null) {
 				return theSherlockFactory;
 			}
@@ -71,9 +71,6 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 			case SherlockPackage.ECLIPSE_INFO: return createEclipseInfo();
 			case SherlockPackage.ECLIPSE_PLUGIN: return createEclipsePlugin();
 			case SherlockPackage.ECLIPSE_FEATURE: return createEclipseFeature();
-			case SherlockPackage.JAVA_EXCEPTION: return createJavaException();
-			case SherlockPackage.JAVA_STACK_TRACE_ENTRY: return createJavaStackTraceEntry();
-			case SherlockPackage.ECLIPSE_STATUS: return createEclipseStatus();
 			case SherlockPackage.ECLIPSE_PREFERENCE: return createEclipsePreference();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -85,6 +82,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SystemInfo createSystemInfo() {
 		SystemInfoImpl systemInfo = new SystemInfoImpl();
 		return systemInfo;
@@ -95,6 +93,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SystemVariable createSystemVariable() {
 		SystemVariableImpl systemVariable = new SystemVariableImpl();
 		return systemVariable;
@@ -105,6 +104,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JavaInfo createJavaInfo() {
 		JavaInfoImpl javaInfo = new JavaInfoImpl();
 		return javaInfo;
@@ -115,6 +115,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JavaProperty createJavaProperty() {
 		JavaPropertyImpl javaProperty = new JavaPropertyImpl();
 		return javaProperty;
@@ -125,6 +126,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclipseInfo createEclipseInfo() {
 		EclipseInfoImpl eclipseInfo = new EclipseInfoImpl();
 		return eclipseInfo;
@@ -135,6 +137,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclipsePlugin createEclipsePlugin() {
 		EclipsePluginImpl eclipsePlugin = new EclipsePluginImpl();
 		return eclipsePlugin;
@@ -145,6 +148,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EclipseFeature createEclipseFeature() {
 		EclipseFeatureImpl eclipseFeature = new EclipseFeatureImpl();
 		return eclipseFeature;
@@ -155,36 +159,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JavaException createJavaException() {
-		JavaExceptionImpl javaException = new JavaExceptionImpl();
-		return javaException;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public JavaStackTraceEntry createJavaStackTraceEntry() {
-		JavaStackTraceEntryImpl javaStackTraceEntry = new JavaStackTraceEntryImpl();
-		return javaStackTraceEntry;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EclipseStatus createEclipseStatus() {
-		EclipseStatusImpl eclipseStatus = new EclipseStatusImpl();
-		return eclipseStatus;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public EclipsePreference createEclipsePreference() {
 		EclipsePreferenceImpl eclipsePreference = new EclipsePreferenceImpl();
 		return eclipsePreference;
@@ -195,6 +170,7 @@ public class SherlockFactoryImpl extends EFactoryImpl implements SherlockFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SherlockPackage getSherlockPackage() {
 		return (SherlockPackage)getEPackage();
 	}

@@ -180,9 +180,12 @@ public class BaseAutLaunchTest {
 		});
 		try {
 			NullProgressMonitor monitor = new NullProgressMonitor();
-			Job.createSystem(m -> {
+			Job cancelJob = Job.createSystem("cancelJob", m -> {
 				monitor.setCanceled(true);
-			}).schedule(300);
+			});
+			cancelJob.setPriority(Job.INTERACTIVE);
+			cancelJob.schedule(300);
+			
 			subject.execute(script, Integer.MAX_VALUE, monitor);
 			Assert.fail("Should throw cancellation");
 		} catch (CoreException e) {

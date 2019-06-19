@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.SystemInfo#getOsName <em>Os Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.SystemInfo#getOsVersion <em>Os Version</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.SystemInfo#getUsername <em>Username</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.SystemInfo#getVariables <em>Variables</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage#getSystemInfo()
  * @model

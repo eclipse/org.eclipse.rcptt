@@ -36,6 +36,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SystemVariable;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.SystemInfoImpl#getOsName <em>Os Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.SystemInfoImpl#getOsVersion <em>Os Version</em>}</li>
@@ -43,7 +44,6 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SystemVariable;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.SystemInfoImpl#getUsername <em>Username</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.SystemInfoImpl#getVariables <em>Variables</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -162,6 +162,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOsName() {
 		return osName;
 	}
@@ -171,6 +172,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOsName(String newOsName) {
 		String oldOsName = osName;
 		osName = newOsName;
@@ -183,6 +185,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOsVersion() {
 		return osVersion;
 	}
@@ -192,6 +195,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOsVersion(String newOsVersion) {
 		String oldOsVersion = osVersion;
 		osVersion = newOsVersion;
@@ -204,6 +208,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOsArch() {
 		return osArch;
 	}
@@ -213,6 +218,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOsArch(String newOsArch) {
 		String oldOsArch = osArch;
 		osArch = newOsArch;
@@ -225,6 +231,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -234,6 +241,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUsername(String newUsername) {
 		String oldUsername = username;
 		username = newUsername;
@@ -246,6 +254,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SystemVariable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<SystemVariable>(SystemVariable.class, this, SherlockPackage.SYSTEM_INFO__VARIABLES);
@@ -376,7 +385,7 @@ public class SystemInfoImpl extends EObjectImpl implements SystemInfo {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (osName: ");
 		result.append(osName);
 		result.append(", osVersion: ");

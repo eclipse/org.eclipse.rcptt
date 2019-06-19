@@ -32,7 +32,7 @@
     <repository>
       <id>2019-06-updates</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.12milestones</url>
+      <url>http://download.eclipse.org/eclipse/updates/4.13milestones</url>
     </repository>
     <repository>
       <id>2019-03</id>

@@ -104,18 +104,6 @@ public class SherlockAdapterFactory extends AdapterFactoryImpl {
 				return createEclipseFeatureAdapter();
 			}
 			@Override
-			public Adapter caseJavaException(JavaException object) {
-				return createJavaExceptionAdapter();
-			}
-			@Override
-			public Adapter caseJavaStackTraceEntry(JavaStackTraceEntry object) {
-				return createJavaStackTraceEntryAdapter();
-			}
-			@Override
-			public Adapter caseEclipseStatus(EclipseStatus object) {
-				return createEclipseStatusAdapter();
-			}
-			@Override
 			public Adapter caseEclipsePreference(EclipsePreference object) {
 				return createEclipsePreferenceAdapter();
 			}
@@ -234,48 +222,6 @@ public class SherlockAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEclipseFeatureAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException <em>Java Exception</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException
-	 * @generated
-	 */
-	public Adapter createJavaExceptionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry <em>Java Stack Trace Entry</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry
-	 * @generated
-	 */
-	public Adapter createJavaStackTraceEntryAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus <em>Eclipse Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus
-	 * @generated
-	 */
-	public Adapter createEclipseStatusAdapter() {
 		return null;
 	}
 

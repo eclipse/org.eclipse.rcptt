@@ -32,9 +32,6 @@ import org.eclipse.rcptt.reporting.core.ImageEntry;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.reporting.core.TimeFormatHelper;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
@@ -136,8 +133,8 @@ public class RcpttReportGenerator {
 	}
 
 	public void printObject(EObject object, int tabs) throws IOException {
-		if (object instanceof EclipseStatus) {
-			printStatus((EclipseStatus) object, tabs);
+		if (object instanceof ProcessStatus) {
+			printStatus((ProcessStatus) object, tabs);
 		} else if (object instanceof Snaphot) {
 			writeSnapshot((Snaphot) object, tabs);
 		} else {
@@ -169,43 +166,8 @@ public class RcpttReportGenerator {
 		new AdvancedInformationGenerator(writer).writeAdvanced(data, tabs);
 	}
 
-	private PrintWriter w(int tabs) {
-		return writeTabs(tabs);
-	}
-
-	private void printStatus(EclipseStatus status, int tabs) throws IOException {
-		SimpleSeverity severity = SimpleSeverity.create(status.getSeverity());
-		w(tabs).append(severity.name());
-		writer.append(" in plugin: ").println(status.getPlugin());
-		w(tabs).append("message: ").println(status.getMessage());
-		if (status.getException() != null) {
-			w(tabs).println("exception: ");
-			printJavaException(status.getException(), tabs + 2);
-		}
-		for (EclipseStatus child : status.getChildren()) {
-			printStatus(child, tabs + 1);
-		}
-	}
-
-	private void printJavaException(JavaException e, int tabs) {
-		w(tabs).append(e.getClassName());
-		if (!StringUtils.isEmpty(e.getMessage())) {
-			writer.print(":" + e.getMessage());
-		}
-		writer.println();
-		for (JavaStackTraceEntry st : e.getStackTrace()) {
-			w(tabs + 2).append("at ")
-					.append(st.getClassName()).append(".")
-					.append(st.getMethodName()).append("(")
-					.append(st.getFileName()).append(":")
-					.append("" + st.getLineNumber()).append(")")
-					.println();
-		}
-		JavaException cause = e.getCause();
-		if (cause != null) {
-			w(tabs + 2).println("Caused by:");
-			printJavaException(cause, tabs + 1);
-		}
+	private void printStatus(ProcessStatus status, int tabs) throws IOException {
+		writeResult(writer, tabs, status);
 	}
 
 	protected void printChildren(int tabs, Node infoNode) {
@@ -339,22 +301,27 @@ public class RcpttReportGenerator {
 					.append("time: " +
 							TimeFormatHelper.format(infoNode.getDuration()))
 					.println();
-			writeResult(tabs + 1, q7Info.getResult());
+			writeResult(writer, tabs + 1, q7Info.getResult());
 		}
 	}
 
-	public void writeResult(int tabs, ProcessStatus result) {
+	public static void writeResult(Writer writer, int tabs, ProcessStatus result) {
 		if (result == null)
 			result = RcpttPlugin.createProcessStatus(IStatus.ERROR, "Null result");
 		if (SimpleSeverity.create(result) == SimpleSeverity.OK)
 			return;
-		w(tabs).append("Result: ")
-				.append(SimpleSeverity.create(result).name())
-				.append(", message: ")
-				.println(ReportUtils.getDirectFailMessage(result, ReportUtils.DEFAULT_DATUM_TO_MESSAGE));
+		try {
+			writeTabs(writer, tabs).append("Result: ")
+					.append(SimpleSeverity.create(result).name())
+					.append(", message: ")
+					.append(ReportUtils.getDirectFailMessage(result, ReportUtils.DEFAULT_DATUM_TO_MESSAGE))
+					.append("\n");
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
 		writeException(writer, tabs + 1, result.getException());
 		for (ProcessStatus child : result.getChildren()) {
-			writeResult(tabs + 1, child);
+			writeResult(writer, tabs + 1, child);
 		}
 	}
 
@@ -367,7 +334,13 @@ public class RcpttReportGenerator {
 				writeTabs(this, tabs);
 			}
 		};
-		ProcessStatusConverter.getThrowable(exception).printStackTrace(iwriter);
+		Throwable throwable = ProcessStatusConverter.getThrowable(exception);
+		throwable.printStackTrace(iwriter);
+		ProcessStatus status = exception.getStatus();
+		if (status != null) {
+			writeResult(iwriter, 1, status);
+		}
+			
 		iwriter.println();
 		iwriter.flush();
 	}

@@ -39,6 +39,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipseInfoImpl#getWorkspaceLocation <em>Workspace Location</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipseInfoImpl#getProductId <em>Product Id</em>}</li>
@@ -53,7 +54,6 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipseInfoImpl#getWorkspacePartitionFreeDiskspace <em>Workspace Partition Free Diskspace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipseInfoImpl#getPreferences <em>Preferences</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -282,6 +282,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getWorkspaceLocation() {
 		return workspaceLocation;
 	}
@@ -291,6 +292,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWorkspaceLocation(String newWorkspaceLocation) {
 		String oldWorkspaceLocation = workspaceLocation;
 		workspaceLocation = newWorkspaceLocation;
@@ -303,6 +305,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getProductId() {
 		return productId;
 	}
@@ -312,6 +315,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setProductId(String newProductId) {
 		String oldProductId = productId;
 		productId = newProductId;
@@ -324,6 +328,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getApplicationId() {
 		return applicationId;
 	}
@@ -333,6 +338,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setApplicationId(String newApplicationId) {
 		String oldApplicationId = applicationId;
 		applicationId = newApplicationId;
@@ -345,6 +351,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getApplicationArgs() {
 		if (applicationArgs == null) {
 			applicationArgs = new EDataTypeUniqueEList<String>(String.class, this, SherlockPackage.ECLIPSE_INFO__APPLICATION_ARGS);
@@ -357,6 +364,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getBuildId() {
 		return buildId;
 	}
@@ -366,6 +374,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBuildId(String newBuildId) {
 		String oldBuildId = buildId;
 		buildId = newBuildId;
@@ -378,6 +387,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getUptime() {
 		return uptime;
 	}
@@ -387,6 +397,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUptime(long newUptime) {
 		long oldUptime = uptime;
 		uptime = newUptime;
@@ -399,6 +410,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EclipsePlugin> getPlugins() {
 		if (plugins == null) {
 			plugins = new EObjectContainmentEList<EclipsePlugin>(EclipsePlugin.class, this, SherlockPackage.ECLIPSE_INFO__PLUGINS);
@@ -411,6 +423,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EclipseFeature> getFeatures() {
 		if (features == null) {
 			features = new EObjectContainmentEList<EclipseFeature>(EclipseFeature.class, this, SherlockPackage.ECLIPSE_INFO__FEATURES);
@@ -423,6 +436,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getWorkspacePartitionTotalDiskspace() {
 		return workspacePartitionTotalDiskspace;
 	}
@@ -432,6 +446,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWorkspacePartitionTotalDiskspace(long newWorkspacePartitionTotalDiskspace) {
 		long oldWorkspacePartitionTotalDiskspace = workspacePartitionTotalDiskspace;
 		workspacePartitionTotalDiskspace = newWorkspacePartitionTotalDiskspace;
@@ -444,6 +459,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getWorkspacePartitionUsableDiskspace() {
 		return workspacePartitionUsableDiskspace;
 	}
@@ -453,6 +469,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWorkspacePartitionUsableDiskspace(long newWorkspacePartitionUsableDiskspace) {
 		long oldWorkspacePartitionUsableDiskspace = workspacePartitionUsableDiskspace;
 		workspacePartitionUsableDiskspace = newWorkspacePartitionUsableDiskspace;
@@ -465,6 +482,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getWorkspacePartitionFreeDiskspace() {
 		return workspacePartitionFreeDiskspace;
 	}
@@ -474,6 +492,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWorkspacePartitionFreeDiskspace(long newWorkspacePartitionFreeDiskspace) {
 		long oldWorkspacePartitionFreeDiskspace = workspacePartitionFreeDiskspace;
 		workspacePartitionFreeDiskspace = newWorkspacePartitionFreeDiskspace;
@@ -486,6 +505,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EclipsePreference> getPreferences() {
 		if (preferences == null) {
 			preferences = new EObjectContainmentEList<EclipsePreference>(EclipsePreference.class, this, SherlockPackage.ECLIPSE_INFO__PREFERENCES);
@@ -693,7 +713,7 @@ public class EclipseInfoImpl extends EObjectImpl implements EclipseInfo {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (workspaceLocation: ");
 		result.append(workspaceLocation);
 		result.append(", productId: ");

@@ -27,15 +27,12 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.rcptt.ecl.core.CoreFactory;
 import org.eclipse.rcptt.ecl.core.EclException;
 import org.eclipse.rcptt.ecl.core.ProcessStatus;
 import org.eclipse.rcptt.reporting.Q7Info;
 import org.eclipse.rcptt.reporting.core.ReportHelper;
 import org.eclipse.rcptt.reporting.core.SimpleSeverity;
 import org.eclipse.rcptt.reporting.util.ReportUtils;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.LoggingCategory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
@@ -223,8 +220,8 @@ public class FullSingleTestHtmlRenderer {
 	}
 
 	private void renderEvent(EObject eObject) {
-		if (eObject instanceof EclipseStatus) {
-			renderResult(toResult((EclipseStatus) eObject));
+		if (eObject instanceof ProcessStatus) {
+			renderResult((ProcessStatus) eObject);
 		} else if (eObject instanceof Screenshot) {
 			renderScreenShot((Screenshot) eObject, "");
 		} else if (eObject instanceof AdvancedInformation) {
@@ -321,28 +318,6 @@ public class FullSingleTestHtmlRenderer {
 		return rv;
 	}
 
-	private ProcessStatus toResult(EclipseStatus input) {
-		ProcessStatus rv = CoreFactory.eINSTANCE.createProcessStatus();
-		rv.setSeverity(input.getSeverity());
-		rv.setMessage(input.getMessage());
-		rv.setException(toEclException(input.getException()));
-		rv.setPluginId(input.getPlugin());
-		for (EclipseStatus child : input.getChildren()) {
-			rv.getChildren().add(toResult(child));
-		}
-		return rv;
-	}
-
-	private EclException toEclException(JavaException input) {
-		if (input == null)
-			return null;
-		EclException rv = CoreFactory.eINSTANCE.createEclException();
-		rv.setCause(toEclException(input.getCause()));
-		rv.setClassName(input.getClassName());
-		rv.setMessage(input.getMessage());
-		return rv;
-	}
-	
 	private void openDetails(int level, String title, String classes) {
 		writer.print("<details class=\"closed\">");
 		writer.print("<summary>");

@@ -14,18 +14,13 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseFeature;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseInfo;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePlugin;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePreference;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaInfo;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaProperty;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockFactory;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.SystemInfo;
@@ -92,27 +87,6 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass javaExceptionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass javaStackTraceEntryEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass eclipseStatusEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass eclipsePreferenceEClass = null;
 
 	/**
@@ -143,7 +117,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link SherlockPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -157,7 +131,8 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 		if (isInited) return (SherlockPackage)EPackage.Registry.INSTANCE.getEPackage(SherlockPackage.eNS_URI);
 
 		// Obtain or create and register package
-		SherlockPackageImpl theSherlockPackage = (SherlockPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SherlockPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SherlockPackageImpl());
+		Object registeredSherlockPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		SherlockPackageImpl theSherlockPackage = registeredSherlockPackage instanceof SherlockPackageImpl ? (SherlockPackageImpl)registeredSherlockPackage : new SherlockPackageImpl();
 
 		isInited = true;
 
@@ -170,7 +145,6 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 		// Mark meta-data to indicate it can't be changed
 		theSherlockPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(SherlockPackage.eNS_URI, theSherlockPackage);
 		return theSherlockPackage;
@@ -181,6 +155,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSystemInfo() {
 		return systemInfoEClass;
 	}
@@ -190,6 +165,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemInfo_OsName() {
 		return (EAttribute)systemInfoEClass.getEStructuralFeatures().get(0);
 	}
@@ -199,6 +175,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemInfo_OsVersion() {
 		return (EAttribute)systemInfoEClass.getEStructuralFeatures().get(1);
 	}
@@ -208,6 +185,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemInfo_OsArch() {
 		return (EAttribute)systemInfoEClass.getEStructuralFeatures().get(2);
 	}
@@ -217,6 +195,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemInfo_Username() {
 		return (EAttribute)systemInfoEClass.getEStructuralFeatures().get(3);
 	}
@@ -226,6 +205,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSystemInfo_Variables() {
 		return (EReference)systemInfoEClass.getEStructuralFeatures().get(4);
 	}
@@ -235,6 +215,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSystemVariable() {
 		return systemVariableEClass;
 	}
@@ -244,6 +225,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemVariable_Name() {
 		return (EAttribute)systemVariableEClass.getEStructuralFeatures().get(0);
 	}
@@ -253,6 +235,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSystemVariable_Value() {
 		return (EAttribute)systemVariableEClass.getEStructuralFeatures().get(1);
 	}
@@ -262,6 +245,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaInfo() {
 		return javaInfoEClass;
 	}
@@ -271,6 +255,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_RuntimeName() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(0);
 	}
@@ -280,6 +265,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_RuntimeVersion() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(1);
 	}
@@ -289,6 +275,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_MaxMemory() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(2);
 	}
@@ -298,6 +285,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_FreeMemory() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(3);
 	}
@@ -307,6 +295,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_TotalMemory() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(4);
 	}
@@ -316,6 +305,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaInfo_Args() {
 		return (EAttribute)javaInfoEClass.getEStructuralFeatures().get(5);
 	}
@@ -325,6 +315,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getJavaInfo_Properties() {
 		return (EReference)javaInfoEClass.getEStructuralFeatures().get(6);
 	}
@@ -334,6 +325,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaProperty() {
 		return javaPropertyEClass;
 	}
@@ -343,6 +335,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaProperty_Name() {
 		return (EAttribute)javaPropertyEClass.getEStructuralFeatures().get(0);
 	}
@@ -352,6 +345,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getJavaProperty_Value() {
 		return (EAttribute)javaPropertyEClass.getEStructuralFeatures().get(1);
 	}
@@ -361,6 +355,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclipseInfo() {
 		return eclipseInfoEClass;
 	}
@@ -370,6 +365,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_WorkspaceLocation() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(0);
 	}
@@ -379,6 +375,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_ProductId() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(1);
 	}
@@ -388,6 +385,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_ApplicationId() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(2);
 	}
@@ -397,6 +395,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_ApplicationArgs() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(3);
 	}
@@ -406,6 +405,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_BuildId() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(4);
 	}
@@ -415,6 +415,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_Uptime() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(5);
 	}
@@ -424,6 +425,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclipseInfo_Plugins() {
 		return (EReference)eclipseInfoEClass.getEStructuralFeatures().get(6);
 	}
@@ -433,6 +435,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclipseInfo_Features() {
 		return (EReference)eclipseInfoEClass.getEStructuralFeatures().get(7);
 	}
@@ -442,6 +445,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_WorkspacePartitionTotalDiskspace() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(8);
 	}
@@ -451,6 +455,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_WorkspacePartitionUsableDiskspace() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(9);
 	}
@@ -460,6 +465,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseInfo_WorkspacePartitionFreeDiskspace() {
 		return (EAttribute)eclipseInfoEClass.getEStructuralFeatures().get(10);
 	}
@@ -469,6 +475,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEclipseInfo_Preferences() {
 		return (EReference)eclipseInfoEClass.getEStructuralFeatures().get(11);
 	}
@@ -478,6 +485,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclipsePlugin() {
 		return eclipsePluginEClass;
 	}
@@ -487,6 +495,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePlugin_Id() {
 		return (EAttribute)eclipsePluginEClass.getEStructuralFeatures().get(0);
 	}
@@ -496,6 +505,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePlugin_Name() {
 		return (EAttribute)eclipsePluginEClass.getEStructuralFeatures().get(1);
 	}
@@ -505,6 +515,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePlugin_Version() {
 		return (EAttribute)eclipsePluginEClass.getEStructuralFeatures().get(2);
 	}
@@ -514,6 +525,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePlugin_Provider() {
 		return (EAttribute)eclipsePluginEClass.getEStructuralFeatures().get(3);
 	}
@@ -523,6 +535,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEclipseFeature() {
 		return eclipseFeatureEClass;
 	}
@@ -532,6 +545,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseFeature_Id() {
 		return (EAttribute)eclipseFeatureEClass.getEStructuralFeatures().get(0);
 	}
@@ -541,6 +555,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseFeature_Name() {
 		return (EAttribute)eclipseFeatureEClass.getEStructuralFeatures().get(1);
 	}
@@ -550,6 +565,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseFeature_Version() {
 		return (EAttribute)eclipseFeatureEClass.getEStructuralFeatures().get(2);
 	}
@@ -559,6 +575,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipseFeature_Provider() {
 		return (EAttribute)eclipseFeatureEClass.getEStructuralFeatures().get(3);
 	}
@@ -568,186 +585,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getJavaException() {
-		return javaExceptionEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaException_ClassName() {
-		return (EAttribute)javaExceptionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getJavaException_Cause() {
-		return (EReference)javaExceptionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaException_Message() {
-		return (EAttribute)javaExceptionEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getJavaException_StackTrace() {
-		return (EReference)javaExceptionEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getJavaStackTraceEntry() {
-		return javaStackTraceEntryEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaStackTraceEntry_FileName() {
-		return (EAttribute)javaStackTraceEntryEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaStackTraceEntry_LineNumber() {
-		return (EAttribute)javaStackTraceEntryEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaStackTraceEntry_ClassName() {
-		return (EAttribute)javaStackTraceEntryEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaStackTraceEntry_MethodName() {
-		return (EAttribute)javaStackTraceEntryEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJavaStackTraceEntry_NativeMethod() {
-		return (EAttribute)javaStackTraceEntryEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getEclipseStatus() {
-		return eclipseStatusEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getEclipseStatus_Children() {
-		return (EReference)eclipseStatusEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_Code() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_Message() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_Plugin() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_Severity() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getEclipseStatus_Exception() {
-		return (EReference)eclipseStatusEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_FeatureGuess() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEclipseStatus_ThreadName() {
-		return (EAttribute)eclipseStatusEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public EClass getEclipsePreference() {
 		return eclipsePreferenceEClass;
 	}
@@ -757,6 +595,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePreference_Name() {
 		return (EAttribute)eclipsePreferenceEClass.getEStructuralFeatures().get(0);
 	}
@@ -766,6 +605,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePreference_Value() {
 		return (EAttribute)eclipsePreferenceEClass.getEStructuralFeatures().get(1);
 	}
@@ -775,6 +615,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEclipsePreference_Path() {
 		return (EAttribute)eclipsePreferenceEClass.getEStructuralFeatures().get(2);
 	}
@@ -784,6 +625,7 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SherlockFactory getSherlockFactory() {
 		return (SherlockFactory)getEFactoryInstance();
 	}
@@ -856,29 +698,6 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 		createEAttribute(eclipseFeatureEClass, ECLIPSE_FEATURE__NAME);
 		createEAttribute(eclipseFeatureEClass, ECLIPSE_FEATURE__VERSION);
 		createEAttribute(eclipseFeatureEClass, ECLIPSE_FEATURE__PROVIDER);
-
-		javaExceptionEClass = createEClass(JAVA_EXCEPTION);
-		createEAttribute(javaExceptionEClass, JAVA_EXCEPTION__CLASS_NAME);
-		createEReference(javaExceptionEClass, JAVA_EXCEPTION__CAUSE);
-		createEAttribute(javaExceptionEClass, JAVA_EXCEPTION__MESSAGE);
-		createEReference(javaExceptionEClass, JAVA_EXCEPTION__STACK_TRACE);
-
-		javaStackTraceEntryEClass = createEClass(JAVA_STACK_TRACE_ENTRY);
-		createEAttribute(javaStackTraceEntryEClass, JAVA_STACK_TRACE_ENTRY__FILE_NAME);
-		createEAttribute(javaStackTraceEntryEClass, JAVA_STACK_TRACE_ENTRY__LINE_NUMBER);
-		createEAttribute(javaStackTraceEntryEClass, JAVA_STACK_TRACE_ENTRY__CLASS_NAME);
-		createEAttribute(javaStackTraceEntryEClass, JAVA_STACK_TRACE_ENTRY__METHOD_NAME);
-		createEAttribute(javaStackTraceEntryEClass, JAVA_STACK_TRACE_ENTRY__NATIVE_METHOD);
-
-		eclipseStatusEClass = createEClass(ECLIPSE_STATUS);
-		createEReference(eclipseStatusEClass, ECLIPSE_STATUS__CHILDREN);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__CODE);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__MESSAGE);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__PLUGIN);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__SEVERITY);
-		createEReference(eclipseStatusEClass, ECLIPSE_STATUS__EXCEPTION);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__FEATURE_GUESS);
-		createEAttribute(eclipseStatusEClass, ECLIPSE_STATUS__THREAD_NAME);
 
 		eclipsePreferenceEClass = createEClass(ECLIPSE_PREFERENCE);
 		createEAttribute(eclipsePreferenceEClass, ECLIPSE_PREFERENCE__NAME);
@@ -965,29 +784,6 @@ public class SherlockPackageImpl extends EPackageImpl implements SherlockPackage
 		initEAttribute(getEclipseFeature_Name(), ecorePackage.getEString(), "name", null, 0, 1, EclipseFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEclipseFeature_Version(), ecorePackage.getEString(), "version", null, 0, 1, EclipseFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEclipseFeature_Provider(), ecorePackage.getEString(), "provider", null, 0, 1, EclipseFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(javaExceptionEClass, JavaException.class, "JavaException", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getJavaException_ClassName(), ecorePackage.getEString(), "className", null, 0, 1, JavaException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getJavaException_Cause(), this.getJavaException(), null, "cause", null, 0, 1, JavaException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaException_Message(), ecorePackage.getEString(), "message", null, 0, 1, JavaException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getJavaException_StackTrace(), this.getJavaStackTraceEntry(), null, "stackTrace", null, 0, -1, JavaException.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(javaStackTraceEntryEClass, JavaStackTraceEntry.class, "JavaStackTraceEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getJavaStackTraceEntry_FileName(), ecorePackage.getEString(), "fileName", null, 0, 1, JavaStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaStackTraceEntry_LineNumber(), ecorePackage.getEInt(), "lineNumber", null, 0, 1, JavaStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaStackTraceEntry_ClassName(), ecorePackage.getEString(), "className", null, 0, 1, JavaStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaStackTraceEntry_MethodName(), ecorePackage.getEString(), "methodName", null, 0, 1, JavaStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJavaStackTraceEntry_NativeMethod(), ecorePackage.getEBoolean(), "nativeMethod", null, 0, 1, JavaStackTraceEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(eclipseStatusEClass, EclipseStatus.class, "EclipseStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEclipseStatus_Children(), this.getEclipseStatus(), null, "children", null, 0, -1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_Code(), ecorePackage.getEInt(), "code", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_Message(), ecorePackage.getEString(), "message", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_Plugin(), ecorePackage.getEString(), "plugin", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_Severity(), ecorePackage.getEInt(), "severity", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEclipseStatus_Exception(), this.getJavaException(), null, "exception", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_FeatureGuess(), ecorePackage.getEString(), "featureGuess", null, 0, -1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEclipseStatus_ThreadName(), ecorePackage.getEString(), "threadName", null, 0, 1, EclipseStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eclipsePreferenceEClass, EclipsePreference.class, "EclipsePreference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEclipsePreference_Name(), ecorePackage.getEString(), "name", null, 0, 1, EclipsePreference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

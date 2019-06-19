@@ -37,6 +37,7 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.JavaInfoImpl#getRuntimeName <em>Runtime Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.JavaInfoImpl#getRuntimeVersion <em>Runtime Version</em>}</li>
@@ -46,7 +47,6 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.JavaInfoImpl#getArgs <em>Args</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.JavaInfoImpl#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -195,6 +195,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getRuntimeName() {
 		return runtimeName;
 	}
@@ -204,6 +205,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuntimeName(String newRuntimeName) {
 		String oldRuntimeName = runtimeName;
 		runtimeName = newRuntimeName;
@@ -216,6 +218,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getRuntimeVersion() {
 		return runtimeVersion;
 	}
@@ -225,6 +228,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuntimeVersion(String newRuntimeVersion) {
 		String oldRuntimeVersion = runtimeVersion;
 		runtimeVersion = newRuntimeVersion;
@@ -237,6 +241,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getMaxMemory() {
 		return maxMemory;
 	}
@@ -246,6 +251,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMaxMemory(long newMaxMemory) {
 		long oldMaxMemory = maxMemory;
 		maxMemory = newMaxMemory;
@@ -258,6 +264,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getFreeMemory() {
 		return freeMemory;
 	}
@@ -267,6 +274,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFreeMemory(long newFreeMemory) {
 		long oldFreeMemory = freeMemory;
 		freeMemory = newFreeMemory;
@@ -279,6 +287,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public long getTotalMemory() {
 		return totalMemory;
 	}
@@ -288,6 +297,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTotalMemory(long newTotalMemory) {
 		long oldTotalMemory = totalMemory;
 		totalMemory = newTotalMemory;
@@ -300,6 +310,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getArgs() {
 		if (args == null) {
 			args = new EDataTypeUniqueEList<String>(String.class, this, SherlockPackage.JAVA_INFO__ARGS);
@@ -312,6 +323,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<JavaProperty> getProperties() {
 		if (properties == null) {
 			properties = new EObjectContainmentEList<JavaProperty>(JavaProperty.class, this, SherlockPackage.JAVA_INFO__PROPERTIES);
@@ -463,7 +475,7 @@ public class JavaInfoImpl extends EObjectImpl implements JavaInfo {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (runtimeName: ");
 		result.append(runtimeName);
 		result.append(", runtimeVersion: ");

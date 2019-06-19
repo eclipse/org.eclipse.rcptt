@@ -93,33 +93,6 @@ public interface SherlockFactory extends EFactory {
 	EclipseFeature createEclipseFeature();
 
 	/**
-	 * Returns a new object of class '<em>Java Exception</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Java Exception</em>'.
-	 * @generated
-	 */
-	JavaException createJavaException();
-
-	/**
-	 * Returns a new object of class '<em>Java Stack Trace Entry</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Java Stack Trace Entry</em>'.
-	 * @generated
-	 */
-	JavaStackTraceEntry createJavaStackTraceEntry();
-
-	/**
-	 * Returns a new object of class '<em>Eclipse Status</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Eclipse Status</em>'.
-	 * @generated
-	 */
-	EclipseStatus createEclipseStatus();
-
-	/**
 	 * Returns a new object of class '<em>Eclipse Preference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

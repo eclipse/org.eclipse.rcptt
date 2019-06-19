@@ -26,12 +26,12 @@ import org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipsePreferenceImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipsePreferenceImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.impl.EclipsePreferenceImpl#getPath <em>Path</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -120,6 +120,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -129,6 +130,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -141,6 +143,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -150,6 +153,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
@@ -162,6 +166,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPath() {
 		return path;
 	}
@@ -171,6 +176,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPath(String newPath) {
 		String oldPath = path;
 		path = newPath;
@@ -265,7 +271,7 @@ public class EclipsePreferenceImpl extends EObjectImpl implements EclipsePrefere
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", value: ");
