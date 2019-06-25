@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseInfo#getWorkspaceLocation <em>Workspace Location</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseInfo#getProductId <em>Product Id</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseInfo#getWorkspacePartitionFreeDiskspace <em>Workspace Partition Free Diskspace</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseInfo#getPreferences <em>Preferences</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage#getEclipseInfo()
  * @model

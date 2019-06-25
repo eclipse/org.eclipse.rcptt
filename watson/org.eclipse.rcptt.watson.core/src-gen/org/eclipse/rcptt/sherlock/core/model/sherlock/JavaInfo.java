@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaInfo#getRuntimeName <em>Runtime Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaInfo#getRuntimeVersion <em>Runtime Version</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaInfo#getArgs <em>Args</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.JavaInfo#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage#getJavaInfo()
  * @model

@@ -13,9 +13,10 @@ package org.eclipse.rcptt.sherlock.core.reporting.internal;
 
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.rcptt.ecl.core.ProcessStatus;
+import org.eclipse.rcptt.ecl.core.util.ProcessStatuses;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.SherlockCore;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
@@ -43,7 +44,7 @@ public class EventLogEventProvider extends AbstractEventProvider implements
 			IReportBuilder[] builders = getListeners();
 			for (IReportBuilder builder : builders) {
 				Event event = ReportFactory.eINSTANCE.createEvent();
-				EclipseStatus data = SherlockCore.convert(status);
+				ProcessStatus data = ProcessStatuses.adapt(status);
 				event.setData(data);
 				builder.getCurrent().createEvent(event);
 			}

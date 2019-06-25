@@ -510,13 +510,6 @@
          version="2.5.0.qualifier"
          unpack="false"/>
 
-    <plugin
-         id="org.eclipse.rcptt.watson.jface.rap"
-         download-size="0"
-         install-size="0"
-         version="2.5.0.qualifier"
-         unpack="false"/>
-
    <plugin
          id="org.eclipse.rcptt.watson.aspects.jobs.rap"
          download-size="0"

@@ -133,24 +133,6 @@ public class SherlockSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SherlockPackage.JAVA_EXCEPTION: {
-				JavaException javaException = (JavaException)theEObject;
-				T result = caseJavaException(javaException);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SherlockPackage.JAVA_STACK_TRACE_ENTRY: {
-				JavaStackTraceEntry javaStackTraceEntry = (JavaStackTraceEntry)theEObject;
-				T result = caseJavaStackTraceEntry(javaStackTraceEntry);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SherlockPackage.ECLIPSE_STATUS: {
-				EclipseStatus eclipseStatus = (EclipseStatus)theEObject;
-				T result = caseEclipseStatus(eclipseStatus);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case SherlockPackage.ECLIPSE_PREFERENCE: {
 				EclipsePreference eclipsePreference = (EclipsePreference)theEObject;
 				T result = caseEclipsePreference(eclipsePreference);
@@ -263,51 +245,6 @@ public class SherlockSwitch<T> {
 	 * @generated
 	 */
 	public T caseEclipseFeature(EclipseFeature object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Java Exception</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Java Exception</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseJavaException(JavaException object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Java Stack Trace Entry</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Java Stack Trace Entry</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseJavaStackTraceEntry(JavaStackTraceEntry object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Eclipse Status</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Eclipse Status</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseEclipseStatus(EclipseStatus object) {
 		return null;
 	}
 

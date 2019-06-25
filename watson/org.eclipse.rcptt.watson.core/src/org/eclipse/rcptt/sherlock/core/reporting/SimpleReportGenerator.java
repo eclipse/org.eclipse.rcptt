@@ -16,15 +16,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaException;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.JavaStackTraceEntry;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Node;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Report;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Snaphot;
@@ -192,7 +188,7 @@ public class SimpleReportGenerator {
 		return stream;
 	}
 
-	protected <T extends Appendable> T appendTabs(T stream, int tabs) {
+	protected static <T extends Appendable> T appendTabs(T stream, int tabs) {
 		for (int i = 0; i < tabs; ++i) {
 			try {
 				stream.append("  ");
@@ -203,54 +199,6 @@ public class SimpleReportGenerator {
 		return stream;
 	}
 
-	public <T extends Appendable> T printStatus(EclipseStatus s, int tabs,
-			T builder) throws IOException {
-		int severity = s.getSeverity();
-		if (severity == IStatus.ERROR) {
-			appendTabs(builder, tabs).append("Error");
-		}
-		if (severity == IStatus.INFO) {
-			appendTabs(builder, tabs).append("Info");
-		}
-		if (severity == IStatus.WARNING) {
-			appendTabs(builder, tabs).append("Warning");
-		}
-		builder.append(" in plugin: ").append(s.getPlugin())
-				.append(LINE_SEPARATOR);
-		appendTabs(builder, tabs).append("message: ").append(s.getMessage())
-				.append(LINE_SEPARATOR);
-		if (s.getException() != null) {
-			appendTabs(builder, tabs).append("exception: ").append(
-					LINE_SEPARATOR);
-			printJavaException(s.getException(), tabs + 2, builder);
-		}
-		return builder;
-	}
-
-	private Appendable printJavaException(JavaException e, int tabs,
-			Appendable builder) throws IOException {
-		appendTabs(builder, tabs).append(e.getClassName());
-		if (e.getMessage() != null && e.getMessage().length() > 0) {
-			builder.append(":").append(e.getMessage());
-		}
-		builder.append(LINE_SEPARATOR);
-		for (JavaStackTraceEntry st : e.getStackTrace()) {
-			appendTabs(builder, tabs + 2).append("at ")
-					.append(st.getClassName()).append(".")
-					.append(st.getMethodName()).append("(")
-					.append(st.getFileName()).append(":")
-					.append("" + st.getLineNumber()).append(")")
-					.append(LINE_SEPARATOR);
-		}
-		JavaException cause = e.getCause();
-		if (cause != null) {
-			appendTabs(builder, tabs + 2).append("Caused by:").append(
-					LINE_SEPARATOR);
-			printJavaException(cause, tabs + 4, builder);
-		}
-		return builder;
-	}
-
 	public <T extends Appendable> T toString(T builder, int tabs, EObject obj,
 			String... ignores) throws IOException {
 		return toString(builder, tabs, obj, true, ignores);
@@ -259,13 +207,6 @@ public class SimpleReportGenerator {
 	@SuppressWarnings("rawtypes")
 	public <T extends Appendable> T toString(T builder, int tabs, EObject obj,
 			boolean skipDefaults, String... ignores) throws IOException {
-		if (obj instanceof EclipseStatus) {
-			try {
-				return printStatus((EclipseStatus) obj, tabs, builder);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
 		if (obj == null) {
 			return builder;
 		}

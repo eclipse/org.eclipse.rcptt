@@ -64,8 +64,7 @@ public final class ReportEntry {
 		Node root = next.getRoot();
 		Q7Info info = ReportHelper.getInfo(root);
 		StringWriter writer = new StringWriter();
-		new RcpttReportGenerator(new PrintWriter(writer), new ArrayList<ImageEntry>()).writeResult(0,
-				info.getResult());
+		RcpttReportGenerator.writeResult(new PrintWriter(writer), 0, info.getResult());
 		ReportEntry entry = new ReportEntry(root.getName(), info.getId(), (int) root.getDuration(),
 				info.getResult().getSeverity(), writer.toString());
 		return entry;

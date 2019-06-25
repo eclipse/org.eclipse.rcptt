@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePlugin#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePlugin#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePlugin#getVersion <em>Version</em>}</li>
  *   <li>{@link org.eclipse.rcptt.sherlock.core.model.sherlock.EclipsePlugin#getProvider <em>Provider</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.rcptt.sherlock.core.model.sherlock.SherlockPackage#getEclipsePlugin()
  * @model

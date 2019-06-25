@@ -15,8 +15,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.util.ILogger;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
-import org.eclipse.rcptt.sherlock.core.SherlockCore;
-import org.eclipse.rcptt.sherlock.core.model.sherlock.EclipseStatus;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.Event;
 import org.eclipse.rcptt.sherlock.core.model.sherlock.report.ReportFactory;
 import org.eclipse.rcptt.sherlock.core.reporting.AbstractEventProvider;
@@ -31,7 +29,7 @@ public class JfacePolicyEventProvider extends AbstractEventProvider implements
 	private static ILogger fJfaceNativeLogger;
 
 	public JfacePolicyEventProvider() {
-		fJFaceLogger = new SherlockJfaceLogger(this);
+		fJFaceLogger = new SherlockJfaceLogger();
 	}
 
 	public void storeSnapshot(INodeBuilder builder, String type) {
@@ -41,9 +39,7 @@ public class JfacePolicyEventProvider extends AbstractEventProvider implements
 		IReportBuilder[] builders = getListeners();
 		for (IReportBuilder builder : builders) {
 			Event event = ReportFactory.eINSTANCE.createEvent();
-			EclipseStatus data = SherlockCore.convert(status);
-			event.setData(data);
-			data.setThreadName(Thread.currentThread().getName());
+			event.setData(org.eclipse.rcptt.ecl.core.util.ProcessStatuses.adapt(status));
 			builder.getCurrent().createEvent(event);
 		}
 	}
@@ -60,16 +56,10 @@ public class JfacePolicyEventProvider extends AbstractEventProvider implements
 	}
 
 	private class SherlockJfaceLogger implements ILogger {
-		private final JfacePolicyEventProvider fSherlockEventProvider;
-
-		public SherlockJfaceLogger(
-				JfacePolicyEventProvider sherlockEventProvider) {
-			fSherlockEventProvider = sherlockEventProvider;
-		}
 
 		public void log(IStatus status) {
 			EventLogEventProvider.handledStatus = status;
-			fSherlockEventProvider.logging(status, "org.eclipse.jface");
+			logging(status, "org.eclipse.jface");
 			fJfaceNativeLogger.log(status);
 		}
 	};

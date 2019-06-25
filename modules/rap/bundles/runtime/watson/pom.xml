@@ -22,7 +22,6 @@
     <modules>
     <!-- WATSON PLUGINS -->
     <module>org.eclipse.rcptt.watson.aspects.swt.rap</module>
-    <module>org.eclipse.rcptt.watson.jface.rap</module>
     <module>org.eclipse.rcptt.watson.aspects.jobs.rap</module>
   </modules>
 </project>

@@ -92,7 +92,7 @@ public class ProcessStatusConverter implements
 						throw e;
 					Constructor<?> constructor = forName.getConstructor(IStatus.class);
 					Throwable newInstance = (Throwable) constructor
-							.newInstance(toIStatus(exception.getStatus()), null);
+							.newInstance(toIStatus(exception.getStatus()));
 					th = newInstance;
 					th.addSuppressed(e);
 				}
