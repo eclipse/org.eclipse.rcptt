@@ -61,6 +61,7 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetLocation;
@@ -656,8 +657,15 @@ public class Q7ExternalLaunchDelegate extends
 
 		public void addInstallationBundle(IPluginModelBase base,
 				BundleStart hint) {
-			String id = id(base);
-			idsToSkip.add(id);
+			boolean singleton = false;
+			BundleDescription description = base.getBundleDescription();
+			if (description != null) {
+				singleton = description.isSingleton();
+			}
+			if (singleton) {
+				String id = id(base);
+				idsToSkip.add(id);
+			}
 			put(base, getStartInfo(base, hint));
 		}
 
