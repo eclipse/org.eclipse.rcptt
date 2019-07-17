@@ -84,7 +84,7 @@
           </runner>
           <skipTags>
             <tag>skipExecution</tag>
-            <tag>Browser</tag> // Needs a web browser installed in test environment
+            <!--tag>Browser</tag--> <!--// Needs a web browser installed in test environment -->
           </skipTags>
           <!--suites>
             <suite>2019-03_regression</suite>
