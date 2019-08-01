@@ -29,7 +29,6 @@ echo "ECLIPSE_LOC = $ECLIPSE_LOC"
 echo "TARGET = $TARGET"
 echo "LAUNCHER = $LAUNCHER"
 
-JAVA=$JAVA_HOME/bin/java
-$JAVA -jar $LAUNCHER \
+java -jar $LAUNCHER \
       -application org.eclipse.rcptt.ecl.doc.generator \
       -output $TARGET/doc/ecl/index.html

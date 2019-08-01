@@ -1,0 +1,60 @@
+def groovy
+
+pipeline {
+  agent none
+
+  parameters {
+    choice(name: 'MODE', choices: ['Release', 'Milestone'], description: 'The deploy mode', ),
+    string(name: 'MILESTONE_VERSION', defaultValue: 'MO', description: 'Only for milestone build'
+  }
+
+  stages {
+
+    stage('Load groovy script') {
+      agent any
+      stages {
+        stage('Checkout') {
+          steps {
+            checkout scm
+            script {
+              groovy = load('releng/Jenkinsfile.groovy')
+            }
+          }
+        }
+      }
+    }
+
+    stage('Launch agent') {
+      agent {
+        kubernetes {
+          label 'rcptt-build-agent'
+          yaml "${env.YAML_BUILD_AND_DEPLOY_AGENT}"
+        }
+      }
+      stages {
+        stage('Start Build and Test') {
+          steps {
+            script {
+              groovy.build_and_test()
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            script {
+              groovy.deploy(params.MODE, params.MILESTONE_VERSION)
+            }
+          }
+        }
+      }
+      post {
+        always {
+          script {
+            groovy.post_build_actions()
+          }
+        }
+      }
+    }
+
+  }
+}
