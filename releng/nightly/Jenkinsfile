@@ -23,7 +23,7 @@ pipeline {
       agent {
         kubernetes {
           label 'rcptt-build-agent'
-          yaml "${env.YAML_BUILD_AGENT}"
+          yaml "${env.YAML_BUILD_AND_DEPLOY_AGENT}"
         }
       }
       stages {
@@ -31,6 +31,13 @@ pipeline {
           steps {
             script {
               groovy.build_and_test()
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            script {
+              groovy.deploy("Nightly")
             }
           }
         }

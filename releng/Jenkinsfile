@@ -3,6 +3,11 @@ def groovy
 pipeline {
   agent none
 
+  parameters {
+    choice(name: 'MODE', choices: ['Release', 'Milestone'], description: 'The deploy mode', ),
+    string(name: 'MILESTONE_VERSION', defaultValue: 'MO', description: 'Only for milestone build'
+  }
+
   stages {
 
     stage('Load groovy script') {
@@ -23,7 +28,7 @@ pipeline {
       agent {
         kubernetes {
           label 'rcptt-build-agent'
-          yaml "${env.YAML_BUILD_AGENT}"
+          yaml "${env.YAML_BUILD_AND_DEPLOY_AGENT}"
         }
       }
       stages {
@@ -31,6 +36,13 @@ pipeline {
           steps {
             script {
               groovy.build_and_test()
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            script {
+              groovy.deploy(params.MODE, params.MILESTONE_VERSION)
             }
           }
         }
