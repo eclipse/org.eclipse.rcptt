@@ -21,8 +21,6 @@ BUILD_CONTAINER="""
       readOnly: true
     - name: m2-repo
       mountPath: /home/jenkins/.m2/repository
-    - name: volume-known-hosts
-      mountPath: /home/jenkins/.ssh
 """
 BUILD_CONTAINER_VOLUMES="""
   - name: settings-xml
