@@ -178,44 +178,10 @@ public class AUTInformation {
 		if (major != 3)
 			return;
 		int minor = ((OSGiVersion) swtVersion).getMinor();
-		if (minor == 0) {
-			values.put(VERSION, "3.0");
-		} else if (minor == 1) {
-			values.put(VERSION, "3.1");
-		} else if (minor == 2) {
-			values.put(VERSION, "3.2");
-		} else if (minor == 3) {
-			values.put(VERSION, "3.3");
-		} else if (minor == 4) {
-			values.put(VERSION, "3.4");
-		} else if (minor == 5) {
-			values.put(VERSION, "3.5");
-		} else if (minor == 6) {
-			values.put(VERSION, "3.6");
-		} else if (minor == 7) {
-			values.put(VERSION, "3.7");
-		} else if (minor == 8) {
-			values.put(VERSION, "3.8");
+		if (minor < 100) {
+			values.put(VERSION, "3." + minor);
 		} else if (minor == 100) {
 			values.put(VERSION, "4.2");
-		} else if (minor == 102) {
-			values.put(VERSION, "4.3");
-		} else if (minor == 103) {
-			values.put(VERSION, "4.4");
-		} else if (minor == 104) {
-			values.put(VERSION, "4.5");
-		} else if (minor == 105) {
-			values.put(VERSION, "4.6");
-		} else if (minor == 106) {
-			values.put(VERSION, "4.7");
-		} else if (minor == 107) {
-			values.put(VERSION, "4.8");
-		} else if (minor == 108) {
-			values.put(VERSION, "4.9");
-		} else if (minor == 109) {
-			values.put(VERSION, "4.10");
-		} else if (minor == 110) {
-			values.put(VERSION, "4.11");
 		} else if (minor < 200) {
 			values.put(VERSION, "4." + (minor - 99));
 		}
@@ -228,7 +194,7 @@ public class AUTInformation {
 		if (major != 3)
 			return;
 		int minor = ((OSGiVersion) swtVersion).getMinor();
-		if (minor <= 8) {
+		if (minor < 100) {
 			values.put(VERSION, "4.3");
 		}
 	}
