@@ -4,7 +4,7 @@ pipeline {
   agent none
 
   parameters {
-    choice(name: 'MODE', choices: ['Release', 'Milestone'], description: 'The deploy mode'),
+    choice(name: 'MODE', choices: ['Release', 'Milestone'], description: 'The deploy mode')
     string(name: 'MILESTONE_VERSION', defaultValue: 'MO', description: 'Only for milestone build')
   }
 
