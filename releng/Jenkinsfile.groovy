@@ -20,8 +20,7 @@ BUILD_CONTAINER="""
       subPath: toolchains.xml
       readOnly: true
     - name: m2-repo
-      mountPath: /home/jenkins/.m2/repository
-"""
+      mountPath: /home/jenkins/.m2/repository"""
 BUILD_CONTAINER_VOLUMES="""
   - name: settings-xml
     configMap:
@@ -36,20 +35,18 @@ BUILD_CONTAINER_VOLUMES="""
       - key: toolchains.xml
         path: toolchains.xml
   - name: m2-repo
-    emptyDir: {}
-"""
+    emptyDir: {}"""
+
 DEPLOY_CONTAINER_NAME="jnlp"
 DEPLOY_CONTAINER="""
   - name: $DEPLOY_CONTAINER_NAME
     volumeMounts:
     - name: volume-known-hosts
-      mountPath: /home/jenkins/.ssh
-"""
+      mountPath: /home/jenkins/.ssh"""
 DEPLOY_CONTAINER_VOLUMES="""
   - name: volume-known-hosts
     configMap:
-      name: known-hosts
-"""
+      name: known-hosts"""
 
 env.YAML_BUILD_AGENT="""
 apiVersion: v1
