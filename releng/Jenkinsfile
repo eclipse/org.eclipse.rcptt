@@ -35,7 +35,7 @@ pipeline {
         stage('Start Build and Test') {
           steps {
             script {
-              groovy.build_and_test()
+              groovy.build_and_test(true)
             }
           }
         }

@@ -89,9 +89,9 @@ DOC_DIR="releng/doc"
 
 DOWNLOADS_HOME="/home/data/httpd/download.eclipse.org/rcptt"
 
-def build_and_test() {
+def build_and_test(Boolean sign) {
     stage("Build") {
-        build()
+        build(sign)
         echo "Version: ${get_version()}"
         echo "Qualifier: ${get_qualifier()}"
     }
@@ -106,9 +106,9 @@ def build_and_test() {
     }
 }
 
-def build() {
+def build(Boolean sign) {
   container(BUILD_CONTAINER_NAME) {
-    sh "./build.sh -P sign -Dmaven.repo.local=$WORKSPACE/m2 -e"
+    sh "./build.sh -Dmaven.repo.local=$WORKSPACE/m2 -e ${sign ? "-P sign" : ""}"
     sh "./build_runner.sh -Dmaven.repo.local=$WORKSPACE/m2 -e"
     sh "mvn -f maven-plugin/pom.xml clean verify -Dmaven.repo.local=$WORKSPACE/m2 -e"
     sh "./$DOC_DIR/generate-doc.sh -Dmaven.repo.local=$WORKSPACE/m2 -e"

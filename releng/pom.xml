@@ -26,7 +26,7 @@
     <ajJavaSource>1.7</ajJavaSource>
     <ajJavaTarget>1.7</ajJavaTarget>
     <ajJavaCompilance>1.7</ajJavaCompilance>
-    <cbi-version>1.1.4</cbi-version>
+    <cbi-version>1.1.5</cbi-version>
   </properties>
   <distributionManagement>
     <repository>
