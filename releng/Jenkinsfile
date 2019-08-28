@@ -27,7 +27,7 @@ pipeline {
     stage('Launch agent') {
       agent {
         kubernetes {
-          label 'rcptt-build-agent'
+          label 'rcptt-build-and-deploy-agent'
           yaml "${env.YAML_BUILD_AND_DEPLOY_AGENT}"
         }
       }

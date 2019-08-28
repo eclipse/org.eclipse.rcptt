@@ -36,7 +36,6 @@ BUILD_CONTAINER_VOLUMES="""
         path: toolchains.xml
   - name: m2-repo
     emptyDir: {}"""
-
 DEPLOY_CONTAINER_NAME="jnlp"
 DEPLOY_CONTAINER="""
   - name: $DEPLOY_CONTAINER_NAME
@@ -47,6 +46,49 @@ DEPLOY_CONTAINER_VOLUMES="""
   - name: volume-known-hosts
     configMap:
       name: known-hosts"""
+DEPLOY_MAVEN_CONTAINER_NAME="maven"
+DEPLOY_MAVEN_CONTAINER="""
+  - name: $DEPLOY_MAVEN_CONTAINER_NAME
+    image: maven:alpine
+    tty: true
+    command:
+    - cat
+    volumeMounts:
+    - name: deploy-settings-xml
+      mountPath: /home/jenkins/.m2/settings.xml
+      subPath: settings.xml
+      readOnly: true
+    - name: deploy-toolchains-xml
+      mountPath: /home/jenkins/.m2/toolchains.xml
+      subPath: toolchains.xml
+      readOnly: true
+    - name: deploy-settings-security-xml
+      mountPath: /home/jenkins/.m2/settings-security.xml
+      subPath: settings-security.xml
+      readOnly: true
+    - name: deploy-m2-repo
+      mountPath: /home/jenkins/.m2/repository"""
+DEPLOY_MAVEN_CONTAINER_VOLUMES="""
+  - name: deploy-settings-xml
+    secret:
+      secretName: m2-secret-dir
+      items:
+      - key: settings.xml
+        path: settings.xml
+  - name: deploy-toolchains-xml
+    configMap:
+      name: m2-dir
+      items:
+      - key: toolchains.xml
+        path: toolchains.xml
+  - name: deploy-settings-security-xml
+    secret:
+      secretName: m2-secret-dir
+      items:
+      - key: settings-security.xml
+        path: settings-security.xml
+  - name: deploy-m2-repo
+    emptyDir: {}"""
 
 env.YAML_BUILD_AGENT="""
 apiVersion: v1
@@ -65,9 +107,11 @@ spec:
   containers:
 $BUILD_CONTAINER
 $DEPLOY_CONTAINER
+$DEPLOY_MAVEN_CONTAINER
   volumes:
 $BUILD_CONTAINER_VOLUMES
 $DEPLOY_CONTAINER_VOLUMES
+$DEPLOY_MAVEN_CONTAINER_VOLUMES
 """
 
 CREDENTIAL="genie.rcptt@projects-storage.eclipse.org"
@@ -171,12 +215,10 @@ def post_build_actions() {
 }
 
 def deploy(String mode, String arg = "M0") {
-  container(DEPLOY_CONTAINER_NAME) {
-    switch(mode) {
-      case "Release": release(); break;
-      case "Milestone": milestone(arg); break;
-      case "Nightly": nightly(); break;
-    }
+  switch(mode) {
+    case "Release": release(); break;
+    case "Milestone": milestone(arg); break;
+    case "Nightly": nightly(); break;
   }
 }
 
@@ -196,20 +238,24 @@ def nightly() {
   def qualifier = get_qualifier()
   def qualifiedDecoration = "-N$qualifier"
 
-  copy_files(type, version, qualifier, qualifiedDecoration, true)
-  def storageFolder = get_version_storage_folder(type, version)
-  sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
-    def oldBuilds = sh_with_return("$SSH_CLIENT ls -r $storageFolder | grep -v latest | tail -n +${buildsToKeep + 1}")
-    for(old in oldBuilds.split("\n")) {
-      sh "$SSH_CLIENT rm -r $storageFolder/$old"
+  container(DEPLOY_CONTAINER_NAME) {
+    copy_files(type, version, qualifier, qualifiedDecoration, true)
+    def storageFolder = get_version_storage_folder(type, version)
+    sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
+      def oldBuilds = sh_with_return("$SSH_CLIENT ls -r $storageFolder | grep -v latest | tail -n +${buildsToKeep + 1}")
+      for(old in oldBuilds.split("\n")) {
+        sh "$SSH_CLIENT rm -r $storageFolder/$old"
+      }
     }
+
+    def storageFolderLatest = get_storage_folder(type, version, "latest")
+    sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
+      sh "$SSH_CLIENT rm -rf ${storageFolderLatest}"
+    }
+    copy_files(type, version, "latest", "-nightly", true)
   }
 
-  def storageFolderLatest = get_storage_folder(type, version, "latest")
-  sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
-    sh "$SSH_CLIENT rm -rf ${storageFolderLatest}"
-  }
-  copy_files(type, version, "latest", "-nightly", true)
+  maven_deploy("$version-SNAPSHOT")
 }
 
 def milestone(String milestone) {
@@ -217,10 +263,11 @@ def milestone(String milestone) {
   def version = get_version()
   def qualifiedDecoration = "-$milestone"
 
-  copy_files(type, version, milestone, qualifiedDecoration, false)
+  container(DEPLOY_CONTAINER_NAME) {
+    copy_files(type, version, milestone, qualifiedDecoration, false)
+  }
 
-  maven_deploy_runner("$version-$milestone", type, milestone)
-  meven_deploy_maven_plugin(version)
+  maven_deploy("$version-$milestone")
 }
 
 def release() {
@@ -228,10 +275,11 @@ def release() {
   def version = get_version()
   def qualifiedDecoration = ""
 
-  copy_files(type, version, "", qualifiedDecoration, false)
+  container(DEPLOY_CONTAINER_NAME) {
+    copy_files(type, version, "", qualifiedDecoration, false)
+  }
 
-  maven_deploy_runner(version, type, "")
-  meven_deploy_maven_plugin(version)
+  maven_deploy(version)
 }
 
 def copy_files(String type, String version, String subfolder, String qualifiedDecoration, Boolean copy_full) { // subfolder is empty for type == release
@@ -264,19 +312,28 @@ def copy_files(String type, String version, String subfolder, String qualifiedDe
   }
 }
 
-def maven_deploy_runner(String version, String type, String subfolder) {
-  sh "mvn deploy:deploy-file \
-    -Dversion=$version -Durl=https://repo.eclipse.org/content/repositories/rcptt-releases/ \
-    -DgroupId=org.eclipse.rcptt.runner \
-    -DrepositoryId=repo.eclipse.org \
-    -DgeneratePom=true \
-    -DartifactId=rcptt.runner \
-    -Dfile=https://download.eclipse.org/rcptt/${type}/${version}/${subfolder}/runner/rcptt.runner-${version}.zip"
+def maven_deploy(String version) {
+  maven_deploy_runner(version)
+  maven_deploy_maven_plugin(version)
 }
 
-def meven_deploy_maven_plugin(String version){
-  sh "mvn -f maven-plugin/pom.xml clean versions:set -DnewVersion=$version"
-  sh "mvn -f maven-plugin/pom.xml clean deploy -DnewVersion=$version"
+def maven_deploy_runner(String version) {
+  container(DEPLOY_MAVEN_CONTAINER_NAME) {
+    sh "mvn deploy:deploy-file \
+        -Dversion=$version -Durl=https://repo.eclipse.org/content/repositories/rcptt-releases/ \
+        -DgroupId=org.eclipse.rcptt.runner \
+        -DrepositoryId=repo.eclipse.org \
+        -DgeneratePom=true \
+        -DartifactId=rcptt.runner \
+        -Dfile=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip`"
+  }
+}
+
+def maven_deploy_maven_plugin(String version){
+  container(DEPLOY_MAVEN_CONTAINER_NAME) {
+    sh "mvn -f maven-plugin/pom.xml clean versions:set -DnewVersion=$version"
+    sh "mvn -f maven-plugin/pom.xml clean deploy -Dversion=$version"
+  }
 }
 
 return this
