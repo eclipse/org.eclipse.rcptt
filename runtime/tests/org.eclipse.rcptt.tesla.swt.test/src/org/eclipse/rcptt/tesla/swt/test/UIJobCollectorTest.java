@@ -62,6 +62,10 @@ public class UIJobCollectorTest {
 	});
 	
 	private final Job busyLoop = Job.create("busyloop", (ICoreRunnable)monitor -> {
+		if (monitor.isCanceled()) {
+			debug("Busyloop - cancelled upon start");	
+			return;
+		}
 		debug("Busyloop - start");
 		while (!monitor.isCanceled()) {
 			Thread.yield();
@@ -142,9 +146,9 @@ public class UIJobCollectorTest {
 		UIJobCollector subject = new UIJobCollector(parameters);
 		prepare(subject);
 		Job job = busyLoop;
-		for (int i = 0; i < 100; i++) {
-			job.cancel();
-			job.join();
+		for (int i = 0; i < 1000; i++) {
+			final int attempt = i;
+			Assert.assertTrue(shutdown(job, 10000));
 			join(subject, 10000);
 			CountDownLatch startedOnce = new CountDownLatch(1);
 			CountDownLatch completedOnce = new CountDownLatch(1);
@@ -152,25 +156,27 @@ public class UIJobCollectorTest {
 				@Override
 				public void scheduled(IJobChangeEvent event) {
 					super.scheduled(event);
-					debug("Scheduled");
+					debug("Attempt " + attempt + ". Scheduled " + event.getJob());
 				}
 				@Override
 				public void running(IJobChangeEvent event) {
 					super.running(event);
-					debug("Running");
+					debug("Attempt " + attempt + ". Running " + event.getJob());
 					startedOnce.countDown();
 				}
 				@Override
 				public void done(IJobChangeEvent event) {
 					super.done(event);
-					debug("Done");
+					debug("Attempt " + attempt + ". Done " + event.getJob());
 					completedOnce.countDown();
 				}
 			};
 			addListener(job, jobListener);
-			System.out.printf("Attempt %d\n", i);
+			debug("Attempt " + i);
 			Assert.assertTrue("No jobs on start", isEmpty(subject));
-			job.schedule();
+			while (job.getState() == Job.NONE) { // Sometimes the job is spuriously cancelled (by previous cycles?)				
+				job.schedule();
+			}
 			startedOnce.await();
 			job.cancel();
 			job.schedule();
@@ -178,10 +184,20 @@ public class UIJobCollectorTest {
 			boolean result = isEmpty(subject);
 			Assert.assertFalse("Should not step immediately", result);
 			Assert.assertNotEquals(Job.NONE, job.getState());
-			System.out.printf("End of attempt %d\n", i);
+			debug("End of attempt " + i);
 			job.removeJobChangeListener(jobListener);
 			job.cancel();
 		}
+	}
+	
+	private boolean shutdown(Job job, int timeoutInSeconds) throws InterruptedException {
+		long stop = System.currentTimeMillis() + timeoutInSeconds * 1000;
+		job.cancel();
+		while (job.getState() != Job.NONE && System.currentTimeMillis() < stop) {
+			job.cancel();
+			job.join(1, null);
+		}
+		return job.getState() == Job.NONE;
 	}
 	
 	
@@ -449,7 +465,7 @@ public class UIJobCollectorTest {
 	}
 	
 	private void debug(String message) {
-		System.out.printf("Junit Test: %s\n", message);
+//		System.out.printf("Junit Test: %s\n", message);
 	}
 
 }
