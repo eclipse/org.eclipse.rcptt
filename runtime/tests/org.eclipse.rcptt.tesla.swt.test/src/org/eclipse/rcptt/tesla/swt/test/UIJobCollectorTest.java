@@ -31,6 +31,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import com.google.common.io.Closer;
 
@@ -139,6 +140,7 @@ public class UIJobCollectorTest {
 		Assert.assertTrue("Should step after step interval", isEmpty(subject));
 	}
 	
+	@Ignore("https://bugs.eclipse.org/bugs/show_bug.cgi?id=550738")
 	@Test
 	public void waitSecondRunAfterReschedule() throws InterruptedException {
 		Parameters parameters = new Parameters();
