@@ -11,13 +11,17 @@ RUN apt-get -y update \
     openjfx
 
 ## Install a maven
-ENV MAVEN_VER="3.6.0"
-RUN wget http://www-eu.apache.org/dist/maven/maven-3/${MAVEN_VER}/binaries/apache-maven-${MAVEN_VER}-bin.tar.gz \
- && tar xvf apache-maven-${MAVEN_VER}-bin.tar.gz \
- && rm apache-maven-${MAVEN_VER}-bin.tar.gz \
- && mv apache-maven-${MAVEN_VER} /opt/maven
-ENV MAVEN_HOME=/opt/maven
-ENV PATH=${PATH}:${MAVEN_HOME}/bin
+ARG MAVEN_VERSION=3.6.1
+ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
+ARG MAVEN_HOME=/usr/share/maven
+
+RUN wget -O /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+  && mkdir ${MAVEN_HOME} \
+  && tar -xzf /tmp/apache-maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 \
+  && rm -f /tmp/apache-maven.tar.gz \
+  && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
+
+ENV MAVEN_HOME ${MAVEN_HOME}
 
 ## switch back to default user
 USER 1000
