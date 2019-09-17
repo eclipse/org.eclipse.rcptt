@@ -1,3 +1,4 @@
+// The container does not start under the Jenkins user. /home/jenkins is mounted in a container and is a single file space
 BUILD_CONTAINER_NAME="ubuntu"
 BUILD_CONTAINER="""
   - name: $BUILD_CONTAINER_NAME
@@ -10,6 +11,9 @@ BUILD_CONTAINER="""
       requests:
         memory: "4Gi"
         cpu: "1"
+    env:
+    - name: "MAVEN_OPTS"
+      value: "-Duser.home=/home/jenkins"
     volumeMounts:
     - name: settings-xml
       mountPath: /home/jenkins/.m2/settings.xml
@@ -19,12 +23,16 @@ BUILD_CONTAINER="""
       mountPath: /home/jenkins/.m2/toolchains.xml
       subPath: toolchains.xml
       readOnly: true
+    - name: settings-security-xml
+      mountPath: /home/jenkins/.m2/settings-security.xml
+      subPath: settings-security.xml
+      readOnly: true
     - name: m2-repo
       mountPath: /home/jenkins/.m2/repository"""
 BUILD_CONTAINER_VOLUMES="""
   - name: settings-xml
-    configMap:
-      name: m2-dir
+    secret:
+      secretName: m2-secret-dir
       items:
       - key: settings.xml
         path: settings.xml
@@ -34,61 +42,24 @@ BUILD_CONTAINER_VOLUMES="""
       items:
       - key: toolchains.xml
         path: toolchains.xml
-  - name: m2-repo
-    emptyDir: {}"""
-DEPLOY_CONTAINER_NAME="jnlp"
-DEPLOY_CONTAINER="""
-  - name: $DEPLOY_CONTAINER_NAME
-    volumeMounts:
-    - name: volume-known-hosts
-      mountPath: /home/jenkins/.ssh"""
-DEPLOY_CONTAINER_VOLUMES="""
-  - name: volume-known-hosts
-    configMap:
-      name: known-hosts"""
-DEPLOY_MAVEN_CONTAINER_NAME="maven"
-DEPLOY_MAVEN_CONTAINER="""
-  - name: $DEPLOY_MAVEN_CONTAINER_NAME
-    image: maven:alpine
-    tty: true
-    command:
-    - cat
-    volumeMounts:
-    - name: deploy-settings-xml
-      mountPath: /home/jenkins/.m2/settings.xml
-      subPath: settings.xml
-      readOnly: true
-    - name: deploy-toolchains-xml
-      mountPath: /home/jenkins/.m2/toolchains.xml
-      subPath: toolchains.xml
-      readOnly: true
-    - name: deploy-settings-security-xml
-      mountPath: /home/jenkins/.m2/settings-security.xml
-      subPath: settings-security.xml
-      readOnly: true
-    - name: deploy-m2-repo
-      mountPath: /home/jenkins/.m2/repository"""
-DEPLOY_MAVEN_CONTAINER_VOLUMES="""
-  - name: deploy-settings-xml
-    secret:
-      secretName: m2-secret-dir
-      items:
-      - key: settings.xml
-        path: settings.xml
-  - name: deploy-toolchains-xml
-    configMap:
-      name: m2-dir
-      items:
-      - key: toolchains.xml
-        path: toolchains.xml
-  - name: deploy-settings-security-xml
+  - name: settings-security-xml
     secret:
       secretName: m2-secret-dir
       items:
       - key: settings-security.xml
         path: settings-security.xml
-  - name: deploy-m2-repo
+  - name: m2-repo
     emptyDir: {}"""
+SSH_DEPLOY_CONTAINER_NAME="jnlp"
+SSH_DEPLOY_CONTAINER="""
+  - name: $SSH_DEPLOY_CONTAINER_NAME
+    volumeMounts:
+    - name: volume-known-hosts
+      mountPath: /home/jenkins/.ssh"""
+SSH_DEPLOY_CONTAINER_VOLUMES="""
+  - name: volume-known-hosts
+    configMap:
+      name: known-hosts"""
 
 env.YAML_BUILD_AGENT="""
 apiVersion: v1
@@ -106,12 +77,10 @@ kind: Pod
 spec:
   containers:
 $BUILD_CONTAINER
-$DEPLOY_CONTAINER
-$DEPLOY_MAVEN_CONTAINER
+$SSH_DEPLOY_CONTAINER
   volumes:
 $BUILD_CONTAINER_VOLUMES
-$DEPLOY_CONTAINER_VOLUMES
-$DEPLOY_MAVEN_CONTAINER_VOLUMES
+$SSH_DEPLOY_CONTAINER_VOLUMES
 """
 
 CREDENTIAL="genie.rcptt@projects-storage.eclipse.org"
@@ -130,9 +99,9 @@ DOC_DIR="releng/doc"
 
 DOWNLOADS_HOME="/home/data/httpd/download.eclipse.org/rcptt"
 
-def build_and_test() {
+def build_and_test(Boolean sign) {
     stage("Build") {
-        build()
+        build(sign)
         echo "Version: ${get_version()}"
         echo "Qualifier: ${get_qualifier()}"
     }
@@ -147,12 +116,12 @@ def build_and_test() {
     }
 }
 
-def build() {
+def build(Boolean sign) {
   container(BUILD_CONTAINER_NAME) {
-    sh "./build.sh -P sign -Dmaven.repo.local=$WORKSPACE/m2 -e"
-    sh "./build_runner.sh -Dmaven.repo.local=$WORKSPACE/m2 -e"
-    sh "mvn -f maven-plugin/pom.xml clean verify -Dmaven.repo.local=$WORKSPACE/m2 -e"
-    sh "./$DOC_DIR/generate-doc.sh -Dmaven.repo.local=$WORKSPACE/m2 -e"
+    sh "./build.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e ${sign ? "-P sign" : ""}"
+    sh "./build_runner.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
+    sh "mvn -f maven-plugin/pom.xml clean verify -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
+    sh "./$DOC_DIR/generate-doc.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
   }
 }
 
@@ -193,20 +162,22 @@ def rcptt_tests() {
 def mockup_tests() {
   container(BUILD_CONTAINER_NAME) {
     def version = get_version()
-    git "https://github.com/DudaevAR/q7.quality.mockups.git"
-    sh "mvn clean verify -B -f tests/pom.xml \
-        -Dmaven.repo.local=$WORKSPACE/m2 -e \
-        -Dci-maven-version=2.0.0-SNAPSHOT \
-        -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip` \
-        -DmockupsRepository=https://ci-staging.eclipse.org/rcptt/view/migration/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository/ \
-        || true"
-    sh "test -f $WORKSPACE/tests/target/results/tests.html"
+    dir('mockups') {
+        git "https://github.com/DudaevAR/q7.quality.mockups.git"
+        sh "mvn clean verify -B -f tests/pom.xml \
+            -Dmaven.repo.local=$WORKSPACE/m2 -e \
+            -Dci-maven-version=2.0.0-SNAPSHOT \
+            -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip` \
+            -DmockupsRepository=https://ci-staging.eclipse.org/rcptt/view/migration/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository/ \
+            || true"
+        sh "test -f $WORKSPACE/mockups/tests/target/results/tests.html"
+    }
   }
 }
 
 def post_build_actions() {
   junit "**/target/*-reports/*.xml"
-  archiveArtifacts allowEmptyArchive: true, artifacts: "*ests/target/results/**/*, *ests/target/**/*err*log, *ests/target/runner/configuration/*.log, *ests/target/runner-workspace/**/*, *ests/target/**/.log"
+  archiveArtifacts allowEmptyArchive: true, artifacts: "rcpttTests/target/results/**/*, rcpttTests/target/**/*err*log, rcpttTests/target/runner/configuration/*.log, rcpttTests/target/runner-workspace/**/*, rcpttTests/target/**/.log, mockups/tests/target/results/**/*, mockups/tests/target/**/*err*log, mockups/tests/target/runner/configuration/*.log, mockups/tests/target/runner-workspace/**/*, mockups/tests/target/**/.log"
 
   sh "dd if=/dev/zero of=file.txt count=100 bs=1048576" // 1048576 bytes = 1Mb
   sh "rm file.txt"
@@ -238,7 +209,7 @@ def nightly() {
   def qualifier = get_qualifier()
   def qualifiedDecoration = "-N$qualifier"
 
-  container(DEPLOY_CONTAINER_NAME) {
+  container(SSH_DEPLOY_CONTAINER_NAME) {
     copy_files(type, version, qualifier, qualifiedDecoration, true)
     def storageFolder = get_version_storage_folder(type, version)
     sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
@@ -255,7 +226,7 @@ def nightly() {
     copy_files(type, version, "latest", "-nightly", true)
   }
 
-  maven_deploy("$version-SNAPSHOT")
+  maven_deploy_nightly()
 }
 
 def milestone(String milestone) {
@@ -263,7 +234,7 @@ def milestone(String milestone) {
   def version = get_version()
   def qualifiedDecoration = "-$milestone"
 
-  container(DEPLOY_CONTAINER_NAME) {
+  container(SSH_DEPLOY_CONTAINER_NAME) {
     copy_files(type, version, milestone, qualifiedDecoration, false)
   }
 
@@ -275,7 +246,7 @@ def release() {
   def version = get_version()
   def qualifiedDecoration = ""
 
-  container(DEPLOY_CONTAINER_NAME) {
+  container(SSH_DEPLOY_CONTAINER_NAME) {
     copy_files(type, version, "", qualifiedDecoration, false)
   }
 
@@ -312,14 +283,21 @@ def copy_files(String type, String version, String subfolder, String qualifiedDe
   }
 }
 
+def maven_deploy_nightly() {
+  container(BUILD_CONTAINER_NAME) {
+    sh "mvn -f releng/runner/pom.xml clean deploy -Dmaven.repo.local=$WORKSPACE/m2 -e -B"
+    sh "mvn -f maven-plugin/pom.xml clean deploy -Dmaven.repo.local=$WORKSPACE/m2 -e -B"
+  }
+}
+
 def maven_deploy(String version) {
   maven_deploy_runner(version)
   maven_deploy_maven_plugin(version)
 }
 
 def maven_deploy_runner(String version) {
-  container(DEPLOY_MAVEN_CONTAINER_NAME) {
-    sh "mvn deploy:deploy-file \
+  container(BUILD_CONTAINER_NAME) {
+    sh "mvn deploy:deploy-file -Dmaven.repo.local=$WORKSPACE/m2 -e -B \
         -Dversion=$version -Durl=https://repo.eclipse.org/content/repositories/rcptt-releases/ \
         -DgroupId=org.eclipse.rcptt.runner \
         -DrepositoryId=repo.eclipse.org \
@@ -330,9 +308,9 @@ def maven_deploy_runner(String version) {
 }
 
 def maven_deploy_maven_plugin(String version){
-  container(DEPLOY_MAVEN_CONTAINER_NAME) {
+  container(BUILD_CONTAINER_NAME) {
     sh "mvn -f maven-plugin/pom.xml clean versions:set -DnewVersion=$version"
-    sh "mvn -f maven-plugin/pom.xml clean deploy -Dversion=$version"
+    sh "mvn -f maven-plugin/pom.xml clean deploy"
   }
 }
 
