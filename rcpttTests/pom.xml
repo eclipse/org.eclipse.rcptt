@@ -17,11 +17,11 @@
   <parent>
     <groupId>org.eclipse.rcptt.tests</groupId>
     <artifactId>base</artifactId>
-    <version>2.4.3-SNAPSHOT</version>
+    <version>2.4.4-SNAPSHOT</version>
     <relativePath>./pom-base.xml</relativePath>
   </parent>
   <properties>
-    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.4.3/latest/repository</rcpttRepo>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.4.4/latest/repository</rcpttRepo>
   </properties>
   <dependencies>
 		<dependency>
