@@ -113,8 +113,7 @@
       <plugin id="org.eclipse.e4.ui.workbench"/> -->
       <plugin id="org.eclipse.ecf.filetransfer"/>
       <plugin id="org.eclipse.ecf.identity"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4.ssl"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4"/>
+      <plugin id="org.eclipse.ecf.provider.filetransfer.httpclient45"/>
       <plugin id="org.eclipse.ecf.provider.filetransfer.ssl"/>
       <plugin id="org.eclipse.ecf.provider.filetransfer"/>
       <plugin id="org.eclipse.ecf.ssl"/>
