@@ -168,7 +168,7 @@ def mockup_tests() {
             -Dmaven.repo.local=$WORKSPACE/m2 -e \
             -Dci-maven-version=2.0.0-SNAPSHOT \
             -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip` \
-            -DmockupsRepository=https://ci-staging.eclipse.org/rcptt/view/migration/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository/ \
+            -DmockupsRepository=https://ci.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository \
             || true"
         sh "test -f $WORKSPACE/mockups/tests/target/results/tests.html"
     }
