@@ -24,7 +24,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -405,12 +404,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		List<URI> uris = new ArrayList<URI>();
 		for (TargetBundle bundle : bundles) {
-			try {
-				uris.add(new URL("file://"
-						+ bundle.getBundleInfo().getLocation().getPath()).toURI());
-			} catch (URISyntaxException | MalformedURLException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
+			uris.add(bundle.getBundleInfo().getLocation());
 		}
 
 		PDEState state = new PDEState(uris.toArray(new URI[uris
