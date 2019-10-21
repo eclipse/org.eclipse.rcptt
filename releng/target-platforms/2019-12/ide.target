@@ -34,9 +34,11 @@
 <repository location="http://download.eclipse.org/releases/2019-12"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.ajdt.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.contribution.weaving.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/tools/ajdt/48/dev/update"/>
+<unit id="org.aspectj.runtime" version="0.0.0"/>
+<unit id="org.aspectj.weaver" version="0.0.0"/>
+<unit id="org.eclipse.equinox.weaving.aspectj" version="0.0.0"/>
+<unit id="org.eclipse.equinox.weaving.hook" version="0.0.0"/>
+<repository location="http://download.eclipse.org/tools/ajdt/410/dev/update"/>
 </location>
 </locations>
 </target>
