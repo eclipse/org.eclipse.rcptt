@@ -46,9 +46,10 @@
       <plugin id="org.apache.ant"/>
       <!-- <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.util.gui"/>
-      <plugin id="org.apache.batik.util"/>
-       --><plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.batik.util"/> -->
+      <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.jxpath"/>
+      <plugin id="org.apache.commons.lang3" />
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.felix.gogo.command"/>
       <plugin id="org.apache.felix.gogo.runtime"/>
@@ -167,8 +168,8 @@
       <!-- <plugin id="org.eclipse.equinox.p2.ui.importexport"/>
       <plugin id="org.eclipse.equinox.p2.ui.sdk.scheduler"/>
       <plugin id="org.eclipse.equinox.p2.ui.sdk"/>
-      <plugin id="org.eclipse.equinox.p2.ui"/>
-       --><plugin id="org.eclipse.equinox.p2.updatechecker"/>
+      <plugin id="org.eclipse.equinox.p2.ui"/> -->
+      <plugin id="org.eclipse.equinox.p2.updatechecker"/>
       <plugin id="org.eclipse.equinox.p2.updatesite"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
@@ -237,8 +238,8 @@
       <plugin id="org.eclipse.pde.ua.core"/>
       <!-- <plugin id="org.eclipse.pde.ua.ui"/> -->
       <!-- <plugin id="org.eclipse.pde.ui.templates"/>
-      <plugin id="org.eclipse.pde.ui"/>
-       --><plugin id="org.eclipse.pde"/>
+      <plugin id="org.eclipse.pde.ui"/> -->
+      <plugin id="org.eclipse.pde"/>
       <!-- <plugin id="org.eclipse.platform.doc.user"/> -->
       <plugin id="org.eclipse.platform"/>
       <plugin id="org.eclipse.rcp"/>
@@ -303,6 +304,7 @@
       <plugin id="org.eclipse.rcptt.testrail"/>
       <plugin id="org.eclipse.rcptt.testrail.ecl"/>
       <plugin id="org.eclipse.rcptt.module.testrail.updates"/>
+      <plugin id="org.eclipse.rcptt.zephyr"/>
       <plugin id="org.eclipse.rcptt.tesla.nebula.ecl"/>
       <plugin id="org.eclipse.rcptt.tesla.nebula"/>
       <plugin id="org.eclipse.rcptt.tesla.recording.core.ecl"/>

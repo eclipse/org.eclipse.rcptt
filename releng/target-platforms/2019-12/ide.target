@@ -7,6 +7,7 @@
 <unit id="com.google.guava" version="21.0.0.v20170206-1425"/>
 <unit id="org.hamcrest" version="0.0.0"/>
 <unit id="org.mockito" version="0.0.0"/>
+<unit id="org.apache.commons.lang3" version="0.0.0"/>
 <unit id="org.apache.poi" version="0.0.0"/>
 <unit id="org.apache.poi.ooxml" version="0.0.0"/>
 <unit id="com.sun.xml.bind" version="0.0.0"/>

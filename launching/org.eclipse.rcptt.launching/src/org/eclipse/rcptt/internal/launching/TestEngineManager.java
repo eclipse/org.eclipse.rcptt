@@ -145,7 +145,7 @@ public class TestEngineManager {
 
 	public void fireExecutionStarted(EclScenarioExecutable scenario) {
 		for (TestEngineExtension engine : this.enabledEngines) {
-			engine.getEngine().executionStarted(scenario);
+			engine.getEngine().executionStarted(scenario, engine.getEngine().getConfiguration());
 		}
 	}
 
@@ -212,6 +212,7 @@ public class TestEngineManager {
 						engine.getName()));
 			}
 			engine.setConfig(engineConfig);
+			engine.engine.setConfiguration(engineConfig);
 		}
 		this.engineStatuses = statuses;
 		this.enabledEngines = getEnabledEngines();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2016 Xored Software Inc and others.
+ * Copyright (c) 2009, 2019 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,17 +10,23 @@
  *******************************************************************************/
 package org.eclipse.rcptt.testrail;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.net.ssl.SSLException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -75,6 +81,7 @@ public class TestRailService implements ITestEngine {
 	public TestRailService() {
 	}
 
+	// TODO remove this method to eliminate Runner / IDE code duplication
 	@Override
 	public void testRunStarted(Map<String, String> config, List<Q7TestCase> tests) {
 		applyConfig(config);
@@ -134,7 +141,7 @@ public class TestRailService implements ITestEngine {
 	}
 
 	@Override
-	public void executionStarted(EclScenarioExecutable scenario) {
+	public void executionStarted(EclScenarioExecutable scenario, Map<String, String> config) {
 	}
 
 	@Override
@@ -494,5 +501,16 @@ public class TestRailService implements ITestEngine {
 			return Messages.TestRailService_InvalidBoolean;
 		}
 		return null;
+	}
+
+	public void setConfiguration(Map<String, String> config) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> getConfiguration() {
+		// TODO Auto-generated method stub
+		return new HashMap<String, String>();
 	}
 }

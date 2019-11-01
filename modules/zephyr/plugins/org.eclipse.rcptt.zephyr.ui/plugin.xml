@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+
+<!--
+    Copyright (c) 2019 Xored Software Inc and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+     
+    Contributors:
+    	Xored Software Inc - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.rcptt.ui.IntegrationsPreferencePage"
+            class="org.eclipse.rcptt.zephyr.ui.preferences.ZephyrPreferencePage"
+            id="org.eclipse.rcptt.zephyr.ZephyrPreferencePage"
+            name="Zephyr">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="org.eclipse.rcptt.ui.views.IntegrationsPropertiesPage"
+            class="org.eclipse.rcptt.zephyr.ui.properties.ZephyrPropertiesPage"
+            id="org.eclipse.rcptt.zephyr.ZephyrPropertiesPage"
+            name="Zephyr">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.rcptt.ui.propertySuggestionProviders">
+      <propertySuggestions
+            scenarioProperties="org.eclipse.rcptt.zephyr.ui.ZephyrPropertySuggestionProvider">
+      </propertySuggestions>
+   </extension>
+
+
+</plugin>

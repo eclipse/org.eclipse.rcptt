@@ -23,6 +23,7 @@
     <module>../../modules/nebula</module>
     <module>../../launching</module>
     <module>../../modules/testrail</module>
+    <module>../../modules/zephyr</module>
     <module>../../rcp</module>
     <module>../../testing</module>
 
