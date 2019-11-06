@@ -41,6 +41,7 @@ public interface ToControlHandle extends Command {
 	 * @see #setWidget(Object)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getToControlHandle_Widget()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Widget to get UI control for.'"
 	 * @generated
 	 */

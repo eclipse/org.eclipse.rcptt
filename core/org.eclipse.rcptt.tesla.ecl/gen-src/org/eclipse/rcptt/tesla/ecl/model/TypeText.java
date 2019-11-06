@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTypeText()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Types text to the control.' returns='value of <code>control</code> parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  type-text \"wait 200\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Types text to the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  type-text \"wait 200\"'"
  * @generated
  */
 public interface TypeText extends Command {
@@ -43,6 +43,7 @@ public interface TypeText extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTypeText_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
 	 * @generated
 	 */

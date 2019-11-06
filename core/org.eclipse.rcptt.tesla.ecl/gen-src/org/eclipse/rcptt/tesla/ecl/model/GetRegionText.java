@@ -47,6 +47,7 @@ public interface GetRegionText extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetRegionText_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
 	 * @generated
 	 */

@@ -1040,7 +1040,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 				FindResult result = getLocator().findElement(widget, true, false, false);
 				if (((MenuItem) widget).getSelection() && result != null && result.element != null) {
 					ControlUIElement e = new ControlUIElement(result.element, getRecorder());
-					e.clickAndWait(type == SWT.DefaultSelection);
+					e.clickAndWait(type == SWT.DefaultSelection, event.stateMask);
 				}
 			} else if ((isMouseOrKeyOps || isWidgetSendSelectionNonWin32 || isRunDefferedEventsOSX || isButtonFocusEvent
 					|| isListTreeTableActivate || isCheckable) && !(isRadioWidget && !((Button) widget).getSelection())
@@ -1077,7 +1077,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 								} else if (widget instanceof Button && (widget.getStyle() & SWT.CHECK) != 0) {
 									e.check(((Button) widget).getSelection());
 								} else {
-									e.clickAndWait(type == SWT.DefaultSelection);
+									e.clickAndWait(type == SWT.DefaultSelection, event.stateMask);
 								}
 							}
 						}
@@ -2102,7 +2102,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 			FindResult result = getLocator().findElement(widget, true, false, false);
 			if (result != null) {
 				ControlUIElement e = new ControlUIElement(result.element, getRecorder());
-				e.clickAndWait();
+				e.clickAndWait(false, event.stateMask);
 				beforeTextState = "";
 			}
 		}

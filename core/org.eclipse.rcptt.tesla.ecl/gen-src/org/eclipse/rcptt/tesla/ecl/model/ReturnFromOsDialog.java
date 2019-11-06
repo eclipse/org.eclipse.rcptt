@@ -28,6 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getReturnFromOsDialog()
  * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates result returning from native dialog.' returns='nothing'"
+ *        annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface ReturnFromOsDialog extends Command {

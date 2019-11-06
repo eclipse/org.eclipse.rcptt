@@ -215,7 +215,7 @@ public class MessageBoxInfoImpl extends EObjectImpl implements MessageBoxInfo {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (title: ");
 		result.append(title);
 		result.append(", message: ");

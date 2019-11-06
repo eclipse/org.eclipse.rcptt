@@ -53,7 +53,7 @@ public class Events {
 
 		result.addAll(modifiersDown(mask));
 
-		result.add(createSelection(true));
+		result.add(createSelection(true, mask));
 //		result.add(createMouseExit(mask, x, y));
 //		result.add(createFocusOut());
 //		result.add(createDeactivate());
@@ -127,32 +127,33 @@ public class Events {
 	}
 
 	public static Event createActivate() {
-		return createSimple(SWT.Activate);
+		return createSimple(SWT.Activate, EMPTY_MASK);
 	}
 
 	public static Event createDeactivate() {
-		return createSimple(SWT.Deactivate);
+		return createSimple(SWT.Deactivate, EMPTY_MASK);
 	}
 
 	public static Event createFocusIn() {
-		return createSimple(SWT.FocusIn);
+		return createSimple(SWT.FocusIn, EMPTY_MASK);
 	}
 
 	public static Event createFocusOut() {
-		return createSimple(SWT.FocusOut);
+		return createSimple(SWT.FocusOut, EMPTY_MASK);
 	}
 
 	public static Event createSelection() {
-		return createSelection(false);
+		return createSelection(false, EMPTY_MASK);
 	}
 
-	public static Event createSelection(boolean isDefault) {
-		return createSimple(isDefault ? SWT.DefaultSelection : SWT.Selection);
+	public static Event createSelection(boolean isDefault, int stateMask) {
+		return createSimple(isDefault ? SWT.DefaultSelection : SWT.Selection, stateMask);
 	}
 
-	public static Event createSimple(int type) {
+	public static Event createSimple(int type, int stateMask) {
 		Event event = new Event();
 		event.type = type;
+		event.stateMask = stateMask;
 		return event;
 	}
 

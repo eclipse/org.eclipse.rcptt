@@ -447,11 +447,12 @@ public class TeslaScriptletFactory extends ScriptletFactory {
 		return DiagramFactory.eINSTANCE.createGetPalette();
 	}
 
-	public static Click makeClick(boolean wait, boolean def, boolean arrow) {
+	public static Click makeClick(boolean wait, boolean def, boolean arrow, String metaKeys) {
 		Click cmd = TeslaFactory.eINSTANCE.createClick();
 		cmd.setNowait(!wait);
 		cmd.setDefault(def);
 		cmd.setArrow(arrow);
+		cmd.setMetaKeys(metaKeys);
 		return cmd;
 	}
 

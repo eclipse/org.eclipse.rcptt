@@ -42,7 +42,7 @@ public interface GetWindow extends Selector {
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetWindow_Text()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the name of this window. This parameter is used by default, so <code>-text</code> word is not written at the recording of the test.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the name of this window. This parameter is used by default, so &lt;code&gt;-text&lt;/code&gt; word is not written at the recording of the test.'"
 	 * @generated
 	 */
 	String getText();
@@ -68,7 +68,7 @@ public interface GetWindow extends Selector {
 	 * @return the value of the '<em>From</em>' attribute.
 	 * @see #setFrom(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetWindow_From()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the method (in the form of <code>\"ClassName.methodName()\"</code>) where this window is created.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the method (in the form of &lt;code&gt;\"ClassName.methodName()\"&lt;/code&gt;) where this window is created.'"
 	 * @generated
 	 */
 	String getFrom();

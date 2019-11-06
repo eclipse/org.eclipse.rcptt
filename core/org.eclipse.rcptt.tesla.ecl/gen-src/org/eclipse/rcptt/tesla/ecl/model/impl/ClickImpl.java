@@ -35,6 +35,7 @@ import org.eclipse.rcptt.ecl.core.impl.CommandImpl;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isNowait <em>Nowait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#isArrow <em>Arrow</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.impl.ClickImpl#getMetaKeys <em>Meta Keys</em>}</li>
  * </ul>
  *
  * @generated
@@ -109,6 +110,26 @@ public class ClickImpl extends CommandImpl implements Click {
 	 * @ordered
 	 */
 	protected boolean arrow = ARROW_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMetaKeys() <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetaKeys()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String META_KEYS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getMetaKeys() <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetaKeys()
+	 * @generated
+	 * @ordered
+	 */
+	protected String metaKeys = META_KEYS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -235,6 +256,27 @@ public class ClickImpl extends CommandImpl implements Click {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getMetaKeys() {
+		return metaKeys;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMetaKeys(String newMetaKeys) {
+		String oldMetaKeys = metaKeys;
+		metaKeys = newMetaKeys;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TeslaPackage.CLICK__META_KEYS, oldMetaKeys, metaKeys));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -247,6 +289,8 @@ public class ClickImpl extends CommandImpl implements Click {
 				return isDefault();
 			case TeslaPackage.CLICK__ARROW:
 				return isArrow();
+			case TeslaPackage.CLICK__META_KEYS:
+				return getMetaKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -270,6 +314,9 @@ public class ClickImpl extends CommandImpl implements Click {
 				return;
 			case TeslaPackage.CLICK__ARROW:
 				setArrow((Boolean)newValue);
+				return;
+			case TeslaPackage.CLICK__META_KEYS:
+				setMetaKeys((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -295,6 +342,9 @@ public class ClickImpl extends CommandImpl implements Click {
 			case TeslaPackage.CLICK__ARROW:
 				setArrow(ARROW_EDEFAULT);
 				return;
+			case TeslaPackage.CLICK__META_KEYS:
+				setMetaKeys(META_KEYS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -315,6 +365,8 @@ public class ClickImpl extends CommandImpl implements Click {
 				return default_ != DEFAULT_EDEFAULT;
 			case TeslaPackage.CLICK__ARROW:
 				return arrow != ARROW_EDEFAULT;
+			case TeslaPackage.CLICK__META_KEYS:
+				return META_KEYS_EDEFAULT == null ? metaKeys != null : !META_KEYS_EDEFAULT.equals(metaKeys);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -328,13 +380,15 @@ public class ClickImpl extends CommandImpl implements Click {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (nowait: ");
 		result.append(nowait);
 		result.append(", default: ");
 		result.append(default_);
 		result.append(", arrow: ");
 		result.append(arrow);
+		result.append(", metaKeys: ");
+		result.append(metaKeys);
 		result.append(')');
 		return result.toString();
 	}

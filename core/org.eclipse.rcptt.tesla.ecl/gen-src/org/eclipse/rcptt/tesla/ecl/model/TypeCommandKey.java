@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTypeCommandKey()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Type key to the control.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Type key to the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter'"
  * @generated
  */
 public interface TypeCommandKey extends Command {
@@ -42,6 +42,7 @@ public interface TypeCommandKey extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTypeCommandKey_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
 	 * @generated
 	 */

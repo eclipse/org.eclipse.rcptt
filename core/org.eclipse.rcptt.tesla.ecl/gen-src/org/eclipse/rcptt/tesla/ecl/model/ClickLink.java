@@ -24,7 +24,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickLink()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a link.' returns='value of <code>control</code> parameter' recorded='true' example='with [get-window Preferences] {\n    get-tree | select \"Ant/Editor\"\n    get-link \"See <a href=\\\"org.eclipse.ui.preferencePages.GeneralTextEditor\\\">\\\'Text Editors\\\'</a> for general text editor preferences and <a href=\\\"org.eclipse.ui.preferencePages.ColorsAndFonts\\\">\\\'Colors and Fonts\\\'</a> to configure the font.\" \n        | click-link \"org.eclipse.ui.preferencePages.GeneralTextEditor\"\n    get-button OK | click\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a link.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='true' example='with [get-window Preferences] {\n    get-tree | select \"Ant/Editor\"\n    get-link \"See &lt;a href=\\\"org.eclipse.ui.preferencePages.GeneralTextEditor\\\"&gt;\\\'Text Editors\\\'&lt;/a&gt; for general text editor preferences and &lt;a href=\\\"org.eclipse.ui.preferencePages.ColorsAndFonts\\\"&gt;\\\'Colors and Fonts\\\'&lt;/a&gt; to configure the font.\" \n        | click-link \"org.eclipse.ui.preferencePages.GeneralTextEditor\"\n    get-button OK | click\n}'"
  * @generated
  */
 public interface ClickLink extends ControlCommand {

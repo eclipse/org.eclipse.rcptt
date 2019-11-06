@@ -158,7 +158,7 @@ public class SetWidthImpl extends ControlCommandImpl implements SetWidth {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (width: ");
 		result.append(width);
 		result.append(')');

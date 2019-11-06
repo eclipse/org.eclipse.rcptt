@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowContentAssist()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Shows content assist.' returns='value of <code>control</code> parameter' recorded='true' example='with [get-editor t | get-section Script | get-text-viewer] {\n    set-caret-pos 1 1\n    type-text \"get-\"\n    show-content-assist\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Shows content assist.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='true' example='with [get-editor t | get-section Script | get-text-viewer] {\n    set-caret-pos 1 1\n    type-text \"get-\"\n    show-content-assist\n}'"
  * @generated
  */
 public interface ShowContentAssist extends Command {
@@ -41,6 +41,7 @@ public interface ShowContentAssist extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowContentAssist_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Must be editor.'"
 	 * @generated
 	 */

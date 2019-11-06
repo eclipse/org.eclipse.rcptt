@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getActivateDirectEdit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Activates direct editing.' returns='value of <code>control</code> parameter' example='get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke \r\n    | activate-direct-edit'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Activates direct editing.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke \r\n    | activate-direct-edit'"
  * @generated
  */
 public interface ActivateDirectEdit extends DirectEdit {

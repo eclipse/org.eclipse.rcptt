@@ -317,7 +317,7 @@ public class SelectImpl extends CommandImpl implements Select {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (items: ");
 		result.append(items);
 		result.append(", all: ");

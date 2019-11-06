@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseHover()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse hovering over the control.' returns='value of <code>control</code> parameter' example='with [get-edit-part \"0/0/1/0/1/0/1/0\"] {<br> &nbsp mouse-release 13 17 button1 524288 -height 22 -width 88<br> &nbsp  mouse-move 14 16 -height 22 -width 88<br> &nbsp mouse-hover 14 16 -height 22 -width 88<br>}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse hovering over the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='with [get-edit-part \"0/0/1/0/1/0/1/0\"] {&lt;br&gt; &amp;nbsp mouse-release 13 17 button1 524288 -height 22 -width 88&lt;br&gt; &amp;nbsp  mouse-move 14 16 -height 22 -width 88&lt;br&gt; &amp;nbsp mouse-hover 14 16 -height 22 -width 88&lt;br&gt;}'"
  * @generated
  */
 public interface MouseHover extends MouseAction {

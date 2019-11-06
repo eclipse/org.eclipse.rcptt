@@ -301,7 +301,7 @@ public class ClickRulerImpl extends CommandImpl implements ClickRuler {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (line: ");
 		result.append(line);
 		result.append(", button: ");

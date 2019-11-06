@@ -25,7 +25,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClose()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Closes the control.' returns='value of <code>control</code> parameter' example='get-window \"Q7 Control Panel - Test\" | close'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Closes the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-window \"Q7 Control Panel - Test\" | close'"
  * @generated
  */
 public interface Close extends Command {
@@ -41,6 +41,7 @@ public interface Close extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClose_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Window, view or editor.'"
 	 * @generated
 	 */

@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseDoubleClick()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse double click on the control.' returns='value of <code>control</code> parameter' example='with [get-palette-entry \"Try/Catch/Finally\"] {<br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> &nbsp mouse-press 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-double-click 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> }'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse double click on the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='with [get-palette-entry \"Try/Catch/Finally\"] {&lt;br&gt; &amp;nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 &lt;br&gt; &amp;nbsp mouse-press 32 18 button1 -height 23 -width 125 &lt;br&gt; &amp;nbsp mouse-double-click 32 18 button1 -height 23 -width 125 &lt;br&gt; &amp;nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 &lt;br&gt; }'"
  * @generated
  */
 public interface MouseDoubleClick extends MouseAction {

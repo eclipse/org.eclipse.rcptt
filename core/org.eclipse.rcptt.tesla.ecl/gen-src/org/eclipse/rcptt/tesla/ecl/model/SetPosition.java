@@ -23,7 +23,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetPosition()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets position of a table column.' returns='value of <code>control</code> parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-position 4'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets position of a table column.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-position 4'"
  * @generated
  */
 public interface SetPosition extends ControlCommand {

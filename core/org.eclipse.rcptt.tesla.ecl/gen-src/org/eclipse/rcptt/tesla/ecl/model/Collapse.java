@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getCollapse()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Collapses a tree item. Item must be acquired by using <code>get-item</code> command. ' returns='value of <code>control</code> parameter' recorded='false' example='get-view \"Q7 Explorer\" | get-tree | get-item \"Project/folder\" | collapse'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Collapses a tree item. Item must be acquired by using &lt;code&gt;get-item&lt;/code&gt; command. ' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='false' example='get-view \"Q7 Explorer\" | get-tree | get-item \"Project/folder\" | collapse'"
  * @generated
  */
 public interface Collapse extends ControlCommand {

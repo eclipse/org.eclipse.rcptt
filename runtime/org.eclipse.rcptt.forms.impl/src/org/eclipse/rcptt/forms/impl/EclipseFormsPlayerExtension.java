@@ -130,12 +130,12 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 	}
 
 	@Override
-	public void click(final SWTUIElement widget, final boolean isDefault,
-			final boolean doubleClick, final boolean arrow) {
+	public void click(final SWTUIElement widget, final boolean isDefault, final boolean doubleClick,
+			final boolean arrow, final int stateMask) {
 		switch (widget.getKind().kind) {
 
 		case FormText:
-			clickToFormText(widget);
+			clickToFormText(widget, stateMask);
 			break;
 		case Expandable:
 			clickToExpandable(widget);
@@ -143,7 +143,7 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 		case Link:
 			if (widget instanceof FormTextLinkUIElement
 					|| PlayerWrapUtils.unwrap(widget) instanceof IHyperlinkSegment) {
-				clickFormTextLinkUIElement(widget);
+				clickFormTextLinkUIElement(widget, stateMask);
 			}
 			break;
 		default:
@@ -166,7 +166,7 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 		return model;
 	}
 
-	private void clickFormTextLinkUIElement(final SWTUIElement widget) {
+	private void clickFormTextLinkUIElement(final SWTUIElement widget, final int stateMask) {
 		IHyperlinkSegment segment = (IHyperlinkSegment)
 				PlayerWrapUtils.unwrap(widget);
 		FormText fText = (FormText) ((FormTextLinkUIElement) widget).widget;
@@ -174,7 +174,7 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 		if (model.getHyperlinkCount() < 1)
 			return;
 		model.selectLink(segment);
-		callActivateSelectLink(fText);
+		callActivateLink(fText, segment, stateMask);
 	}
 
 	private void clickToExpandable(final SWTUIElement widget) {
@@ -194,14 +194,14 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 			FormUtil.ensureVisible(ec);
 	}
 
-	private void clickToFormText(final SWTUIElement widget) {
+	private void clickToFormText(final SWTUIElement widget, final int stateMask) {
 		FormText fText = (FormText)
 				PlayerWrapUtils.unwrapWidget(widget);
 		FormTextModel model = getFormTextModel(fText);
 		if (model.getHyperlinkCount() < 1)
 			return;
 		model.selectLink(model.getHyperlink(0));
-		callActivateSelectLink(fText);
+		callActivateLink(fText, model.getHyperlink(0), stateMask);
 	}
 
 	private SWTUIElement searchExpandable(SWTUIPlayer player,
@@ -226,15 +226,26 @@ public class EclipseFormsPlayerExtension extends AbstractSWTUIPlayerExtension {
 	private void callActivateSelectLink(Canvas fText) {
 		Method selectlink;
 		try {
-			selectlink = FormText.class.getDeclaredMethod(
-					"activateSelectedLink", new Class[] {});
+			selectlink = FormText.class.getDeclaredMethod("activateSelectedLink", new Class[] {});
 			selectlink.setAccessible(true);
 			selectlink.invoke(fText, new Object[] {});
 		} catch (Throwable e) {
 			UTILS.log(UTILS.createError(e));
 		}
 	}
-	
+
+	private void callActivateLink(Canvas fText, IHyperlinkSegment segment, int stateMask) {
+		Method activateLink;
+		try {
+			activateLink = FormText.class.getDeclaredMethod("activateLink",
+					new Class[] { IHyperlinkSegment.class, int.class });
+			activateLink.setAccessible(true);
+			activateLink.invoke(fText, new Object[] { segment, stateMask });
+		} catch (Throwable e) {
+			UTILS.log(UTILS.createError(e));
+		}
+	}
+
 	@Override
 	public String getRawText(SWTUIElement element) {
 		Object widget = PlayerWrapUtils.unwrap(element);

@@ -41,6 +41,8 @@
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrow" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metaKeys" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DoubleClick" eSuperTypes="#//ElementCommand">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="withWait" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"

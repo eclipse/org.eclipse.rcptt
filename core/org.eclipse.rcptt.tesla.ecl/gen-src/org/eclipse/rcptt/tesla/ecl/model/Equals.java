@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getEquals()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Compares <code>input</code> with <code>value</code>' input='EObject input' returns='true if values are equal or false otherwise' example='get-view \"Q7 Explorer\" | get-tree | get-item Project | get-property childCount | equals 3 | verify-true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Compares &lt;code&gt;input&lt;/code&gt; with &lt;code&gt;value&lt;/code&gt;' input='EObject input' returns='true if values are equal or false otherwise' example='get-view \"Q7 Explorer\" | get-tree | get-item Project | get-property childCount | equals 3 | verify-true'"
  * @generated
  */
 public interface Equals extends Command {
@@ -44,7 +44,8 @@ public interface Equals extends Command {
 	 * @see #setInput(EObject)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getEquals_Input()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Property value extracted with <code>get-property</code>'"
+	 *        annotation="http://www.eclipse.org/ecl/input"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Property value extracted with &lt;code&gt;get-property&lt;/code&gt;'"
 	 * @generated
 	 */
 	EObject getInput();

@@ -44,6 +44,7 @@ public interface IsEmpty extends Command {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getIsEmpty_Input()
 	 * @model required="true"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Path to control which emptyness has to be checked'"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 * @generated
 	 */
 	EObject getInput();

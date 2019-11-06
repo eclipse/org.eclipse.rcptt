@@ -286,8 +286,8 @@ public class TeslaParser extends TeslaScriptletFactory {
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "Click")
 	protected Command click(Click c) {
-		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()),
-				TeslaScriptletFactory.makeClick(true, c.isDefault(), c.isArrow()));
+		return TeslaScriptletFactory.makePipe(selectorOf(c.getElement()), TeslaScriptletFactory.makeClick(true,
+				c.isDefault(), c.isArrow(), KeyStrokeManager.getUtils().getMetaKeys(c.getMetaKeys())));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ClickColumn")
@@ -517,10 +517,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 			if (strings[0].equals("button"))
 				button = Button.values()[val];
 			if (strings[0].equals("mask"))
-				if (val != 0) {
-					mask = KeyStrokeManager.getUtils().getMask(val);
-				} else
-					mask = null;
+				mask = KeyStrokeManager.getUtils().getMetaKeys(val);
 			if (strings[0].equals("operations"))
 				operations = val;
 		}
@@ -638,12 +635,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 	@TeslaCommand(packageUri = DiagramPackage.eNS_URI, classifier = "MouseCommand")
 	protected Command mouseCommand(MouseCommand c) {
 		Command mouse = null;
-		String mask = null;
-		if (c.getStateMask() != 0) {
-			mask = KeyStrokeManager.getUtils().getMask(c.getStateMask());
-		} else
-			mask = null;
-
+		String mask = KeyStrokeManager.getUtils().getMetaKeys(c.getStateMask());
 		Button button = c.getButton() == 0 ? null : Button.values()[c.getButton()];
 		switch (c.getKind()) {
 		case DOWN:
@@ -688,11 +680,7 @@ public class TeslaParser extends TeslaScriptletFactory {
 		if (figurePath.size() > 0)
 			f = TeslaScriptletFactory.makeFigure(figurePath);
 
-		String mask = null;
-		if (c.getStateMask() != 0) {
-			mask = KeyStrokeManager.getUtils().getMask(c.getStateMask());
-		} else
-			mask = null;
+		String mask = KeyStrokeManager.getUtils().getMetaKeys(c.getStateMask());
 
 		Button button = c.getButton() == 0 ? null : Button.values()[c.getButton()];
 		Command mouse = null;

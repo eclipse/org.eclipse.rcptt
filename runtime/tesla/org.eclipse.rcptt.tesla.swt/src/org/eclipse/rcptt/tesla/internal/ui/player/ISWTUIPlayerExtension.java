@@ -99,8 +99,8 @@ public interface ISWTUIPlayerExtension {
 	 *
 	 * @param widget
 	 */
-	void click(final SWTUIElement widget, final boolean isDefault,
-			final boolean doubleClick, final boolean arrow);
+	void click(final SWTUIElement widget, final boolean isDefault, final boolean doubleClick, final boolean arrow,
+			final int stateMask);
 
     /**
      * Check the element is collectable.

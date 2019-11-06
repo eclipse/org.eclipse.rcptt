@@ -143,7 +143,7 @@ public class GetItemsResponseImpl extends ResponseImpl implements GetItemsRespon
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (result: ");
 		result.append(result);
 		result.append(')');

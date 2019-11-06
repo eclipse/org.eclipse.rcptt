@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetToolbar()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Gets toolbar with specified parameter. If toolbar doesn\'t exist, then error is returned.' returns='toolbar' recorded='true' example='get-window \"Q7 Control Panel - Test\" |   get-toolbar | get-menu Save | click <br> get-toolbar -index 11 | key-type \"M1+s\" '"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Gets toolbar with specified parameter. If toolbar doesn\'t exist, then error is returned.' returns='toolbar' recorded='true' example='get-window \"Q7 Control Panel - Test\" |   get-toolbar | get-menu Save | click &lt;br&gt; get-toolbar -index 11 | key-type \"M1+s\" '"
  * @generated
  */
 public interface GetToolbar extends Selector {

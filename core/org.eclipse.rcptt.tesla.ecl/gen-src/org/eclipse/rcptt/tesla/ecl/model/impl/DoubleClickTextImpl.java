@@ -212,7 +212,7 @@ public class DoubleClickTextImpl extends ControlCommandImpl implements DoubleCli
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (position: ");
 		result.append(position);
 		result.append(", button: ");

@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseRelease()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse release on the control.' returns='value of <code>control</code> parameter' example='with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-release 77 311 button1 -height 689 -width 413 <br> }'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse release on the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='with [get-editor Test | get-diagram] { &lt;br&gt; &amp;nbsp mouse-press 77 311 button1 -height 689 -width 413 &lt;br&gt; &amp;nbsp mouse-release 77 311 button1 -height 689 -width 413 &lt;br&gt; }'"
  * @generated
  */
 public interface MouseRelease extends MouseAction {

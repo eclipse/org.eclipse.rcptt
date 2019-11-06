@@ -26,7 +26,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickText()
- * @model annotation="http://www.eclipse.org/ecl/docs description='<p>Clicks on editbox to set cursor position (when only <code>start</code> argument specified) or text selection (when both <code>start</code> and <code>end</code> are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:</p>\r\n<ol>\r\n  <li>Sets focus to editbox if not yet focused</li>\r\n  <li>Sends mouse down and up events</li>\r\n  <li>Sets caret position or text selection based on arguments</li>\r\n</ol>\r\n<p>\r\n  <code>start</code> and <code>end</code> arguments have different forms depending on editbox kind:\r\n  <ul>\r\n    <li>For single line editboxes &ndash; 1-based indices in text (e.g. <code>1</code>, <code>5</code>)</li>\r\n    <li>For multi line editboxes &ndash; 1-based line and colum indices separated by colon (e.g <code>1:32</code>, <code>30:1</code>).</li>\r\n  </ul>\r\n</p>' returns='input item' example='with [get-editbox -after [get-label \"Location:\"]] {\n        click-text 3\n    }'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='&lt;p&gt;Clicks on editbox to set cursor position (when only &lt;code&gt;start&lt;/code&gt; argument specified) or text selection (when both &lt;code&gt;start&lt;/code&gt; and &lt;code&gt;end&lt;/code&gt; are set). When no arguments given, sets cursor in the beginning of an editbox. More verbosely, it does the following:&lt;/p&gt;\r\n&lt;ol&gt;\r\n  &lt;li&gt;Sets focus to editbox if not yet focused&lt;/li&gt;\r\n  &lt;li&gt;Sends mouse down and up events&lt;/li&gt;\r\n  &lt;li&gt;Sets caret position or text selection based on arguments&lt;/li&gt;\r\n&lt;/ol&gt;\r\n&lt;p&gt;\r\n  &lt;code&gt;start&lt;/code&gt; and &lt;code&gt;end&lt;/code&gt; arguments have different forms depending on editbox kind:\r\n  &lt;ul&gt;\r\n    &lt;li&gt;For single line editboxes &amp;ndash; 1-based indices in text (e.g. &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;5&lt;/code&gt;)&lt;/li&gt;\r\n    &lt;li&gt;For multi line editboxes &amp;ndash; 1-based line and colum indices separated by colon (e.g &lt;code&gt;1:32&lt;/code&gt;, &lt;code&gt;30:1&lt;/code&gt;).&lt;/li&gt;\r\n  &lt;/ul&gt;\r\n&lt;/p&gt;' returns='input item' example='with [get-editbox -after [get-label \"Location:\"]] {\n        click-text 3\n    }'"
  * @generated
  */
 public interface ClickText extends ControlCommand {
@@ -43,7 +43,7 @@ public interface ClickText extends ControlCommand {
 	 * @see #setStart(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClickText_Start()
 	 * @model default=""
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Cursor location when <code>end</code> is not set or selection start otherwise'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Cursor location when &lt;code&gt;end&lt;/code&gt; is not set or selection start otherwise'"
 	 * @generated
 	 */
 	String getStart();

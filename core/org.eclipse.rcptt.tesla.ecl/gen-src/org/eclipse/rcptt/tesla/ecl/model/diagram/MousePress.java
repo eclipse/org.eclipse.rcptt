@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMousePress()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse press on the control.' returns='value of <code>control</code> parameter' example='get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse press on the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413'"
  * @generated
  */
 public interface MousePress extends MouseAction {

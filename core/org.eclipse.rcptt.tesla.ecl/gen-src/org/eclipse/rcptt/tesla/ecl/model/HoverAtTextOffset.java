@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getHoverAtTextOffset()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Perform mouse hover at specific text position.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Perform mouse hover at specific text position.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter'"
  * @generated
  */
 public interface HoverAtTextOffset extends Command {
@@ -43,6 +43,7 @@ public interface HoverAtTextOffset extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getHoverAtTextOffset_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Text control: editbox, editor or combo.'"
 	 * @generated
 	 */

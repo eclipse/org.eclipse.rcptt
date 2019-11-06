@@ -399,7 +399,7 @@ public class SetSortColumnImpl extends EObjectImpl implements SetSortColumn {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(", name: ");

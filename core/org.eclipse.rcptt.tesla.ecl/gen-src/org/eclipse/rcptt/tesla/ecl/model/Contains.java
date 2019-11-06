@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getContains()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if <code>input</code> has <code>value</code> within  ' input='EObject input' returns='true if the content of control contains the specified value or false otherwise' example='get-editor TestCase1 | get-editbox | get-property value | contains a22 | verify-true'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Checks if &lt;code&gt;input&lt;/code&gt; has &lt;code&gt;value&lt;/code&gt; within  ' input='EObject input' returns='true if the content of control contains the specified value or false otherwise' example='get-editor TestCase1 | get-editbox | get-property value | contains a22 | verify-true'"
  * @generated
  */
 public interface Contains extends Command {
@@ -44,7 +44,8 @@ public interface Contains extends Command {
 	 * @see #setInput(EObject)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getContains_Input()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Property value extracted with <code>get-property</code>'"
+	 *        annotation="http://www.eclipse.org/ecl/input"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Property value extracted with &lt;code&gt;get-property&lt;/code&gt;'"
 	 * @generated
 	 */
 	EObject getInput();

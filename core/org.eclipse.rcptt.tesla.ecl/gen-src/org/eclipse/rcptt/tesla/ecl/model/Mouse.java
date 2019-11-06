@@ -29,7 +29,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getMouse()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sends a mouse event to control. Returns the same control, so that mouse commands can be chained: <pre>... | get-text \"Foo\" | mouse down -button Right | mouse up -buton Right</pre>' returns='value of control parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sends a mouse event to control. Returns the same control, so that mouse commands can be chained: &lt;pre&gt;... | get-text \"Foo\" | mouse down -button Right | mouse up -buton Right&lt;/pre&gt;' returns='value of control parameter'"
  * @generated
  */
 public interface Mouse extends ControlCommand {
@@ -44,7 +44,7 @@ public interface Mouse extends ControlCommand {
 	 * @return the value of the '<em>Event</em>' attribute.
 	 * @see #setEvent(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getMouse_Event()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Mouse event: <ul><li>up</li><li>down</li><li>move</li><li>enter</li><li>exit</li><li>hover</li><li>double-click</li></ul>'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Mouse event: &lt;ul&gt;&lt;li&gt;up&lt;/li&gt;&lt;li&gt;down&lt;/li&gt;&lt;li&gt;move&lt;/li&gt;&lt;li&gt;enter&lt;/li&gt;&lt;li&gt;exit&lt;/li&gt;&lt;li&gt;hover&lt;/li&gt;&lt;li&gt;double-click&lt;/li&gt;&lt;/ul&gt;'"
 	 * @generated
 	 */
 	String getEvent();

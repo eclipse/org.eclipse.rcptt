@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src"
-    editDirectory="/org.eclipse.rcptt.tesla.core.edit/src" modelPluginID="org.eclipse.rcptt.tesla.core"
-    modelName="Tesla" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
-    copyrightFields="false" runtimeVersion="2.4" language="" usedGenPackages="controls.genmodel#//ui platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore info.genmodel#//info rawProtocol.genmodel#//raw">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.rcptt.tesla.core/gen-src" editDirectory="/org.eclipse.rcptt.tesla.core.edit/src"
+    modelPluginID="org.eclipse.rcptt.tesla.core" modelName="Tesla" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" runtimeVersion="2.4" language=""
+    usedGenPackages="controls.genmodel#//ui platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore info.genmodel#//info rawProtocol.genmodel#//raw">
   <foreignModel>protocol.ecore</foreignModel>
   <foreignModel>../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore</foreignModel>
   <genPackages prefix="Protocol" basePackage="org.eclipse.rcptt.tesla.core" disposableProviderFactory="true"
@@ -26,6 +25,10 @@
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/Regexp"/>
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/ContainsImage"/>
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/ImageContainsText"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/NotContains"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/NotRegexp"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/IsEmpty"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//AssertKind/NotEmpty"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocol.ecore#//DragKind">
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//DragKind/Start"/>
@@ -37,6 +40,22 @@
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//DragKind/Over"/>
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//DragKind/Leave"/>
       <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//DragKind/Enter"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocol.ecore#//MouseEventKind">
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/DOWN"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/UP"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/MOVE"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/ENTER"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/EXIT"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/DOUBLE_CLICK"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//MouseEventKind/HOVER"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocol.ecore#//ActivationEventType">
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//ActivationEventType/Programmatic"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//ActivationEventType/KeyPressed"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//ActivationEventType/MouseClickSelection"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//ActivationEventType/MouseDoubleClickSelection"/>
+      <genEnumLiterals ecoreEnumLiteral="protocol.ecore#//ActivationEventType/Traversal"/>
     </genEnums>
     <genClasses ecoreClass="protocol.ecore#//SelectData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SelectData/kind"/>
@@ -66,6 +85,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Click/default"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Click/withWait"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Click/arrow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Click/metaKeys"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//DoubleClick">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//DoubleClick/withWait"/>
@@ -84,6 +104,8 @@
     <genClasses ecoreClass="protocol.ecore#//IsDisposed"/>
     <genClasses ecoreClass="protocol.ecore#//SetText">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetText/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetText/select"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetText/hidden"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//GetState"/>
     <genClasses ecoreClass="protocol.ecore#//GetStateResponse">
@@ -100,6 +122,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSelection/pattern"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSelection/index"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocol.ecore#//SetSelection/additionalItems"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSelection/all"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//MultiSelectionItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MultiSelectionItem/path"/>
@@ -119,6 +142,9 @@
     <genClasses ecoreClass="protocol.ecore#//SetTextSelection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection/offset"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection/startLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection/endline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection/endoffset"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//SetTextOffset">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextOffset/offset"/>
@@ -178,6 +204,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/code"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/fromDisplay"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/character"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/meta"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/traverse"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Type/times"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//TypeAction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//TypeAction/actionId"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//CopyTextSelection"/>
     <genClasses ecoreClass="protocol.ecore#//CutTextSelection"/>
@@ -191,30 +223,22 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CheckItem/index"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CheckItem/state"/>
     </genClasses>
-    <genClasses ecoreClass="protocol.ecore#//Expand">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Expand/path"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Expand/pattern"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Expand/index"/>
-    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//Expand"/>
     <genClasses ecoreClass="protocol.ecore#//CloseWorkbench"/>
     <genClasses ecoreClass="protocol.ecore#//ActivateCellEditor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/path"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/pattern"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/index"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ActivateCellEditor/button"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//ApplyCellEditor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ApplyCellEditor/path"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ApplyCellEditor/pattern"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ApplyCellEditor/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ApplyCellEditor/deactivate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ApplyCellEditor/column"/>
     </genClasses>
-    <genClasses ecoreClass="protocol.ecore#//CancelCellEditor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CancelCellEditor/path"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CancelCellEditor/pattern"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CancelCellEditor/index"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CancelCellEditor/column"/>
-    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//CancelCellEditor"/>
+    <genClasses ecoreClass="protocol.ecore#//DeactivateCellEditor"/>
     <genClasses ecoreClass="protocol.ecore#//SetSWTDialogInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSWTDialogInfo/kind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSWTDialogInfo/path"/>
@@ -227,11 +251,23 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Assert/index"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Assert/category"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference protocol.ecore#//Assert/valueType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocol.ecore#//Assert/imageData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Assert/showIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//GetRegionText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/sx"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/sy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetRegionText/height"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//AssertImageData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/image"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/sx"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/sy"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//AssertImageData/height"/>
     </genClasses>
@@ -254,5 +290,124 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//CellClick/column"/>
     </genClasses>
     <genClasses ecoreClass="protocol.ecore#//ShowContentAssist"/>
+    <genClasses ecoreClass="protocol.ecore#//ClickAboutMenu"/>
+    <genClasses ecoreClass="protocol.ecore#//ClickPreferencesMenu"/>
+    <genClasses ecoreClass="protocol.ecore#//RecordingModeRequest"/>
+    <genClasses ecoreClass="protocol.ecore#//AssertionModeRequest"/>
+    <genClasses ecoreClass="protocol.ecore#//Minimize"/>
+    <genClasses ecoreClass="protocol.ecore#//Maximize"/>
+    <genClasses ecoreClass="protocol.ecore#//Restore"/>
+    <genClasses ecoreClass="protocol.ecore#//ShowTabList"/>
+    <genClasses ecoreClass="protocol.ecore#//SetStatusDialogMode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetStatusDialogMode/enabled"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//Check">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//Check/state"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//HoverAtTextOffset">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//HoverAtTextOffset/offset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//HoverAtTextOffset/line"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetCursorOffset">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetCursorOffset/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetCursorOffset/offset"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetTextSelection2">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection2/startLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection2/startOffset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection2/endLine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection2/endOffset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetTextSelection2/blockMode"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//HoverAtText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//HoverAtText/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//HoverAtText/offset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//HoverAtText/stateMask"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//OpenDeclaration"/>
+    <genClasses ecoreClass="protocol.ecore#//RulerClick">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerClick/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerClick/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerClick/stateMask"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//RulerDoubleClick">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerDoubleClick/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerDoubleClick/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerDoubleClick/stateMask"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//RulerHover">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerHover/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RulerHover/stateMask"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//ClickLink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickLink/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetFocus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetFocus/value"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//GetPropertyValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetPropertyValue/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetPropertyValue/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetPropertyValue/allowRawValues"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//ObjectResponse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ObjectResponse/result"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//GetBounds"/>
+    <genClasses ecoreClass="protocol.ecore#//BoundsResponse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//BoundsResponse/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//BoundsResponse/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//BoundsResponse/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//BoundsResponse/height"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//Collapse"/>
+    <genClasses ecoreClass="protocol.ecore#//ClickColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickColumn/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickColumn/index"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetSortColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSortColumn/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSortColumn/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetSortColumn/descending"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//MouseEvent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/button"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/stateMask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//MouseEvent/y"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//ClickText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickText/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickText/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//ClickText/button"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//DoubleClickText">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//DoubleClickText/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//DoubleClickText/button"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetWidth">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetWidth/width"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//SetPosition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//SetPosition/index"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//UpdateControlCommand">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocol.ecore#//UpdateControlCommand/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//RapDownloadFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RapDownloadFile/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RapDownloadFile/handler"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RapDownloadFile/content"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//RapUploadFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RapUploadFile/base64file"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//RapUploadFile/path"/>
+    </genClasses>
+    <genClasses ecoreClass="protocol.ecore#//GetItems"/>
+    <genClasses ecoreClass="protocol.ecore#//GetItemsResponse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocol.ecore#//GetItemsResponse/result"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

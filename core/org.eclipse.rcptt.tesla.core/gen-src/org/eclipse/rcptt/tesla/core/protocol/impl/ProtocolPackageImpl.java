@@ -981,7 +981,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ProtocolPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -995,7 +995,8 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		if (isInited) return (ProtocolPackage)EPackage.Registry.INSTANCE.getEPackage(ProtocolPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ProtocolPackageImpl theProtocolPackage = (ProtocolPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ProtocolPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ProtocolPackageImpl());
+		Object registeredProtocolPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ProtocolPackageImpl theProtocolPackage = registeredProtocolPackage instanceof ProtocolPackageImpl ? (ProtocolPackageImpl)registeredProtocolPackage : new ProtocolPackageImpl();
 
 		isInited = true;
 
@@ -1014,7 +1015,6 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		// Mark meta-data to indicate it can't be changed
 		theProtocolPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ProtocolPackage.eNS_URI, theProtocolPackage);
 		return theProtocolPackage;
@@ -1225,6 +1225,15 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 	 */
 	public EAttribute getClick_Arrow() {
 		return (EAttribute)clickEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClick_MetaKeys() {
+		return (EAttribute)clickEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -3641,6 +3650,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		createEAttribute(clickEClass, CLICK__DEFAULT);
 		createEAttribute(clickEClass, CLICK__WITH_WAIT);
 		createEAttribute(clickEClass, CLICK__ARROW);
+		createEAttribute(clickEClass, CLICK__META_KEYS);
 
 		doubleClickEClass = createEClass(DOUBLE_CLICK);
 		createEAttribute(doubleClickEClass, DOUBLE_CLICK__WITH_WAIT);
@@ -4179,6 +4189,7 @@ public class ProtocolPackageImpl extends EPackageImpl implements ProtocolPackage
 		initEAttribute(getClick_Default(), ecorePackage.getEBoolean(), "default", "false", 0, 1, Click.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClick_WithWait(), ecorePackage.getEBoolean(), "withWait", "true", 0, 1, Click.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClick_Arrow(), ecorePackage.getEBoolean(), "arrow", "false", 0, 1, Click.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClick_MetaKeys(), ecorePackage.getEInt(), "metaKeys", "0", 0, 1, Click.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(doubleClickEClass, DoubleClick.class, "DoubleClick", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDoubleClick_WithWait(), ecorePackage.getEBoolean(), "withWait", "true", 0, 1, DoubleClick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

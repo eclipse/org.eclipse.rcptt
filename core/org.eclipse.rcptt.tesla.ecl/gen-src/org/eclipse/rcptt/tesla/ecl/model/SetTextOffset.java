@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextOffset()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the text offset.\nFor specified line.' returns='value of <code>control</code> parameter' example='get-window \"Q7 Control Panel - Test\" | get-editbox |  set-text-offset 8 0'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the text offset.\nFor specified line.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-window \"Q7 Control Panel - Test\" | get-editbox |  set-text-offset 8 0'"
  * @generated
  */
 public interface SetTextOffset extends Command {
@@ -43,6 +43,7 @@ public interface SetTextOffset extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextOffset_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Text control: editbox, editor or combo.'"
 	 * @generated
 	 */

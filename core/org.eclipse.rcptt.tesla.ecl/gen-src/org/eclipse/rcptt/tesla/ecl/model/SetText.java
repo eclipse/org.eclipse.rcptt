@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetText()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets text content of the control.' returns='value of <code>control</code> parameter' example='get-window Properties |  get-combo -after [get-label \"Priority:\"] | set-text High'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets text content of the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-window Properties |  get-combo -after [get-label \"Priority:\"] | set-text High'"
  * @generated
  */
 public interface SetText extends Command {
@@ -42,6 +42,7 @@ public interface SetText extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetText_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Text control: editbox, editor or combo.'"
 	 * @generated
 	 */

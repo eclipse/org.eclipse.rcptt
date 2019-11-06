@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetAdvancedInfo()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface GetAdvancedInfo extends Command {

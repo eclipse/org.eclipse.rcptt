@@ -26,7 +26,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getOptions()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface Options extends Command {

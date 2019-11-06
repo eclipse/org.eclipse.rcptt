@@ -28,7 +28,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetPropertyNodes()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface GetPropertyNodes extends Command {

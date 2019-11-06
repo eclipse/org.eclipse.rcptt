@@ -19,7 +19,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShutdownAut()
- * @model
+ * @model annotation="http://www.eclipse.org/ecl/internal"
  * @generated
  */
 public interface ShutdownAut extends Command {

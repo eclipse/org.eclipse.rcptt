@@ -26,7 +26,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getActivateCellEdit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Activates cell editing.' returns='value of <code>control</code> parameter' example='get-editor Test | get-section Preferences | get-tree |  select \"EXECUTION_TIMEOUT\" | activate-cell-edit -column 1'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Activates cell editing.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor Test | get-section Preferences | get-tree |  select \"EXECUTION_TIMEOUT\" | activate-cell-edit -column 1'"
  * @generated
  */
 public interface ActivateCellEdit extends CellEdit {

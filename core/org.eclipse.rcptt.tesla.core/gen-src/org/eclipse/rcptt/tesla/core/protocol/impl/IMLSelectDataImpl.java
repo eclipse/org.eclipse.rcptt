@@ -160,7 +160,7 @@ public class IMLSelectDataImpl extends SelectDataImpl implements IMLSelectData {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (image: ");
 		result.append(image);
 		result.append(')');

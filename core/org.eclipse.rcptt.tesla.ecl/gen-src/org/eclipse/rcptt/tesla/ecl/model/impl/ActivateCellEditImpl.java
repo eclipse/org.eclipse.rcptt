@@ -259,7 +259,7 @@ public class ActivateCellEditImpl extends CellEditImpl implements ActivateCellEd
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (column: ");
 		result.append(column);
 		result.append(", type: ");

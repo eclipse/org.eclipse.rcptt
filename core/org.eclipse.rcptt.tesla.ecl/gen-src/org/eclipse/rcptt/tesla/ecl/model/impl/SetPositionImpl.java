@@ -159,7 +159,7 @@ public class SetPositionImpl extends ControlCommandImpl implements SetPosition {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (index: ");
 		result.append(index);
 		result.append(')');

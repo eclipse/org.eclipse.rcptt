@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragEnd()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag end event.' returns='value of <code>control</code> parameter' example='with [get-view \"Project Explorer\" | get-tree] {\n    drag-end -detail copy\n    select \"Project/Folder/t.test\" | get-menu Delete | click\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag end event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='with [get-view \"Project Explorer\" | get-tree] {\n    drag-end -detail copy\n    select \"Project/Folder/t.test\" | get-menu Delete | click\n}'"
  * @generated
  */
 public interface DragEnd extends DragAction {

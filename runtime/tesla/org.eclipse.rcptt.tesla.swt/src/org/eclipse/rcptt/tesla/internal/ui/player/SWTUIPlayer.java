@@ -808,16 +808,17 @@ public final class SWTUIPlayer {
 	}
 
 	public void click(final SWTUIElement w) {
-		click(w, false, false, false);
+		click(w, false, false, false, Events.EMPTY_MASK);
 	}
 
-	public void click(final SWTUIElement w, final boolean isDefault, final boolean doubleClick, final boolean arrow) {
+	public void click(final SWTUIElement w, final boolean isDefault, final boolean doubleClick, final boolean arrow,
+			final int mask) {
 		exec("click", new Runnable() {
 			@Override
 			public void run() {
 				for (ISWTUIPlayerExtension ext : getExtensions()) {
 					if (ext.canClick(w, isDefault, doubleClick, arrow)) {
-						ext.click(w, isDefault, doubleClick, arrow);
+						ext.click(w, isDefault, doubleClick, arrow, mask);
 						return;
 					}
 				}
@@ -838,13 +839,13 @@ public final class SWTUIPlayer {
 					clickTabItem(w, isDefault);
 					break;
 				case Link:
-					clickLink(w, doubleClick);
+					clickLink(w, doubleClick, mask);
 					break;
 				case Item:
 					clickTableTreeItem(w, doubleClick);
 					break;
 				case Label:
-					clickLabel(w);
+					clickLabel(w, mask);
 					break;
 				default:
 					Widget widget = unwrapWidget(w);
@@ -883,9 +884,9 @@ public final class SWTUIPlayer {
 
 					Point clickPoint = getClickPoint(w);
 
-					events.sendEvent(w, SWT.MouseEnter);
-					events.sendEvent(w, SWT.MouseHover);
-					events.sendEvent(w, SWT.MouseDown, clickPoint, 1);
+					events.sendEvent(w, SWT.MouseEnter, mask);
+					events.sendEvent(w, SWT.MouseHover, mask);
+					events.sendEvent(w, SWT.MouseDown, clickPoint, 1, mask);
 
 					if (isToggleButton(widget)) {
 						((Button) widget).setSelection(!((Button) widget).getSelection());
@@ -896,10 +897,11 @@ public final class SWTUIPlayer {
 							event.detail = SWT.ARROW;
 						}
 						event.type = isDefault ? SWT.DefaultSelection : SWT.Selection;
+						event.stateMask = mask;
 						events.sendEvent(w, event);
 					}
 
-					events.sendEvent(w, SWT.MouseUp, clickPoint, 1);
+					events.sendEvent(w, SWT.MouseUp, clickPoint, 1, mask);
 					events.sendEvent(w, SWT.MouseExit);
 					events.sendUnfocus(widget);
 
@@ -1069,7 +1071,7 @@ public final class SWTUIPlayer {
 		}
 	}
 
-	private void clickLink(final SWTUIElement w, boolean doubleClick) {
+	private void clickLink(final SWTUIElement w, boolean doubleClick, int mask) {
 		Widget widget = unwrapWidget(w);
 		if (widget.isDisposed()) {
 			return;
@@ -1079,7 +1081,9 @@ public final class SWTUIPlayer {
 			events.sendAll(widget, Events.createDoubleClick());
 			events.sendUnfocus(widget);
 		} else {
-			events.sendAll(widget, new Event[] { createMouseDown(), createSelection(), createMouseUp() });
+			events.sendAll(widget,
+					new Event[] { createMouseDown(Events.DEFAULT_BUTTON, Events.SINGLE_COUNT, mask, 0, 0),
+							createSelection(false, mask), createMouseUp() });
 		}
 	}
 
@@ -1095,14 +1099,16 @@ public final class SWTUIPlayer {
 		Composite tabParent = TabCTabUtil.getParent(rawItem);
 		TabCTabUtil.setSelection(tabParent, rawItem);
 		Point pos = Bounds.centerAbs(TabCTabUtil.getBounds(rawItem));
-		events.sendAll(tabParent, rawItem, new Event[] { Events.createMouseDown(pos), Events.createSelection(isDefault),
+		events.sendAll(tabParent, rawItem, new Event[] { Events.createMouseDown(pos),
+				Events.createSelection(isDefault, Events.EMPTY_MASK), 
 				Events.createMouseUp(pos) });
 	}
 
-	private void clickLabel(final SWTUIElement w) {
+	private void clickLabel(final SWTUIElement w, int stateMask) {
 		Widget widget = w.unwrap();
 		events.sendFocus(widget);
-		for (Event event : createClick(centerRel(w.getBounds()))) {
+		for (Event event : createClick(Events.DEFAULT_BUTTON, stateMask, centerRel(w.getBounds()).x,
+				centerRel(w.getBounds()).y)) {
 			events.sendEvent(w, event);
 		}
 		events.sendUnfocus(widget);

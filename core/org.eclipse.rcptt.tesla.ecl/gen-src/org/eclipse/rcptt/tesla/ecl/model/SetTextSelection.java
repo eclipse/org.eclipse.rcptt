@@ -30,7 +30,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of <code>control</code> parameter' example='get-editor Q7Project | get-section Script | get-editbox |  set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets the selection to the range specified by the given offset and length. If specified four parameters sets the selection by start line, offset in start line, end line and offset in end line.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor Q7Project | get-section Script | get-editbox |  set-text-selection -offset 0 -startLine 1 -endLine 4 -endOffset 1'"
  * @generated
  */
 public interface SetTextSelection extends Command {
@@ -46,6 +46,7 @@ public interface SetTextSelection extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Text control: editbox, editor or combo.'"
 	 * @generated
 	 */
@@ -73,7 +74,7 @@ public interface SetTextSelection extends Command {
 	 * @see #setOffset(Integer)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection_Offset()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Zero-based selection starting position. Must be in <code>0..length-1</code> range'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Zero-based selection starting position. Must be in &lt;code&gt;0..length-1&lt;/code&gt; range'"
 	 * @generated
 	 */
 	Integer getOffset();
@@ -125,7 +126,7 @@ public interface SetTextSelection extends Command {
 	 * @return the value of the '<em>Start Line</em>' attribute.
 	 * @see #setStartLine(Integer)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection_StartLine()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='For multiline text boxes the starting line of a selection. If set, then the <code>offset</code> value will be relative to given line.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='For multiline text boxes the starting line of a selection. If set, then the &lt;code&gt;offset&lt;/code&gt; value will be relative to given line.'"
 	 * @generated
 	 */
 	Integer getStartLine();
@@ -177,7 +178,7 @@ public interface SetTextSelection extends Command {
 	 * @return the value of the '<em>End Offset</em>' attribute.
 	 * @see #setEndOffset(Integer)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetTextSelection_EndOffset()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Selection end offset relative to <code>endLine</code>. Don\'t use this argument along with <code>length</code> argument.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Selection end offset relative to &lt;code&gt;endLine&lt;/code&gt;. Don\'t use this argument along with &lt;code&gt;length&lt;/code&gt; argument.'"
 	 * @generated
 	 */
 	Integer getEndOffset();
