@@ -24,6 +24,7 @@ import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
 import org.eclipse.rcptt.tesla.core.TeslaFeatures;
+import org.eclipse.rcptt.tesla.core.utils.Cryptography;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -185,7 +186,7 @@ public final class ZephyrPlugin extends Plugin {
 	public static String getZephyrPassword() {
 		final ISecurePreferences preferences = getSecurePreferences();
 		try {
-			return preferences.get(ZEPHYR_PASSWORD, "");
+			return Cryptography.INSTANCE.decrypt(preferences.get(ZEPHYR_PASSWORD, ""));
 		} catch (final StorageException e) {
 			throw new IllegalStateException(
 					MessageFormat.format(Messages.ZephyrPlugin_ErrorWhileSaving, ZEPHYR_PASSWORD), e);
@@ -195,7 +196,7 @@ public final class ZephyrPlugin extends Plugin {
 	public static void setZephyrPassword(final String password) {
 		final ISecurePreferences preferences = getSecurePreferences();
 		try {
-			preferences.put(ZEPHYR_PASSWORD, password, true);
+			preferences.put(ZEPHYR_PASSWORD, Cryptography.INSTANCE.encrypt(password), false);
 			preferences.flush();
 		} catch (final StorageException | IOException e) {
 			throw new IllegalStateException(

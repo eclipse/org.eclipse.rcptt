@@ -17,7 +17,7 @@
          point="org.eclipse.rcptt.launching.testEngine">
       <testEngine
             class="org.eclipse.rcptt.zephyr.ZephyrService"
-            parameters="baseUrl*, username*, password*, project*, version*, cycle*"
+            parameters="baseUrl*, username*, password*"
             id="zephyr"
             name="Zephyr">
       </testEngine>
