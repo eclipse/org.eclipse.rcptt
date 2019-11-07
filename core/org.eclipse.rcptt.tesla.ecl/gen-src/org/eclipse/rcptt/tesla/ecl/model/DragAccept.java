@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAccept()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag accept event.' returns='value of <code>control</code> parameter' example='get-item \"Project/Folder\" | drag-accept 18 11 -detail copy'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag accept event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-item \"Project/Folder\" | drag-accept 18 11 -detail copy'"
  * @generated
  */
 public interface DragAccept extends DragAction {

@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getCancelDirectEdit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Cancels direct editing.' returns='value of <code>control</code> parameter' example='get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {<br> \r\n&nbsp activate-direct-edit<br>\r\n&nbsp cancel-direct-edit<br>}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Cancels direct editing.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {&lt;br&gt; \r\n&amp;nbsp activate-direct-edit&lt;br&gt;\r\n&amp;nbsp cancel-direct-edit&lt;br&gt;}'"
  * @generated
  */
 public interface CancelDirectEdit extends DirectEdit {

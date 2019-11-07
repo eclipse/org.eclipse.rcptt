@@ -491,6 +491,12 @@
         <details key="default" value="false"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metaKeys" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/ecl/docs">
+        <details key="description" value="Plus-separated pressed metakeys. Example: ALT+SHIFT"/>
+        <details key="default" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DoubleClick" eSuperTypes="#//Click">
     <eAnnotations source="http://www.eclipse.org/ecl/docs">
@@ -901,6 +907,7 @@
         defaultValueLiteral="">
       <eAnnotations source="http://www.eclipse.org/ecl/docs">
         <details key="default" value="0"/>
+        <details key="description" value="Plus-separated pressed metakeys. Example: ALT+SHIFT"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -1896,6 +1903,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/ecl/docs">
           <details key="default" value="0"/>
+          <details key="description" value="Plus-separated pressed metakeys. Example: ALT+SHIFT. Also could be a numeric value of org.eclipse.swt.widgets.Event.stateMask."/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject">

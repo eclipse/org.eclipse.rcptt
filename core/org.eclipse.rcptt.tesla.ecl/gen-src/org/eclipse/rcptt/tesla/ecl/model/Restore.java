@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getRestore()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Restore the tab folder.' returns='value of <code>control</code> parameter' example='get-view \"Q7 Explorer\" | minimize\nget-view \"Q7 Explorer\" | restore'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Restore the tab folder.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-view \"Q7 Explorer\" | minimize\nget-view \"Q7 Explorer\" | restore'"
  * @generated
  */
 public interface Restore extends Command {
@@ -43,6 +43,7 @@ public interface Restore extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getRestore_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Window, view or editor.'"
 	 * @generated
 	 */

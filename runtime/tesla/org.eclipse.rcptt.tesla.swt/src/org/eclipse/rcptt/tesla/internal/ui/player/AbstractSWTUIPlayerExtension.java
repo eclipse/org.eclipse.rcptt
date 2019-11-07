@@ -63,8 +63,8 @@ public abstract class AbstractSWTUIPlayerExtension implements
 	}
 
 	@Override
-	public void click(final SWTUIElement widget, final boolean isDefault,
-			final boolean doubleClick, final boolean arrow) {
+	public void click(final SWTUIElement widget, final boolean isDefault, final boolean doubleClick,
+			final boolean arrow, final int stateMask) {
 	}
 
 	@Override

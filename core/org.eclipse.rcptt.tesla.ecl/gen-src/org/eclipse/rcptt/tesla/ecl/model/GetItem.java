@@ -41,7 +41,7 @@ public interface GetItem extends Selector {
 	 * @return the value of the '<em>Path</em>' attribute.
 	 * @see #setPath(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetItem_Path()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the path to the item. This parameter is used by default, so <code>-path</code> word is not written at the recording of the test.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the path to the item. This parameter is used by default, so &lt;code&gt;-path&lt;/code&gt; word is not written at the recording of the test.'"
 	 * @generated
 	 */
 	String getPath();

@@ -380,7 +380,7 @@ public class SelectRangeImpl extends CommandImpl implements SelectRange {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (line: ");
 		result.append(line);
 		result.append(", column: ");

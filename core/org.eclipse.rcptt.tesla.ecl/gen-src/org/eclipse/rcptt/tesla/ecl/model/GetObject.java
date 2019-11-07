@@ -43,6 +43,7 @@ public interface GetObject extends Command {
 	 * @see #setObject(EObject)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetObject_Object()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='UI control to get object for.'"
 	 * @generated
 	 */

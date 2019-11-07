@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragStart()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag start event.' returns='value of <code>control</code> parameter' example='get-item \"Project/t.test\" | drag-start 23 5'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag start event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-item \"Project/t.test\" | drag-start 23 5'"
  * @generated
  */
 public interface DragStart extends DragAction {

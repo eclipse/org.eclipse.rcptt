@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getVerifyFalse()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Checks <code>input</code> condition\'s falsity. If falsity is not confirmed, then error is returned' input='EObject condition' example='get-editor \"Test scenario\" | get-section Script | get-editbox | get-property value | equals test | verify-false'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Checks &lt;code&gt;input&lt;/code&gt; condition\'s falsity. If falsity is not confirmed, then error is returned' input='EObject condition' example='get-editor \"Test scenario\" | get-section Script | get-editbox | get-property value | equals test | verify-false'"
  * @generated
  */
 public interface VerifyFalse extends Command {
@@ -43,7 +43,8 @@ public interface VerifyFalse extends Command {
 	 * @see #setCondition(EObject)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getVerifyFalse_Condition()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='<code>input</code> condition that has to be false'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='&lt;code&gt;input&lt;/code&gt; condition that has to be false'"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 * @generated
 	 */
 	EObject getCondition();

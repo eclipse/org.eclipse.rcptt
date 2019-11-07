@@ -18,7 +18,10 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.rcptt.ecl.core.CorePackage;
 
+import org.eclipse.rcptt.tesla.core.info.InfoPackage;
 import org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage;
+import org.eclipse.rcptt.tesla.core.protocol.raw.RawPackage;
+import org.eclipse.rcptt.tesla.core.ui.UiPackage;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.ActivateDirectEdit;
 import org.eclipse.rcptt.tesla.ecl.model.diagram.CancelDirectEdit;
@@ -242,16 +245,22 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 		if (isInited) return (DiagramPackage)EPackage.Registry.INSTANCE.getEPackage(DiagramPackage.eNS_URI);
 
 		// Obtain or create and register package
-		DiagramPackageImpl theDiagramPackage = (DiagramPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DiagramPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DiagramPackageImpl());
+		Object registeredDiagramPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		DiagramPackageImpl theDiagramPackage = registeredDiagramPackage instanceof DiagramPackageImpl ? (DiagramPackageImpl)registeredDiagramPackage : new DiagramPackageImpl();
 
 		isInited = true;
 
 		// Initialize simple dependencies
+		UiPackage.eINSTANCE.eClass();
 		CorePackage.eINSTANCE.eClass();
+		EcorePackage.eINSTANCE.eClass();
+		InfoPackage.eINSTANCE.eClass();
+		RawPackage.eINSTANCE.eClass();
 		ProtocolPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		TeslaPackageImpl theTeslaPackage = (TeslaPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TeslaPackage.eNS_URI) instanceof TeslaPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TeslaPackage.eNS_URI) : TeslaPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TeslaPackage.eNS_URI);
+		TeslaPackageImpl theTeslaPackage = (TeslaPackageImpl)(registeredPackage instanceof TeslaPackageImpl ? registeredPackage : TeslaPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDiagramPackage.createPackageContents();
@@ -264,7 +273,6 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 		// Mark meta-data to indicate it can't be changed
 		theDiagramPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(DiagramPackage.eNS_URI, theDiagramPackage);
 		return theDiagramPackage;
@@ -797,15 +805,15 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 	 * @generated
 	 */
 	protected void createInputAnnotations() {
-		String source = "http://www.eclipse.org/ecl/input";	
+		String source = "http://www.eclipse.org/ecl/input";
 		addAnnotation
-		  (getDirectEdit_Control(), 
-		   source, 
+		  (getDirectEdit_Control(),
+		   source,
 		   new String[] {
-		   });	
+		   });
 		addAnnotation
-		  (getMouseAction_Control(), 
-		   source, 
+		  (getMouseAction_Control(),
+		   source,
 		   new String[] {
 		   });
 	}
@@ -816,257 +824,258 @@ public class DiagramPackageImpl extends EPackageImpl implements DiagramPackage {
 	 * @generated
 	 */
 	protected void createDocsAnnotations() {
-		String source = "http://www.eclipse.org/ecl/docs";	
+		String source = "http://www.eclipse.org/ecl/docs";
 		addAnnotation
-		  (getDiagramEClass, 
-		   source, 
+		  (getDiagramEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets diagram with specified parameter. If diagram doesn\'t exist, then error is returned.",
-			 "returns", "diagram",
-			 "recorded", "true",
-			 "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
-		   });	
+			   "description", "Gets diagram with specified parameter. If diagram doesn\'t exist, then error is returned.",
+			   "returns", "diagram",
+			   "recorded", "true",
+			   "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
+		   });
 		addAnnotation
-		  (getPaletteEClass, 
-		   source, 
+		  (getPaletteEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets palette with specified parameter. If palette doesn\'t exist, then error is returned.",
-			 "returns", "palette",
-			 "recorded", "true",
-			 "example", "get-editor Diagram | get-palette | get-palette-entry CompositeLink | get-property text"
-		   });	
+			   "description", "Gets palette with specified parameter. If palette doesn\'t exist, then error is returned.",
+			   "returns", "palette",
+			   "recorded", "true",
+			   "example", "get-editor Diagram | get-palette | get-palette-entry CompositeLink | get-property text"
+		   });
 		addAnnotation
-		  (getEditPartEClass, 
-		   source, 
+		  (getEditPartEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets EObject part that should be edited",
-			 "returns", "Part of EObject",
-			 "recorded", "true",
-			 "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
-		   });	
+			   "description", "Gets EObject part that should be edited",
+			   "returns", "Part of EObject",
+			   "recorded", "true",
+			   "example", "get-editor Network | get-diagram | get-edit-part -name Network | mouse-hover 139 377 -height 609 -width 1034"
+		   });
 		addAnnotation
-		  (getGetEditPart_Path(), 
-		   source, 
+		  (getGetEditPart_Path(),
+		   source,
 		   new String[] {
-			 "description", "Path to EObject"
-		   });	
+			   "description", "Path to EObject"
+		   });
 		addAnnotation
-		  (getGetEditPart_Name(), 
-		   source, 
+		  (getGetEditPart_Name(),
+		   source,
 		   new String[] {
-			 "description", "Name of EObject"
-		   });	
+			   "description", "Name of EObject"
+		   });
 		addAnnotation
-		  (getFigureEClass, 
-		   source, 
+		  (getFigureEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets figure with specified coordinates. If figure doesn\'t exist, then error is returned.",
-			 "returns", "figure",
-			 "recorded", "true",
-			 "example", "get-editor Diagram | get-palette | get-figure \"0/3/1/0/0/0/0/1/1/0\""
-		   });	
+			   "description", "Gets figure with specified coordinates. If figure doesn\'t exist, then error is returned.",
+			   "returns", "figure",
+			   "recorded", "true",
+			   "example", "get-editor Diagram | get-palette | get-figure \"0/3/1/0/0/0/0/1/1/0\""
+		   });
 		addAnnotation
-		  (getEntryEClass, 
-		   source, 
+		  (getEntryEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets entry from palette",
-			 "returns", "Palette entry",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets entry from palette",
+			   "returns", "Palette entry",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getDirectEdit_Control(), 
-		   source, 
+		  (getDirectEdit_Control(),
+		   source,
 		   new String[] {
-			 "description", "Edit part or figure."
-		   });	
+			   "description", "Edit part or figure."
+		   });
 		addAnnotation
-		  (activateDirectEditEClass, 
-		   source, 
+		  (activateDirectEditEClass,
+		   source,
 		   new String[] {
-			 "description", "Activates direct editing.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke \r\n    | activate-direct-edit"
-		   });	
+			   "description", "Activates direct editing.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke \r\n    | activate-direct-edit"
+		   });
 		addAnnotation
-		  (commitDirectEditEClass, 
-		   source, 
+		  (commitDirectEditEClass,
+		   source,
 		   new String[] {
-			 "description", "Commits direct editing.",
-			 "returns", "value of <code>control</code> parameter"
-		   });	
+			   "description", "Commits direct editing.",
+			   "returns", "value of <code>control</code> parameter"
+		   });
 		addAnnotation
-		  (cancelDirectEditEClass, 
-		   source, 
+		  (cancelDirectEditEClass,
+		   source,
 		   new String[] {
-			 "description", "Cancels direct editing.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {<br> \r\n&nbsp activate-direct-edit<br>\r\n&nbsp cancel-direct-edit<br>}"
-		   });	
+			   "description", "Cancels direct editing.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "get-editor SO | get-diagram | get-edit-part -className ProcessEditPart | get-edit-part -name Invoke {<br> \r\n&nbsp activate-direct-edit<br>\r\n&nbsp cancel-direct-edit<br>}"
+		   });
 		addAnnotation
-		  (mouseActionEClass, 
-		   source, 
+		  (mouseActionEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse actions"
-		   });	
+			   "description", "Emulates mouse actions"
+		   });
 		addAnnotation
-		  (getMouseAction_Control(), 
-		   source, 
+		  (getMouseAction_Control(),
+		   source,
 		   new String[] {
-			 "description", "Canvas, edit part or figure."
-		   });	
+			   "description", "Canvas, edit part or figure."
+		   });
 		addAnnotation
-		  (getMouseAction_X(), 
-		   source, 
+		  (getMouseAction_X(),
+		   source,
 		   new String[] {
-			 "description", "X coordinate relative to left top corner of the control."
-		   });	
+			   "description", "X coordinate relative to left top corner of the control."
+		   });
 		addAnnotation
-		  (getMouseAction_Y(), 
-		   source, 
+		  (getMouseAction_Y(),
+		   source,
 		   new String[] {
-			 "description", "Y coordinate relative to left top corner of the control."
-		   });	
+			   "description", "Y coordinate relative to left top corner of the control."
+		   });
 		addAnnotation
-		  (getMouseAction_Button(), 
-		   source, 
+		  (getMouseAction_Button(),
+		   source,
 		   new String[] {
-			 "description", "Mouse button pressed. Must be one of followings: none, button1, button2, button3.",
-			 "default", "none"
-		   });	
+			   "description", "Mouse button pressed. Must be one of followings: none, button1, button2, button3.",
+			   "default", "none"
+		   });
 		addAnnotation
-		  (getMouseAction_Mask(), 
-		   source, 
+		  (getMouseAction_Mask(),
+		   source,
 		   new String[] {
-			 "default", "0"
-		   });	
+			   "default", "0",
+			   "description", "Plus-separated pressed metakeys. Example: ALT+SHIFT. Also could be a numeric value of org.eclipse.swt.widgets.Event.stateMask."
+		   });
 		addAnnotation
-		  (getMouseAction_Height(), 
-		   source, 
+		  (getMouseAction_Height(),
+		   source,
 		   new String[] {
-			 "description", "Height of the control.",
-			 "default", "0"
-		   });	
+			   "description", "Height of the control.",
+			   "default", "0"
+		   });
 		addAnnotation
-		  (getMouseAction_Width(), 
-		   source, 
+		  (getMouseAction_Width(),
+		   source,
 		   new String[] {
-			 "description", "Width of the control.",
-			 "default", "0"
-		   });	
+			   "description", "Width of the control.",
+			   "default", "0"
+		   });
 		addAnnotation
-		  (mouseMoveEClass, 
-		   source, 
+		  (mouseMoveEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse move over the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "get-editor Test | get-diagram | get-figure \"0/1/0/0/0/1\" | mouse-move 62 167 -height 235 -width 525"
-		   });	
+			   "description", "Emulates mouse move over the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "get-editor Test | get-diagram | get-figure \"0/1/0/0/0/1\" | mouse-move 62 167 -height 235 -width 525"
+		   });
 		addAnnotation
-		  (mouseDragEClass, 
-		   source, 
+		  (mouseDragEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse drag on the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-drag 77 311 -height 689 -width 413 <br> }"
-		   });	
+			   "description", "Emulates mouse drag on the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-drag 77 311 -height 689 -width 413 <br> }"
+		   });
 		addAnnotation
-		  (mousePressEClass, 
-		   source, 
+		  (mousePressEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse press on the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413"
-		   });	
+			   "description", "Emulates mouse press on the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "get-editor Test | get-diagram | mouse-press 77 311 button1 -height 689 -width 413"
+		   });
 		addAnnotation
-		  (mouseReleaseEClass, 
-		   source, 
+		  (mouseReleaseEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse release on the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-release 77 311 button1 -height 689 -width 413 <br> }"
-		   });	
+			   "description", "Emulates mouse release on the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "with [get-editor Test | get-diagram] { <br> &nbsp mouse-press 77 311 button1 -height 689 -width 413 <br> &nbsp mouse-release 77 311 button1 -height 689 -width 413 <br> }"
+		   });
 		addAnnotation
-		  (mouseDoubleClickEClass, 
-		   source, 
+		  (mouseDoubleClickEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse double click on the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "with [get-palette-entry \"Try/Catch/Finally\"] {<br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> &nbsp mouse-press 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-double-click 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> }"
-		   });	
+			   "description", "Emulates mouse double click on the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "with [get-palette-entry \"Try/Catch/Finally\"] {<br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> &nbsp mouse-press 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-double-click 32 18 button1 -height 23 -width 125 <br> &nbsp mouse-release 32 18 button1 524288 -height 23 -width 125 <br> }"
+		   });
 		addAnnotation
-		  (mouseEnterEClass, 
-		   source, 
+		  (mouseEnterEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse entering to the control.",
-			 "returns", "value of <code>control</code> parameter"
-		   });	
+			   "description", "Emulates mouse entering to the control.",
+			   "returns", "value of <code>control</code> parameter"
+		   });
 		addAnnotation
-		  (mouseExitEClass, 
-		   source, 
+		  (mouseExitEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse leaving from the control.",
-			 "returns", "value of <code>control</code> parameter"
-		   });	
+			   "description", "Emulates mouse leaving from the control.",
+			   "returns", "value of <code>control</code> parameter"
+		   });
 		addAnnotation
-		  (mouseHoverEClass, 
-		   source, 
+		  (mouseHoverEClass,
+		   source,
 		   new String[] {
-			 "description", "Emulates mouse hovering over the control.",
-			 "returns", "value of <code>control</code> parameter",
-			 "example", "with [get-edit-part \"0/0/1/0/1/0/1/0\"] {<br> &nbsp mouse-release 13 17 button1 524288 -height 22 -width 88<br> &nbsp  mouse-move 14 16 -height 22 -width 88<br> &nbsp mouse-hover 14 16 -height 22 -width 88<br>}"
-		   });	
+			   "description", "Emulates mouse hovering over the control.",
+			   "returns", "value of <code>control</code> parameter",
+			   "example", "with [get-edit-part \"0/0/1/0/1/0/1/0\"] {<br> &nbsp mouse-release 13 17 button1 524288 -height 22 -width 88<br> &nbsp  mouse-move 14 16 -height 22 -width 88<br> &nbsp mouse-hover 14 16 -height 22 -width 88<br>}"
+		   });
 		addAnnotation
-		  (getSourceConnectionEClass, 
-		   source, 
+		  (getSourceConnectionEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets source connection on diagram. ",
-			 "returns", "source connection",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets source connection on diagram. ",
+			   "returns", "source connection",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getTargetConnectionEClass, 
-		   source, 
+		  (getTargetConnectionEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets target connection on diagram. ",
-			 "returns", "target connection",
-			 "example", "get-editor Diagram | get-diagram | get-edit-part -name SO | get-edit-part -name SA | get-target-connection 0 | get-property foregroundColor | equals \"#F49316\" | verify-true",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets target connection on diagram. ",
+			   "returns", "target connection",
+			   "example", "get-editor Diagram | get-diagram | get-edit-part -name SO | get-edit-part -name SA | get-target-connection 0 | get-property foregroundColor | equals \"#F49316\" | verify-true",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getPopupBarItemEClass, 
-		   source, 
+		  (getPopupBarItemEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets pop-up bar of GMF element. If it doesn\'t exist, then error is returned.",
-			 "returns", "pop-up bar ",
-			 "example", "get-editor Diagram | get-diagram  | get-edit-part -className DiagramEditPart | get-popup-bar-item | mouse-hover 16 9 -height 20 -width 30",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets pop-up bar of GMF element. If it doesn\'t exist, then error is returned.",
+			   "returns", "pop-up bar ",
+			   "example", "get-editor Diagram | get-diagram  | get-edit-part -className DiagramEditPart | get-popup-bar-item | mouse-hover 16 9 -height 20 -width 30",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getConnectionHandleEClass, 
-		   source, 
+		  (getConnectionHandleEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets connection handle on diagram. If the connection handle is not found, the error is returned.",
-			 "returns", "connection handle",
-			 "example", "get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-connection-handle 0 | mouse-move 1 6 button1 -height 16 -width 20",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets connection handle on diagram. If the connection handle is not found, the error is returned.",
+			   "returns", "connection handle",
+			   "example", "get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-connection-handle 0 | mouse-move 1 6 button1 -height 16 -width 20",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getPaletteEntryEClass, 
-		   source, 
+		  (getPaletteEntryEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets entry from palette",
-			 "returns", "Palette entry",
-			 "example", "get-editor SO | get-palette | get-palette-entry Tools | get-figure \"0/0\" | drag-set-data",
-			 "recorded", "true"
-		   });	
+			   "description", "Gets entry from palette",
+			   "returns", "Palette entry",
+			   "example", "get-editor SO | get-palette | get-palette-entry Tools | get-figure \"0/0\" | drag-set-data",
+			   "recorded", "true"
+		   });
 		addAnnotation
-		  (getHandleEClass, 
-		   source, 
+		  (getHandleEClass,
+		   source,
 		   new String[] {
-			 "description", "Gets specified handle of GMF element. If this handle is not found, the error is returned.",
-			 "returns", "handle",
-			 "example", "get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-handle ResizeHandle | mouse-hover 5 5 -height 7 -width 7",
-			 "recorded", "true"
+			   "description", "Gets specified handle of GMF element. If this handle is not found, the error is returned.",
+			   "returns", "handle",
+			   "example", "get-editor Diagram | get-diagram | get-edit-part -className DiagramEditPart | get-handle ResizeHandle | mouse-hover 5 5 -height 7 -width 7",
+			   "recorded", "true"
 		   });
 	}
 

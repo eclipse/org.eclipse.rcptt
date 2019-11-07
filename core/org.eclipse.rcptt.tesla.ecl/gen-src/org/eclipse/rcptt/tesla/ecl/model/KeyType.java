@@ -29,7 +29,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getKeyType()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Type key to the control.' returns='value of <code>control</code> parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  key-type \"M1+s\"'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Type key to the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor \"Test scenario\" | get-section Script | get-editbox |  key-type \"M1+s\"'"
  * @generated
  */
 public interface KeyType extends Command {
@@ -45,6 +45,7 @@ public interface KeyType extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getKeyType_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
 	 * @generated
 	 */

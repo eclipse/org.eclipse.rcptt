@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragDetect()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag detect event.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag detect event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter'"
  * @generated
  */
 public interface DragDetect extends DragAction {

@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _KSuaANiJEeSXouPau0KnWQ
-Runtime-Version: 2.2.0.qualifier
-Save-Time: 5/23/17 12:20 PM
+Runtime-Version: 2.5.0.201911010733
+Save-Time: 11/6/19 4:22 PM
 Tags: eclipse_forms
 Testcase-Type: ecl
 
@@ -24,30 +24,58 @@ get-aut "mockupsQ7" | eval {
 	get-window "Open Perspective" | get-table | select "Q7 Quality" | double-click
 	get-menu "Window/Show View/Other..." | click
 	with [get-window "Show View"] {
-    get-tree | select "Q7 Quality/Q7 Quality Mockups"
-    get-button Open | click
+        get-tree | select "Q7 Quality/Q7 Quality Mockups"
+        get-button Open | click
     }
-	
-	    get-tree | select "eclipse/form/FormToolkit Test"
-	    with [get-group "FormToolkit Test"] {
-	        get-button TEST | click
-	        get-button "Test button" | click
-	        get-editbox -after [get-label "Pressing on the button"] | set-text te1st
-	        get-link "Test link" | click
-	        get-tree | select "node 4/node 4 - 3"
-	    }
-	}
 
+    get-tree | select "eclipse/form/FormToolkit Test"
+    with [get-group "FormToolkit Test"] {
+        with [get-button TEST] {
+            click
+            click -metaKeys "ALT+SHIFT"
+            click -metaKeys 393216
+        }
+        get-button "Test button" | click -metaKeys "ALT+SHIFT"
+        get-editbox -after [get-label "Button pressed. SelectionListener.widgetSelected called. StateMask: 196608"] | set-text te1st
+        with [get-link "Test link"] {
+            click
+            click -metaKeys SHIFT
+            click -metaKeys 393216
+	    }
+        get-tree | select "node 4/node 4 - 3"
+        get-label "Label for mouse clicking test" | click
+	}
+	get-label "Label \"Label for mouse clicking test\" clicked. MouseButton: 1. StateMask: 0"
+	get-group "FormToolkit Test" | get-label "Label for mouse clicking test" | click -metaKeys "CTRL+SHIFT"
+	get-label "Label \"Label for mouse clicking test\" clicked. MouseButton: 1. StateMask: 393216"
+	get-group "FormToolkit Test" | get-label "Label for mouse clicking test" | click -metaKeys 327680
+	get-label "Label \"Label for mouse clicking test\" clicked. MouseButton: 1. StateMask: 327680"
+}
 
 get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
     | contains "with [get-view \"Q7 Quality Mockups\"] {\n"
     + "    get-tree | select \"eclipse/form/FormToolkit Test\"\n"
     + "    with [get-group \"FormToolkit Test\"] {\n"
-    + "        get-button TEST | click\n"
-    + "        get-button \"Test button\" | click\n"
-    + "        get-link \"Test link\" | click\n"
+	+ "        with [get-button TEST] {\n"
+	+ "            click\n"
+    + "            click -metaKeys \"ALT+SHIFT\"\n"
+    + "            click -metaKeys \"CTRL+SHIFT\"\n"
+    + "        }\n"
+    + "        get-button \"Test button\" | click -metaKeys \"ALT+SHIFT\"\n"
+    + "        with [get-link \"Test link\"] {\n"
+    + "            click\n"
+    + "            click -metaKeys SHIFT\n"
+    + "            click -metaKeys \"CTRL+SHIFT\"\n"
+    + "        }\n"
     + "        get-tree | select \"node 4/node 4 - 3\"\n"
-    + "    }\n" | verify-true
+    + "        with [get-label \"Label for mouse clicking test\"] {\n"
+    + "            click\n"
+    + "            click -metaKeys \"CTRL+SHIFT\"\n"
+    + "            click -metaKeys \"ALT+CTRL\"\n"
+    + "        }\n"
+    + "    }\n"
+    + "}" | verify-true
+
 /*    
 get-window "Control Panel - mockupsQ7 [Recording]" | get-text-viewer | get-property text 
     | equals "get-button \"Open Perspective\" | click\n"

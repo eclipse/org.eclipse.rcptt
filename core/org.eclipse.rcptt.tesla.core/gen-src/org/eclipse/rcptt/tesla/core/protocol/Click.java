@@ -23,6 +23,7 @@ package org.eclipse.rcptt.tesla.core.protocol;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isWithWait <em>With Wait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#isArrow <em>Arrow</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.Click#getMetaKeys <em>Meta Keys</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getClick()
@@ -110,5 +111,28 @@ public interface Click extends ElementCommand {
 	 * @generated
 	 */
 	void setArrow(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Meta Keys</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Meta Keys</em>' attribute.
+	 * @see #setMetaKeys(int)
+	 * @see org.eclipse.rcptt.tesla.core.protocol.ProtocolPackage#getClick_MetaKeys()
+	 * @model default="0"
+	 * @generated
+	 */
+	int getMetaKeys();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.core.protocol.Click#getMetaKeys <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Meta Keys</em>' attribute.
+	 * @see #getMetaKeys()
+	 * @generated
+	 */
+	void setMetaKeys(int value);
 
 } // Click

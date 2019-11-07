@@ -44,7 +44,7 @@ public interface Selector extends Command {
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelector_Id()
-	 * @model
+	 * @model annotation="http://www.eclipse.org/ecl/internal"
 	 * @generated
 	 */
 	String getId();
@@ -122,7 +122,8 @@ public interface Selector extends Command {
 	 * @return the value of the '<em>Parent</em>' reference.
 	 * @see #setParent(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelector_Parent()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description=''"
+	 * @model annotation="http://www.eclipse.org/ecl/input"
+	 *        annotation="http://www.eclipse.org/ecl/docs description=''"
 	 * @generated
 	 */
 	ControlHandler getParent();

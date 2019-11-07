@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDrop()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drop event.' returns='value of <code>control</code> parameter' example='get-editor t | get-section Contexts | get-table | drop 111 52 -detail move'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drop event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor t | get-section Contexts | get-table | drop 111 52 -detail move'"
  * @generated
  */
 public interface Drop extends DragAction {

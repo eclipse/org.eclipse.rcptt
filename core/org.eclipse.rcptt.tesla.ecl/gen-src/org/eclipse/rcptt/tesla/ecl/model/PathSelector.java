@@ -40,7 +40,7 @@ public interface PathSelector extends Selector {
 	 * @see #setPath(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getPathSelector_Path()
 	 * @model required="true"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Indicates the path to the item. This parameter is used by default, so <code>-path</code> word is not written at the recording of the test.'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Indicates the path to the item. This parameter is used by default, so &lt;code&gt;-path&lt;/code&gt; word is not written at the recording of the test.'"
 	 * @generated
 	 */
 	String getPath();

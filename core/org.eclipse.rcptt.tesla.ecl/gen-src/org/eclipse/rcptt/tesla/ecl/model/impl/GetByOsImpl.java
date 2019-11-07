@@ -318,7 +318,7 @@ public class GetByOsImpl extends CommandImpl implements GetByOs {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (default: ");
 		result.append(default_);
 		result.append(", win: ");

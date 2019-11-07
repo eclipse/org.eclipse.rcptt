@@ -25,10 +25,11 @@ import org.eclipse.rcptt.ecl.core.Command;
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isNowait <em>Nowait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#isArrow <em>Arrow</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.ecl.model.Click#getMetaKeys <em>Meta Keys</em>}</li>
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClick()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a control.' returns='value of <code>control</code> parameter' recorded='true' example='get-editor TestSuite | get-section \"Test Cases\" | get-button \"Add Test Case\" | click'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Clicks on a control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='true' example='get-editor TestSuite | get-section \"Test Cases\" | get-button \"Add Test Case\" | click'"
  * @generated
  */
 public interface Click extends Command {
@@ -44,6 +45,7 @@ public interface Click extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClick_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
 	 * @generated
 	 */
@@ -136,5 +138,27 @@ public interface Click extends Command {
 	 * @generated
 	 */
 	void setArrow(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Meta Keys</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Meta Keys</em>' attribute.
+	 * @see #setMetaKeys(String)
+	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getClick_MetaKeys()
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Plus-separated pressed metakeys. Example: ALT+SHIFT' default=''"
+	 * @generated
+	 */
+	String getMetaKeys();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.rcptt.tesla.ecl.model.Click#getMetaKeys <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Meta Keys</em>' attribute.
+	 * @see #getMetaKeys()
+	 * @generated
+	 */
+	void setMetaKeys(String value);
 
 } // Click

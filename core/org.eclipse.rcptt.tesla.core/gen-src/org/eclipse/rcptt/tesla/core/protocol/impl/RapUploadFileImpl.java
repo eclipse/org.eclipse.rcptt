@@ -257,7 +257,7 @@ public class RapUploadFileImpl extends EObjectImpl implements RapUploadFile {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(", base64file: ");

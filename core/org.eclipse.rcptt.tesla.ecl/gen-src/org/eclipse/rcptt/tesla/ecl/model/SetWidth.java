@@ -23,7 +23,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSetWidth()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Sets width of a table column.' returns='value of <code>control</code> parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-width 256'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Sets width of a table column.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='false' example='get-nebula-grid | get-column-header Name | set-width 256'"
  * @generated
  */
 public interface SetWidth extends ControlCommand {

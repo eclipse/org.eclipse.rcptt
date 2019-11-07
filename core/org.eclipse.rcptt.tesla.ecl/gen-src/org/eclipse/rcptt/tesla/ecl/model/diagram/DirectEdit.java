@@ -43,6 +43,7 @@ public interface DirectEdit extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getDirectEdit_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Edit part or figure.'"
 	 * @generated
 	 */

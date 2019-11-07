@@ -300,7 +300,8 @@ public class ActionService extends AbstractActionService {
 		// if (!c.isNowait())
 		// state = TeslaBridge.getPlayer().getState();
 
-		controlUIElement.click(!c.isNowait(), c.isDefault(), c.isArrow());
+		int metaKeys = parseMask(c.getMetaKeys());
+		controlUIElement.click(!c.isNowait(), c.isDefault(), c.isArrow(), metaKeys);
 
 		// if (state != null)
 		// TeslaBridge.getPlayer().waitForState(state);

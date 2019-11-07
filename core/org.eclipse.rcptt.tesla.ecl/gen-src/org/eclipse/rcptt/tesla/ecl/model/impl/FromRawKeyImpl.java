@@ -266,7 +266,7 @@ public class FromRawKeyImpl extends CommandImpl implements FromRawKey {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mask: ");
 		result.append(mask);
 		result.append(", keyCode: ");

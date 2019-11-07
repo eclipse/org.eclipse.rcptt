@@ -3670,13 +3670,22 @@ public interface TeslaPackage extends EPackage {
 	int CLICK__ARROW = CorePackage.COMMAND_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Meta Keys</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLICK__META_KEYS = CorePackage.COMMAND_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Click</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLICK_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 4;
+	int CLICK_FEATURE_COUNT = CorePackage.COMMAND_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickImpl <em>Double Click</em>}' class.
@@ -3741,6 +3750,15 @@ public interface TeslaPackage extends EPackage {
 	 * @ordered
 	 */
 	int DOUBLE_CLICK__ARROW = CLICK__ARROW;
+
+	/**
+	 * The feature id for the '<em><b>Meta Keys</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE_CLICK__META_KEYS = CLICK__META_KEYS;
 
 	/**
 	 * The number of structural features of the '<em>Double Click</em>' class.
@@ -11347,6 +11365,17 @@ public interface TeslaPackage extends EPackage {
 	EAttribute getClick_Arrow();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rcptt.tesla.ecl.model.Click#getMetaKeys <em>Meta Keys</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Meta Keys</em>'.
+	 * @see org.eclipse.rcptt.tesla.ecl.model.Click#getMetaKeys()
+	 * @see #getClick()
+	 * @generated
+	 */
+	EAttribute getClick_MetaKeys();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rcptt.tesla.ecl.model.DoubleClick <em>Double Click</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -14990,6 +15019,14 @@ public interface TeslaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CLICK__ARROW = eINSTANCE.getClick_Arrow();
+
+		/**
+		 * The meta object literal for the '<em><b>Meta Keys</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLICK__META_KEYS = eINSTANCE.getClick_MetaKeys();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rcptt.tesla.ecl.model.impl.DoubleClickImpl <em>Double Click</em>}' class.

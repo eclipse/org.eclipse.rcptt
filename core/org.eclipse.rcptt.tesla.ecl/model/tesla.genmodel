@@ -12,6 +12,13 @@
       <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/button2"/>
       <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//Button/button3"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tesla.ecore#//ActivationEventType">
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//ActivationEventType/Programmatic"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//ActivationEventType/KeyPressed"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//ActivationEventType/MouseClickSelection"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//ActivationEventType/MouseDoubleClickSelection"/>
+      <genEnumLiterals ecoreEnumLiteral="tesla.ecore#//ActivationEventType/Traversal"/>
+    </genEnums>
     <genDataTypes ecoreDataType="tesla.ecore#//ElementKind"/>
     <genClasses ecoreClass="tesla.ecore#//Wait">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Wait/ms"/>
@@ -140,6 +147,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/nowait"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/default"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/arrow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//Click/metaKeys"/>
     </genClasses>
     <genClasses image="false" ecoreClass="tesla.ecore#//DoubleClick"/>
     <genClasses image="false" ecoreClass="tesla.ecore#//GetText">
@@ -201,6 +209,8 @@
     </genClasses>
     <genClasses ecoreClass="tesla.ecore#//ActivateCellEdit">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ActivateCellEdit/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ActivateCellEdit/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ActivateCellEdit/button"/>
     </genClasses>
     <genClasses ecoreClass="tesla.ecore#//ApplyCellEdit">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//ApplyCellEdit/deactivate"/>
@@ -453,6 +463,7 @@
     </genClasses>
     <genClasses ecoreClass="tesla.ecore#//GetRuntimeTarget"/>
     <genClasses ecoreClass="tesla.ecore#//GetTestCaseName"/>
+    <genClasses ecoreClass="tesla.ecore#//GetComboItems"/>
     <nestedGenPackages prefix="Diagram" basePackage="org.eclipse.rcptt.tesla.ecl.model"
         disposableProviderFactory="true" ecorePackage="tesla.ecore#//diagram">
       <genClasses ecoreClass="tesla.ecore#//diagram/GetDiagram"/>
@@ -463,6 +474,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/feature"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/className"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/text"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tesla.ecore#//diagram/GetEditPart/customId"/>
       </genClasses>
       <genClasses ecoreClass="tesla.ecore#//diagram/GetFigure"/>
       <genClasses ecoreClass="tesla.ecore#//diagram/GetEntry"/>

@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model.diagram;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseEnter()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse entering to the control.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates mouse entering to the control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter'"
  * @generated
  */
 public interface MouseEnter extends MouseAction {

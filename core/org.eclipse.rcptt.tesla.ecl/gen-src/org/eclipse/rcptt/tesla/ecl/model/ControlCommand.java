@@ -40,7 +40,7 @@ public interface ControlCommand extends Command {
 	 * @return the value of the '<em>Control</em>' reference.
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getControlCommand_Control()
-	 * @model
+	 * @model annotation="http://www.eclipse.org/ecl/input"
 	 * @generated
 	 */
 	ControlHandler getControl();

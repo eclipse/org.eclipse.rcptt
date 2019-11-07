@@ -31,7 +31,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAction()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag action event.' returns='value of <code>control</code> parameter'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Emulates drag action event.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter'"
  * @generated
  */
 public interface DragAction extends Command {
@@ -48,6 +48,7 @@ public interface DragAction extends Command {
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAction_Control()
 	 * @model required="true"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Any control is appropriate.'"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 * @generated
 	 */
 	ControlHandler getControl();
@@ -127,7 +128,7 @@ public interface DragAction extends Command {
 	 * @see #setDetail(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAction_Detail()
 	 * @model default="none"
-	 *        annotation="http://www.eclipse.org/ecl/docs description='Kind of DND operation to perform: <code>copy</code>, <code>move</code>, <code>link</code>, <code>target-move</code> (move to non-SWT application) or <code>none</code> (if not applicable).'"
+	 *        annotation="http://www.eclipse.org/ecl/docs description='Kind of DND operation to perform: &lt;code&gt;copy&lt;/code&gt;, &lt;code&gt;move&lt;/code&gt;, &lt;code&gt;link&lt;/code&gt;, &lt;code&gt;target-move&lt;/code&gt; (move to non-SWT application) or &lt;code&gt;none&lt;/code&gt; (if not applicable).'"
 	 * @generated
 	 */
 	String getDetail();
@@ -182,7 +183,7 @@ public interface DragAction extends Command {
 	 * @see #setMask(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDragAction_Mask()
 	 * @model default=""
-	 *        annotation="http://www.eclipse.org/ecl/docs default='0'"
+	 *        annotation="http://www.eclipse.org/ecl/docs default='0' description='Plus-separated pressed metakeys. Example: ALT+SHIFT'"
 	 * @generated
 	 */
 	String getMask();

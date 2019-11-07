@@ -39,7 +39,7 @@ public interface TextSelector extends Selector {
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getTextSelector_Text()
-	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the text\\name of this element. This parameter is used by default, so <code>-text</code> word is not written at the recording of the test.'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs description='Indicates the text\\name of this element. This parameter is used by default, so &lt;code&gt;-text&lt;/code&gt; word is not written at the recording of the test.'"
 	 * @generated
 	 */
 	String getText();

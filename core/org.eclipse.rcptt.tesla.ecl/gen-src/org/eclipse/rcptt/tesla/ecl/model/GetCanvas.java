@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getGetCanvas()
- * @model annotation="http://www.eclipse.org/ecl/docs description='' returns='' recorded='true' example='with [get-editor CreateQ7Project | get-section Script | get-canvas] {<br>\r\n        mouse-press 24 53 button1<br>\r\n        mouse-release 24 53 button1 524288<br>\r\n    }'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='' returns='' recorded='true' example='with [get-editor CreateQ7Project | get-section Script | get-canvas] {&lt;br&gt;\r\n        mouse-press 24 53 button1&lt;br&gt;\r\n        mouse-release 24 53 button1 524288&lt;br&gt;\r\n    }'"
  * @generated
  */
 public interface GetCanvas extends Selector {

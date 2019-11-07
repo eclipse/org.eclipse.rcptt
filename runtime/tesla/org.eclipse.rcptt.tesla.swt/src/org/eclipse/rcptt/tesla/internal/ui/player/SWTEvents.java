@@ -19,6 +19,7 @@ import org.eclipse.rcptt.tesla.jface.TeslaCellEditorManager;
 import org.eclipse.rcptt.tesla.swt.events.TeslaEventManager;
 import org.eclipse.rcptt.tesla.ui.SWTTeslaActivator;
 import org.eclipse.rcptt.util.ShellUtilsProvider;
+import org.eclipse.rcptt.util.swt.Events;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
@@ -60,11 +61,16 @@ public class SWTEvents {
 	}
 
 	public Event sendEvent(final SWTUIElement w, final int event) {
+		return sendEvent(w, event, Events.EMPTY_MASK);
+	}
+
+	public Event sendEvent(final SWTUIElement w, final int event, final int stateMask) {
 		if (PlayerWrapUtils.unwrapWidget(w).isDisposed()) {
 			return null;
 		}
 		try {
 			Event e = createEvent(w);
+			e.stateMask = stateMask;
 			sendEventRaw(event, e);
 			return e;
 		} catch (Throwable e) {
@@ -106,13 +112,19 @@ public class SWTEvents {
 		return null;
 	}
 
-	public Event sendEvent(final SWTUIElement w, final int event, Point point,
-			int button) {
-		return sendEvent(w, event, point.x, point.y, button);
+	public Event sendEvent(final SWTUIElement w, final int event, Point point, int button, int stateMask) {
+		return sendEvent(w, event, point.x, point.y, button, stateMask);
 	}
 
-	public Event sendEvent(final SWTUIElement w, final int event, int x, int y,
-			int button) {
+	public Event sendEvent(final SWTUIElement w, final int event, Point point, int button) {
+		return sendEvent(w, event, point.x, point.y, button, Events.EMPTY_MASK);
+	}
+
+	public Event sendEvent(final SWTUIElement w, final int event, int x, int y, int button) {
+		return sendEvent(w, event, x, y, button, Events.EMPTY_MASK);
+	}
+
+	public Event sendEvent(final SWTUIElement w, final int event, int x, int y, int button, int stateMask) {
 		if (PlayerWrapUtils.unwrapWidget(w).isDisposed()) {
 			return null;
 		}
@@ -122,6 +134,7 @@ public class SWTEvents {
 			e.y = y;
 			e.button = button;
 			e.type = event;
+			e.stateMask = stateMask;
 			sendEventRaw(event, e);
 			return e;
 		} catch (SecurityException e) {
@@ -132,13 +145,11 @@ public class SWTEvents {
 		return null;
 	}
 
-	public Event sendEvent(final Widget w, final int event, Point point,
-			int button) {
+	public Event sendEvent(final Widget w, final int event, Point point, int button) {
 		return sendEvent(w, event, point.x, point.y, button);
 	}
 
-	public Event sendEvent(final Widget w, final int event, int x, int y,
-			int button) {
+	public Event sendEvent(final Widget w, final int event, int x, int y, int button) {
 		try {
 			Event e = createEvent(w);
 			e.x = x;

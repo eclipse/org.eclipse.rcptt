@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getExpandAll()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Expands a tree item and all its children, or a whole tree.' returns='value of <code>control</code> parameter' example='get-view \"Q7 Explorer\" | get-tree | get-item Project | expand-all'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Expands a tree item and all its children, or a whole tree.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-view \"Q7 Explorer\" | get-tree | get-item Project | expand-all'"
  * @generated
  */
 public interface ExpandAll extends ControlCommand {

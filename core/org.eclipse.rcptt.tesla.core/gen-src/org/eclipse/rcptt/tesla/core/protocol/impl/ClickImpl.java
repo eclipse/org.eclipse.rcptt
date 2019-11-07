@@ -34,6 +34,7 @@ import org.eclipse.rcptt.tesla.core.protocol.raw.Element;
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#isDefault <em>Default</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#isWithWait <em>With Wait</em>}</li>
  *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#isArrow <em>Arrow</em>}</li>
+ *   <li>{@link org.eclipse.rcptt.tesla.core.protocol.impl.ClickImpl#getMetaKeys <em>Meta Keys</em>}</li>
  * </ul>
  *
  * @generated
@@ -128,6 +129,26 @@ public class ClickImpl extends EObjectImpl implements Click {
 	 * @ordered
 	 */
 	protected boolean arrow = ARROW_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMetaKeys() <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetaKeys()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int META_KEYS_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getMetaKeys() <em>Meta Keys</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMetaKeys()
+	 * @generated
+	 * @ordered
+	 */
+	protected int metaKeys = META_KEYS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -280,6 +301,27 @@ public class ClickImpl extends EObjectImpl implements Click {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMetaKeys() {
+		return metaKeys;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMetaKeys(int newMetaKeys) {
+		int oldMetaKeys = metaKeys;
+		metaKeys = newMetaKeys;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ProtocolPackage.CLICK__META_KEYS, oldMetaKeys, metaKeys));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -307,6 +349,8 @@ public class ClickImpl extends EObjectImpl implements Click {
 				return isWithWait();
 			case ProtocolPackage.CLICK__ARROW:
 				return isArrow();
+			case ProtocolPackage.CLICK__META_KEYS:
+				return getMetaKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -333,6 +377,9 @@ public class ClickImpl extends EObjectImpl implements Click {
 				return;
 			case ProtocolPackage.CLICK__ARROW:
 				setArrow((Boolean)newValue);
+				return;
+			case ProtocolPackage.CLICK__META_KEYS:
+				setMetaKeys((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -361,6 +408,9 @@ public class ClickImpl extends EObjectImpl implements Click {
 			case ProtocolPackage.CLICK__ARROW:
 				setArrow(ARROW_EDEFAULT);
 				return;
+			case ProtocolPackage.CLICK__META_KEYS:
+				setMetaKeys(META_KEYS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -383,6 +433,8 @@ public class ClickImpl extends EObjectImpl implements Click {
 				return withWait != WITH_WAIT_EDEFAULT;
 			case ProtocolPackage.CLICK__ARROW:
 				return arrow != ARROW_EDEFAULT;
+			case ProtocolPackage.CLICK__META_KEYS:
+				return metaKeys != META_KEYS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -396,7 +448,7 @@ public class ClickImpl extends EObjectImpl implements Click {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(", default: ");
@@ -405,6 +457,8 @@ public class ClickImpl extends EObjectImpl implements Click {
 		result.append(withWait);
 		result.append(", arrow: ");
 		result.append(arrow);
+		result.append(", metaKeys: ");
+		result.append(metaKeys);
 		result.append(')');
 		return result.toString();
 	}

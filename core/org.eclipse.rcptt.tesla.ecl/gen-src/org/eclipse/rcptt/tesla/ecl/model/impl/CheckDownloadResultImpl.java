@@ -216,7 +216,7 @@ public class CheckDownloadResultImpl extends CommandImpl implements CheckDownloa
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (contentOnBase64: ");
 		result.append(contentOnBase64);
 		result.append(", fileName: ");

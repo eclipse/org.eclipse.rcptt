@@ -27,7 +27,7 @@ import org.eclipse.rcptt.ecl.core.Command;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowTabList()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Show the list of tabs from tab folder.' returns='value of <code>control</code> parameter' example='get-editor SO | show-tab-list '"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Show the list of tabs from tab folder.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='get-editor SO | show-tab-list '"
  * @generated
  */
 public interface ShowTabList extends Command {
@@ -43,6 +43,7 @@ public interface ShowTabList extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getShowTabList_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Window, view or editor.'"
 	 * @generated
 	 */

@@ -50,6 +50,7 @@ public interface MouseAction extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseAction_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Canvas, edit part or figure.'"
 	 * @generated
 	 */
@@ -130,7 +131,7 @@ public interface MouseAction extends Command {
 	 * @return the value of the '<em>Mask</em>' attribute.
 	 * @see #setMask(String)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.diagram.DiagramPackage#getMouseAction_Mask()
-	 * @model annotation="http://www.eclipse.org/ecl/docs default='0'"
+	 * @model annotation="http://www.eclipse.org/ecl/docs default='0' description='Plus-separated pressed metakeys. Example: ALT+SHIFT. Also could be a numeric value of org.eclipse.swt.widgets.Event.stateMask.'"
 	 * @generated
 	 */
 	String getMask();

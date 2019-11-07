@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getSelectItem()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table or tree item and sets it as a selection of tree or table. Usage: <pre>get-tree | get-item \"foo\" | select-item</pre>' returns='input item'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Takes a table or tree item and sets it as a selection of tree or table. Usage: &lt;pre&gt;get-tree | get-item \"foo\" | select-item&lt;/pre&gt;' returns='input item'"
  * @generated
  */
 public interface SelectItem extends ControlCommand {

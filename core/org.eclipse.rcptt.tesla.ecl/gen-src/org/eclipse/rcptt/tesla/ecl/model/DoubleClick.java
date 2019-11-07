@@ -18,7 +18,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  *
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDoubleClick()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Double clicks on a control.' returns='value of <code>control</code> parameter' recorded='true' example='get-view \"Q7 Explorer\" | get-tree | select \"TestProject/Test\" | double-click'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Double clicks on a control.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' recorded='true' example='get-view \"Q7 Explorer\" | get-tree | select \"TestProject/Test\" | double-click'"
  * @generated
  */
 public interface DoubleClick extends Click {

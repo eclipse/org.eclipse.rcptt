@@ -44,6 +44,7 @@ public interface DoubleClickRuler extends Command {
 	 * @see #setControl(ControlHandler)
 	 * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getDoubleClickRuler_Control()
 	 * @model required="true"
+	 *        annotation="http://www.eclipse.org/ecl/input"
 	 *        annotation="http://www.eclipse.org/ecl/docs description='Editor ruler'"
 	 * @generated
 	 */

@@ -24,7 +24,7 @@ package org.eclipse.rcptt.tesla.ecl.model;
  * </ul>
  *
  * @see org.eclipse.rcptt.tesla.ecl.model.TeslaPackage#getApplyCellEdit()
- * @model annotation="http://www.eclipse.org/ecl/docs description='Applies cell editing.' returns='value of <code>control</code> parameter' example='with [get-editor context | get-section Parameters | get-table] {\n    select parameter1 | activate-cell-edit -column 1\n    get-editbox | set-text value\n    apply-cell-edit -deactivate\n}'"
+ * @model annotation="http://www.eclipse.org/ecl/docs description='Applies cell editing.' returns='value of &lt;code&gt;control&lt;/code&gt; parameter' example='with [get-editor context | get-section Parameters | get-table] {\n    select parameter1 | activate-cell-edit -column 1\n    get-editbox | set-text value\n    apply-cell-edit -deactivate\n}'"
  * @generated
  */
 public interface ApplyCellEdit extends CellEdit {

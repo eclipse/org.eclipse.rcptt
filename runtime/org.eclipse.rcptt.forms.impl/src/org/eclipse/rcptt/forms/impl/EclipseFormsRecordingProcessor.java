@@ -163,7 +163,7 @@ public class EclipseFormsRecordingProcessor implements IRecordingProcessor,
 								.is(ElementKind.Link)) {
 					ControlUIElement link = new ControlUIElement(
 							result.element, recorder);
-					link.clickAndWait();
+					link.clickAndWait(false, event.stateMask);
 				}
 			}
 		}
@@ -178,7 +178,7 @@ public class EclipseFormsRecordingProcessor implements IRecordingProcessor,
 				if (result != null) {
 					ControlUIElement linkE = (new CompositeUIElement(
 							result.element, recorder)).link(link.getText());
-					linkE.click();
+					linkE.click(false, false, false, event.stateMask);
 				}
 			}
 		}
