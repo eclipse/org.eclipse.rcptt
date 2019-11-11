@@ -1349,6 +1349,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return AUTInformation.getInformationMap(target);
 	}
 
+	private static final String INTERNAL_ARCH_I386 = "i386"; //$NON-NLS-1$
 	private static final String PROP_CONFIG_AREA = "osgi.configuration.area"; //$NON-NLS-1$
 	private static final String PROP_SHARED_CONFIG_AREA = "osgi.sharedConfiguration.area"; //$NON-NLS-1$
 	private static final String PROP_CONFIG_CASCADED = "osgi.configuration.cascaded"; //$NON-NLS-1$
@@ -1767,7 +1768,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			return osgiArch;
 		String name = System.getProperties().getProperty("os.arch");//$NON-NLS-1$
 		// Map i386 architecture to x86
-		if (name.equalsIgnoreCase(Constants.INTERNAL_ARCH_I386))
+		if (name.equalsIgnoreCase(INTERNAL_ARCH_I386))
 			return Constants.ARCH_X86;
 		// Map amd64 architecture to x86_64
 		else if (name.equalsIgnoreCase(Constants.INTERNAL_AMD64))
