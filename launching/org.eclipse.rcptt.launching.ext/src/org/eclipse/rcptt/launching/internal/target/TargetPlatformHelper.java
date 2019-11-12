@@ -1033,12 +1033,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 
 		removeUnsupportedVMArgs(lines);
+		addUnresolvedVMArgs(lines);
 
 		return Q7LaunchDelegateUtils.joinCommandArgs(lines);
 	}
 
 	private static final String VMARG_ADD_MODULES = "--add-modules";
 	private static final String VMARG_PERMIT_ILLEGAL_ACCESS = "--permit-illegal-access";
+	private static final String VMARG_ADD_OPENS = "--add-opens";
+	private static final String VMARG_ALL_UNNAMED = "ALL-UNNAMED";
 
 	private void removeUnsupportedVMArgs(List<String> lines) {
 		String[] javaVersions = getJavaVersions();
@@ -1051,8 +1054,20 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			while (iterator.hasNext()) {
 				String line = iterator.next();
 				if (line.startsWith(VMARG_ADD_MODULES)
-						|| line.startsWith(VMARG_PERMIT_ILLEGAL_ACCESS)) {
+						|| line.startsWith(VMARG_PERMIT_ILLEGAL_ACCESS)
+						|| line.startsWith(VMARG_ADD_OPENS)) {
 					iterator.remove();
+				}
+			}
+		}
+	}
+
+	private void addUnresolvedVMArgs(List<String> lines) {
+		int startIndex = lines.indexOf(VMARG_ADD_OPENS);
+		if (startIndex != -1) {		
+			for (int i = startIndex; i < lines.size(); i++) {
+				if (lines.get(i).contains(VMARG_ALL_UNNAMED) && !lines.get(i-1).startsWith(VMARG_ADD_OPENS)) {
+					lines.add(i, VMARG_ADD_OPENS);
 				}
 			}
 		}
