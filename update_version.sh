@@ -17,8 +17,15 @@ if [ ! $VERSION ]; then
     exit 900
 fi
 
+DECORATOR="$2"
+if [ $DECORATOR ]; then
+    VERSION_WITH_DECORATOR="$VERSION.$DECORATOR"
+else
+    VERSION_WITH_DECORATOR="$VERSION-SNAPSHOT"
+fi
+
 GOAL="org.eclipse.tycho:tycho-versions-plugin:set-version"
-OPTIONS="-Dtycho.mode=maven -Dtycho.localArtifacts=ignore -DnewVersion=${VERSION}-SNAPSHOT -DupdateVersionRangeMatchingBounds"
+OPTIONS="-Dtycho.mode=maven -Dtycho.localArtifacts=ignore -DnewVersion=$VERSION_WITH_DECORATOR -DupdateVersionRangeMatchingBounds"
 
 echo "================= Updating All Components ================="
 mvn $GOAL -f releng/pom.xml -P update-version $OPTIONS || exit 100
@@ -27,8 +34,11 @@ echo "================== Updating Maven Plugin =================="
 mvn $GOAL -f maven-plugin/pom.xml $OPTIONS || exit 101
 
 echo "================== Updating Maven Script =================="
-mvn versions:set -f clean-pom.xml -DnewVersion=$VERSION-SNAPSHOT -DgenerateBackupPoms=false || exit 106
+mvn versions:set -f clean-pom.xml -DnewVersion=$VERSION_WITH_DECORATOR -DgenerateBackupPoms=false || exit 102
 
-echo "==========================================================="
-echo "This script updates version for most of plugins, but not\nfor all. So, after execution, it is needed to search\nthe old version number in the project directory and update\nversions in some places by hand."
-echo "==========================================================="
+echo "================== Updating RCPTT Tests =================="
+mvn versions:use-dep-version -f ./rcpttTests/ECL_IDE_module/pom.xml  -Dincludes=com.xored.q7:q7contexts.shared -DdepVersion=$VERSION_WITH_DECORATOR -DgenerateBackupPoms=false -DforceVersion=true || exit 103
+mvn versions:set -f ./rcpttTests/pom-base.xml -DnewVersion=$VERSION_WITH_DECORATOR -DgenerateBackupPoms=false || exit 104
+# mvn versions:set-property -f ./rcpttTests/pom-base.xml -Dproperty=rcptt-maven-version -DnewVersion=$VERSION_WITH_DECORATOR -DgenerateBackupPoms=false || exit 105
+# mvn versions:set-property -f ./rcpttTests/pom-base.xml -Dproperty=runner-version -DnewVersion=$VERSION_WITH_DECORATOR -DgenerateBackupPoms=false || exit 106
+# mvn versions:set-property -f ./rcpttTests/pom-base.xml -Dproperty=rcpttRepo -DnewVersion="http://download.eclipse.org/rcptt/nightly/$VERSION/latest/repository" -DgenerateBackupPoms=false || exit 107

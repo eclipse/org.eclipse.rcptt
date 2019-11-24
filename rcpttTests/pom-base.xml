@@ -38,8 +38,20 @@
     <rcptt-maven-version>2.5.0-SNAPSHOT</rcptt-maven-version>
     <rcptt-maven-plugin>rcptt-maven-plugin</rcptt-maven-plugin>
     <runner-version>2.5.0-SNAPSHOT</runner-version>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.4.3/latest/repository</rcpttRepo>
     <autRepository>file://${basedir}/../modules/repository/target/repository</autRepository>
     <runtimeRepository>file:/${user.dir}/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7</runtimeRepository>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>update-version</id>
+      <modules>
+        <module>pom.xml</module>
+        <module>ECL_IDE_module</module>
+        <module>platform_tests</module>
+        <module>contexts</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

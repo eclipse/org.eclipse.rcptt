@@ -1,3 +1,13 @@
+/*******************************************************************************
+* Copyright (c) 2019 Xored Software Inc and others.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*  
+* Contributors:
+* 	Xored Software Inc - initial API and implementation and/or initial documentation
+********************************************************************************/
 // The container does not start under the Jenkins user. /home/jenkins is mounted in a container and is a single file space
 BUILD_CONTAINER_NAME="ubuntu"
 BUILD_CONTAINER="""
@@ -116,6 +126,13 @@ def build_and_test(Boolean sign) {
     }
 }
 
+def set_milestone(String decorator) {
+    container(BUILD_CONTAINER_NAME) {
+      version = get_version_from_pom().split("-")[0]
+      sh "./update_version.sh $version $decorator"
+    }
+}
+
 def build(Boolean sign) {
   container(BUILD_CONTAINER_NAME) {
     sh "./build.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e ${sign ? "-P sign" : ""}"
@@ -138,6 +155,10 @@ def sh_with_return(String command) {
   return res
 }
 
+def get_version_from_pom() {
+  return sh_with_return("mvn -q -Dexec.executable=echo -Dexec.args='\${project.version}' --non-recursive exec:exec -f releng/pom.xml")
+}
+
 def get_version() {
   return sh_with_return(". $FULL_REPOSITORY_TARGET/publisher.properties && echo \$productVersion")
 }
@@ -152,7 +173,7 @@ def rcptt_tests() {
     sh "mvn clean verify -B -f rcpttTests/pom.xml \
         -Dmaven.repo.local=$WORKSPACE/m2 -e \
         -Dci-maven-version=2.0.0-SNAPSHOT \
-        -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip` \
+        -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip` \
         -DrcpttPath=$WORKSPACE/$PRODUCTS_DIR/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip \
         || true"
     sh "test -f $WORKSPACE/rcpttTests/target/results/tests.html"
@@ -167,7 +188,7 @@ def mockup_tests() {
         sh "mvn clean verify -B -f tests/pom.xml \
             -Dmaven.repo.local=$WORKSPACE/m2 -e \
             -Dci-maven-version=2.0.0-SNAPSHOT \
-            -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip` \
+            -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip` \
             -DmockupsRepository=https://ci.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository \
             || true"
         sh "test -f $WORKSPACE/mockups/tests/target/results/tests.html"
@@ -266,8 +287,8 @@ def copy_files(String type, String version, String subfolder, String qualifiedDe
                   [ RUNTIME_DIR_E3, "runtime3x" ],
                   [ RUNTIME_DIR_E4, "runtime4x" ],
                   [ "$DOC_DIR/target/doc", "doc" ],
-                  [ "$RCPTT_REPOSITORY_TARGET/rcptt.repository-$version-SNAPSHOT.zip", "repository-${version}${qualifiedDecoration}.zip" ],
-                  [ "$RUNNER_DIR/rcptt.runner-$version-SNAPSHOT.zip", "runner/rcptt.runner-${version}${qualifiedDecoration}.zip" ] ]) {
+                  [ "$RCPTT_REPOSITORY_TARGET/rcptt.repository-*.zip", "repository-${version}${qualifiedDecoration}.zip" ],
+                  [ "$RUNNER_DIR/rcptt.runner-*.zip", "runner/rcptt.runner-${version}${qualifiedDecoration}.zip" ] ]) {
       sh "scp -r ${item[0]} $CREDENTIAL:$storageFolder/${item[1]}"
     }
 
@@ -297,7 +318,7 @@ def maven_deploy(String version) {
 
 def maven_deploy_runner(String version) {
   container(BUILD_CONTAINER_NAME) {
-    sh "mvn deploy:deploy-file \
+    sh "mvn deploy:deploy-file -B \
         -Dversion=$version -Durl=https://repo.eclipse.org/content/repositories/rcptt-releases/ \
         -DgroupId=org.eclipse.rcptt.runner \
         -DrepositoryId=repo.eclipse.org \
@@ -309,8 +330,8 @@ def maven_deploy_runner(String version) {
 
 def maven_deploy_maven_plugin(String version){
   container(BUILD_CONTAINER_NAME) {
-    sh "mvn -f maven-plugin/pom.xml clean versions:set -DnewVersion=$version"
-    sh "mvn -f maven-plugin/pom.xml clean deploy"
+    sh "mvn -f maven-plugin/pom.xml clean versions:set -DnewVersion=$version -B"
+    sh "mvn -f maven-plugin/pom.xml clean deploy -B"
   }
 }
 

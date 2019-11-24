@@ -35,6 +35,9 @@ pipeline {
         stage('Start Build and Test') {
           steps {
             script {
+              if(params.MODE == 'Milestone') {
+                groovy.set_milestone(params.MILESTONE_VERSION)
+              }
               groovy.build_and_test(true)
             }
           }

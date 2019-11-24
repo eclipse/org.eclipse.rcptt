@@ -79,6 +79,7 @@
 				<module>org.eclipse.rcptt.tesla.jface.aspects.test</module>
 				<module>org.eclipse.rcptt.tesla.swt.aspects.test</module>
 				<module>org.eclipse.rcptt.tesla.swt.test</module>
+				<module>org.eclipse.rcptt.watson.test</module>
 			</modules>
 		</profile>
 		<profile>
