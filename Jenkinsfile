@@ -22,7 +22,7 @@ pipeline {
     stage('Launch agent') {
       agent {
         kubernetes {
-          label 'rcptt-build-agent'
+          label 'rcptt-build-agent-3.5.4'
           yaml "${env.YAML_BUILD_AGENT}"
         }
       }

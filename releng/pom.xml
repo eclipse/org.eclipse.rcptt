@@ -16,7 +16,7 @@
   <version>2.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <tycho-version>1.4.0</tycho-version>
+    <tycho-version>1.5.1</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ajdt37repository>http://download.eclipse.org/tools/ajdt/37/update/</ajdt37repository>
@@ -26,7 +26,7 @@
     <ajJavaSource>1.7</ajJavaSource>
     <ajJavaTarget>1.7</ajJavaTarget>
     <ajJavaCompilance>1.7</ajJavaCompilance>
-    <cbi-version>1.1.5</cbi-version>
+    <cbi-version>1.1.8-SNAPSHOT</cbi-version>
   </properties>
   <distributionManagement>
     <repository>
@@ -273,7 +273,6 @@
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-jarsigner-plugin</artifactId>
-            <version>${cbi-version}</version>
             <executions>
               <execution>
                 <id>sign</id>
@@ -323,12 +322,12 @@
   <pluginRepositories>
     <pluginRepository>
       <id>cbi</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+      <url>https://repo.eclipse.org/content/repositories/cbi/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </pluginRepository>
     <!--  <pluginRepository><id>tycho-enhancements-snapshots</id><name>Tycho Enhancements Snapshots repository</name><snapshots><updatePolicy>always</updatePolicy></snapshots><url>https://haiodo.github.io/tycho/repository/</url></pluginRepository>-->

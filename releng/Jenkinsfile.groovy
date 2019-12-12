@@ -12,7 +12,7 @@
 BUILD_CONTAINER_NAME="ubuntu"
 BUILD_CONTAINER="""
   - name: $BUILD_CONTAINER_NAME
-    image: dudaevar/ubuntu-rcptt
+    image: dudaevar/ubuntu-rcptt:3.5.4
     tty: true
     resources:
       limits:
@@ -29,10 +29,6 @@ BUILD_CONTAINER="""
       mountPath: /home/jenkins/.m2/settings.xml
       subPath: settings.xml
       readOnly: true
-    - name: toolchains-xml
-      mountPath: /home/jenkins/.m2/toolchains.xml
-      subPath: toolchains.xml
-      readOnly: true
     - name: settings-security-xml
       mountPath: /home/jenkins/.m2/settings-security.xml
       subPath: settings-security.xml
@@ -46,12 +42,6 @@ BUILD_CONTAINER_VOLUMES="""
       items:
       - key: settings.xml
         path: settings.xml
-  - name: toolchains-xml
-    configMap:
-      name: m2-dir
-      items:
-      - key: toolchains.xml
-        path: toolchains.xml
   - name: settings-security-xml
     secret:
       secretName: m2-secret-dir
@@ -135,7 +125,8 @@ def set_milestone(String decorator) {
 
 def build(Boolean sign) {
   container(BUILD_CONTAINER_NAME) {
-    sh "./build.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e ${sign ? "-P sign" : ""}"
+    sh "mvn --version"
+    sh "./fast-build.sh -Dmaven.repo.local=$WORKSPACE/m2 -U -B -e ${sign ? "-P sign" : ""}"
     sh "./build_runner.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
     sh "mvn -f maven-plugin/pom.xml clean verify -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
     sh "./$DOC_DIR/generate-doc.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
@@ -231,14 +222,14 @@ def nightly() {
   def qualifiedDecoration = "-N$qualifier"
 
   container(SSH_DEPLOY_CONTAINER_NAME) {
-    copy_files(type, version, qualifier, qualifiedDecoration, true)
     def storageFolder = get_version_storage_folder(type, version)
     sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
-      def oldBuilds = sh_with_return("$SSH_CLIENT ls -r $storageFolder | grep -v latest | tail -n +${buildsToKeep + 1}")
+      def oldBuilds = sh_with_return("$SSH_CLIENT ls -r $storageFolder | grep -v latest | tail -n +${buildsToKeep}")
       for(old in oldBuilds.split("\n")) {
         sh "$SSH_CLIENT rm -r $storageFolder/$old"
       }
     }
+    copy_files(type, version, qualifier, qualifiedDecoration, true)
 
     def storageFolderLatest = get_storage_folder(type, version, "latest")
     sshagent(["projects-storage.eclipse.org-bot-ssh"]) {

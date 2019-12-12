@@ -11,7 +11,7 @@ RUN apt-get -y update \
     openjfx
 
 ## Install a maven
-ARG MAVEN_VERSION=3.6.1
+ARG MAVEN_VERSION=3.5.4
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 ARG MAVEN_HOME=/usr/share/maven
 
@@ -19,7 +19,8 @@ RUN wget -O /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-b
   && mkdir ${MAVEN_HOME} \
   && tar -xzf /tmp/apache-maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 \
   && rm -f /tmp/apache-maven.tar.gz \
-  && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
+  && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn \
+  && apt-get clean
 
 ENV MAVEN_HOME ${MAVEN_HOME}
 
