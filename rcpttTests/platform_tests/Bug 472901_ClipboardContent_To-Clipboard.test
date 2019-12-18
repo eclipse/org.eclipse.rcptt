@@ -16,7 +16,7 @@ Entry-Name: .description
 
 Copyright (c) 2009, 2019 Xored Software Inc and others.
 All rights reserved. This program and the accompanying materials
-are made available under the terms of the Eclipse Public License v1.0
+are made available under the terms of the Eclipse Public License v2.0
 which accompanies this distribution, and is available at
 https://www.eclipse.org/legal/epl-v20.html
 
@@ -41,7 +41,7 @@ get-editor "TestQ7Prj - Project Settings" | get-section Description | get-text-v
 get-editor "TestQ7Prj - Project Settings" | get-section Description | get-text-viewer | get-property text 
     | equals "Copyright (c) 2009, 2019 Xored Software Inc and others.\n"
     + "All rights reserved. This program and the accompanying materials\n"
-    + "are made available under the terms of the Eclipse Public License v1.0\n"
+    + "are made available under the terms of the Eclipse Public License v2.0\n"
     + "which accompanies this distribution, and is available at\n"
     + "https://www.eclipse.org/legal/epl-v20.html\n\n"
     + "Contributors:\n"
