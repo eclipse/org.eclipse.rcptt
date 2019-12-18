@@ -202,7 +202,9 @@ def post_build_actions() {
   sh "dd if=/dev/zero of=file.txt count=100 bs=1048576" // 1048576 bytes = 1Mb
   sh "rm file.txt"
 
-  sh "ps x"
+  container(BUILD_CONTAINER_NAME) {
+    sh "ps x"
+  }
 }
 
 def deploy(String mode, String arg = "M0") {
