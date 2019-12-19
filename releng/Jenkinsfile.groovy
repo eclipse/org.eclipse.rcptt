@@ -160,31 +160,39 @@ def get_qualifier() {
 
 def rcptt_tests() {
   container(BUILD_CONTAINER_NAME) {
-    def version = get_version()
-    sh "mvn clean verify -B -f rcpttTests/pom.xml \
-        -Dmaven.repo.local=$WORKSPACE/m2 -e \
-        -Dci-maven-version=2.0.0-SNAPSHOT \
-        -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip` \
-        -DrcpttPath=$WORKSPACE/$PRODUCTS_DIR/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip \
-        || true"
-    sh "test -f $WORKSPACE/rcpttTests/target/results/tests.html"
+    _run_tests(
+      "$WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip",
+      "-DrcpttPath=$WORKSPACE/$PRODUCTS_DIR/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip"
+    )
   }
 }
 
 def mockup_tests() {
   container(BUILD_CONTAINER_NAME) {
-    def version = get_version()
     dir('mockups') {
-        git "https://github.com/DudaevAR/q7.quality.mockups.git"
-        sh "mvn clean verify -B -f tests/pom.xml \
-            -Dmaven.repo.local=$WORKSPACE/m2 -e \
-            -Dci-maven-version=2.0.0-SNAPSHOT \
-            -DexplicitRunner=`readlink -f $WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip` \
-            -DmockupsRepository=https://ci.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository \
-            || true"
-        sh "test -f $WORKSPACE/mockups/tests/target/results/tests.html"
+      git "https://github.com/DudaevAR/q7.quality.mockups.git"
+      _run_tests(
+        "$WORKSPACE/$RUNNER_DIR/rcptt.runner-*.zip",
+        "-DmockupsRepository=https://ci.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository"
+      )
     }
   }
+}
+
+def tests(String repo, String runner, String args) {
+  container(BUILD_CONTAINER_NAME) {
+    git repo
+    _run_tests(runner, args)
+  }
+}
+
+def _run_tests(String runner, String args) {
+  sh "mvn clean verify -B -f rcpttTests/pom.xml \
+      -Dmaven.repo.local=$WORKSPACE/m2 -e \
+      -Dci-maven-version=2.0.0-SNAPSHOT \
+      -DexplicitRunner=`readlink -f ${runner}` \
+      ${args} || true"
+  sh 'test -f $WORKSPACE/rcpttTests/target/results/tests.html'
 }
 
 def post_build_actions() {
