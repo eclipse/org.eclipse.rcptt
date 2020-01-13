@@ -6,9 +6,10 @@ USER 0
 ## Install a java 8, a webkit and a javafx
 RUN apt-get -y update \
  && apt-get install -y \
-    openjdk-8-jdk \
-    libwebkit2gtk-4.0 \
-    openjfx
+      openjdk-8-jdk \
+      libwebkit2gtk-4.0 \
+      openjfx \
+    && apt-get clean
 
 ## Install a maven
 ARG MAVEN_VERSION=3.5.4
@@ -19,8 +20,7 @@ RUN wget -O /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-b
   && mkdir ${MAVEN_HOME} \
   && tar -xzf /tmp/apache-maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 \
   && rm -f /tmp/apache-maven.tar.gz \
-  && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn \
-  && apt-get clean
+  && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
 
 ENV MAVEN_HOME ${MAVEN_HOME}
 

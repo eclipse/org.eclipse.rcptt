@@ -197,7 +197,7 @@ def _run_tests(String runner, String args) {
 
 def post_build_actions() {
   junit "**/target/*-reports/*.xml"
-  archiveArtifacts allowEmptyArchive: true, artifacts: "rcpttTests/target/results/**/*, rcpttTests/target/**/*err*log, rcpttTests/target/runner/configuration/*.log, rcpttTests/target/runner-workspace/**/*, rcpttTests/target/**/.log, mockups/tests/target/results/**/*, mockups/tests/target/**/*err*log, mockups/tests/target/runner/configuration/*.log, mockups/tests/target/runner-workspace/**/*, mockups/tests/target/**/.log"
+  archiveArtifacts allowEmptyArchive: true, artifacts: "rcpttTests/target/results/**/*, rcpttTests/target/**/*err*log, rcpttTests/target/runner/configuration/*.log, rcpttTests/target/runner-workspace/**/*, rcpttTests/target/**/.log, mockups/rcpttTests/target/results/**/*, mockups/rcpttTests/target/**/*err*log, mockups/rcpttTests/target/runner/configuration/*.log, mockups/rcpttTests/target/runner-workspace/**/*, mockups/rcpttTests/target/**/.log"
 
   sh "dd if=/dev/zero of=file.txt count=100 bs=1048576" // 1048576 bytes = 1Mb
   sh "rm file.txt"
