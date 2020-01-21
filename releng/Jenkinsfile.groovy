@@ -236,7 +236,7 @@ def nightly() {
     sshagent(["projects-storage.eclipse.org-bot-ssh"]) {
       def oldBuilds = sh_with_return("$SSH_CLIENT ls -r $storageFolder | grep -v latest | tail -n +${buildsToKeep}")
       for(old in oldBuilds.split("\n")) {
-        sh "$SSH_CLIENT rm -r $storageFolder/$old"
+        sh "$SSH_CLIENT rm -rf $storageFolder/$old"
       }
     }
     copy_files(type, version, qualifier, qualifiedDecoration, true)
