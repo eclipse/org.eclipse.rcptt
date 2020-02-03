@@ -14,7 +14,7 @@
       id="org.eclipse.rcptt.updates.e3x"
       label="RCPTT Runtime Sites"
       version="2.5.1.qualifier"
-      provider-name="%proiderName">
+      provider-name="%providerName">
 
    <description>
       Prepared update sites with RCP Runtime and RCP Runtime prerequsites for ganymede..indigo

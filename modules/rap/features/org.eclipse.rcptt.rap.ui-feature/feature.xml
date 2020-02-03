@@ -16,7 +16,7 @@
       id="org.eclipse.rcptt.rap.ui.feature"
       label="RCPTT RAP Support"
       version="2.5.1.qualifier"
-      provider-name="%proiderName">
+      provider-name="%providerName">
 
    <description>
       RCPTT RAP Support

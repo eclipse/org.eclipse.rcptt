@@ -14,7 +14,7 @@
       id="org.eclipse.rcptt.external.dependencies.feature"
       label="RCPTT External Dependencies"
       version="2.5.1.qualifier"
-      provider-name="%proiderName">
+      provider-name="%providerName">
 
    <description>
     Features with external dependencies.

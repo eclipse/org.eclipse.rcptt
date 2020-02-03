@@ -14,7 +14,7 @@
       id="org.eclipse.rcptt.launching.rap.feature"
       label="RCPTT RAP launching"
       version="2.5.1.qualifier"
-      provider-name="%proiderName">
+      provider-name="%providerName">
 
    <description>
     des

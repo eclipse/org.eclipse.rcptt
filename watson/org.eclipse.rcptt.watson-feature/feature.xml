@@ -14,7 +14,7 @@
       id="org.eclipse.rcptt.watson"
       label="RCPTT Eclipse runtime information collectors"
       version="2.5.1.qualifier"
-      provider-name="Eclipse RCP Testing Tool Project">
+      provider-name="%providerName">
 
    <description>
       Set of plugins for gathering information about Eclipse installation

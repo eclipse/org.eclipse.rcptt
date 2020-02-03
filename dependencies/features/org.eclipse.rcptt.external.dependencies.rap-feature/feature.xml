@@ -14,7 +14,7 @@
       id="org.eclipse.rcptt.external.dependencies.rap.feature"
       label="RCPTT External Dependensies for RAP"
       version="2.5.1.qualifier"
-      provider-name="%proiderName">
+      provider-name="%providerName">
 
    <description>
       RCPTT External Dependensies for RAP AUTs
