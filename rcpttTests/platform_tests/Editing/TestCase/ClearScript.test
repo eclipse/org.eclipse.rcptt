@@ -1,0 +1,97 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _tlWZcGphEeCzId1Gnkds9A,_4zI9AWpgEeCzId1Gnkds9A
+Element-Name: ClearScript
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _C5WbwEmvEeq3N-17Rp0qDw
+Save-Time: 2/7/20 9:02 PM
+Testcase-Type: ecl
+
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
+Content-Type: text/plain
+Entry-Name: .description
+
+Copyright (c) 2020 Xored Software Inc and others.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v2.0
+which accompanies this distribution, and is available at
+https://www.eclipse.org/legal/epl-v20.html
+
+Contributors:
+    Xored Software Inc - initial creation and/or initial documentation
+--------------------------------------------------------------------------------
+
+TEST STEPS
+
+1. Create new test case through "New Test Case" window
+2. Verify that new test case is created successfully and is displayed in Q7 Explorer
+3. Open this test case
+4. Verify that test case is empty
+5. Add script
+6. Verify that script is not empty
+7. Clean script through "Clean script"
+8. Verify that script is  empty
+9. Verify that clean button is  enabled
+10. Add script
+11. Verify that script is not empty
+12. Minimize script section through click on "Script"
+13. Verify that clean button is not enabled
+14. Expand script section through click on "Script"
+15. Verify that script is not empty
+------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+get-view "Test Explorer" | get-tree | select TestQ7Prj | get-menu "New/Test Case" | click
+with [get-window "New Test Case"] {
+    get-editbox -after [get-label "Name:"] | set-text "Test scenario"
+    get-button Finish | click
+}
+with [get-editor "Test scenario"] {
+    get-editbox -after [get-label "Name:"] | get-property value | equals "Test scenario" | verify-true
+    get-button Record | get-property enablement | equals true | verify-true
+    get-button Replay | get-property enablement | equals true | verify-true
+    get-button | get-property enablement | equals true | verify-true
+    with [get-section Contexts] {
+        get-button "Add..." | get-property enablement | equals true | verify-true
+        get-button Remove | get-property enablement | equals false | verify-true
+        get-button Up | get-property enablement | equals false | verify-true
+        get-button Down | get-property enablement | equals false | verify-true
+    }
+    get-section Script | get-button -index 0 | get-property enablement | equals true | verify-true
+}
+with [get-editor "Test scenario" | get-section Script | get-text-viewer] {
+    type-text "some "
+    show-content-assist
+    type-text "script "
+    show-content-assist
+    type-text "is here"
+    key-type "M1+s"
+}
+get-editor "Test scenario" | get-section Script | get-text-viewer | get-property text | equals "some script is here" 
+    | verify-true
+with [get-editor "Test scenario" | get-section Script] {
+    get-button "Clear Script" | click
+    get-text-viewer | set-caret-pos 1 1
+}
+
+with [get-editor "Test scenario" | get-section Script | get-text-viewer] {
+    type-text "another "
+    show-content-assist
+    type-text script
+    key-type "M1+s"
+}
+with [get-editor "Test scenario" | get-section Script] {
+    get-button "Clear Script" | get-property enablement | equals true | verify-true
+    get-text-viewer | get-property text | equals "another script" | verify-true
+}
+get-editor "Test scenario" | get-section Script | click
+get-editor "Test scenario" | get-section Script | get-button "Clear Script" | get-property enablement | equals false 
+    | verify-true
+get-editor "Test scenario" | get-section Script | click
+get-editor "Test scenario" | get-section Script | get-text-viewer | get-property text | equals "another script" 
+    | verify-true
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
