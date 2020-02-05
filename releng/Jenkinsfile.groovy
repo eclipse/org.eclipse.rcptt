@@ -128,7 +128,7 @@ def build(Boolean sign) {
     sh "mvn --version"
     sh "./fast-build.sh -Dmaven.repo.local=$WORKSPACE/m2 -U -B -e ${sign ? "-P sign" : ""}"
     sh "./build_runner.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
-    sh "mvn -f maven-plugin/pom.xml clean verify -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
+    sh "mvn -f maven-plugin/pom.xml clean install -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
     sh "./$DOC_DIR/generate-doc.sh -Dmaven.repo.local=$WORKSPACE/m2 -B -e"
   }
 }

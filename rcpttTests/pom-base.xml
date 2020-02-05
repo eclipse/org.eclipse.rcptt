@@ -35,7 +35,7 @@
 
   <properties>
     <rcptt-maven-group>org.eclipse.rcptt</rcptt-maven-group>
-    <rcptt-maven-version>2.5.0</rcptt-maven-version>
+    <rcptt-maven-version>2.5.1-SNAPSHOT</rcptt-maven-version>
     <rcptt-maven-plugin>rcptt-maven-plugin</rcptt-maven-plugin>
     <runner-version>2.5.1-SNAPSHOT</runner-version>
     <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.5.1/latest/repository</rcpttRepo>
