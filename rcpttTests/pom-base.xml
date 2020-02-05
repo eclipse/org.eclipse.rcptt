@@ -35,10 +35,10 @@
 
   <properties>
     <rcptt-maven-group>org.eclipse.rcptt</rcptt-maven-group>
-    <rcptt-maven-version>2.5.0-SNAPSHOT</rcptt-maven-version>
+    <rcptt-maven-version>2.5.0</rcptt-maven-version>
     <rcptt-maven-plugin>rcptt-maven-plugin</rcptt-maven-plugin>
     <runner-version>2.5.1-SNAPSHOT</runner-version>
-    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.4.3/latest/repository</rcpttRepo>
+    <rcpttRepo>http://download.eclipse.org/rcptt/nightly/2.5.1/latest/repository</rcpttRepo>
     <autRepository>file://${basedir}/../modules/repository/target/repository</autRepository>
     <runtimeRepository>file:/${user.dir}/runtime/updates/org.eclipse.rcptt.updates.runtime.e4x/q7</runtimeRepository>
   </properties>
