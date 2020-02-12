@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Xored Software Inc and others.
+ * Copyright (c) 2019, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -59,7 +59,6 @@ public final class ZephyrService implements ITestEngine {
 
 	@Override
 	public void testRunCompleted() {
-		this.config.getRestClient().destroy();
 	}
 
 	@Override
@@ -68,7 +67,6 @@ public final class ZephyrService implements ITestEngine {
 
 	@Override
 	public void sessionCompleted(ExecutionSession session) {
-
 	}
 
 	@Override
@@ -87,7 +85,6 @@ public final class ZephyrService implements ITestEngine {
 		if (!zephyrEnabled) {
 			return;
 		}
-
 		final Boolean passed = getZephyrStatus(scenario);
 		if (passed == null)
 			return;
@@ -96,7 +93,7 @@ public final class ZephyrService implements ITestEngine {
 
 		this.config.setTestcase(testcase);
 		ZephyrTestCase.processTestCaseDetails(this.config);
-
+		this.config.getRestClient().destroy();
 	}
 
 	private void applyConfig(final EclScenarioExecutable scenario, final Map<String, String> config) {
