@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -151,6 +151,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.operations.OperationHistoryActionHandler;
@@ -193,7 +195,8 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 		return occurrencesFinderJob;
 	}
 
-	public void replaceOccurencesAnnotation(IAnnotationModel annotationModel, Map<Annotation, Position> annotationsToAdd) {
+	public void replaceOccurencesAnnotation(IAnnotationModel annotationModel,
+			Map<Annotation, Position> annotationsToAdd) {
 		((IAnnotationModelExtension) annotationModel).replaceAnnotations(occurrencesAnnotations, annotationsToAdd);
 	}
 
@@ -315,8 +318,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 	@Override
 	protected IVerticalRulerColumn createAnnotationRulerColumn(
 			CompositeRuler ruler) {
-		AnnotationRulerColumn column = (AnnotationRulerColumn) super
-				.createAnnotationRulerColumn(ruler);
+		AnnotationRulerColumn column = (AnnotationRulerColumn) super.createAnnotationRulerColumn(ruler);
 		column.addAnnotationType(Q7Builder.MARKER_TYPE);
 		return column;
 	}
@@ -365,8 +367,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 			if (msg.getFeature() != null) {
 				if (msg.getFeature().equals(
 						ScenarioPackage.Literals.SCENARIO__CONTEXTS)
-						|| msg.getFeature().
-								equals(ScenarioPackage.Literals.SCENARIO__VERIFICATIONS)
+						|| msg.getFeature().equals(ScenarioPackage.Literals.SCENARIO__VERIFICATIONS)
 						|| msg.getFeature()
 								.equals(ScenarioPackage.Literals.GROUP_CONTEXT__CONTEXT_REFERENCES)) {
 					checkReferences();
@@ -645,17 +646,17 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 
 	@Override
 	public void createPartControl(Composite masterParent) {
-		
+
 		masterParent.setLayout(new FillLayout());
 		Composite parent = new Composite(masterParent, SWT.NONE);
-		
+
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		GridLayoutFactory.fillDefaults().spacing(0, 0).applyTo(parent);
-//		parent.setLayoutData(new GridData(GridData.FILL_BOTH));
+		// parent.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Composite top = toolkit.createComposite(parent);
 		top.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
+
 		parent.setData("my_layout_should_be_grid", true);
 
 		header = createEditorHeader();
@@ -674,17 +675,26 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 			ToolBar toolBar = manager.createControl(section.getToolbar());
 			toolBar.moveAbove(null);
 
-			IAction clearAction = new Action() {
+			final IAction clearAction = new Action() {
 				@Override
 				public void run() {
 					getViewer().getDocument().set("");
 					// Scenarios.setEclContent(element, "");
 				}
 			};
-			clearAction.setImageDescriptor(Images
-					.getImageDescriptor(Images.PANEL_CLEAR));
-			clearAction
-					.setToolTipText(Messages.ScriptComposite_ClearActionToolTip);
+			clearAction.setImageDescriptor(Images.getImageDescriptor(Images.PANEL_CLEAR));
+			clearAction.setToolTipText(Messages.ScriptComposite_ClearActionToolTip);
+			section.getSection().addExpansionListener(new IExpansionListener() {
+				@Override
+				public void expansionStateChanging(ExpansionEvent e) {
+					clearAction.setEnabled(e.getState());
+				}
+
+				@Override
+				public void expansionStateChanged(ExpansionEvent e) {
+				}
+
+			});
 			manager.add(clearAction);
 
 			manager.update(true);
@@ -878,8 +888,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 							}
 							return;
 						}
-					}
-					finally {
+					} finally {
 						updateActions();
 					}
 				}
@@ -1438,7 +1447,7 @@ public class EclEditor extends AbstractDecoratedTextEditor implements
 		EclOpenDeclarationAction action = new EclOpenDeclarationAction(this);
 		action.setActionDefinitionId(GO_TO_DECLARATION_ACTION);
 		setAction(GO_TO_DECLARATION_ACTION, action);
-		
+
 		if (menu != null) {
 			addGroup(menu, ITextEditorActionConstants.GROUP_EDIT, GO_TO_DECLARATION_GROUP);
 			addAction(menu, GO_TO_DECLARATION_GROUP, GO_TO_DECLARATION_ACTION);
