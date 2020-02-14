@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -104,6 +104,7 @@ import org.eclipse.rcptt.tesla.ecl.model.Selector;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
+import org.eclipse.rcptt.tesla.ecl.model.impl.GetItemImpl;
 import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
 import org.eclipse.rcptt.tesla.recording.core.ecl.KeyStrokeManager;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaCommand;
@@ -212,8 +213,18 @@ public class TeslaParser extends TeslaScriptletFactory {
 				if (c1 instanceof Selector && c2 instanceof Selector) {
 					Selector s1 = (Selector) c1;
 					Selector s2 = (Selector) c2;
-					if (s1.getId() != null && s2.getId() != null)
+					if (s1.getId() != null && s2.getId() != null) {
 						return s1.getId().compareTo(s2.getId());
+					}
+				}
+
+				if (c1 instanceof GetItemImpl && c2 instanceof GetItemImpl) {
+					GetItemImpl i1 = (GetItemImpl) c1;
+					GetItemImpl i2 = (GetItemImpl) c2;
+
+					if (i1.getPath() != null && i2.getPath() != null) {
+						return i1.getPath().compareTo(i2.getPath());
+					}
 				}
 				return 1;
 			}
@@ -238,8 +249,8 @@ public class TeslaParser extends TeslaScriptletFactory {
 	}
 
 	/**
-	 * @throws IndexOutOfBoundsException
-	 *             if there's no more tesla commands to convert
+	 * @throws IndexOutOfBoundsException if there's no more tesla commands to
+	 *                                   convert
 	 * @return ECL command
 	 */
 	protected Command teslaCommand() {
@@ -727,7 +738,8 @@ public class TeslaParser extends TeslaScriptletFactory {
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ActivateCellEditor")
 	protected Command activateCellEditor(ActivateCellEditor c) {
 		Command selector = selectorOf(c.getElement());
-		return TeslaScriptletFactory.makePipe(selector, TeslaScriptletFactory.makeCellEditorActivate(c.getColumn(), c.getType().getValue(), c.getButton()));
+		return TeslaScriptletFactory.makePipe(selector,
+				TeslaScriptletFactory.makeCellEditorActivate(c.getColumn(), c.getType().getValue(), c.getButton()));
 	}
 
 	@TeslaCommand(packageUri = ProtocolPackage.eNS_URI, classifier = "ApplyCellEditor")
