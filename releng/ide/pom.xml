@@ -43,19 +43,19 @@
   </properties>
   <repositories>
     <repository>
-      <id>2019-12-milestones</id>
+      <id>2020-03-milestones</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.14milestones</url>
+      <url>http://download.eclipse.org/eclipse/updates/4.15milestones</url>
     </repository>
     <repository>
-      <id>2019-12</id>
+      <id>2020-03</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/2019-12</url>
+      <url>http://download.eclipse.org/releases/2020-03</url>
     </repository>
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/</url>
+      <url>https://download.eclipse.org/tools/orbit/downloads/drops/S20200219023850/repository/</url>
     </repository>
     <repository>
       <id>core</id>
