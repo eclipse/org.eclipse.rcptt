@@ -96,6 +96,8 @@ import org.eclipse.rcptt.tesla.ecl.model.Button;
 import org.eclipse.rcptt.tesla.ecl.model.Decrypt;
 import org.eclipse.rcptt.tesla.ecl.model.ExecWithOptions;
 import org.eclipse.rcptt.tesla.ecl.model.FromRawKey;
+import org.eclipse.rcptt.tesla.ecl.model.GetItem;
+import org.eclipse.rcptt.tesla.ecl.model.GetMenu;
 import org.eclipse.rcptt.tesla.ecl.model.GetProperty;
 import org.eclipse.rcptt.tesla.ecl.model.KeyType;
 import org.eclipse.rcptt.tesla.ecl.model.Mouse;
@@ -104,7 +106,6 @@ import org.eclipse.rcptt.tesla.ecl.model.Selector;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaPackage;
 import org.eclipse.rcptt.tesla.ecl.model.TypeCommandKey;
-import org.eclipse.rcptt.tesla.ecl.model.impl.GetItemImpl;
 import org.eclipse.rcptt.tesla.internal.core.SimpleCommandPrinter;
 import org.eclipse.rcptt.tesla.recording.core.ecl.KeyStrokeManager;
 import org.eclipse.rcptt.tesla.recording.core.ecl.TeslaCommand;
@@ -217,13 +218,20 @@ public class TeslaParser extends TeslaScriptletFactory {
 						return s1.getId().compareTo(s2.getId());
 					}
 				}
-
-				if (c1 instanceof GetItemImpl && c2 instanceof GetItemImpl) {
-					GetItemImpl i1 = (GetItemImpl) c1;
-					GetItemImpl i2 = (GetItemImpl) c2;
+				if (c1 instanceof GetItem && c2 instanceof GetItem) {
+					GetItem i1 = (GetItem) c1;
+					GetItem i2 = (GetItem) c2;
 
 					if (i1.getPath() != null && i2.getPath() != null) {
 						return i1.getPath().compareTo(i2.getPath());
+					}
+				}
+				if (c1 instanceof GetMenu && c2 instanceof GetMenu) {
+					GetMenu m1 = (GetMenu) c1;
+					GetMenu m2 = (GetMenu) c2;
+
+					if (m1.getPath() != null && m2.getPath() != null) {
+						return m1.getPath().compareTo(m2.getPath());
 					}
 				}
 				return 1;

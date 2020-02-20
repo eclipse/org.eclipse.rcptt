@@ -1,12 +1,12 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Element-Name: AssertionGroupByItem
+Element-Name: AssertionGroupping
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _GLGj8FFQEeqyG-160wAoew
-Runtime-Version: 2.5.1.qualifier
-Save-Time: 2/19/20 12:26 PM
+Runtime-Version: 2.5.2.qualifier
+Save-Time: 3/10/20 6:11 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -27,8 +27,12 @@ Test Steps:
 1. Create test for self-aut
 2. Add to created test script with variables defenition
 3. Start asserting selfQ7
-4. Assert columns in expressions table 
+4. Assert columns in expressions table
 5. Check if generate correct code with grouping by item
+6. Remove all expressions
+7. Start asserting selfQ7
+8. Assert Edit menu
+9. Check if generated code with grouping by menu
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa--
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
 Content-Type: text/ecl
@@ -104,19 +108,18 @@ with [get-window "Control Panel - t2 (test) - selfQ7 [Asserting]"] {
 }
 
 
-get-window "Control Panel - t2 (test) - selfQ7 [Asserting]" | get-text-viewer | get-property text 
-    | contains "with [get-view Expressions | get-tree] {\n"
-    + "    with [get-item -path \"\\\"123\\\"\"] {\n"
-    + "        get-property \"columns[0]\" | equals \"\\\"123\\\"\" | verify-true\n"
-    + "        get-property \"columns[1]\" | equals \"\" | verify-true\n"
-    + "    }\n"
-    + "    with [get-item -path \"\\\"456\\\"\"] {\n"
-    + "        get-property \"columns[0]\" | equals \"\\\"456\\\"\" | verify-true\n"
-    + "        get-property \"columns[1]\" | equals \"\" | verify-true\n"
-    + "    }\n"
-    + "}" | verify-true
-    
 with [get-window "Control Panel - t2 (test) - selfQ7 [Asserting]"] {
+	get-text-viewer | get-property text
+    	| contains "with [get-view Expressions | get-tree] {\n"
+    	+ "    with [get-item -path \"\\\"123\\\"\"] {\n"
+    	+ "        get-property \"columns[0]\" | equals \"\\\"123\\\"\" | verify-true\n"
+    	+ "        get-property \"columns[1]\" | equals \"\" | verify-true\n"
+    	+ "    }\n"
+    	+ "    with [get-item -path \"\\\"456\\\"\"] {\n"
+    	+ "        get-property \"columns[0]\" | equals \"\\\"456\\\"\" | verify-true\n"
+    	+ "        get-property \"columns[1]\" | equals \"\" | verify-true\n"
+    	+ "    }\n"
+    	+ "}" | verify-true
 	get-button "Switch to Recording Mode" | click
 }
 
@@ -124,4 +127,30 @@ get-aut selfQ7 | eval {
 	get-button "Remove All Expressions" | click
 	get-window "Remove All Expressions" | get-button Yes | click
 }
+
+with [get-window "Control Panel - t2 (test) - selfQ7 [Recording]"] {
+	get-button "Switch to Recording Mode" | click
+	get-button "Switch to Assertion Mode" | click
+}
+
+get-aut selfQ7 | eval {
+	get-menu -path "Edit" | click
+}
+with [get-window "Control Panel - t2 (test) - selfQ7 [Asserting]" | get-window "Assertion and Verification"] {
+    get-tree | get-item -path "MenuItem \\(Basic Properties\\)/caption" | check
+    get-button Add | click
+}
+
+get-aut selfQ7 | eval {
+	get-menu -path "Edit" | click
+}
+with [get-window "Control Panel - t2 (test) - selfQ7 [Asserting]" | get-window "Assertion and Verification"] {
+    get-tree | get-item -path "MenuItem \\(Basic Properties\\)/index" | check
+    get-button Add | click
+}
+get-window "Control Panel - t2 (test) - selfQ7 [Asserting]" | get-text-viewer | get-property text
+    | contains "with [get-menu -path Edit] {\n"
+    + "    get-property caption | equals \"&Edit\" | verify-true\n"
+    + "    get-property index | equals 1 | verify-true\n"
+    + "}" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
