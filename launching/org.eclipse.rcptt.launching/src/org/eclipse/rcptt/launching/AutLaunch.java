@@ -49,7 +49,7 @@ public interface AutLaunch {
 	AutLaunchState getState();
 
 	/**
-	 * Return the aut capability platform "e3", "e4", "rap".
+	 * Return the aut capability platform "e4", "rap".
 	 *
 	 * @return capability platform
 	 */

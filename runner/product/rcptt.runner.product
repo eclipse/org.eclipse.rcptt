@@ -310,13 +310,9 @@
       <plugin id="org.eclipse.rcptt.tesla.recording.core.ecl"/>
       <plugin id="org.eclipse.rcptt.tesla.recording.core"/>
       <plugin id="org.eclipse.rcptt.tesla.recording.nebula.ecl"/>
-      <plugin id="org.eclipse.rcptt.updates.aspectj.e38x"/>
-      <plugin id="org.eclipse.rcptt.updates.aspectj.e3x"/>
       <plugin id="org.eclipse.rcptt.updates.aspectj.e44x"/>
-      <plugin id="org.eclipse.rcptt.updates.helios"/>
       <plugin id="org.eclipse.rcptt.updates.kepler"/>
       <plugin id="org.eclipse.rcptt.updates.runtime.e4x"/>
-      <plugin id="org.eclipse.rcptt.updates.runtime"/>
       <plugin id="org.eclipse.rcptt.updates.extra"/>
 
       <plugin id="org.eclipse.rcptt.updates.external.dependencies.rap"/>
@@ -368,7 +364,6 @@
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui"/> -->
       <plugin id="org.eclipse.update.configurator"/>
-      <plugin id="org.eclipse.update.core"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
       <plugin id="org.objectweb.asm.tree"/>

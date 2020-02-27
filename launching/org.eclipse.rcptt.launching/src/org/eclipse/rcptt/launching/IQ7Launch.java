@@ -168,7 +168,7 @@ public interface IQ7Launch {
 	String ATTR_AUT_PLATFORM = Q7LaunchingPlugin.PLUGIN_ID + ".AUT_PLATFORM_ATTR"; //$NON-NLS-1$
 
 	/**
-	 * Launch configuration attribute key. Aut capability values: "e3", "e4", "rap", "other".
+	 * Launch configuration attribute key. Aut capability values: "e4", "rap", "other".
 	 */
 	String ATTR_AUT_CAPABILITY = Q7LaunchingPlugin.PLUGIN_ID + ".AUT_CAPABILITY_ATTR"; //$NON-NLS-1$
 

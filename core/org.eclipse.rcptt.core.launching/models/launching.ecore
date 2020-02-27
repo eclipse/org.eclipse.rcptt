@@ -50,7 +50,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Capability">
     <eLiterals name="Other"/>
-    <eLiterals name="e3" value="1"/>
     <eLiterals name="e4" value="2"/>
     <eLiterals name="rap" value="3"/>
   </eClassifiers>

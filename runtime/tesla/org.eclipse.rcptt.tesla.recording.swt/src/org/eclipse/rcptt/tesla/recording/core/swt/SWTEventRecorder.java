@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -2010,28 +2010,7 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 		if ((widget instanceof TabFolder || widget instanceof CTabFolder)) {
 			// Check for workbench internal element click
 			boolean skip = false;
-			if (!TeslaCore.isEclipse4()) {
-				// eclipse 3.x
-
-				IWorkbenchWindow[] workbenchWindows = PlatformUI.getWorkbench().getWorkbenchWindows();
-				Control ctrl = (Control) widget;
-				Shell shell = ctrl.getShell();
-				for (IWorkbenchWindow iWorkbenchWindow : workbenchWindows) {
-					Shell wshell = iWorkbenchWindow.getShell();
-
-					if (wshell == shell) {
-						WorkbenchPage page = (WorkbenchPage) iWorkbenchWindow.getActivePage();
-						Composite composite = page.getClientComposite();
-						Composite p1 = ctrl.getParent();
-						if (p1.equals(composite) || p1.getParent().equals(composite)) {
-							// Skip click on views/editors tab folder
-							// hasViewEditorCTabFolderClick = true;
-							skip = true;
-							break;
-						}
-					}
-				}
-			} else if (widget instanceof CTabFolder) {
+			if (TeslaCore.isEclipse4() && widget instanceof CTabFolder) {
 				// eclipse 4.x
 				skip = EclipseWorkbenchProvider.getProvider().extractViewOrEditorControl((CTabFolder) widget) != null;
 			}

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tesla SWT Runtime for Eclipse 3.x
+Bundle-Name: Tesla SWT Runtime for Eclipse 4.x
 Bundle-SymbolicName: org.eclipse.rcptt.tesla.swt.e4x;singleton:=true
 Bundle-Version: 2.5.2.qualifier
 Bundle-Activator: org.eclipse.rcptt.tesla.swt.e4x.Activator
