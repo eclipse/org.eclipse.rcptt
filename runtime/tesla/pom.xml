@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2009, 2019 Xored Software Inc and others.
+    Copyright (c) 2009, 2020 Xored Software Inc and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v2.0
     which accompanies this distribution, and is available at
@@ -66,19 +66,11 @@
   
   <profiles>
     <profile>
-      <id>runtime3x</id>
-      <modules>
-	<module>org.eclipse.rcptt.tesla.runtime-feature</module>
-	<module>org.eclipse.rcptt.tesla.swt.e3x</module>
-	<module>org.eclipse.rcptt.tesla.workbench.aspects</module>
-      </modules>
-    </profile>
-    <profile>
       <id>runtime4x</id>
       <modules>
-	<module>org.eclipse.rcptt.tesla.runtime.e4x-feature</module>
-	<module>org.eclipse.rcptt.tesla.swt.e4x</module>
-	<module>org.eclipse.rcptt.tesla.workbench.aspects.e4x</module>
+        <module>org.eclipse.rcptt.tesla.runtime.e4x-feature</module>
+        <module>org.eclipse.rcptt.tesla.swt.e4x</module>
+        <module>org.eclipse.rcptt.tesla.workbench.aspects.e4x</module>
       </modules>
     </profile>
   </profiles>

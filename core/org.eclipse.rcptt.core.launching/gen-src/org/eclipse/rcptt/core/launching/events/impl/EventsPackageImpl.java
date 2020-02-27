@@ -597,7 +597,6 @@ public class EventsPackageImpl extends EPackageImpl implements EventsPackage {
 
 		initEEnum(capabilityEEnum, Capability.class, "Capability");
 		addEEnumLiteral(capabilityEEnum, Capability.OTHER);
-		addEEnumLiteral(capabilityEEnum, Capability.E3);
 		addEEnumLiteral(capabilityEEnum, Capability.E4);
 		addEEnumLiteral(capabilityEEnum, Capability.RAP);
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -234,7 +234,7 @@ public class PlainTextPersistenceModel extends BasePersistenceModel implements I
 			}
 			saveAttrs.put("Save-Time", DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US)
 					.format(new Date(System.currentTimeMillis())));
-			Bundle runtimeBundle = Platform.getBundle("org.eclipse.rcptt.updates.runtime");
+			Bundle runtimeBundle = Platform.getBundle("org.eclipse.rcptt.updates.runtime.e4x");
 			if (runtimeBundle != null) {
 				saveAttrs.put("Runtime-Version", runtimeBundle.getVersion().toString());
 			}

@@ -102,9 +102,6 @@
               xsi:type="predicates:OrPredicate">
             <operand
                 xsi:type="predicates:NamePredicate"
-                pattern=".*.e3x"/>
-            <operand
-                xsi:type="predicates:NamePredicate"
                 pattern=".*.e4x"/>
           </operand>
         </operand>
@@ -132,12 +129,6 @@
       <predicate
           xsi:type="predicates:NamePredicate"
           pattern=".*.e4x"/>
-    </workingSet>
-    <workingSet
-        name="RCPTT Runtime e3">
-      <predicate
-          xsi:type="predicates:NamePredicate"
-          pattern=".*.e3x"/>
     </workingSet>
     <workingSet
         name="RCPTT releng"

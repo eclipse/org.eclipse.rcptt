@@ -82,12 +82,6 @@
 				<module>org.eclipse.rcptt.watson.test</module>
 			</modules>
 		</profile>
-		<profile>
-			<id>runtime3x</id>
-			<properties>
-				<hookVersion>1.0.200.I20120427-0800</hookVersion>
-			</properties>
-		</profile>
 	</profiles>
 	<artifactId>rcptt.runtime.tests</artifactId>
 	<packaging>pom</packaging>

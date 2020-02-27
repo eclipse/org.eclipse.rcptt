@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2009, 2019 Xored Software Inc and others. All rights reserved. 
+<!-- Copyright (c) 2009, 2020 Xored Software Inc and others. All rights reserved. 
 	This program and the accompanying materials are made available under the 
 	terms of the Eclipse Public License v2.0 which accompanies this distribution, 
 	and is available at https://www.eclipse.org/legal/epl-v20.html Contributors: 
@@ -42,26 +42,6 @@
 	</repositories>
 
 	<profiles>
-		<profile>
-			<id>runtime3x</id>
-			<modules>
-				<module>../../runtime</module>
-				<module>../../repository/e3x</module>
-			</modules>
-			<repositories>
-				<repository>
-					<id>indigo</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/releases/indigo</url>
-				</repository>
-				<repository>
-					<id>ajdt37</id>
-					<layout>p2</layout>
-					<url>${ajdt37repository}</url>
-				</repository>
-			</repositories>
-		</profile>
-
 		<profile>
 			<id>runtime4x</id>
 			<modules>

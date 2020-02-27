@@ -10,9 +10,6 @@ REM call mvn clean verify %OPTIONS% %* -f clean-pom.xml  || exit 102
 call mvn %TARGETS% %OPTIONS% %* -f releng/core/pom.xml ^
     || goto :EOF
 
-call mvn %TARGETS% %OPTIONS% %* -f releng/runtime/pom.xml -P runtime3x ^
-    || goto :EOF
-
 call mvn %TARGETS% %OPTIONS% %* -f releng/runtime/pom.xml -P runtime4x ^
     || goto :EOF
 

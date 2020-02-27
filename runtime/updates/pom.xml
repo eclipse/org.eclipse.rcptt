@@ -19,13 +19,6 @@
   </parent>
   <profiles>
     <profile>
-      <id>runtime3x</id>
-      <modules>
-	      <module>org.eclipse.rcptt.updates.runtime</module>
-	      <module>org.eclipse.rcptt.updates.e3x-feature</module>
-      </modules>
-    </profile>
-    <profile>
       <id>runtime4x</id>
       <modules>
 	      <module>org.eclipse.rcptt.updates.runtime.e4x</module>

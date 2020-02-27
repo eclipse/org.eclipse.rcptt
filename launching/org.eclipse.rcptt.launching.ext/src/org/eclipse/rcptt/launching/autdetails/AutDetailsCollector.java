@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -90,7 +90,7 @@ public class AutDetailsCollector {
 		Properties q7props = new Properties();
 
 		Version runtimeBundle = Platform.getBundle(
-				"org.eclipse.rcptt.updates.runtime").getVersion();
+			"org.eclipse.rcptt.updates.runtime.e4x").getVersion();
 		q7props.put("runtime.version", runtimeBundle.toString());
 		processor.addFile("Q7 version.properties", q7props);
 	}

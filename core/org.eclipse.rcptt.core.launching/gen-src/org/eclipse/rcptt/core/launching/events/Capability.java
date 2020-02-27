@@ -38,22 +38,6 @@ public enum Capability implements Enumerator {
 	 */
 	OTHER(0, "Other", "Other"),
 
-	/**
-	 * The '<em><b>E3</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #E3_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	E3(1, "e3", "e3"), /**
-	 * The '<em><b>E4</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #E4_VALUE
-	 * @generated
-	 * @ordered
-	 */
 	E4(2, "e4", "e4"), /**
 	 * The '<em><b>Rap</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -78,21 +62,6 @@ public enum Capability implements Enumerator {
 	 * @ordered
 	 */
 	public static final int OTHER_VALUE = 0;
-
-	/**
-	 * The '<em><b>E3</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>E3</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #E3
-	 * @model name="e3"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int E3_VALUE = 1;
 
 	/**
 	 * The '<em><b>E4</b></em>' literal value.
@@ -133,7 +102,6 @@ public enum Capability implements Enumerator {
 	private static final Capability[] VALUES_ARRAY =
 		new Capability[] {
 			OTHER,
-			E3,
 			E4,
 			RAP,
 		};
@@ -193,7 +161,6 @@ public enum Capability implements Enumerator {
 	public static Capability get(int value) {
 		switch (value) {
 			case OTHER_VALUE: return OTHER;
-			case E3_VALUE: return E3;
 			case E4_VALUE: return E4;
 			case RAP_VALUE: return RAP;
 		}

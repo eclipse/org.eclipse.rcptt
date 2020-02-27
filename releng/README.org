@@ -13,13 +13,11 @@
      # Main repo & runtime repos
      /nightly/1.5.2/{qualifier}/repository/
      /nightly/1.5.2/{qualifier}/full/repository/
-     /nightly/1.5.2/{qualifier}/runtime3x/
      /nightly/1.5.2/{qualifier}/runtime4x/
 
      # Latest (just a copy with minor change in ide file (to ensure url is the same))
      /nightly/1.5.2/latest/ide/rcptt.ide-1.5.2-nightly-{platform}.zip
      /nightly/1.5.2/latest/repository/
-     /nightly/1.5.2/latest/runtime3x/
      /nightly/1.5.2/latest/runtime4x/
    #+END_SRC
 

@@ -46,7 +46,7 @@ public class CapabilityManager {
 	}
 
 	public String[] getAllCapabilities() {
-		return new String[] { "e3", "e4", "rap" };
+		return new String[] { "e4", "rap" };
 	}
 
 	public CapabilityContextItem addCapability(CapabilityContext context, String... capabilities) {

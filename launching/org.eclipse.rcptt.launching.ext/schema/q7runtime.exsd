@@ -67,7 +67,7 @@ platform://bundle/path
                <documentation>
                   Eclipse target version string.
 Could contain * willcard for any sumsequence matches.
-Eg: 3.* for all 3.x releases.
+Eg: 4.* for all 4.x releases.
                </documentation>
             </annotation>
          </attribute>

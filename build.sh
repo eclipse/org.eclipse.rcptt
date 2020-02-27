@@ -1,6 +1,6 @@
 #!/bin/sh
 #*******************************************************************************
-# Copyright (c) 2009, 2019 Xored Software Inc and others.
+# Copyright (c) 2009, 2020 Xored Software Inc and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v2.0
 # which accompanies this distribution, and is available at
@@ -17,9 +17,6 @@ mvn clean verify -f releng/mirroring/pom.xml $OPTIONS || exit 100
 
 echo "======================Building Core======================"
 mvn clean verify -f releng/core/pom.xml $OPTIONS || exit 101
-
-echo "======================Building Runtime 3x======================"
-mvn clean verify -f releng/runtime/pom.xml -P runtime3x $OPTIONS || exit 102
 
 echo "======================Building Runtime 4x======================"
 mvn clean verify -f releng/runtime/pom.xml -P runtime4x $OPTIONS || exit 103

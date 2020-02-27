@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -117,8 +117,6 @@ public class TeslaCore extends Plugin {
 	/**
 	 * Return platform version:
 	 * 
-	 * 3.4-3.8 for classic eclipses.
-	 * 
 	 * 3.103 - for Eclipse 4.2
 	 * 
 	 * @return
@@ -137,10 +135,6 @@ public class TeslaCore extends Plugin {
 	public static boolean isEclipse4() {
 		Version version = getPlatformVersion();
 		return version.getMajor() == 3 && version.getMinor() >= 103;
-	}
-	public static boolean isEclipse46() {
-		Version version = getPlatformVersion();
-		return version.getMajor() == 3 && version.getMinor() >= 107;
 	}
 
 	public static IStatus createError(String message) {
