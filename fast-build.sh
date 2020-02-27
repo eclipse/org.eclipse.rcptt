@@ -1,6 +1,6 @@
 #!/bin/sh
 #*******************************************************************************
-# Copyright (c) 2009, 2019 Xored Software Inc and others.
+# Copyright (c) 2009, 2020 Xored Software Inc and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v2.0
 # which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@ export MAVEN_OPTS="-Xms512m -Xmx1024m -XX:MaxMetaspaceSize=256m -XX:MaxPermSize=
 
 CWD=`pwd`
 
-OPTIONS="-Ptycho.fast $@"
+OPTIONS="-Ptycho.fast -Dtycho.localArtifacts=ignore $@"
 
 mvn clean verify -f releng/mirroring/pom.xml $OPTIONS || exit 100 
 
