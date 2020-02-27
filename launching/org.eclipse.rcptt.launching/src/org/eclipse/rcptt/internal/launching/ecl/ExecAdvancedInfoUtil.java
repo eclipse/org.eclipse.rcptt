@@ -20,23 +20,36 @@ import org.eclipse.rcptt.tesla.ecl.model.GetAdvancedInfo;
 import org.eclipse.rcptt.tesla.ecl.model.TeslaFactory;
 
 public class ExecAdvancedInfoUtil {
-	public static IStatus askForAdvancedInfo(AutLaunch launch, String err) {
+	
+	private static IStatus setAdvancedInfo(AutLaunch launch, ExecutionStatus resultStatus) {
 		AdvancedInformation info = null;
 		try {
 			// try to obtain advanced error information from AUT
-			GetAdvancedInfo advInfoCmd = TeslaFactory.eINSTANCE
+			final GetAdvancedInfo advInfoCmd = TeslaFactory.eINSTANCE
 					.createGetAdvancedInfo();
-			Object obj = launch.execute(advInfoCmd);
+			final Object obj = launch.execute(advInfoCmd);
 			if (obj instanceof AdvancedInformation)
 				info = (AdvancedInformation) obj;
 		} catch (Exception e) {
 			return RcpttPlugin.createStatus(e);
 		}
-		ExecutionStatus resultStatus = new ExecutionStatus(IStatus.CANCEL,
-				Q7LaunchingPlugin.PLUGIN_ID, err);
 		if (info != null) {
 			resultStatus.setAdvancedInfo(info);
 		}
 		return resultStatus;
 	}
+
+	public static IStatus askForAdvancedInfo(AutLaunch launch, String err) {
+		final ExecutionStatus resultStatus = new ExecutionStatus(IStatus.CANCEL,
+				Q7LaunchingPlugin.PLUGIN_ID, err);
+
+		return setAdvancedInfo(launch, resultStatus);
+	}
+
+	public static IStatus askForAdvancedInfo(AutLaunch launch, IStatus status) {
+		final ExecutionStatus resultStatus = new ExecutionStatus(status);
+
+		return setAdvancedInfo(launch, resultStatus);
+	}
+
 }

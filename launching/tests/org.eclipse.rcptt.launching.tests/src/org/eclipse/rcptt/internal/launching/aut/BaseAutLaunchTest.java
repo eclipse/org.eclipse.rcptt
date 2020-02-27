@@ -90,7 +90,7 @@ public class BaseAutLaunchTest {
 		Assert.assertEquals(RV, subject.execute(CoreFactory.eINSTANCE.createGlobal()));
 	}
 	
-	@Test(timeout=500)
+	@Test(timeout=1500)
 	public void connectHangs() throws CoreException, InterruptedException, IOException {
 		when(context.connect("127.0.0.1", 9922)).thenAnswer(invocation -> {
 			Thread.sleep(1000);
