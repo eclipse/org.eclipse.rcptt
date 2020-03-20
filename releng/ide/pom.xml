@@ -42,9 +42,9 @@
   </properties>
   <repositories>
     <repository>
-      <id>2020-03-milestones</id>
+      <id>2020-03</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.15milestones</url>
+      <url>http://download.eclipse.org/eclipse/updates/4.15</url>
     </repository>
     <repository>
       <id>2020-03</id>
