@@ -30,7 +30,7 @@
   </properties>
   <repositories>
     <repository>
-      <id>2020-03</id>
+      <id>2020-03-updates</id>
       <layout>p2</layout>
       <url>http://download.eclipse.org/eclipse/updates/4.15</url>
     </repository>
@@ -42,7 +42,7 @@
     <repository>
       <id>orbit</id>
       <layout>p2</layout>
-      <url>https://download.eclipse.org/tools/orbit/downloads/drops/S20200219023850/repository/</url>
+      <url>https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository/</url>
     </repository>
     <repository>
       <snapshots>
