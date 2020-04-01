@@ -922,13 +922,15 @@ public final class SWTUIPlayer {
 					siblings = children.collectFor(wrap(button.getParent()), new SWTUIElement[] { w }, false,
 							Button.class);
 				}
-				if (siblings == null)
+				if (siblings == null) {
 					return;
+				}
 				for (SWTUIElement element : siblings) {
 					Button previousButton = (Button) unwrap(element);
 					if ((previousButton.getStyle() & SWT.RADIO) != 0 && previousButton.getSelection()) {
-						events.sendEvent(element, SWT.Selection);
 						previousButton.setSelection(false);
+						events.sendEvent(element, SWT.Selection);
+						return;
 					}
 				}
 			}

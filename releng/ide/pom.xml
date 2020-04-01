@@ -6,7 +6,7 @@
     https://www.eclipse.org/legal/epl-v20.html
 
     Contributors:
-    	Xored Software Inc - initial API and implementation and/or initial documentation
+        Xored Software Inc - initial API and implementation and/or initial documentation
  -->
 <!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
