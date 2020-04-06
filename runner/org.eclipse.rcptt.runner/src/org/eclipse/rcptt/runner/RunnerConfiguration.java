@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -131,6 +131,7 @@ public class RunnerConfiguration {
 	public String[] autArgs;
 	public String[] autVMArgs = new String[0];
 	public int timeoutRestart = 2;
+	public final int internalAutFailure = 2;
 	public int connectionResetRetry = 3;
 	public boolean splitHTMLReport = false;
 	public boolean reuseExistingWorkspace = false;

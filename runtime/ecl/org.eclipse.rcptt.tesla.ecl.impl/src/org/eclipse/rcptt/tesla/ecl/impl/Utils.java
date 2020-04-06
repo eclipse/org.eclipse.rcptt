@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rcptt.ecl.internal.core.CorePlugin;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.tesla.internal.core.TeslaCore;
 import org.eclipse.rcptt.tesla.internal.ui.player.TeslaSWTAccess;
 import org.eclipse.rcptt.tesla.swt.dialogs.SWTDialogManager;
@@ -66,28 +68,25 @@ public class Utils {
 				}
 			}
 
-			MultiStatus status = new MultiStatus(PLUGIN_ID, 0, "Failed to close dialogs", null);
+			MultiStatus status = new MultiStatus(PLUGIN_ID, IProcess.INTERNAL_AUT_FAILURE,
+					"Internal Aut failure", null);
 			Shell[] shells = display.getShells();
 			for (int i = shells.length - 1; i >= 0; i--) {
 				Shell shell = shells[i];
-				if (!windowShells.contains(shell) && !shell.isDisposed()
-						&& shell.isVisible()) {
+				if (!windowShells.contains(shell) && !shell.isDisposed() && shell.isVisible()) {
 					Object data = shell.getData();
 					if (data != null && data instanceof WizardDialog) {
 						try {
 							WizardDialog dialog = (WizardDialog) data;
-							if (TeslaSWTAccess
-									.getWizardDialogHasActiveOperations(dialog)) {
+							if (TeslaSWTAccess.getWizardDialogHasActiveOperations(dialog)) {
 								// try to cancel active operations
-								ProgressMonitorPart part = TeslaSWTAccess
-										.getProgressMonitorPart(dialog);
+								ProgressMonitorPart part = TeslaSWTAccess.getProgressMonitorPart(dialog);
 								if (part != null) {
 									part.setCanceled(true);
 									part.clearBlocked();
 								}
 							}
-							TeslaSWTAccess.setWizardDialogHasActiveOperations(
-									dialog, 0);
+							TeslaSWTAccess.setWizardDialogHasActiveOperations(dialog, 0);
 
 							pressCancel(dialog);
 							if (!shell.isDisposed()) {
@@ -96,20 +95,28 @@ public class Utils {
 							// try to cancel monitor if there is one
 						} catch (Throwable e) {
 							TeslaCore.log(e);
+							status.add(createStatusForInternalAutFailure(e));
 						}
 					} else {
 						shell.close();
 					}
 					if (!shell.isDisposed() && shell.isVisible())
-						status.add(new Status(IStatus.ERROR, PLUGIN_ID, shell.getText()));
+						status.add(new Status(IStatus.ERROR, PLUGIN_ID, 
+								String.format("Shell with name %s and class %s is not disposed and visible" , shell.getText(), shell.getClass().getName())));
 				}
 			}
-			if (status.isOK())
+			if (status.isOK()) {
 				return Status.OK_STATUS;
+			}
 			return status;
 		} finally {
 			SWTDialogManager.setCancelMessageBoxesDisplay(false);
 		}
+	}
+
+	private static IStatus createStatusForInternalAutFailure(Throwable e) {
+		return new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, IProcess.INTERNAL_AUT_FAILURE,
+				"Internal aut failure. Cause: " + e.getMessage(), e);
 	}
 
 	private static void pressCancel(WizardDialog dialog) {

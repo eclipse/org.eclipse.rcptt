@@ -39,8 +39,10 @@ import org.eclipse.rcptt.ecl.core.Sequence;
 import org.eclipse.rcptt.ecl.core.util.ECLBinaryResourceImpl;
 import org.eclipse.rcptt.ecl.core.util.ScriptletFactory;
 import org.eclipse.rcptt.ecl.internal.core.ProcessStatusConverter;
+import org.eclipse.rcptt.ecl.runtime.IProcess;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
 import org.eclipse.rcptt.internal.launching.ecl.EclScenarioExecutable;
+import org.eclipse.rcptt.internal.launching.ecl.ExecAdvancedInfoUtil;
 import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.IExecutable;
 import org.eclipse.rcptt.launching.Q7LaunchUtils;
@@ -131,7 +133,10 @@ public class PrepareExecutionWrapper extends Executable {
 			resetParams();
 			resetVerifications();
 		} catch (CoreException e) {
-			return e.getStatus();
+			IStatus status = e.getStatus();
+			IStatus newStatus = new Status(IStatus.ERROR, status.getPlugin(), IProcess.INTERNAL_AUT_FAILURE,
+					status.getMessage(), status.getException());
+			return ExecAdvancedInfoUtil.askForAdvancedInfo(launch, newStatus);
 		} catch (Exception e) {
 			return Q7LaunchingPlugin.createStatus(e);
 		}

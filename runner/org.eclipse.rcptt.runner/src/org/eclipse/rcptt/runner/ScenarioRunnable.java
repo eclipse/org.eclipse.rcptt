@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -72,8 +72,9 @@ public class ScenarioRunnable {
 				IExecutable[] executables = exec.getExecutables();
 				for (IExecutable e: executables) {
 					report = makeReport((PrepareExecutionWrapper) e);
-					if (!e.getResultStatus().isOK())
+					if (!e.getResultStatus().isOK()) {
 						break;
+					}
 				}
 				if (executables == null || executables.length == 0) {
 					HeadlessRunnerPlugin.getDefault()
@@ -122,7 +123,7 @@ public class ScenarioRunnable {
 	 * @return
 	 */
 	public TestResult skip(String message, boolean addToReport) {
-		TestResult result = new TestResult(false, true, getScenarioName(), message, 0, false, false);
+		TestResult result = new TestResult(false, true, getScenarioName(), message, 0, false, false, false);
 		if (addToReport) {
 			addToReport(result);
 		}
@@ -137,7 +138,7 @@ public class ScenarioRunnable {
 	 * @return
 	 */
 	public TestResult fail(String message, boolean addToReport) {
-		TestResult result = new TestResult(true, false, getScenarioName(), message, 0, false, false);
+		TestResult result = new TestResult(true, false, getScenarioName(), message, 0, false, false, false);
 		if (addToReport) {
 			addToReport(result);
 		}

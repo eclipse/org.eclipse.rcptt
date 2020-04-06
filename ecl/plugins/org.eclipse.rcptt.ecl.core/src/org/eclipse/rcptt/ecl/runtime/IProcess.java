@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IStatus;
 public interface IProcess {
 
 	public static final int TIMEOUT_CODE = 123130;
+	public static final int INTERNAL_AUT_FAILURE = 123131;
 
 	IPipe getInput();
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -131,8 +132,10 @@ public class WorkbenchContextProcessor implements IContextProcessor {
 				PlatformUI.getWorkbench().getDisplay().asyncExec(closeModalDialogsAsync);
 				PlatformUI.getWorkbench().getDisplay().asyncExec(closeModalDialogsAsync);
 				IStatus status = UIRunnable.exec(closeModalDialogs);
-				if (!status.isOK())
+				if (!status.isOK()) {
 					throw new CoreException(status);
+				}
+
 			}
 			UIRunnable.exec(closeIntro);
 			final IWorkbenchPage page = UIRunnable.exec(activatePerspective(ctx));
