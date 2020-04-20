@@ -569,9 +569,6 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 			return; // Set text will be recorded elsewhere
 		}
 
-		if (isCanvas(widget, type)) {
-			return;
-		}
 		if ((type == SWT.Selection || type == SWT.DefaultSelection)) {
 			processSelection(widget, event, type, ctx);
 		} else if (type == SWT.Modify && isSimpleTextControl(widget)) {
@@ -904,11 +901,6 @@ public class SWTEventRecorder implements IRecordingProcessor, IExtendedSWTEventL
 		SWTUIElement swtuiElement = SWTRecordingHelper.getHelper().getLocator().getPlayer().wrap(widget);
 		if (swtuiElement != null && swtuiElement.getKind().is(ElementKind.Unknown))
 			return true;
-
-		if ((widget instanceof Canvas && !(widget instanceof StyledText))
-				&& Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(type)) {
-			return true;
-		}
 
 		if (widget instanceof Combo && Arrays.asList(SWT.Selection, SWT.DefaultSelection).contains(type)) {
 			return true;
