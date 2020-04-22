@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -122,14 +122,16 @@ public abstract class UIRunnable<T> {
 			TeslaEventManager.getManager().addEventListener(listener);
 			long start = System.currentTimeMillis();
 			while (!processed.get().equals(RunningState.Finished)) {
-				if (display.isDisposed())
+				if (display.isDisposed()) {
 					throw new CoreException(Status.CANCEL_STATUS);
+				}
 				// Perform wakeup async
 				SWTUIPlayer.notifyUI(display);
 				Thread.sleep(1);// Just to wait min time.
 				if (exception[0] != null) {
-					if (exception[0] instanceof CoreException)
+					if (exception[0] instanceof CoreException) {
 						throw (CoreException)exception[0];
+					}
 					throw new CoreException(createError(exception[0]));
 				}
 				long time = System.currentTimeMillis();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -295,9 +295,17 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return (T) result[0];
 	}
 
+	private IStatus createInternalAutFailStatus(IContext context) {
+		final IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
+				context.isBuiltin() ? IProcess.INTERNAL_AUT_FAILURE : 0,
+				"Failed to apply context " + context.getName(), new FailToExecuteDefaultContext());
+		final IStatus statusWithAdvancedInfo = ExecAdvancedInfoUtil.askForAdvancedInfo(this, status);
+		return statusWithAdvancedInfo;
+	}
+
 	private IStatus createTimeoutStatus(final long timeout) {
 		final IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, IProcess.TIMEOUT_CODE,
-			"Execution has timed out after " + (timeout / 1000.) + " seconds", new TimeoutException());
+				"Execution has timed out after " + (timeout / 1000.) + " seconds", new TimeoutException());
 		final IStatus statusWithAdvancedInfo = ExecAdvancedInfoUtil.askForAdvancedInfo(this, status);
 		return statusWithAdvancedInfo instanceof ExecutionStatus ? statusWithAdvancedInfo : status;
 	}
@@ -343,8 +351,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		ArrayList<Object> result = new ArrayList<Object>();
 		while (true) {
 			Object o = out.take(timeout);
-			if (o instanceof IStatus)
+			if (o instanceof IStatus) {
 				return result;
+			}
 			result.add(o);
 		}
 	}
@@ -604,12 +613,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		ec.setData(context);
 		try {
 			final IStatus result = internalExecute(ec, TeslaLimits.getContextRunnableTimeout(), monitor, null);
+			IStatus status = createInternalAutFailStatus(contextElement);
 			if (!result.isOK()) {
-				throw new CoreException(ExecAdvancedInfoUtil.askForAdvancedInfo(this, result));
+				throw new CoreException(status);
 			}
 		} catch (InterruptedException e) {
-			throw new CoreException(ExecAdvancedInfoUtil.askForAdvancedInfo(this,
-					"Failed to apply context: " + contextElement.getElementName()));
+			throw new CoreException(createInternalAutFailStatus(contextElement));
 		}
 	}
 
@@ -755,8 +764,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 				if (!status.isOK()) {
 					throw new CoreException(status);
 				}
-				if (!it.hasNext())
+				if (!it.hasNext()) {
 					break;
+				}
 				if (debugger != null) {
 					debugger.beforeRestart();
 				}
@@ -845,8 +855,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		} finally {
 			try {
 				while (stop > System.currentTimeMillis()) {
-					if (launch.isTerminated())
+					if (launch.isTerminated()) {
 						return;
+					}
 					Thread.sleep(1000);
 				}
 			} finally {

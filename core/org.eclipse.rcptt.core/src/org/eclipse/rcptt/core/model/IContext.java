@@ -14,4 +14,5 @@ import org.eclipse.rcptt.core.ContextType;
 
 public interface IContext extends IQ7NamedElement {
 	ContextType getType() throws ModelException;
+	public boolean isBuiltin();
 }

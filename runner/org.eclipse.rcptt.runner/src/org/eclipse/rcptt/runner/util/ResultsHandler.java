@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ public class ResultsHandler {
 	public List<TestResult> results = new ArrayList<TestResult>();
 
 	private Multiset<AutThread> timeoutCount = HashMultiset.create();
+	private Multiset<AutThread> failToCloseModalDialogsCount = HashMultiset.create();
 	private Multiset<AutThread> retryCount = HashMultiset.create();
 
 	private RunnerConfiguration conf;
@@ -62,6 +63,12 @@ public class ResultsHandler {
 			} else {
 				timeoutCount.setCount(thread, 0);
 			}
+			
+			if (result.internalAutFailure) {
+				failToCloseModalDialogsCount.add(thread);
+			} else {
+				failToCloseModalDialogsCount.setCount(thread, 0);
+			}
 		}
 
 		if (result.connectionUnavailable) {
@@ -75,6 +82,12 @@ public class ResultsHandler {
 			restartAutWithMessage(thread, "Possible AUT hang detected, "
 					+ tc
 					+ " tests are failed because of timeout.");
+		} else if(failToCloseModalDialogsCount.count(thread) >= conf.internalAutFailure) {
+			int count = failToCloseModalDialogsCount.count(thread);
+			failToCloseModalDialogsCount.setCount(thread, 0);
+			restartAutWithMessage(thread, "Possible AUT hang detected, "
+					+ count
+					+ " default contexts fail");
 		}
 	}
 

@@ -196,7 +196,6 @@ public abstract class EditorHeader {
 				Messages.NamedElementEditorPage_NameLabel);
 		nameText = createWrappedText(parent, toolkit, element.getName(), 2);
 		nameText.setBackground(null);
-
 		nameDecoration = new ControlDecoration(nameText, SWT.TOP | SWT.LEFT);
 
 		FieldDecoration errorFieldIndicator = FieldDecorationRegistry

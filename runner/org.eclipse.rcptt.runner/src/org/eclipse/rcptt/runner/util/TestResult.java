@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2020 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -31,9 +31,10 @@ public class TestResult {
 	public final long time;
 	public final boolean timeout;
 	public final boolean connectionUnavailable;
+	public final boolean internalAutFailure;
 
 	public TestResult(boolean failed, boolean skipped, String name, String reason, long time,
-			boolean timeout, boolean connectionUnavailable) {
+			boolean timeout, boolean connectionUnavailable, boolean internalAutFailure) {
 		this.failed = failed;
 		this.skipped = skipped;
 		this.name = name;
@@ -41,6 +42,7 @@ public class TestResult {
 		this.time = time;
 		this.timeout = timeout;
 		this.connectionUnavailable = connectionUnavailable;
+		this.internalAutFailure = internalAutFailure;
 	}
 
 	public long memory;
@@ -86,15 +88,18 @@ public class TestResult {
 		boolean skipped = false;
 		boolean timeout = false;
 		boolean connectionUnavailable = false;
+		boolean internalAutFailure = false;
 
 		for (IExecutable executable : executables) {
 			IStatus resultStatus = executable.getResultStatus();
 			if (!executable.getResultStatus().isOK()) {
 				reason = "";
 				if (resultStatus != null) {
-
 					if (hasCode(resultStatus, IProcess.TIMEOUT_CODE)) {
 						timeout = true;
+					}
+					if (hasCode(resultStatus, IProcess.INTERNAL_AUT_FAILURE)) {
+						internalAutFailure = true;
 					}
 					reason = resultStatus.getMessage();
 					if (resultStatus instanceof ExecutionStatus) {
@@ -108,7 +113,7 @@ public class TestResult {
 			}
 		}
 
-		return new TestResult(failed, skipped, testName, reason, totalTime, timeout, connectionUnavailable);
+		return new TestResult(failed, skipped, testName, reason, totalTime, timeout, connectionUnavailable, internalAutFailure);
 	}
 
 }
