@@ -89,6 +89,16 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	// TODO: Replace this random number with carefully thought one
 	private static final int TEST_FAIL_EXIT_CODE = 56;
 
+	private class AUTCommandLine extends Commandline {
+		@Override public void addEnvironment(String name, String value) {
+			if( name.equals("JAVA_TOOL_OPTIONS")) {
+				getLog().info(format("Environment variable %s=%s is ignored, please use AUT options", name, value));
+				return;
+			}
+			super.addEnvironment(name, value);
+		}
+	}
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		if (skipTests()) {
@@ -102,7 +112,8 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 
 		validatePreparation();
 		JavaExec java = JavaExec.getDefault();
-		Commandline cmd = new Commandline();
+		AUTCommandLine cmd = new AUTCommandLine();
+
 		cmd.setExecutable(java.getFile().getAbsolutePath());
 		cmd.setWorkingDirectory(getResolvedQ7Dir(getQ7Coords().getPlatform()));
 
@@ -265,7 +276,6 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 			int duration = TestOptions.getInt(getTestOptions(), TestOptions.EXEC_TIMEOUT);
 			getLog().info(format("The execution timeout is set to %d seconds", duration));
 			Runtime.getRuntime().addShutdownHook(ShutdownHook);
-			CommandLineUtils.removeShutdownHook(false);
 			int exitCode = CommandLineUtils.executeCommandLine(cmd, outConsumer, errConsumer, duration);
 			getLog().info(format("Runner exit code is: %d", exitCode));
 			if (exitCode != 0) {
