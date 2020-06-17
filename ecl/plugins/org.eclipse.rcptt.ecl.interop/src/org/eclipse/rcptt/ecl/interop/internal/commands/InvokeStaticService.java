@@ -59,7 +59,7 @@ public class InvokeStaticService implements ICommandService {
 			}
 
 		} catch (Exception e) {
-			return error("%s: %s", e.getClass().getName(), e.getMessage());
+			return error(e, "%s: %s", e.getClass().getName(), e.getMessage());
 		}
 
 		if (result != null)

@@ -63,6 +63,14 @@ public class StatusesTest {
 		status = multiStatus(1);
 		Assert.assertTrue(Statuses.hasCode(status, 1));
 	}
+	
+	@Test
+	public void testStackTrace() throws CoreException, InterruptedException {
+		Command failingCommand = parse("invoke-static -pluginId \"org.eclipse.rcptt.ecl.core.tests\" -className org.eclipse.rcptt.ecl.core.tests.StatusesTest -methodName throwException");
+		IProcess process = session.execute(failingCommand);
+		IStatus result = process.waitFor(200, MONITOR);
+		Assert.assertNotNull(result.getChildren()[0].getException());
+	}
 
 	private Command parse(String input) throws CoreException {
 		return EclCoreParser.newCommand(input);
@@ -86,5 +94,9 @@ public class StatusesTest {
 		IStatus result = process.waitFor(50, MONITOR);
 		Assert.assertFalse(result.isOK());
 		Assert.assertTrue(result.getMessage(), Statuses.hasCode(result, IProcess.TIMEOUT_CODE));
+	}
+	
+	public static void throwException() {
+		throw new RuntimeException("Test failure");
 	}
 }
