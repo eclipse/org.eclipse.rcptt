@@ -25,10 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -854,15 +851,9 @@ public class Q7ExternalLaunchDelegate extends
 	}
 
 	private static IPluginModelBase[] getModels(TargetBundle bundle) {
-		try {
-			return new PDEState(new URI[] { new URL(String.format("file://%s",
-					bundle.getBundleInfo().getLocation().getPath())).toURI() }, true, true,
-					new NullProgressMonitor()).getTargetModels();
-		} catch (URISyntaxException | MalformedURLException e) {
-			log(status("Problem in resolving AUT bundle " + bundle, e));
-			return new IPluginModelBase[0];
-		}
-
+		return new PDEState(new URI[] {
+			bundle.getBundleInfo().getLocation() }, true, true,
+			new NullProgressMonitor()).getTargetModels();
 	}
 
 	private static Version version(IPluginModelBase plugin) {
