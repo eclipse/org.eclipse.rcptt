@@ -343,5 +343,12 @@
          install-size="0"
          version="2.5.2.qualifier"
          unpack="false"/>
+         
+	<plugin
+         id="org.eclipse.rcptt.tesla.chart"
+         download-size="0"
+         install-size="0"
+         version="2.5.2.qualifier"
+         unpack="false"/>
 
 </feature>

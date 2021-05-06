@@ -62,6 +62,7 @@
     <module>org.eclipse.rcptt.tesla.workbench.texteditor.aspects</module>
     <module>org.eclipse.rcptt.tesla.variables</module>
     <module>org.eclipse.rcptt.tesla.properties.view</module>
+    <module>org.eclipse.rcptt.tesla.chart</module>
   </modules>
   
   <profiles>

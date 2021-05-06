@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.util.swt;
 
+import org.eclipse.rcptt.util.ShellUtils;
 import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.rcptt.util.ShellUtils;
 
 @SuppressWarnings("restriction")
 public class ShellUtilsImpl implements ShellUtils {
@@ -45,12 +45,12 @@ public class ShellUtilsImpl implements ShellUtils {
 	    }
 
 	    if (pid > 0) {
-	      if ( !OS.AttachThreadInput(_threadid, pid, true)) {
-	        return;
-	      }
-	      OS.SetForegroundWindow(shell.handle);
-	      OS.AttachThreadInput(_threadid, pid, false);
-	    }
+			if (!OS.AttachThreadInput(_threadid, pid, true)) {
+				return;
+			}
+			OS.SetForegroundWindow(shell.handle);
+			OS.AttachThreadInput(_threadid, pid, false);
+		}
 
 	    OS.BringWindowToTop(shell.handle);
 	    OS.UpdateWindow(shell.handle);

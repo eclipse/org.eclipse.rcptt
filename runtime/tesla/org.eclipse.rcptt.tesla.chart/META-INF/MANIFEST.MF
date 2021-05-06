@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWTChart
+Bundle-SymbolicName: org.eclipse.rcptt.tesla.chart;singleton:=true
+Bundle-Version: 2.5.2.qualifier
+Automatic-Module-Name: org.eclipse.rcptt.tesla.chart
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.rcptt.tesla.core,
+ org.eclipse.rcptt.tesla.swt,
+ org.eclipse.swtchart,
+ org.eclipse.rcptt.tesla.ecl,
+ org.eclipse.core.runtime
