@@ -199,9 +199,6 @@ def post_build_actions() {
   junit "**/target/*-reports/*.xml"
   archiveArtifacts allowEmptyArchive: true, artifacts: "rcpttTests/target/results/**/*, rcpttTests/target/**/*err*log, rcpttTests/target/runner/configuration/*.log, rcpttTests/target/runner-workspace/**/*, rcpttTests/target/**/.log, mockups/rcpttTests/target/results/**/*, mockups/rcpttTests/target/**/*err*log, mockups/rcpttTests/target/runner/configuration/*.log, mockups/rcpttTests/target/runner-workspace/**/*, mockups/rcpttTests/target/**/.log"
 
-  sh "dd if=/dev/zero of=file.txt count=100 bs=1048576" // 1048576 bytes = 1Mb
-  sh "rm file.txt"
-
   container(BUILD_CONTAINER_NAME) {
     sh "ps x"
   }
