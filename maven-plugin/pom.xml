@@ -35,6 +35,16 @@
 		<module>rcptt-maven-util</module>
 	</modules>
 	<build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-versions-plugin</artifactId>
+              <version>1.5.1</version>
+            </plugin>
+          </plugins>
+       </pluginManagement>
+        
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
