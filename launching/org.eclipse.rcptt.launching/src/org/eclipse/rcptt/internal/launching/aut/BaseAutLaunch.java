@@ -438,6 +438,9 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			}
 			LaunchInfoCache.copyCache(launchConfiguration, copy);
 			LaunchInfoCache.remove(launchConfiguration);
+			// To disable clear area during restart
+			boolean configClearArea = copy.getAttribute(IPDELauncherConstants.CONFIG_CLEAR_AREA, false);
+			copy.setAttribute(IPDELauncherConstants.CONFIG_CLEAR_AREA, false);
 			copy.setAttribute(IPDEConstants.RESTART, true);
 			copy.setAttribute(IQ7Launch.ATTR_AUT_ID, getId());
 			if (locationOnRestart != null) {
@@ -447,7 +450,11 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			launch.setAttribute(IQ7Launch.ATTR_AUT_ID, ""); // To disable
 															// terminate by id.
 			launch = copy.launch(launch.getLaunchMode(), new NullProgressMonitor());
-
+			// Set attributes to default after restart
+			copy.setAttribute(IPDEConstants.RESTART, false);
+			copy.setAttribute(IPDELauncherConstants.CONFIG_CLEAR_AREA, configClearArea);
+			copy.setAttribute(IQ7Launch.ATTR_AUT_ID, "");
+			copy.doSave();
 			BaseAutManager.INSTANCE.handleRestart(BaseAutLaunch.this, oldLaunch, launch, copy);
 		} catch (Exception e) {
 			terminated(e);
