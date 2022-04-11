@@ -13,7 +13,6 @@ modules/testrail/plugins/org.eclipse.rcptt.module.testrail.updates/runtime
 *~
 .DS_Store
 /workspace/
-.settings/
 *.log
 !*verifications.log*
 /ecl/tests/org.eclipse.ecl.doc.tests/output/core.html

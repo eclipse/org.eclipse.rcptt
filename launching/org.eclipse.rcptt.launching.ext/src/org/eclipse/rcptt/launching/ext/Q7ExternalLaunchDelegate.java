@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -68,7 +69,6 @@ import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.launching.PDEMessages;
 import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
-import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.pde.launching.IPDELauncherConstants;
@@ -98,7 +98,9 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimaps;
 
 @SuppressWarnings("restriction")
 public class Q7ExternalLaunchDelegate extends
@@ -474,7 +476,7 @@ public class Q7ExternalLaunchDelegate extends
 		String[] classpath = constructClasspath(configuration);
 		if (classpath == null) {
 			String message = PDEMessages.WorkbenchLauncherConfigurationDelegate_noStartup;
-			throw new CoreException(LauncherUtils.createErrorStatus(message));
+			throw new CoreException(Q7ExtLaunchingPlugin.status(message));
 		}
 		return classpath;
 	}
@@ -824,7 +826,11 @@ public class Q7ExternalLaunchDelegate extends
 						}
 					});
 
-			fAllBundles = new HashMap<String, IPluginModelBase>(latestVersions);
+			ListMultimap<String, IPluginModelBase> multiMap = Multimaps.newListMultimap(new HashMap<String, Collection<IPluginModelBase>>(), ArrayList::new);
+			for (IPluginModelBase plugin: plugins.keySet()) {
+				multiMap.put(id(plugin), plugin);
+			}
+			fAllBundles = Maps.transformValues(multiMap.asMap(), ArrayList::new);
 			fModels = new HashMap<IPluginModelBase, String>(Maps.transformValues(
 					resolvedBundles, new Function<BundleStart, String>() {
 						public String apply(BundleStart input) {
@@ -836,7 +842,7 @@ public class Q7ExternalLaunchDelegate extends
 		public final Map<IPluginModelBase, BundleStart> resolvedBundles;
 		public final Map<IPluginModelBase, BundleStart> latestVersionsOnly;
 		public final Map<IPluginModelBase, String> fModels;
-		public final Map<String, IPluginModelBase> fAllBundles;
+		public final Map<String, List<IPluginModelBase>> fAllBundles;
 	}
 
 	private static final String KEY_BUNDLES_TO_LAUNCH = "bundlesToLaunch";

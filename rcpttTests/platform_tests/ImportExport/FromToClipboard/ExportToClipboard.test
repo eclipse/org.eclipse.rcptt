@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _-3d94PriEeCQa9Xqo-1T3A
-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 4:56 PM
+Runtime-Version: 2.5.2.202204181530
+Save-Time: 4/19/22, 6:23 PM
 Tags: ImportExport, Clipboard
 Testcase-Type: ecl
 
@@ -45,7 +45,7 @@ with [get-window "Export"] {
 get-window "Export" | get-button Finish | click
 
 get-view "Test Explorer" | get-tree | select "Q7Project" | get-menu "New/Other..." | click
-with [get-window "New"] {
+with [get-window "New|Select a wizard"] {
 	get-tree | select "General/Untitled Text File"
 	get-button "Finish" | click
 }

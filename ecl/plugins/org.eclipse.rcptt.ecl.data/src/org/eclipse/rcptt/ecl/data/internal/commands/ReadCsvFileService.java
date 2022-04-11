@@ -41,7 +41,12 @@ public class ReadCsvFileService implements ICommandService {
 
 		ReadCsvFile readFile = (ReadCsvFile) command;
 		EclFile file = FileResolver.resolve(readFile.getUri());
-		CSVReader reader = new CSVReader(new InputStreamReader(file.read()));
+		CSVReader reader;
+		try {
+			reader = new CSVReader(new InputStreamReader(file.read()));
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
 
 		Table result = ObjectsFactory.eINSTANCE.createTable();
 		try {

@@ -63,7 +63,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.rcptt.core.scenario,
  org.eclipse.jface,
  org.eclipse.swt
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.ui,
  org.eclipse.rcptt.ui.actions,

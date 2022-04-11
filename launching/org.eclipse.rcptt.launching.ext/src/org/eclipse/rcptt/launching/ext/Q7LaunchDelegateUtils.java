@@ -215,7 +215,7 @@ public class Q7LaunchDelegateUtils {
 
 	public static void setDelegateFields(
 			EclipseApplicationLaunchConfiguration delegate,
-			Map<IPluginModelBase, String> models, Map<String, IPluginModelBase> allBundles) throws CoreException {
+			Map<IPluginModelBase, String> models, Map<String, List<IPluginModelBase>> allBundles) throws CoreException {
 		try {
 			Field field = EclipseApplicationLaunchConfiguration.class
 					.getDeclaredField("fModels");

@@ -16,8 +16,6 @@
       </programArgs>
       <vmArgs>-Xms128m
 -Xmx768m
--XX:PermSize=128M
--XX:MaxPermSize=192M
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread

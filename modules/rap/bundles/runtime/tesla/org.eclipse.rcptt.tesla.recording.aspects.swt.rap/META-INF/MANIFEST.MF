@@ -19,6 +19,6 @@ Import-Package: org.eclipse.rcptt.util,
  org.osgi.framework
 Eclipse-SupplementBundle: org.eclipse.rap.rwt, org.eclipse.rap.ui.views, org.eclipse.rap.filedialog
 Export-Package: org.eclipse.rcptt.tesla.recording.aspects.swt.rap
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.rcptt.tesla.recording.aspects.swt.rap.RecordingSWTActivator

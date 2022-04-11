@@ -27,13 +27,14 @@ public class ShellUtilsImpl implements ShellUtils {
 
 	    long hFrom = OS.GetForegroundWindow();
 
-	    if (hFrom <= 0) {
-	      OS.SetForegroundWindow(shell.handle);
-	      return;
-	    }
 
 	    if (shell.handle == hFrom) {
 	      return;
+	    }
+
+	    if (hFrom <= 0) {
+	    	OS.SetForegroundWindow(shell.handle);
+	    	return;
 	    }
 
 	    int pid = OS.GetWindowThreadProcessId(hFrom, null);
@@ -44,13 +45,6 @@ public class ShellUtilsImpl implements ShellUtils {
 	      return;
 	    }
 
-	    if (pid > 0) {
-			if (!OS.AttachThreadInput(_threadid, pid, true)) {
-				return;
-			}
-			OS.SetForegroundWindow(shell.handle);
-			OS.AttachThreadInput(_threadid, pid, false);
-		}
 
 	    OS.BringWindowToTop(shell.handle);
 	    OS.UpdateWindow(shell.handle);

@@ -158,7 +158,7 @@ public class BaseAutLaunchTest {
 		when(session.execute(isA(SetupPlayer.class), Matchers.any(), isA(IPipe.class))).thenReturn(process);
 		try {
 			NullProgressMonitor monitor = new NullProgressMonitor();
-			Job.createSystem(m -> {
+			Job.createSystem("Cancel self", m -> {
 				monitor.setCanceled(true);
 			}).schedule(300);
 			subject.execute(script, Integer.MAX_VALUE, monitor);

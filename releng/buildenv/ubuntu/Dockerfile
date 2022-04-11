@@ -3,10 +3,12 @@ FROM consol/ubuntu-xfce-vnc:latest
 # Switch to root user to install additional software
 USER 0
 
-## Install a java 8, a webkit and a javafx
+COPY openjdk-r-ubuntu-ppa-xenial.list /etc/apt/sources.list.d/
+COPY openjdk-r_ubuntu_ppa.gpg /etc/apt/trusted.gpg.d/
+## Install a java 11, a webkit and a javafx
 RUN apt-get -y update \
  && apt-get install -y \
-      openjdk-8-jdk \
+      openjdk-11-jdk \
       libwebkit2gtk-4.0 \
       openjfx \
     && apt-get clean

@@ -28,7 +28,7 @@
    </license>
 
    <requires>
-      <import plugin="com.google.guava"/>
+      <import plugin="com.google.guava" version="27.0.0" match="compatible"/>
       <import feature="org.eclipse.rcptt.ecl.platform" version="2.5.2" match="compatible"/>
       <import feature="org.eclipse.rcptt.updates" version="2.5.2" match="compatible"/>
       <import feature="org.eclipse.rcptt.ecl.server" version="2.5.2" match="compatible"/>

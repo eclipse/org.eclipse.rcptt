@@ -16,12 +16,12 @@
   <version>2.5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
-    <tycho-version>1.5.1</tycho-version>
+    <tycho-version>2.7.1</tycho-version>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ajdt43repository>http://download.eclipse.org/tools/ajdt/43/update/</ajdt43repository>
     <signExcludeInnerJars>true</signExcludeInnerJars>
-    <aspectj_version>1.7</aspectj_version>
+    <aspectj_version>1.14.0</aspectj_version>
     <aspectj_dep>1.7.0</aspectj_dep>
     <ajJavaSource>1.7</ajJavaSource>
     <ajJavaTarget>1.7</ajJavaTarget>
@@ -215,6 +215,14 @@
         <artifactId>tycho-maven-plugin</artifactId>
         <extensions>true</extensions>
       </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId> target-platform-validation-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+           <checkDependencies>true</checkDependencies>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -229,22 +237,6 @@
         <module>rcptt</module>
         <module>runner</module>
       </modules>
-    </profile>
-    <profile>
-      <id>tycho.fast</id>
-      <properties>
-        <tycho-version>1.4.0</tycho-version>
-      </properties>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>tycho-enhancements-snapshots</id>
-          <name>Tycho Enhancements Snapshots repository</name>
-          <snapshots>
-            <updatePolicy>always</updatePolicy>
-          </snapshots>
-          <url>https://haiodo.github.io/tycho/repository/</url>
-        </pluginRepository>
-      </pluginRepositories>
     </profile>
     <profile>
       <!--
@@ -330,6 +322,5 @@
         <enabled>true</enabled>
       </snapshots>
     </pluginRepository>
-    <!--  <pluginRepository><id>tycho-enhancements-snapshots</id><name>Tycho Enhancements Snapshots repository</name><snapshots><updatePolicy>always</updatePolicy></snapshots><url>https://haiodo.github.io/tycho/repository/</url></pluginRepository>-->
   </pluginRepositories>
 </project>

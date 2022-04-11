@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_QpuEsG3qEeOpKr7OsF8P0g
 Element-Name: CopyPaste Parameters To Text Field
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-3110
 Id: _eoSpoG3wEeOpKr7OsF8P0g
-Q7-Runtime-Version: 1.5.0.201406131029
-Save-Time: 6/13/14 7:04 PM
+Runtime-Version: 2.5.2.202204181530
+Save-Time: 4/19/22, 5:44 PM
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
@@ -33,9 +32,6 @@ get-view "Test Explorer" | get-tree | select "MyProject/P1" | double-click
 with [get-editor P1] {
     with [get-section Parameters] {
         with [get-table] {
-            select p3 | activate-cell-edit
-            get-editbox | click-text 1 3
-            apply-cell-edit -deactivate
             select p3 p2
         }
         get-button "Copy selected parameters" | click

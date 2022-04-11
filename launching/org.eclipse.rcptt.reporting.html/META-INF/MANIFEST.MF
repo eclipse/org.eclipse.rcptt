@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.rcptt.reporting.html;singleton:=true
 Bundle-Version: 2.5.2.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.core.runtime,
  com.google.guava,
  org.eclipse.rcptt.watson.core;bundle-version="[2.5.2,3.0.0)",

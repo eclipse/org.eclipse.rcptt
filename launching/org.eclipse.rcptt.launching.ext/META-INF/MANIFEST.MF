@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.equinox.frameworkadmin,
  org.eclipse.pde.build,
  org.eclipse.jdt.launching,
- org.eclipse.pde.launching,
+ org.eclipse.pde.launching;bundle-version="3.9.600",
  org.eclipse.rcptt.launching.injection;bundle-version="[2.5.2,3.0.0)",
  org.eclipse.rcptt.tesla.core;bundle-version="[2.5.2,3.0.0)",
  org.eclipse.jdt.core,
@@ -37,7 +37,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.felix.scr,
  org.eclipse.equinox.launcher,
  org.eclipse.core.filesystem
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.launching.ext,
  org.eclipse.rcptt.launching.autdetails,

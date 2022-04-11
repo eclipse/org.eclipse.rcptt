@@ -13,7 +13,7 @@ export MAVEN_OPTS="-Xms512m -Xmx1024m -XX:MaxMetaspaceSize=256m -XX:MaxPermSize=
 
 CWD=`pwd`
 
-OPTIONS="-Ptycho.fast -Dtycho.localArtifacts=ignore $@"
+OPTIONS="-Dtycho.localArtifacts=ignore $@"
 
 mvn clean verify -f releng/mirroring/pom.xml $OPTIONS || exit 100 
 

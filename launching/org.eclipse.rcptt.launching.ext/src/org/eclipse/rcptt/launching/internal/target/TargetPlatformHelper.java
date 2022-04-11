@@ -100,6 +100,7 @@ import org.osgi.framework.Version;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
@@ -461,8 +462,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		LaunchValidationOperation validation = new LaunchValidationOperation(
 				null) {
 			@Override
-			protected IPluginModelBase[] getModels() throws CoreException {
-				return getTargetModels();
+			protected Set<IPluginModelBase> getModels() throws CoreException {
+				return new HashSet(Arrays.asList(getTargetModels()));
 			}
 
 			@Override

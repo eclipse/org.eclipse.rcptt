@@ -39,7 +39,7 @@
      <repository>
       <id>kepler</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/kepler</url>
+      <url>http://download.eclipse.org/releases/2019-03</url>
     </repository>
   </repositories>
 </project>

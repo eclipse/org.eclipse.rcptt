@@ -73,7 +73,7 @@
 		<profile>
 			<id>runtime4x</id>
 			<properties>
-				<hookVersion>1.2.100.v20171221-2204</hookVersion>
+				<hookVersion>1.2.200.v20180827-1235</hookVersion>
 			</properties>
 			<modules>
 				<module>org.eclipse.rcptt.tesla.jface.aspects.test</module>

@@ -146,6 +146,8 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 		cmd.createArg().setValue(RUNNER_PLATFORM);
 		cmd.createArg().setValue(getQ7Coords().getPlatform());
 
+		cmd.createArg().setValue("-consoleLog");
+
 		cmd.createArg().setValue(WORKSPACE);
 		cmd.createArg().setFile(getQ7WsDir());
 		// AUT location

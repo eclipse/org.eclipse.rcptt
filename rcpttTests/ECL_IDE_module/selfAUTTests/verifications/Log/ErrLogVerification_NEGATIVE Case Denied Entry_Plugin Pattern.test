@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufvQ
 Element-Name: ErrLogVerification_NEGATIVE Case Denied Entry_Plugin Pattern
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _IVicAH0UEeO5CYdzFmGe7Q
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 6/15/14 4:42 PM
+Runtime-Version: 2.5.2.202204181530
+Save-Time: 4/19/22, 6:21 PM
 Tags: verification/Error Log, selfAUT
 Testcase-Type: ecl
 
@@ -45,9 +44,10 @@ with [get-editor ErrorLogVerification] {
 }
 get-view "Test Explorer" | get-tree | select "MyProject/TestCase" | double-click
 get-editor TestCase | get-button Replay | click
-get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
-    | contains "Log entry\n"
-    + "Status INFO: org.eclipse.ui code=0 Info Entry null\n"
+get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text
+    | equals ".*\n"
+    + "Log entry\n"
+    + "Status INFO: org.eclipse.ui code=0 Info Entry.*\n"
     + "is denied by predicate\n"
     + "ERROR, WARNING, INFO, plugin: org.eclipse.ui" | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

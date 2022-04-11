@@ -270,7 +270,7 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 
 	public static void setDelegateFields(
 			EquinoxLaunchConfiguration delegate,
-			Map<IPluginModelBase, String> models, Map<String, IPluginModelBase> allBundles) throws CoreException {
+			Map<IPluginModelBase, String> models, Map<String, List<IPluginModelBase>> allBundles) throws CoreException {
 		Throwable ex;
 		try {
 			Field field = EquinoxLaunchConfiguration.class
@@ -898,7 +898,7 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		String[] classpath = constructClasspath(configuration);
 		if (classpath == null) {
 			String message = PDEMessages.WorkbenchLauncherConfigurationDelegate_noStartup;
-			throw new CoreException(LauncherUtils.createErrorStatus(message));
+			throw new CoreException(createStatus(message, null));
 		}
 
 		return classpath;
@@ -955,10 +955,7 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 	private void clearDataLocation(ILaunchConfiguration configuration, IProgressMonitor monitor)
 			throws CoreException {
 		String resolvedDataLocation = getResolvedDataLoacation();
-		boolean isCleared = LauncherUtils.clearWorkspace(configuration, resolvedDataLocation, monitor);
-		if (!isCleared) {
-			throw new CoreException(Status.CANCEL_STATUS);
-		}
+		LauncherUtils.clearWorkspace(configuration, resolvedDataLocation, monitor);
 	}
 
 	private void registerBrowserOpener() {

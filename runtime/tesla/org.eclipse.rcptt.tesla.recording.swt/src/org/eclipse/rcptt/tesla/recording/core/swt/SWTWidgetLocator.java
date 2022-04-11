@@ -94,7 +94,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.PartSite;
-import org.eclipse.ui.internal.PerspectiveBarContributionItem;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.WorkbenchPartReference;
 import org.eclipse.ui.part.WorkbenchPart;
@@ -1426,10 +1425,6 @@ public final class SWTWidgetLocator {
 			}
 		}
 		return null;
-	}
-
-	public static boolean isOpenPespectiveButton(ToolItem item) {
-		return TeslaSWTAccess.getThis(PerspectiveBarContributionItem.class, item, SWT.Selection) != null;
 	}
 
 	public static boolean isCTabFolderListMenuItem(MenuItem menuItem) {
