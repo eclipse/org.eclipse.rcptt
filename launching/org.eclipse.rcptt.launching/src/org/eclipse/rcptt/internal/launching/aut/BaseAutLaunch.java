@@ -295,10 +295,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		return (T) result[0];
 	}
 
-	private IStatus createInternalAutFailStatus(IContext context) {
-		final IStatus status = new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID,
+	private IStatus createInternalAutFailStatus(IContext context, IStatus result) {
+		final IStatus status = new MultiStatus(
+				CorePlugin.PLUGIN_ID, 
 				context.isBuiltin() ? IProcess.INTERNAL_AUT_FAILURE : 0,
-				"Failed to apply context " + context.getName(), new FailToExecuteDefaultContext());
+				new IStatus[] {result},
+				"Failed to apply context " + context.getName(), null);
 		final IStatus statusWithAdvancedInfo = ExecAdvancedInfoUtil.askForAdvancedInfo(this, status);
 		return statusWithAdvancedInfo;
 	}
@@ -620,12 +622,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		ec.setData(context);
 		try {
 			final IStatus result = internalExecute(ec, TeslaLimits.getContextRunnableTimeout(), monitor, null);
-			IStatus status = createInternalAutFailStatus(contextElement);
+			IStatus status = createInternalAutFailStatus(contextElement,result);
 			if (!result.isOK()) {
 				throw new CoreException(status);
 			}
 		} catch (InterruptedException e) {
-			throw new CoreException(createInternalAutFailStatus(contextElement));
+			throw new CoreException(createInternalAutFailStatus(contextElement, new Status(IStatus.ERROR, CorePlugin.PLUGIN_ID, 0, "Execution interrupted", e)));
 		}
 	}
 
