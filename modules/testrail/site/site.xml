@@ -11,7 +11,7 @@
  -->
 
 <site>
-   <feature url="features/org.eclipse.rcptt.module.testrail_2.5.2.qualifier.jar" id="org.eclipse.rcptt.module.testrail" version="2.5.2.qualifier">
+   <feature url="features/org.eclipse.rcptt.module.testrail_2.5.3.qualifier.jar" id="org.eclipse.rcptt.module.testrail" version="2.5.3.qualifier">
       <category name="rcptt"/>
    </feature>
    <category-def name="rcptt" label="RCP Testing Tool"/>
