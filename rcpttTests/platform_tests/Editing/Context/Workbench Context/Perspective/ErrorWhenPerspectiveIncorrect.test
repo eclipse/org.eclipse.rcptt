@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _viRFQOipEeCButSfkA0tsQ
-Runtime-Version: 1.5.0.201407290252
-Save-Time: 7/30/14 4:00 PM
+Runtime-Version: 2.5.2.202204240826
+Save-Time: 4/26/22, 10:25 AM
 Tags: selfAUT, Context, WorkbenchContext, Perspective
 Testcase-Type: ecl
 
@@ -40,9 +40,13 @@ with [get-view "Execution View"] {
     get-label "1/1" | get-property caption | equals "1/1" | verify-true
     get-label 1 | get-property caption | equals 1 | verify-true
     get-editbox -after [get-label "Message:"] | get-property text 
-        | contains "Failed to execute context: WB_incorrectPerspective Cause: Unable to create perspective \'com.xored.fanide.ui.FanPerspective2\'.  There is no corresponding perspective extension." 
+        | contains "Failed to execute context: WB_incorrectPerspective Cause: Unable to create perspective 'com.xored.fanide.ui.FanPerspective2'. There is no corresponding perspective extension." 
         | verify-true
 }
+
+
+
+
 get-editor "WB_incorrectPerspective" | close
 get-view "Execution View" | click -nowait
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
