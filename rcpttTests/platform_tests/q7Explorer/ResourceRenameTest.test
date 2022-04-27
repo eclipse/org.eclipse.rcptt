@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _da-SEauHEeCsAecib2O_8g
-Runtime-Version: 2.5.0.qualifier
-Save-Time: 10/18/19 1:00 PM
+Runtime-Version: 2.5.2.202204240826
+Save-Time: 4/27/22, 8:20 PM
 Tags: Q7Explorer, Rename
 Testcase-Type: ecl
 
@@ -29,9 +29,11 @@ Contributors:
 Content-Type: text/ecl
 Entry-Name: .content
 
-get-eclipse-window | key-type "M1+3"
-get-quick-access | set-text "Project Explorer (General)"
-get-quick-access | key-type Enter
+get-menu -path "Window/Show View/Other..." | click
+with [get-window "Show View"] {
+    get-tree | select "General/Project Explorer"
+    get-button Open | click
+}
 
 get-view "Project Explorer" | get-tree | select TestQ7Prj | get-menu "New/File" | click
 with [get-window "Create New File"] {
@@ -44,11 +46,10 @@ get-view "Project Explorer" | click -nowait
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/test.txt" | get-property caption | equals "test.txt" 
     | verify-true
 get-view "Project Explorer" | get-tree | select "TestQ7Prj/test.txt" | get-menu "Rename..." | click
-try -times 10 -delay 100 -command {
-with [get-window "Rename Resource"] {
-    get-editbox -after [get-label "New name:"] | set-text "test2.txt"
-    get-button OK | click
-}}
+
+
+get-view "Project Explorer" | get-tree |  get-editbox | set-text "test2.txt"
+
 get-view "Test Explorer" | get-tree | get-item "TestQ7Prj/test2.txt" | get-property caption | equals "test2.txt" 
     | verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
