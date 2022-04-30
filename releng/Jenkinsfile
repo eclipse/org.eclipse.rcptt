@@ -28,7 +28,7 @@ pipeline {
           if(params.MODE == 'Milestone') {
             build.set_milestone(params.MILESTONE_VERSION)
           }
-          build.build_and_test(false)
+          build.build_and_test(true)
         }
       }
     }
