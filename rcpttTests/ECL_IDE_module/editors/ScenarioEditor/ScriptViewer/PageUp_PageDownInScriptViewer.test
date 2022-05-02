@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _Cw1SsFEzEeGXgMWM5NtGXg
-Runtime-Version: 2.5.0.201910180844
-Save-Time: 10/21/19 3:11 AM
+Runtime-Version: 2.5.2.202204240826
+Save-Time: 4/26/22, 4:41 PM
 Tags: ECL_IDE_module, TestCase
 Testcase-Type: ecl
 
@@ -46,8 +46,10 @@ get-label "54 : 84 : 2609" | get-property caption | equals "54 : 84 : 2609" | ve
 with [get-editor BigTestCase | get-section Script | get-text-viewer] {
     set-caret-pos 34 2
     key-type PageUp -times 10
-    key-type "M1+ARROW_RIGHT"
+    //key-type "M1+ARROW_RIGHT"
+    key-type "End"
 }
+wait 1000
 get-label "1 : 70 : 69" | get-property caption | equals "1 : 70 : 69" | verify-true
 with [get-editor BigTestCase] {
     with [get-section Script] {

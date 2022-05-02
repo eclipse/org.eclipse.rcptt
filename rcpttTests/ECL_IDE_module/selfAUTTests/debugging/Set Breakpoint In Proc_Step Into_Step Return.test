@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _pLS-0CBTEeOjX5Yww5t2_A
-Runtime-Version: 2.3.0.201804282309
-Save-Time: 5/31/19 11:26 AM
+Runtime-Version: 2.5.2.202204240826
+Save-Time: 4/27/22, 6:29 PM
 Tags: selfAUT, Debug
 Testcase-Type: ecl
 
@@ -76,12 +76,14 @@ with [get-view Debug | get-tree] {
         | equals "create-new-context (Dummy: 1)" | verify-true
 }
 get-button "Step Return (F7)" | click
+try -delay 1000 -times 10 -command{
 with [get-view Debug | get-tree] {
     get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread" | get-property childCount | equals 2 | verify-true
     get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/get-window \\(New Java Class Procs: 25\\)" 
         | get-property caption | equals "get-window (New Java Class Procs: 25)" | verify-true
     get-item "Dummy \\[RCPTT Test Suite\\]/Dummy/ECL Thread/create-new-context \\(Dummy: 1\\)" | get-property caption 
         | equals "create-new-context (Dummy: 1)" | verify-true
+}
 }
 get-button "Resume (F8)" | click
 get-button "RCPTT perspective" | click

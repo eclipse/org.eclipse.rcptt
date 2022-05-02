@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _nZDtgIGUEeKRQ-O0Mh9igg
-Runtime-Version: 2.4.3.201906070001
-Save-Time: 6/7/19 6:10 PM
+Runtime-Version: 2.5.2.202204240826
+Save-Time: 4/26/22, 5:10 PM
 Tags: selfAUT, q7commands
 Testcase-Type: ecl
 
@@ -59,6 +59,7 @@ try -times 30 -delay 1000 -command{
 	get-view "Execution View" | get-label "1/1" -after [get-label "Runs:"]
 }
 get-view "Execution View" | get-button "Details..." | click
+get-window "Execution details" | get-tab-folder | get-tab-item Description | click
 get-window "Execution details" | get-editbox | get-property text | contains "list-features" | verify-true
 get-window "Execution details" | get-editbox | get-property text | contains "org.eclipse.rcptt.tesla.ecl" | verify-true
 get-window "Execution details" | get-button OK | click
