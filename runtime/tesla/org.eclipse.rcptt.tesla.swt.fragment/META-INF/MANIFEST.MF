@@ -8,3 +8,4 @@ Bundle-Localization: plugin
 Fragment-Host: org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.swt.dnd
+Automatic-Module-Name: org.eclipse.rcptt.tesla.swt.fragment
