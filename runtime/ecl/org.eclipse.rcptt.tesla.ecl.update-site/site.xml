@@ -11,6 +11,6 @@
  -->
 
 <site>
-   <feature url="features/org.eclipse.rcptt.tesla.ecl_2.5.3.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl" version="2.5.3.qualifier"/>
-   <feature url="features/org.eclipse.rcptt.tesla.ecl.runtime_2.5.3.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl.runtime" version="2.5.3.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl_2.5.4.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl" version="2.5.4.qualifier"/>
+   <feature url="features/org.eclipse.rcptt.tesla.ecl.runtime_2.5.4.qualifier.jar" id="org.eclipse.rcptt.tesla.ecl.runtime" version="2.5.4.qualifier"/>
 </site>

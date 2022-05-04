@@ -1,0 +1,21 @@
+# These files are text and should be normalized (Convert crlf => lf)
+*.MF          text
+*.bat         text  eol=crlf
+*.cmd         text  eol=crlf
+*.cs          text  diff=csharp
+*.css         text
+*.exsd        text
+*.fftc        text
+*.htm         text
+*.html        text
+*.java        text  diff=java
+*.js          text
+*.properties  text
+*.sh          text  eol=lf
+*.conf        text  eol=lf
+xstartup      text  eol=lf
+*.tcl         text
+*.txt         text
+*.xml         text
+.classpath    text
+.project      text
