@@ -11,7 +11,7 @@ def build = library(
 pipeline {
   agent {
     kubernetes {
-      label 'rcptt-build-agent-3.5.19'
+      label 'rcptt-build-agent-3.5.20'
       yaml build.YAML_BUILD_AGENT
     }
   }
