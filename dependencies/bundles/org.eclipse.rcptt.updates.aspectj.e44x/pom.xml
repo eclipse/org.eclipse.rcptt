@@ -53,7 +53,7 @@
 	    <configuration>
 	      <source>
 		<repository>
-		  <url>https://download.eclipse.org/tools/ajdt/410/dev/update/ajdt-e410-2.2.4.202103162301</url>
+		  <url>https://download.eclipse.org/tools/ajdt/410/dev/update</url>
 		  <layout>p2</layout>
 		</repository>
 	      </source>
