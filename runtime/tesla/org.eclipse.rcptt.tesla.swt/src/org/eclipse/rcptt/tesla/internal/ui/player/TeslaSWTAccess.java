@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2022 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Xored Software Inc - initial API and implementation and/or initial documentation
+ *     Patrick Ziegler - Bug 580108, 580265 - NoSuchFieldException: messageCount
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.internal.ui.player;
 
@@ -14,6 +15,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Queue;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -57,6 +59,8 @@ import org.eclipse.swt.widgets.TypedListener;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.progress.DeferredTreeContentManager;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.Version;
 
 @SuppressWarnings("rawtypes")
 public class TeslaSWTAccess {
@@ -526,9 +530,19 @@ public class TeslaSWTAccess {
 
 	public static int getRunnables(Synchronizer synchronizer) {
 		try {
-			Field locationField = Synchronizer.class.getDeclaredField("messageCount");
+			Version SWT_3_120_0 = new Version(3, 120, 0);
+			Version SWT_CURRENT = FrameworkUtil.getBundle(Synchronizer.class).getVersion();
+			
+			// The SWT bundle is older (lesser) than 3.120.0 and therefore the 'messageCount' attribute still exists
+			if (SWT_CURRENT.compareTo(SWT_3_120_0) < 0) {
+				Field locationField = Synchronizer.class.getDeclaredField("messageCount");
+				locationField.setAccessible(true);
+				return ((Integer) locationField.get(synchronizer)).intValue();
+			}
+			
+			Field locationField = Synchronizer.class.getDeclaredField("messages");
 			locationField.setAccessible(true);
-			return ((Integer) locationField.get(synchronizer)).intValue();
+			return ((Queue<?>) locationField.get(synchronizer)).size();
 		} catch (Throwable e) {
 			TeslaCore.log(e);
 		}
