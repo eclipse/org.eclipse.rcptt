@@ -53,6 +53,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
 import org.eclipse.equinox.internal.launcher.Constants;
@@ -63,6 +65,7 @@ import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepository;
 import org.eclipse.equinox.p2.repository.artifact.IFileArtifactRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
@@ -81,11 +84,14 @@ import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.launching.launcher.LaunchValidationOperation;
 import org.eclipse.rcptt.internal.launching.Q7LaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.AJConstants;
+import org.eclipse.rcptt.internal.launching.ext.JDTUtils;
 import org.eclipse.rcptt.internal.launching.ext.OSArchitecture;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.launching.ext.AUTInformation;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.ext.Q7LaunchDelegateUtils;
+import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
+import org.eclipse.rcptt.launching.ext.VmInstallMetaData;
 import org.eclipse.rcptt.launching.injection.Directory;
 import org.eclipse.rcptt.launching.injection.Entry;
 import org.eclipse.rcptt.launching.injection.InjectionConfiguration;
@@ -459,13 +465,31 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private IStatus validateBundles(IProgressMonitor monitor) {
-		LaunchValidationOperation validation = new LaunchValidationOperation(
-				null) {
-			@Override
-			protected Set<IPluginModelBase> getModels() throws CoreException {
-				return new HashSet(Arrays.asList(getTargetModels()));
-			}
-
+		ILaunchConfigurationWorkingCopy wc;
+		try {
+			wc = Q7LaunchingUtil.createLaunchConfiguration(this);
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
+		StringBuilder message = new StringBuilder();
+		OSArchitecture architecture = detectArchitecture(true, message);
+		if (architecture == null || architecture == OSArchitecture.Unknown) {
+			return error(message.toString());
+		}
+		VmInstallMetaData jvm = JDTUtils.findVM(architecture);
+		if (jvm == null) {
+			return error ("No JVM for architecture " + architecture + " is registered");
+		}
+		
+		wc.setAttribute(
+				IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+				String.format(
+						"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+						jvm.install.getVMInstallType().getId(),
+						jvm.install.getName()));
+		
+		LaunchValidationOperation validation = new LaunchValidationOperation(wc,
+				new HashSet(Arrays.asList(getTargetModels()))) {
 			@Override
 			protected IExecutionEnvironment[] getMatchingEnvironments()
 					throws CoreException {
@@ -476,6 +500,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				return envs;
 			}
 		};
+		try {
+			wc.delete();
+		} catch (CoreException e1) {
+			return e1.getStatus();
+		}
 		try {
 			StringBuilder b = new StringBuilder();
 			validation.run(monitor);
@@ -488,7 +517,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				}
 			}
 			if (b.length() > 0) {
-				return new Status(IStatus.ERROR, PLUGIN_ID, "Bundle validation failed: " + b.toString());
+				return error("Bundle validation failed: " + b.toString());
 			}
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
@@ -497,6 +526,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			return status = Status.CANCEL_STATUS;
 		}
 		return status = Status.OK_STATUS;
+	}
+
+	private Status error(String message) {
+		return new Status(IStatus.ERROR, PLUGIN_ID, message);
 	}
 
 	public String[] getProducts() {

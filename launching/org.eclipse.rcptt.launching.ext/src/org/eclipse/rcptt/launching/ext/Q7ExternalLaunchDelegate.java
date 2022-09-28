@@ -336,104 +336,93 @@ public class Q7ExternalLaunchDelegate extends
 
 	private static boolean updateJVM(ILaunchConfiguration configuration,
 			OSArchitecture architecture, ITargetPlatformHelper target) throws CoreException {
-		IVMInstall jvmInstall = null;
-		OSArchitecture jvmArch = OSArchitecture.Unknown;
-		IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
-		boolean haveArch = false;
-		for (IVMInstallType ivmInstallType : types) {
-			IVMInstall[] installs = ivmInstallType.getVMInstalls();
-			for (IVMInstall ivmInstall : installs) {
-				jvmArch = JDTUtils.detect(ivmInstall);
-				if (jvmArch.equals(architecture)
-						|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
-								.canRun32bit(ivmInstall))) {
-					jvmInstall = ivmInstall;
-					haveArch = true;
-					break;
-				}
+		
+		VmInstallMetaData jvm = JDTUtils.findVM(architecture);
+		if (jvm == null) {
+			return false;
+		}
+		
+		OSArchitecture jvmArch = jvm.arch;
+		IVMInstall jvmInstall = jvm.install;
+		
+		ILaunchConfigurationWorkingCopy workingCopy = configuration
+				.getWorkingCopy();
+
+		String vmArgs = workingCopy.getAttribute(
+				IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+				Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
+
+		OSArchitecture configArch;
+		String archAttrValue = configuration.getAttribute(
+				Q7LaunchingCommon.ATTR_ARCH, "");
+		if (archAttrValue.isEmpty())
+			configArch = null;
+		else
+			configArch = OSArchitecture.valueOf(archAttrValue);
+
+		OSArchitecture autArch = configArch == null ? target
+				.detectArchitecture(true, null) : configArch;
+
+		// there is no -d32 on Windows
+		if (!autArch.equals(jvmArch)
+				&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+			if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
+				vmArgs += " " + ATTR_D32;
+			} else {
+				vmArgs = ATTR_D32;
 			}
 		}
-		if (haveArch) {
-			ILaunchConfigurationWorkingCopy workingCopy = configuration
-					.getWorkingCopy();
-
-			String vmArgs = workingCopy.getAttribute(
-					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-					Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
-
-			OSArchitecture configArch;
-			String archAttrValue = configuration.getAttribute(
-					Q7LaunchingCommon.ATTR_ARCH, "");
-			if (archAttrValue.isEmpty())
-				configArch = null;
-			else
-				configArch = OSArchitecture.valueOf(archAttrValue);
-
-			OSArchitecture autArch = configArch == null ? target
-					.detectArchitecture(true, null) : configArch;
-
-			// there is no -d32 on Windows
-			if (!autArch.equals(jvmArch)
-					&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-				if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-					vmArgs += " " + ATTR_D32;
-				} else {
-					vmArgs = ATTR_D32;
-				}
-			}
-			if (vmArgs != null && vmArgs.length() > 0) {
-				vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-				workingCopy
-						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-								vmArgs);
-			}
-
+		if (vmArgs != null && vmArgs.length() > 0) {
+			vmArgs = UpdateVMArgs.updateAttr(vmArgs);
 			workingCopy
 					.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-							String.format(
-									"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-									jvmInstall.getVMInstallType().getId(),
-									jvmInstall.getName()));
-
-			String programArgs = workingCopy
-					.getAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-							LaunchArgumentsHelper
-									.getInitialProgramArguments().trim());
-			if (programArgs.contains("${target.arch}")) {
-				programArgs = programArgs.replace("${target.arch}",
-						autArch.name());
-			} else {
-				if (programArgs.contains("-arch")) {
-					int pos = programArgs.indexOf("-arch ") + 6;
-					int len = 6;
-					int pos2 = programArgs.indexOf("x86_64", pos);
-					if (pos2 == -1) {
-						len = 3;
-						pos2 = programArgs.indexOf("x86", pos);
-					}
-					if (pos2 != -1) {
-						programArgs = programArgs.substring(0, pos)
-								+ autArch.name()
-								+ programArgs.substring(pos2 + len,
-										programArgs.length());
-					}
-				} else {
-					programArgs = programArgs + " -arch " + autArch.name();
-				}
-			}
-			if (programArgs.length() > 0) {
-				workingCopy
-						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-								programArgs);
-			}
-			workingCopy.doSave();
-			return true;
+							IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+							vmArgs);
 		}
-		return false;
+
+		workingCopy
+				.setAttribute(
+						IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+						String.format(
+								"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+								jvmInstall.getVMInstallType().getId(),
+								jvmInstall.getName()));
+
+		String programArgs = workingCopy
+				.getAttribute(
+						IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+						LaunchArgumentsHelper
+								.getInitialProgramArguments().trim());
+		if (programArgs.contains("${target.arch}")) {
+			programArgs = programArgs.replace("${target.arch}",
+					autArch.name());
+		} else {
+			if (programArgs.contains("-arch")) {
+				int pos = programArgs.indexOf("-arch ") + 6;
+				int len = 6;
+				int pos2 = programArgs.indexOf("x86_64", pos);
+				if (pos2 == -1) {
+					len = 3;
+					pos2 = programArgs.indexOf("x86", pos);
+				}
+				if (pos2 != -1) {
+					programArgs = programArgs.substring(0, pos)
+							+ autArch.name()
+							+ programArgs.substring(pos2 + len,
+									programArgs.length());
+				}
+			} else {
+				programArgs = programArgs + " -arch " + autArch.name();
+			}
+		}
+		if (programArgs.length() > 0) {
+			workingCopy
+					.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+							programArgs);
+		}
+		workingCopy.doSave();
+		return true;
 	}
 
 	private static String getSubstitutedString(String text)

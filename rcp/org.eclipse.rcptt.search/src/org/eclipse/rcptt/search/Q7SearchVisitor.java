@@ -450,7 +450,14 @@ public class Q7SearchVisitor {
 					q7element.discardWorkingCopy();
 				}
 			} catch (FileCharSequenceProvider.FileCharSequenceException e) {
-				e.throwWrappedException();
+				Throwable cause = e.getCause();
+				if (cause instanceof IOException) {
+					throw (IOException) cause;
+				}
+				if (cause instanceof CoreException) {
+					throw (CoreException) cause;
+				}
+				throw e;
 			} finally {
 				if (seq != null) {
 					try {
