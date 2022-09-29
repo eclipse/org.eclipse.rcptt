@@ -537,8 +537,8 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 		BundleDescription desc = bundle.getBundleDescription();
 		boolean defaultsl = (sl == null || sl.equals("default:default")); //$NON-NLS-1$
 		if (desc != null && defaultsl) {
-			String runLevelText = BundleLauncherHelper.resolveSystemRunLevelText(bundle);
-			String autoText = BundleLauncherHelper.resolveSystemAutoText(bundle);
+			String runLevelText = BundleLauncherHelper.resolveSystemRunLevelText(desc);
+			String autoText = BundleLauncherHelper.resolveSystemAutoText(desc);
 			if (runLevelText != null && autoText != null) {
 				map.put(bundle, runLevelText + ":" + autoText); //$NON-NLS-1$
 			} else {
@@ -697,7 +697,7 @@ public class RcpttRapLaunchDelegate extends EquinoxLaunchConfiguration {
 					if (Boolean.FALSE.equals(resolution)) {
 						String text = "Port {0,number,\\#} in use. Launch ''{1}'' interrupted by user.";
 						Object[] args = new Object[] {
-								new Integer(config.getPort()),
+								Integer.valueOf(config.getPort()),
 								config.getName()
 						};
 						String msg = MessageFormat.format(text, args);
