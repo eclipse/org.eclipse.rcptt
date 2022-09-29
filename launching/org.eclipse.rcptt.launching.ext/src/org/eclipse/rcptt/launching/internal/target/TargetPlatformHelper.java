@@ -52,8 +52,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
@@ -106,7 +104,6 @@ import org.osgi.framework.Version;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
@@ -476,7 +473,12 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		if (architecture == null || architecture == OSArchitecture.Unknown) {
 			return error(message.toString());
 		}
-		VmInstallMetaData jvm = JDTUtils.findVM(architecture);
+		VmInstallMetaData jvm;
+		try {
+			jvm = JDTUtils.findVM(architecture);
+		} catch (CoreException e2) {
+			return e2.getStatus();
+		}
 		if (jvm == null) {
 			return error ("No JVM for architecture " + architecture + " is registered");
 		}
@@ -730,16 +732,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		Iterables.removeAll(extra, Arrays.asList(getInstanceContainer()));
 
 		EList<Entry> entries = configuration.getEntries();
-		monitor.beginTask("Apply injection plugins", 20 + entries.size() * 20);
+		SubMonitor sm = SubMonitor.convert(monitor, "Apply injection plugins", 20 + entries.size() * 20);
 		for (Entry entry : entries) {
-			SubProgressMonitor mon = new SubProgressMonitor(monitor, 20);
 			if (monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
 			}
 			IStatus result = new Status(IStatus.ERROR, PLUGIN_ID, "Unknown injection type: "
 					+ entry.getClass().getName());
 			if (entry instanceof UpdateSite) {
-				result = processUpdateSite(mon, (UpdateSite) entry);
+				result = processUpdateSite(sm.newChild(20), (UpdateSite) entry);
 			} else if (entry instanceof Directory) {
 				result = processDirectory((Directory) entry);
 			}
@@ -748,7 +749,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			}
 		}
 		update();
-		IStatus resolveStatus = resolve(monitor);
+		IStatus resolveStatus = resolve(sm.newChild(20));
 		if (!resolveStatus.isOK()) {
 			return resolveStatus;
 		}

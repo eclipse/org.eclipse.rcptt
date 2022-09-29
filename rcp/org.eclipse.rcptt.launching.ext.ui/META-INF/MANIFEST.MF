@@ -25,8 +25,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.equinox.p2.metadata,
  org.eclipse.equinox.p2.operations,
  org.eclipse.jface.text,
- org.eclipse.core.variables
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+ org.eclipse.core.variables,
+ org.eclipse.core.databinding.property;bundle-version="1.9.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.launching.ext.ui
 Automatic-Module-Name: org.eclipse.rcptt.launching.ext.ui
