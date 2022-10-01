@@ -11,7 +11,6 @@
      *     Xored Software Inc - initial API and implementation and/or initial documentation
      *******************************************************************************/
  -->
-
 <feature
       id="org.eclipse.rcptt.runtime.rap"
       label="RCPTT Runtime Core"
@@ -37,16 +36,12 @@
       <import feature="org.eclipse.rcptt.watson" version="2.5.4" match="compatible"/>
       <import feature="org.eclipse.rcptt.ecl.core" version="2.5.4" match="compatible"/>
       <import plugin="org.eclipse.rcptt.tesla.ecl"/>
-
       <import feature="org.eclipse.emf.ecore"/>
       <import plugin="org.aspectj.runtime"/>
-
-      <!-- FOR NORMAL WORKING RAP  -->
       <import feature="org.eclipse.rap.equinox.target.feature" version="3.1.0.qualifier"/>
       <import feature="org.eclipse.rap.feature" version="3.1.0.qualifier"/>
       <import plugin="com.google.guava"/>
    </requires>
-
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.swt.rap"
@@ -54,6 +49,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.rcptt.tesla.recording.core.ecl.rap"
          download-size="0"
@@ -83,7 +79,6 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-
    <plugin
          id="org.eclipse.rcptt.tesla.recording.aspects.forms.rap"
          download-size="0"
@@ -97,7 +92,6 @@
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
-
 
    <plugin
          id="org.eclipse.rcptt.tesla.recording.aspects.workbench.rap"
@@ -142,7 +136,6 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-
    <plugin
          id="org.eclipse.rcptt.tesla.jface.databinding.rap"
          download-size="0"
@@ -164,12 +157,13 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
- <plugin
+   <plugin
          id="org.eclipse.rcptt.tesla.jobs.aspects.rap"
          download-size="0"
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.rcptt.tesla.core.am.rap"
          download-size="0"
@@ -183,7 +177,6 @@
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
-
 
    <plugin
          id="org.eclipse.rcptt.tesla.canvas.rap"
@@ -289,7 +282,6 @@
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
-
 
    <plugin
          id="org.eclipse.rcptt.ctx.group"
@@ -437,14 +429,13 @@
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.rcptt.verifications.time.impl.rap"
          download-size="0"
          install-size="0"
          version="2.5.4.qualifier"
          unpack="false"/>
-
-
 
    <plugin
          id="org.eclipse.rcptt.verifications"
@@ -467,7 +458,7 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-  <plugin
+   <plugin
          id="org.eclipse.rcptt.verifications.log"
          download-size="0"
          install-size="0"
@@ -495,7 +486,6 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-
    <plugin
          id="org.eclipse.rcptt.forms.impl.rap"
          download-size="0"
@@ -503,7 +493,7 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-    <plugin
+   <plugin
          id="org.eclipse.rcptt.rap.aspects"
          download-size="0"
          install-size="0"
@@ -531,16 +521,8 @@
          version="2.5.4.qualifier"
          unpack="false"/>
 
-   <!--  FOR NORMAL WORKING RAP -->
-    <plugin
-         id="org.eclipse.equinox.security"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
    <plugin
-         id="org.eclipse.debug.core"
+         id="org.eclipse.equinox.security"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -554,25 +536,17 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.core.resources"
+         id="org.eclipse.core.filebuffers"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.core.filebuffers"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-    <plugin
          id="org.eclipse.core.filesystem"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-    <!-- END -->
 
 </feature>

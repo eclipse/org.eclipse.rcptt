@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="RCPTT Runner" uid="org.eclipse.rcptt.runner.headless" id="org.eclipse.rcptt.runner.product" application="org.eclipse.rcptt.runner.headless" version="2.5.4.qualifier" useFeatures="false" includeLaunchers="false">
+<product name="RCPTT Runner" uid="org.eclipse.rcptt.runner.headless" id="org.eclipse.rcptt.runner.product" application="org.eclipse.rcptt.runner.headless" version="2.5.4.qualifier" useFeatures="false" includeLaunchers="false" autoIncludeRequirements="true">
 
    <configIni use="default">
    </configIni>
@@ -32,9 +32,11 @@
    <plugins>
       <plugin id="com.google.gson"/>
       <plugin id="com.google.guava"/>
+      <plugin id="com.google.guava.failureaccess"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.jcraft.jsch"/>
       <plugin id="com.sun.el"/>
+      <plugin id="jakarta.servlet-api"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.el"/>
       <plugin id="javax.inject"/>
@@ -57,6 +59,7 @@
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
       <plugin id="org.bouncycastle.bcpg"/>
+      <plugin id="org.bouncycastle.bcprov"/>
       <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.ant.launching"/>
       <plugin id="org.eclipse.compare.core"/>
@@ -71,7 +74,7 @@
       <plugin id="org.eclipse.core.filebuffers"/>
       <plugin id="org.eclipse.core.filesystem"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86_64"/>
-      <plugin id="org.eclipse.core.filesystem.macosx"/>
+      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
       <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.net"/>
@@ -118,7 +121,7 @@
       <plugin id="org.eclipse.equinox.jsp.jasper"/>
       <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
       <plugin id="org.eclipse.equinox.launcher"/>
-      <plugin id="org.eclipse.equinox.launcher.cocoa.macosx.x86_64"/>
+      <plugin id="org.eclipse.equinox.launcher.cocoa.macosx.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.launcher.gtk.linux.x86_64"/>
       <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.p2.artifact.repository"/>
@@ -147,7 +150,7 @@
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.equinox.security.macosx"/>
+      <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
       <plugin id="org.eclipse.equinox.security.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.simpleconfigurator"/>
       <plugin id="org.eclipse.equinox.simpleconfigurator.manipulator"/>
@@ -276,7 +279,7 @@
       <plugin id="org.eclipse.rcptt.watson.jobs"/>
       <plugin id="org.eclipse.rcptt.zephyr"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64"/>
       <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.team.core"/>
@@ -286,6 +289,14 @@
       <plugin id="org.junit"/>
       <plugin id="org.objectweb.asm"/>
       <plugin id="org.objectweb.asm.tree"/>
+      <plugin id="org.osgi.service.cm"/>
+      <plugin id="org.osgi.service.component"/>
+      <plugin id="org.osgi.service.component.annotations"/>
+      <plugin id="org.osgi.service.device"/>
+      <plugin id="org.osgi.service.event"/>
+      <plugin id="org.osgi.service.prefs"/>
+      <plugin id="org.osgi.util.function"/>
+      <plugin id="org.osgi.util.promise"/>
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
       <plugin id="org.slf4j.api"/>
@@ -294,8 +305,6 @@
       <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
-      <plugin id="org.bouncycastle.bcprov"/>
-      <plugin id="jakarta.servlet-api"/>
    </plugins>
 
    <configurations>

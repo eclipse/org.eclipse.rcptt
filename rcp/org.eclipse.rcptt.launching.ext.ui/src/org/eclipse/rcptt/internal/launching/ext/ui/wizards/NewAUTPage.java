@@ -35,10 +35,8 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.internal.debug.ui.jres.JREsPreferencePage;
 import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.IVMInstallType;
-import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -62,6 +60,7 @@ import org.eclipse.rcptt.launching.AutLaunch;
 import org.eclipse.rcptt.launching.AutLaunchState;
 import org.eclipse.rcptt.launching.AutManager;
 import org.eclipse.rcptt.launching.ext.Q7LaunchingUtil;
+import org.eclipse.rcptt.launching.ext.VmInstallMetaData;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.ui.commons.SWTFactory;
@@ -86,17 +85,17 @@ public class NewAUTPage extends WizardPage {
 	private DataBindingContext dbc = new DataBindingContext();
 	private Shell shell;
 
-	private WritableValue nameValue = new WritableValue("", String.class);
-	private WritableValue locationValue = new WritableValue("", String.class);
-	private WritableValue info = new WritableValue(null, ITargetPlatformHelper.class);
-	private WritableValue platformArchitecture64 = new WritableValue(Boolean.FALSE, Boolean.class);
-	private WritableValue platformArchitecture32 = new WritableValue(Boolean.TRUE, Boolean.class);
-	private WritableValue architectureError = new WritableValue(Boolean.FALSE, Boolean.class);
-	private WritableValue archEnabled = new WritableValue(Boolean.TRUE, Boolean.class);
-	private WritableValue showAdvanced = new WritableValue(Boolean.FALSE, Boolean.class);
-	private WritableValue warningMessageValue = new WritableValue("", String.class);
-	private WritableValue autolaunchValue = new WritableValue(Boolean.FALSE, Boolean.class);
-	private WritableValue autolaunchLabel = new WritableValue("Launch AUT", String.class);
+	private WritableValue<String> nameValue = new WritableValue<String>("", String.class);
+	private WritableValue<String> locationValue = new WritableValue<String>("", String.class);
+	private WritableValue<ITargetPlatformHelper> info = new WritableValue<ITargetPlatformHelper>(null, ITargetPlatformHelper.class);
+	private WritableValue<Boolean> platformArchitecture64 = new WritableValue<Boolean>(Boolean.FALSE, Boolean.class);
+	private WritableValue<Boolean> platformArchitecture32 = new WritableValue<Boolean>(Boolean.TRUE, Boolean.class);
+	private WritableValue<Boolean> architectureError = new WritableValue<>(Boolean.FALSE, Boolean.class);
+	private WritableValue<Boolean> archEnabled = new WritableValue<Boolean>(Boolean.TRUE, Boolean.class);
+	private WritableValue<Boolean> showAdvanced = new WritableValue<Boolean>(Boolean.FALSE, Boolean.class);
+	private WritableValue<String> warningMessageValue = new WritableValue<String>("", String.class);
+	private WritableValue<Boolean> autolaunchValue = new WritableValue<Boolean>(Boolean.FALSE, Boolean.class);
+	private WritableValue<String> autolaunchLabel = new WritableValue<String>("Launch AUT", String.class);
 
 	private String JobFamily = "";
 	private OSArchitecture architecture;
@@ -245,16 +244,12 @@ public class NewAUTPage extends WizardPage {
 			break;
 		}
 
-		boolean haveArch = findJVM();
-		if (!haveArch) {
-			// try to register current JVM, it may help
-			try {
-				JDTUtils.registerCurrentJVM();
-				haveArch = findJVM();
-			} catch (CoreException e) {
-				// no special actions, error message will be set by lines below
-				Q7UIPlugin.log(e);
-			}
+		boolean haveArch = false;
+		try {
+			haveArch = findJVM();
+		} catch (CoreException e1) {
+			// no special actions, error message will be set by lines below
+			Q7UIPlugin.log(e1);
 		}
 
 		architectureError.setValue(!haveArch);
@@ -270,37 +265,15 @@ public class NewAUTPage extends WizardPage {
 		}
 	}
 
-	private boolean findJVM() {
-		// Check for existing JVM to be found
-		boolean haveArch = false;
-		if (!architecture.equals(OSArchitecture.Unknown)) {
-
-			IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
-			for (IVMInstallType ivmInstallType : types) {
-				IVMInstall[] installs = ivmInstallType.getVMInstalls();
-				for (IVMInstall ivmInstall : installs) {
-					try {
-						jvmArch = JDTUtils.detect(ivmInstall);
-					} catch (CoreException e) {
-						RcpttPlugin.log(e);
-						continue;
-					}
-					if (jvmArch != null
-							&& (jvmArch.equals(architecture) || (jvmArch
-									.equals(OSArchitecture.x86_64) && JDTUtils
-									.canRun32bit(ivmInstall)))) {
-						jvmInstall = ivmInstall;
-						haveArch = true;
-						break;
-					}
-				}
-				if (haveArch)
-					break;
-			}
-		}
-		return haveArch;
+	private boolean findJVM() throws CoreException {		
+		VmInstallMetaData result = JDTUtils.findVM(architecture);
+		if (result == null)
+			return false;
+		jvmInstall = result.install;
+		jvmArch = result.arch;
+		return true;
 	}
-
+	
 	private boolean validateAUTName() {
 		String name = ((String) nameValue.getValue()).trim();
 		if (name.length() == 0) {
@@ -414,7 +387,7 @@ public class NewAUTPage extends WizardPage {
 				.applyTo(locationField);
 
 		// On change sets page complete = false
-		ISWTObservableValue locationModifyObservable = SWTObservables.observeText(locationField, SWT.Modify);
+		ISWTObservableValue<?> locationModifyObservable = WidgetProperties.text(SWT.Modify).observe(locationField);
 		locationModifyObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				setPageComplete(false);
@@ -455,7 +428,7 @@ public class NewAUTPage extends WizardPage {
 				.span(2, 1).applyTo(nameField);
 
 		// On change sets page complete = false
-		ISWTObservableValue nameModifyObservable = SWTObservables.observeText(nameField, SWT.Modify);
+		ISWTObservableValue<?> nameModifyObservable = WidgetProperties.text(SWT.Modify).observe(nameField);
 		nameModifyObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				setPageComplete(false);
@@ -484,10 +457,10 @@ public class NewAUTPage extends WizardPage {
 		b32.setText("32bit");
 		b64.setText("64bit");
 
-		dbc.bindValue(SWTObservables.observeEnabled(b32), archEnabled);
-		dbc.bindValue(SWTObservables.observeEnabled(b64), archEnabled);
-		dbc.bindValue(SWTObservables.observeSelection(b64), platformArchitecture64);
-		dbc.bindValue(SWTObservables.observeSelection(b32), platformArchitecture32);
+		dbc.bindValue(WidgetProperties.enabled().observe(b32), archEnabled);
+		dbc.bindValue(WidgetProperties.enabled().observe(b64), archEnabled);
+		dbc.bindValue(WidgetProperties.buttonSelection().observe(b64), platformArchitecture64);
+		dbc.bindValue(WidgetProperties.buttonSelection().observe(b32), platformArchitecture32);
 
 		final Link archLink = new Link(parent, SWT.UNDERLINE_LINK);
 		archLink.setText("There is no appropriate JVM configured. <a>Configure JVM...</a>");
@@ -504,7 +477,7 @@ public class NewAUTPage extends WizardPage {
 			}
 		});
 
-		ISWTObservableValue archLinkObservable = SWTObservables.observeVisible(archLink);
+		ISWTObservableValue<?> archLinkObservable = WidgetProperties.visible().observe(archLink);
 		archLinkObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				// Hides container as well (like "display: none")
@@ -529,7 +502,7 @@ public class NewAUTPage extends WizardPage {
 			}
 		});
 
-		dbc.bindValue(SWTObservables.observeVisible(advanced), showAdvanced);
+		dbc.bindValue(WidgetProperties.visible().observe(advanced), showAdvanced);
 	}
 
 	private void createControlAutolaunch(Composite parent) {
@@ -538,8 +511,8 @@ public class NewAUTPage extends WizardPage {
 		autolaunch.setText("to del");
 		autolaunch.setSelection(true);
 
-		dbc.bindValue(SWTObservables.observeSelection(autolaunch), autolaunchValue);
-		dbc.bindValue(SWTObservables.observeText(autolaunch), autolaunchLabel);
+		dbc.bindValue(WidgetProperties.buttonSelection().observe(autolaunch), autolaunchValue);
+		dbc.bindValue(WidgetProperties.text().observe(autolaunch), autolaunchLabel);
 	}
 
 	private void createControlWarning(final Composite parent) {
@@ -547,7 +520,7 @@ public class NewAUTPage extends WizardPage {
 		warning.setText("");
 		GridDataFactory.fillDefaults().span(3, 1).grab(true, false).applyTo(warning);
 
-		ISWTObservableValue warningObservable = SWTObservables.observeText(warning);
+		ISWTObservableValue<?> warningObservable = WidgetProperties.text().observe(warning);
 		warningObservable.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
 				// Corrects size of the label

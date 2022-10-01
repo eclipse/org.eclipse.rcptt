@@ -29,6 +29,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -38,6 +39,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -48,7 +50,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
@@ -57,8 +58,9 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
+import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetLocation;
@@ -177,15 +179,17 @@ public class Q7ExternalLaunchDelegate extends
 		if (monitor.isCanceled()) {
 			return false;
 		}
-		monitor.beginTask("", 4);
+		
+		SubMonitor sm = SubMonitor.convert(monitor, 4);
+		
 		if (!isHeadless(configuration)
 				&& !super.preLaunchCheck(configuration, mode,
-						new SubProgressMonitor(monitor, 1))) {
+						sm.newChild(1))) {
 			monitor.done();
 			return false;
 		}
 
-		waitForClearBundlePool(monitor);
+		waitForClearBundlePool(sm.newChild(1));
 
 		final CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
@@ -195,7 +199,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		final ITargetPlatformHelper target = Q7TargetPlatformManager.getTarget(configuration,
-				SubMonitor.convert(monitor, 2));
+				sm.newChild(2));
 
 		if (monitor.isCanceled()) {
 			removeTargetPlatform(configuration);
@@ -327,7 +331,7 @@ public class Q7ExternalLaunchDelegate extends
 		try {
 			Job.getJobManager().join(
 					IBundlePoolConstansts.CLEAN_BUNDLE_POOL_JOB,
-					new SubProgressMonitor(monitor, 1));
+					monitor);
 		} catch (Exception e1) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"Failed to wait for bundle pool clear job", e1);
@@ -336,104 +340,93 @@ public class Q7ExternalLaunchDelegate extends
 
 	private static boolean updateJVM(ILaunchConfiguration configuration,
 			OSArchitecture architecture, ITargetPlatformHelper target) throws CoreException {
-		IVMInstall jvmInstall = null;
-		OSArchitecture jvmArch = OSArchitecture.Unknown;
-		IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
-		boolean haveArch = false;
-		for (IVMInstallType ivmInstallType : types) {
-			IVMInstall[] installs = ivmInstallType.getVMInstalls();
-			for (IVMInstall ivmInstall : installs) {
-				jvmArch = JDTUtils.detect(ivmInstall);
-				if (jvmArch.equals(architecture)
-						|| (jvmArch.equals(OSArchitecture.x86_64) && JDTUtils
-								.canRun32bit(ivmInstall))) {
-					jvmInstall = ivmInstall;
-					haveArch = true;
-					break;
-				}
+		
+		VmInstallMetaData jvm = JDTUtils.findVM(architecture);
+		if (jvm == null) {
+			return false;
+		}
+		
+		OSArchitecture jvmArch = jvm.arch;
+		IVMInstall jvmInstall = jvm.install;
+		
+		ILaunchConfigurationWorkingCopy workingCopy = configuration
+				.getWorkingCopy();
+
+		String vmArgs = workingCopy.getAttribute(
+				IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+				Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
+
+		OSArchitecture configArch;
+		String archAttrValue = configuration.getAttribute(
+				Q7LaunchingCommon.ATTR_ARCH, "");
+		if (archAttrValue.isEmpty())
+			configArch = null;
+		else
+			configArch = OSArchitecture.valueOf(archAttrValue);
+
+		OSArchitecture autArch = configArch == null ? target
+				.detectArchitecture(true, null) : configArch;
+
+		// there is no -d32 on Windows
+		if (!autArch.equals(jvmArch)
+				&& Platform.getOS().equals(Platform.OS_MACOSX)) {
+			if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
+				vmArgs += " " + ATTR_D32;
+			} else {
+				vmArgs = ATTR_D32;
 			}
 		}
-		if (haveArch) {
-			ILaunchConfigurationWorkingCopy workingCopy = configuration
-					.getWorkingCopy();
-
-			String vmArgs = workingCopy.getAttribute(
-					IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-					Q7LaunchDelegateUtils.getJoinedVMArgs(target, null));
-
-			OSArchitecture configArch;
-			String archAttrValue = configuration.getAttribute(
-					Q7LaunchingCommon.ATTR_ARCH, "");
-			if (archAttrValue.isEmpty())
-				configArch = null;
-			else
-				configArch = OSArchitecture.valueOf(archAttrValue);
-
-			OSArchitecture autArch = configArch == null ? target
-					.detectArchitecture(true, null) : configArch;
-
-			// there is no -d32 on Windows
-			if (!autArch.equals(jvmArch)
-					&& Platform.getOS().equals(Platform.OS_MACOSX)) {
-				if (vmArgs != null && !vmArgs.contains(ATTR_D32)) {
-					vmArgs += " " + ATTR_D32;
-				} else {
-					vmArgs = ATTR_D32;
-				}
-			}
-			if (vmArgs != null && vmArgs.length() > 0) {
-				vmArgs = UpdateVMArgs.updateAttr(vmArgs);
-				workingCopy
-						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-								vmArgs);
-			}
-
+		if (vmArgs != null && vmArgs.length() > 0) {
+			vmArgs = UpdateVMArgs.updateAttr(vmArgs);
 			workingCopy
 					.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-							String.format(
-									"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
-									jvmInstall.getVMInstallType().getId(),
-									jvmInstall.getName()));
-
-			String programArgs = workingCopy
-					.getAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-							LaunchArgumentsHelper
-									.getInitialProgramArguments().trim());
-			if (programArgs.contains("${target.arch}")) {
-				programArgs = programArgs.replace("${target.arch}",
-						autArch.name());
-			} else {
-				if (programArgs.contains("-arch")) {
-					int pos = programArgs.indexOf("-arch ") + 6;
-					int len = 6;
-					int pos2 = programArgs.indexOf("x86_64", pos);
-					if (pos2 == -1) {
-						len = 3;
-						pos2 = programArgs.indexOf("x86", pos);
-					}
-					if (pos2 != -1) {
-						programArgs = programArgs.substring(0, pos)
-								+ autArch.name()
-								+ programArgs.substring(pos2 + len,
-										programArgs.length());
-					}
-				} else {
-					programArgs = programArgs + " -arch " + autArch.name();
-				}
-			}
-			if (programArgs.length() > 0) {
-				workingCopy
-						.setAttribute(
-								IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-								programArgs);
-			}
-			workingCopy.doSave();
-			return true;
+							IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+							vmArgs);
 		}
-		return false;
+
+		workingCopy
+				.setAttribute(
+						IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
+						String.format(
+								"org.eclipse.jdt.launching.JRE_CONTAINER/%s/%s",
+								jvmInstall.getVMInstallType().getId(),
+								jvmInstall.getName()));
+
+		String programArgs = workingCopy
+				.getAttribute(
+						IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+						LaunchArgumentsHelper
+								.getInitialProgramArguments().trim());
+		if (programArgs.contains("${target.arch}")) {
+			programArgs = programArgs.replace("${target.arch}",
+					autArch.name());
+		} else {
+			if (programArgs.contains("-arch")) {
+				int pos = programArgs.indexOf("-arch ") + 6;
+				int len = 6;
+				int pos2 = programArgs.indexOf("x86_64", pos);
+				if (pos2 == -1) {
+					len = 3;
+					pos2 = programArgs.indexOf("x86", pos);
+				}
+				if (pos2 != -1) {
+					programArgs = programArgs.substring(0, pos)
+							+ autArch.name()
+							+ programArgs.substring(pos2 + len,
+									programArgs.length());
+				}
+			} else {
+				programArgs = programArgs + " -arch " + autArch.name();
+			}
+		}
+		if (programArgs.length() > 0) {
+			workingCopy
+					.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+							programArgs);
+		}
+		workingCopy.doSave();
+		return true;
 	}
 
 	private static String getSubstitutedString(String text)
@@ -584,7 +577,10 @@ public class Q7ExternalLaunchDelegate extends
 
 		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
 
+		args.addAll(vmSecurityArguments(config));
+		
 		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args) + "\n");
+		
 
 		info.vmArgs = args.toArray(new String[args.size()]);
 		Q7ExtLaunchingPlugin.getDefault().info(
@@ -592,6 +588,37 @@ public class Q7ExternalLaunchDelegate extends
 						+ ": AUT JVM arguments is set to : "
 						+ Arrays.toString(info.vmArgs));
 		return info.vmArgs;
+	}
+	
+	private static List<String> vmSecurityArguments(ILaunchConfiguration configuration) throws CoreException {
+		// Magic constant from org.eclipse.jdt.internal.launching.environments.ExecutionEnvironmentAnalyzer
+		ArrayList<String> result = new ArrayList<>();
+		Set<String> envs = getMatchingEnvironments(configuration);
+		if (envs.contains("JavaSE-11")) {
+			result.addAll(Arrays.asList(
+					"--add-opens", "java.base/java.lang=ALL-UNNAMED",
+					"--add-modules=ALL-SYSTEM"));
+			if (!envs.contains("JavaSE-17")) {
+				result.add("--illegal-access=permit");
+			}
+		}
+		if (envs.contains("JavaSE-12") && !envs.contains("JavaSE-17")) {
+			result.add("-Djava.security.manager=allow");
+		}
+		
+		return result;
+	}
+	
+	private static Set<String> getMatchingEnvironments(ILaunchConfiguration configuration) throws CoreException {
+		IVMInstall install = VMHelper.getVMInstall(configuration);
+		if (install == null)
+			return Collections.emptySet();
+
+		IExecutionEnvironmentsManager manager = JavaRuntime.getExecutionEnvironmentsManager();
+		return Arrays.stream(manager.getExecutionEnvironments())
+				.filter(env -> Arrays.stream(env.getCompatibleVMs()).anyMatch(install::equals))
+				.map(IExecutionEnvironment::getId)
+				.collect(Collectors.toSet());
 	}
 
 	@Override

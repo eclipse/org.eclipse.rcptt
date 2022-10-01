@@ -28,6 +28,7 @@ import org.eclipse.jdt.launching.IVMInstall3;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
+import org.eclipse.rcptt.launching.ext.VmInstallMetaData;
 
 import com.google.common.base.Preconditions;
 
@@ -202,5 +203,39 @@ public class JDTUtils {
 			}
 		}
 		return false;
+	}
+
+	public static final VmInstallMetaData findVM(OSArchitecture architecture) throws CoreException {
+		if (architecture.equals(OSArchitecture.Unknown)) {
+			return null;
+		}
+		VmInstallMetaData result = matchVM(architecture);
+		if (result != null) {
+			return result;
+		}
+		registerCurrentJVM();
+		return matchVM(architecture);
+		
+	}
+
+	private static VmInstallMetaData matchVM(OSArchitecture architecture) {
+		IVMInstallType[] types = JavaRuntime.getVMInstallTypes();
+		for (IVMInstallType ivmInstallType : types) {
+			IVMInstall[] installs = ivmInstallType.getVMInstalls();
+			for (IVMInstall ivmInstall : installs) {
+				try {
+					OSArchitecture jvmArch = detect(ivmInstall);
+					if (jvmArch != null
+							&& (jvmArch.equals(architecture) || (jvmArch
+									.equals(OSArchitecture.x86_64) && canRun32bit(ivmInstall)))) {
+						return new VmInstallMetaData(ivmInstall, jvmArch);
+					}
+				} catch (CoreException e) {
+					RcpttPlugin.log(e);
+					continue;
+				}
+			}
+		}
+		return null;
 	}
 }
