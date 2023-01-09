@@ -20,6 +20,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.pde.launching,
  org.eclipse.ui.ide,
  org.eclipse.rcptt.util,
- org.eclipse.core.databinding.property;bundle-version="1.9.100"
+ org.eclipse.core.databinding.property;bundle-version="1.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
