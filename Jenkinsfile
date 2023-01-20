@@ -1,4 +1,6 @@
 
+def build
+
 pipeline {
   environment {
      build = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
@@ -14,6 +16,7 @@ pipeline {
     stage('Start Build and Test') {
       steps {
         script {
+          build = env.build
           env.build.build_and_test(false)
         }
       }
@@ -23,7 +26,7 @@ pipeline {
   post {
     always {
       script {
-        env.build.post_build_actions()
+        build.post_build_actions()
       }
     }
   }
