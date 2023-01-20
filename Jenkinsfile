@@ -1,5 +1,6 @@
 def library
 node {
+  checkout scm
   result = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
   assert result != null
   library = result
