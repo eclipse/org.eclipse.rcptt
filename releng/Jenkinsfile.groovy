@@ -370,3 +370,5 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
     }
   }
 }
+
+return { script -> new Build(script) }
