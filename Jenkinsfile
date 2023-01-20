@@ -1,14 +1,15 @@
-
-def loadLibrary() {
+def library
+node {
   result = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
   assert result != null
+  library = result
 }
 
 pipeline {
   agent {
     kubernetes {
       label 'rcptt-build-agent-3.5.4'
-      yaml loadLibrary().YAML_BUILD_AGENT
+      yaml library.YAML_BUILD_AGENT
     }
   }
 
@@ -16,7 +17,7 @@ pipeline {
     stage('Start Build and Test') {
       steps {
         script {
-          loadLibrary().build_and_test(false)
+          library.build_and_test(false)
         }
       }
     }
@@ -25,7 +26,7 @@ pipeline {
   post {
     always {
       script {
-        loadLibrary().post_build_actions()
+        library.post_build_actions()
       }
     }
   }
