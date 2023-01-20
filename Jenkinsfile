@@ -1,6 +1,8 @@
-def build = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
 
 pipeline {
+  environment {
+     build = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
+  }
   agent {
     kubernetes {
       label 'rcptt-build-agent-3.5.4'
