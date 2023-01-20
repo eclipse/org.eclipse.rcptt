@@ -6,7 +6,7 @@ pipeline {
   agent {
     kubernetes {
       label 'rcptt-build-agent-3.5.4'
-      yaml build.YAML_BUILD_AGENT
+      yaml env.build.YAML_BUILD_AGENT
     }
   }
 
@@ -14,7 +14,7 @@ pipeline {
     stage('Start Build and Test') {
       steps {
         script {
-          build.build_and_test(false)
+          env.build.build_and_test(false)
         }
       }
     }
@@ -23,7 +23,7 @@ pipeline {
   post {
     always {
       script {
-        build.post_build_actions()
+        env.build.post_build_actions()
       }
     }
   }
