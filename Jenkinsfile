@@ -1,9 +1,12 @@
 
-def build
+def loadLibrary() {
+  result = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
+  assert result != null
+}
 
 pipeline {
   environment {
-     build = load('releng/Jenkinsfile.groovy').org.eclipse.rcptt.jenkins.Build.new(this)
+     build = loadLibrary()
   }
   agent {
     kubernetes {
