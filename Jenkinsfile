@@ -5,13 +5,10 @@ def loadLibrary() {
 }
 
 pipeline {
-  environment {
-     build = loadLibrary()
-  }
   agent {
     kubernetes {
       label 'rcptt-build-agent-3.5.4'
-      yaml env.build.YAML_BUILD_AGENT
+      yaml loadLibrary().YAML_BUILD_AGENT
     }
   }
 
@@ -19,8 +16,7 @@ pipeline {
     stage('Start Build and Test') {
       steps {
         script {
-          build = env.build
-          env.build.build_and_test(false)
+          loadLibrary().build_and_test(false)
         }
       }
     }
@@ -29,7 +25,7 @@ pipeline {
   post {
     always {
       script {
-        build.post_build_actions()
+        loadLibrary().post_build_actions()
       }
     }
   }
