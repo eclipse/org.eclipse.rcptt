@@ -1,12 +1,11 @@
-def build = library(
-  identifier: 'rcptt-pipeline-library@groovy',
-  retriever: modernSCM(
-    [
-      $class: 'GitSCMSource',
-      remote: 'https://github.com/xored/rcptt.git'
-    ]
-  )
-).org.eclipse.rcptt.jenkins.Build.new(this)
+def build
+node {
+  checkout scm
+  result = load('releng/Jenkinsfile.groovy')(this)
+  assert result != null
+  build = result
+}
+
 
 pipeline {
   agent {

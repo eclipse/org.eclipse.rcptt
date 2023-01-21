@@ -1,18 +1,16 @@
-def build = library(
-  identifier: 'rcptt-pipeline-library@groovy',
-  retriever: modernSCM(
-    [
-      $class: 'GitSCMSource',
-      remote: 'https://github.com/xored/rcptt.git'
-    ]
-  )
-).org.eclipse.rcptt.jenkins.Build.new(this)
+def library
+node {
+  checkout scm
+  result = load('releng/Jenkinsfile.groovy')(this)
+  assert result != null
+  library = result
+}
 
 pipeline {
   agent {
     kubernetes {
       label 'rcptt-build-agent-3.5.4'
-      yaml build.YAML_BUILD_AGENT
+      yaml library.YAML_BUILD_AGENT
     }
   }
 
@@ -20,7 +18,7 @@ pipeline {
     stage('Start Build and Test') {
       steps {
         script {
-          build.build_and_test(false)
+          library.build_and_test(false)
         }
       }
     }
@@ -29,7 +27,7 @@ pipeline {
   post {
     always {
       script {
-        build.post_build_actions()
+        library.post_build_actions()
       }
     }
   }
