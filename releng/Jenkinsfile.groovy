@@ -194,7 +194,7 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
         "rcpttTests",
         "-DrcpttPath=${getWorkspace()}/$PRODUCTS_DIR/org.eclipse.rcptt.platform.product-linux.gtk.x86_64.zip"
       )
-      //this.script.junit "rcpttTests/target/*-reports/*.xml"
+      this.script.junit "rcpttTests/target/*-reports/*.xml"
     }
   }
 
@@ -208,6 +208,7 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
           "mockups/rcpttTests",
           "-DmockupsRepository=https://ci.eclipse.org/rcptt/job/mockups/lastSuccessfulBuild/artifact/repository/target/repository"
       )
+      this.script.junit "mockups/rcpttTests/target/*-reports/*.xml"
     }
   }
 
