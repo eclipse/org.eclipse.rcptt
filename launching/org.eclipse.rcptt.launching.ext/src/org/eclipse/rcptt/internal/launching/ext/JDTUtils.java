@@ -165,20 +165,23 @@ public class JDTUtils {
 		}
 
 		Object arch = properties.get(OS_ARCH);
-		if (arch != null && "amd64".equals(arch)) {
+		if ("amd64".equals(arch)) {
 			return OSArchitecture.x86_64;
 		}
-		if (arch != null && "x86_64".equals(arch)) {
+		if ("x86_64".equals(arch)) {
 			return OSArchitecture.x86_64;
 		}
-		if (arch != null && "i386".equals(arch)) {
+		if ("i386".equals(arch)) {
 			return OSArchitecture.x86;
 		}
-		if (arch != null && "i686".equals(arch)) {
+		if ("i686".equals(arch)) {
 			return OSArchitecture.x86;
 		}
-		if (arch != null && "i586".equals(arch)) {
+		if ("i586".equals(arch)) {
 			return OSArchitecture.x86;
+		}
+		if ("aarch64".equals(arch)) {
+			return OSArchitecture.aarch64;
 		}
 
 		String message = String.format("Unknown combination:  %s = %s and %s = %s", SUN_ARCH_DATA_MODEL, model,
