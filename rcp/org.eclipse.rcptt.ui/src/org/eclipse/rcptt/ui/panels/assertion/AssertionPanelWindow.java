@@ -35,8 +35,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.typed.ViewerProperties;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -693,11 +693,6 @@ public class AssertionPanelWindow extends Dialog {
 		sh.dispose();
 	}
 
-	public static int convertHorizontalDLUsToPixels(FontMetrics fontMetrics, int dlus) {
-		// round to the nearest pixel
-		return (fontMetrics.getAverageCharWidth() * dlus + 4 / 2) / 4;
-	}
-
 	@Override
 	protected int convertHorizontalDLUsToPixels(int dlus) {
 		// test for failure to initialize for backward compatibility
@@ -712,7 +707,6 @@ public class AssertionPanelWindow extends Dialog {
 		return minSize.x;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected Control createButtonPanel(Composite parent) {
 		final Composite composite = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(composite);
@@ -759,7 +753,7 @@ public class AssertionPanelWindow extends Dialog {
 			}
 		});
 
-		checkedObservable = ViewersObservables.observeCheckedElements(viewer, null);
+		checkedObservable = ViewerProperties.<CheckboxTreeViewer, Object>checkedElements(Object.class).observe(viewer);
 		ComputedValue<Boolean> computed = new ComputedValue<Boolean>(Boolean.TYPE) {
 			@Override
 			protected Boolean calculate() {
