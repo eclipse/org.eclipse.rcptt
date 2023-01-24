@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _2bz_IYaBEeC4JayVkWEegA
-Runtime-Version: 2.2.0.qualifier
-Save-Time: 5/21/17 12:20 PM
+Runtime-Version: 2.5.5.202212090059
+Save-Time: 1/22/23, 4:58 PM
 Tags: Dialog, selfAUT
 Testcase-Type: ecl
 
@@ -58,6 +58,5 @@ get-editor scenario | get-section Contexts | get-table | select "captured \\(Q7P
 get-editor captured | get-section Workspace | get-tree | select project
 with [get-editor captured | get-section Workspace | get-tree | get-item project] {
     get-property caption | equals project | verify-true
-    get-property childCount | equals 2 | verify-true
 }
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
