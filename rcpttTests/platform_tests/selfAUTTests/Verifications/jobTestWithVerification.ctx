@@ -1,0 +1,89 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Context-Type: org.eclipse.rcptt.ctx.workspace
+Element-Name: jobTestWithVerification
+Element-Type: context
+Element-Version: 2.0
+Id: _Gf3gUJwYEe22OJx9wPMPmQ
+Runtime-Version: 2.5.5.202301240240
+Save-Time: 1/24/23, 10:57 PM
+
+------=_contents/jobtest/.settings/org.eclipse.core.resources.prefs-f6655a54-7a66-3275-a44a-a4fd8cc07f70
+Content-Type: q7/binary
+Entry-Name: contents/jobtest/.settings/org.eclipse.core.resources.prefs
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAABLTc7JLChO1SsoSk1L
+LUrNS04t1itLLSrOzM+zNeQC8vNTMvPS9W0KivKzUpNL7GxDQ9x0LbgAUEsHCA3o3k03AAAANwAAAFBL
+AQIUABQACAgIAAAAIQAN6N5NNwAAADcAAAAIAAkAAAAAAAAAAAAAAAAAAAAuY29udGVudFVUBQABAAAA
+AFBLBQYAAAAAAQABAD8AAAB2AAAAAAA=
+------=_contents/jobtest/.settings/org.eclipse.core.resources.prefs-f6655a54-7a66-3275-a44a-a4fd8cc07f70--
+------=_contents/jobtest/.project-3d816c39-9ea3-3866-b682-607ac4fa5739
+Content-Type: q7/binary
+Entry-Name: contents/jobtest/.project
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAAB1UEsOgjAUXMspCHtb
+XemiYKLGC6gHgPJCSujH12I8vi2tREzczUzmzUzLDi855E9AK7Qqiy3ZFDkorluhurK43y7rfXGoMmZQ
+98DdGSxHYZw3V9mKqVpC1evGgXWMTsyrXEsJylWMfpAXU4ANmH6TZhRDezXAPUns5M9q1QYhdWjsCPBB
+GAsEuXGOcI1AJjcgeeyOEc0j/GGN3RjabaR0wRn9aUpCGuJb3YgQrRH/2zDBaAntkzXEzQnzcxef9wZQ
+SwcI6mkXl8AAAAB5AQAAUEsBAhQAFAAICAgAAAAhAOppF5fAAAAAeQEAAAgACQAAAAAAAAAAAAAAAAAA
+AC5jb250ZW50VVQFAAEAAAAAUEsFBgAAAAABAAEAPwAAAP8AAAAAAA==
+------=_contents/jobtest/.project-3d816c39-9ea3-3866-b682-607ac4fa5739--
+------=_contents/jobtest/NoErrorsOrWarnings.verification-c26f0d85-c943-3af0-a3af-0ac0d84eec50
+Content-Type: q7/binary
+Entry-Name: contents/jobtest/NoErrorsOrWarnings.verification
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAACtkUFvwjAMhe/5FTkj
+OTS0pU2lndoicYAhKGw3FDpTRaIJSjI0/v3KxLoi7YiP9tPz52cAoOt8VVX0glYdVS29MpoCAJkZ20oP
+O7Sua2WUs4CUJ2xRe1jKFjO6NKW1xrpX+yatVrpxvaC6njvB0LMf9YaTznD+kdH9Vh+38yJ9L3FzLUxe
+zLSc5Q1Zf2qvWhwSxCxkk4BHgeCTQMQx2cgLQqVuNGLM0zGPaJSFCV0tyG6w/M5jbMOwPqmzQ2brs/ds
+SOjYyTSEwE+97BnejutaDyIIazzEB55CekhqCEUoQHDBIeJTnGKSdtOE5Eb7vxg8fvnxrxs8hqK9vd7j
+/H8hIUW5nJdFRqY0oGxEF+icbDBjo6ewdp/+BlBLBwj0ROc9GQEAAAUCAABQSwECFAAUAAgICAAAACEA
+9ETnPRkBAAAFAgAACAAJAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRVVAUAAQAAAABQSwUGAAAAAAEAAQA/
+AAAAWAEAAAAA
+------=_contents/jobtest/NoErrorsOrWarnings.verification-c26f0d85-c943-3af0-a3af-0ac0d84eec50--
+------=_contents/jobtest/rcptt.properties-1526fa33-2577-3b14-af45-a1c2720e1df8
+Content-Type: q7/binary
+Entry-Name: contents/jobtest/rcptt.properties
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAABNjt0KgkAQhe/3KeYB
+mlxXg/AuwiBLMbXoLhYdaqNV0env7TMCiXPuPs7HQUTIlmlRAFPPpe4JEFGsms5qxgN1vWnqANypFOGN
+LNWMibYUQNo1VyoZcmI29bkfcfFuB9z+cEysK816pKNRDcZ1FcCJt4fLInoeQ1KyifavxGystxPZvWZj
+6X8wG6Kk8qSrfDlU5PpBWJjvHddRvqO8Cbgy8OeQxkJ8AFBLBwgwQf+JpwAAANsAAABQSwECFAAUAAgI
+CAAAACEAMEH/iacAAADbAAAACAAJAAAAAAAAAAAAAAAAAAAALmNvbnRlbnRVVAUAAQAAAABQSwUGAAAA
+AAEAAQA/AAAA5gAAAAAA
+------=_contents/jobtest/rcptt.properties-1526fa33-2577-3b14-af45-a1c2720e1df8--
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf
+Content-Type: q7/binary
+Entry-Name: .q7.content
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAACVksFOwzAMhu97iih3
+EhgXqNrtgCbExNiQgMIJdZnbZbRJlXi0j4/braVCQ4hbEv/+bP9OOK2LnH2C89qaiF+Ic87AKLvRJov4
+HtOzKz6djELrMgEq16UH4VSJKBTWorLuw5eJgiDuTjfWINTI6kIHPXbcYKmQ8QG9R3yLWAZSVlUlbJEJ
+gsvXxV0n+aNWn95pmvRWJ0knex1nJilIvbPrJ/AYa9y+gNOpVglSV5zpTcTfb9PL7Hlevc1gPF7O6+tq
+tVgVj3wyYixUzSwGmzPdSmd3oNB/Y5Gw/BCleKpz6ILiKObyZHhu1wycs46ppMS9I7NZRf2xWft4b7Nm
+JX2roi10GvVg2xy/dHHiDIG8GKb+knWwlZoswaEGP5TZfEN76wbxgNhQ+zl/kIbLUtbRxsDbvVPgCQ/p
+kCyP6KOfsjO09Vr2Zofyv59tMvoCUEsHCNtHT6JOAQAAxwIAAFBLAQIUABQACAgIAAAAIQDbR0+iTgEA
+AMcCAAAIAAkAAAAAAAAAAAAAAAAAAAAuY29udGVudFVUBQABAAAAAFBLBQYAAAAAAQABAD8AAACNAQAA
+AAA=
+------=_.q7.content-3d2e0690-ce48-3609-83e0-c704d49f1eaf--
+------=_contents/jobtest/Job error capturing with Error Log verification.test-ad0ca71a-e12d-3ae5-ba50-bb90966018a6
+Content-Type: q7/binary
+Entry-Name: contents/jobtest/Job error capturing with Error Log verification.test
+
+UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAIAAkALmNvbnRlbnRVVAUAAQAAAACdVGFvo0YQ/Vx+xRxf
+2pO6gI0dO5b64WI7bU65yyUmaauqipZlMFtjli5DbOt6//0Gh+BYyp2uhxFG7L73ZubNrBACbqYfoggI
+K1KyQhBCOOfGriWJO7SVNsUEel7gzHNcY0HivVzjBN6aGNBaY0HJkmqriyVsNGUw33+8NEt4QKtTrSQx
+RYeOdiWjn8S6z51S2ChtCW0hc3GDKVosFCMyonLi+1VdlsaStzUWE0+ZtZ9hXiZYrXzSaoVU+b3eSehc
+JBO4v6TZxfx8OpvjIj0zZ/+u/pzeX79xbuqC9BoPmn1vyL9+0A+DXn8Q8O0s5AOKSDeZ9vz+wO+HP0Mv
+mAxH8OGdE7XRt8mgyp27Z7lWLH1bpLcXs/EfLL2bmensvJDn06XjiP31y73HISury2a/6PdO0vF4qEQy
+PO2JcKxQjFH2BQ7SsYoHyUmaSmdqCnpewC35ZS41V7Ygu2tdeU7rHAUFVWbqPIFU6hx0Cv+wf7lZViCL
+Rx+dKNPV3hh2tPiRIEbALaqaMIFEW1SU70CAKfhPMx/m6ZvbyIOFgWqly/l+b6NEcglMVSF5358vN2GH
+VW3qgRz1B6EMxGiYhCJMhqk4HTHDMDxNMMBhPJLqpTo1Bh1VqSV0nCWS4P6rwf1dF4nZ+IvMbOBO48a/
+ogyt53ku/Acq595yftj3918NZrPfDW633f0bPjrAV7NKFpFRXCEuGrjXI7iuZa5p5x9e4Z1Rq7qs3A4V
+10RcvasSi07yk/MCX7Uhf59XxI8mvMTUcY7iEXII8oHjeq7eSX4lVm4pSnn4fYuVqa3Cyv9NFstmunni
+22gPEktr6hLcoy1P7E8KPKSxASFTHupHVC5jzMGNMosyAWqMYlQXxNurs28juEE+eLgTSVJdHVG43fHk
+/i+qNVJmkiOqy6tfjygw0RSb7UskTRmgOVrgp3X1+omFa8w+8ekRfCvPDHO5+xrHp7Yxvugwg75kT7vU
+dpu7IGkJ3jMPr746NLvzfePHY/sZUEsHCNxfGYbyAgAAUwYAAFBLAQIUABQACAgIAAAAIQDcXxmG8gIA
+AFMGAAAIAAkAAAAAAAAAAAAAAAAAAAAuY29udGVudFVUBQABAAAAAFBLBQYAAAAAAQABAD8AAAAxAwAA
+AAA=
+------=_contents/jobtest/Job error capturing with Error Log verification.test-ad0ca71a-e12d-3ae5-ba50-bb90966018a6--
