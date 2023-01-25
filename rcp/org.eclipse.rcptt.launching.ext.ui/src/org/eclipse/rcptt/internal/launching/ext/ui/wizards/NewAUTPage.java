@@ -88,6 +88,7 @@ public class NewAUTPage extends WizardPage {
 	private WritableValue<String> nameValue = new WritableValue<String>("", String.class);
 	private WritableValue<String> locationValue = new WritableValue<String>("", String.class);
 	private WritableValue<ITargetPlatformHelper> info = new WritableValue<ITargetPlatformHelper>(null, ITargetPlatformHelper.class);
+	private WritableValue<Boolean> architectureError = new WritableValue<>(Boolean.FALSE, Boolean.class);
 	private WritableValue<Boolean> showAdvanced = new WritableValue<Boolean>(Boolean.FALSE, Boolean.class);
 	private WritableValue<String> warningMessageValue = new WritableValue<String>("", String.class);
 	private WritableValue<Boolean> autolaunchValue = new WritableValue<Boolean>(Boolean.FALSE, Boolean.class);
@@ -227,6 +228,8 @@ public class NewAUTPage extends WizardPage {
 			// no special actions, error message will be set by lines below
 			Q7UIPlugin.log(e1);
 		}
+
+		architectureError.setValue(!haveArch);
 
 		if (!haveArch) {
 			setError("The selected AUT requires " + architecture + " Java VM which cannot be found.");
@@ -414,17 +417,6 @@ public class NewAUTPage extends WizardPage {
 	}
 
 	private void createControlArch(final Composite parent) {
-		Label archLabel = new Label(parent, SWT.NONE);
-		archLabel.setText("Architecture:");
-
-		Composite archGroup = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2).equalWidth(true).applyTo(archGroup);
-		GridDataFactory.fillDefaults().span(1, 1).grab(true, false).applyTo(archGroup);
-		Button b32 = new Button(archGroup, SWT.RADIO);
-		Button b64 = new Button(archGroup, SWT.RADIO);
-		b32.setText("32bit");
-		b64.setText("64bit");
-
 		final Link archLink = new Link(parent, SWT.UNDERLINE_LINK);
 		archLink.setText("There is no appropriate JVM configured. <a>Configure JVM...</a>");
 		GridDataFactory.fillDefaults().span(3, 1).grab(true, false).applyTo(archLink);
@@ -449,6 +441,8 @@ public class NewAUTPage extends WizardPage {
 				parent.layout(false);
 			}
 		});
+		dbc.bindValue(archLinkObservable, architectureError);
+
 	}
 
 	private void createControlAdvanced(Composite parent) {
@@ -465,6 +459,7 @@ public class NewAUTPage extends WizardPage {
 		});
 
 		dbc.bindValue(WidgetProperties.visible().observe(advanced), showAdvanced);
+
 	}
 
 	private void createControlAutolaunch(Composite parent) {
