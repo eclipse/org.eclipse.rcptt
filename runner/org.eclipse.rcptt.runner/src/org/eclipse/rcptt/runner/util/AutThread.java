@@ -247,7 +247,7 @@ public class AutThread extends Thread {
 				}
 				if (!haveAUT) {
 					String errorMessage = "FAIL: AUT requires "
-							+ ((OSArchitecture.x86.equals(architecture)) ? "32 bit" : "64 bit")
+							+ architecture
 							+ " Java VM which cannot be found.\nPlease specify -autVM {javaPath} command line argument to use different JVM.\nCurrent used JVM is: "
 							+ install.getInstallLocation().toString();
 					Q7ExtLaunchingPlugin.getDefault().log(errorMessage, null);

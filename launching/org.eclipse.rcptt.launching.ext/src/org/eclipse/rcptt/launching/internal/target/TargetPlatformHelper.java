@@ -1171,6 +1171,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					has64 = true;
 					launcher64 = "launcher library\n\t\"" + launcherLibrary
 							+ "\" specified in config file: " + configPath;
+				} else if (launcherLibrary.contains("aarch64")) {
+					launcher64 = "launcher library\n\t\"" + launcherLibrary
+							+ "\" specified in config file: " + configPath;
+					if (detectMsg != null) {
+						detectMsg.append("aarch64 arch is selected because AUT uses "
+								+ launcher64);
+					}
+					return OSArchitecture.aarch64;
 				} else if (launcherLibrary.contains("x86")
 						|| launcherLibrary.contains("cocoa.macosx")) {
 					has32 = true;
