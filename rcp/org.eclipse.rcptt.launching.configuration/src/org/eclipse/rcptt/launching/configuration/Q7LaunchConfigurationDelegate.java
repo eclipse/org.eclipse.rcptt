@@ -243,7 +243,8 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	protected void preLaunchCheck(final ILaunchConfiguration configuration,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		super.preLaunchCheck(configuration, launch, monitor);
+		SubMonitor sm = SubMonitor.convert(monitor, 2);
+		super.preLaunchCheck(configuration, launch, sm.split(1));
 		if (monitor.isCanceled()) {
 			return;
 		}
@@ -259,15 +260,15 @@ public class Q7LaunchConfigurationDelegate extends
 					BundleStart.fromModelString(entry.getValue()));
 		}
 		ITargetLocation[] locations = target.getTarget().getTargetLocations();
-		SubMonitor sm = SubMonitor.convert(monitor, locations.length);
+		SubMonitor locationsMonitor = SubMonitor.convert(sm.split(1), locations.length);
 		
 		for (ITargetLocation extra : locations) {
 			if (!Q7ExternalLaunchDelegate.isQ7BundleContainer(extra)) {
-				sm.split(1);
+				locationsMonitor.split(1);
 				continue;
 			}
 			TargetBundle[] bundles = extra.getBundles();
-			SubMonitor bundleMonitor = SubMonitor.convert(sm.split(1), bundles.length);
+			SubMonitor bundleMonitor = SubMonitor.convert(locationsMonitor.split(1), bundles.length);
 			for (TargetBundle bundle : bundles) {
 				collector.addExtraBundle(bundle, bundleMonitor.split(1));
 			}
@@ -278,5 +279,6 @@ public class Q7LaunchConfigurationDelegate extends
 		Q7ExternalLaunchDelegate.setBundlesToLaunch(info, bundles);
 
 		Q7LaunchDelegateUtils.setDelegateFields(this, bundles.fModels, bundles.fAllBundles);
+		monitor.done();
 	}
 }

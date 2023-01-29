@@ -825,9 +825,14 @@ public class Q7ExternalLaunchDelegate extends
 		}
 		plugins.done();
 
-
-		return new BundlesToLaunch(collector.rejectedBundles,
+		try {
+			return new BundlesToLaunch(collector.rejectedBundles,
 				collector.plugins, collector.latestVersions);
+		} finally {
+			if (monitor != null) {
+				monitor.done();
+			}
+		}
 	}
 
 	/**
