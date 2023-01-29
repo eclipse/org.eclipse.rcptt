@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -112,10 +111,11 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
+		SubMonitor sm = SubMonitor.convert(monitor, 6);
 		try {
 			Job.getJobManager().join(
 					IBundlePoolConstansts.CLEAN_BUNDLE_POOL_JOB,
-					new SubProgressMonitor(monitor, 1));
+					sm.split(1));
 		} catch (Exception e1) {
 			Q7ExtLaunchingPlugin.status(
 					"Failed to wait for bundle pool clear job", e1);
@@ -130,10 +130,10 @@ public class Q7LaunchConfigurationDelegate extends
 		// try to load existing configuration
 		if (helper == null) {
 			helper = TargetPlatformManager.findTarget(targetName,
-					new SubProgressMonitor(monitor, 1), false);
+					sm.split(1), false);
 			if (helper != null) {
 				if (!helper.isResolved()) {
-					helper.resolve(monitor);
+					helper.resolve(sm.split(1));
 					if (helper.getStatus().isOK()) {
 						Q7TargetPlatformManager.setHelper(targetName, helper);
 					}
@@ -145,8 +145,8 @@ public class Q7LaunchConfigurationDelegate extends
 				|| ((TargetPlatformHelper) helper).getTarget() == null) {
 			helper = TargetPlatformManager
 					.getCurrentTargetPlatformCopy(targetName);
-			helper.resolve(monitor);
-			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, monitor);
+			helper.resolve(sm.split(1));
+			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
 			if (!rv.isOK())
 				Activator.getDefault().getLog().log(rv);
 			helper.save();
@@ -156,7 +156,13 @@ public class Q7LaunchConfigurationDelegate extends
 			info.target = helper;
 		}
 
-		return super.preLaunchCheck(configuration, mode, monitor);
+		try {
+			return super.preLaunchCheck(configuration, mode, sm.split(1));
+		} finally {
+			if (monitor != null) {
+				monitor.done();
+			}
+		}
 	}
 
 	@Override
