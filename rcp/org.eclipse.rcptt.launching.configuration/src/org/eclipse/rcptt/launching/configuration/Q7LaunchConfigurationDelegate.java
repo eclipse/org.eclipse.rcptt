@@ -53,7 +53,6 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 
-@SuppressWarnings("restriction")
 public class Q7LaunchConfigurationDelegate extends
 		EclipseApplicationLaunchConfiguration {
 	private static final String SECURE_STORAGE_FILE_NAME = "secure_storage";
@@ -253,12 +252,18 @@ public class Q7LaunchConfigurationDelegate extends
 			collector.addInstallationBundle(entry.getKey(),
 					BundleStart.fromModelString(entry.getValue()));
 		}
-		for (ITargetLocation extra : target.getTarget().getTargetLocations()) {
+		ITargetLocation[] locations = target.getTarget().getTargetLocations();
+		SubMonitor sm = SubMonitor.convert(monitor, locations.length);
+		
+		for (ITargetLocation extra : locations) {
 			if (!Q7ExternalLaunchDelegate.isQ7BundleContainer(extra)) {
+				sm.split(1);
 				continue;
 			}
-			for (TargetBundle bundle : extra.getBundles()) {
-				collector.addExtraBundle(bundle);
+			TargetBundle[] bundles = extra.getBundles();
+			SubMonitor bundleMonitor = SubMonitor.convert(sm.split(1), bundles.length);
+			for (TargetBundle bundle : bundles) {
+				collector.addExtraBundle(bundle, bundleMonitor.split(1));
 			}
 		}
 
