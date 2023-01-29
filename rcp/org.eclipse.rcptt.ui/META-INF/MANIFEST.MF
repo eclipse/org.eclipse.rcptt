@@ -61,9 +61,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.rcptt.verifications.tree;bundle-version="[2.5.5,3.0.0)",
  org.eclipse.rcptt.resources;bundle-version="[2.5.5,3.0.0)",
  org.eclipse.rcptt.core.scenario,
- org.eclipse.jface,
+ org.eclipse.jface;bundle-version="2.0.0",
  org.eclipse.swt
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.rcptt.internal.ui,
  org.eclipse.rcptt.ui.actions,
@@ -93,3 +93,4 @@ Export-Package: org.eclipse.rcptt.internal.ui,
  org.eclipse.rcptt.ui.verification,
  org.eclipse.rcptt.ui.wizards,
  org.eclipse.rcptt.ui.wizards.imports
+Automatic-Module-Name: org.eclipse.rcptt.ui

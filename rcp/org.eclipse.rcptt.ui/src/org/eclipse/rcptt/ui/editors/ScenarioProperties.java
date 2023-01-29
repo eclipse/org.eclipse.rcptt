@@ -17,9 +17,9 @@ import java.util.List;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.IViewerObservableList;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.databinding.viewers.typed.ViewerProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.CellEditor;
@@ -54,14 +54,12 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -282,12 +280,10 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {
-						Text text = (Text) editor.getControl();
 
 						switch (e.detail) {
 						case SWT.TRAVERSE_TAB_NEXT:
-//							if (validateName(element, text.getText()))
-								viewer.editElement(element, 1);
+							viewer.editElement(element, 1);
 							e.detail = SWT.TRAVERSE_NONE;
 							e.doit = false;
 							break;
@@ -392,11 +388,8 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 				editor.getControl().addTraverseListener(new TraverseListener() {
 
 					public void keyTraversed(TraverseEvent e) {
-						Text text = (Text) editor.getControl();
-
 						switch (e.detail) {
 						case SWT.TRAVERSE_TAB_PREVIOUS:
-//							if (validateName(element, text.getText()))
 								viewer.editElement(element, 0);
 							e.detail = SWT.TRAVERSE_NONE;
 							e.doit = false;
@@ -475,10 +468,10 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 		Button removeButton = toolkit.createButton(panel, "Remove", SWT.PUSH);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(removeButton);
 		removeButton.setImage(Images.getImageDescriptor(ISharedImages.IMG_ETOOL_DELETE).createImage());
-		dbc.bindValue(SWTObservables.observeEnabled(removeButton), new ComputedValue() {
+		dbc.bindValue(WidgetProperties.enabled().observe(removeButton), new ComputedValue<Boolean>() {
 
-			protected Object calculate() {
-				IViewerObservableList selection = ViewersObservables.observeMultiSelection(viewer);
+			protected Boolean calculate() {
+				IViewerObservableList<?> selection = ViewerProperties.multipleSelection().observe(viewer);
 				if (selection.size() == 1 && selection.get(0) == newParameterItem)
 					return false;
 				else
@@ -511,54 +504,6 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 		}
 
 		viewer.remove(removed.toArray());
-	}
-
-	private boolean validateName(final Object element, String name) {
-		ScenarioProperty param = (ScenarioProperty) element;
-		String error = null;
-
-		if (StringUtils.isBlank(name))
-			error = "Blank name";
-		else {
-			for (ScenarioProperty p : getNamedElement().getProperties())
-				if (p != param && p.getName().equals(name)) {
-					error = "Duplicate property name";
-					break;
-				}
-			if( error == null) {
-				for( char c: name.toCharArray()) {
-					if( Character.isSpaceChar(c) ) {
-						error = "Space characters are not supported as key names";
-						break;
-					}
-					if( c == '\"' ) {
-						error = "Quatations are not supported as key names";
-						break;
-					}
-				}
-				if(!Character.isJavaIdentifierStart(name.charAt(0))) {
-					error = "Invalid key name";
-				}
-			}
-		}
-
-		if (error != null && table.getSelection().length > 0) {
-			lastNewName = name;
-
-			Rectangle b = table.getSelection()[0].getBounds();
-			Point p = table.toDisplay(b.x, b.y);
-			tip.setLocation(p.x + 16, p.y + b.height);
-
-			tip.setMessage(error);
-			tip.setVisible(false);
-			tip.setVisible(true);
-
-			return false;
-		} else {
-			tip.setVisible(false);
-			lastNewName = "";
-			return true;
-		}
 	}
 
 	private boolean isNewAndBlank(Object element, String name) {
