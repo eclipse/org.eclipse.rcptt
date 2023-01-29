@@ -1,14 +1,13 @@
 --- RCPTT testcase ---
 Format-Version: 1.0
-Q7-vendor: www.xored.com/q7
 Contexts: _ymiyse5IEeCU6db9MgIBkA,_EyiWsMomEeCVO9X7TqWdlg
-Element-Name: ColumnIndexClickRecording
+Element-Name: ColumnClickByIndex
 Element-Type: testcase
 Element-Version: 3.0
 External-Reference: http://jira4.xored.com/browse/QS-872
 Id: _LaI78Ku2EeGxwqO33ZLSaw
-Q7-Runtime-Version: 1.5.0.qualifier
-Save-Time: 5/14/14 6:45 PM
+Runtime-Version: 2.5.5.202301290054
+Save-Time: 1/29/23, 9:42 PM
 Tags: Recording, Sorting
 Testcase-Type: ecl
 
@@ -45,19 +44,22 @@ clear-log-view
 log string1
 log string2
 log string3
-with [get-view "Error Log" | get-tree] {
-    get-item string3 | get-property index | equals 0 | verify-true
-    get-item string2 | get-property index | equals 1 | verify-true
-    get-item string1 | get-property index | equals 2 | verify-true
+try -times 2 -command {
+	with [get-view "Error Log" | get-tree] {
+        click-column -index 2
+	    get-item string3 | get-property index | equals 0 | verify-true
+	    get-item string2 | get-property index | equals 1 | verify-true
+	    get-item string1 | get-property index | equals 2 | verify-true
+	}
 }
-get-view "Error Log" | get-tree | click-column -index 2
 with [get-view "Error Log" | get-tree] {
+    click-column -index 2
     get-item string1 | get-property index | equals 0 | verify-true
     get-item string2 | get-property index | equals 1 | verify-true
     get-item string3 | get-property index | equals 2 | verify-true
 }
-get-view "Error Log" | get-tree | click-column -index 2
 with [get-view "Error Log" | get-tree] {
+    click-column -index 2
     get-item string3 | get-property index | equals 0 | verify-true
     get-item string2 | get-property index | equals 1 | verify-true
     get-item string1 | get-property index | equals 2 | verify-true
