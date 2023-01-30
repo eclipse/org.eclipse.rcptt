@@ -21,7 +21,7 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 17.0.4.1 [17.0.4.1]"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -showsplash org.eclipse.rcptt.platform -nosplash --launcher.GTK_version 2"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms128m -Xmx768m -Dorg.eclipse.swt.browser.DefaultType=mozilla -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false"/>
@@ -29,10 +29,12 @@
     <stringAttribute key="product" value="org.eclipse.rcptt.platform.product"/>
     <stringAttribute key="productFile" value="/org.eclipse.rcptt.ide/org.eclipse.rcptt.product"/>
     <setAttribute key="selected_target_bundles">
+        <setEntry value="bcpg@default:default"/>
+        <setEntry value="bcprov@default:default"/>
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="com.google.guava.failureaccess@default:default"/>
         <setEntry value="com.google.guava@default:default"/>
-        <setEntry value="com.ibm.icu*67.1.0@default:default"/>
+        <setEntry value="com.ibm.icu@default:default"/>
         <setEntry value="com.jcraft.jsch@default:default"/>
         <setEntry value="com.sun.el@default:default"/>
         <setEntry value="com.sun.jna.platform@default:default"/>
@@ -68,26 +70,26 @@
         <setEntry value="org.apache.batik.awt.util@default:default"/>
         <setEntry value="org.apache.batik.bridge@default:default"/>
         <setEntry value="org.apache.batik.codec@default:default"/>
-        <setEntry value="org.apache.batik.constants*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.constants*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.constants*1.9.1.v20180227-1645@default:default"/>
-        <setEntry value="org.apache.batik.css*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.css*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.css*1.9.1.v20181015-1528@default:default"/>
-        <setEntry value="org.apache.batik.dom*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.dom*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.dom*1.9.1.v20190730-1743@default:default"/>
         <setEntry value="org.apache.batik.dom.svg@default:default"/>
         <setEntry value="org.apache.batik.ext.awt@default:default"/>
         <setEntry value="org.apache.batik.ext@default:default"/>
         <setEntry value="org.apache.batik.gvt@default:default"/>
-        <setEntry value="org.apache.batik.i18n*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.i18n*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.i18n*1.9.1.v20180227-1645@default:default"/>
         <setEntry value="org.apache.batik.parser@default:default"/>
         <setEntry value="org.apache.batik.script@default:default"/>
-        <setEntry value="org.apache.batik.svggen*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.svggen*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.svggen*1.9.1.v20190730-1743@default:default"/>
         <setEntry value="org.apache.batik.transcoder@default:default"/>
-        <setEntry value="org.apache.batik.util*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.util*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.util*1.9.1.v20180703-1553@default:default"/>
-        <setEntry value="org.apache.batik.xml*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.xml*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.xml*1.9.1.v20190730-1743@default:default"/>
         <setEntry value="org.apache.commons.codec@default:default"/>
         <setEntry value="org.apache.commons.collections4@default:default"/>
@@ -111,14 +113,10 @@
         <setEntry value="org.apache.poi.ooxml@default:default"/>
         <setEntry value="org.apache.poi@default:default"/>
         <setEntry value="org.apache.xalan@default:default"/>
-        <setEntry value="org.apache.xerces@default:default"/>
-        <setEntry value="org.apache.xml.resolver@default:default"/>
         <setEntry value="org.apache.xmlgraphics@default:default"/>
         <setEntry value="org.apiguardian.api@default:default"/>
         <setEntry value="org.aspectj.runtime@default:default"/>
         <setEntry value="org.aspectj.weaver@default:default"/>
-        <setEntry value="org.bouncycastle.bcpg@default:default"/>
-        <setEntry value="org.bouncycastle.bcprov@default:default"/>
         <setEntry value="org.eclipse.ant.core@default:default"/>
         <setEntry value="org.eclipse.ant.launching@default:default"/>
         <setEntry value="org.eclipse.ant.ui@default:default"/>
@@ -239,7 +237,8 @@
         <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper.registry@default:default"/>
         <setEntry value="org.eclipse.equinox.jsp.jasper@default:default"/>
-        <setEntry value="org.eclipse.equinox.launcher.cocoa.macosx.x86_64@default:false"/>
+        <setEntry value="org.eclipse.equinox.launcher.cocoa.macosx.aarch64@default:false"/>
+        <setEntry value="org.eclipse.equinox.launcher.cocoa.macosx@default:false"/>
         <setEntry value="org.eclipse.equinox.launcher@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.artifact.repository@default:default"/>
         <setEntry value="org.eclipse.equinox.p2.console@default:default"/>
@@ -400,7 +399,7 @@
         <setEntry value="org.eclipse.platform@default:default"/>
         <setEntry value="org.eclipse.rcp@default:default"/>
         <setEntry value="org.eclipse.search@default:default"/>
-        <setEntry value="org.eclipse.swt.cocoa.macosx.x86_64@default:false"/>
+        <setEntry value="org.eclipse.swt.cocoa.macosx.aarch64@default:false"/>
         <setEntry value="org.eclipse.swt@default:default"/>
         <setEntry value="org.eclipse.swtchart.export@default:default"/>
         <setEntry value="org.eclipse.swtchart.extensions@default:default"/>
@@ -530,12 +529,14 @@
         <setEntry value="org.eclipse.rcptt.expandbar@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.common@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.configuration@default:default"/>
+        <setEntry value="org.eclipse.rcptt.launching.ext.tests@default:false"/>
         <setEntry value="org.eclipse.rcptt.launching.ext.ui@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.ext@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.injection@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.p2utils@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.remote.ui@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.remote@default:default"/>
+        <setEntry value="org.eclipse.rcptt.launching.tests@default:false"/>
         <setEntry value="org.eclipse.rcptt.launching@default:default"/>
         <setEntry value="org.eclipse.rcptt.logging@default:default"/>
         <setEntry value="org.eclipse.rcptt.platform@default:default"/>
@@ -548,8 +549,10 @@
         <setEntry value="org.eclipse.rcptt.tesla.core.context@default:default"/>
         <setEntry value="org.eclipse.rcptt.tesla.core@default:default"/>
         <setEntry value="org.eclipse.rcptt.tesla.ecl@default:default"/>
+        <setEntry value="org.eclipse.rcptt.tesla.jface.fragment@default:false"/>
         <setEntry value="org.eclipse.rcptt.tesla.recording.core.ecl@default:default"/>
         <setEntry value="org.eclipse.rcptt.tesla.recording.core@default:default"/>
+        <setEntry value="org.eclipse.rcptt.tesla.swt.fragment@default:false"/>
         <setEntry value="org.eclipse.rcptt.ui.activities@default:default"/>
         <setEntry value="org.eclipse.rcptt.ui.report@default:default"/>
         <setEntry value="org.eclipse.rcptt.ui@default:default"/>
