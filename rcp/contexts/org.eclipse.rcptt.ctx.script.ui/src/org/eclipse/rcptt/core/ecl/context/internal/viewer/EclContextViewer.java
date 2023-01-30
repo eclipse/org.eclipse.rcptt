@@ -25,11 +25,6 @@ public class EclContextViewer implements IQ7Viewer2<Context> {
 		return new EclContextEditor();
 	}
 
-	@Override
-	public ImageDescriptor getImage(Context context) {
-		return getEclContextImage();
-	}
-
 	public static ImageDescriptor getEclContextImage() {
 		return Q7UIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 				"/icons/script.gif");

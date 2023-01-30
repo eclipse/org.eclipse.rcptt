@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.rcptt.core.ecl.context.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -36,13 +39,37 @@ import org.eclipse.rcptt.ui.editors.ecl.EclEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class EclContextEditor extends EclEditor {
+	private final List<Runnable> onDispose = new ArrayList<>();
 	public EclContextEditor() {
-		setTitleImage(EclContextViewer.getEclContextImage().createImage());
+		onDispose.add(0, super::dispose);
+		Image image = EclContextViewer.getEclContextImage().createImage();
+		setTitleImage(image);
+		onDispose.add(0, image::dispose);
+	}
+	
+	@Override
+	public void dispose() {
+		RuntimeException result = null;
+		for (Runnable runnable: onDispose) {
+			try {
+				runnable.run();
+			} catch (RuntimeException e) {
+				if (result == null) {
+					result = e;
+				} else {
+					result.addSuppressed(e);
+				}
+			}
+		}
+		if (result != null) {
+			throw result;
+		}
 	}
 
 	@Override
@@ -158,7 +185,8 @@ public class EclContextEditor extends EclEditor {
 				}
 			}
 		};
-		IObservableValue scriptContent = EMFObservables.observeValue(getElement(),
+		@SuppressWarnings("unchecked")
+		IObservableValue<Script> scriptContent = EMFObservables.observeValue(getElement(),
 				ContextPackage.Literals.ECL_CONTEXT__SCRIPT);
 		scriptContent.addChangeListener(scenarioContentListener);
 	}

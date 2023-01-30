@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.ctx.debug.ui;
 
-import org.eclipse.debug.ui.DebugUITools;
-import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jface.resource.ImageDescriptor;
-
 import org.eclipse.rcptt.core.scenario.Context;
 import org.eclipse.rcptt.ui.editors.IQ7Editor;
 import org.eclipse.rcptt.ui.editors.IQ7Viewer;
@@ -23,11 +19,6 @@ public class DebugContextViewer implements IQ7Viewer<Context> {
 	@Override
 	public IQ7Editor<Context> createEditor() {
 		return new DebugContextEditor();
-	}
-
-	@Override
-	public ImageDescriptor getImage(final Context context) {
-		return DebugUITools.getImageDescriptor(IDebugUIConstants.IMG_ACT_DEBUG);
 	}
 
 	@Override
