@@ -20,10 +20,12 @@ import org.eclipse.ui.IEditorPart;
 
 public class EclContextViewer implements IQ7Viewer2<Context> {
 
+	@Override
 	public IQ7Editor<Context> createEditor() {
 		return new EclContextEditor();
 	}
 
+	@Override
 	public ImageDescriptor getImage(Context context) {
 		return getEclContextImage();
 	}
@@ -33,22 +35,27 @@ public class EclContextViewer implements IQ7Viewer2<Context> {
 				"/icons/script.gif");
 	}
 
+	@Override
 	public String getLabel(Context context) {
 		return "Ecl Script Context";
 	}
 
+	@Override
 	public IEditorPart createEditorPart() {
 		return new org.eclipse.rcptt.core.ecl.context.editor.EclContextEditor();
 	}
 
+	@Override
 	public boolean isEnableResourceTracking() {
 		return false;
 	}
 
+	@Override
 	public boolean isCaptureSupported() {
 		return false;
 	}
 
+	@Override
 	public boolean isApplySupported() {
 		return true;
 	}

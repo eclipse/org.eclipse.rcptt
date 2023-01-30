@@ -71,12 +71,14 @@ public class DebugContextEditor extends BaseContextEditor {
 			throws CoreException {
 		super.copyContentFrom(context, monitor);
 		viewer.getControl().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				viewer.refresh(true);
 			}
 		});
 	}
 
+	@Override
 	public Control create(Composite parent, FormToolkit toolkit,
 			IWorkbenchSite site, EditorHeader header) {
 		Section section = new SectionWithComposite("Options", Section.TITLE_BAR
@@ -161,6 +163,7 @@ public class DebugContextEditor extends BaseContextEditor {
 			this.image = null;
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -245,6 +248,7 @@ public class DebugContextEditor extends BaseContextEditor {
 			return null;
 		}
 
+		@Override
 		public void createControl(Composite parent) {
 			final Tree tree = new Tree(parent, SWT.BORDER | SWT.FULL_SELECTION
 					| SWT.MULTI);
@@ -258,6 +262,7 @@ public class DebugContextEditor extends BaseContextEditor {
 			viewer.setInput(getContextElement());
 			viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+				@Override
 				public void selectionChanged(SelectionChangedEvent event) {
 					addTool.setEnabled(getSelectedExpandable() != null);
 					boolean removable = false;
@@ -275,6 +280,7 @@ public class DebugContextEditor extends BaseContextEditor {
 			});
 		}
 
+		@Override
 		public Control getControl() {
 			return tree;
 		}
@@ -286,6 +292,7 @@ public class DebugContextEditor extends BaseContextEditor {
 
 		}
 
+		@Override
 		public Image getImage() {
 			return image;
 		}

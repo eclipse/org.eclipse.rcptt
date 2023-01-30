@@ -288,7 +288,7 @@ public abstract class EditorHeader {
 		GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.CENTER)
 				.applyTo(addTag);
 		addTag.setImage(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
+				.getImage(ISharedImages.IMG_OBJ_ADD));
 		addTag.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {

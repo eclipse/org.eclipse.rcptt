@@ -70,27 +70,29 @@ public class EclContextEditor extends EclEditor {
 		// do nothing
 	}
 
+	@Override
 	protected EditorHeader createEditorHeader() {
 		return new EditorHeader(getModel(), getElement()) {
 
+			@Override
 			protected Button createRecordButton(Composite composite,
 					FormToolkit toolkit) {
 				Button button = toolkit.createButton(composite,
 						Messages.ContextEditorPage_CaptureButtonText, SWT.PUSH);
-				button.setImage(Images.getImageDescriptor(Images.SNAPSHOT)
-						.createImage());
+				button.setImage(Images.getImage(Images.SNAPSHOT));
 				button.setBackground(null);
 				GridDataFactory.fillDefaults().applyTo(button);
 				button.setEnabled(false);
 				return button;
 			}
 
+			@Override
 			protected Button createReplayButton(Composite composite,
 					FormToolkit toolkit) {
 				Button button = toolkit.createButton(composite,
 						Messages.ContextEditorPage_ApplyButtonText, SWT.PUSH);
-				button.setImage(DebugUITools.getImageDescriptor(
-						IDebugUIConstants.IMG_ACT_RUN).createImage());
+				button.setImage(DebugUITools.getImage(
+						IDebugUIConstants.IMG_ACT_RUN));
 				button.setBackground(null);
 				GridDataFactory.fillDefaults().applyTo(button);
 				button.addSelectionListener(new SelectionAdapter() {
@@ -113,6 +115,7 @@ public class EclContextEditor extends EclEditor {
 		};
 	}
 
+	@Override
 	protected EditorContent createEditorContent() {
 		return new EditorContent(header, false, true);
 	}
@@ -136,6 +139,7 @@ public class EclContextEditor extends EclEditor {
 	protected void bindScriptContent() {
 		super.bindScriptContent();
 		IChangeListener scenarioContentListener = new IChangeListener() {
+			@Override
 			public void handleChange(ChangeEvent event) {
 				String script;
 				try {
