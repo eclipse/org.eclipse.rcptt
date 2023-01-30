@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -53,7 +52,6 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
 
-@SuppressWarnings("restriction")
 public class Q7LaunchConfigurationDelegate extends
 		EclipseApplicationLaunchConfiguration {
 	private static final String SECURE_STORAGE_FILE_NAME = "secure_storage";
@@ -113,10 +111,11 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
+		SubMonitor sm = SubMonitor.convert(monitor, 6);
 		try {
 			Job.getJobManager().join(
 					IBundlePoolConstansts.CLEAN_BUNDLE_POOL_JOB,
-					new SubProgressMonitor(monitor, 1));
+					sm.split(1));
 		} catch (Exception e1) {
 			Q7ExtLaunchingPlugin.status(
 					"Failed to wait for bundle pool clear job", e1);
@@ -131,10 +130,10 @@ public class Q7LaunchConfigurationDelegate extends
 		// try to load existing configuration
 		if (helper == null) {
 			helper = TargetPlatformManager.findTarget(targetName,
-					new SubProgressMonitor(monitor, 1), false);
+					sm.split(1), false);
 			if (helper != null) {
 				if (!helper.isResolved()) {
-					helper.resolve(monitor);
+					helper.resolve(sm.split(1));
 					if (helper.getStatus().isOK()) {
 						Q7TargetPlatformManager.setHelper(targetName, helper);
 					}
@@ -146,8 +145,8 @@ public class Q7LaunchConfigurationDelegate extends
 				|| ((TargetPlatformHelper) helper).getTarget() == null) {
 			helper = TargetPlatformManager
 					.getCurrentTargetPlatformCopy(targetName);
-			helper.resolve(monitor);
-			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, monitor);
+			helper.resolve(sm.split(1));
+			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
 			if (!rv.isOK())
 				Activator.getDefault().getLog().log(rv);
 			helper.save();
@@ -157,7 +156,13 @@ public class Q7LaunchConfigurationDelegate extends
 			info.target = helper;
 		}
 
-		return super.preLaunchCheck(configuration, mode, monitor);
+		try {
+			return super.preLaunchCheck(configuration, mode, sm.split(1));
+		} finally {
+			if (monitor != null) {
+				monitor.done();
+			}
+		}
 	}
 
 	@Override
@@ -238,7 +243,8 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	protected void preLaunchCheck(final ILaunchConfiguration configuration,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		super.preLaunchCheck(configuration, launch, monitor);
+		SubMonitor sm = SubMonitor.convert(monitor, 2);
+		super.preLaunchCheck(configuration, launch, sm.split(1));
 		if (monitor.isCanceled()) {
 			return;
 		}
@@ -253,12 +259,18 @@ public class Q7LaunchConfigurationDelegate extends
 			collector.addInstallationBundle(entry.getKey(),
 					BundleStart.fromModelString(entry.getValue()));
 		}
-		for (ITargetLocation extra : target.getTarget().getTargetLocations()) {
+		ITargetLocation[] locations = target.getTarget().getTargetLocations();
+		SubMonitor locationsMonitor = SubMonitor.convert(sm.split(1), locations.length);
+		
+		for (ITargetLocation extra : locations) {
 			if (!Q7ExternalLaunchDelegate.isQ7BundleContainer(extra)) {
+				locationsMonitor.split(1);
 				continue;
 			}
-			for (TargetBundle bundle : extra.getBundles()) {
-				collector.addExtraBundle(bundle);
+			TargetBundle[] bundles = extra.getBundles();
+			SubMonitor bundleMonitor = SubMonitor.convert(locationsMonitor.split(1), bundles.length);
+			for (TargetBundle bundle : bundles) {
+				collector.addExtraBundle(bundle, bundleMonitor.split(1));
 			}
 		}
 
@@ -267,5 +279,6 @@ public class Q7LaunchConfigurationDelegate extends
 		Q7ExternalLaunchDelegate.setBundlesToLaunch(info, bundles);
 
 		Q7LaunchDelegateUtils.setDelegateFields(this, bundles.fModels, bundles.fAllBundles);
+		monitor.done();
 	}
 }

@@ -95,17 +95,17 @@ public class DebugContextEditor extends BaseContextEditor {
 				emfObservable);
 
 		toolkit.createLabel(composite, "Do not terminate launches of following configurations:");
-		Text exceptions = toolkit.createText(composite, "", SWT.BORDER);
+		Text exceptionsText = toolkit.createText(composite, "", SWT.BORDER);
 
 		GridDataFactory.fillDefaults().hint(300, SWT.DEFAULT)
-				.applyTo(exceptions);
+				.applyTo(exceptionsText);
 		@SuppressWarnings("unchecked")
-		IObservableValue<String> launchError = EMFObservables.observeValue(getContextElement(),
+		IObservableValue<String> launchesToLeaveRunning = EMFObservables.observeValue(getContextElement(),
 				DebugPackage.Literals.DEBUG_CONTEXT__LAUNCH_EXCEPTIONS);
-		ISWTObservableValue<String> launchErrorText = WidgetProperties.text(SWT.Modify).observe(exceptions);
+		ISWTObservableValue<String> launchErrorText = WidgetProperties.text(SWT.Modify).observe(exceptionsText);
 		dbc.bindValue(launchErrorText,
-				launchError);
-		dbc.bindValue(WidgetProperties.enabled().observe(exceptions), noLaunchesSelection);
+				launchesToLeaveRunning);
+		dbc.bindValue(WidgetProperties.enabled().observe(exceptionsText), noLaunchesSelection);
 
 		Button noLaunchShortcuts = toolkit.createButton(composite,
 				"Clear launch configurations", SWT.CHECK);
@@ -121,18 +121,18 @@ public class DebugContextEditor extends BaseContextEditor {
 
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(composite);
 		toolkit.createLabel(composite, "Do not delete following configurations:");
-		exceptions = toolkit.createText(composite, "", SWT.BORDER);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(exceptions);
+		exceptionsText = toolkit.createText(composite, "", SWT.BORDER);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(exceptionsText);
 		@SuppressWarnings("unchecked")
-		IObservableValue<String> launchShortcutError = EMFObservables
+		IObservableValue<String> launchShortcutToLeave = EMFObservables
 				.observeValue(
 						getContextElement(),
 						DebugPackage.Literals.DEBUG_CONTEXT__LAUNCH_SHORTCUT_EXCEPTIONS);
-		launchErrorText = WidgetProperties.text(SWT.Modify).observe(exceptions);
+		launchErrorText = WidgetProperties.text(SWT.Modify).observe(exceptionsText);
 		dbc.bindValue(
 				launchErrorText,
-				launchShortcutError);
-		dbc.bindValue(WidgetProperties.enabled().observe(exceptions), WidgetProperties.buttonSelection().observe(noLaunchShortcuts));
+				launchShortcutToLeave);
+		dbc.bindValue(WidgetProperties.enabled().observe(exceptionsText), WidgetProperties.buttonSelection().observe(noLaunchShortcuts));
 		Button noBreakpoints = toolkit.createButton(composite,
 				"Clear breakpoints", SWT.CHECK);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(noBreakpoints);

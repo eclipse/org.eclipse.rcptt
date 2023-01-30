@@ -46,7 +46,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -125,8 +124,8 @@ public class Q7ExternalLaunchDelegate extends
 		Q7ExtLaunchMonitor waiter = new Q7ExtLaunchMonitor(launch);
 
 		try {
-			super.launch(configuration, mode, launch, subm.newChild(1000));
-			waiter.wait(subm.newChild(1000), TeslaLimits.getAUTStartupTimeout() / 1000);
+			super.launch(configuration, mode, launch, subm.split(1000));
+			waiter.wait(subm.split(1000), TeslaLimits.getAUTStartupTimeout() / 1000);
 		} catch (CoreException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
@@ -184,12 +183,12 @@ public class Q7ExternalLaunchDelegate extends
 		
 		if (!isHeadless(configuration)
 				&& !super.preLaunchCheck(configuration, mode,
-						sm.newChild(1))) {
+						sm.split(1))) {
 			monitor.done();
 			return false;
 		}
 
-		waitForClearBundlePool(sm.newChild(1));
+		waitForClearBundlePool(sm.split(1));
 
 		final CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
@@ -199,7 +198,7 @@ public class Q7ExternalLaunchDelegate extends
 		}
 
 		final ITargetPlatformHelper target = Q7TargetPlatformManager.getTarget(configuration,
-				sm.newChild(2));
+				sm.split(2));
 
 		if (monitor.isCanceled()) {
 			removeTargetPlatform(configuration);
@@ -633,7 +632,7 @@ public class Q7ExternalLaunchDelegate extends
 		CachedInfo info = LaunchInfoCache.getInfo(configuration);
 		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
-		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), target.getTarget(), subm.newChild(50), configuration);
+		BundlesToLaunch bundlesToLaunch = collectBundlesCheck(target.getQ7Target(), target.getTarget(), subm.split(50), configuration);
 
 		setBundlesToLaunch(info, bundlesToLaunch);
 
@@ -674,8 +673,8 @@ public class Q7ExternalLaunchDelegate extends
 
 	public static class BundlesToLaunchCollector {
 		private void addInstallationBundle(TargetBundle bundle,
-				BundleStart hint) {
-			for (IPluginModelBase base : getModels(bundle)) {
+				BundleStart hint, IProgressMonitor monitor) {
+			for (IPluginModelBase base : getModels(bundle, monitor)) {
 				addInstallationBundle(base, hint);
 			}
 		}
@@ -687,8 +686,8 @@ public class Q7ExternalLaunchDelegate extends
 			put(base, getStartInfo(base, hint));
 		}
 
-		private void addPluginBundle(TargetBundle bundle) {
-			for (IPluginModelBase base : getModels(bundle)) {
+		private void addPluginBundle(TargetBundle bundle, IProgressMonitor monitor) {
+			for (IPluginModelBase base : getModels(bundle, monitor)) {
 				String id = id(base);
 
 				if (idsToSkip.contains(id)) {
@@ -698,8 +697,8 @@ public class Q7ExternalLaunchDelegate extends
 			}
 		}
 
-		public void addExtraBundle(TargetBundle bundle) {
-			for (IPluginModelBase base : getModels(bundle)) {
+		public void addExtraBundle(TargetBundle bundle, IProgressMonitor monitor) {
+			for (IPluginModelBase base : getModels(bundle, monitor)) {
 				put(base, getStartInfo(base, BundleStart.DEFAULT));
 			}
 		}
@@ -804,7 +803,7 @@ public class Q7ExternalLaunchDelegate extends
 	public static BundlesToLaunch collectBundles(Q7Target target, ITargetDefinition targetDefinition, IProgressMonitor monitor) {
 		BundlesToLaunchCollector collector = new BundlesToLaunchCollector();
 		SubMonitor subm = SubMonitor.convert(monitor, "Collecting bundles", 3000);
-		SubMonitor install = subm.newChild(1000);
+		SubMonitor install = subm.split(1000);
 
 		if (target.getInstall() != null) {
 			Map<String, BundleStart> bundlesFromConfig = target.getInstall().configIniBundles();
@@ -814,23 +813,26 @@ public class Q7ExternalLaunchDelegate extends
 				BundleStart hint = MoreObjects.firstNonNull(bundlesFromConfig.get(bundle
 						.getBundleInfo().getSymbolicName()),
 						BundleStart.fromBundle(bundle.getBundleInfo()));
-				collector.addInstallationBundle(bundle, hint);
-				install.worked(1);
+				collector.addInstallationBundle(bundle, hint, install.split(1));
 			}
 		}
 		install.done();
 
-		final SubMonitor plugins = subm.newChild(1000);
 		TargetBundle[] bundles = targetDefinition.getAllBundles();
+		final SubMonitor plugins = SubMonitor.convert(subm.split(2000), bundles.length);
 		for (TargetBundle bundle : bundles) {
-			collector.addPluginBundle(bundle);
-			plugins.worked(1);
+			collector.addPluginBundle(bundle, plugins.split(1));
 		}
 		plugins.done();
 
-
-		return new BundlesToLaunch(collector.rejectedBundles,
+		try {
+			return new BundlesToLaunch(collector.rejectedBundles,
 				collector.plugins, collector.latestVersions);
+		} finally {
+			if (monitor != null) {
+				monitor.done();
+			}
+		}
 	}
 
 	/**
@@ -883,10 +885,10 @@ public class Q7ExternalLaunchDelegate extends
 		return (BundlesToLaunch) info.data.get(KEY_BUNDLES_TO_LAUNCH);
 	}
 
-	private static IPluginModelBase[] getModels(TargetBundle bundle) {
+	private static IPluginModelBase[] getModels(TargetBundle bundle, IProgressMonitor monitor) {
 		return new PDEState(new URI[] {
 			bundle.getBundleInfo().getLocation() }, true, true,
-			new NullProgressMonitor()).getTargetModels();
+				monitor).getTargetModels();
 	}
 
 	private static Version version(IPluginModelBase plugin) {

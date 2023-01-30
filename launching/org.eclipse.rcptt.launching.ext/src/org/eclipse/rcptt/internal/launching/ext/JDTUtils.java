@@ -156,14 +156,6 @@ public class JDTUtils {
 	}
 
 	private static OSArchitecture detect(Map<String, String> properties) throws CoreException {
-		Object model = properties.get(SUN_ARCH_DATA_MODEL);
-		if (model != null && "32".equals(model)) {
-			return OSArchitecture.x86;
-		}
-		if (model != null && "64".equals(model)) {
-			return OSArchitecture.x86_64;
-		}
-
 		Object arch = properties.get(OS_ARCH);
 		if ("amd64".equals(arch)) {
 			return OSArchitecture.x86_64;
@@ -182,6 +174,15 @@ public class JDTUtils {
 		}
 		if ("aarch64".equals(arch)) {
 			return OSArchitecture.aarch64;
+		}
+		
+		// Fallback to deprecated fields
+		Object model = properties.get(SUN_ARCH_DATA_MODEL);
+		if (model != null && "32".equals(model)) {
+			return OSArchitecture.x86;
+		}
+		if (model != null && "64".equals(model)) {
+			return OSArchitecture.x86_64;
 		}
 
 		String message = String.format("Unknown combination:  %s = %s and %s = %s", SUN_ARCH_DATA_MODEL, model,
