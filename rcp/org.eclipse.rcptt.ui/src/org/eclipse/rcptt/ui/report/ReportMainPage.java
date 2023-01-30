@@ -97,6 +97,9 @@ public class ReportMainPage extends WizardPage {
 			}
 			if (!found) {
 				reports.add(reportRenderer);
+				if (reportFormat.getValue() == null) {
+					reportFormat.setValue(reportRenderer);
+				}
 			}
 		}
 		reportName.setValue(wizard.getName());
