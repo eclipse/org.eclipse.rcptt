@@ -330,7 +330,7 @@ public abstract class EditorHeader {
 	protected Button createRecordButton(Composite composite, FormToolkit toolkit) {
 		Button button = toolkit.createButton(composite,
 				Messages.NamedElementEditorPage_RecordButton, SWT.PUSH);
-		button.setImage(Images.getImageDescriptor(Images.RECORD).createImage());
+		button.setImage(Images.getImage(Images.RECORD));
 		button.setBackground(null);
 		GridDataFactory.fillDefaults().applyTo(button);
 		button.addSelectionListener(new SelectionAdapter() {
@@ -345,8 +345,7 @@ public abstract class EditorHeader {
 	protected Button createReplayButton(Composite composite, FormToolkit toolkit) {
 		Button button = toolkit.createButton(composite,
 				Messages.NamedElementEditorPage_ReplayButton, SWT.PUSH);
-		button.setImage(DebugUITools.getImageDescriptor(
-				IDebugUIConstants.IMG_ACT_RUN).createImage());
+		button.setImage(DebugUITools.getImage(IDebugUIConstants.IMG_ACT_RUN));
 		button.setBackground(null);
 		GridDataFactory.fillDefaults().applyTo(button);
 		button.addSelectionListener(new SelectionAdapter() {

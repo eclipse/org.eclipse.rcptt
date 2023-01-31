@@ -241,25 +241,31 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 		// --
 
 		TableViewerColumn nameViewerColumn = new TableViewerColumn(viewer, nameColumn);
+		Font tableFont = table.getFont();
+		FontData fd = tableFont.getFontData()[0];
+		fd.setHeight(fd.getHeight()-2);
+
+		Font newParameterFont = new Font(tableFont.getDevice(), fd);
+		
+		table.addDisposeListener(event -> newParameterFont.dispose());
 		nameViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 
+			@Override
 			public String getText(Object element) {
 				ScenarioProperty p = (ScenarioProperty) element;
 				return p.getName();
 			}
 
+			@Override
 			public Image getImage(Object element) {
-				return element == newParameterItem ? Images.getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage()
+				return element == newParameterItem ? Images.getImage(ISharedImages.IMG_OBJ_ADD)
 						: Images.getImage(Images.PARAMETER);
 			}
 
+			@Override
 			public Font getFont(Object element) {
 				if (element == newParameterItem) {
-					Font tableFont = table.getFont();
-					FontData fd = tableFont.getFontData()[0];
-					fd.setHeight(fd.getHeight()-2);
-
-					return new Font(tableFont.getDevice(), fd);
+					return newParameterFont;
 				} else
 					return null;
 			}
