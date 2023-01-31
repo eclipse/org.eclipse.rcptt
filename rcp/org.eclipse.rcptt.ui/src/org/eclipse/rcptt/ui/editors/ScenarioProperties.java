@@ -463,7 +463,7 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 
 		Button addButton = toolkit.createButton(panel, "Add", SWT.PUSH);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(addButton);
-		addButton.setImage(Images.getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
+		addButton.setImage(Images.getImage(ISharedImages.IMG_OBJ_ADD));
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -473,7 +473,7 @@ public class ScenarioProperties extends AbstractEmbeddedComposite implements IQ7
 
 		Button removeButton = toolkit.createButton(panel, "Remove", SWT.PUSH);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(removeButton);
-		removeButton.setImage(Images.getImageDescriptor(ISharedImages.IMG_ETOOL_DELETE).createImage());
+		removeButton.setImage(Images.getImage(ISharedImages.IMG_ETOOL_DELETE));
 		dbc.bindValue(WidgetProperties.enabled().observe(removeButton), new ComputedValue<Boolean>() {
 
 			protected Boolean calculate() {
