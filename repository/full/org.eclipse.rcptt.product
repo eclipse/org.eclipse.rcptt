@@ -14,8 +14,8 @@
    <launcherArgs>
       <programArgs>-showsplash org.eclipse.rcptt.platform
       </programArgs>
-      <vmArgs>-Xms128m
--Xmx768m
+      <vmArgs>-Xms200m
+-Xmx1G
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
