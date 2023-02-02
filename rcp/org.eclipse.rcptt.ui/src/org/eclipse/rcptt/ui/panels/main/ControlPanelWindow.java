@@ -616,12 +616,7 @@ public class ControlPanelWindow extends Dialog {
 	private ScriptComposite scriptPart;
 
 	private IAction createRecordingModeAction() {
-		IAction action = new Action("", IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
-			@Override
-			public void run() {
-				recordingSupport.setMode(RecordingMode.Recording);
-			}
-		};
+		IAction action = new Action("", IAction.AS_RADIO_BUTTON) {}; //$NON-NLS-1$
 		action.setImageDescriptor(Images
 				.getImageDescriptor(Images.PANEL_MODE_RECORD));
 		action.setToolTipText(Messages.ControlPanelWindow_SwitchToRecordModeActionToolTip);
@@ -632,16 +627,19 @@ public class ControlPanelWindow extends Dialog {
 			protected Boolean calculate() {
 				return recordingSupport.getMode() == RecordingMode.Recording;
 			}
+			
+			@Override
+			protected void doSetValue(Boolean value) {
+				if (value) {
+					recordingSupport.setMode(RecordingMode.Recording);
+				}
+			}
 		});
 		return action;
 	}
 
 	private IAction createAssertingModeAction() {
 		IAction action = new Action("", IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
-			@Override
-			public void run() {
-				recordingSupport.setMode(RecordingMode.Asserting);
-			}
 		};
 		action.setImageDescriptor(Images
 				.getImageDescriptor(Images.PANEL_MODE_ASSERT));
@@ -653,16 +651,18 @@ public class ControlPanelWindow extends Dialog {
 			protected Boolean calculate() {
 				return recordingSupport.getMode() == RecordingMode.Asserting;
 			}
+			@Override
+			protected void doSetValue(Boolean value) {
+				if (value) {
+					recordingSupport.setMode(RecordingMode.Asserting);
+				}
+			}
 		});
 		return action;
 	}
 
 	private IAction createImageRecognitionModeAction() {
 		IAction action = new Action("", IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
-			@Override
-			public void run() {
-				recordingSupport.setMode(RecordingMode.ImageRecognition);
-			}
 		};
 		action.setImageDescriptor(Images
 				.getImageDescriptor(Images.PANEL_MODE_IML));
@@ -673,6 +673,12 @@ public class ControlPanelWindow extends Dialog {
 			@Override
 			protected Boolean calculate() {
 				return recordingSupport.getMode() == RecordingMode.ImageRecognition;
+			}
+			@Override
+			protected void doSetValue(Boolean value) {
+				if (value) {
+					recordingSupport.setMode(RecordingMode.ImageRecognition);
+				}
 			}
 		});
 		return action;
