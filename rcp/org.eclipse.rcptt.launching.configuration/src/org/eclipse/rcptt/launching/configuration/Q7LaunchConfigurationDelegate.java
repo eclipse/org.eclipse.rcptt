@@ -35,14 +35,12 @@ import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
-import org.eclipse.rcptt.internal.launching.ext.AJConstants;
 import org.eclipse.rcptt.internal.launching.ext.IBundlePoolConstansts;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchMonitor;
 import org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformInitializer;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.launching.IQ7Launch;
-import org.eclipse.rcptt.launching.events.AutEventManager;
 import org.eclipse.rcptt.launching.ext.BundleStart;
 import org.eclipse.rcptt.launching.ext.OriginalOrderProperties;
 import org.eclipse.rcptt.launching.ext.Q7ExternalLaunchDelegate;
@@ -171,19 +169,12 @@ public class Q7LaunchConfigurationDelegate extends
 		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(config);
 		List<String> args = new ArrayList<String>(Arrays.asList(super
 				.getVMArguments(config)));
+		
+		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
+		
+		Q7ExternalLaunchDelegate.massageVmArguments(config, args, target, launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
 
-		args.add("-Dq7id=" + launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
-		args.add("-Dq7EclPort=" + AutEventManager.INSTANCE.getPort());
 
-		IPluginModelBase hook = ((TargetPlatformHelper) info.target)
-				.getWeavingHook();
-		if (hook == null) {
-			throw new CoreException(Q7ExtLaunchingPlugin.status("No "
-					+ AJConstants.HOOK + " plugin"));
-		}
-
-		args.add("-Dosgi.framework.extensions=reference:file:"
-				+ hook.getInstallLocation());
 		info.vmArgs = (String[]) args.toArray(new String[args.size()]);
 		return info.vmArgs;
 	}
