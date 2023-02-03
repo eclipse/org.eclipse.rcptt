@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.rcptt.launching.internal.target;
 
-import static java.lang.String.format;
 import static org.eclipse.pde.internal.build.IPDEBuildConstants.BUNDLE_SIMPLE_CONFIGURATOR;
 import static org.eclipse.pde.internal.core.TargetPlatformHelper.getDefaultBundleList;
 import static org.eclipse.pde.internal.core.TargetPlatformHelper.stripPathInformation;
@@ -22,9 +21,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
 import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.rcptt.launching.ext.BundleStart;
@@ -41,16 +40,13 @@ import com.google.common.base.Splitter;
  */
 @SuppressWarnings("restriction")
 public class Q7Target {
-	private AutInstall install;
+	private final AutInstall install;
 
 	public AutInstall getInstall() {
 		return install;
 	}
 
 	public File getInstallLocation() {
-		if (install == null) {
-			return null;
-		}
 		File result = install.getInstallLocation();
 		if (result == null || !result.exists()) {
 			return null;
@@ -58,14 +54,8 @@ public class Q7Target {
 		return result;
 	}
 
-	public void setInstall(ITargetLocation installation) {
-		if (!(installation instanceof ProfileBundleContainer)) {
-			log(status(format(
-					"%s is set as an installation container, but ProfileBundleContainer expected",
-					installation)));
-			install = null;
-		}
-		install = new AutInstall((ProfileBundleContainer) installation);
+	public Q7Target(ProfileBundleContainer installation) {
+		install = new AutInstall(installation);
 	}
 
 	/**
@@ -81,7 +71,7 @@ public class Q7Target {
 		public String userArea;
 
 		public AutInstall(ProfileBundleContainer container) {
-			this.container = container;
+			this.container = Objects.requireNonNull(container);
 			this.userArea = null;
 			this.config = TargetPlatformHelper.processConfiguration(this);
 		}

@@ -30,6 +30,7 @@ import org.eclipse.pde.core.target.ITargetHandle;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.ITargetPlatformService;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
+import org.eclipse.pde.internal.core.target.ProfileBundleContainer;
 import org.eclipse.pde.internal.core.target.TargetPlatformService;
 import org.eclipse.rcptt.core.workspace.RcpttCore;
 import org.eclipse.rcptt.internal.core.RcpttPlugin;
@@ -62,16 +63,18 @@ public class TargetPlatformManager {
 		boolean isOk = false;
 		final ITargetPlatformService service = PDEHelper.getTargetService();
 		final ITargetDefinition target = service.newTarget();
-		final TargetPlatformHelper info = new TargetPlatformHelper(target);
+	    TargetPlatformHelper info = null;
 		try {
-			final List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
 
 			final File productDir = PDELocationUtils.getProductLocation(location);
-			final ITargetLocation installationContainer = service
+			final ProfileBundleContainer installationContainer = (ProfileBundleContainer) service
 					.newProfileLocation(productDir.getAbsolutePath(), null);
-			info.getQ7Target().setInstall(installationContainer);
-			containers.add(installationContainer);
+			
+			target.setTargetLocations(new ITargetLocation[] {installationContainer});
+			info = new TargetPlatformHelper(target);
 
+			final List<ITargetLocation> containers = new ArrayList<ITargetLocation>();
+			
 			final File pluginsDir = PDELocationUtils.getPluginFolder(location);
 			final ITargetLocation pluginsContainer = service
 					.newDirectoryLocation(pluginsDir.getAbsolutePath());
@@ -99,8 +102,7 @@ public class TargetPlatformManager {
 				}
 			}
 
-			info.setBundleContainers(containers
-					.toArray(new ITargetLocation[containers.size()]));
+			info.addLocations(containers);
 			throwOnError(info.resolve(monitor));
 			isOk = true;
 			return info;
@@ -113,8 +115,13 @@ public class TargetPlatformManager {
 		} catch (Throwable e) {
 			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
 		} finally {
-			if (!isOk)
-				info.delete();
+			if (!isOk) {
+				if (info != null) {
+					info.delete();
+				} else if (target != null) {
+					service.deleteTarget(target.getHandle());
+				}
+			}
 		}
 	}
 
