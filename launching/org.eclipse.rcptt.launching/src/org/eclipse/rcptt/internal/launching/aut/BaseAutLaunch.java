@@ -376,7 +376,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		try {
 			try {
 				while (true) {
-					if (System.currentTimeMillis() - start > seconds * 1000) {
+					if (System.currentTimeMillis() - start > seconds * 1000 || monitor.isCanceled()) {
 						break;
 					}
 					try {
@@ -943,10 +943,6 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		} catch (Exception e) {
 			Q7LaunchingPlugin.log("error restoring interpreter state", e);
 		}
-	}
-
-	private BooleanSupplier cancelledPredicate(IProgressMonitor monitor) {
-		return monitor == null ? () -> false : monitor::isCanceled;
 	}
 
 	private IStatus internalExecute(Command command, long timeout, IProgressMonitor monitor,
