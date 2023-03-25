@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.rcptt.tesla.jobs;
 
+import java.lang.Math;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class JobsManager {
 	public synchronized long calculateNewTime(InternalJob job, long time) {
 		if (toNullifyTime.contains(job)) {
 			toNullifyTime.remove(job);
-			return 0;
+			return Math.min(0, time);
 		}
 		return time;
 	}
