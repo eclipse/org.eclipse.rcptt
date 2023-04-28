@@ -48,8 +48,10 @@ public class JobsManager {
 	}
 
 	public synchronized long calculateNewTime(InternalJob job, long time) {
-		if (toNullifyTime.contains(job)) {
-			toNullifyTime.remove(job);
+		if (toNullifyTime.remove(job)) {
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=581339
+			// Can't return just 0, as sign matters for rescheduling logic
+			// see org.eclipse.core.internal.jobs.InternalJob.startTime
 			return Math.min(0, time);
 		}
 		return time;
