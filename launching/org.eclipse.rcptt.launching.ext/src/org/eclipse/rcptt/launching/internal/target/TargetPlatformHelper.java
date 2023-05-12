@@ -1145,119 +1145,41 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public OSArchitecture detectArchitecture(
 			boolean preferCurrentVmArchitecture, StringBuilder detectMsg) {
 
-		// http://stackoverflow.com/a/808314
-		final boolean isCurrentVm64 = System.getProperty("os.arch", "not null")
-				.contains("64");
-
-		boolean has32 = false;
-		boolean has64 = false;
-
-		String launcher64 = null;
-		String launcher32 = null;
-
-		List<File> iniFiles = getAppIniFiles();
-		IPath targetPlatformProfilePath = new Path(
-				getTargetPlatformProfilePath());
-		Set<String> availableLaunchers = new HashSet<String>();
 		String os = Platform.getOS();
-		for (File file : iniFiles) {
-			String launcherLibrary = readLauncherLibraryFromIniFile(file);
-			if (launcherLibrary != null && launcherLibrary.contains(os)) {
-				String configPath = new Path(file.getAbsolutePath())
-						.removeFirstSegments(
-								targetPlatformProfilePath.segmentCount())
-						.setDevice(null).toOSString();
-				if (launcherLibrary.contains("x86_64")) {
-					has64 = true;
-					launcher64 = "launcher library\n\t\"" + launcherLibrary
-							+ "\" specified in config file: " + configPath;
-				} else if (launcherLibrary.contains("aarch64")) {
-					launcher64 = "launcher library\n\t\"" + launcherLibrary
-							+ "\" specified in config file: " + configPath;
+		TargetBundle[] bundles = target.getAllBundles();
+		for (TargetBundle b : bundles) {
+			BundleInfo info = b.getBundleInfo();
+			String name = info.getSymbolicName();
+			if (name != null && name.startsWith("org.eclipse.equinox.launcher")) {
+				if (!name.contains(os)) {
+					continue;
+				}
+				URI location = info.getLocation();
+				if (location == null || location.getPath() == null) {
+					continue;
+				}
+					
+				if (name.contains("aarch64")) {
 					if (detectMsg != null) {
-						detectMsg.append("aarch64 arch is selected because AUT uses "
-								+ launcher64);
+						detectMsg.append("aarch64 arch is selected because AUT uses " + name);
 					}
 					return OSArchitecture.aarch64;
-				} else if (launcherLibrary.contains("x86")
-						|| launcherLibrary.contains("cocoa.macosx")) {
-					has32 = true;
-					launcher32 = "launcher library\n\t\"" + launcherLibrary
-							+ "\" specified in config file: " + configPath;
-				}
-			}
-		}
-		if (!has32 && !has64) {
-			TargetBundle[] bundles = target.getAllBundles();
-			for (TargetBundle b : bundles) {
-				BundleInfo info = b.getBundleInfo();
-				String name = info.getSymbolicName();
-				if (name != null && name.startsWith("org.eclipse.equinox.launcher")) {
-					URI location = info.getLocation();
-					if (location == null || location.getPath() == null) {
-						continue;
+				} else if (name.contains("x86_64")) {
+					if (detectMsg != null) {
+						detectMsg.append("x86_64 arch is selected because AUT uses " + name);
 					}
-					String pathString = new Path(info.getLocation().getPath())
-							.removeFirstSegments(targetPlatformProfilePath.segmentCount()).toOSString();
-					if (name.contains("x86_64")) {
-						if (name.contains(os)) {
-							has64 = true;
-							launcher64 = "Equinox launcher\n\t- " + pathString;
-						} else {
-							availableLaunchers.add("\t- " + pathString);
-						}
-					} else if (name.contains("x86")
-							|| name.contains("cocoa.macosx")) {
-						if (name.contains(os)) {
-							has32 = true;
-							launcher32 = "Equinox launcher\n\t- " + pathString;
-						} else {
-							availableLaunchers.add("\t- " + pathString);
-						}
+					return OSArchitecture.x86_64;
+				} else if (name.contains("x86")) {
+					if (detectMsg != null) {
+						detectMsg.append("x86 arch is selected because AUT uses " + name);
 					}
+					return OSArchitecture.x86;
+					
 				}
 			}
 		}
 
-		if (has32 && !has64) {
-			if (detectMsg != null) {
-				detectMsg.append("32bit arch is selected because AUT uses "
-						+ launcher32);
-			}
-			return OSArchitecture.x86;
-		} else if (!has32 && has64) {
-			if (detectMsg != null) {
-				detectMsg.append("64bit arch is selected because AUT uses "
-						+ launcher64);
-			}
-			return OSArchitecture.x86_64;
-		} else if (preferCurrentVmArchitecture && has32 && has64) {
-			OSArchitecture result = isCurrentVm64 ? OSArchitecture.x86_64
-					: OSArchitecture.x86;
-			if (detectMsg != null && result.equals(OSArchitecture.x86)) {
-				detectMsg
-						.append("32bit arch is selected because\n- JVM is 32bit\n- AUT contains both launcher plugins\n\t-"
-								+ launcher32 + "\n\t-" + launcher64);
-			}
-			if (detectMsg != null && result.equals(OSArchitecture.x86_64)) {
-				detectMsg
-						.append("64bit arch is selected because\n- JVM is 64bit\n- AUT contains both launcher plugins\n\t-"
-								+ launcher32 + "\n\t-" + launcher64);
-			}
-			return result;
-		} else {
-			if (detectMsg != null) {
-				detectMsg
-						.append("Cannot find appropriate Equinox launcher library.\n");
-				if (availableLaunchers.size() > 0) {
-					detectMsg.append("Available launchers:\n");
-					for (String s : availableLaunchers) {
-						detectMsg.append(s).append("\n");
-					}
-				}
-			}
-			return OSArchitecture.Unknown;
-		}
+		return OSArchitecture.Unknown;
 	}
 
 	private Map<String, String> getRunlevelsFromSimpleConfigurator() {
