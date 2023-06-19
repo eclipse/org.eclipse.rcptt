@@ -13,8 +13,8 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.equinox.security,
  org.eclipse.rcptt.util,
  org.eclipse.rcptt.launching;bundle-version="2.5.5",
- org.apache.httpcomponents.httpclient,
- org.apache.httpcomponents.httpcore,
+ org.apache.httpcomponents.httpclient;bundle-version="4.5.13",
+ org.apache.httpcomponents.httpcore;bundle-version="4.4.14",
  org.apache.commons.lang3
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.rcptt.internal.zephyr,

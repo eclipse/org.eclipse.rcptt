@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="RCP Testing Tool IDE" uid="org.eclipse.rcptt.platform.product" id="org.eclipse.rcptt.platform.product" application="org.eclipse.ui.ide.workbench" version="2.5.5.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="RCP Testing Tool IDE" uid="org.eclipse.rcptt.platform.product" id="org.eclipse.rcptt.platform.product" application="org.eclipse.ui.ide.workbench" version="2.5.5.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="icons/about.png"/>
-      <text>%productBlurb</text>
+      <text>
+         %productBlurb
+      </text>
    </aboutInfo>
 
    <configIni use="default">
@@ -305,7 +307,6 @@
       <feature id="org.eclipse.rcptt.updates"/>
       <feature id="org.eclipse.rcptt.ecl.core"/>
       <feature id="org.eclipse.platform"/>
-      <feature id="org.eclipse.ecf.filetransfer.httpclient45.feature"/>
       <feature id="org.eclipse.help"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.equinox.p2.core.feature"/>
@@ -323,6 +324,7 @@
       <feature id="org.eclipse.equinox.p2.discovery.feature"/>
       <feature id="org.eclipse.rcptt.module.nebula"/>
       <feature id="org.eclipse.rcptt.launching"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature" installMode="root"/>
    </features>
 
    <configurations>

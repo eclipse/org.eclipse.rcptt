@@ -42,14 +42,14 @@
   </properties>
   <repositories>
     <repository>
-      <id>2020-03-updates</id>
+      <id>2023-06-updates</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.15</url>
+      <url>https://download.eclipse.org/eclipse/updates/4.28/</url>
     </repository>
     <repository>
-      <id>2020-09</id>
+      <id>2023-06</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/2022-09</url>
+      <url>http://download.eclipse.org/releases/2023-06</url>
     </repository>
     <repository>
       <id>orbit</id>
