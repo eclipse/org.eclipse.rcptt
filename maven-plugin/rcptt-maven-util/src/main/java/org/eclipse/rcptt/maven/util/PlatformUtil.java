@@ -24,20 +24,28 @@ public class PlatformUtil {
 
 	public static String getArch() {
 		String result = System.getProperty("os.arch"); //$NON-NLS-1$
-		switch (result.toLowerCase()) {
-		case "i386": //$NON-NLS-1$
-		case "i486": //$NON-NLS-1$
-		case "i586": //$NON-NLS-1$
-		case "i686": //$NON-NLS-1$
-		case "pentium": //$NON-NLS-1$
-			return "x86"; //$NON-NLS-1$
-		case "amd64": //$NON-NLS-1$
-		case "em64t": //$NON-NLS-1$
-		case "universal": //$NON-NLS-1$
-			return "x86_64"; //$NON-NLS-1$
-		default:
-			return result;
+		if (result != null) {
+			result = result.toLowerCase();
+			switch (result) {
+			case "x86": //$NON-NLS-1$
+			case "x86_64": //$NON-NLS-1$
+			case "aarch64": //$NON-NLS-1$
+				return result;
+			case "i386": //$NON-NLS-1$
+			case "i486": //$NON-NLS-1$
+			case "i586": //$NON-NLS-1$
+			case "i686": //$NON-NLS-1$
+			case "pentium": //$NON-NLS-1$
+				return "x86"; //$NON-NLS-1$
+			case "amd64": //$NON-NLS-1$
+			case "em64t": //$NON-NLS-1$
+			case "universal": //$NON-NLS-1$
+				return "x86_64"; //$NON-NLS-1$
+			default:
+				break;
+			}
 		}
+		throw new IllegalStateException(String.format("Unsupported \"os.arch\": %s", result)); //$NON-NLS-1$
 	}
 
 	public static OS getOS() {
