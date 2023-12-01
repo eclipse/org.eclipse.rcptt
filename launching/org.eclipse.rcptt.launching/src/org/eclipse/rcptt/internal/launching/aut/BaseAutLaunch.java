@@ -376,7 +376,7 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		try {
 			try {
 				while (true) {
-					if (System.currentTimeMillis() - start > seconds * 1000 || monitor.isCanceled()) {
+					if (System.currentTimeMillis() - start > seconds * 1000 || monitor.isCanceled() || launch.isTerminated()) {
 						break;
 					}
 					try {

@@ -105,7 +105,7 @@ public class InvokeAUTService implements ICommandService {
 		
 
 		ILaunchConfigurationWorkingCopy launch = Q7LaunchingUtil
-				.createLaunchConfiguration(platform, cmd.getName());
+				.createLaunchConfiguration(platform, cmd.getName(), new NullProgressMonitor());
 		launch.setAttribute(
 				IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
 				"-os ${target.os} -arch ${target.arch} -nl ${target.nl} -consoleLog "

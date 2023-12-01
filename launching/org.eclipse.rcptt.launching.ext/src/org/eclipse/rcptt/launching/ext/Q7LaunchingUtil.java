@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -48,30 +49,14 @@ public class Q7LaunchingUtil {
 	public static final String EXTERNAL_LAUNCH_TYPE = "org.eclipse.rcptt.launching.ext";
 
 	public static ILaunchConfigurationWorkingCopy createQ7LaunchConfiguration(
-			ITargetPlatformHelper target, String sutArgs, String name)
+			ITargetPlatformHelper target, String sutArgs, String name, IProgressMonitor monitor)
 			throws CoreException {
 		final ILaunchConfigurationWorkingCopy config = createLaunchConfiguration(
-				target, name);
+				target, name, monitor);
 		config.setAttribute(
 				IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
 				sutArgs);
 		return config;
-	}
-
-	/**
-	 * Creates new launch configuration. It is based on
-	 * EclipseApplicationLaunchConfiguration so all attributes are supported
-	 * 
-	 * @param target
-	 * @return
-	 * @throws CoreException
-	 *             Use
-	 *             {@link #createLaunchConfiguration(ITargetPlatformHelper,String)}
-	 *             instead
-	 */
-	public static ILaunchConfigurationWorkingCopy createLaunchConfiguration(
-			ITargetPlatformHelper target) throws CoreException {
-		return createLaunchConfiguration(target, null);
 	}
 
 	/**
@@ -84,7 +69,7 @@ public class Q7LaunchingUtil {
 	 * @throws CoreException
 	 */
 	public static ILaunchConfigurationWorkingCopy createLaunchConfiguration(
-			ITargetPlatformHelper target, String name) throws CoreException {
+			ITargetPlatformHelper target, String name, IProgressMonitor monitor) throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault()
 				.getLaunchManager();
 		ILaunchConfigurationType type = launchManager
@@ -99,20 +84,20 @@ public class Q7LaunchingUtil {
 				Q7LaunchDelegateUtils.getWorkingDirectory(
 						new File(target.getTargetPlatformProfilePath()))
 						.getAbsolutePath());
-		updateLaunchConfiguration(target, config);
+		updateLaunchConfiguration(target, config, monitor);
 
 		return config;
 	}
 
 	public static void updateLaunchConfiguration(ITargetPlatformHelper target,
-			final ILaunchConfigurationWorkingCopy config) throws CoreException {
+			final ILaunchConfigurationWorkingCopy config, IProgressMonitor monitor) throws CoreException {
 		if (target != null) {
 			Q7TargetPlatformManager.delete(target.getName());
 			Q7TargetPlatformManager.setHelper(target.getName(), target);
 
 			config.setAttribute(IQ7Launch.TARGET_PLATFORM, target.getName());
 
-			String product = target.getDefaultProduct();
+			String product = target.getDefaultProduct(monitor);
 			if (product != null) {
 				config.setAttribute("useProduct", true);
 				config.setAttribute(IPDELauncherConstants.PRODUCT, product);

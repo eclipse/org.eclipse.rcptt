@@ -15,6 +15,7 @@ import static org.eclipse.rcptt.internal.launching.ext.Q7ExtLaunchingPlugin.log;
 import java.lang.reflect.Field;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -287,9 +288,9 @@ public class ExternalAUTMainTab extends MainTab {
 		}
 	}
 
-	public void setCurrentTargetPlatform(ITargetPlatformHelper info) {
+	public void setCurrentTargetPlatform(ITargetPlatformHelper info, IProgressMonitor monitor) {
 		this.currentTargetPlatform = info;
-		fAUTProgramBlock.updateInfo(currentTargetPlatform);
+		fAUTProgramBlock.updateInfo(currentTargetPlatform, monitor);
 	}
 
 	public ITargetPlatformHelper getTarget() {

@@ -98,10 +98,11 @@ public interface ITargetPlatformHelper {
 	/**
 	 * Return currently set default target platform product. Will read
 	 * configuration file for this purpose.
+	 * @param monitor 
 	 * 
 	 * @return
 	 */
-	String getDefaultProduct();
+	String getDefaultProduct(IProgressMonitor monitor);
 
 	/**
 	 * Will modify target platform with specified injection configuration.

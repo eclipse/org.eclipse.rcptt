@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +73,7 @@ import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 import org.eclipse.osgi.service.resolver.ResolverError;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.TargetPlatform;
 import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.ITargetPlatformService;
@@ -127,18 +129,21 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private Q7Target q7target = null;
 
-	public TargetPlatformHelper(ITargetDefinition target) throws CoreException {
+	public TargetPlatformHelper(ITargetDefinition target, String productLocation) throws CoreException {
 		Preconditions.checkNotNull(target);
 		this.target = Objects.requireNonNull(target);
 		ProfileBundleContainer installLocation = null;
-		ITargetLocation[] containers = this.target.getTargetLocations();
+		ITargetLocation[] locations = this.target.getTargetLocations();
+		List<ITargetLocation> containers = new ArrayList<>( locations == null ? Collections.emptyList() : Arrays.asList(locations));
 		for (ITargetLocation iUBundleContainer : containers) {
 				if (iUBundleContainer instanceof ProfileBundleContainer) {
 					installLocation = (ProfileBundleContainer) iUBundleContainer;
 				}
 		}
 		if (installLocation == null) {
-			throw new CoreException(createError("Can't find install location in " + target));
+			installLocation = (ProfileBundleContainer) PDEHelper.getTargetService().newProfileLocation(productLocation, null);
+			containers.add(installLocation);
+			this.target.setTargetLocations(containers.toArray(new ITargetLocation[0]));
 		}
 		q7target = new Q7Target(installLocation);
 	}
@@ -369,7 +374,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		List<ITargetLocation> newContainers = new ArrayList<ITargetLocation>();
 		newContainers.addAll(newLocations);
 		
-		List<ITargetLocation> existingLocations = Arrays.asList(target.getTargetLocations());
+		ITargetLocation[] targetLocations = target.getTargetLocations();
+		List<ITargetLocation> existingLocations = targetLocations != null ? Arrays.asList(targetLocations) : Collections.emptyList();
 		
 		for (ITargetLocation location: newLocations) {
 			if (existingLocations.contains(location)) {
@@ -466,9 +472,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private IStatus validateBundles(IProgressMonitor monitor) {
+		SubMonitor sm = SubMonitor.convert(monitor, 2);
 		ILaunchConfigurationWorkingCopy wc;
 		try {
-			wc = Q7LaunchingUtil.createLaunchConfiguration(this);
+			wc = Q7LaunchingUtil.createLaunchConfiguration(this, null, sm.split(1));
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
@@ -513,7 +520,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		try {
 			StringBuilder b = new StringBuilder();
-			validation.run(monitor);
+			validation.run(sm.split(1));
 			Map input = validation.getInput();
 			Set<Map.Entry> entrySet = input.entrySet();
 			for (Map.Entry e : entrySet) {
@@ -683,7 +690,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return id == null ? false : available.contains(id);
 	}
 
-	public String getDefaultProduct() {
+	public String getDefaultProduct(IProgressMonitor monitor) {
 		Set<String> values = new HashSet<String>(Arrays.asList(getProducts()));
 		debug("Valid products: " + values);
 

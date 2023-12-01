@@ -13,6 +13,7 @@ package org.eclipse.rcptt.internal.launching.ext.ui;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
@@ -276,7 +277,7 @@ public class AUTProgramBlock {
 		return IPDELauncherConstants.APPLICATION;
 	}
 
-	public void updateInfo(ITargetPlatformHelper currentTargetPlatform) {
+	public void updateInfo(ITargetPlatformHelper currentTargetPlatform, IProgressMonitor monitor) {
 		if (fProductCombo.isDisposed() || fApplicationCombo.isDisposed()) {
 			return;
 		}
@@ -301,7 +302,7 @@ public class AUTProgramBlock {
 			}
 			String productText = fProductCombo.getText();
 			if (productText == null || productText.trim().length() == 0) {
-				String product = currentTargetPlatform.getDefaultProduct();
+				String product = currentTargetPlatform.getDefaultProduct(monitor);
 				if (product != null) {
 					fProductCombo.setText(product);
 					fProductButton.setSelection(true);

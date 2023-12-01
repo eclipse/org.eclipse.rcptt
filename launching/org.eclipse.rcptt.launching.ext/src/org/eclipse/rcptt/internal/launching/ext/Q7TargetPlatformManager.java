@@ -50,7 +50,7 @@ public class Q7TargetPlatformManager {
 
 		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
 		ITargetPlatformHelper info = TargetPlatformManager.findTarget(
-				targetPlatform, subMonitor.split(1), true);
+				targetPlatform, subMonitor.split(1), true, location);
 		assert info.getStatus().isOK();
 		monitor.worked(1);
 		monitor.done();
@@ -78,7 +78,7 @@ public class Q7TargetPlatformManager {
 		String targetPlatformName = getTargetPlatformName(config);
 
 		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
-		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, subMonitor.split(1), true);
+		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, subMonitor.split(1), true, location);
 
 		if (info == null) {
 			info = newTargetPlatform(config, subMonitor.split(1), location);

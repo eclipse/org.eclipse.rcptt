@@ -128,7 +128,7 @@ public class Q7LaunchConfigurationDelegate extends
 		// try to load existing configuration
 		if (helper == null) {
 			helper = TargetPlatformManager.findTarget(targetName,
-					sm.split(1), false);
+					sm.split(1), false, getConfigDir(getTargetConfiguration(configuration)).toString());
 			if (helper != null) {
 				if (!helper.isResolved()) {
 					helper.resolve(sm.split(1));
