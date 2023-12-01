@@ -192,20 +192,6 @@ public class JDTUtils {
 	}
 
 	public static boolean canRun32bit(IVMInstall install) {
-		if (Platform.getOS().equals(Platform.OS_MACOSX)) {
-			if (install instanceof IVMInstall3) {
-				AbstractVMInstall avi = (AbstractVMInstall) install;
-				try {
-					Map<String, String> properties2 = evaluateSystemPropertiesInThread(
-							avi, new NullProgressMonitor(), true, 60000);
-					if (!properties2.isEmpty()) {
-						return true;
-					}
-				} catch (CoreException e) {
-
-				}
-			}
-		}
 		return false;
 	}
 
