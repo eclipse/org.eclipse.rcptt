@@ -27,6 +27,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,18 +39,17 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -103,7 +104,6 @@ import org.osgi.framework.Version;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
@@ -382,6 +382,28 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		registry = null;
 	}
 
+	private void addLocations(Collection<ITargetLocation> newLocations) throws CoreException {
+		List<ITargetLocation> newContainers = new ArrayList<ITargetLocation>();
+		newContainers.addAll(newLocations);
+		
+		ITargetLocation[] targetLocations = target.getTargetLocations();
+		List<ITargetLocation> existingLocations = targetLocations != null ? Arrays.asList(targetLocations) : Collections.emptyList();
+		
+		for (ITargetLocation location: newLocations) {
+			if (existingLocations.contains(location)) {
+				String str = location.getLocation(false);
+				throw new IllegalStateException("Location " + str + " is already present in target platform");
+			}
+		}
+		newContainers.addAll(existingLocations);
+		newContainers.addAll(newLocations);
+		
+		target.setTargetLocations(newContainers
+				.toArray(new ITargetLocation[newContainers.size()]));
+		models = null;
+		registry = null;
+	}
+
 	private IPluginModelBase[] getTargetModels() {
 		calcModels();
 		return models;
@@ -628,21 +650,13 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		if (!iniFile.exists())
 			return null;
 		Properties pini = new Properties();
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(iniFile);
+		
+		try (FileInputStream fis = new FileInputStream(iniFile)) {
 			pini.load(fis);
 			fis.close();
 			return pini;
 		} catch (IOException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(e);
-		} finally {
-			try {
-				if (fis != null)
-					fis.close();
-			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
 		}
 		return null;
 	}
@@ -727,11 +741,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public IStatus applyInjection(InjectionConfiguration configuration,
 			IProgressMonitor monitor) {
-		// remove the "host" from bundles, it is handled in a separate, special
-		// way
-		Iterables.removeAll(extra, Arrays.asList(getInstanceContainer()));
 
 		EList<Entry> entries = configuration.getEntries();
+		List<ITargetLocation> additionalLocations = new ArrayList<>(); 
 		SubMonitor sm = SubMonitor.convert(monitor, "Apply injection plugins", 20 + entries.size() * 20);
 		for (Entry entry : entries) {
 			if (monitor.isCanceled()) {
@@ -740,16 +752,20 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			IStatus result = new Status(IStatus.ERROR, PLUGIN_ID, "Unknown injection type: "
 					+ entry.getClass().getName());
 			if (entry instanceof UpdateSite) {
-				result = processUpdateSite(sm.newChild(20), (UpdateSite) entry);
+				result = processUpdateSite(sm.newChild(20), (UpdateSite) entry, additionalLocations::add);
 			} else if (entry instanceof Directory) {
-				result = processDirectory((Directory) entry);
+				result = processDirectory((Directory) entry, additionalLocations::add);
 			}
 			if (result.matches(IStatus.ERROR | IStatus.CANCEL)) {
 				return result;
 			}
 		}
-		update();
-		IStatus resolveStatus = resolve(sm.newChild(20));
+		try {
+			addLocations(additionalLocations);
+		} catch (CoreException e1) {
+			return e1.getStatus();
+		}
+		IStatus resolveStatus = resolve(sm.split(20, SubMonitor.SUPPRESS_NONE));
 		if (!resolveStatus.isOK()) {
 			return resolveStatus;
 		}
@@ -764,7 +780,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return Status.OK_STATUS;
 	}
 
-	private IStatus processDirectory(Directory entry) {
+	private static IStatus processDirectory(Directory entry, Consumer<ITargetLocation> collector) {
 		String path = entry.getPath();
 		MultiStatus rv = new MultiStatus(PLUGIN_ID, 0, "Processing " + path, null);
 		if (path.startsWith("platform:///")) {
@@ -780,10 +796,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		}
 		ITargetLocation container = PDEHelper.getTargetService()
 				.newDirectoryLocation(path);
-		extra.add(container);
+		collector.accept(container);
 		return Status.OK_STATUS;
 	}
-
+	
 	private static final IStatus createError(String message) {
 		return createError(message, null);
 	}
@@ -795,7 +811,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return new Status(IStatus.ERROR, PLUGIN_ID, message, error);
 	}
 
-	private IStatus processUpdateSite(IProgressMonitor monitor, UpdateSite site) {
+	private static IStatus processUpdateSite(IProgressMonitor monitor, UpdateSite site, Consumer<ITargetLocation> collector ) {
 
 		try {
 			URI uri = URI.create(
@@ -843,7 +859,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 						.newIULocation(unitsAsArray, uriArray,
 								IUBundleContainer.INCLUDE_ALL_ENVIRONMENTS);
 
-				extra.add(container);
+				collector.accept(container);
 			}
 
 			// Lets mirror all required artifacts into bundle pool, since we don't

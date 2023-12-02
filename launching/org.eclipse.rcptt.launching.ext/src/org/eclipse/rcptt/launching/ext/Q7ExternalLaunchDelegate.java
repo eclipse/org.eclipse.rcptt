@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -136,6 +137,8 @@ public class Q7ExternalLaunchDelegate extends
 			if (!e.getStatus().matches(IStatus.CANCEL)) {
 				throw e;
 			}
+		} catch (OperationCanceledException e) {
+			throw new CoreException(Status.CANCEL_STATUS);
 		} catch (RuntimeException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
@@ -574,7 +577,9 @@ public class Q7ExternalLaunchDelegate extends
 		// Append all other properties from original config file
 		OriginalOrderProperties properties = target.getConfigIniProperties();
 
-		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
+		ArrayList<String> argsCopy = new ArrayList<>(args);
+		args.clear();
+		args.addAll(UpdateVMArgs.addHook(argsCopy, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS)));
 
 		args.addAll(vmSecurityArguments(config));
 		
