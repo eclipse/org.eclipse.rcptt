@@ -762,7 +762,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		} catch (CoreException e1) {
 			return e1.getStatus();
 		}
-		IStatus resolveStatus = resolve(sm.newChild(20));
+		IStatus resolveStatus = resolve(sm.split(20, SubMonitor.SUPPRESS_NONE));
 		if (!resolveStatus.isOK()) {
 			return resolveStatus;
 		}

@@ -31,6 +31,7 @@ import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
 import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
+import org.eclipse.rcptt.util.swt.Widgets;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -216,7 +217,7 @@ public class AUTLocationBlock {
 							info = Q7TargetPlatformManager.getTarget(config,
 									sm.split(1));
 						}
-						locationField.setText(location);
+						asyncExec(() ->	locationField.setText(location));
 						updateInfo(sm.split(1));
 					} catch (CoreException e) {
 						Activator.log(e);
@@ -227,6 +228,10 @@ public class AUTLocationBlock {
 		} catch (CoreException e) {
 			Q7UIPlugin.log(e);
 		}
+	}
+	
+	private void asyncExec(Runnable runnable) {
+		Widgets.asyncExec(locationField, runnable);
 	}
 
 	private void runInDialog(final IRunnableWithProgress run) {

@@ -307,7 +307,7 @@ public class NewAUTPage extends WizardPage {
 				final TimeTriggeredProgressMonitorDialog dialog = new TimeTriggeredProgressMonitorDialog(
 						shell, 500);
 				try {
-					dialog.run(true, false, new IRunnableWithProgress() {
+					dialog.run(true, true, new IRunnableWithProgress() {
 						public void run(IProgressMonitor monitor)
 								throws InvocationTargetException,
 								InterruptedException {
