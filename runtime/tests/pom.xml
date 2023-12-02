@@ -27,10 +27,12 @@
 				<configuration>
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>true</useUIThread>
-					<argLine>-Daj.weaving.verbose=true
+					<argLine>
+						-Daj.weaving.verbose=true
 						-Dorg.aspectj.weaver.showWeaveInfo=true
 						-Dorg.aspectj.osgi.verbose=true
-						--add-opens=java.base/java.lang=ALL-UNNAMED
+						--add-opens
+						java.base/java.lang=ALL-UNNAMED
 						--add-modules=ALL-SYSTEM
 					</argLine>
 					<frameworkExtensions>
