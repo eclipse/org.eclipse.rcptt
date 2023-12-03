@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -91,9 +92,9 @@ public class FullSingleTestHtmlRenderer {
 	 */
 	public FullSingleTestHtmlRenderer(PrintWriter writer, NumberFormat durationFormat, Function<Screenshot, String> imageStorage) {
 		super();
-		this.writer = writer;
-		this.durationFormat = durationFormat;
-		this.imageStorage = imageStorage;
+		this.writer = Objects.requireNonNull(writer);
+		this.durationFormat = Objects.requireNonNull(durationFormat);
+		this.imageStorage = Objects.requireNonNull(imageStorage);
 	}
 
 	private void renderHeader(int level, String title, String classes) {
