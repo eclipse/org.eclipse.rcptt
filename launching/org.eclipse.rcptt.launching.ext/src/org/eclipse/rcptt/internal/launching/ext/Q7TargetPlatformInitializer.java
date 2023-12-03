@@ -91,6 +91,10 @@ public class Q7TargetPlatformInitializer {
 		SubMonitor sm = SubMonitor.convert(monitor, "Initialize AUT configuration", 100);
 		if (sm.isCanceled())
 			return Status.CANCEL_STATUS;
+		
+		if (!target.isResolved()) {
+			return Status.error(target.getName() + " is not resolved");
+		}
 
 		{
 			IStatus rv = target.getStatus();

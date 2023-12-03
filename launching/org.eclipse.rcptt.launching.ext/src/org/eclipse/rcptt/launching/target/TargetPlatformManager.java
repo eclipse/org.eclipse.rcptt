@@ -131,8 +131,7 @@ public class TargetPlatformManager {
 	 * @throws CoreException
 	 */
 	public static ITargetPlatformHelper findTarget(
-			final String requiredName, final IProgressMonitor monitorArg,
-			final boolean needResolve, String productLocation) throws CoreException {
+			final String requiredName, final IProgressMonitor monitorArg, String productLocation) throws CoreException {
 		SubMonitor monitor = SubMonitor.convert(monitorArg);
 		monitor.beginTask("Looking up " + requiredName, 2);
 
@@ -150,14 +149,6 @@ public class TargetPlatformManager {
 				if (name == null || !name.equals(requiredName))
 					continue;
 				final TargetPlatformHelper info = new TargetPlatformHelper(def, productLocation);
-				if (needResolve) {
-					IStatus status = info.resolve(monitor.newChild(1, SubMonitor.SUPPRESS_NONE));
-					if (!status.isOK()) {
-						LaunchingPlugin.log(status);
-						info.delete();
-						return null;
-					}
-				}
 				return info;
 			}
 			return null;

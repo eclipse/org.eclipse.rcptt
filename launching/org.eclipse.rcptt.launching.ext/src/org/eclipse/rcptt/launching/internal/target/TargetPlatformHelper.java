@@ -601,11 +601,13 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	public IStatus resolve(IProgressMonitor monitor) {
 		ITargetDefinition target = getTarget();
 		if (target != null) {
-			SubMonitor m = SubMonitor.convert(monitor, "Resolving " + getName(), 2);
+			SubMonitor m = SubMonitor.convert(monitor, "Resolving " + getName(), 3);
 			try {
 				status = target.resolve(m.newChild(1, SubMonitor.SUPPRESS_NONE));
-				if (!status.isOK())
+				if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
+					delete();
 					return status;
+				}
 				status = validateBundles(m.newChild(1, SubMonitor.SUPPRESS_NONE));
 				if (!status.isOK())
 					return status;

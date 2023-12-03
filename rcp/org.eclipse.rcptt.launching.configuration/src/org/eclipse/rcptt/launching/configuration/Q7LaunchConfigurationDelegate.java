@@ -22,9 +22,11 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunch;
@@ -33,6 +35,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.TargetBundle;
+import org.eclipse.pde.internal.launching.launcher.LaunchConfigurationHelper;
 import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 import org.eclipse.rcptt.internal.launching.aut.LaunchInfoCache;
 import org.eclipse.rcptt.internal.launching.ext.IBundlePoolConstansts;
@@ -49,10 +52,12 @@ import org.eclipse.rcptt.launching.internal.target.TargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.tesla.core.TeslaLimits;
+import org.osgi.framework.FrameworkUtil;
 
 public class Q7LaunchConfigurationDelegate extends
 		EclipseApplicationLaunchConfiguration {
 	private static final String SECURE_STORAGE_FILE_NAME = "secure_storage";
+	private static final ILog LOG = Platform.getLog(Q7LaunchConfigurationDelegate.class);
 
 	// private Map<String, Object> fAllBundles;
 	// private Map<Object, String> fModels;
@@ -121,20 +126,20 @@ public class Q7LaunchConfigurationDelegate extends
 
 		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(configuration);
 
-		String targetName = configuration.getName() + " with RCPTT";
+		String targetName = Q7TargetPlatformManager.getTargetPlatformName(configuration);
 		ITargetPlatformHelper helper = Q7TargetPlatformManager
 				.getHelper(targetName);
+		
+		File installDir =  LaunchConfigurationHelper.getConfigurationArea(getTargetConfiguration(configuration));
 
 		// try to load existing configuration
 		if (helper == null) {
 			helper = TargetPlatformManager.findTarget(targetName,
-					sm.split(1), false, getConfigDir(getTargetConfiguration(configuration)).toString());
+					sm.split(1), installDir.toString());
 			if (helper != null) {
 				if (!helper.isResolved()) {
-					helper.resolve(sm.split(1));
-					if (helper.getStatus().isOK()) {
-						Q7TargetPlatformManager.setHelper(targetName, helper);
-					}
+					helper.delete();
+					helper = null;
 				}
 			}
 		}
@@ -142,11 +147,16 @@ public class Q7LaunchConfigurationDelegate extends
 		if (helper == null
 				|| ((TargetPlatformHelper) helper).getTarget() == null) {
 			helper = TargetPlatformManager
-					.getCurrentTargetPlatformCopy(targetName, getConfigDir(getTargetConfiguration(configuration)));
-			helper.resolve(sm.split(1));
-			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
-			if (!rv.isOK())
-				Activator.getDefault().getLog().log(rv);
+					.getCurrentTargetPlatformCopy(targetName, installDir);
+			IStatus status;
+			status = helper.resolve(sm.split(1));
+			if (status.matches(IStatus.ERROR| IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
+			status = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
+			if (status.matches(IStatus.ERROR| IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
 			helper.save();
 			Q7TargetPlatformManager.setHelper(targetName, helper);
 		}
@@ -230,11 +240,11 @@ public class Q7LaunchConfigurationDelegate extends
 		info.programArgs = programArgs.toArray(new String[programArgs.size()]);
 		return programArgs.toArray(new String[programArgs.size()]);
 	}
-
+	
 	@Override
 	protected void preLaunchCheck(final ILaunchConfiguration configuration,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		SubMonitor sm = SubMonitor.convert(monitor, 2);
+		SubMonitor sm = SubMonitor.convert(monitor, 3);
 		super.preLaunchCheck(configuration, launch, sm.split(1));
 		if (monitor.isCanceled()) {
 			return;
@@ -244,6 +254,11 @@ public class Q7LaunchConfigurationDelegate extends
 		TargetPlatformHelper target = (TargetPlatformHelper) info.target;
 
 		Q7ExternalLaunchDelegate.BundlesToLaunchCollector collector = new Q7ExternalLaunchDelegate.BundlesToLaunchCollector();
+		
+		IStatus status = target.resolve(sm.split(1));
+		if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
+			throw new CoreException(status);
+		}
 
 		for (Entry<IPluginModelBase, String> entry : Q7LaunchDelegateUtils
 				.getEclipseApplicationModels(this).entrySet()) {

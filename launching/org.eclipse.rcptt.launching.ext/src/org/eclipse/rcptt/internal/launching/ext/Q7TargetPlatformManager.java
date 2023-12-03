@@ -48,10 +48,13 @@ public class Q7TargetPlatformManager {
 			return cached;
 		}
 
-		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
+		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 3);
 		ITargetPlatformHelper info = TargetPlatformManager.findTarget(
-				targetPlatform, subMonitor.split(1), true, location);
-		assert info.getStatus().isOK();
+				targetPlatform, subMonitor.split(1), location);
+		IStatus status = info.resolve(subMonitor.split(1));
+		if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
+			throw new CoreException(status);
+		}
 		monitor.worked(1);
 		monitor.done();
 		cachedHelpers.put(targetPlatform, info);
@@ -78,13 +81,15 @@ public class Q7TargetPlatformManager {
 		String targetPlatformName = getTargetPlatformName(config);
 
 		SubMonitor subMonitor = SubMonitor.convert(monitor, "Initialize target platform...", 2);
-		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, subMonitor.split(1), true, location);
-
+		ITargetPlatformHelper info = TargetPlatformManager.findTarget(targetPlatformName, subMonitor.split(1), location);
 		if (info == null) {
 			info = newTargetPlatform(config, subMonitor.split(1), location);
 			assert info != null;
 		} else {
-			monitor.worked(1);
+			IStatus status = info.resolve(subMonitor.split(1));
+			if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
 		}
 		assert info != null;
 		monitor.done();
