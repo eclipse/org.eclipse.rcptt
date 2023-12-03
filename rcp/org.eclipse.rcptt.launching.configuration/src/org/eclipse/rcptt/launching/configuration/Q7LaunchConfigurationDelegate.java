@@ -221,7 +221,7 @@ public class Q7LaunchConfigurationDelegate extends
 		}
 		String override = configuration.getAttribute(
 				IQ7Launch.OVERRIDE_SECURE_STORAGE, (String) null);
-		if (override == null || "true".equals(override)) {
+		if ("true".equals(override)) {
 			// Override existing parameter
 			programArgs.add("-eclipse.keyring");
 			programArgs.add(getConfigDir(configuration).toString()
