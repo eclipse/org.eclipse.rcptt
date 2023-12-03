@@ -142,7 +142,7 @@ public class Q7LaunchConfigurationDelegate extends
 		if (helper == null
 				|| ((TargetPlatformHelper) helper).getTarget() == null) {
 			helper = TargetPlatformManager
-					.getCurrentTargetPlatformCopy(targetName);
+					.getCurrentTargetPlatformCopy(targetName, getConfigDir(getTargetConfiguration(configuration)));
 			helper.resolve(sm.split(1));
 			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
 			if (!rv.isOK())

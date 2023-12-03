@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.rcptt.sherlock.core.reporting.internal;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.rcptt.sherlock.core.INodeBuilder;
 import org.eclipse.rcptt.sherlock.core.info.Info;
@@ -25,7 +27,7 @@ public class CoreSnaphotsProvider extends AbstractEventProvider {
 	
 	private static void addSnapshotWithData(INodeBuilder node, EObject data) {
 		Snaphot snapshot = ReportFactory.eINSTANCE.createSnaphot();
-		snapshot.setData(data);
+		snapshot.setData(Objects.requireNonNull(data));
 		node.addSnapshot(snapshot);
 	}
 	

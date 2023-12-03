@@ -276,7 +276,7 @@ public class TargetPlatformManager {
 	}
 
 	public static TargetPlatformHelper getCurrentTargetPlatformCopy(
-			String copyName) {
+			String copyName, File productLocation) {
 		ITargetPlatformService targetService = PDEHelper.getTargetService();
 		TargetPlatformService s = (TargetPlatformService) targetService;
 		 
@@ -290,7 +290,7 @@ public class TargetPlatformManager {
 				}
 				s.copyTargetDefinition(targetSource, targetCopy);
 				targetCopy.setName(copyName);
-				TargetPlatformHelper helper = new TargetPlatformHelper(targetCopy, TargetPlatform.getLocation());
+				TargetPlatformHelper helper = new TargetPlatformHelper(targetCopy, productLocation.toString());
 				return helper;
 			}
 		} catch (CoreException e) {
