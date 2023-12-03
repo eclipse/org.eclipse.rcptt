@@ -73,7 +73,7 @@ public class Q7Target {
 		public AutInstall(ProfileBundleContainer container) {
 			this.container = Objects.requireNonNull(container);
 			this.userArea = null;
-			this.config = TargetPlatformHelper.processConfiguration(this);
+			this.config = Objects.requireNonNull(TargetPlatformHelper.processConfiguration(this));
 		}
 
 		public TargetBundle[] getBundles() {
