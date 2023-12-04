@@ -85,13 +85,11 @@ public class Q7TargetPlatformManager {
 		if (info == null) {
 			info = newTargetPlatform(config, subMonitor.split(1), location);
 			assert info != null;
-		} else {
-			IStatus status = info.resolve(subMonitor.split(1));
-			if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
-				throw new CoreException(status);
-			}
+		} 
+		IStatus status = info.resolve(subMonitor.split(1));
+		if (status.matches(IStatus.ERROR | IStatus.CANCEL)) {
+			throw new CoreException(status);
 		}
-		assert info != null;
 		monitor.done();
 		cachedHelpers.put(targetPlatformName, info);
 		return info;

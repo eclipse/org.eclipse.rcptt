@@ -736,7 +736,11 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 		EList<Entry> entries = configuration.getEntries();
 		List<ITargetLocation> additionalLocations = new ArrayList<>(); 
-		SubMonitor sm = SubMonitor.convert(monitor, "Apply injection plugins", 20 + entries.size() * 20);
+		SubMonitor sm = SubMonitor.convert(monitor, "Apply injection plugins", 40 + entries.size() * 20);
+		IStatus resolveStatus = resolve(sm.split(20, SubMonitor.SUPPRESS_NONE));
+		if (!resolveStatus.isOK()) {
+			return resolveStatus;
+		}
 		for (Entry entry : entries) {
 			if (monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
@@ -757,7 +761,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		} catch (CoreException e1) {
 			return e1.getStatus();
 		}
-		IStatus resolveStatus = resolve(sm.split(20, SubMonitor.SUPPRESS_NONE));
+		resolveStatus = resolve(sm.split(20, SubMonitor.SUPPRESS_NONE));
 		if (!resolveStatus.isOK()) {
 			return resolveStatus;
 		}

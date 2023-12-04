@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.internal.debug.ui.actions.ControlAccessibleListener;
@@ -28,10 +27,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.pde.internal.ui.SWTFactory;
 import org.eclipse.rcptt.internal.launching.ext.PDELocationUtils;
 import org.eclipse.rcptt.internal.launching.ext.Q7TargetPlatformManager;
-import org.eclipse.rcptt.internal.ui.Q7UIPlugin;
 import org.eclipse.rcptt.launching.IQ7Launch;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
-import org.eclipse.rcptt.util.swt.Widgets;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -73,9 +70,7 @@ public class AUTLocationBlock {
 
 		public void modifyText(ModifyEvent e) {
 			if (needUpdate) {
-				runInDialog(monitor -> {
-					updateInfo(monitor);
-				});
+				updateInfo();
 			}
 		}
 
@@ -92,7 +87,7 @@ public class AUTLocationBlock {
 		fTab = tab;
 	}
 
-	public void updateInfo(IProgressMonitor monitor) {
+	public void updateInfo() {
 		// errorInfo = null;
 		final String location = getLocation();
 		boolean valid = PDELocationUtils.validateProductLocation(location).isOK();
@@ -118,7 +113,7 @@ public class AUTLocationBlock {
 		if (info != null) {
 			fTab.doUpdate(info);
 		}
-		fTab.setCurrentTargetPlatform(info, monitor);
+		fTab.setCurrentTargetPlatform(info);
 		fTab.scheduleUpdateJob();
 	}
 
@@ -204,34 +199,31 @@ public class AUTLocationBlock {
 	}
 
 	public void initializeFrom(final ILaunchConfiguration config) {
+		String location = null;
 		try {
-			String location = config.getAttribute(IQ7Launch.AUT_LOCATION, "");
-			needUpdate = false;
-			runInDialog(new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException, InterruptedException {
-					SubMonitor sm = SubMonitor.convert(monitor, 3);
-					try {
-						info = Q7TargetPlatformManager.findTarget(config, sm.split(1));
-						if (info == null) {
-							info = Q7TargetPlatformManager.getTarget(config,
-									sm.split(1));
-						}
-						asyncExec(() ->	locationField.setText(location));
-						updateInfo(sm.split(1));
-					} catch (CoreException e) {
-						Activator.log(e);
-					}
-				}
-			});
-			needUpdate = true;
+			location = config.getAttribute(IQ7Launch.AUT_LOCATION, "");
 		} catch (CoreException e) {
-			Q7UIPlugin.log(e);
+			Activator.log(e);
 		}
-	}
-	
-	private void asyncExec(Runnable runnable) {
-		Widgets.asyncExec(locationField, runnable);
+		needUpdate = false;
+		runInDialog(new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+				try {
+					info = Q7TargetPlatformManager.findTarget(config, monitor);
+					if (info == null) {
+						info = Q7TargetPlatformManager.getTarget(config,
+								monitor);
+					}
+				} catch (CoreException e) {
+					Activator.log(e);
+				}
+
+			}
+		});
+		locationField.setText(location);
+		updateInfo();
+		needUpdate = true;
 	}
 
 	private void runInDialog(final IRunnableWithProgress run) {
