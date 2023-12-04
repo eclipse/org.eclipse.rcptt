@@ -46,13 +46,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -73,7 +72,6 @@ import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 import org.eclipse.osgi.service.resolver.ResolverError;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.TargetPlatform;
 import org.eclipse.pde.core.target.ITargetDefinition;
 import org.eclipse.pde.core.target.ITargetLocation;
 import org.eclipse.pde.core.target.ITargetPlatformService;
@@ -103,7 +101,6 @@ import org.eclipse.rcptt.launching.internal.target.Q7Target.AutInstall;
 import org.eclipse.rcptt.launching.p2utils.P2Utils;
 import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
-import org.eclipse.rcptt.util.FileUtil;
 import org.osgi.framework.Version;
 
 import com.google.common.base.Preconditions;
@@ -111,6 +108,7 @@ import com.google.common.io.Files;
 
 @SuppressWarnings("restriction")
 public class TargetPlatformHelper implements ITargetPlatformHelper {
+	private final static ILog LOG = Platform.getLog(TargetPlatformHelper.class);
 	private static final boolean DEBUG = "true"
 			.equals(Platform.getDebugOption("org.eclipse.rcptt.launching.ext/debug"));
 	private static final boolean DEBUG_BUNDLES = "true"
@@ -340,7 +338,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			ITargetPlatformService service = PDEHelper.getTargetService();
 			service.saveTargetDefinition(target);
 		} catch (CoreException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
+			LOG.error("Failed to save target definition " + target.getName(), e);
 		}
 	}
 
@@ -362,7 +360,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				PDEHelper.getTargetService().deleteTarget(target.getHandle());
 			}
 		} catch (CoreException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
+			LOG.log(e.getStatus());
 		}
 	}
 
@@ -533,7 +531,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				return error("Bundle validation failed: " + b.toString());
 			}
 		} catch (CoreException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
+			LOG.log(e.getStatus());
 			return status = e.getStatus();
 		} catch (OperationCanceledException e) {
 			return status = Status.CANCEL_STATUS;
@@ -641,21 +639,13 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		if (!iniFile.exists())
 			return null;
 		Properties pini = new Properties();
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(iniFile);
+		
+		try (FileInputStream fis = new FileInputStream(iniFile)) {
 			pini.load(fis);
 			fis.close();
 			return pini;
 		} catch (IOException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
-		} finally {
-			try {
-				if (fis != null)
-					fis.close();
-			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			}
+			LOG.error("Failed to read " + iniFile, e);
 		}
 		return null;
 	}
@@ -948,10 +938,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private String readProductFromIniFile(File eclipseIniFile) {
-		BufferedReader in = null;
 		if (eclipseIniFile.exists()) {
-			try {
-				in = new BufferedReader(new FileReader(eclipseIniFile));
+			try (BufferedReader in = new BufferedReader(new FileReader(eclipseIniFile))) {
 				String str;
 				while ((str = in.readLine()) != null) {
 					if (str.trim().equals("-product")) { //$NON-NLS-1$
@@ -962,38 +950,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					}
 				}
 			} catch (IOException e) {
-				Q7ExtLaunchingPlugin.getDefault().log(e);
-			} finally {
-				if (in != null)
-					try {
-						in.close();
-					} catch (IOException e) {
-						Q7ExtLaunchingPlugin.getDefault().log(e);
-					}
+				LOG.error("Failed to process " + eclipseIniFile, e);
 			}
-		}
-		return null;
-	}
-
-	private String readLauncherLibraryFromIniFile(File eclipseIniFile) {
-		BufferedReader in = null;
-		try {
-			if (eclipseIniFile.exists()) {
-				in = new BufferedReader(new FileReader(eclipseIniFile));
-				String str;
-				while ((str = in.readLine()) != null) {
-					if (str.trim().equals("--launcher.library")) { //$NON-NLS-1$
-						String result = in.readLine();
-						if (result != null) {
-							return result.trim();
-						}
-					}
-				}
-			}
-		} catch (IOException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
-		} finally {
-			FileUtil.safeClose(in);
 		}
 		return null;
 	}
@@ -1016,7 +974,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 				}
 			}
 		} catch (IOException e) {
-			Q7ExtLaunchingPlugin.getDefault().log(e);
+			LOG.error("Failed to process " + eclipseIni, e);
 		}
 		return result;
 	}
@@ -1207,9 +1165,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		if (!infoFile.exists()) {
 			return result;
 		}
-		InputStream input = null;
-		try {
-			input = new FileInputStream(infoFile);
+		try (InputStream input = new FileInputStream(infoFile)) {
 			for (org.eclipse.equinox.internal.simpleconfigurator.utils.BundleInfo bi : (List<org.eclipse.equinox.internal.simpleconfigurator.utils.BundleInfo>) SimpleConfiguratorUtils
 					.readConfiguration(input, infoFile.toURI())) {
 				String name = bi.getSymbolicName();
@@ -1217,8 +1173,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 					result.put(name, String.format("%d:%b", bi.getStartLevel(), bi.isMarkedAsStarted()));
 				}
 			}
-		} catch (Throwable e) {
-			FileUtil.safeClose(input);
+		} catch (IOException e) {
+			LOG.error("Failed to process " + infoFile, e);
 		}
 		return result;
 	}
@@ -1396,11 +1352,15 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		OriginalOrderProperties configuration = baseConfiguration;
 		final URL configUrl = getConfigurationLocation(location, autInstall.getInstallLocation());
 
-		if (configuration == null || !configUrl.equals(baseConfigurationLocation))
+		if (configuration == null || !configUrl.equals(baseConfigurationLocation)) {			
 			configuration = loadConfiguration(configUrl);
+		}
 
 		if (configuration == null) {
-			Q7ExtLaunchingPlugin.getDefault().info("File config.ini from folder \"" + configUrl + "\" was not read");
+			// Launch from PDE sources stores config.ini in the installation root, not in the configuration directory
+			configuration = loadConfiguration(autInstall.getInstallLocationURL());
+		}
+		if (configuration == null) {
 			return baseConfiguration;
 		}
 
@@ -1460,6 +1420,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 			if (url != null)
 				result = OriginalOrderProperties.load(url);
 		} catch (IOException e) {
+			LOG.info("Failed to load configuration from " + url, e);
+
 		}
 		return substituteVars(result);
 	}
@@ -1672,8 +1634,8 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		File eclipseProduct = new File(installDir, PRODUCT_SITE_MARKER);
 		if (eclipseProduct.exists()) {
 			Properties props = new Properties();
-			try {
-				props.load(new FileInputStream(eclipseProduct));
+			try (FileInputStream fis = new FileInputStream(eclipseProduct)) {
+				props.load(fis);
 				String appId = props.getProperty(PRODUCT_SITE_ID);
 				if (appId == null || appId.trim().length() == 0)
 					appId = ECLIPSE;
@@ -1793,7 +1755,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	private static void debug(String message) {
 		if (DEBUG) {
-			Q7ExtLaunchingPlugin.getDefault().info(message);
+			LOG.info(message);
 		}
 	}
 }
