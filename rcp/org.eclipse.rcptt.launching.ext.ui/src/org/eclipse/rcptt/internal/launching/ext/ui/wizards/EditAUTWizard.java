@@ -125,7 +125,7 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 		try {
 			getContainer().run(false, true, monitor -> {
 			try {
-				SubMonitor sm = SubMonitor.convert(monitor, 4);
+				SubMonitor sm = SubMonitor.convert(monitor, 3);
 				String targetName = Q7TargetPlatformManager
 						.getTargetPlatformName(page.getTargetName());
 
@@ -145,7 +145,7 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 
 				ILaunchConfigurationWorkingCopy workingCopy = configuration
 						.getWorkingCopy();
-				Q7LaunchingUtil.updateLaunchConfiguration(target, workingCopy, sm.split(1));
+				Q7LaunchingUtil.updateLaunchConfiguration(target, workingCopy);
 
 				workingCopy.rename(page.getTargetName());
 				OSArchitecture autArch = page.getArchitecture();
@@ -204,7 +204,7 @@ public class EditAUTWizard extends Wizard implements IAUTConfigWizard {
 
 				workingCopy.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY,
 						true);
-				String product = target.getDefaultProduct(sm.split(1));
+				String product = target.getDefaultProduct();
 				if (product != null) {
 					workingCopy.setAttribute(IPDELauncherConstants.USE_PRODUCT,
 							true);

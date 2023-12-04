@@ -182,7 +182,7 @@ public class AutThread extends Thread {
 				}
 			} else {
 				config = Q7LaunchingUtil.createQ7LaunchConfiguration(tpc.getTargetPlatform(), autArgs,
-						"AUT_" + Integer.toString(index), new NullProgressMonitor());
+						"AUT_" + Integer.toString(index));
 			}
 
 			config.setAttribute(IPDELauncherConstants.DOCLEAR, false);
@@ -360,7 +360,7 @@ public class AutThread extends Thread {
 			HeadlessRunnerPlugin.getDefault().info("AUT-" + autId + ":" + "Launching");
 			System.out.println("AUT-" + autId + ":" + "Launching");
 		}
-		System.out.println("AUT-" + autId + ":" + "Product: " + tpc.getTargetPlatform().getDefaultProduct(new NullProgressMonitor()));
+		System.out.println("AUT-" + autId + ":" + "Product: " + tpc.getTargetPlatform().getDefaultProduct());
 		System.out.println("AUT-" + autId + ":" + "Application: " + tpc.getTargetPlatform().getDefaultApplication());
 
 		StringBuilder archDetect = new StringBuilder();

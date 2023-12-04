@@ -102,7 +102,7 @@ public interface ITargetPlatformHelper {
 	 * 
 	 * @return
 	 */
-	String getDefaultProduct(IProgressMonitor monitor);
+	String getDefaultProduct();
 
 	/**
 	 * Will modify target platform with specified injection configuration.

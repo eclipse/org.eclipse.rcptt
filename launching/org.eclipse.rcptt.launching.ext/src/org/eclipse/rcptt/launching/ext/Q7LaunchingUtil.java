@@ -23,7 +23,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -49,10 +48,10 @@ public class Q7LaunchingUtil {
 	public static final String EXTERNAL_LAUNCH_TYPE = "org.eclipse.rcptt.launching.ext";
 
 	public static ILaunchConfigurationWorkingCopy createQ7LaunchConfiguration(
-			ITargetPlatformHelper target, String sutArgs, String name, IProgressMonitor monitor)
+			ITargetPlatformHelper target, String sutArgs, String name)
 			throws CoreException {
 		final ILaunchConfigurationWorkingCopy config = createLaunchConfiguration(
-				target, name, monitor);
+				target, name);
 		config.setAttribute(
 				IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
 				sutArgs);
@@ -69,7 +68,7 @@ public class Q7LaunchingUtil {
 	 * @throws CoreException
 	 */
 	public static ILaunchConfigurationWorkingCopy createLaunchConfiguration(
-			ITargetPlatformHelper target, String name, IProgressMonitor monitor) throws CoreException {
+			ITargetPlatformHelper target, String name) throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault()
 				.getLaunchManager();
 		ILaunchConfigurationType type = launchManager
@@ -84,20 +83,20 @@ public class Q7LaunchingUtil {
 				Q7LaunchDelegateUtils.getWorkingDirectory(
 						new File(target.getTargetPlatformProfilePath()))
 						.getAbsolutePath());
-		updateLaunchConfiguration(target, config, monitor);
+		updateLaunchConfiguration(target, config);
 
 		return config;
 	}
 
 	public static void updateLaunchConfiguration(ITargetPlatformHelper target,
-			final ILaunchConfigurationWorkingCopy config, IProgressMonitor monitor) throws CoreException {
+			final ILaunchConfigurationWorkingCopy config) throws CoreException {
 		if (target != null) {
 			Q7TargetPlatformManager.delete(target.getName());
 			Q7TargetPlatformManager.setHelper(target.getName(), target);
 
 			config.setAttribute(IQ7Launch.TARGET_PLATFORM, target.getName());
 
-			String product = target.getDefaultProduct(monitor);
+			String product = target.getDefaultProduct();
 			if (product != null) {
 				config.setAttribute("useProduct", true);
 				config.setAttribute(IPDELauncherConstants.PRODUCT, product);

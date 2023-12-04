@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
@@ -66,7 +65,6 @@ import org.eclipse.rcptt.launching.target.ITargetPlatformHelper;
 import org.eclipse.rcptt.launching.target.TargetPlatformManager;
 import org.eclipse.rcptt.ui.commons.SWTFactory;
 import org.eclipse.rcptt.util.FileUtil;
-import org.eclipse.rcptt.util.swt.Widgets;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -138,12 +136,15 @@ public class NewAUTPage extends WizardPage {
 
 	}
 
-	public void validate(String location, ITargetPlatformHelper helper, boolean clean, IProgressMonitor monitor) {
+	public void validate(boolean clean) {
+		final String location = (String) locationValue.getValue();
 		if (location.trim().length() == 0) {
 			setStatus(new Status(IStatus.CANCEL, Q7ExtLaunchingPlugin.PLUGIN_ID,
 					"Please specify your Eclipse application installation directory."));
 			return;
 		}
+
+		ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
 
 		if (clean) {
 			if (helper != null) {
@@ -176,7 +177,7 @@ public class NewAUTPage extends WizardPage {
 				}
 			});
 		} else if (helper != null) {
-			validatePlatform(helper, monitor);
+			validatePlatform();
 		}
 	}
 
@@ -194,21 +195,27 @@ public class NewAUTPage extends WizardPage {
 		setStatus(new Status(IStatus.ERROR, PLUGIN_ID, message));
 	}
 
-	private void validatePlatform(ITargetPlatformHelper helper, IProgressMonitor monitor) {
-		String[] name = {""};
-		nameValue.getRealm().exec(() -> {
-			setStatus(Status.CANCEL_STATUS);
-			name[0] = nameValue.getValue();
-		});
-		SubMonitor sm = SubMonitor.convert(monitor, 10);
+	private void validatePlatform() {
+		ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
 		if (helper == null) {
 			setError("Please specify correct Application installation directory...");
 			return;
 		}
 		setStatus(helper.getStatus());
-		
-		
-		
+
+		if (((String) nameValue.getValue()).trim().length() == 0) {
+			String defaultProduct = helper.getDefaultProduct();
+			if (defaultProduct != null) {
+				nameValue.setValue(helper.getDefaultProduct());
+				int i = 2;
+				while (!validateAUTName()) {
+					nameValue.setValue(helper.getDefaultProduct()
+							+ Integer.toString(i));
+					i++;
+				}
+			}
+		}
+
 		architecture = helper.detectArchitecture(false, new StringBuilder());
 		if (OSArchitecture.Unknown.equals(architecture)) {
 			setError("Unable to detect AUT's architecture.");
@@ -218,40 +225,20 @@ public class NewAUTPage extends WizardPage {
 		try {
 			haveArch = findJVM();
 		} catch (CoreException e1) {
-			haveArch = false;
+			// no special actions, error message will be set by lines below
 			Q7UIPlugin.log(e1);
-			setError("The selected AUT requires " + architecture + " Java VM which cannot be found: " + e1.getLocalizedMessage());
 		}
-		boolean haveArchCopy = haveArch;
-		architectureError.getRealm().asyncExec(() -> {
-			architectureError.setValue(!haveArchCopy);
-		});
-		
-		if (!haveArchCopy) {
+
+		architectureError.setValue(!haveArch);
+
+		if (!haveArch) {
+			setError("The selected AUT requires " + architecture + " Java VM which cannot be found.");
 			return;
 		}
-		
-		if ((name[0]).trim().length() == 0) {
-			String defaultProduct = helper.getDefaultProduct(sm.split(1));
-			if (defaultProduct != null) {
-				int i = 2;
-				while (!validateAUTName(name[0])) {
-					name[0] = helper.getDefaultProduct(sm.split(1)) + Integer.toString(i);
-					i++;
-				}
-			}
+
+		if (validateAUTName()) {
+			setPageComplete(true);
 		}
-		
-		if (validateAUTName(name[0])) {
-			asyncExec( () -> {
-				nameValue.setValue(name[0]);
-				setStatus(Status.OK_STATUS);
-			});
-		}
-	}
-	
-	private void asyncExec(Runnable runnbale) {
-		Widgets.asyncExec(getShell(), runnbale);
 	}
 
 	private boolean findJVM() throws CoreException {		
@@ -263,7 +250,8 @@ public class NewAUTPage extends WizardPage {
 		return true;
 	}
 	
-	private boolean validateAUTName(String name) {
+	private boolean validateAUTName() {
+		String name = ((String) nameValue.getValue()).trim();
 		if (name.length() == 0) {
 			setError("The name of Application Under Test (AUT) can not be empty.");
 			return false;
@@ -307,7 +295,7 @@ public class NewAUTPage extends WizardPage {
 				final TimeTriggeredProgressMonitorDialog dialog = new TimeTriggeredProgressMonitorDialog(
 						shell, 500);
 				try {
-					dialog.run(true, true, new IRunnableWithProgress() {
+					dialog.run(true, false, new IRunnableWithProgress() {
 						public void run(IProgressMonitor monitor)
 								throws InvocationTargetException,
 								InterruptedException {
@@ -348,16 +336,13 @@ public class NewAUTPage extends WizardPage {
 
 		IChangeListener validatePlatformListener = new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				ITargetPlatformHelper helper = info.getValue();
-				runInDialog(monitor -> validatePlatform(helper, monitor));
+				validatePlatform();
 			}
 		};
 		info.addChangeListener(validatePlatformListener);
 
 		setControl(parent);
-		final String location = locationValue.getValue();
-		ITargetPlatformHelper helper = info.getValue();
-		runInDialog(monitor -> validate(location, helper, helper == null, monitor));
+		validate(info.getValue() == null);
 		Dialog.applyDialogFont(parent);
 	}
 
@@ -385,9 +370,7 @@ public class NewAUTPage extends WizardPage {
 		// ... and runs validation after delay
 		locationValue.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				final String location = locationValue.getValue();
-				ITargetPlatformHelper helper = info.getValue();
-				runInDialog(monitor -> validate(location, helper, true, monitor));
+				validate(true);
 			}
 		});
 
@@ -428,8 +411,7 @@ public class NewAUTPage extends WizardPage {
 		// ... and runs validation after delay
 		nameValue.addChangeListener(new IChangeListener() {
 			public void handleChange(ChangeEvent event) {
-				ITargetPlatformHelper helper = (ITargetPlatformHelper) info.getValue();
-				runInDialog(monitor -> validatePlatform(helper, monitor));
+				validatePlatform();
 			}
 		});
 	}
@@ -445,8 +427,7 @@ public class NewAUTPage extends WizardPage {
 						.createPreferenceDialogOn(shell, JREsPreferencePage.ID,
 								new String[] { JREsPreferencePage.ID }, null);
 				if (dialog.open() == PreferenceDialog.OK) {
-					ITargetPlatformHelper helper = info.getValue();
-					runInDialog(monitor -> validatePlatform(helper, monitor));
+					validatePlatform();
 				}
 			}
 		});

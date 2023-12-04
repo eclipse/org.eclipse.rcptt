@@ -290,7 +290,7 @@ public class ExternalAUTMainTab extends MainTab {
 
 	public void setCurrentTargetPlatform(ITargetPlatformHelper info, IProgressMonitor monitor) {
 		this.currentTargetPlatform = info;
-		fAUTProgramBlock.updateInfo(currentTargetPlatform, monitor);
+		fAUTProgramBlock.updateInfo(currentTargetPlatform);
 	}
 
 	public ITargetPlatformHelper getTarget() {

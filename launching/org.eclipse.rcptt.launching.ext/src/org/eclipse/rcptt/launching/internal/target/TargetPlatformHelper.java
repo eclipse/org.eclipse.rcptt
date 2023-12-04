@@ -402,6 +402,9 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	private void calcModels() {
+		if (!isResolved()) {
+			throw new IllegalStateException("Not resolved. Call .resolve() first.");
+		}
 		if (models == null) {
 			List<IPluginModelBase> bundles = sumBundles();
 			weavingHook = filterHooks(bundles);
@@ -470,10 +473,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private IStatus validateBundles(IProgressMonitor monitor) {
-		SubMonitor sm = SubMonitor.convert(monitor, 2);
+		SubMonitor sm = SubMonitor.convert(monitor, 1);
 		ILaunchConfigurationWorkingCopy wc;
 		try {
-			wc = Q7LaunchingUtil.createLaunchConfiguration(this, null, sm.split(1));
+			wc = Q7LaunchingUtil.createLaunchConfiguration(this, null);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
@@ -682,7 +685,7 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		return id == null ? false : available.contains(id);
 	}
 
-	public String getDefaultProduct(IProgressMonitor monitor) {
+	public String getDefaultProduct() {
 		Set<String> values = new HashSet<String>(Arrays.asList(getProducts()));
 		debug("Valid products: " + values);
 
@@ -1414,11 +1417,14 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 		try {
 			url = new URL(url, CONFIG_FILE);
 		} catch (MalformedURLException e) {
+			LOG.info("Failed to load configuration from " + url, e);
 			return result;
 		}
 		try {
-			if (url != null)
+			if (url != null) {
 				result = OriginalOrderProperties.load(url);
+				LOG.info("Loaded configuration from " + url);
+			}
 		} catch (IOException e) {
 			LOG.info("Failed to load configuration from " + url, e);
 
