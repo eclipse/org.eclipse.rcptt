@@ -589,21 +589,18 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 
 	public IStatus resolve(IProgressMonitor monitor) {
 		ITargetDefinition target = getTarget();
-		if (target != null) {
-			SubMonitor m = SubMonitor.convert(monitor, "Resolving " + getName(), 2);
-			try {
-				status = target.resolve(m.newChild(1, SubMonitor.SUPPRESS_NONE));
-				if (!status.isOK())
-					return status;
-				status = validateBundles(m.newChild(1, SubMonitor.SUPPRESS_NONE));
-				if (!status.isOK())
-					return status;
-				return status = getBundleStatus();
-			} finally {
-				m.done();
-			}
+		SubMonitor m = SubMonitor.convert(monitor, "Resolving " + getName(), 2);
+		try {
+			status = target.resolve(m.split(1, SubMonitor.SUPPRESS_NONE));
+			if (!status.isOK())
+				return status;
+			status = validateBundles(m.split(1, SubMonitor.SUPPRESS_NONE));
+			if (!status.isOK())
+				return status;
+			return status = getBundleStatus();
+		} finally {
+			m.done();
 		}
-		return status = Status.CANCEL_STATUS;
 	}
 
 	AutInstall getAutInstall() {
@@ -615,7 +612,10 @@ public class TargetPlatformHelper implements ITargetPlatformHelper {
 	}
 
 	public OriginalOrderProperties getConfigIniProperties() {
-		return getAutInstall().getConfig();
+		AutInstall autInstall = getAutInstall();
+		if (autInstall == null)
+			return new OriginalOrderProperties();
+		return autInstall.getConfig();
 	}
 
 	protected String getEclipseProductFileProperty(String name) {
