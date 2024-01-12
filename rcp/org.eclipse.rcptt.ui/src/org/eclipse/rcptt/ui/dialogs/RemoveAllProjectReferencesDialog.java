@@ -38,7 +38,7 @@ public class RemoveAllProjectReferencesDialog {
 		} else {
 			MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(parentShell,
 					"Project Context and Verification References", generateMessage(elements),
-					null, false, prefStore, value);
+					null, false, prefStore, IPreferenceKeys.ALL_REMOVE_PROJECT_REFERENCES);
 			return dialog.open() == IDialogConstants.YES_ID;
 		}
 	}
