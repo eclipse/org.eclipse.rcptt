@@ -217,6 +217,11 @@ public class AutThread extends Thread {
 				config.setAttribute(IPDEConstants.APPEND_ARGS_EXPLICITLY, true);
 			}
 
+			if (conf.enableSoftwareInstallation)
+			{
+				config.setAttribute(IPDELauncherConstants.GENERATE_PROFILE, true);
+			}
+
 			ILaunchConfiguration savedConfig;
 			savedConfig = config.doSave();
 
