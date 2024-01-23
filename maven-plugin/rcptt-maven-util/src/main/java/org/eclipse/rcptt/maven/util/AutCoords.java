@@ -76,7 +76,7 @@ public class AutCoords extends Coords {
 		this.rap = rap;
 	}
 
-	public boolean getEnableSoftwareInstallation()
+	public boolean enableSoftwareInstallation()
 	{
 		return enableSoftwareInstallation;
 	}

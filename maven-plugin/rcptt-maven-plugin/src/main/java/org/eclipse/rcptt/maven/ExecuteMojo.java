@@ -81,7 +81,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String RAP_BROWSER_COMMAND = "-browserCmd";
 	private static final String RUNNER_PLATFORM = "-runnerPlatform";
 	private static final String TESTENGINE = "-testEngine";
-	private static final String ENABLESOFTWAREINSTALLATION = "-enableSoftwareInstallation";
+	private static final String ENABLE_SOFTWARE_INSTALLATION = "-enableSoftwareInstallation";
 
 	private static int shutdownListenerPort;
 	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms128m", "-Xmx256m",
@@ -185,9 +185,9 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 			cmd.createArg().setValue(aut.getVm());
 		}
 		// AUT enableSoftwareInstallation
-		if (aut.getEnableSoftwareInstallation())
+		if (aut.enableSoftwareInstallation())
 		{
-			cmd.createArg().setValue(ENABLESOFTWAREINSTALLATION);
+			cmd.createArg().setValue(ENABLE_SOFTWARE_INSTALLATION);
 		}
 
 		if (getQ7Coords().getPlatform().toLowerCase().equals("rap")) {
