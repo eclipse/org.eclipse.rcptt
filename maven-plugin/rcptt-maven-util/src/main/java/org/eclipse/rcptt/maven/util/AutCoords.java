@@ -22,6 +22,7 @@ public class AutCoords extends Coords {
 	private String vm;
 	private boolean reuseExistingWorkspace = false;
 	private Rap rap;
+	private boolean enableSoftwareInstallation = false;
 
 	public AutCoords() {
 		super();
@@ -74,4 +75,15 @@ public class AutCoords extends Coords {
 	public void setRap(Rap rap) {
 		this.rap = rap;
 	}
+
+	public boolean getSoftwareInstallation()
+	{
+		return enableSoftwareInstallation;
+	}
+
+	public void setSoftwareInstallation(boolean enableSoftwareInstallation)
+	{
+		this.enableSoftwareInstallation = enableSoftwareInstallation;
+	}
+
 }
