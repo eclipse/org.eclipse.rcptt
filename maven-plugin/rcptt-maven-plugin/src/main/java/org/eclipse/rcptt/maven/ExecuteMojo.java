@@ -185,7 +185,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 			cmd.createArg().setValue(aut.getVm());
 		}
 		// AUT enableSoftwareInstallation
-		if (aut.getSoftwareInstallation())
+		if (aut.getEnableSoftwareInstallation())
 		{
 			cmd.createArg().setValue(ENABLESOFTWAREINSTALLATION);
 		}
