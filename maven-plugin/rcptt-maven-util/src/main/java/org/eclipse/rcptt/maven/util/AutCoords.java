@@ -76,12 +76,12 @@ public class AutCoords extends Coords {
 		this.rap = rap;
 	}
 
-	public boolean getSoftwareInstallation()
+	public boolean getEnableSoftwareInstallation()
 	{
 		return enableSoftwareInstallation;
 	}
 
-	public void setSoftwareInstallation(boolean enableSoftwareInstallation)
+	public void setEnableSoftwareInstallation(boolean enableSoftwareInstallation)
 	{
 		this.enableSoftwareInstallation = enableSoftwareInstallation;
 	}
