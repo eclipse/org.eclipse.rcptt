@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009, 2019 Xored Software Inc and others.
+ * Copyright (c) 2009, 2024 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -2868,7 +2868,7 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 	public static GraphicalViewer findDiagramViewer(SWTUIElement figureCanvas,
 			Class cl, Class notcl, SWTUIPlayer player) {
 		Object viewer = null;
-		viewer = getThis(figureCanvas.widget);
+		viewer = getViewer(figureCanvas.widget);
 		if (viewer == null) {
 			// Try iterate listeners for graphical viewer one.
 			Listener[] listeners = figureCanvas.widget
@@ -2877,14 +2877,14 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 				if (listener instanceof TypedListener) {
 					TypedListener tl = (TypedListener) listener;
 					org.eclipse.swt.internal.SWTEventListener eventListener = tl.getEventListener();
-					Object o = getThis(eventListener);
+					Object o = getViewer(eventListener);
 					if (cl.isInstance(o)
 							&& (notcl == null || !notcl.isInstance(o))) {
 						viewer = o;
 						break;
 					}
 				} else {
-					Object o = getThis(listener);
+					Object o = getViewer(listener);
 					if (cl.isInstance(o)
 							&& (notcl == null || !notcl.isInstance(o))) {
 						viewer = o;
@@ -2916,8 +2916,14 @@ public class GefProcessor implements ITeslaCommandProcessor, IModelMapperHelper 
 		return null;
 	}
 
-	private static Object getThis(Object widget) {
-		return TeslaGefAccess.getThis(widget);
+	private static Object getViewer(Object widget) {
+		// Anonymous class
+		Object viewer = TeslaGefAccess.getThis(widget);
+		if (viewer != null) {
+			return viewer;
+		}
+		// Method-Reference
+		return TeslaGefAccess.getArg(widget);
 	}
 
 	public static DiagramViewerUIElement getDiagramViewerElement(
