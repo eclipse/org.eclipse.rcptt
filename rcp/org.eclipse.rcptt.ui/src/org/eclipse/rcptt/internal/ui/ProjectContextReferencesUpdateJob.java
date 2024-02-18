@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -177,7 +178,7 @@ public class ProjectContextReferencesUpdateJob extends Job {
 								}
 							}
 						}
-					}, monitorArg);
+					}, project.getProject(), IWorkspace.AVOID_UPDATE, monitorArg);
 		} catch (CoreException e) {
 			return e.getStatus();
 		}
