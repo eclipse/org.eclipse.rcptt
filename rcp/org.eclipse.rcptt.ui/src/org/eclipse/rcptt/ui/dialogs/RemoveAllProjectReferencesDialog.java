@@ -26,20 +26,30 @@ public class RemoveAllProjectReferencesDialog {
 	private static IPreferenceStore prefStore = Q7UIPlugin.getDefault()
 			.getPreferenceStore();
 
+	private static boolean isOpen = false;
+
 	public static boolean open(Shell parentShell, IQ7Project project,
 			List<IQ7NamedElement> elements) {
-		String value = prefStore
-				.getString(IPreferenceKeys.ALL_REMOVE_PROJECT_REFERENCES);
-		if (MessageDialogWithToggle.ALWAYS.equals(value)) {
-			return true;
+		while (isOpen) {
+			parentShell.getDisplay().readAndDispatch();
 		}
-		if (MessageDialogWithToggle.NEVER.equals(value)) {
-			return false;
-		} else {
-			MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(parentShell,
-					"Project Context and Verification References", generateMessage(elements),
-					null, false, prefStore, IPreferenceKeys.ALL_REMOVE_PROJECT_REFERENCES);
-			return dialog.open() == IDialogConstants.YES_ID;
+		isOpen = true;
+		try {
+			String value = prefStore
+					.getString(IPreferenceKeys.ALL_REMOVE_PROJECT_REFERENCES);
+			if (MessageDialogWithToggle.ALWAYS.equals(value)) {
+				return true;
+			}
+			if (MessageDialogWithToggle.NEVER.equals(value)) {
+				return false;
+			} else {
+				MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion(parentShell,
+						"Project Context and Verification References", generateMessage(elements),
+						null, false, prefStore, IPreferenceKeys.ALL_REMOVE_PROJECT_REFERENCES);
+				return dialog.open() == IDialogConstants.YES_ID;
+			}
+		} finally {
+			isOpen = false;
 		}
 	}
 
@@ -57,7 +67,6 @@ public class RemoveAllProjectReferencesDialog {
 		// }
 		return label.toString();
 	}
-
 
 	public static boolean isNever() {
 		String value = prefStore
