@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _bssvoHM7EeGsLtfm1BUmHg
-Runtime-Version: 2.5.5.202301310056
-Save-Time: 1/31/23, 7:59 PM
+Runtime-Version: 2.5.5.202403141550
+Save-Time: 3/15/24, 12:31 AM
 Tags: feature/debug, selfAUT
 Testcase-Type: ecl
 
@@ -40,33 +40,28 @@ get-editor CreateJavaProject | get-section Script | get-left-ruler | get-ruler-c
 set-q7-option jobHangTimeout 10000
 set-q7-option eclExecutionDelay 300
 get-view "Test Explorer" | get-tree | select "MyProject/CreateJavaProject" | get-menu "Debug As/.* Test Cases" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 8\\)" 
-    | get-property caption | equals "get-view (CreateJavaProject: 8)" | verify-true
+
+
+proc "wait-for-frame" [val path] -body {
+	try {
+		get-view Debug | get-tree 
+		    | get-item [ concat "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/" $path ] 
+	} -times 20 -delay 500	
+}
+
+wait-for-frame "get-view \\(CreateJavaProject: 8\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 8\\)" 
-    | get-property caption | equals "get-tree (CreateJavaProject: 8)" | verify-true
+wait-for-frame "get-tree \\(CreateJavaProject: 8\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-property \\(CreateJavaProject: 8\\)" 
-    | get-property caption | equals "get-property (CreateJavaProject: 8)" | verify-true
+wait-for-frame "get-property \\(CreateJavaProject: 8\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/equals \\(CreateJavaProject: 8\\)" 
-    | get-property caption | equals "equals (CreateJavaProject: 8)" | verify-true
+wait-for-frame "equals \\(CreateJavaProject: 8\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/verify-true \\(CreateJavaProject: 8\\)" 
-    | get-property caption | equals "verify-true (CreateJavaProject: 8)" | verify-true
+wait-for-frame "verify-true \\(CreateJavaProject: 8\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-view \\(CreateJavaProject: 9\\)" 
-    | get-property caption | equals "get-view (CreateJavaProject: 9)" | verify-true
+wait-for-frame "get-view \\(CreateJavaProject: 9\\)" 
 get-button "Step Into (F5)" | click
-get-view Debug | get-tree 
-    | get-item "CreateJavaProject \\[RCPTT Test Suite\\]/CreateJavaProject/ECL Thread/get-tree \\(CreateJavaProject: 9\\)" 
-    | get-property caption | equals "get-tree (CreateJavaProject: 9)" | verify-true
+wait-for-frame "get-tree \\(CreateJavaProject: 9\\)" 
  get-button "Resume (F8)" | click
 get-button "RCPTT perspective" | click
 with [get-view "Execution View"] {
