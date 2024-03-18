@@ -8,12 +8,14 @@ External-Reference: http://jira4.xored.com/browse/QS-1111
 Id: _EdBBULVEEeGHo51xlkPHGw
 Runtime-Version: 2.5.5.202403150112
 Save-Time: 3/15/24, 2:58 PM
-Tags: Recording, Browser
+Tags: Recording, Browser, skipExecution
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
 Content-Type: text/plain
 Entry-Name: .description
+
+FAILS because of https://github.com/eclipse/org.eclipse.rcptt/issues/42
 
 Copyright (c) 2009, 2019 Xored Software Inc and others.
 All rights reserved. This program and the accompanying materials
