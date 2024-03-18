@@ -14,6 +14,11 @@ pipeline {
     }
   }
 
+  options {
+     buildDiscarder(logRotator(numToKeepStr: '3', daysToKeepStr: '10'))
+     disableConcurrentBuilds()
+  }
+
   stages {
     stage('Start Build and Test') {
       steps {
