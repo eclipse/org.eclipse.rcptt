@@ -42,7 +42,9 @@ Entry-Name: .content
 
 clear-log-view 
 log string1
+wait 1000
 log string2
+wait 1000
 log string3
 with [get-view "Error Log" | get-tree] {
     get-item string3 | get-property index | equals 0 | verify-true
