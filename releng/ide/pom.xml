@@ -78,7 +78,7 @@
     <repository>
       <id>2023-06</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/2023-06</url>
+      <url>http://download.eclipse.org/releases/2024-03</url>
     </repository>
     <repository>
       <id>orbit</id>
