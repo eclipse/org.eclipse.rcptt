@@ -49,6 +49,7 @@ with [get-window Search] {
     
     get-combo -after [get-label "Containing text:"] | set-text key
     get-group "Search in" | get-button Contexts | click
+    get-group Scope | get-button Workspace | click
     get-button Search | click
 }
 get-view Search | get-button "Expand All" | click
