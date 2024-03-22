@@ -73,7 +73,7 @@
     <repository>
       <id>2023-06-updates</id>
       <layout>p2</layout>
-      <url>https://download.eclipse.org/eclipse/updates/4.28/</url>
+      <url>https://download.eclipse.org/eclipse/updates/4.31/</url>
     </repository>
     <repository>
       <id>2023-06</id>
