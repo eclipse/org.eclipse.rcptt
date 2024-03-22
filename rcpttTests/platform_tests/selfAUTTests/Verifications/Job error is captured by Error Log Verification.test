@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _fkfQ0JwXEe22OJx9wPMPmQ
-Runtime-Version: 2.5.5.202403201809
-Save-Time: 3/22/24, 7:00 PM
+Runtime-Version: 2.5.5.202403221346
+Save-Time: 3/22/24, 9:43 PM
 Testcase-Type: ecl
 
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
@@ -21,6 +21,5 @@ get-editor "Job error capturing with Error Log verification" | get-button Replay
 try {
 get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text 
     | equals "Error log verification 'NoErrorsOrWarnings' failed:\nLog entry\nStatus ERROR: com.xored.q7.quality.mockups.platform code=0 Job error\nis denied by predicate\nERROR, WARNING" | verify-true
-} -times 10 -delay 100
-
+} -times 10 -delay 1000
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
