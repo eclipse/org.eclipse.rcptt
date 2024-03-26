@@ -199,6 +199,7 @@ public class Images {
 		if (image == null || image.isDisposed()) {
 			registry.remove(key);
 			registry.put(key, getImageDescriptor(key));
+			image = registry.get(key);
 		}
 		return image;
 	}
