@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _F8k5sO_-EeCXWfaP50PILw
-Runtime-Version: 2.4.3.201905141211
-Save-Time: 5/15/19 1:28 PM
+Runtime-Version: 2.5.5.202403210919
+Save-Time: 3/26/24, 3:05 PM
 Tags: selfAUT, ControlPanel
 Testcase-Type: ecl
 
@@ -37,6 +37,7 @@ Content-Type: text/ecl
 Entry-Name: .content
 
 get-view "Test Explorer" | get-tree | select "TestQ7Prj/Test scenario" | double-click
+wait 5000
 get-editor "Test scenario" | get-button Record | click
 try -command {
 	take-screenshot
