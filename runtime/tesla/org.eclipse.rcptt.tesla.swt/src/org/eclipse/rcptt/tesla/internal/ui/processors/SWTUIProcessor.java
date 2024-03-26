@@ -1517,7 +1517,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 		if (SKIP_ACTIVATION_FOR_SHELLS.contains(getShellCreationMethodName(shell))) {
 			return true;
 		}
-		Shell activeShell = TeslaEventManager.getActiveShell();
+		Shell activeShell = shell.getDisplay().getActiveShell();
 		if (activeShell != shell) {
 			Q7WaitUtils.updateInfo("shell.activate",
 					shell.getClass().getName(), info);
