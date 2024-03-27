@@ -50,11 +50,6 @@
 			</modules>
 			<repositories>
 				<repository>
-					<id>neon</id>
-					<layout>p2</layout>
-					<url>http://download.eclipse.org/releases/neon</url>
-				</repository>
-				<repository>
 					<id>ajdt48</id>
 					<layout>p2</layout>
 					<url>http://download.eclipse.org/tools/ajdt/48/dev/update</url>
