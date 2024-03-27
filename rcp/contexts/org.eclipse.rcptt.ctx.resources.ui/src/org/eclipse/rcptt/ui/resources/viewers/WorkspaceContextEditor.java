@@ -437,6 +437,7 @@ public class WorkspaceContextEditor extends BaseContextEditor {
 				.createButton(parent, action.getText(), SWT.PUSH);
 		button.setData(action);
 		Image image = action.getImageDescriptor().createImage();
+		button.addDisposeListener(event -> image.dispose());
 		button.setImage(image);
 		button.addSelectionListener(new SelectionAdapter() {
 
