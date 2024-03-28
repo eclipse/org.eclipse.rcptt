@@ -53,6 +53,7 @@ with [get-window Search] {
         key-type "ARROW_DOWN"
     }
     get-group "Search in" | get-button Script | click
+    get-group Scope | get-button Workspace | click
     get-button Search | click
 }
 get-view Search | get-button "Expand All" | click
