@@ -38,9 +38,12 @@
       <import plugin="org.eclipse.rcptt.tesla.ecl"/>
       <import feature="org.eclipse.emf.ecore"/>
       <import plugin="org.aspectj.runtime"/>
-      <import feature="org.eclipse.rap.equinox.target.feature" version="3.1.0.qualifier"/>
+      <import feature="org.eclipse.rap.equinox.target.feature" version="3.1.0.qualifier" match="compatible"/>
       <import feature="org.eclipse.rap.feature" version="3.1.0.qualifier"/>
       <import plugin="com.google.guava"/>
+      <import plugin="org.eclipse.core.variables" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.core.filebuffers" version="3.6.0" match="compatible"/>
+      <import plugin="org.eclipse.core.filesystem" version="1.7.0" match="compatible"/>
    </requires>
 
    <plugin
@@ -523,27 +526,6 @@
 
    <plugin
          id="org.eclipse.equinox.security"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.variables"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filebuffers"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem"
          download-size="0"
          install-size="0"
          version="0.0.0"
