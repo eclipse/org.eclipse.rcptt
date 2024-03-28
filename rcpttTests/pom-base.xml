@@ -21,7 +21,7 @@
     <pluginRepository>
       <id>rcptt-releases</id>
       <name>RCPTT Maven repository Releases</name>
-      <url>http://repo.eclipse.org/content/repositories/rcptt-releases/</url>
+      <url>https://repo.eclipse.org/content/repositories/rcptt-releases/</url>
     </pluginRepository>
     <pluginRepository>
       <id>rcptt-snapshots</id>

@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rcptt.launching.injection;bundle-version="[2.5.5,3.0.0)",
  org.eclipse.pde.core,
  org.eclipse.equinox.p2.repository.tools,
- org.eclipse.equinox.p2.director,
+ org.eclipse.equinox.p2.director;bundle-version="2.6.200",
  org.eclipse.rcptt.util;bundle-version="[2.5.5,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

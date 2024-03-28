@@ -40,6 +40,9 @@
       <plugin id="com.ibm.icu"/>
       <plugin id="com.jcraft.jsch"/>
       <plugin id="com.sun.el"/>
+      <plugin id="com.sun.el.javax.el"/>
+      <plugin id="jakarta.annotation-api"/>
+      <plugin id="jakarta.inject.jakarta.inject-api"/>
       <plugin id="jakarta.servlet-api"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.el"/>
@@ -49,7 +52,9 @@
       <plugin id="javax.xml"/>
       <plugin id="org.antlr.runtime"/>
       <plugin id="org.apache.ant"/>
+      <plugin id="org.apache.aries.spifly.dynamic.bundle"/>
       <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.commons-fileupload"/>
       <plugin id="org.apache.commons.jxpath"/>
       <plugin id="org.apache.commons.lang3"/>
       <plugin id="org.apache.commons.logging"/>
@@ -57,6 +62,9 @@
       <plugin id="org.apache.felix.gogo.runtime"/>
       <plugin id="org.apache.felix.gogo.shell"/>
       <plugin id="org.apache.felix.scr"/>
+      <plugin id="org.apache.httpcomponents.client5.httpclient5"/>
+      <plugin id="org.apache.httpcomponents.core5.httpcore5"/>
+      <plugin id="org.apache.httpcomponents.core5.httpcore5-h2"/>
       <plugin id="org.apache.httpcomponents.httpclient"/>
       <plugin id="org.apache.httpcomponents.httpcore"/>
       <plugin id="org.apache.jasper.glassfish"/>
@@ -116,11 +124,9 @@
       <plugin id="org.eclipse.equinox.event"/>
       <plugin id="org.eclipse.equinox.frameworkadmin"/>
       <plugin id="org.eclipse.equinox.frameworkadmin.equinox"/>
-      <plugin id="org.eclipse.equinox.http.jetty"/>
       <plugin id="org.eclipse.equinox.http.registry"/>
+      <plugin id="org.eclipse.equinox.http.service.api"/>
       <plugin id="org.eclipse.equinox.http.servlet"/>
-      <plugin id="org.eclipse.equinox.jsp.jasper"/>
-      <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
       <plugin id="org.eclipse.equinox.launcher"/>
       <plugin id="org.eclipse.equinox.launcher.cocoa.macosx.aarch64" fragment="true"/>
       <plugin id="org.eclipse.equinox.launcher.cocoa.macosx.x86_64" fragment="true"/>
@@ -162,21 +168,13 @@
       <plugin id="org.eclipse.jdt.apt.pluggable.core"/>
       <plugin id="org.eclipse.jdt.core"/>
       <plugin id="org.eclipse.jdt.core.compiler.batch"/>
-      <plugin id="org.eclipse.jdt.core.manipulation"/>
       <plugin id="org.eclipse.jdt.debug"/>
-      <plugin id="org.eclipse.jdt.junit"/>
       <plugin id="org.eclipse.jdt.junit.core"/>
       <plugin id="org.eclipse.jdt.junit.runtime"/>
       <plugin id="org.eclipse.jdt.junit4.runtime"/>
       <plugin id="org.eclipse.jdt.launching"/>
       <plugin id="org.eclipse.jdt.launching.macosx"/>
-      <plugin id="org.eclipse.jdt.launching.ui.macosx"/>
-      <plugin id="org.eclipse.jetty.http"/>
-      <plugin id="org.eclipse.jetty.io"/>
-      <plugin id="org.eclipse.jetty.security"/>
-      <plugin id="org.eclipse.jetty.server"/>
-      <plugin id="org.eclipse.jetty.servlet"/>
-      <plugin id="org.eclipse.jetty.util"/>
+      <plugin id="org.eclipse.jetty.logging"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jsch.core"/>
       <plugin id="org.eclipse.osgi"/>
@@ -189,9 +187,7 @@
       <plugin id="org.eclipse.pde.build"/>
       <plugin id="org.eclipse.pde.core"/>
       <plugin id="org.eclipse.pde.ds.core"/>
-      <plugin id="org.eclipse.pde.junit.runtime"/>
       <plugin id="org.eclipse.pde.launching"/>
-      <plugin id="org.eclipse.pde.runtime"/>
       <plugin id="org.eclipse.pde.ua.core"/>
       <plugin id="org.eclipse.platform"/>
       <plugin id="org.eclipse.rcp"/>
@@ -205,8 +201,6 @@
       <plugin id="org.eclipse.rcptt.core.launching"/>
       <plugin id="org.eclipse.rcptt.core.scenario"/>
       <plugin id="org.eclipse.rcptt.core.search"/>
-      <plugin id="org.eclipse.rcptt.core.swt"/>
-      <plugin id="org.eclipse.rcptt.core.swt.win64" fragment="true"/>
       <plugin id="org.eclipse.rcptt.ctx.capability"/>
       <plugin id="org.eclipse.rcptt.ctx.debug"/>
       <plugin id="org.eclipse.rcptt.ctx.extensions"/>
@@ -286,15 +280,20 @@
       <plugin id="org.eclipse.team.core"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="org.hamcrest"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
       <plugin id="org.objectweb.asm"/>
+      <plugin id="org.objectweb.asm.commons"/>
       <plugin id="org.objectweb.asm.tree"/>
+      <plugin id="org.objectweb.asm.tree.analysis"/>
+      <plugin id="org.objectweb.asm.util"/>
       <plugin id="org.osgi.service.cm"/>
       <plugin id="org.osgi.service.component"/>
       <plugin id="org.osgi.service.component.annotations"/>
       <plugin id="org.osgi.service.device"/>
       <plugin id="org.osgi.service.event"/>
+      <plugin id="org.osgi.service.http.whiteboard"/>
       <plugin id="org.osgi.service.prefs"/>
       <plugin id="org.osgi.service.repository"/>
       <plugin id="org.osgi.util.function"/>
@@ -307,6 +306,7 @@
       <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
+      <plugin id="slf4j.api"/>
    </plugins>
 
    <configurations>

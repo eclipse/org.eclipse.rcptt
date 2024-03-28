@@ -69,6 +69,25 @@
 			</build>
 		</profile>
 		<profile>
+			<id>aarch64</id>
+			<activation>
+				<os>
+					<arch>aarch64</arch>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>tycho-surefire-plugin</artifactId>
+						<groupId>org.eclipse.tycho</groupId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>runtime4x</id>
 			<properties>
 				<hookVersion>1.2.200.v20180827-1235</hookVersion>
