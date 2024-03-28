@@ -1540,7 +1540,7 @@ public class SWTUIProcessor implements ITeslaCommandProcessor,
 					}
 
 					shell.setActive();
-					// shell.forceActive();
+					shell.forceActive();
 					TeslaEventManager.setActiveShell(shell);
 
 					// seems like for linux systems event triggered by shell.setActive().

@@ -273,10 +273,10 @@ public aspect DisplayAspect {
 						}
 					}
 				}
-
 				activeShell = fixInvisibleShell(activeShell);
 
 				if (activeShell != null && !activeShell.isDisposed()) {
+					TeslaEventManager.setActiveShell(activeShell);
 					return activeShell;
 				}
 				return null;
