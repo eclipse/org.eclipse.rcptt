@@ -329,8 +329,8 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
       }
 
       this.script.sh "$SSH_CLIENT mkdir $storageFolder/ide"
-      for(platform in ["linux.gtk", "macosx.cocoa", "win32.win32"]) {
-        this.script.sh "scp -r $PRODUCTS_DIR/org.eclipse.rcptt.platform.product-${platform}.x86_64.zip $CREDENTIAL:$storageFolder/ide/rcptt.ide-${version}${qualifiedDecoration}-${platform}.x86_64.zip"
+      for(platform in ["linux.gtk.x86_64", "macosx.cocoa.x86_64", "macosx.cocoa.aarch64", "win32.win32.x86_64"]) {
+        this.script.sh "scp -r $PRODUCTS_DIR/org.eclipse.rcptt.platform.product-${platform}.zip $CREDENTIAL:$storageFolder/ide/rcptt.ide-${version}${qualifiedDecoration}-${platform}.zip"
       }
 
       if(copy_full) {
