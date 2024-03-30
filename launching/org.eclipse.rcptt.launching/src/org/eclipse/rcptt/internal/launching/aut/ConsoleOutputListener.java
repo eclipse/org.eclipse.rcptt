@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.IStreamListener;
+import org.eclipse.debug.core.model.IFlushableStreamMonitor;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamMonitor;
 import org.eclipse.debug.core.model.IStreamsProxy;
@@ -72,6 +73,10 @@ public class ConsoleOutputListener implements AutLaunchListener {
 		this.launch = launch;
 		for (IStreamMonitor sm : getMonitors(launch.getLaunch())) {
 			sm.addListener(listener);
+			if (sm instanceof IFlushableStreamMonitor flushable) {
+				log.append(sm.getContents());
+				flushable.setBuffered(false);  // Fixes OutOfMemoryError
+			}
 		}
 
 	}
@@ -82,6 +87,9 @@ public class ConsoleOutputListener implements AutLaunchListener {
 			return;
 		for (IStreamMonitor sm : getMonitors(launch2.getLaunch())) {
 			sm.removeListener(listener);
+			if (sm instanceof IFlushableStreamMonitor flushable) {
+				flushable.setBuffered(true);
+			}
 		}
 		launch = null;
 	}
