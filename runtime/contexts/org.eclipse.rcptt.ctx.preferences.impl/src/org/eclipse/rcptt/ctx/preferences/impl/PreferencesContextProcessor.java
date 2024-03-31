@@ -312,12 +312,7 @@ public class PreferencesContextProcessor implements IContextProcessor {
 			for (String key: preferences.childrenNames()) {
 				if (!datasSet.contains(key)) {
 					applyPreferences(key, PreferencesFactory.eINSTANCE.createPrefNode(), preferences, clean);
-					preferences.node(key).removeNode();
 				}
-			}
-			
-			if (preferences.childrenNames().length == 0 && preferences.keys().length == 0) {
-				preferences.removeNode();
 			}
 		}
 	}
