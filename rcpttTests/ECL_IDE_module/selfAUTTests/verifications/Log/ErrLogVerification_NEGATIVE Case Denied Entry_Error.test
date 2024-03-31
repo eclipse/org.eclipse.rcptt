@@ -4,11 +4,11 @@ Contexts: _B01ToH0KEeO5CYdzFmGe7Q,_4zI9AWpgEeCzId1Gnkds9A,_ZQYygK2sEeCqBbDEJWufv
 Element-Name: ErrLogVerification_NEGATIVE Case Denied Entry_Error
 Element-Type: testcase
 Element-Version: 3.0
-External-Reference: 
+External-Reference: https://github.com/eclipse/org.eclipse.rcptt/issues/58
 Id: _Iqh_IH0VEeO5CYdzFmGe7Q
-Runtime-Version: 2.5.5.202403280142
-Save-Time: 3/29/24, 12:19 AM
-Tags: verification/Error Log, selfAUT
+Runtime-Version: 2.5.5.202403310907
+Save-Time: 4/1/24, 12:16 AM
+Tags: verification/Error Log, selfAUT, skipExecution
 Testcase-Type: ecl
 
 ------=_.description-216f885c-d591-38ce-8ea2-e4f8cb4d6ffa
