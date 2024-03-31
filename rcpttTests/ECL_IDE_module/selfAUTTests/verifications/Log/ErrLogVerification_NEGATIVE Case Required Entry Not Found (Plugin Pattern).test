@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _e6IKoH0REeO5CYdzFmGe7Q
-Runtime-Version: 2.5.5.202403210919
-Save-Time: 3/25/24, 3:11 PM
+Runtime-Version: 2.5.5.202403301941
+Save-Time: 3/31/24, 3:10 AM
 Tags: verification/Error Log, selfAUT
 Testcase-Type: ecl
 
@@ -62,9 +62,12 @@ with [get-editor ErrorLogVerification] {
 }
 get-view "Test Explorer" | get-tree | select "MyProject/TestCase" | double-click
 get-editor TestCase | get-button Replay | click
-try -times 10 -delay 1000 -command {
-	get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text | equals "Error log ver" +
-		"ification 'ErrorLogVerification' failed:\nRequired \nINFO, plugin: org.eclipse.ui2, message: Info Entry\nnot" +
-		" found" | verify-true
+with [get-view "Execution View" | get-label -after [get-label "Runs:"]] {
+	try -times 10 -delay 20000 -command {
+		get-property caption | equals "1/1" | verify-true
+	}
 }
+get-view "Execution View" | get-editbox -after [get-label "Message:"] | get-property text | equals "Error log verific" +
+	"ation 'ErrorLogVerification' failed:\nRequired \nINFO, plugin: org.eclipse.ui2, message: Info Entry\nnot found"
+	| verify-true
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
