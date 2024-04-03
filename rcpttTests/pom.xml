@@ -78,6 +78,9 @@
           </aut>
           <runner>
             <version>${runner-version}</version>
+						<vmArgs>
+							<vmArg>-XX:+HeapDumpOnOutOfMemoryError</vmArg>
+						</vmArgs>
           </runner>
           <skipTags>
             <tag>skipExecution</tag>
