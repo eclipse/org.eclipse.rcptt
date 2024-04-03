@@ -282,9 +282,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		} finally {
 			execThread.interrupt();
 		}
-
+		
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
+			if (wrapped instanceof InterruptedException ie) {
+				throw ie;
+			}
 			if (wrapped instanceof CoreException) {
 				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
 						new IStatus[] { ((CoreException) wrapped).getStatus() }, wrapped.getMessage(), wrapped));

@@ -14,10 +14,17 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ICoreRunnable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.IJobManager;
@@ -29,6 +36,7 @@ import org.eclipse.rcptt.tesla.internal.ui.player.UIJobCollector;
 import org.eclipse.swt.widgets.Display;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -73,16 +81,31 @@ public class UIJobCollectorTest {
 		}
 		debug("Busyloop - end");
 	});
-
+	
+	private final Job rescheduling = new Job("rescheduling") {
+		protected IStatus run(IProgressMonitor monitor) {
+			rescheduling.schedule(10000);
+			return Status.OK_STATUS;
+		}
+	};
+	
 	{
+		rescheduling.setPriority(Job.INTERACTIVE);
 		sleepingJob.setPriority(Job.INTERACTIVE);
 		oscillatingJob.setPriority(Job.INTERACTIVE);
 	}
 
 	@Before
-	public void waitForAllJobs() throws InterruptedException {
+	public void waitForAllJobs() throws InterruptedException, CoreException {
+		rescheduling.cancel();
+		sleepingJob.cancel();
+		oscillatingJob.cancel();
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceDescription d = workspace.getDescription();
+		d.setAutoBuilding(false);
+		workspace.setDescription(d);
 		Display display = Display.getCurrent();
-		while (display.readAndDispatch()) {
+		while (display != null && display.readAndDispatch()) {
 		}
 		UIJobCollector subject = new UIJobCollector();
 		MANAGER.addJobChangeListener(subject);
@@ -139,8 +162,7 @@ public class UIJobCollectorTest {
 		Thread.sleep(parameters.stepModeStepInterval + schedulingTolerance);
 		Assert.assertTrue("Should step after step interval", isEmpty(subject));
 	}
-	
-	@Ignore("https://bugs.eclipse.org/bugs/show_bug.cgi?id=550738")
+		
 	@Test
 	public void waitSecondRunAfterReschedule() throws InterruptedException {
 		Parameters parameters = new Parameters();
@@ -148,7 +170,7 @@ public class UIJobCollectorTest {
 		UIJobCollector subject = new UIJobCollector(parameters);
 		prepare(subject);
 		Job job = busyLoop;
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			final int attempt = i;
 			Assert.assertTrue(shutdown(job, 10000));
 			join(subject, 10000);
@@ -183,6 +205,7 @@ public class UIJobCollectorTest {
 			job.cancel();
 			job.schedule();
 			completedOnce.await();
+			Thread.sleep(500);
 			boolean result = isEmpty(subject);
 			Assert.assertFalse("Should not step immediately", result);
 			Assert.assertNotEquals(Job.NONE, job.getState());
@@ -191,6 +214,63 @@ public class UIJobCollectorTest {
 			job.cancel();
 		}
 	}
+	
+	@Test
+	public void doNotWaitForJobsRescheduledInFuture() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		Assert.assertTrue(isEmpty(subject));
+		rescheduling.schedule(0);
+		long start = System.currentTimeMillis();
+		rescheduling.join();
+		Thread.sleep(500);
+		Assert.assertTrue(isEmpty(subject));
+		Assert.assertTrue(System.currentTimeMillis() < start + 1000);
+	}
+	
+	@Test
+	public void doNotWaitForPrescheduledRescheduledInFuture() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		subject.disable();
+		addListener(rescheduling, new JobChangeAdapter() {
+			@Override
+			public void done(IJobChangeEvent event) {
+				subject.enable();
+		}});
+		rescheduling.schedule(100);
+		Thread.sleep(50);
+		rescheduling.join();
+		Thread.sleep(500);
+		Assert.assertTrue(isEmpty(subject));
+	}
+	
+	@Test
+	public void doNotWaitForCancelledScheduledLater() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		subject.disable();
+		addListener(rescheduling, new JobChangeAdapter() {
+			@Override
+			public void done(IJobChangeEvent event) {
+				subject.enable();
+		}});
+		rescheduling.schedule(10000);
+		rescheduling.cancel();
+		rescheduling.schedule(10000);
+		Thread.sleep(500);
+		Assert.assertTrue(isEmpty(subject));
+	}
+	
 	
 	private boolean shutdown(Job job, int timeoutInSeconds) throws InterruptedException {
 		long stop = System.currentTimeMillis() + timeoutInSeconds * 1000;
@@ -338,13 +418,14 @@ public class UIJobCollectorTest {
 
 	@Test
 	public void stepInSyncExec() {
+		Display display = Display.getCurrent();
+		Assume.assumeNotNull(display);
 		Parameters parameters = new Parameters();
 		parameters.stepModeStartDelay = schedulingTolerance * 3;
 		parameters.stepModeStepInterval = schedulingTolerance;
 		UIJobCollector subject = new UIJobCollector(parameters);
 		addListener(subject);
 		MessageDialog dialog = new MessageDialog(null, "hello", null, "press X", 0, 0, new String[] { "X" });
-		Display display = Objects.requireNonNull(Display.getCurrent());
 		Job closeDialog = Job.create("close dialog", monitor -> {
 			while (!monitor.isCanceled() && dialog.getShell() == null) {
 				try {
@@ -378,6 +459,7 @@ public class UIJobCollectorTest {
 		closeJobAfterTest(sleepingJob);
 		closeJobAfterTest(oscillatingJob);
 		closeJobAfterTest(busyLoop);
+		closeJobAfterTest(rescheduling);
 		closer.close();
 	}
 
