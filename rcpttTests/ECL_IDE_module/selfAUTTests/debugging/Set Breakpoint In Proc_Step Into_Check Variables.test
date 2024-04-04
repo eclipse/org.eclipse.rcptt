@@ -6,8 +6,8 @@ Element-Type: testcase
 Element-Version: 3.0
 External-Reference: 
 Id: _P7DxkSWhEeOQ58zpl-lVdg
-Runtime-Version: 2.3.0.201804282309
-Save-Time: 5/31/19 10:58 AM
+Runtime-Version: 2.5.5.202403150112
+Save-Time: 3/19/24, 10:27 PM
 Tags: selfAUT
 Testcase-Type: ecl
 
@@ -38,38 +38,42 @@ with [get-editor "New Java Class Procs" | get-section Script | get-left-ruler] {
     get-menu "Toggle Breakpoint" | click
 }
 
-set-q7-option jobHangTimeout 60000
+set-q7-option jobHangTimeout 100
+
 get-view "Test Explorer" | get-tree | select "MyProject/Dummy" | get-menu "Debug As/1 Test Cases" | click
+try {
     with [get-button "Step Over (F6)"] {
-    
-        click
         click
     }
-    with [get-button "Step Into (F5)"] {
-        click
-        click
-        click
-        click
-        click
-        click
-        click
+} -times 20 -delay 500
+try {
+    with [get-button "Step Over (F6)"] {
         click
     }
+} -times 20 -delay 500
+repeat {
+    try {
+        with [get-button "Step Into (F5)"] {
+            click
+        }
+    } -times 20 -delay 500
+} -times 8
 
-
-with [get-view Variables | get-tree] {
-    get-property itemCount | equals 4 | verify-true
-    get-item "open-new-context-dialog" | get-property "columns[0]" | equals "open-new-context-dialog" | verify-true
-    get-item "open-new-context-dialog" | get-property "columns[1]" | equals "" | verify-true
-    get-item "open-new-context-dialog/project" | get-property "columns[0]" | equals project | verify-true
-    get-item "open-new-context-dialog/project" | get-property "columns[1]" | equals TestProject | verify-true
-    get-item "open-new-context-dialog/folder" | get-property "columns[0]" | equals folder | verify-true
-    get-item "open-new-context-dialog/folder" | get-property "columns[1]" | equals contexts | verify-true
-    get-item project | get-property "columns[0]" | equals project | verify-true
-    get-item project | get-property "columns[1]" | equals TestProject | verify-true
-    get-item folder | get-property "columns[0]" | equals folder | verify-true
-    get-item folder | get-property "columns[1]" | equals contexts | verify-true
-    get-item name | get-property "columns[0]" | equals name | verify-true
-    get-item name | get-property "columns[1]" | equals myContext | verify-true
-}
+try {
+    with [get-view Variables | get-tree] {
+        get-property itemCount | equals 4 | verify-true
+        get-item "open-new-context-dialog" | get-property "columns[0]" | equals "open-new-context-dialog" | verify-true
+        get-item "open-new-context-dialog" | get-property "columns[1]" | equals "" | verify-true
+        get-item "open-new-context-dialog/project" | get-property "columns[0]" | equals project | verify-true
+        get-item "open-new-context-dialog/project" | get-property "columns[1]" | equals TestProject | verify-true
+        get-item "open-new-context-dialog/folder" | get-property "columns[0]" | equals folder | verify-true
+        get-item "open-new-context-dialog/folder" | get-property "columns[1]" | equals contexts | verify-true
+        get-item project | get-property "columns[0]" | equals project | verify-true
+        get-item project | get-property "columns[1]" | equals TestProject | verify-true
+        get-item folder | get-property "columns[0]" | equals folder | verify-true
+        get-item folder | get-property "columns[1]" | equals contexts | verify-true
+        get-item name | get-property "columns[0]" | equals name | verify-true
+        get-item name | get-property "columns[1]" | equals myContext | verify-true
+    }
+} -times 10 -delay 1000
 ------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--
