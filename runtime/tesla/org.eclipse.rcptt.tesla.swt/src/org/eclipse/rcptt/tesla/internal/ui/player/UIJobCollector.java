@@ -112,7 +112,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 		JobInfo(Job job) {
 			this.job = job;
-			status = calcJobStatus(job, 0);
+			this.status = calcJobStatus(job, 0);
 		}
 
 		synchronized void awake() {
@@ -132,6 +132,8 @@ public class UIJobCollector implements IJobChangeListener {
 			if (reschedule) {
 				// Job will be rescheduled
 				rescheduleCounter += 1;
+			} else {
+				status = calcJobStatus(job, startingTime - System.currentTimeMillis());
 			}
 		}
 
@@ -145,14 +147,11 @@ public class UIJobCollector implements IJobChangeListener {
 
 		synchronized boolean isActive() {
 			if (!JobStatus.REQUIRED.equals(status)) {
-				debug(this + " not required: " + status);
 				return false;
 			}
 			if (sleeping) {
 				long delay = startingTime - System.currentTimeMillis();
 				boolean rv = delay < TeslaLimits.getJobWaitForDelayedTimeout();
-				if (!rv)
-					debug(this + " is sleeping");
 				return rv;
 			}
 
@@ -162,11 +161,6 @@ public class UIJobCollector implements IJobChangeListener {
 		synchronized void scheduled(long delay) {
 			sleeping = false;
 			status = calcJobStatus(job, delay);
-			debug(this + " is scheduled as " + status);
-			if (DEBUG) {
-				Exception e = new Exception("Scheduled " + this);
-				e.printStackTrace(System.out);
-			}
 			startingTime = System.currentTimeMillis() + delay;
 		}
 
@@ -179,8 +173,8 @@ public class UIJobCollector implements IJobChangeListener {
 			case Job.WAITING: state = "WAITING"; break;
 			default: state = "NONE"; break;
 			}
-			return String.format("%s (%s), %s, active for %d, blocked for %d, running for %d",
-					job.getClass().getName(), job.getName(), state, System.currentTimeMillis() - startingTime,
+			return String.format("%s (%s), %s, status: %8s, is active: %b, active for %d, blocked for %d, running for %d",
+					job.getClass().getName(), job.getName(), state, status, isActive(), System.currentTimeMillis() - startingTime,
 					blocked ? System.currentTimeMillis() - blockedTime : 0,  blocked ? 0 : System.currentTimeMillis() - runningTime);
 		}
 
@@ -236,8 +230,8 @@ public class UIJobCollector implements IJobChangeListener {
 					Q7LoggingManager.get("jobs").log(msg, null);
 					ReportManager.appendLogExtra(msg);
 				}
-				debug("New job: " + rv);
 				jobs.put(job, rv);
+				event("new", rv);
 			}
 			return rv;
 		}
@@ -249,29 +243,39 @@ public class UIJobCollector implements IJobChangeListener {
 
 	@Override
 	public void awake(IJobChangeEvent event) {
-		getOrCreateJobInfo(event.getJob()).awake();
+		Job job = event.getJob();
+		JobInfo info = getOrCreateJobInfo(job);
+		info.awake();
+		event("awake", info);
 	}
 
 	@Override
 	public void done(IJobChangeEvent event) {
+		Job job = event.getJob();
 		synchronized (jobs) {
 			boolean reschedule = TeslaSWTAccess.getJobEventReSchedule(event) && state;
-			Job job = event.getJob();
-			JobInfo info = getOrCreateJobInfo(job);
-			info.done(reschedule);
 			if (needDisable && isJoinEmpty()) {
 				disable();
 			}
-			if (!reschedule) {
+			JobInfo info;
+			if (reschedule) {
+				info = getOrCreateJobInfo(job);
+				info.done(reschedule);
+				event("rescheduled", info);
+			} else {
+				info = jobs.get(job);
+				if (info != null) {
+					info.done(reschedule);
+					event("done", info);
+				}
 				// If job is scheduled immediately after cancellation, its "done" event comes after "scheduled".
 				// We can't remove rescheduled jobs, so we check if it is "truly" done and gone.
 				// If it is not rescheduled in any sense, we no no longer need it.
 				if (job.getState() == Job.NONE) { 
 					jobs.remove(job);
 				}
-				if (!IGNORED_BY_DEFAULT.contains(job.getClass().getName()))
-					debug("Job event - Done: " + info + ", rescheduled: " + reschedule);
 			}
+			
 		}
 	}
 
@@ -286,7 +290,7 @@ public class UIJobCollector implements IJobChangeListener {
 		}
 		JobInfo jobInfo = getOrCreateJobInfo(event.getJob());
 		jobInfo.scheduled(event.getDelay());
-		debug("Job event - Scheduled: " + jobInfo);
+		event("scheduled", jobInfo);
 		if (JobStatus.REQUIRED.equals(jobInfo.status)) {
 			if (event.getJob().belongsTo(TeslaSWTAccess.getDecoratorManagerFamily())) {
 				debug("Delay for " + jobInfo + " is nullified as it is a decoration job");
@@ -297,6 +301,7 @@ public class UIJobCollector implements IJobChangeListener {
 				JobsManager.getInstance().nulifyTime(event.getJob());
 			}
 		}
+
 	}
 
 	protected JobStatus calcJobStatus(Job job, long delay) {
@@ -382,7 +387,9 @@ public class UIJobCollector implements IJobChangeListener {
 
 	@Override
 	public void sleeping(IJobChangeEvent event) {
-		getOrCreateJobInfo(event.getJob()).sleeping();
+		JobInfo info = getOrCreateJobInfo(event.getJob());
+		info.sleeping();
+		event("sleeping", info);
 	}
 
 	private static boolean isModal(Shell shell) {
@@ -453,6 +460,7 @@ public class UIJobCollector implements IJobChangeListener {
 			long curTime = System.currentTimeMillis();
 			if (result) {
 				lastSuccessTime = curTime;
+				debug("No active jobs 1");
 				return result;
 			}
 			for (Job job : jobsInUI) {
@@ -464,6 +472,7 @@ public class UIJobCollector implements IJobChangeListener {
 
 			if (lastSuccessTime == 0) {
 				lastSuccessTime = curTime;
+				debug("Result: " + result);
 				return result;
 			}
 			if (curTime - lastSuccessTime > TeslaLimits.getJobLoggingTimeout()) {
@@ -798,6 +807,7 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	public void enable() {
+		debug("enable");
 		this.state = true;
 		this.needDisable = false;
 		// Add all current jobs to wait queue
@@ -831,6 +841,7 @@ public class UIJobCollector implements IJobChangeListener {
 	public void disable() {
 		this.state = false;
 		this.needDisable = false;
+		debug("disable");
 	}
 
 	public void setNeedDisable() {
@@ -934,6 +945,7 @@ public class UIJobCollector implements IJobChangeListener {
 	public void clean() {
 		synchronized (jobs) {
 			jobs.clear();
+			debug("clean");
 		}
 	}
 
@@ -949,5 +961,22 @@ public class UIJobCollector implements IJobChangeListener {
 		if (DEBUG_REPORT_OUTPUT) {
 			debug(message);
 		}
+	}
+	
+	private static void check(String message, JobInfo job) {
+		if (shouldDebug(job.job)) {
+			debug(String.format("check: %11s: %s", message, job));
+		}
+	}
+
+	
+	private static void event(String message, JobInfo job) {
+		if (shouldDebug(job.job)) {
+			debug(String.format("event: %11s: %s", message, job));
+		}
+	}
+	
+	private static boolean shouldDebug(Job job) {
+		return DEBUG && !IGNORED_BY_DEFAULT.contains(job.getClass().getName());
 	}
 }

@@ -148,7 +148,7 @@ public class ProcessStatusConverter implements
 		// Try to restore stored exception.
 		try {
 			Throwable th = exception.getThrowable();
-			if (Objects.equals(th.getClass().getName(), exception.getClassName())) {
+			if (th != null && Objects.equals(th.getClass().getName(), exception.getClassName())) {
 				return th;
 			}
 		} catch (RuntimeException e) {

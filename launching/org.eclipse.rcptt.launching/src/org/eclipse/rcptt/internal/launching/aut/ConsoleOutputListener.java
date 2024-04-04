@@ -39,6 +39,7 @@ public class ConsoleOutputListener implements AutLaunchListener {
 
 	private final LogBuilder log;
 	private AutLaunch launch = null;
+	private boolean logStarted = false;
 
 	public ConsoleOutputListener()
 	{
@@ -78,10 +79,11 @@ public class ConsoleOutputListener implements AutLaunchListener {
 				flushable.setBuffered(false);  // Fixes OutOfMemoryError
 			}
 		}
-
+		logStarted = true;
 	}
 
 	public void stopLogging() {
+		logStarted = false;
 		AutLaunch launch2 = launch;
 		if (launch2 == null)
 			return;
@@ -91,6 +93,7 @@ public class ConsoleOutputListener implements AutLaunchListener {
 				flushable.setBuffered(true);
 			}
 		}
+		log.clear();
 		launch = null;
 	}
 
@@ -102,6 +105,9 @@ public class ConsoleOutputListener implements AutLaunchListener {
 	}
 
 	public String getLog() {
+		if (!logStarted) {
+			throw new IllegalStateException("Log is not started");
+		}
 		return log.toString();
 	}
 
