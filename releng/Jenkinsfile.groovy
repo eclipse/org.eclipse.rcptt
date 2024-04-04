@@ -220,16 +220,15 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
   }
 
   private void _run_tests(String runner, String dir, String args) {
-    try {
+    this.script.warnError(message: "Tests failed") {
       this.script.sh "mvn clean verify -B -f ${dir}/pom.xml \
           -Dmaven.repo.local=${getWorkspace()}/m2 -e \
           -Dci-maven-version=2.0.0-SNAPSHOT \
           -DexplicitRunner=`readlink -f ${runner}` \
-          ${args} || true"
+          ${args}"
       this.script.sh "test -f ${dir}/target/results/tests.html"
-    } finally {
-      this.script.archiveArtifacts allowEmptyArchive: false, artifacts: "${dir}/target/results/**/*, ${dir}/target/**/*log,${dir}/target/surefire-reports/**"
     }
+    this.script.archiveArtifacts allowEmptyArchive: false, artifacts: "${dir}/target/results/**/*, ${dir}/target/**/*log,${dir}/target/surefire-reports/**"
   }
 
   void post_build_actions() {
