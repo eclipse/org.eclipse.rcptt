@@ -189,6 +189,7 @@ public class ProcessStatusConverter implements
 		Throwable finalResult = result.orElse(new IOException(exception.getClassName() + ": " + exception.getMessage()));
 		copyAttributesFromEObject(exception, finalResult);
 		suppressed.forEach(finalResult::addSuppressed);
+		exception.setThrowable(finalResult);
 		return finalResult;
 	}
 
