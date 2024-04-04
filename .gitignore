@@ -38,3 +38,4 @@ maven-plugin/rcptt-maven-modules.iml
 .tycho-consumer-pom.xml
 tycho*equinox
 tycho_reactor_agent*
+tycho*secure_storage
