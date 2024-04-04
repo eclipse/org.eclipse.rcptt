@@ -31,6 +31,35 @@
   </modules>
   <build>
     <plugins>
+      <plugin>
+        <groupId>${tycho-groupid}</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <resolver>p2</resolver>
+          <environments>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>aarch64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <properties>
@@ -42,14 +71,14 @@
   </properties>
   <repositories>
     <repository>
-      <id>2020-03-updates</id>
+      <id>2023-06-updates</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.15</url>
+      <url>https://download.eclipse.org/eclipse/updates/4.31/</url>
     </repository>
     <repository>
-      <id>2020-09</id>
+      <id>2023-06</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/2022-09</url>
+      <url>http://download.eclipse.org/releases/2024-03</url>
     </repository>
     <repository>
       <id>orbit</id>

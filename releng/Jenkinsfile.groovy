@@ -164,7 +164,7 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
   void archive() {
     this.script.junit "**/target/*-reports/*.xml"
     this.script.fingerprint "$RUNTIME_DIR/org.eclipse.rcptt.updates.runtime*/q7/**/*.*"
-    this.script.archiveArtifacts allowEmptyArchive: true, artifacts: "repository/**/target/repository/**/*, $PRODUCTS_DIR/*, $RUNNER_DIR/*.zip, maven-plugin/rcptt-maven-*/target/rcptt-maven-*.jar, $DOC_DIR/target/doc/**/*, **/target/**/*.log"
+    this.script.archiveArtifacts allowEmptyArchive: true, artifacts: "**/*.hrpof, repository/**/target/repository/**/*, $PRODUCTS_DIR/*, $RUNNER_DIR/*.zip, maven-plugin/rcptt-maven-*/target/rcptt-maven-*.jar, $DOC_DIR/target/doc/**/*, **/target/**/*.log"
   }
 
   private void sh_with_return(String command) {
@@ -220,16 +220,15 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
   }
 
   private void _run_tests(String runner, String dir, String args) {
-    try {
+    this.script.warnError(message: "Tests failed") {
       this.script.sh "mvn clean verify -B -f ${dir}/pom.xml \
           -Dmaven.repo.local=${getWorkspace()}/m2 -e \
           -Dci-maven-version=2.0.0-SNAPSHOT \
           -DexplicitRunner=`readlink -f ${runner}` \
-          ${args} || true"
+          ${args}"
       this.script.sh "test -f ${dir}/target/results/tests.html"
-    } finally {
-      this.script.archiveArtifacts allowEmptyArchive: false, artifacts: "${dir}/target/results/**/*, ${dir}/target/**/*log,${dir}/target/surefire-reports/**"
     }
+    this.script.archiveArtifacts allowEmptyArchive: false, artifacts: "${dir}/target/results/**/*, ${dir}/target/**/*log,${dir}/target/surefire-reports/**"
   }
 
   void post_build_actions() {
@@ -329,8 +328,8 @@ $SSH_DEPLOY_CONTAINER_VOLUMES
       }
 
       this.script.sh "$SSH_CLIENT mkdir $storageFolder/ide"
-      for(platform in ["linux.gtk", "macosx.cocoa", "win32.win32"]) {
-        this.script.sh "scp -r $PRODUCTS_DIR/org.eclipse.rcptt.platform.product-${platform}.x86_64.zip $CREDENTIAL:$storageFolder/ide/rcptt.ide-${version}${qualifiedDecoration}-${platform}.x86_64.zip"
+      for(platform in ["linux.gtk.x86_64", "macosx.cocoa.x86_64", "macosx.cocoa.aarch64", "win32.win32.x86_64"]) {
+        this.script.sh "scp -r $PRODUCTS_DIR/org.eclipse.rcptt.platform.product-${platform}.zip $CREDENTIAL:$storageFolder/ide/rcptt.ide-${version}${qualifiedDecoration}-${platform}.zip"
       }
 
       if(copy_full) {

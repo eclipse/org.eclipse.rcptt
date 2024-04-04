@@ -282,9 +282,12 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		} finally {
 			execThread.interrupt();
 		}
-
+		
 		Exception wrapped = wrappedException[0];
 		if (wrapped != null) {
+			if (wrapped instanceof InterruptedException ie) {
+				throw ie;
+			}
 			if (wrapped instanceof CoreException) {
 				throw new CoreException(new MultiStatus(PLUGIN_ID, 0,
 						new IStatus[] { ((CoreException) wrapped).getStatus() }, wrapped.getMessage(), wrapped));
@@ -950,17 +953,16 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 		try {
 			long stop = System.currentTimeMillis() + timeout;
 			return computeInNewSession(TimeoutInterruption.forTimeout(monitor, timeout, this), session -> {
+				ExecutionStatus result;
 				restoreState(session, properties);
-				try {
-					Command commandCopy = command;
-					IProcess process = session.execute(commandCopy);
-					IStatus processResult = process.waitFor(stop - System.currentTimeMillis(), monitor);
-					return new ExecutionStatus(processResult);
-				} finally {
-					if (monitor == null || !monitor.isCanceled()) {
-						dumpState(session);
-					}
+				Command commandCopy = command;
+				IProcess process = session.execute(commandCopy);
+				IStatus processResult = process.waitFor(stop - System.currentTimeMillis(), monitor);
+				result = new ExecutionStatus(processResult);
+				if (monitor == null || !monitor.isCanceled()) {
+					dumpState(session);
 				}
+				return result;
 			});
 		} catch (CoreException e) {
 			throw new CoreException(new MultiStatus(PLUGIN_ID, 0, new IStatus[] { ((CoreException) e).getStatus() },

@@ -302,6 +302,7 @@
         <setEntry value="org.eclipse.jdt.apt.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.pluggable.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.ui@default:default"/>
+        <setEntry value="org.eclipse.jdt.core.compiler.batch@default:default"/>
         <setEntry value="org.eclipse.jdt.core.formatterapp@default:default"/>
         <setEntry value="org.eclipse.jdt.core.manipulation@default:default"/>
         <setEntry value="org.eclipse.jdt.core@default:default"/>
@@ -492,6 +493,7 @@
         <setEntry value="org.eclipse.rcptt.launching.ext@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.injection@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.p2utils@default:default"/>
+        <setEntry value="org.eclipse.rcptt.launching.rap.ui@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.remote.ui@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.remote@default:default"/>
         <setEntry value="org.eclipse.rcptt.launching.tests@default:false"/>

@@ -84,7 +84,7 @@ public class ExecuteMojo extends AbstractRCPTTMojo {
 	private static final String ENABLE_SOFTWARE_INSTALLATION = "-enableSoftwareInstallation";
 
 	private static int shutdownListenerPort;
-	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms128m", "-Xmx256m",
+	private static final String[] DEFAULT_Q7_VM_ARGS = new String[] { "-Xms256m", "-Xmx512m",
 			"-Dorg.eclipse.rcptt.runner.returnTestFailure=true" };
 
 	// TODO: Replace this random number with carefully thought one

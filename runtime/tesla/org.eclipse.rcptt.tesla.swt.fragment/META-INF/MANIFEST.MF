@@ -6,6 +6,6 @@ Bundle-Version: 2.5.5.qualifier
 Bundle-Vendor: Eclipse RCP Testing Tool Project
 Bundle-Localization: plugin
 Fragment-Host: org.eclipse.swt
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.swt.dnd
 Automatic-Module-Name: org.eclipse.rcptt.tesla.swt.fragment
