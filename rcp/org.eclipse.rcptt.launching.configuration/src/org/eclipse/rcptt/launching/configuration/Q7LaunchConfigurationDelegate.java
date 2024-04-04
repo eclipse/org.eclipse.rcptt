@@ -22,9 +22,13 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunch;
@@ -55,6 +59,7 @@ import org.eclipse.rcptt.tesla.core.TeslaLimits;
 public class Q7LaunchConfigurationDelegate extends
 		EclipseApplicationLaunchConfiguration {
 	private static final String SECURE_STORAGE_FILE_NAME = "secure_storage";
+	private static final ILog LOG = Platform.getLog(Q7LaunchConfigurationDelegate.class);
 
 	// private Map<String, Object> fAllBundles;
 	// private Map<Object, String> fModels;
@@ -111,14 +116,14 @@ public class Q7LaunchConfigurationDelegate extends
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
-		SubMonitor sm = SubMonitor.convert(monitor, 6);
+		SubMonitor sm = SubMonitor.convert(monitor, 7);
+		MultiStatus warnings = new MultiStatus(getClass(), 0, "Launching " + configuration.getName());
 		try {
 			Job.getJobManager().join(
 					IBundlePoolConstansts.CLEAN_BUNDLE_POOL_JOB,
 					sm.split(1));
 		} catch (Exception e1) {
-			Q7ExtLaunchingPlugin.status(
-					"Failed to wait for bundle pool clear job", e1);
+			warnings.add(Status.error("Failed to wait for bundle pool clear job", e1));
 		}
 
 		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(configuration);
@@ -131,24 +136,46 @@ public class Q7LaunchConfigurationDelegate extends
 		if (helper == null) {
 			helper = TargetPlatformManager.findTarget(targetName,
 					sm.split(1), false);
-			if (helper != null) {
-				if (!helper.isResolved()) {
-					helper.resolve(sm.split(1));
-					if (helper.getStatus().isOK()) {
-						Q7TargetPlatformManager.setHelper(targetName, helper);
-					}
-				}
+		}
+		
+		if (helper != null) {
+			IStatus status = helper.resolve(sm.split(1));
+			if (status.matches(IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
+			if (status.matches(IStatus.ERROR))  {
+				helper.delete();
+				helper = null;
+			} else if (!status.isOK()) {
+				warnings.add(status);
 			}
 		}
 
-		if (helper == null
-				|| ((TargetPlatformHelper) helper).getTarget() == null) {
+		if (helper == null) {
 			helper = TargetPlatformManager
 					.getCurrentTargetPlatformCopy(targetName);
-			helper.resolve(sm.split(1));
-			IStatus rv = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
-			if (!rv.isOK())
-				Activator.getDefault().getLog().log(rv);
+			IStatus status = helper.resolve(sm.split(1));
+			if (status.matches(IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
+			if (status.matches(IStatus.ERROR))  {
+				helper.delete();
+				helper = null;
+				throw new CoreException(status);
+			} else if (!status.isOK()) {
+				warnings.add(status);
+			}
+			status = Q7TargetPlatformInitializer.initialize(helper, sm.split(1));
+			if (status.matches(IStatus.CANCEL)) {
+				throw new CoreException(status);
+			}
+			if (status.matches(IStatus.ERROR))  {
+				helper.delete();
+				helper = null;
+				throw new CoreException(status);
+			} else if (!status.isOK()) {
+				warnings.add(status);
+			}
 			helper.save();
 			Q7TargetPlatformManager.setHelper(targetName, helper);
 		}
@@ -171,19 +198,11 @@ public class Q7LaunchConfigurationDelegate extends
 		LaunchInfoCache.CachedInfo info = LaunchInfoCache.getInfo(config);
 		List<String> args = new ArrayList<String>(Arrays.asList(super
 				.getVMArguments(config)));
+		
+		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
+		
+		Q7ExternalLaunchDelegate.massageVmArguments(config, args, target, launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
 
-		args.add("-Dq7id=" + launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
-		args.add("-Dq7EclPort=" + AutEventManager.INSTANCE.getPort());
-
-		IPluginModelBase hook = ((TargetPlatformHelper) info.target)
-				.getWeavingHook();
-		if (hook == null) {
-			throw new CoreException(Q7ExtLaunchingPlugin.status("No "
-					+ AJConstants.HOOK + " plugin"));
-		}
-
-		args.add("-Dosgi.framework.extensions=reference:file:"
-				+ hook.getInstallLocation());
 		info.vmArgs = (String[]) args.toArray(new String[args.size()]);
 		return info.vmArgs;
 	}
