@@ -30,8 +30,8 @@ public class RemoveAllProjectReferencesDialog {
 
 	public static boolean open(Shell parentShell, IQ7Project project,
 			List<IQ7NamedElement> elements) {
-		while (isOpen) {
-			parentShell.getDisplay().readAndDispatch();
+		if (isOpen) {
+			return false;
 		}
 		isOpen = true;
 		try {
