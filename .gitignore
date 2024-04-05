@@ -39,3 +39,4 @@ maven-plugin/rcptt-maven-modules.iml
 tycho*equinox
 tycho_reactor_agent*
 tycho*secure_storage
+.ICE-unix

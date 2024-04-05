@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -136,6 +137,8 @@ public class Q7ExternalLaunchDelegate extends
 			if (!e.getStatus().matches(IStatus.CANCEL)) {
 				throw e;
 			}
+		} catch (OperationCanceledException e) {
+			throw new CoreException(Status.CANCEL_STATUS);
 		} catch (RuntimeException e) {
 			Q7ExtLaunchingPlugin.getDefault().log(
 					"RCPTT: Failed to Launch AUT: " + configuration.getName()
@@ -549,7 +552,21 @@ public class Q7ExternalLaunchDelegate extends
 			return info.vmArgs;
 		}
 		List<String> args = new ArrayList<String>(Arrays.asList(super.getVMArguments(config)));
+		ITargetPlatformHelper target = (ITargetPlatformHelper) info.target;
 
+		massageVmArguments(config, args, target, launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
+		
+
+		info.vmArgs = args.toArray(new String[args.size()]);
+		Q7ExtLaunchingPlugin.getDefault().info(
+				Q7_LAUNCHING_AUT + config.getName()
+						+ ": AUT JVM arguments is set to : "
+						+ Arrays.toString(info.vmArgs));
+		return info.vmArgs;
+	}
+
+	public static void massageVmArguments(ILaunchConfiguration config, List<String> args, ITargetPlatformHelper target, String autId)
+			throws CoreException {
 		// Filter some PDE parameters
 		Iterables.removeIf(args, new Predicate<String>() {
 			public boolean apply(String input) {
@@ -560,10 +577,9 @@ public class Q7ExternalLaunchDelegate extends
 			}
 		});
 
-		args.add("-Dq7id=" + launch.getAttribute(IQ7Launch.ATTR_AUT_ID));
+		args.add("-Dq7id=" + autId);
 		args.add("-Dq7EclPort=" + AutEventManager.INSTANCE.getPort());
 
-		TargetPlatformHelper target = (TargetPlatformHelper) ((ITargetPlatformHelper) info.target);
 
 		IPluginModelBase hook = target.getWeavingHook();
 		if (hook == null) {
@@ -574,22 +590,16 @@ public class Q7ExternalLaunchDelegate extends
 		// Append all other properties from original config file
 		OriginalOrderProperties properties = target.getConfigIniProperties();
 
-		args = UpdateVMArgs.addHook(args, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS));
+		ArrayList<String> argsCopy = new ArrayList<>(args);
+		args.clear();
+		args.addAll(UpdateVMArgs.addHook(argsCopy, hook, properties.getProperty(OSGI_FRAMEWORK_EXTENSIONS)));
 
 		args.addAll(vmSecurityArguments(config));
 		
 		args.add("-Declipse.vmargs=" + Joiner.on("\n").join(args) + "\n");
-		
-
-		info.vmArgs = args.toArray(new String[args.size()]);
-		Q7ExtLaunchingPlugin.getDefault().info(
-				Q7_LAUNCHING_AUT + config.getName()
-						+ ": AUT JVM arguments is set to : "
-						+ Arrays.toString(info.vmArgs));
-		return info.vmArgs;
 	}
 	
-	private static List<String> vmSecurityArguments(ILaunchConfiguration configuration) throws CoreException {
+	public static List<String> vmSecurityArguments(ILaunchConfiguration configuration) throws CoreException {
 		// Magic constant from org.eclipse.jdt.internal.launching.environments.ExecutionEnvironmentAnalyzer
 		ArrayList<String> result = new ArrayList<>();
 		Set<String> envs = getMatchingEnvironments(configuration);
