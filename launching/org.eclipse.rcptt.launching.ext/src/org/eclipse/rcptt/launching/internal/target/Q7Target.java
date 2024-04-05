@@ -136,7 +136,7 @@ public class Q7Target {
 		}
 
 		protected OriginalOrderProperties getConfig() {
-			return TargetPlatformHelper.processConfiguration(this);
+			return MoreObjects.firstNonNull(TargetPlatformHelper.processConfiguration(this), new OriginalOrderProperties());
 		}
 	}
 }
