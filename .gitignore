@@ -36,5 +36,7 @@ maven-plugin/rcptt-maven-plugin/rcptt-maven-plugin.iml
 maven-plugin/rcptt-maven-modules.iml
 .idea
 .tycho-consumer-pom.xml
+tycho*equinox
+tycho_reactor_agent*
+tycho*secure_storage
 .ICE-unix
-/tycho*
