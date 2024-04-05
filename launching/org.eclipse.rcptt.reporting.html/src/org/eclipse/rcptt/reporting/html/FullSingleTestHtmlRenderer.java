@@ -359,6 +359,9 @@ public class FullSingleTestHtmlRenderer {
 	}
 
 	private String escape(String input) {
+		if (input == null) {
+			return null;
+		}
 		return HtmlEscapers.htmlEscaper().escape(input);
 	}
 	
