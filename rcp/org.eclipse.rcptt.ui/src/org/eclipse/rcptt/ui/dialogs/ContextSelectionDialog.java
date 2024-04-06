@@ -162,18 +162,14 @@ public abstract class ContextSelectionDialog extends
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		Image image = Images.getImageDescriptor(Images.CONTEXT).createImage();
-		parent.addDisposeListener(e -> image.dispose());
 		createButton(parent, NEW_ID,
 				Messages.ContextSelectionDialog_NewButtonText, false).setImage(
-				image);
+						Images.getImage(Images.CONTEXT));
 
 		Button captureBtn = createButton(parent, CAPTURE_ID,
 				Messages.ContextSelectionDialog_CaptureButtonText, false);
-		Image image2 = Images.getImageDescriptor(Images.SNAPSHOT)
-				.createImage();
-		captureBtn.setImage(image2);
-		parent.addDisposeListener(e -> image2.dispose());
+		captureBtn.setImage(
+				Images.getImage(Images.SNAPSHOT));
 		if (type != null) {
 			captureBtn.setEnabled(type.canCreate());
 		}
