@@ -250,6 +250,10 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			}
 
 		}
+
+		public boolean isDone() {
+			return isCancelled.getAsBoolean() || stop < System.currentTimeMillis();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -952,14 +956,15 @@ public class BaseAutLaunch implements AutLaunch, IBaseAutLaunchRetarget {
 			Map<String, String> properties) throws InterruptedException, CoreException {
 		try {
 			long stop = System.currentTimeMillis() + timeout;
-			return computeInNewSession(TimeoutInterruption.forTimeout(monitor, timeout, this), session -> {
+			TimeoutInterruption interruption = TimeoutInterruption.forTimeout(monitor, timeout, this);
+			return computeInNewSession(interruption, session -> {
 				ExecutionStatus result;
 				restoreState(session, properties);
 				Command commandCopy = command;
 				IProcess process = session.execute(commandCopy);
 				IStatus processResult = process.waitFor(stop - System.currentTimeMillis(), monitor);
 				result = new ExecutionStatus(processResult);
-				if (monitor == null || !monitor.isCanceled()) {
+				if (!interruption.isDone()) {
 					dumpState(session);
 				}
 				return result;
