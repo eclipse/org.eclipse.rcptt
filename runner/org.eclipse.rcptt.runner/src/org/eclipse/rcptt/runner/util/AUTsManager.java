@@ -194,7 +194,7 @@ public class AUTsManager {
 			return null;
 		}
 
-		if ("bin".equals(file.getParentFile().getName())) {
+		if ("bin".equals(file.getParentFile().getName()) || "lib".equals(file.getParentFile().getName()) ) {
 			file = file.getParentFile().getParentFile();
 		} else if ("bin".equals(file.getName())) {
 			file = file.getParentFile();
