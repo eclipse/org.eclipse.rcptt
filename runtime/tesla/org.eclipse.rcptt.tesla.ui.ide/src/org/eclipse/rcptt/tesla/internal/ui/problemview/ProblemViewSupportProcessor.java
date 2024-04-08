@@ -140,7 +140,7 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 				if (job.belongsTo(ResourcesPlugin.FAMILY_AUTO_BUILD)) {
 					return JobStatus.REQUIRED;
 				}
-				return super.calcJobStatus(job, delay);
+				return JobStatus.IGNORED;
 			};
 
 			@Override
