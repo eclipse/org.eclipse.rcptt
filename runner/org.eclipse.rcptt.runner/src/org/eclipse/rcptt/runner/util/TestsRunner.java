@@ -347,8 +347,10 @@ public class TestsRunner {
 					}
 				}
 				if (!alive) {
-					error.compareAndSet(null, new AutLaunchFail("AUT is not available", null));
 					// No alive threads -> finish
+					if (!runnables.isEmpty()) {
+						error.compareAndSet(null, new AutLaunchFail("AUT is not available", null));
+					}
 					skipRemaining(runnables, "AUT is not available");
 					break;
 				}
