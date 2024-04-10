@@ -133,7 +133,7 @@ public class ProblemViewSupportProcessor implements ITeslaCommandProcessor {
 	private class WaitForJobsStatus extends PreExecuteStatus {
 		final UIJobCollector collector = new UIJobCollector() {
 			@Override
-			protected JobStatus calcJobStatus(Job job, long delay) {
+			protected JobStatus calcJobStatus(Job job) {
 				if (isMarkersJob(job)) {
 					return JobStatus.REQUIRED;
 				}
