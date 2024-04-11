@@ -19,6 +19,7 @@ import java.util.Queue;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.viewers.CellEditor;
@@ -645,6 +646,15 @@ public class TeslaSWTAccess {
 			TeslaCore.log(e);
 		}
 		return 0;
+	}
+	
+	/** Wait for all job listeners to fire */
+	@SuppressWarnings("restriction")
+	public static void waitListeners(Job job) {
+		IJobManager jobManager = Job.getJobManager();
+		Object listeners = getField(Object.class, jobManager, "jobListeners");
+		// org.eclipse.core.internal.jobs.JobManager.withWriteLock(J, Function<J, T>)
+		callMethod(listeners.getClass(),  listeners, "waitAndSendEvents", new Class[] {Job.class.getSuperclass(), boolean.class}, job, Boolean.TRUE);
 	}
 
 	public static CTabFolderEvent createCTabFolderEvent(Widget widget) {

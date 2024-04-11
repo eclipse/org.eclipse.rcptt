@@ -11,11 +11,8 @@
 package org.eclipse.rcptt.tesla.swt.test;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
@@ -39,7 +36,6 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 
 import com.google.common.io.Closer;
 
@@ -271,6 +267,50 @@ public class UIJobCollectorTest {
 		Assert.assertTrue(isEmpty(subject));
 	}
 	
+	@Test
+	public void doWaitForCancelledRescheduled() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		busyLoop.schedule(parameters.timeout);
+		busyLoop.cancel();
+		busyLoop.schedule(schedulingTolerance);
+		Assert.assertFalse(isEmpty(subject));
+	}
+	
+	@Test(timeout = 60000)
+	public void waitForAllListeners() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		CountDownLatch start = new CountDownLatch(1);
+		CountDownLatch stop = new CountDownLatch(1);
+		addListener(busyLoop, new JobChangeAdapter() {public void done(IJobChangeEvent event) {
+			try {
+				System.out.println("Job is cancelled");
+				start.countDown();
+				stop.await();
+				System.out.println("Job is done");
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new AssertionError(e);
+			}
+		};});
+		busyLoop.schedule();
+		while (busyLoop.getState() != Job.RUNNING) {
+			Thread.yield();
+		}
+		busyLoop.cancel();
+		start.await();
+		Assert.assertEquals(Job.NONE, busyLoop.getState());
+		Assert.assertFalse(isEmpty(subject));
+		stop.countDown();
+		join(subject, 0);
+	}	
 	
 	private boolean shutdown(Job job, int timeoutInSeconds) throws InterruptedException {
 		long stop = System.currentTimeMillis() + timeoutInSeconds * 1000;
