@@ -18,13 +18,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.ICoreRunnable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -230,8 +231,33 @@ public class UIJobCollector implements IJobChangeListener {
 	private boolean state;
 	private boolean needDisable = false;
 	private final IParameters parameters;
+	
+	private final Job removeCompletedJob = Job.createSystem("Eliminate completed jobs", (ICoreRunnable) monitor -> {
+		while (!monitor.isCanceled()) {
+			List<Job> doneJobs;
+			synchronized (jobs) {
+				doneJobs = jobs.keySet().stream().filter(j -> j.getState() == Job.NONE).collect(Collectors.toList());
+			}
+			if (doneJobs.isEmpty()) {
+				break;
+			}
+			for (Job job: doneJobs) {
+				TeslaSWTAccess.waitListeners(job);
+				if (job.getState() == Job.NONE) {
+					jobs.remove(job);
+					debug(job.getName() + " is no longer known");
+				}
+			}
+		}
+	});
+	{
+		removeCompletedJob.setPriority(Job.INTERACTIVE);
+	}
 
 	private JobInfo getOrCreateJobInfo(Job job) {
+		if (job == removeCompletedJob) {
+			throw new AssertionError("Can't work with an internal job");
+		}
 		synchronized (jobs) {
 			JobInfo rv = jobs.get(job);
 			if (rv == null) {
@@ -257,6 +283,9 @@ public class UIJobCollector implements IJobChangeListener {
 	@Override
 	public void awake(IJobChangeEvent event) {
 		Job job = event.getJob();
+		if (job == removeCompletedJob) {
+			return;
+		}
 		JobInfo info = getOrCreateJobInfo(job);
 		info.awake();
 		event("awake", info);
@@ -265,12 +294,15 @@ public class UIJobCollector implements IJobChangeListener {
 	@Override
 	public void done(IJobChangeEvent event) {
 		Job job = event.getJob();
+		if (job == removeCompletedJob) {
+			return;
+		}
+		JobInfo info = null;
 		synchronized (jobs) {
 			boolean reschedule = TeslaSWTAccess.getJobEventReSchedule(event) && state;
 			if (needDisable && isJoinEmpty()) {
 				disable();
 			}
-			JobInfo info;
 			if (reschedule) {
 				info = getOrCreateJobInfo(job);
 				info.done(reschedule);
@@ -281,14 +313,11 @@ public class UIJobCollector implements IJobChangeListener {
 					info.done(reschedule);
 					event("done", info);
 				}
-				// If job is scheduled immediately after cancellation, its "done" event comes after "scheduled".
-				// We can't remove rescheduled jobs, so we check if it is "truly" done and gone.
-				// If it is not rescheduled in any sense, we no no longer need it.
-				if (job.getState() == Job.NONE) { 
-					jobs.remove(job);
-				}
 			}
 			
+		}
+		if (info != null) {
+			removeCompletedJob.schedule();
 		}
 	}
 
@@ -303,7 +332,11 @@ public class UIJobCollector implements IJobChangeListener {
 				return;
 			}
 		}
-		JobInfo jobInfo = getOrCreateJobInfo(event.getJob());
+		Job job = event.getJob();
+		if (job == removeCompletedJob) {
+			return;
+		}
+		JobInfo jobInfo = getOrCreateJobInfo(job);
 		jobInfo.scheduled(event.getDelay());
 		event("scheduled", jobInfo);
 		jobInfo.poke();
@@ -408,7 +441,11 @@ public class UIJobCollector implements IJobChangeListener {
 
 	@Override
 	public void sleeping(IJobChangeEvent event) {
-		JobInfo info = getOrCreateJobInfo(event.getJob());
+		Job job = event.getJob();
+		if (job == removeCompletedJob) {
+			return;
+		}
+		JobInfo info = getOrCreateJobInfo(job);
 		info.sleeping();
 		event("sleeping", info);
 	}
@@ -570,7 +607,9 @@ public class UIJobCollector implements IJobChangeListener {
 
 		synchronized (jobs) {
 			// Remove all canceled jobs
-			removeCanceledJobs();
+			if (!removeCanceledJobs()) {
+				return false;
+			}
 			if (jobs.isEmpty()) {
 				debug("JobCollector nothing left");
 				return logReturnResult(true, realJobs, jobsInUI, info);
@@ -767,10 +806,7 @@ public class UIJobCollector implements IJobChangeListener {
 				if (value[0]) {
 					return logReturnResult(true, realJobs, jobsInUI, info);
 				}
-				if (job.getState() != Job.NONE) {
-					return logReturnResult(false, realJobs, jobsInUI, info);
-				}
-				return logReturnResult(true, realJobs, jobsInUI, info);
+				return logReturnResult(false, realJobs, jobsInUI, info);
 			}
 		}
 		return logReturnResult(realJobs.isEmpty(), realJobs, jobsInUI, info);
@@ -788,18 +824,15 @@ public class UIJobCollector implements IJobChangeListener {
 		return false;
 	}
 
-	private void removeCanceledJobs() {
-		synchronized (jobs) {
-			Iterator<Job> i = jobs.keySet().iterator();
-			while (i.hasNext()) {
-				Job job = i.next();
-				if (job.getState() == Job.NONE) { 
-					if (DEBUG) {
-						debug(job.getName() + " is no longer known");
-					}
-					i.remove();
+	private boolean removeCanceledJobs() {
+		for (;;) {
+			synchronized (jobs) {
+				if (jobs.keySet().stream().anyMatch(j -> j.getState() == Job.NONE)) {
+					removeCompletedJob.schedule();
+					return false;
 				}
 			}
+			return removeCompletedJob.getState() == Job.NONE;
 		}
 	}
 
@@ -891,20 +924,21 @@ public class UIJobCollector implements IJobChangeListener {
 		long startTime = System.currentTimeMillis();
 		// Context ctx = ContextManagement.currentContext();
 		while (true) {
-			removeCanceledJobs();
 			long delta = System.currentTimeMillis() - startTime;
 			if (delta > timeout) {
 				break;
 			}
-			if (isJoinEmpty()) {
-				break;
+			if (removeCanceledJobs()) {
+				if (isJoinEmpty()) {
+					break;
+				}
+	
+				List<Job> jobs2 = getJobs();
+				for (Job job : jobs2) {
+					SWTTeslaActivator.debugLog("Waiting for job:" + job.getName() + " " + job.getState());
+				}
+				SWTTeslaActivator.debugLog("UIJobCollector is going to join");
 			}
-
-			List<Job> jobs2 = getJobs();
-			for (Job job : jobs2) {
-				SWTTeslaActivator.debugLog("Waiting for job:" + job.getName() + " " + job.getState());
-			}
-			SWTTeslaActivator.debugLog("UIJobCollector is going to join");
 			Thread.sleep(50);
 		}
 	}

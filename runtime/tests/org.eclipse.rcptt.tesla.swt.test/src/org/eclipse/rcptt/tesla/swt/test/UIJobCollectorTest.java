@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.core.internal.jobs.JobManager;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -290,7 +289,37 @@ public class UIJobCollectorTest {
 		Assert.assertFalse(isEmpty(subject));
 	}
 	
-	
+	@Test(timeout = 60000)
+	public void waitForAllListeners() throws InterruptedException {
+		Parameters parameters = new Parameters();
+		parameters.timeout = 60000;
+		parameters.stepModeTimeout = 120000;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		CountDownLatch start = new CountDownLatch(1);
+		CountDownLatch stop = new CountDownLatch(1);
+		addListener(busyLoop, new JobChangeAdapter() {public void done(IJobChangeEvent event) {
+			try {
+				System.out.println("Job is cancelled");
+				start.countDown();
+				stop.await();
+				System.out.println("Job is done");
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new AssertionError(e);
+			}
+		};});
+		busyLoop.schedule();
+		while (busyLoop.getState() != Job.RUNNING) {
+			Thread.yield();
+		}
+		busyLoop.cancel();
+		start.await();
+		Assert.assertEquals(Job.NONE, busyLoop.getState());
+		Assert.assertFalse(isEmpty(subject));
+		stop.countDown();
+		join(subject, 0);
+	}	
 	
 	private boolean shutdown(Job job, int timeoutInSeconds) throws InterruptedException {
 		long stop = System.currentTimeMillis() + timeoutInSeconds * 1000;
