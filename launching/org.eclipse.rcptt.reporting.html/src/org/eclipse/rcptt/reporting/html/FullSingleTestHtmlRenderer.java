@@ -380,7 +380,7 @@ public class FullSingleTestHtmlRenderer {
 	private void titledRow(String key, String value) {
 		Preconditions.checkNotNull(key);
 		if (value != null)
-			writer.println(String.format("<tr><th>%s</th><td>%s</td></tr>", key, value));
+			writer.println(String.format("<tr><th>%s</th><td>%s</td></tr>", key, escape(value)));
 	}
 
 	private void row(String key, String value1, String value2) {
