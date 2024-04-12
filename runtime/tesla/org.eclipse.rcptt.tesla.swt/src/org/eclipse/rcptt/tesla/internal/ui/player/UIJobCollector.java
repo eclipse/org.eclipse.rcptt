@@ -799,15 +799,13 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 
 	private boolean removeCanceledJobs() {
-		for (;;) {
-			synchronized (jobs) {
-				if (jobs.keySet().stream().allMatch(j -> j.getState() != Job.NONE)) {
-					return true;
-				}
+		synchronized (jobs) {
+			if (jobs.keySet().stream().allMatch(j -> j.getState() != Job.NONE)) {
+				return true;
 			}
-			removeCompletedJob.schedule();
-			return false;
 		}
+		removeCompletedJob.schedule();
+		return false;
 	}
 
 	private Set<String> getSuperClassNames(Job job) {
