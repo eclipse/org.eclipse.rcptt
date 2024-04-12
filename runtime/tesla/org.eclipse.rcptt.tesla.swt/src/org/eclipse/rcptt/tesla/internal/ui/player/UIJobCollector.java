@@ -587,7 +587,7 @@ public class UIJobCollector implements IJobChangeListener {
 				return false;
 			}
 			if (jobs.isEmpty()) {
-				debug("JobCollector nothing left");
+				debug("Nothing left");
 				return logReturnResult(true, realJobs, jobsInUI, info);
 			}
 			for (JobInfo jobInfo : jobs.values()) {

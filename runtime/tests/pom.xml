@@ -28,6 +28,7 @@
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>true</useUIThread>
 					<argLine>-Daj.weaving.verbose=true -Dorg.aspectj.weaver.showWeaveInfo=true -Dorg.aspectj.osgi.verbose=true --add-opens java.base/java.lang=ALL-UNNAMED --add-modules=ALL-SYSTEM</argLine>
+					<appArgLine>-debug ${basedir}/debug.options</appArgLine>
 					<frameworkExtensions>
 						<frameworkExtension>
 							<groupId>p2.osgi.bundle</groupId>
@@ -42,6 +43,7 @@
 							<autoStart>true</autoStart>
 						</bundle>
 					</bundleStartLevel>
+					<showEclipseLog>true</showEclipseLog>
 				</configuration>
 			</plugin>
 		</plugins>
