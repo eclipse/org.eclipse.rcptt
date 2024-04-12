@@ -18,9 +18,6 @@ import org.eclipse.rcptt.tesla.ui.IJobCollector;
 public class EclJobCollector implements IJobCollector {
 
 	public JobStatus testJob(Job job) {
-		if (job.getClass().getName().equals("org.eclipse.rcptt.ecl.debug.core.DebuggerBaseTransport$1")) {
-			return JobStatus.IGNORED;
-		}
 		if (job instanceof Session.EclJob)
 			return JobStatus.IGNORED;
 		return JobStatus.UNKNOWN;
