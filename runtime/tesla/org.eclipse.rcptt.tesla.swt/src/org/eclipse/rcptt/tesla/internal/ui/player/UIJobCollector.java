@@ -28,6 +28,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.ICoreRunnable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -59,6 +60,7 @@ public class UIJobCollector implements IJobChangeListener {
 	private static final boolean DEBUG = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/jobCollector"));
 	private static final boolean DEBUG_REPORT_OUTPUT = "true".equals(Platform.getDebugOption("org.eclipse.rcptt.tesla.swt/debug/debugReportOutput"));
 	private static final PrintWriter DEBUG_WRITER = new PrintWriter(System.out);
+	private static final Object FAMILY = new Object();
 	
 	public interface IParameters {
 		int stepModeStartDelay();
@@ -219,30 +221,37 @@ public class UIJobCollector implements IJobChangeListener {
 	private boolean needDisable = false;
 	private final IParameters parameters;
 	
-	private final Job removeCompletedJob = Job.createSystem("Eliminate completed jobs", (ICoreRunnable) monitor -> {
-		while (!monitor.isCanceled()) {
-			List<Job> doneJobs;
-			synchronized (jobs) {
-				doneJobs = jobs.keySet().stream().filter(j -> j.getState() == Job.NONE).collect(Collectors.toList());
-			}
-			if (doneJobs.isEmpty()) {
-				break;
-			}
-			for (Job job: doneJobs) {
-				TeslaSWTAccess.waitListeners(job);
-				if (job.getState() == Job.NONE) {
-					JobInfo info = jobs.remove(job);
-					event("gone", info);
+	private final Job removeCompletedJob = new Job("Eliminate completed jobs") {
+		{
+			setPriority(Job.INTERACTIVE);
+			setSystem(true);
+		}
+		protected org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor) {
+			while (!monitor.isCanceled()) {
+				List<Job> doneJobs;
+				synchronized (jobs) {
+					doneJobs = jobs.keySet().stream().filter(j -> j.getState() == Job.NONE).collect(Collectors.toList());
+				}
+				if (doneJobs.isEmpty()) {
+					break;
+				}
+				for (Job job: doneJobs) {
+					TeslaSWTAccess.waitListeners(job);
+					if (job.getState() == Job.NONE) {
+						JobInfo info = jobs.remove(job);
+						event("gone", info);
+					}
 				}
 			}
-		}
-	});
-	{
-		removeCompletedJob.setPriority(Job.INTERACTIVE);
-	}
+			return Status.OK_STATUS;
+		};
+		public boolean belongsTo(Object family) {
+			return family == FAMILY;
+		};
+	};
 
 	private JobInfo getOrCreateJobInfo(Job job) {
-		if (job == removeCompletedJob) {
+		if (job.belongsTo(FAMILY)) {
 			throw new AssertionError("Can't work with an internal job");
 		}
 		synchronized (jobs) {
@@ -270,7 +279,7 @@ public class UIJobCollector implements IJobChangeListener {
 	@Override
 	public void awake(IJobChangeEvent event) {
 		Job job = event.getJob();
-		if (job == removeCompletedJob) {
+		if (job.belongsTo(FAMILY)) {
 			return;
 		}
 		JobInfo info = getOrCreateJobInfo(job);
@@ -281,7 +290,7 @@ public class UIJobCollector implements IJobChangeListener {
 	@Override
 	public void done(IJobChangeEvent event) {
 		Job job = event.getJob();
-		if (job == removeCompletedJob) {
+		if (job.belongsTo(FAMILY)) {
 			return;
 		}
 		JobInfo info = null;
@@ -318,7 +327,7 @@ public class UIJobCollector implements IJobChangeListener {
 			return;
 		}
 		Job job = event.getJob();
-		if (job == removeCompletedJob) {
+		if (job.belongsTo(FAMILY)) {
 			return;
 		}
 		JobInfo jobInfo = getOrCreateJobInfo(job);
@@ -357,6 +366,9 @@ public class UIJobCollector implements IJobChangeListener {
 
 	public static JobStatus detectJobStatus(Job job, long delay) {
 		JobStatus status = null;
+		if (job.belongsTo(FAMILY)) {
+			return JobStatus.IGNORED;
+		}
 		IJobCollector[] collectors = JobCollectorExtensions.getDefault().getCollectors();
 
 		// Take first status
@@ -421,7 +433,7 @@ public class UIJobCollector implements IJobChangeListener {
 	@Override
 	public void sleeping(IJobChangeEvent event) {
 		Job job = event.getJob();
-		if (job == removeCompletedJob) {
+		if (job.belongsTo(FAMILY)) {
 			return;
 		}
 		JobInfo info = getOrCreateJobInfo(job);
