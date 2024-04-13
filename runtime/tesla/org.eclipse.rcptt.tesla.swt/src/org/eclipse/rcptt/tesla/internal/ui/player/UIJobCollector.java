@@ -615,7 +615,7 @@ public class UIJobCollector implements IJobChangeListener {
 		// Filter already executed UI jobs with async finish status.
 		List<Job> realJobs = new ArrayList<>();
 		List<Job> jobsInUI = new ArrayList<>();
-		final Display display = PlatformUI.getWorkbench().getDisplay();
+		final Display display = Display.getCurrent();
 
 		synchronized (jobs) {
 			// Remove all canceled jobs
@@ -707,7 +707,7 @@ public class UIJobCollector implements IJobChangeListener {
 					}
 				}
 				
-				if (display.getThread() == job.getThread()) {
+				if (display != null && display.getThread() == job.getThread()) {
 					jobsInUI.add(job);
 					continue;
 				}
@@ -803,18 +803,20 @@ public class UIJobCollector implements IJobChangeListener {
 					return logReturnResult(true, realJobs, jobsInUI, info);
 				}
 				final boolean value[] = { false };
-				display.syncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						Shell[] shells = display.getShells();
-						for (Shell shell : shells) {
-							if (isModal(shell)) {
-								value[0] = true;
+				if (display != null) {
+					display.syncExec(new Runnable() {
+	
+						@Override
+						public void run() {
+							Shell[] shells = display.getShells();
+							for (Shell shell : shells) {
+								if (isModal(shell)) {
+									value[0] = true;
+								}
 							}
 						}
-					}
-				});
+					});
+				}
 				if (value[0]) {
 					return logReturnResult(true, realJobs, jobsInUI, info);
 				}
