@@ -13,9 +13,11 @@ package org.eclipse.rcptt.tesla.internal.ui.player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -648,13 +650,38 @@ public class TeslaSWTAccess {
 		return 0;
 	}
 	
-	/** Wait for all job listeners to fire */
-	@SuppressWarnings("restriction")
-	public static void waitListeners(Job job) {
+	
+	
+	private static final Consumer<Job> waitListeners;
+	
+	static {
 		IJobManager jobManager = Job.getJobManager();
-		Object listeners = getField(Object.class, jobManager, "jobListeners");
-		// org.eclipse.core.internal.jobs.JobManager.withWriteLock(J, Function<J, T>)
-		callMethod(listeners.getClass(),  listeners, "waitAndSendEvents", new Class[] {Job.class.getSuperclass(), boolean.class}, job, Boolean.TRUE);
+		Consumer<Job> result = null;
+		try {
+			Object listeners = getField(Object.class, jobManager, "jobListeners");
+			if (listeners != null) {
+				final Method method = listeners.getClass().getDeclaredMethod("waitAndSendEvents", new Class[] {Job.class.getSuperclass(), boolean.class});
+				method.setAccessible(true);
+				result = job ->  {
+					try {
+						method.invoke(listeners, new Object[] {job, true});
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
+				};
+			}
+		} catch (NoSuchMethodException e) {
+			// handle null below
+		}
+		if (result == null) {
+			result = job -> {};
+		}
+		waitListeners = result;
+	}
+	
+	/** Wait for all job listeners to fire */
+	public static void waitListeners(Job job) {
+		waitListeners.accept(job);
 	}
 
 	public static CTabFolderEvent createCTabFolderEvent(Widget widget) {
