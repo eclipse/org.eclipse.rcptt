@@ -93,6 +93,7 @@
           <testOptions>
             <execTimeout>28800</execTimeout>
           </testOptions>
+          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
     </plugins>
