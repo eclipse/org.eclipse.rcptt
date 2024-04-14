@@ -617,11 +617,12 @@ public class UIJobCollector implements IJobChangeListener {
 		List<Job> jobsInUI = new ArrayList<>();
 		final Display display = Display.getCurrent();
 
+		
+		// Remove all canceled jobs
+		if (!removeCanceledJobs()) {
+			return false;
+		}
 		synchronized (jobs) {
-			// Remove all canceled jobs
-			if (!removeCanceledJobs()) {
-				return false;
-			}
 			if (jobs.isEmpty()) {
 				debug("Nothing left");
 				return logReturnResult(true, realJobs, jobsInUI, info);

@@ -533,8 +533,41 @@ public class UIJobCollectorTest {
 		} finally {
 			jobManager.endRule(rule);
 		}
+	}
+	
+	
+	private static final class ShortJob extends Job {
+		public ShortJob() {
+			super("short");
+			setPriority(Job.INTERACTIVE);
+			setSystem(true);
+			setUser(false);
+		}
 
-
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			return Status.OK_STATUS;
+		}
+		
+	}
+	@Test
+	public void doNotScheduleInALock() {
+		Parameters parameters = new Parameters();
+		parameters.delayToWaitFor = 0;
+		parameters.stepModeTimeout = parameters.timeout + schedulingTolerance;
+		UIJobCollector subject = new UIJobCollector(parameters);
+		prepare(subject);
+		
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j<100; j++ ) {
+				closeJobAfterTest(new ShortJob()).schedule();
+			}
+			long start = System.nanoTime();
+			isEmpty(subject);
+			long stop = System.nanoTime();
+			double seconds = (double)(stop-start)/1e9;
+			Assert.assertTrue(String.format("Job collector should not deadlock, but waited for %f seconds",  seconds), seconds < 1);
+		}
 	}
 
 	@After
@@ -581,9 +614,9 @@ public class UIJobCollectorTest {
 	}
 
 	@SuppressWarnings("resource")
-	private void closeJobAfterTest(Job job) {
+	private Job  closeJobAfterTest(Job job) {
 		closer.register(() -> cancel(job));
-
+		return job;
 	}
 
 	private void cancel(Job job) {
