@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Xored Software Inc and others.
+ * Copyright (c) 2019-2024 Xored Software Inc and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -39,7 +39,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
 
@@ -49,6 +51,8 @@ public class UIJobCollectorTest {
 	private static final int schedulingTolerance = 500;
 	private static final IJobManager MANAGER = Job.getJobManager();
 	private final Closer closer = Closer.create();
+	@Rule
+	public final TestRule noErrorsInLog = new NoErrorsInLog(Job.class); 
 	private final Job sleepingJob = Job.create("sleep", (ICoreRunnable)monitor -> {
 		while (!monitor.isCanceled()) {
 			try {
