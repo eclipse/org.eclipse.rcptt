@@ -35,7 +35,7 @@ public class NoErrorsInLog extends ExternalResource {
 	
 	public NoErrorsInLog(Class<?> clazzToWatchLogFor) {
 		this.log = Platform.getLog(FrameworkUtil.getBundle(clazzToWatchLogFor));
-		this.statusLog = new MultiStatus(clazzToWatchLogFor, 0, "Errors in the error log");
+		this.statusLog = new MultiStatus("org.eclipse.rcptt.tesla.swt.test", 0, "Errors in the error log", null);
 	}
 	@Override
 	protected void before() throws Throwable {
