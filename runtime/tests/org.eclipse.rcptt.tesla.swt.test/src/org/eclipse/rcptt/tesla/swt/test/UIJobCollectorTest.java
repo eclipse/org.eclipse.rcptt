@@ -40,6 +40,8 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.Version;
 
 import com.google.common.io.Closer;
 
@@ -291,6 +293,7 @@ public class UIJobCollectorTest {
 	
 	@Test(timeout = 60000)
 	public void waitForAllListeners() throws InterruptedException {
+		Assume.assumeTrue(FrameworkUtil.getBundle(Job.class).getVersion().compareTo(Version.parseVersion("3.15")) > 0);
 		Parameters parameters = new Parameters();
 		parameters.timeout = 60000;
 		parameters.stepModeTimeout = 120000;
