@@ -1027,6 +1027,9 @@ public class UIJobCollector implements IJobChangeListener {
 	}
 	
 	private void event(String message, JobInfo job) {
+		if (job == null) {
+			return;
+		}
 		if (shouldDebug(job.job)) {
 			debug(String.format("event: %11s: %s", message, job));
 		}
