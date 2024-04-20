@@ -76,8 +76,7 @@ public class FullSingleTestHtmlRenderer {
 		@Override
 		public String apply(EObject input) {
 			String message = ReportUtils.DEFAULT_DATUM_TO_MESSAGE.apply(input);
-			message = ReportUtils.replaceHtmlEntities(message);
-			message = ReportUtils.replaceLineBreaks(message);
+			message = escapeMultiline(message);
 
 			if (input instanceof VerificationStatusData) {
 				return String.format("<pre>%s</pre>", message);
@@ -358,11 +357,19 @@ public class FullSingleTestHtmlRenderer {
 		}
 	}
 
-	private String escape(String input) {
+	private static String escape(String input) {
 		if (input == null) {
 			return null;
 		}
 		return HtmlEscapers.htmlEscaper().escape(input);
+	}
+	
+	private static String escapeMultiline(String input) {
+		if (input == null) {
+			return null;
+		}
+		input = escape(input);
+		return ReportUtils.replaceLineBreaks(input);
 	}
 	
 	private void renderException(EclException exception) {
@@ -380,7 +387,7 @@ public class FullSingleTestHtmlRenderer {
 	private void titledRow(String key, String value) {
 		Preconditions.checkNotNull(key);
 		if (value != null)
-			writer.println(String.format("<tr><th>%s</th><td>%s</td></tr>", key, escape(value)));
+			writer.println(String.format("<tr><th>%s</th><td>%s</td></tr>", key, escapeMultiline(value)));
 	}
 
 	private void row(String key, String value1, String value2) {
@@ -399,7 +406,6 @@ public class FullSingleTestHtmlRenderer {
 		titledRow("Tags", Strings.emptyToNull(tags));
 		titledRow("Duration", durationFormat.format(durationSeconds(root)));
 		String desc = ReportUtils.getScenarioDescription(root);
-		desc = ReportUtils.replaceLineBreaks(desc);
 		titledRow("Description", desc);
 		writer.println("</table>");
 		renderScreenShots(root);

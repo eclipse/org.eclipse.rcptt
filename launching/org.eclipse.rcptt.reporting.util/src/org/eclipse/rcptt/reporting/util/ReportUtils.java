@@ -351,13 +351,6 @@ public class ReportUtils {
 		return result;
 	}
 
-	public static String replaceHtmlEntities(String string) {
-		string = string.replace("&", "&amp;");
-		string = string.replace("<", "&lt;");
-		string = string.replace(">", "&gt;");
-		return string;
-	}
-
 	public static String replaceLineBreaks(String string) {
 		if (string == null)
 			return null;
