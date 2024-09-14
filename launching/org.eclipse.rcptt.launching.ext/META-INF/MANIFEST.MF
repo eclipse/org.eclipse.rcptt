@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: org.eclipse.rcptt.launching.ext
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.rcptt.launching.ext;singleton:=true
 Bundle-Version: 2.5.6.qualifier
