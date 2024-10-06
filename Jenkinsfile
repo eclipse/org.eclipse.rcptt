@@ -26,9 +26,6 @@ pipeline {
           library.build_and_test(false)
         }
       }
-      tools {
-          maven 'apache-maven-3.9.6'
-      }
     }
   }
 
