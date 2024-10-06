@@ -35,6 +35,13 @@
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
+            <fileset>
+              <directory>source</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
@@ -56,7 +63,7 @@
 		</repository>
 	      </source>
 	      
-	      <destination>${project.basedir}/dependencies</destination>
+	      <destination>${project.basedir}/source</destination>
 	      <followStrictOnly>true</followStrictOnly>
 	      <includeOptional>false</includeOptional>
 	      <includeNonGreedy>false</includeNonGreedy>
@@ -81,7 +88,7 @@
               <goal>publish-features-and-bundles</goal>
             </goals>
             <configuration>
-              <sourceLocation>${project.basedir}/dependencies</sourceLocation>
+              <sourceLocation>${project.basedir}/source</sourceLocation>
               <metadataRepositoryLocation>${project.basedir}/dependencies</metadataRepositoryLocation>
               <artifactRepositoryLocation>${project.basedir}/dependencies</artifactRepositoryLocation>
             </configuration>
